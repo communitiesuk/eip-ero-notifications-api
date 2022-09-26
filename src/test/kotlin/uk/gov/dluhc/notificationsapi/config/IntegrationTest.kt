@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
+import uk.gov.dluhc.notificationsapi.testsupport.LocalStackCognitoUserService
 
 /**
  * Base class used to bring up the entire Spring ApplicationContext
@@ -16,4 +17,7 @@ internal abstract class IntegrationTest {
 
     @Autowired
     protected lateinit var webTestClient: WebTestClient
+
+    @Autowired
+    protected lateinit var localStackCognitoUserService: LocalStackCognitoUserService
 }
