@@ -12,7 +12,7 @@ on:
       app:
         required: false
         type: string
-        default: vca-api
+        default: notifications-api
       ecr_repo:
         required: false
         type: string
