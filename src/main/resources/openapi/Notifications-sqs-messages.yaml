@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: Notifications SQS Messages
+  version: '1.0.0'
+  description: Notifications SQS Messages
+#
+# --------------------------------------------------------------------------------
+#
+components:
+  #
+  # Schema and Enum Definitions
+  # --------------------------------------------------------------------------------
+  schemas:
+    NotifySend:
+      title: NotifySend
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages
+      properties:
+        applicationId:
+          type: string
+        referenceId:
+          type: string
+          description: Client reference for message
+        toAddress:
+          $ref: '#/components/schemas/MessageAddress'
+        messageType:
+          $ref: '#/components/schemas/MessageType'
+        personalisation:
+          $ref: '#/components/schemas/TemplatePersonalisation'
+      required:
+        - applicationId
+        - referenceId
+        - messageType
+        - personalisation
+
+    TemplatePersonalisation:
+      title: TemplatePersonalisation
+      type: array
+      description: Template personalisation values to replace in the template.
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          value:
+            type: string
+
+    MessageType:
+      title: MessageType
+      type: string
+      enum:
+        - applicationreceived
+        - applicationrejected
+        - applicationapproved
+
+    MessageAddress:
+      type: object
+      description: Address type needs to match message type
+      properties:
+        emailAddress:
+          type: string
+          format: email
+        address:
+          type: object
+          properties:
+            address_line_1:
+              type: string
+            address_line_2:
+              type: string
+            address_line_3:
+              type: string
+            address_line_4:
+              type: string
+            address_line_5:
+              type: string
+            address_line_6:
+              type: string
+            address_line_7:
+              type: string
+        phoneNumber:
+          type: string
