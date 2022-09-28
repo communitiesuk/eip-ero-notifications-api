@@ -40,6 +40,7 @@ class SecurityConfiguration(
                     it.antMatchers("/actuator/**").permitAll()
                     it.anyRequest().authenticated()
                 }
+                // Remove this next section so that the microservice does not verify the bearer token
                 .oauth2ResourceServer { oAuth2ResourceServerConfigurer ->
                     oAuth2ResourceServerConfigurer.jwt {
                         it.jwtAuthenticationConverter(cognitoJwtAuthenticationConverter)
