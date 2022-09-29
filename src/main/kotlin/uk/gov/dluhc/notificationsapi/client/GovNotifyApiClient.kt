@@ -10,7 +10,7 @@ private val logger = KotlinLogging.logger {}
  * Client class for interacting with UK Government `Notify` REST API
  */
 @Component
-class GovNotifyApiClient (private val notificationClient: NotificationClient){
+class GovNotifyApiClient(private val notificationClient: NotificationClient) {
 
     fun sendEmail() {
         val sendEmailResponse = notificationClient.sendEmail("templateId", "emailAddress", null, "reference")

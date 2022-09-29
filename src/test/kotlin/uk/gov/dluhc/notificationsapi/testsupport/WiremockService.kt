@@ -16,7 +16,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
  * Service class to provide support to tests with setting up and managing wiremock stubs
  */
 @Service
-class WiremockService (private val wireMockServer: WireMockServer) {
+class WiremockService(private val wireMockServer: WireMockServer) {
 
     @Autowired
     private lateinit var objectMapper: ObjectMapper
