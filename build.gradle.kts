@@ -58,26 +58,17 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
+    // UK Government
+    implementation("uk.gov.service.notify:notifications-java-client:3.17.3-RELEASE")
+
     // webclient
     implementation("org.springframework:spring-webflux")
     implementation("io.projectreactor.netty:reactor-netty-http")
 
-    // spring security
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-
     implementation("io.awspring.cloud:spring-cloud-starter-aws-messaging")
-    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    // implementation("org.liquibase:liquibase-core")
-    // implementation("org.hibernate:hibernate-envers")
 
     // AWS dependencies (that are defined in the BOM io.awspring.cloud:spring-cloud-aws-dependencies)
     implementation("com.amazonaws:aws-java-sdk-sts")
-
-    // mysql
-    runtimeOnly("mysql:mysql-connector-java")
-    runtimeOnly("software.aws.rds:aws-mysql-jdbc:1.1.0")
-    runtimeOnly("software.amazon.awssdk:rds:2.17.256")
 
     // Test implementations
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -88,15 +79,8 @@ dependencies {
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
-    // testImplementation("org.testcontainers:testcontainers:1.17.3")
-    // testImplementation("org.testcontainers:mysql:1.17.3")
-
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
     testImplementation("net.datafaker:datafaker:1.5.0")
-
-    // cognito
-    testImplementation("software.amazon.awssdk:cognitoidentity:2.17.256")
-    testImplementation("software.amazon.awssdk:cognitoidentityprovider:2.17.256")
 }
 
 dependencyManagement {
