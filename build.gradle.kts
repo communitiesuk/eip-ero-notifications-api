@@ -65,6 +65,10 @@ dependencies {
     implementation("org.springframework:spring-webflux")
     implementation("io.projectreactor.netty:reactor-netty-http")
 
+    // spring security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+
     implementation("io.awspring.cloud:spring-cloud-starter-aws-messaging")
 
     // AWS dependencies (that are defined in the BOM io.awspring.cloud:spring-cloud-aws-dependencies)
@@ -81,6 +85,10 @@ dependencies {
 
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
     testImplementation("net.datafaker:datafaker:1.5.0")
+
+    // Libraries to support creating JWTs in tests
+    testImplementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+    testImplementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }
 
 dependencyManagement {
