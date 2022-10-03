@@ -3,6 +3,8 @@ package uk.gov.dluhc.notificationsapi.testsupport
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
+import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
@@ -50,5 +52,23 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
     fun verifyNotifySendEmailCalled() {
         wireMockServer.verify(newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_EMAIL_URL)))
+    }
+
+    fun stubCognitoJwtIssuerResponse() {
+        wireMockServer.stubFor(
+            get(urlPathMatching("/cognito/.well-known/jwks.json"))
+                .willReturn(
+                    ok()
+                        .withBody(
+                            """
+                            {
+                               "keys":[
+                                    ${RsaKeyPair.jwk.toJSONString()}
+                               ]
+                            }
+                            """.trimIndent()
+                        )
+                )
+        )
     }
 }
