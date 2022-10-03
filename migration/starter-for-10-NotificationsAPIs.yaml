@@ -1,0 +1,127 @@
+#
+# --------------------------------------------------------------------------------
+# This is the original starter-for-10 openAPI spec with initial API definitions
+# for Notifications API. As and when we design and implement each endpoint it
+# should be migrated from this spec into `NotificationsAPIs.yaml` (even if we change
+# it a lot!), with the end result being this file is empty and deleted.
+# --------------------------------------------------------------------------------
+#
+
+openapi: 3.0.0
+x-stoplight:
+  id: e3accf2c92b1f
+info:
+  title: NotificationsAPI
+  version: '1.0'
+  description: API for interacting with the GOV Notify Service and message history
+  contact:
+    name: Krister Bone
+    email: krister.bone@valtech.com
+servers:
+  - url: 'http://localhost:3000/notifications'
+paths:
+  '/messages/{applicationId}':
+    parameters:
+      - schema:
+          type: string
+        name: applicationId
+        in: path
+        required: true
+    get:
+      summary: Returns all GOV.UK Notify communications for an application
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/MessagesResponse'
+      operationId: get-messages-applicationId
+components:
+  schemas:
+    Message:
+      title: MessageStatus
+      x-stoplight:
+        id: 469jcu1oztwxo
+      type: object
+      properties:
+        applicationId:
+          type: string
+        referenceId:
+          type: string
+        messageType:
+          $ref: '#/components/schemas/MessageType'
+        toAddress:
+          $ref: '#/components/schemas/MessageAddress'
+        fromAddress:
+          type: string
+        status:
+          type: string
+          enum:
+            - sent
+            - failed
+        notifyResponses:
+          type: array
+          description: Array in case of retries
+          items:
+            type: object
+            properties:
+              notificationId:
+                type: string
+              templateId:
+                type: string
+              templateVersion:
+                type: number
+              templateUri:
+                type: string
+              dateTime:
+                type: string
+              subject:
+                type: string
+              body:
+                type: string
+              postage:
+                type: string
+                description: If a letter
+              error:
+                type: string
+    MessageType:
+      title: MessageType
+      type: string
+      enum:
+        - applicationreceived
+        - applicationrejected
+        - applicationapproved
+    MessageAddress:
+      type: object
+      description: Address type needs to match message type
+      properties:
+        emailAddress:
+          type: string
+          format: email
+        address:
+          type: object
+          properties:
+            address_line_1:
+              type: string
+            address_line_2:
+              type: string
+            address_line_3:
+              type: string
+            address_line_4:
+              type: string
+            address_line_5:
+              type: string
+            address_line_6:
+              type: string
+            address_line_7:
+              type: string
+        phoneNumber:
+          type: string
+  responses:
+    MessagesResponse:
+      description: |
+        List of messages
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Message'
