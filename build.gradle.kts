@@ -138,6 +138,7 @@ tasks.create("generate-models-from-openapi-document-NotificationsAPIs.yaml", Gen
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/NotificationsAPIs.yaml")
     packageName.set("uk.gov.dluhc.notificationsapi")
+    configOptions.put("documentationProvider", "none")
 }
 
 // Add the generated code to the source sets
