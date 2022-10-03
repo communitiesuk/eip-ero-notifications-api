@@ -29,7 +29,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/NotifySend'
       responses:
-        '200':
+        '204':
           description: No response content.
 
 components:

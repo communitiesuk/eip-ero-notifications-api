@@ -143,7 +143,7 @@ tasks.create("generate-models-from-openapi-document-NotificationsAPIs.yaml", Gen
 
 tasks.create("generate-models-from-openapi-document-Notifications-sqs-message-types.yaml", GenerateTask::class) {
     enabled = true
-    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/Notifications-sqs-message-types.yaml")
+    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/Notifications-sqs-messaging.yaml")
     packageName.set("uk.gov.dluhc.notificationsapi.messaging")
 }
 
