@@ -29,6 +29,7 @@ This will build a docker image for the Spring Boot application.
 Either `./gradlew bootRun` or run the class `VoterCardApplicationsApiApplication`
 
 ### External Environment Variables
+The following environment variables must be set in order to run the application:
 * `SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI` - the uri of the cognito ERO user pool JWT issuer.
 
 #### MYSQL Configuration
