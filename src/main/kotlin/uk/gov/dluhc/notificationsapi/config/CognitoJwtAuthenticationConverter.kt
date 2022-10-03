@@ -32,12 +32,9 @@ class CognitoJwtAuthenticationConverter : Converter<Jwt, AbstractAuthenticationT
 
     /**
      * Return the user's email address from the JWT.
-     * In production (real AWS Cognito), the JWT has a claim called `email`
-     * For our integration tests (that use this class) we use localstack. Localstack's cognito implementation does not appear
-     * to strictly follow AWS' and does not have an `email` claim, and instead has a `username` claim (which AWS' doesn't !)
+     * JWTs presented by AWS Cognito have a claim called `email`
      */
     private val Jwt.email: String
         get() = claims["email"]?.toString()
-            ?: claims["username"]?.toString()
             ?: throw IllegalStateException("Email claim not found in JWT")
 }
