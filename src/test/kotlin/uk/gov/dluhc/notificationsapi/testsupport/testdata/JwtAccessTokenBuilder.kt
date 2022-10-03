@@ -8,11 +8,17 @@ import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.UUID
 
+fun getBearerToken(
+    eroId: String = aValidRandomEroId(),
+    email: String = "an-ero-user@$eroId.gov.uk",
+    groups: List<String> = listOf("ero-$eroId", "ero-vc-admin-$eroId")
+): String =
+    "Bearer ${buildAccessToken(eroId, email, groups)}"
+
 fun buildAccessToken(
-    email: String = "an-ero-user@a-council.gov.uk",
-    groups: List<String> = with(aValidRandomEroId()) {
-        listOf("ero-$this", "ero-vc-admin-$this")
-    }
+    eroId: String = aValidRandomEroId(),
+    email: String = "an-ero-user@$eroId.gov.uk",
+    groups: List<String> = listOf("ero-$eroId", "ero-vc-admin-$eroId")
 ): String =
     Jwts.builder()
         .setSubject(UUID.randomUUID().toString())

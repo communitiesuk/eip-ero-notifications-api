@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
@@ -57,8 +58,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         wireMockServer.stubFor(
             get(urlPathMatching("/cognito/.well-known/jwks.json"))
                 .willReturn(
-                    ResponseDefinitionBuilder.responseDefinition()
-                        .withStatus(200)
+                    ok()
                         .withBody(
                             """
                             {

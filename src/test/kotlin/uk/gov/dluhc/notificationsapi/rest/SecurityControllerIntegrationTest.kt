@@ -4,7 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.buildAccessToken
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidRandomEroId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 
 // TODO - delete this test when we implement controllers and their tests for stories
 internal class SecurityControllerIntegrationTest : IntegrationTest() {
@@ -13,10 +14,16 @@ internal class SecurityControllerIntegrationTest : IntegrationTest() {
     fun `should return principal name given request with bearer token`() {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
+        val eroId = aValidRandomEroId()
 
         val request = webTestClient.get()
             .uri("/secured-endpoint")
-            .bearerToken("Bearer ${buildAccessToken(email = "an-ero-user@a-council.gov.uk")}")
+            .bearerToken(
+                getBearerToken(
+                    eroId = eroId,
+                    email = "an-ero-user@$eroId.gov.uk"
+                )
+            )
 
         // When
         val response = request.exchange()
@@ -27,7 +34,7 @@ internal class SecurityControllerIntegrationTest : IntegrationTest() {
             .expectBody(String::class.java)
             .returnResult()
             .responseBody
-        assertThat(responseBody).isEqualTo("Hello an-ero-user@a-council.gov.uk")
+        assertThat(responseBody).isEqualTo("Hello an-ero-user@$eroId.gov.uk")
     }
 
     @Test
