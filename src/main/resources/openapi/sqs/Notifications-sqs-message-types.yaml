@@ -1,18 +1,44 @@
 openapi: 3.0.0
 info:
-  title: Notifications SQS Messages
+  title: Notifications SQS Message Types
   version: '1.0.0'
-  description: Notifications SQS Messages
+  description: |-
+    Notifications SQS Message Types
+    
+    Whilst this is an openAPI spec, it does not define being used to define REST APIs, nor is it intended to.
+    
+    The `paths` elements are being used to document (at a high level) the SQS queues and the request bodies that are expected
+    to be published to them. **There is no intent to generate or implement SQS queues or listener classes from this document.**
+    
+    The `paths` element is only being used in order to maintain the structure of the openApi spec, as `paths` are required 
+    elements.
 #
 # --------------------------------------------------------------------------------
 #
+
+paths:
+  #
+  # --------------------------------------------------------------------------------
+  # SQS Queues start here
+  # --------------------------------------------------------------------------------
+  #
+  '/send-notify-email':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/NotifySend'
+      responses:
+        '200':
+          description: No response content.
+
 components:
   #
   # Schema and Enum Definitions
   # --------------------------------------------------------------------------------
   schemas:
-    NotifySend:
-      title: NotifySend
+    NotifySendMessage:
+      title: NotifySendMessage
       type: object
       description: SQS Message for sending GOV.UK Notify messages
       properties:
@@ -79,3 +105,18 @@ components:
               type: string
         phoneNumber:
           type: string
+
+  #
+  # Response Body Definitions
+  # --------------------------------------------------------------------------------
+  responses: { }
+
+  #
+  # Request Body Definitions
+  # --------------------------------------------------------------------------------
+  requestBodies:
+    NotifySend:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotifySendMessage'
