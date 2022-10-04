@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.client
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.NullSource
@@ -38,10 +39,8 @@ internal class GovNotifyApiClientTest {
 
     @Nested
     inner class SendEmail {
-        @ParameterizedTest
-        @ValueSource(strings = ["html body"])
-        @NullSource
-        fun `should generate template preview given existing html`(html: String?) {
+        @Test
+        fun `should send email`() {
             // Given
             val notificationType = NotificationType.APPLICATION_RECEIVED
             val emailAddress = DataFaker.faker.internet().emailAddress()
