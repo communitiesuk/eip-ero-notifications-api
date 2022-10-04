@@ -70,8 +70,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
-    implementation("io.awspring.cloud:spring-cloud-starter-aws-messaging")
-
     // AWS v2 dependencies
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
