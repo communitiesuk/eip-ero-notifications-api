@@ -1,20 +1,59 @@
 package uk.gov.dluhc.notificationsapi.client
 
-import org.junit.jupiter.api.Test
-import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.NullSource
+import org.junit.jupiter.params.provider.ValueSource
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.given
+import org.mockito.kotlin.verify
+import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
+import uk.gov.service.notify.NotificationClient
+import uk.gov.service.notify.TemplatePreview
+import java.time.LocalDate
+import java.util.UUID
 
-internal class GovNotifyApiClientTest : IntegrationTest() {
+@ExtendWith(MockitoExtension::class)
+internal class GovNotifyApiClientTest {
+    @InjectMocks
+    private lateinit var govNotifyApiClient: GovNotifyApiClient
 
-    @Test
-    fun `should send email`() {
-        // Given
-        wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
+    @Mock
+    private lateinit var notificationClient: NotificationClient
 
-        // When
-        govNotifyApiClient.sendEmail()
+    @Nested
+    inner class GenerateTemplatePreview {
+        @ParameterizedTest
+        @ValueSource(strings = ["html body"])
+        @NullSource
+        fun `should generate template preview given existing html`(html: String?) {
+            // Given
+            val objectMapper = ObjectMapper()
+            val templateId = UUID.randomUUID().toString()
+            val response = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId, html = html)
+            val previewResponse = TemplatePreview(objectMapper.writeValueAsString(response))
+            val personalisation = mapOf(
+                "subject_param" to "test subject",
+                "name_param" to "John",
+                "custom_title" to "Resubmitting photo",
+                "date" to LocalDate.now()
+            )
+            given(notificationClient.generateTemplatePreview(any(), any())).willReturn(previewResponse)
+            val expected = NotifyTemplatePreviewDto(response.body, html)
 
-        // Then
-        wireMockService.verifyNotifySendEmailCalled()
+            // When
+            val actual = govNotifyApiClient.generateTemplatePreview(templateId, personalisation)
+
+            // Then
+            assertThat(actual).isEqualTo(expected)
+            verify(notificationClient).generateTemplatePreview(templateId, personalisation)
+        }
     }
 }
