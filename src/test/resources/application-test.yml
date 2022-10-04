@@ -1,3 +1,9 @@
+aws:
+  region: eu-west-2
+
+dynamodb:
+  notificationsTableName: unit-test-notifications
+
 api:
   notify:
     api-key: "developmentintegrationtestkey-137e13d7-6acd-4449-815e-de0eb0c083ba-52408a6d-f230-4c47-9380-128578c3c51a"

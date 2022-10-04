@@ -23,6 +23,7 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 ext["snakeyaml.version"] = "1.32"
 extra["springCloudVersion"] = "2.4.2"
+extra["awsSdkVersion"] = "2.17.284"
 
 allOpen {
     annotations("javax.persistence.Entity", "javax.persistence.MappedSuperclass", "javax.persistence.Embedabble")
@@ -69,10 +70,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
-    implementation("io.awspring.cloud:spring-cloud-starter-aws-messaging")
-
-    // AWS dependencies (that are defined in the BOM io.awspring.cloud:spring-cloud-aws-dependencies)
-    implementation("com.amazonaws:aws-java-sdk-sts")
+    // AWS v2 dependencies
+    implementation("software.amazon.awssdk:dynamodb")
+    implementation("software.amazon.awssdk:dynamodb-enhanced")
 
     // Test implementations
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -82,6 +82,8 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:1.17.3")
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
+    testImplementation("org.testcontainers:testcontainers:1.17.3")
 
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
     testImplementation("net.datafaker:datafaker:1.5.0")
@@ -94,6 +96,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:${property("springCloudVersion")}")
+        mavenBom("software.amazon.awssdk:bom:${property("awsSdkVersion")}")
     }
 }
 
