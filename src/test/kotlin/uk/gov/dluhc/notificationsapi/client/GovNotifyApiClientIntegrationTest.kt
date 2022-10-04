@@ -47,7 +47,7 @@ internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
                 "custom_title" to "Resubmitting photo",
                 "date" to LocalDate.now()
             )
-            val expected = NotifyTemplatePreviewDto(response.body, response.html)
+            val expected = with(response) { NotifyTemplatePreviewDto(body, subject, html) }
 
             // When
             val actual = govNotifyApiClient.generateTemplatePreview(templateId, personalisation)

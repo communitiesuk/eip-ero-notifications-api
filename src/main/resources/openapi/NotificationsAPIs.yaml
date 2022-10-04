@@ -169,9 +169,10 @@ components:
       title: TemplateType
       type: string
       enum:
+        - application-received
+        - application-approved
+        - application-rejected
         - photo-resubmission
-        - application-approval
-        - application-rejection
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
       description: An object containing template type and map of personalisation data for the template
@@ -188,18 +189,23 @@ components:
             surname: Blogs
       required:
         - templateType
+        - personalisation
     GenerateTemplatePreviewResponse:
       title: GenerateTemplatePreviewResponse
       type: object
-      description: Response containing the result of template previews in text and html format
+      description: Response containing the result of template preview in text format and if supported also in html format
       properties:
         text:
           type: string
           description: Text preview of the template with personalisation data
           example: Hi Fred Blogs,
+        subject:
+          type: string
+          description: Preview of the subject with personalisation data, if the template supports subject field
+          example: Fred Blogs photo resubmission
         html:
           type: string
-          description: Html preview of the template with personalisation data
+          description: Html preview of the template with personalisation data, if the template supports html format
           example: <p>Hi Fred Blogs,</p>
       required:
         - text
