@@ -12,7 +12,7 @@ class
 NotificationTemplateMapper(private val notifyTemplateConfiguration: NotifyTemplateConfiguration) {
 
     fun fromNotificationType(messageType: NotificationType): String {
-        return when (messageType){
+        return when (messageType) {
             NotificationType.APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmail
             NotificationType.APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmail
             NotificationType.APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmail

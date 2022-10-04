@@ -9,7 +9,8 @@ import uk.gov.dluhc.notificationsapi.model.NotificationType
 internal class NotificationTemplateMapperTest {
 
     private val mapper = NotificationTemplateMapper(
-        NotifyTemplateConfiguration("RECEIVED-ID", "APPROVED-ID", "REJECTED-ID"))
+        NotifyTemplateConfiguration("RECEIVED-ID", "APPROVED-ID", "REJECTED-ID")
+    )
 
     @ParameterizedTest
     @CsvSource(
