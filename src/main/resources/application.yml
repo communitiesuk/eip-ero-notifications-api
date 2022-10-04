@@ -1,3 +1,6 @@
+dynamodb:
+  notificationsTableName: ${DYNAMODB_NOTIFICATIONS_TABLE_NAME:notification}
+
 api:
   notify:
     api-key: ${API_NOTIFY_API_KEY}

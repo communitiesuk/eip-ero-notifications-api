@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Primary
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
+import uk.gov.dluhc.notificationsapi.database.repository.EmailNotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.service.notify.NotificationClient
 
@@ -29,10 +30,17 @@ internal abstract class IntegrationTest {
     protected lateinit var govNotifyApiClient: GovNotifyApiClient
 
     @Autowired
+    protected lateinit var emailNotificationRepository: EmailNotificationRepository
+
+    @Autowired
     protected lateinit var webTestClient: WebTestClient
 
     @Autowired
     protected lateinit var wireMockService: WiremockService
+
+    companion object {
+        val localStackContainer = LocalStackContainerConfiguration.getInstance()
+    }
 
     @BeforeEach
     fun resetWireMock() {
