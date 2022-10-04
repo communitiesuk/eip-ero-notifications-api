@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.model.NotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import java.time.LocalDate
 import java.util.UUID
 
@@ -17,10 +19,14 @@ internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
         @Test
         fun `should send email`() {
             // Given
+            val notificationType = NotificationType.APPLICATION_RECEIVED
+            val emailAddress = DataFaker.faker.internet().emailAddress()
+            val personalisation = mapOf<String, Any>()
+            val reference = UUID.randomUUID()
             wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
             // When
-            govNotifyApiClient.sendEmail()
+            govNotifyApiClient.sendEmail(notificationType, emailAddress, personalisation, reference)
 
             // Then
             wireMockService.verifyNotifySendEmailCalled()
