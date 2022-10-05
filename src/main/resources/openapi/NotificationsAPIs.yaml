@@ -54,7 +54,14 @@ paths:
   # Generate Template Preview
   # --------------------------------------------------------------------------------
 
-  '/templates/preview':
+  '/templates/{templateType}/preview':
+    parameters:
+      - name: templateType
+        description: Type of template to be previewed
+        schema:
+          $ref: '#/components/schemas/TemplateType'
+        in: path
+        required: true
     options:
       summary: CORS support
       description: |
@@ -167,6 +174,7 @@ components:
         - message
     TemplateType:
       title: TemplateType
+      description: An enum containing types of notification templates
       type: string
       enum:
         - application-received
@@ -178,8 +186,6 @@ components:
       description: An object containing template type and map of personalisation data for the template
       type: object
       properties:
-        templateType:
-          $ref: '#/components/schemas/TemplateType'
         personalisation:
           type: object
           additionalProperties: true
@@ -188,7 +194,6 @@ components:
             name: Fred
             surname: Blogs
       required:
-        - templateType
         - personalisation
     GenerateTemplatePreviewResponse:
       title: GenerateTemplatePreviewResponse
