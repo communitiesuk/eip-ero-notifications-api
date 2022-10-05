@@ -4,3 +4,7 @@ dynamodb:
 api:
   notify:
     api-key: ${API_NOTIFY_API_KEY}
+    template:
+        received-email: tbc-received-email-template-id
+        approved-email: tbc-approved-email-template-id
+        rejected-email: tbc-rejected-email-template-id
