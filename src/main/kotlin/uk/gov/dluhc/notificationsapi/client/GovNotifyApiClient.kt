@@ -2,8 +2,8 @@ package uk.gov.dluhc.notificationsapi.client
 
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
-import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.service.notify.NotificationClient
 import java.util.UUID
 

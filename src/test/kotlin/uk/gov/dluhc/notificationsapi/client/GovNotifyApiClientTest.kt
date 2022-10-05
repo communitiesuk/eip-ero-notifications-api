@@ -14,8 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
-import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.Template

@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
