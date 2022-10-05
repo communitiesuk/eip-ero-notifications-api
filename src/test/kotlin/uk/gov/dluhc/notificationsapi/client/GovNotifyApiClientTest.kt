@@ -15,7 +15,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.model.NotificationType
+import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.Template
@@ -44,11 +44,11 @@ internal class GovNotifyApiClientTest {
             // Given
             val notificationType = NotificationType.APPLICATION_RECEIVED
             val emailAddress = DataFaker.faker.internet().emailAddress()
-            val reference = UUID.randomUUID()
+            val notificationId = UUID.randomUUID()
             val templateId = UUID.randomUUID().toString()
             given(notificationTemplateMapper.fromNotificationType(any())).willReturn(templateId)
             val response =
-                NotifySendEmailSuccessResponse(template = Template(id = templateId), reference = reference.toString())
+                NotifySendEmailSuccessResponse(template = Template(id = templateId), reference = notificationId.toString())
             val objectMapper = ObjectMapper()
             val sendEmailResponse = SendEmailResponse(objectMapper.writeValueAsString(response))
             val personalisation = mapOf(
@@ -60,11 +60,11 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.sendEmail(any(), any(), any(), any())).willReturn(sendEmailResponse)
 
             // When
-            govNotifyApiClient.sendEmail(notificationType, emailAddress, personalisation, reference)
+            govNotifyApiClient.sendEmail(notificationType, emailAddress, personalisation, notificationId)
 
             // Then
             verify(notificationTemplateMapper).fromNotificationType(notificationType)
-            verify(notificationClient).sendEmail(templateId, emailAddress, personalisation, reference.toString())
+            verify(notificationClient).sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
         }
     }
 

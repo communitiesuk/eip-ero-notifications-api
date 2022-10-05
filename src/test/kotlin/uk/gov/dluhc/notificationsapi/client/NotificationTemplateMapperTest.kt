@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.NotifyTemplateConfiguration
-import uk.gov.dluhc.notificationsapi.model.NotificationType
+import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 
 internal class NotificationTemplateMapperTest {
 

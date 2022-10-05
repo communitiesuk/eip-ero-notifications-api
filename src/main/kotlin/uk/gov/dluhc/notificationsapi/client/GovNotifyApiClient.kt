@@ -3,7 +3,7 @@ package uk.gov.dluhc.notificationsapi.client
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.model.NotificationType
+import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.service.notify.NotificationClient
 import java.util.UUID
 
@@ -22,11 +22,11 @@ class GovNotifyApiClient(
         notificationType: NotificationType,
         emailAddress: String,
         personalisation: Map<String, Any>,
-        reference: UUID
+        notificationId: UUID
     ) {
         val templateId = notificationTemplateMapper.fromNotificationType(notificationType)
         val sendEmailResponse =
-            notificationClient.sendEmail(templateId, emailAddress, personalisation, reference.toString())
+            notificationClient.sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
         logger.info { "Email response: $sendEmailResponse" }
     }
 
