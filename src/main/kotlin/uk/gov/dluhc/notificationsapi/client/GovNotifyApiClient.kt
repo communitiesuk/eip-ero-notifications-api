@@ -32,6 +32,6 @@ class GovNotifyApiClient(
 
     fun generateTemplatePreview(templateId: String, personalisation: Map<String, Any>): NotifyTemplatePreviewDto =
         notificationClient.generateTemplatePreview(templateId, personalisation).run {
-            NotifyTemplatePreviewDto(body, html.orElse(null))
+            NotifyTemplatePreviewDto(body, subject.orElse(null), html.orElse(null))
         }
 }

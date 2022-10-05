@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.0.0'
+  version: '1.1.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -17,32 +17,101 @@ paths:
   #
 
   #
-  # TEMP - Health Check
   # --------------------------------------------------------------------------------
-  '/health':
-    get:
-      summary: Temporary health endpoint
-      description: Temporarily exposed endpoint for verifying new app deploys successfully
+  # RPC style endpoints start here
+  # --------------------------------------------------------------------------------
+  #
+
+  #
+  # Generate Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/{templateType}/preview':
+    parameters:
+      - name: templateType
+        description: Type of template to be previewed
+        schema:
+          $ref: '#/components/schemas/TemplateType'
+        in: path
+        required: true
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
       tags:
-        - Notifications
+        - Generate Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text and html preview for a given template type and personalisation data
+      description: Generates a text and html preview for a given template type and personalisation data
+      operationId: generate-template-preview
+      tags:
+        - Generate Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateTemplatePreview'
       responses:
         '200':
-          description: Healthy
-        '503':
-          description: Service unavailable
-      operationId: health-check
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/actuator/health'
+        uri: '${base_uri}/templates/{templateType}/preview'
+        requestParameters:
+          integration.request.path.templateType: method.request.path.templateType
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
           method.response.header.Access-Control-Allow-Origin: '''*'''
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
-        httpMethod: GET
+        httpMethod: POST
 
 components:
   #
@@ -65,29 +134,92 @@ components:
           example: 'Bad Request'
         message:
           type: string
-          example: 'Validation failed for object=''registerCheckResultRequest''. Error count: 1'
+          example: 'Validation failed for object=''GenerateTemplatePreviewRequest''. Error count: 1'
         validationErrors:
           type: array
           items:
             type: string
           example:
-            - 'Error on field ''gssCode'': rejected value [1234], must match "^[a-zA-Z]\d{8}$"'
+            - 'Error on field ''templateType'': rejected value [email]'
       required:
         - timestamp
         - status
         - error
         - message
+    TemplateType:
+      title: TemplateType
+      description: An enum containing types of notification templates
+      type: string
+      enum:
+        - application-received
+        - application-approved
+        - application-rejected
+        - photo-resubmission
+    GenerateTemplatePreviewRequest:
+      title: GenerateTemplatePreviewRequest
+      description: An object containing template type and map of personalisation data for the template
+      type: object
+      properties:
+        personalisation:
+          type: object
+          additionalProperties: true
+          description: Map of personalisation data
+          example:
+            name: Fred
+            surname: Blogs
+      required:
+        - personalisation
+    GenerateTemplatePreviewResponse:
+      title: GenerateTemplatePreviewResponse
+      type: object
+      description: Response containing the result of template preview in text format and if supported also in html format
+      properties:
+        text:
+          type: string
+          description: Text preview of the template with personalisation data
+          example: Hi Fred Blogs,
+        subject:
+          type: string
+          description: Preview of the subject with personalisation data, if the template supports subject field
+          example: Fred Blogs photo resubmission
+        html:
+          type: string
+          description: Html preview of the template with personalisation data, if the template supports html format
+          example: <p>Hi Fred Blogs,</p>
+      required:
+        - text
 
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------
-  responses: { }
+  responses:
+    GenerateTemplatePreview:
+      description: Response containing the result of template previews in text and html format
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateTemplatePreviewResponse'
 
   #
   # Request Body Definitions
   # --------------------------------------------------------------------------------
-  requestBodies: { }
-
+  requestBodies:
+    GenerateTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateTemplatePreviewRequest'
+            
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:
       type: apiKey

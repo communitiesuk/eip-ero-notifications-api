@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.NullSource
-import org.junit.jupiter.params.provider.ValueSource
+import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -71,13 +70,19 @@ internal class GovNotifyApiClientTest {
     @Nested
     inner class GenerateTemplatePreview {
         @ParameterizedTest
-        @ValueSource(strings = ["html body"])
-        @NullSource
-        fun `should generate template preview given existing html`(html: String?) {
+        @CsvSource(
+            value = [
+                ",",
+                ",html body",
+                "subject,",
+                "subject, html body",
+            ]
+        )
+        fun `should generate template preview given existing html`(subject: String?, html: String?) {
             // Given
             val objectMapper = ObjectMapper()
             val templateId = UUID.randomUUID().toString()
-            val response = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId, html = html)
+            val response = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId, subject = subject, html = html)
             val previewResponse = TemplatePreview(objectMapper.writeValueAsString(response))
             val personalisation = mapOf(
                 "subject_param" to "test subject",
@@ -86,7 +91,7 @@ internal class GovNotifyApiClientTest {
                 "date" to LocalDate.now()
             )
             given(notificationClient.generateTemplatePreview(any(), any())).willReturn(previewResponse)
-            val expected = NotifyTemplatePreviewDto(response.body, html)
+            val expected = NotifyTemplatePreviewDto(response.body, response.subject, html)
 
             // When
             val actual = govNotifyApiClient.generateTemplatePreview(templateId, personalisation)
