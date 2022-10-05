@@ -8,6 +8,9 @@ import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.UUID
 
+const val UNAUTHORIZED_BEARER_TOKEN: String =
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyQHdpbHRzaGlyZS5nb3YudWsiLCJpYXQiOjE1MTYyMzkwMjIsImF1dGhvcml0aWVzIjpbImVyby1hZG1pbiJdfQ.-pxW8z2xb-AzNLTRP_YRnm9fQDcK6CLt6HimtS8VcDY"
+
 fun getBearerToken(
     eroId: String = aValidRandomEroId(),
     email: String = "an-ero-user@$eroId.gov.uk",
