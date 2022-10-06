@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.config
 
+import io.awspring.cloud.messaging.core.QueueMessagingTemplate
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Primary
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
-import uk.gov.dluhc.notificationsapi.database.repository.EmailNotificationRepository
+import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.service.notify.NotificationClient
 
@@ -30,7 +31,13 @@ internal abstract class IntegrationTest {
     protected lateinit var govNotifyApiClient: GovNotifyApiClient
 
     @Autowired
-    protected lateinit var emailNotificationRepository: EmailNotificationRepository
+    protected lateinit var notificationRepository: NotificationRepository
+
+    @Autowired
+    protected lateinit var sqsMessagingTemplate: QueueMessagingTemplate
+
+    @Value("\${sqs.send-uk-gov-notify-message-queue-name}")
+    protected lateinit var sendUkGovNotifyMessageQueueName: String
 
     @Autowired
     protected lateinit var webTestClient: WebTestClient

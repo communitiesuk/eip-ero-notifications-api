@@ -1,5 +1,10 @@
-aws:
-  region: eu-west-2
+cloud:
+  aws:
+    region:
+      static: eu-west-2
+    credentials:
+      access-key: test
+      secret-key: test
 
 dynamodb:
   notificationsTableName: unit-test-notifications
@@ -7,3 +12,6 @@ dynamodb:
 api:
   notify:
     api-key: "developmentintegrationtestkey-137e13d7-6acd-4449-815e-de0eb0c083ba-52408a6d-f230-4c47-9380-128578c3c51a"
+
+sqs:
+  send-uk-gov-notify-message-queue-name: 'test-send-uk-gov-notify-message'

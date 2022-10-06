@@ -3,7 +3,7 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.springframework.beans.factory.annotation.Autowired
-import uk.gov.dluhc.notificationsapi.client.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.GenerateTemplatePreviewRequestDto
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.TemplateType

@@ -2,7 +2,10 @@ package uk.gov.dluhc.notificationsapi.client
 
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
-import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
@@ -16,19 +19,25 @@ private val logger = KotlinLogging.logger {}
 @Component
 class GovNotifyApiClient(
     private val notificationClient: NotificationClient,
-    private val notificationTemplateMapper: NotificationTemplateMapper
+    private val notificationTemplateMapper: NotificationTemplateMapper,
+    private val sendNotificationResponseMapper: SendNotificationResponseMapper
 ) {
 
     fun sendEmail(
         notificationType: NotificationType,
         emailAddress: String,
-        personalisation: Map<String, Any>,
+        personalisation: Map<String, String>,
         notificationId: UUID
-    ) {
+    ): SendNotificationResponseDto {
         val templateId = notificationTemplateMapper.fromNotificationType(notificationType)
-        val sendEmailResponse =
-            notificationClient.sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
-        logger.info { "Email response: $sendEmailResponse" }
+        try {
+            return notificationClient.sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
+                .run {
+                    sendNotificationResponseMapper.toSendNotificationResponse(this)
+                }
+        } catch (ex: NotificationClientException) {
+            throw logAndThrowGovNotifyApiException("Send email", ex, templateId)
+        }
     }
 
     fun generateTemplatePreview(templateId: String, personalisation: Map<String, String>): NotifyTemplatePreviewDto =
@@ -37,22 +46,23 @@ class GovNotifyApiClient(
                 NotifyTemplatePreviewDto(body, subject.orElse(null), html.orElse(null))
             }
         } catch (ex: NotificationClientException) {
-            throw logAndThrowGovNotifyApiException(ex, templateId)
+            throw logAndThrowGovNotifyApiException("Generating template preview", ex, templateId)
         }
 
     private fun logAndThrowGovNotifyApiException(
+        callDescription: String,
         ex: NotificationClientException,
         templateId: String
     ): GovNotifyApiException {
         val message = ex.message ?: ""
         when (ex.httpResult) {
             400 -> {
-                logger.warn { "Generating template preview failed. [${ex.message}]" }
+                logger.warn { "$callDescription failed. [${ex.message}]" }
                 throw GovNotifyApiBadRequestException(message)
             }
 
             404 -> {
-                logger.warn { "Generating template preview failed. Template [$templateId] not found." }
+                logger.warn { "$callDescription failed. Template [$templateId] not found." }
                 throw GovNotifyApiNotFoundException(message)
             }
 

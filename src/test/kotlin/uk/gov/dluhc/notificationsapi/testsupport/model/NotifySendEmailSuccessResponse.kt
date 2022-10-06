@@ -12,7 +12,7 @@ data class NotifySendEmailSuccessResponse(
 
 data class Content(
     val body: String = "body content",
-    var fromEmail: String? = "Could be null or actual from email address",
+    var from_email: String? = "Could be null or actual from email address",
     val subject: String = "Email subject"
 )
 
