@@ -20,4 +20,5 @@ data class NotifyTemplateConfiguration(
     val receivedEmail: String,
     val approvedEmail: String,
     val rejectedEmail: String,
+    val photoResubmissionEmail: String
 )
