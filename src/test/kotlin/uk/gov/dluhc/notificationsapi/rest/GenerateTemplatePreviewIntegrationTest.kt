@@ -66,6 +66,7 @@ internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
             .hasStatus(400)
             .hasError("Bad Request")
             .hasMessage("Error on templateType path value: rejected value [invalid-template]")
+            .hasNoValidationErrors()
     }
 
     @Test
@@ -89,6 +90,7 @@ internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
             .hasStatus(400)
             .hasError("Bad Request")
             .hasMessageContaining("Required request body is missing")
+            .hasNoValidationErrors()
     }
 
     @Test
