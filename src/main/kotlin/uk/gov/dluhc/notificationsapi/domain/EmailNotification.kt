@@ -1,12 +1,23 @@
-package uk.gov.dluhc.notificationsapi.database.entity
+package uk.gov.dluhc.notificationsapi.domain
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
+import java.time.LocalDateTime
+import java.util.UUID
 
 @DynamoDbBean
 data class EmailNotification(
-    @get:DynamoDbPartitionKey var id: String? = null,
-    var recipent: String? = null,
+    @get:DynamoDbPartitionKey var id: UUID? = null,
+    @get:DynamoDbSortKey var gssCode: String? = null,
+    var sourceReference: String? = null,
+    var sourceType: SourceType? = null,
+    var type: NotificationType? = null,
+    var toEmail: String? = null,
+    var requestor: String? = null,
+    var sentAt: LocalDateTime? = null,
+    var personalisation: Map<String, String>? = null,
+    var notifyDetails: SendNotificationResponse? = null,
 ) {
 
     override fun equals(other: Any?): Boolean {

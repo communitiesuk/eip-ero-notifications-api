@@ -14,13 +14,19 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
+import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
 import org.springframework.test.util.ReflectionTestUtils.setField
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
-import uk.gov.dluhc.notificationsapi.testsupport.model.Template
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationDto
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
 import uk.gov.service.notify.SendEmailResponse
@@ -36,6 +42,9 @@ internal class GovNotifyApiClientTest {
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
 
     @Mock
+    private lateinit var sendNotificationResponseMapper: SendNotificationResponseMapper
+
+    @Mock
     private lateinit var notificationClient: NotificationClient
 
     @Nested
@@ -43,31 +52,27 @@ internal class GovNotifyApiClientTest {
         @Test
         fun `should send email`() {
             // Given
-            val notificationType = NotificationType.APPLICATION_RECEIVED
-            val emailAddress = DataFaker.faker.internet().emailAddress()
-            val notificationId = UUID.randomUUID()
-            val templateId = UUID.randomUUID().toString()
-            given(notificationTemplateMapper.fromNotificationType(any())).willReturn(templateId)
-            val response =
-                NotifySendEmailSuccessResponse(
-                    template = Template(id = templateId),
-                    reference = notificationId.toString()
-                )
+            val notificationType = aNotificationType()
+            val emailAddress = anEmailAddress()
+            val notificationId = aNotificationId()
+            val templateId = aTemplateId()
+            given(notificationTemplateMapper.fromNotificationType(any())).willReturn(templateId.toString())
+            val response = NotifySendEmailSuccessResponse()
             val objectMapper = ObjectMapper()
             val sendEmailResponse = SendEmailResponse(objectMapper.writeValueAsString(response))
-            val personalisation = mapOf(
-                "subject_param" to "test subject",
-                "name_param" to "John",
-                "custom_title" to "Resubmitting photo"
-            )
+            val personalisation = aNotificationPersonalisationMap()
             given(notificationClient.sendEmail(any(), any(), any(), any())).willReturn(sendEmailResponse)
+            val sendNotificationDto = buildSendNotificationDto()
+            given(sendNotificationResponseMapper.toSendNotificationResponse(any())).willReturn(sendNotificationDto)
 
             // When
-            govNotifyApiClient.sendEmail(notificationType, emailAddress, personalisation, notificationId)
+            val actual = govNotifyApiClient.sendEmail(notificationType, emailAddress, personalisation, notificationId)
 
             // Then
             verify(notificationTemplateMapper).fromNotificationType(notificationType)
-            verify(notificationClient).sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
+            verify(notificationClient).sendEmail(templateId.toString(), emailAddress, personalisation, notificationId.toString())
+            verify(sendNotificationResponseMapper).toSendNotificationResponse(sendEmailResponse)
+            assertThat(actual).isSameAs(sendNotificationDto)
         }
     }
 

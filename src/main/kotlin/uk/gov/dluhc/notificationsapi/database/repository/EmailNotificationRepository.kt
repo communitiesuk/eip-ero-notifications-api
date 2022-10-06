@@ -1,16 +1,12 @@
 package uk.gov.dluhc.notificationsapi.database.repository
 
-import mu.KotlinLogging
 import org.springframework.stereotype.Repository
-import software.amazon.awssdk.core.exception.SdkClientException
-import software.amazon.awssdk.core.exception.SdkServiceException
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.Key
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
 import uk.gov.dluhc.notificationsapi.config.DynamoDbConfiguration
-import uk.gov.dluhc.notificationsapi.database.entity.EmailNotification
-
-private val logger = KotlinLogging.logger {}
+import uk.gov.dluhc.notificationsapi.domain.EmailNotification
+import java.util.UUID
 
 @Repository
 class EmailNotificationRepository(client: DynamoDbEnhancedClient, tableConfig: DynamoDbConfiguration) {
@@ -22,17 +18,14 @@ class EmailNotificationRepository(client: DynamoDbEnhancedClient, tableConfig: D
     private val table = client.table(tableConfig.notificationsTableName, tableSchema)
 
     fun saveEmailNotification(emailNotification: EmailNotification) {
-        try {
-            table.putItem(emailNotification)
-        } catch (error: SdkClientException) {
-            logger.error { "Client error attempting to save 'sent email notification': $error" }
-        } catch (error: SdkServiceException) {
-            logger.error { "Service error attempting to save 'sent email notification': $error" }
-        }
+        table.putItem(emailNotification)
     }
 
-    fun getEmailNotification(notificationId: String): EmailNotification {
-        val key = Key.builder().partitionValue(notificationId).build()
+    fun getEmailNotification(notificationId: UUID, gssCode: String): EmailNotification {
+        val key = Key.builder()
+            .partitionValue(notificationId.toString())
+            .sortValue(gssCode)
+            .build()
         return table.getItem(key)
     }
 }

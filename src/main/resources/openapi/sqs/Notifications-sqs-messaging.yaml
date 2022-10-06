@@ -22,12 +22,12 @@ paths:
   # SQS Queues start here
   # --------------------------------------------------------------------------------
   #
-  '/send-notify-email':
+  '/send-uk-gov-notify-message':
     post:
       tags:
         - SQS Queues
       requestBody:
-        $ref: '#/components/requestBodies/NotifySend'
+        $ref: '#/components/requestBodies/SendNotifyMessage'
       responses:
         '204':
           description: No response content.
@@ -37,16 +37,24 @@ components:
   # Schema and Enum Definitions
   # --------------------------------------------------------------------------------
   schemas:
-    NotifySendMessage:
-      title: NotifySendMessage
+    SendNotifyMessage:
+      title: SendNotifyMessage
       type: object
       description: SQS Message for sending GOV.UK Notify messages
       properties:
-        applicationId:
+        channel:
+          $ref: '#/components/schemas/Channel'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+        sourceReference:
           type: string
-        referenceId:
+          description: Reference in the source of the application this message relates
+        gssCode:
           type: string
-          description: Client reference for message
+          description: GSS code of the ERO responsible for sending the message
+        requestor:
+          type: string
+          description: Identifier of the user or system responsible for sending the message
         toAddress:
           $ref: '#/components/schemas/MessageAddress'
         messageType:
@@ -54,22 +62,42 @@ components:
         personalisation:
           $ref: '#/components/schemas/TemplatePersonalisation'
       required:
-        - applicationId
-        - referenceId
+        - channel
+        - sourceType
+        - sourceReference
+        - gssCode
+        - requestor
+        - toAddress
         - messageType
-        - personalisation
 
     TemplatePersonalisation:
       title: TemplatePersonalisation
       type: array
-      description: Template personalisation values to replace in the template.
+      description: Template personalisation values to replace each template placeholder.
       items:
         type: object
         properties:
           name:
             type: string
+            example: "applicant-name"
           value:
             type: string
+            example: "John"
+      required:
+        - name
+        - value
+
+    Channel:
+      title: Channel
+      type: string
+      enum:
+        - email
+
+    SourceType:
+      title: SourceType
+      type: string
+      enum:
+        - voter-card
 
     MessageType:
       title: MessageType
@@ -86,7 +114,7 @@ components:
         emailAddress:
           type: string
           format: email
-        address:
+        postalAddress:
           type: object
           properties:
             address_line_1:
@@ -103,7 +131,7 @@ components:
               type: string
             address_line_7:
               type: string
-        phoneNumber:
+        smsNumber:
           type: string
 
   #
@@ -115,8 +143,8 @@ components:
   # Request Body Definitions
   # --------------------------------------------------------------------------------
   requestBodies:
-    NotifySend:
+    SendNotifyMessage:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/NotifySendMessage'
+            $ref: '#/components/schemas/SendNotifyMessage'

@@ -23,6 +23,7 @@ version = "latest"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 ext["snakeyaml.version"] = "1.32"
+// Spring cloud 3.x integrates with AWS v2, until that is released this project has both AWS v1 and v2 SDK libraries
 extra["springCloudVersion"] = "2.4.2"
 extra["awsSdkVersion"] = "2.17.284"
 
@@ -74,6 +75,7 @@ dependencies {
     // AWS v2 dependencies
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
+    implementation("io.awspring.cloud:spring-cloud-starter-aws-messaging")
 
     // Test implementations
     testImplementation("org.springframework.boot:spring-boot-starter-test")
