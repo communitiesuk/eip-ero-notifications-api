@@ -162,7 +162,8 @@ components:
       properties:
         personalisation:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            type: string
           description: Map of personalisation data
           example:
             name: Fred

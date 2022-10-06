@@ -9,7 +9,6 @@ import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
-import java.time.LocalDate
 import java.util.UUID
 
 internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
@@ -45,7 +44,6 @@ internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
                 "subject_param" to "test subject",
                 "name_param" to "John",
                 "custom_title" to "Resubmitting photo",
-                "date" to LocalDate.now()
             )
             val expected = with(response) { NotifyTemplatePreviewDto(body, subject, html) }
 

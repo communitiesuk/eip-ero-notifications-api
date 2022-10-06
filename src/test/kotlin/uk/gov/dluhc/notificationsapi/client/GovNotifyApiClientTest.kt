@@ -22,7 +22,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.SendEmailResponse
 import uk.gov.service.notify.TemplatePreview
-import java.time.LocalDate
 import java.util.UUID
 
 @ExtendWith(MockitoExtension::class)
@@ -47,14 +46,16 @@ internal class GovNotifyApiClientTest {
             val templateId = UUID.randomUUID().toString()
             given(notificationTemplateMapper.fromNotificationType(any())).willReturn(templateId)
             val response =
-                NotifySendEmailSuccessResponse(template = Template(id = templateId), reference = notificationId.toString())
+                NotifySendEmailSuccessResponse(
+                    template = Template(id = templateId),
+                    reference = notificationId.toString()
+                )
             val objectMapper = ObjectMapper()
             val sendEmailResponse = SendEmailResponse(objectMapper.writeValueAsString(response))
             val personalisation = mapOf(
                 "subject_param" to "test subject",
                 "name_param" to "John",
-                "custom_title" to "Resubmitting photo",
-                "date" to LocalDate.now()
+                "custom_title" to "Resubmitting photo"
             )
             given(notificationClient.sendEmail(any(), any(), any(), any())).willReturn(sendEmailResponse)
 
@@ -88,7 +89,6 @@ internal class GovNotifyApiClientTest {
                 "subject_param" to "test subject",
                 "name_param" to "John",
                 "custom_title" to "Resubmitting photo",
-                "date" to LocalDate.now()
             )
             given(notificationClient.generateTemplatePreview(any(), any())).willReturn(previewResponse)
             val expected = NotifyTemplatePreviewDto(response.body, response.subject, html)
