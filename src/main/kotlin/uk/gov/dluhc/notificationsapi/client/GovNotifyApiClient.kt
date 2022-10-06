@@ -30,7 +30,7 @@ class GovNotifyApiClient(
         logger.info { "Email response: $sendEmailResponse" }
     }
 
-    fun generateTemplatePreview(templateId: String, personalisation: Map<String, Any>): NotifyTemplatePreviewDto =
+    fun generateTemplatePreview(templateId: String, personalisation: Map<String, String>): NotifyTemplatePreviewDto =
         notificationClient.generateTemplatePreview(templateId, personalisation).run {
             NotifyTemplatePreviewDto(body, subject.orElse(null), html.orElse(null))
         }
