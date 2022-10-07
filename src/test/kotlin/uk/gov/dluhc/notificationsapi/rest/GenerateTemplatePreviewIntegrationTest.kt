@@ -23,6 +23,8 @@ import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
 internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
+    private val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
+
     @BeforeEach
     fun setup() {
         wireMockService.stubCognitoJwtIssuerResponse()
@@ -46,6 +48,36 @@ internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
             .exchange()
             .expectStatus()
             .isForbidden
+    }
+
+    @Test
+    fun `should return not found given not existing template`() {
+        // Given
+        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(templateId)
+        val personalisation = mapOf<String, String>()
+        val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
+
+        // When
+        val response = webTestClient.post()
+            .uri(buildUri(TemplateType.PHOTO_MINUS_RESUBMISSION.value))
+            .bearerToken(getBearerToken())
+            .body(
+                Mono.just(GenerateTemplatePreviewRequest(personalisation = personalisation)),
+                GenerateTemplatePreviewRequest::class.java
+            )
+            .exchange()
+            .expectStatus()
+            .isNotFound
+            .returnResult(ErrorResponse::class.java)
+
+        // Then
+        val actual = response.responseBody.blockFirst()
+        assertThat(actual)
+            .hasTimestampNotBefore(earliestExpectedTimeStamp)
+            .hasStatus(404)
+            .hasError("Not Found")
+            .hasMessage("Notification template not found for the given template type")
+            .hasNoValidationErrors()
     }
 
     @Test
@@ -98,11 +130,41 @@ internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
     }
 
     @Test
+    fun `should return bad request given valid template type and missing personalisation parameters`() {
+        // Given
+        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(templateId)
+        val personalisation = mapOf<String, String>()
+        val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
+
+        // When
+        val response = webTestClient.post()
+            .uri(buildUri(TemplateType.PHOTO_MINUS_RESUBMISSION.value))
+            .bearerToken(getBearerToken())
+            .body(
+                Mono.just(GenerateTemplatePreviewRequest(personalisation = personalisation)),
+                GenerateTemplatePreviewRequest::class.java
+            )
+            .exchange()
+            .expectStatus()
+            .isBadRequest
+            .returnResult(ErrorResponse::class.java)
+
+        // Then
+        val actual = response.responseBody.blockFirst()
+        assertThat(actual)
+            .hasTimestampNotBefore(earliestExpectedTimeStamp)
+            .hasStatus(400)
+            .hasError("Bad Request")
+            .hasMessageContaining("Missing personalisation: applicationReference, firstName")
+            .hasNoValidationErrors()
+    }
+
+    @Test
     fun `should return template preview given valid template type and request`() {
         // Given
         val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
-        wireMockService.stubNotifyGenerateTemplatePreviewResponse(notifyClientResponse)
+        wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val personalisation = mapOf(
             "subject_param" to "test subject",
             "name_param" to "John",

@@ -3,8 +3,10 @@ package uk.gov.dluhc.notificationsapi.testsupport
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
+import com.github.tomakehurst.wiremock.client.WireMock.badRequest
 import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
 import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.client.WireMock.notFound
 import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
@@ -53,12 +55,48 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         )
     }
 
-    fun stubNotifyGenerateTemplatePreviewResponse(response: NotifyGenerateTemplatePreviewSuccessResponse) {
+    fun stubNotifyGenerateTemplatePreviewSuccessResponse(response: NotifyGenerateTemplatePreviewSuccessResponse) {
         val url = GENERATE_TEMPLATE_PREVIEW_URL.replace("{templateId}", response.id)
         wireMockServer.stubFor(
             post(urlPathEqualTo(url)).willReturn(
                 ok().withBody(objectMapper.writeValueAsString(response))
             )
+        )
+    }
+
+    fun stubNotifyGenerateTemplatePreviewNotFoundResponse(templateId: String) {
+        val url = GENERATE_TEMPLATE_PREVIEW_URL.replace("{templateId}", templateId)
+        val response = """
+            {
+              "errors": [
+                {
+                  "error": "NoResultFound",
+                  "message": "No result found"
+                }
+              ],
+              "status_code": 404
+            }
+        """.trimIndent()
+        wireMockServer.stubFor(
+            post(urlPathEqualTo(url)).willReturn(notFound().withBody(response))
+        )
+    }
+
+    fun stubNotifyGenerateTemplatePreviewBadRequestResponse(templateId: String) {
+        val url = GENERATE_TEMPLATE_PREVIEW_URL.replace("{templateId}", templateId)
+        val response = """
+            {
+              "errors": [
+                {
+                  "error": "BadRequestError",
+                  "message": "Missing personalisation: applicationReference, firstName"
+                }
+              ],
+              "status_code": 400
+            }
+        """.trimIndent()
+        wireMockServer.stubFor(
+            post(urlPathEqualTo(url)).willReturn(badRequest().withBody(response))
         )
     }
 
