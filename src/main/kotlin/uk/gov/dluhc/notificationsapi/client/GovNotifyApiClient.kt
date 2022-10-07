@@ -37,11 +37,26 @@ class GovNotifyApiClient(
                 NotifyTemplatePreviewDto(body, subject.orElse(null), html.orElse(null))
             }
         } catch (ex: NotificationClientException) {
-            val message = ex.message ?: ""
-            when (ex.httpResult) {
-                400 -> throw GovNotifyApiBadRequestException(message)
-                404 -> throw GovNotifyApiNotFoundException(message)
-                else -> throw GovNotifyApiGeneralException(message)
-            }
+            throw logAndThrowGovNotifyApiException(ex, templateId)
         }
+
+    private fun logAndThrowGovNotifyApiException(
+        ex: NotificationClientException,
+        templateId: String
+    ): GovNotifyApiException {
+        val message = ex.message ?: ""
+        when (ex.httpResult) {
+            400 -> {
+                logger.warn { "Generating template preview failed. [${ex.message}]" }
+                throw GovNotifyApiBadRequestException(message)
+            }
+
+            404 -> {
+                logger.warn { "Generating template preview failed. Template [$templateId] not found." }
+                throw GovNotifyApiNotFoundException(message)
+            }
+
+            else -> throw GovNotifyApiGeneralException(message)
+        }
+    }
 }
