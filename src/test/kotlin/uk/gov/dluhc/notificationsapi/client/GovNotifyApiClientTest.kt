@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
+import org.springframework.test.util.ReflectionTestUtils.setField
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -20,6 +22,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
 import uk.gov.dluhc.notificationsapi.testsupport.model.Template
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.service.notify.NotificationClient
+import uk.gov.service.notify.NotificationClientException
 import uk.gov.service.notify.SendEmailResponse
 import uk.gov.service.notify.TemplatePreview
 import java.util.UUID
@@ -99,6 +102,78 @@ internal class GovNotifyApiClientTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verify(notificationClient).generateTemplatePreview(templateId, personalisation)
+        }
+
+        @Test
+        fun `should throw GovNotifyApiNotFoundException given client throws exception with 404 http result`() {
+            // Given
+            val templateId = UUID.randomUUID().toString()
+            val personalisation = mapOf(
+                "subject_param" to "test subject",
+                "name_param" to "John",
+                "custom_title" to "Resubmitting photo",
+            )
+            val exceptionMessage = "No result found"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 404)
+            given(notificationClient.generateTemplatePreview(any(), any())).willThrow(exception)
+
+            // When
+            val ex = Assertions.catchThrowableOfType(
+                { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
+                GovNotifyApiNotFoundException::class.java
+            )
+
+            // Then
+            assertThat(ex.message).isEqualTo(exceptionMessage)
+        }
+
+        @Test
+        fun `should throw GovNotifyApiBadRequestException given client throws exception with 400 http result`() {
+            // Given
+            val templateId = UUID.randomUUID().toString()
+            val personalisation = mapOf(
+                "subject_param" to "test subject",
+                "name_param" to "John",
+                "custom_title" to "Resubmitting photo",
+            )
+            val exceptionMessage = "No result found"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 400)
+            given(notificationClient.generateTemplatePreview(any(), any())).willThrow(exception)
+
+            // When
+            val ex = Assertions.catchThrowableOfType(
+                { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
+                GovNotifyApiBadRequestException::class.java
+            )
+
+            // Then
+            assertThat(ex.message).isEqualTo(exceptionMessage)
+        }
+
+        @Test
+        fun `should throw GovNotifyApiGeneralException given client throws exception with http result other than 400 and 404`() {
+            // Given
+            val templateId = UUID.randomUUID().toString()
+            val personalisation = mapOf(
+                "subject_param" to "test subject",
+                "name_param" to "John",
+                "custom_title" to "Resubmitting photo",
+            )
+            val exceptionMessage = "No result found"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 500)
+            given(notificationClient.generateTemplatePreview(any(), any())).willThrow(exception)
+
+            // When
+            val ex = Assertions.catchThrowableOfType(
+                { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
+                GovNotifyApiGeneralException::class.java
+            )
+
+            // Then
+            assertThat(ex.message).isEqualTo(exceptionMessage)
         }
     }
 }

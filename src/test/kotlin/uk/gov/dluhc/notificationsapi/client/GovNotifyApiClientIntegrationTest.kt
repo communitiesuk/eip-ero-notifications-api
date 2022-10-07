@@ -39,7 +39,7 @@ internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
             // Given
             val templateId = UUID.randomUUID().toString()
             val response = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
-            wireMockService.stubNotifyGenerateTemplatePreviewResponse(response)
+            wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(response)
             val personalisation = mapOf(
                 "subject_param" to "test subject",
                 "name_param" to "John",
