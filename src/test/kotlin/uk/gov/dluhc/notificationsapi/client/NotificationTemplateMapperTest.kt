@@ -9,7 +9,7 @@ import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 internal class NotificationTemplateMapperTest {
 
     private val mapper = NotificationTemplateMapper(
-        NotifyTemplateConfiguration("RECEIVED-ID", "APPROVED-ID", "REJECTED-ID")
+        NotifyTemplateConfiguration("RECEIVED-ID", "APPROVED-ID", "REJECTED-ID", "RESUBMISSION-ID")
     )
 
     @ParameterizedTest
@@ -17,7 +17,8 @@ internal class NotificationTemplateMapperTest {
         value = [
             "APPLICATION_RECEIVED, RECEIVED-ID",
             "APPLICATION_REJECTED, REJECTED-ID",
-            "APPLICATION_APPROVED, APPROVED-ID"
+            "APPLICATION_APPROVED, APPROVED-ID",
+            "PHOTO_RESUBMISSION, RESUBMISSION-ID"
         ]
     )
     fun `should map Notification Type to Notify Template ID`(approvalReason: NotificationType, expected: String) {

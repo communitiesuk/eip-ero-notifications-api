@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.rest
 
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
@@ -9,10 +10,13 @@ import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
+import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.models.TemplateType.APPLICATION_MINUS_APPROVED
 import uk.gov.dluhc.notificationsapi.models.TemplateType.APPLICATION_MINUS_RECEIVED
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert.Companion.assertThat
+import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.OffsetDateTime
@@ -94,14 +98,33 @@ internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
     }
 
     @Test
-    fun `should return ok given valid template type and request`() {
-        webTestClient.post()
-            .uri(buildUri())
+    fun `should return template preview given valid template type and request`() {
+        // Given
+        val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
+        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
+        wireMockService.stubNotifyGenerateTemplatePreviewResponse(notifyClientResponse)
+        val personalisation = mapOf(
+            "subject_param" to "test subject",
+            "name_param" to "John",
+            "custom_title" to "Resubmitting photo",
+        )
+        val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
+
+        // When
+        val response = webTestClient.post()
+            .uri(buildUri(TemplateType.PHOTO_MINUS_RESUBMISSION.value))
             .bearerToken(getBearerToken())
-            .withAValidBody()
+            .body(
+                Mono.just(GenerateTemplatePreviewRequest(personalisation = personalisation)),
+                GenerateTemplatePreviewRequest::class.java
+            )
             .exchange()
-            .expectStatus()
-            .isOk
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(GenerateTemplatePreviewResponse::class.java).responseBody.blockFirst()
+        Assertions.assertThat(actual).isEqualTo(expected)
+        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, personalisation)
     }
 
     private fun buildUri(templateType: String = "photo-resubmission") =
