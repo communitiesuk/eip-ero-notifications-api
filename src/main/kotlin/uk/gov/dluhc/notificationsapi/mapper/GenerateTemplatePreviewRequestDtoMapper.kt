@@ -23,6 +23,6 @@ abstract class GenerateTemplatePreviewRequestDtoMapper {
         request: GenerateTemplatePreviewRequest
     ): GenerateTemplatePreviewRequestDto
 
-    fun getTemplateId(templateType: TemplateType): String =
+    protected fun getTemplateId(templateType: TemplateType): String =
         notificationTemplateMapper.fromNotificationType(notificationTypeMapper.toNotificationType(templateType))
 }
