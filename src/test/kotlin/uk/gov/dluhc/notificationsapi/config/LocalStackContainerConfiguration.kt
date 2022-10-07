@@ -37,7 +37,7 @@ class LocalStackContainerConfiguration {
         fun getInstance(): GenericContainer<*> {
             if (container == null) {
                 container = GenericContainer(
-                    DockerImageName.parse("localstack/localstack:latest")
+                    DockerImageName.parse("localstack/localstack:1.1.0")
                 ).withEnv(
                     mapOf(
                         "SERVICES" to "dynamodb",
