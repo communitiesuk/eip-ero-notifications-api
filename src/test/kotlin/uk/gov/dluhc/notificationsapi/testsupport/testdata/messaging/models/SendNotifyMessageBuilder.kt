@@ -17,7 +17,7 @@ fun buildSendNotifyMessage(
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    messageType: MessageType = MessageType.APPLICATIONREJECTED,
+    messageType: MessageType = MessageType.APPLICATION_MINUS_REJECTED,
     personalisation: List<TemplatePersonalisationInner> = listOf(TemplatePersonalisationInner(name = "applicant_name", value = "John")),
     toAddress: MessageAddress = MessageAddress(emailAddress = anEmailAddress()),
 ): SendNotifyMessage =

@@ -103,9 +103,10 @@ components:
       title: MessageType
       type: string
       enum:
-        - applicationreceived
-        - applicationrejected
-        - applicationapproved
+        - application-received
+        - application-approved
+        - application-rejected
+        - photo-resubmission
 
     MessageAddress:
       type: object

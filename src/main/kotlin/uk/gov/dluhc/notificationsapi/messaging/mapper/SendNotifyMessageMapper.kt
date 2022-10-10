@@ -22,9 +22,10 @@ abstract class SendNotifyMessageMapper {
     @ValueMapping(source = "VOTER_MINUS_CARD", target = "VOTER_CARD")
     abstract fun map(sourceType: SqsSourceType): SourceType
 
-    @ValueMapping(source = "APPLICATIONRECEIVED", target = "APPLICATION_RECEIVED")
-    @ValueMapping(source = "APPLICATIONAPPROVED", target = "APPLICATION_APPROVED")
-    @ValueMapping(source = "APPLICATIONREJECTED", target = "APPLICATION_REJECTED")
+    @ValueMapping(source = "APPLICATION_MINUS_RECEIVED", target = "APPLICATION_RECEIVED")
+    @ValueMapping(source = "APPLICATION_MINUS_APPROVED", target = "APPLICATION_APPROVED")
+    @ValueMapping(source = "APPLICATION_MINUS_REJECTED", target = "APPLICATION_REJECTED")
+    @ValueMapping(source = "PHOTO_MINUS_RESUBMISSION", target = "PHOTO_RESUBMISSION")
     @Named("mapMessageType")
     abstract fun map(messageType: MessageType): NotificationType
 

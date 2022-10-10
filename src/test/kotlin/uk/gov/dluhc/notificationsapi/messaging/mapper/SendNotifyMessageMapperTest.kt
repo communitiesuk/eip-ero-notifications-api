@@ -40,16 +40,17 @@ internal class SendNotifyMessageMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "APPLICATIONRECEIVED, APPLICATION_RECEIVED",
-            "APPLICATIONAPPROVED, APPLICATION_APPROVED",
-            "APPLICATIONREJECTED, APPLICATION_REJECTED",
+            "APPLICATION_MINUS_RECEIVED, APPLICATION_RECEIVED",
+            "APPLICATION_MINUS_APPROVED, APPLICATION_APPROVED",
+            "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
+            "PHOTO_MINUS_RESUBMISSION, PHOTO_RESUBMISSION",
         ]
     )
-    fun `should map Message Type`(sourceType: MessageType, expected: NotificationType) {
+    fun `should map Message Type`(messageType: MessageType, expected: NotificationType) {
         // Given
 
         // When
-        val actual = mapper.map(sourceType)
+        val actual = mapper.map(messageType)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -96,7 +97,7 @@ internal class SendNotifyMessageMapperTest {
             sourceReference = sourceReference,
             gssCode = gssCode,
             requestor = requestor,
-            messageType = MessageType.APPLICATIONREJECTED,
+            messageType = MessageType.APPLICATION_MINUS_REJECTED,
             personalisation = listOf(TemplatePersonalisationInner(name = "applicant_name", value = "John")),
             toAddress = MessageAddress(emailAddress = emailAddress),
         )

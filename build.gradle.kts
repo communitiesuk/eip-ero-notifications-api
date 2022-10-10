@@ -75,6 +75,8 @@ dependencies {
     // AWS v2 dependencies
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
+
+    // AWS v1 dependencies
     implementation("io.awspring.cloud:spring-cloud-starter-aws-messaging")
 
     // Test implementations
