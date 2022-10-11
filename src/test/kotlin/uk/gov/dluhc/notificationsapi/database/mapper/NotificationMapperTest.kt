@@ -1,6 +1,6 @@
-package uk.gov.dluhc.notificationsapi.database.factory
+package uk.gov.dluhc.notificationsapi.database.mapper
 
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -22,12 +22,10 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEma
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aSendNotificationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationRequestDto
-import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as EntityNotificationType
-import uk.gov.dluhc.notificationsapi.database.entity.SourceType as EntitySourceType
 
-internal class NotificationFactoryTest {
+internal class NotificationMapperTest {
 
-    private val factory = NotificationFactory()
+    private val mapper = NotificationMapperImpl()
 
     @ParameterizedTest
     @CsvSource(
@@ -40,15 +38,15 @@ internal class NotificationFactoryTest {
     )
     fun `should map DTO Notification Type to Entity Notification Type`(
         dtoType: NotificationType,
-        expected: EntityNotificationType
+        expected: uk.gov.dluhc.notificationsapi.database.entity.NotificationType
     ) {
         // Given
 
         // When
-        val actual = factory.toNotificationType(dtoType)
+        val actual = mapper.toNotificationType(dtoType)
 
         // Then
-        assertThat(actual).isEqualTo(expected)
+        Assertions.assertThat(actual).isEqualTo(expected)
     }
 
     @ParameterizedTest
@@ -57,14 +55,14 @@ internal class NotificationFactoryTest {
             "VOTER_CARD, VOTER_CARD",
         ]
     )
-    fun `should map DTO Source Type to Entity Source Type`(dtoType: SourceType, expected: EntitySourceType) {
+    fun `should map DTO Source Type to Entity Source Type`(dtoType: SourceType, expected: uk.gov.dluhc.notificationsapi.database.entity.SourceType) {
         // Given
 
         // When
-        val actual = factory.toSourceType(dtoType)
+        val actual = mapper.toSourceType(dtoType)
 
         // Then
-        assertThat(actual).isEqualTo(expected)
+        Assertions.assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -91,17 +89,17 @@ internal class NotificationFactoryTest {
         )
 
         // When
-        val actual = factory.toNotifyDetails(sendNotificationResponseDto)
+        val actual = mapper.toNotifyDetails(sendNotificationResponseDto)
 
         // Then
-        assertThat(actual.notificationId).isEqualTo(notificationId)
-        assertThat(actual.reference).isEqualTo(reference)
-        assertThat(actual.templateId).isEqualTo(templateId)
-        assertThat(actual.templateVersion).isEqualTo(templateVersion)
-        assertThat(actual.templateUri).isEqualTo(templateUri)
-        assertThat(actual.body).isEqualTo(body)
-        assertThat(actual.subject).isEqualTo(subject)
-        assertThat(actual.fromEmail).isEqualTo(fromEmail)
+        Assertions.assertThat(actual.notificationId).isEqualTo(notificationId)
+        Assertions.assertThat(actual.reference).isEqualTo(reference)
+        Assertions.assertThat(actual.templateId).isEqualTo(templateId)
+        Assertions.assertThat(actual.templateVersion).isEqualTo(templateVersion)
+        Assertions.assertThat(actual.templateUri).isEqualTo(templateUri)
+        Assertions.assertThat(actual.body).isEqualTo(body)
+        Assertions.assertThat(actual.subject).isEqualTo(subject)
+        Assertions.assertThat(actual.fromEmail).isEqualTo(fromEmail)
     }
 
     @Test
@@ -111,11 +109,11 @@ internal class NotificationFactoryTest {
         val gssCode = aGssCode()
         val requestor = aRequestor()
         val sourceType = SourceType.VOTER_CARD
-        val expectedSourceType = EntitySourceType.VOTER_CARD
+        val expectedSourceType = uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
         val sourceReference = aSourceReference()
         val emailAddress = anEmailAddress()
         val notificationType = NotificationType.APPLICATION_APPROVED
-        val expectedNotificationType = EntityNotificationType.APPLICATION_APPROVED
+        val expectedNotificationType = uk.gov.dluhc.notificationsapi.database.entity.NotificationType.APPLICATION_APPROVED
         val personalisation = aNotificationPersonalisationMap()
         val request = buildSendNotificationRequestDto(
             gssCode = gssCode,
@@ -131,18 +129,18 @@ internal class NotificationFactoryTest {
         val sentAt = aLocalDateTime()
 
         // When
-        val notification = factory.createNotification(notificationId, request, sendNotificationDto, sentAt)
+        val notification = mapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
 
         // Then
-        assertThat(notification.id).isEqualTo(notificationId)
-        assertThat(notification.type).isEqualTo(expectedNotificationType)
-        assertThat(notification.gssCode).isEqualTo(gssCode)
-        assertThat(notification.requestor).isEqualTo(requestor)
-        assertThat(notification.sourceType).isEqualTo(expectedSourceType)
-        assertThat(notification.sourceReference).isEqualTo(sourceReference)
-        assertThat(notification.toEmail).isEqualTo(emailAddress)
-        assertThat(notification.personalisation).isEqualTo(personalisation)
-        assertThat(notification.notifyDetails).isEqualTo(expectedNotifyDetails)
-        assertThat(notification.sentAt).isEqualTo(sentAt)
+        Assertions.assertThat(notification.id).isEqualTo(notificationId)
+        Assertions.assertThat(notification.type).isEqualTo(expectedNotificationType)
+        Assertions.assertThat(notification.gssCode).isEqualTo(gssCode)
+        Assertions.assertThat(notification.requestor).isEqualTo(requestor)
+        Assertions.assertThat(notification.sourceType).isEqualTo(expectedSourceType)
+        Assertions.assertThat(notification.sourceReference).isEqualTo(sourceReference)
+        Assertions.assertThat(notification.toEmail).isEqualTo(emailAddress)
+        Assertions.assertThat(notification.personalisation).isEqualTo(personalisation)
+        Assertions.assertThat(notification.notifyDetails).isEqualTo(expectedNotifyDetails)
+        Assertions.assertThat(notification.sentAt).isEqualTo(sentAt)
     }
 }

@@ -10,7 +10,7 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
-import uk.gov.dluhc.notificationsapi.database.factory.NotificationFactory
+import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
@@ -35,7 +35,7 @@ internal class SendNotificationServiceTestDto {
     private lateinit var notifyApiClient: GovNotifyApiClient
 
     @Mock
-    private lateinit var notificationFactory: NotificationFactory
+    private lateinit var notificationMapper: NotificationMapper
 
     private val fixedClock = Clock.fixed(Instant.ofEpochMilli(0L), ZoneId.systemDefault())
 
@@ -44,7 +44,7 @@ internal class SendNotificationServiceTestDto {
         sendNotificationService = SendNotificationService(
             notificationRepository,
             notifyApiClient,
-            notificationFactory,
+            notificationMapper,
             fixedClock
         )
     }
@@ -59,14 +59,14 @@ internal class SendNotificationServiceTestDto {
         val sendNotificationDto = buildSendNotificationDto()
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationDto)
         val notification = aNotification()
-        given(notificationFactory.createNotification(any(), any(), any(), any())).willReturn(notification)
+        given(notificationMapper.createNotification(any(), any(), any(), any())).willReturn(notification)
 
         // When
         sendNotificationService.sendNotification(request)
 
         // Then
         verify(notifyApiClient).sendEmail(eq(notificationType), eq(emailAddress), eq(personalisation), any())
-        verify(notificationFactory).createNotification(
+        verify(notificationMapper).createNotification(
             any(),
             eq(request),
             eq(sendNotificationDto),

@@ -6,7 +6,7 @@ import software.amazon.awssdk.core.exception.SdkClientException
 import software.amazon.awssdk.core.exception.SdkServiceException
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
-import uk.gov.dluhc.notificationsapi.database.factory.NotificationFactory
+import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
@@ -21,7 +21,7 @@ private val logger = KotlinLogging.logger {}
 class SendNotificationService(
     private val notificationRepository: NotificationRepository,
     private val govNotifyApiClient: GovNotifyApiClient,
-    private val notificationFactory: NotificationFactory,
+    private val notificationMapper: NotificationMapper,
     private val clock: Clock,
 ) {
 
@@ -54,7 +54,7 @@ class SendNotificationService(
                 request.personalisation,
                 notificationId
             )
-        return notificationFactory.createNotification(notificationId, request, sendNotificationDto, sentAt)
+        return notificationMapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
     }
 
     private fun saveSentMessageOrLogError(notification: Notification) {
