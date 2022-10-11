@@ -5,11 +5,14 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.WireMock.badRequest
 import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
+import com.github.tomakehurst.wiremock.client.WireMock.exactly
 import com.github.tomakehurst.wiremock.client.WireMock.get
+import com.github.tomakehurst.wiremock.client.WireMock.moreThan
 import com.github.tomakehurst.wiremock.client.WireMock.notFound
 import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
+import com.github.tomakehurst.wiremock.client.WireMock.serverError
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.github.tomakehurst.wiremock.http.RequestMethod.POST
@@ -51,6 +54,32 @@ class WiremockService(private val wireMockServer: WireMockServer) {
             post(urlPathMatching(NOTIFY_SEND_EMAIL_URL)).willReturn(
                 ResponseDefinitionBuilder.responseDefinition().withStatus(201)
                     .withBody(objectMapper.writeValueAsString(response))
+            )
+        )
+    }
+
+    fun stubNotifySendEmailBadRequestResponse() {
+        wireMockServer.stubFor(
+            post(urlPathMatching(NOTIFY_SEND_EMAIL_URL)).willReturn(
+                badRequest().withBody(
+                    """
+                    [{"error": "BadRequestError",
+                    "message": "Can't send to this recipient using a team-only API key"
+                    }]"""
+                )
+            )
+        )
+    }
+
+    fun stubNotifySendEmailInternalErrorResponse() {
+        wireMockServer.stubFor(
+            post(urlPathMatching(NOTIFY_SEND_EMAIL_URL)).willReturn(
+                serverError().withBody(
+                    """
+                    [{"error": "Exception",
+                    "message": "Internal server error"
+                    }]"""
+                )
             )
         )
     }
@@ -116,6 +145,14 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
     fun verifyNotifySendEmailCalled() {
         wireMockServer.verify(newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_EMAIL_URL)))
+    }
+
+    fun verifyNotifySendEmailCalledExactly(expectedCount: Int) {
+        wireMockServer.verify(exactly(expectedCount), newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_EMAIL_URL)))
+    }
+
+    fun verifyNotifySendEmailCalledMoreThan(expectedCount: Int) {
+        wireMockServer.verify(moreThan(expectedCount), newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_EMAIL_URL)))
     }
 
     fun stubCognitoJwtIssuerResponse() {
