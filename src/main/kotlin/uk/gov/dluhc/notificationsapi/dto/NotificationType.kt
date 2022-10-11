@@ -1,4 +1,4 @@
-package uk.gov.dluhc.notificationsapi.database.entity
+package uk.gov.dluhc.notificationsapi.dto
 
 /**
  * Types of notification handled by the service.

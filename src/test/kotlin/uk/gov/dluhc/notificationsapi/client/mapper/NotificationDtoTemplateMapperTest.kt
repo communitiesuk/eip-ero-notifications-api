@@ -1,12 +1,12 @@
-package uk.gov.dluhc.notificationsapi.client
+package uk.gov.dluhc.notificationsapi.client.mapper
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.NotifyTemplateConfiguration
-import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 
-internal class NotificationTemplateMapperTest {
+internal class NotificationDtoTemplateMapperTest {
 
     private val mapper = NotificationTemplateMapper(
         NotifyTemplateConfiguration("RECEIVED-ID", "APPROVED-ID", "REJECTED-ID", "RESUBMISSION-ID")

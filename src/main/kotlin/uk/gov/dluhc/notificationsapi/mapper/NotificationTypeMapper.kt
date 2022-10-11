@@ -2,7 +2,7 @@ package uk.gov.dluhc.notificationsapi.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.ValueMapping
-import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 
 @Mapper

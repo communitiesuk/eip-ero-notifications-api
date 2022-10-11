@@ -10,9 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
-import uk.gov.dluhc.notificationsapi.client.NotificationTemplateMapper
-import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.GenerateTemplatePreviewRequestDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 

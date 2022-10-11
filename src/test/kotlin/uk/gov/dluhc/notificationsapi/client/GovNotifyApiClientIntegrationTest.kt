@@ -4,11 +4,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import java.util.UUID
 
 internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
@@ -18,10 +20,10 @@ internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
         @Test
         fun `should send email`() {
             // Given
-            val notificationType = NotificationType.APPLICATION_RECEIVED
-            val emailAddress = DataFaker.faker.internet().emailAddress()
-            val personalisation = mapOf<String, Any>()
-            val notificationId = UUID.randomUUID()
+            val notificationType = aNotificationType()
+            val emailAddress = anEmailAddress()
+            val personalisation = aNotificationPersonalisationMap()
+            val notificationId = aNotificationId()
             wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
             // When
