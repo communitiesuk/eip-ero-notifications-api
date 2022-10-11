@@ -4,9 +4,11 @@ import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.Key
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 import uk.gov.dluhc.notificationsapi.config.DynamoDbConfiguration
+import uk.gov.dluhc.notificationsapi.database.NotificationNotFoundException
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
-import uk.gov.dluhc.notificationsapi.database.entity.SourceType
 import java.util.UUID
 
 @Repository
@@ -27,16 +29,28 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
             .partitionValue(notificationId.toString())
             .sortValue(gssCode)
             .build()
-        return table.getItem(key)
+        try {
+            return table.getItem(key)
+        } catch (ex: NullPointerException) {
+            throw NotificationNotFoundException(notificationId, gssCode)
+        }
     }
 
-    fun getBySourceReference(gssCode: String, sourceType: SourceType, sourceReference: String): Notification {
-        return table.scan().items()
-            .first {
-                notification ->
-                notification.gssCode == gssCode &&
-                    notification.sourceType == sourceType &&
-                    notification.sourceReference == sourceReference
-            }
+    fun getBySourceReference(sourceReference: String, gssCode: String): List<Notification> {
+        val key = Key.builder()
+            .partitionValue(sourceReference)
+            .sortValue(gssCode)
+            .build()
+        val queryConditional = QueryConditional.keyEqualTo(key)
+        val index = table.index("notificationsBySourceReference")
+        val query = QueryEnhancedRequest.builder().queryConditional(queryConditional).build()
+        return index.query(query).flatMap { it.items() }
+        // return table.scan().items()
+        //     .first {
+        //         notification ->
+        //         notification.gssCode == gssCode &&
+        //             notification.sourceType == sourceType &&
+        //             notification.sourceReference == sourceReference
+        //     }
     }
 }

@@ -14,9 +14,13 @@ import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition
+import software.amazon.awssdk.services.dynamodb.model.BillingMode
 import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest
+import software.amazon.awssdk.services.dynamodb.model.GlobalSecondaryIndex
 import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement
 import software.amazon.awssdk.services.dynamodb.model.KeyType
+import software.amazon.awssdk.services.dynamodb.model.Projection
+import software.amazon.awssdk.services.dynamodb.model.ProjectionType
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput
 import java.net.InetAddress
 import java.net.URI
@@ -80,7 +84,7 @@ class LocalStackContainerConfiguration {
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 
-        TestPropertyValues.of("cloud.aws.sqs.endpoint=$apiUrl",).applyTo(applicationContext)
+        TestPropertyValues.of("cloud.aws.sqs.endpoint=$apiUrl").applyTo(applicationContext)
 
         return LocalStackContainerSettings(
             apiUrl = apiUrl,
@@ -101,7 +105,10 @@ class LocalStackContainerConfiguration {
 
     @Primary
     @Bean
-    fun testDynamoDbClient(testAwsCredentialsProvider: AwsCredentialsProvider, dbConfiguration: DynamoDbConfiguration): DynamoDbClient {
+    fun testDynamoDbClient(
+        testAwsCredentialsProvider: AwsCredentialsProvider,
+        dbConfiguration: DynamoDbConfiguration
+    ): DynamoDbClient {
         val dynamoDbClient = DynamoDbClient.builder()
             .credentialsProvider(testAwsCredentialsProvider)
             .endpointOverride(localStackContainer.getEndpointOverride())
@@ -116,24 +123,36 @@ class LocalStackContainerConfiguration {
             return
         }
 
-        val attributeDefinitions: MutableList<AttributeDefinition> = mutableListOf()
-        attributeDefinitions.add(AttributeDefinition.builder().attributeName("id").attributeType("S").build())
-        attributeDefinitions.add(AttributeDefinition.builder().attributeName("gssCode").attributeType("S").build())
+        val attributeDefinitions: MutableList<AttributeDefinition> = mutableListOf(
+            AttributeDefinition.builder().attributeName("id").attributeType("S").build(),
+            AttributeDefinition.builder().attributeName("gssCode").attributeType("S").build(),
+            AttributeDefinition.builder().attributeName("sourceReference").attributeType("S").build()
+        )
 
-        val keySchema: MutableList<KeySchemaElement> = mutableListOf()
-        keySchema.add(KeySchemaElement.builder().attributeName("id").keyType(KeyType.HASH).build())
-        keySchema.add(KeySchemaElement.builder().attributeName("gssCode").keyType(KeyType.RANGE).build())
+        val keySchema: MutableList<KeySchemaElement> = mutableListOf(
+            KeySchemaElement.builder().attributeName("id").keyType(KeyType.HASH).build(),
+            KeySchemaElement.builder().attributeName("gssCode").keyType(KeyType.RANGE).build()
+        )
+
+        val indexKeySchema: MutableList<KeySchemaElement> = mutableListOf(
+            KeySchemaElement.builder().attributeName("sourceReference").keyType(KeyType.HASH).build(),
+            KeySchemaElement.builder().attributeName("gssCode").keyType(KeyType.RANGE).build()
+        )
+
+        val indexSchema = GlobalSecondaryIndex.builder()
+            .indexName("notificationsBySourceReference")
+            .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(0L).writeCapacityUnits(0L).build())
+            .keySchema(indexKeySchema)
+            .projection(Projection.builder().projectionType(ProjectionType.ALL).build())
+            .build()
 
         val request: CreateTableRequest = CreateTableRequest.builder()
             .tableName(tableName)
             .keySchema(keySchema)
+            .globalSecondaryIndexes(indexSchema)
             .attributeDefinitions(attributeDefinitions)
-            .provisionedThroughput(
-                ProvisionedThroughput.builder()
-                    .readCapacityUnits(5L)
-                    .writeCapacityUnits(6L)
-                    .build()
-            ).build()
+            .billingMode(BillingMode.PAY_PER_REQUEST)
+            .build()
 
         dynamoDbClient.createTable(request)
     }

@@ -14,9 +14,13 @@ fun aGssCode() = "E99999999"
 
 fun aSourceReference() = "fea5d37b-5c4a-445c-b428-7dc799be1d8e"
 
+fun aRandomSourceReference() = UUID.randomUUID().toString()
+
 fun aSourceType() = SourceType.VOTER_CARD
 
 fun aNotificationId(): UUID = UUID.fromString("3efbf304-1c47-453d-87f7-6bf5efe0495f")
+
+fun aRandomNotificationId(): UUID = UUID.randomUUID()
 
 fun aNotificationType() = NotificationType.APPLICATION_APPROVED
 

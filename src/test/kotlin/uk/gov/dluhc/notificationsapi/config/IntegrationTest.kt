@@ -11,7 +11,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
+import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.service.notify.NotificationClient
@@ -45,6 +49,12 @@ internal abstract class IntegrationTest {
     @Autowired
     protected lateinit var wireMockService: WiremockService
 
+    @Autowired
+    protected lateinit var dynamoDbClient: DynamoDbClient
+
+    @Autowired
+    protected lateinit var tableConfig: DynamoDbConfiguration
+
     companion object {
         val localStackContainer = LocalStackContainerConfiguration.getInstance()
     }
@@ -52,6 +62,22 @@ internal abstract class IntegrationTest {
     @BeforeEach
     fun resetWireMock() {
         wireMockService.resetAllStubsAndMappings()
+    }
+
+    fun deleteNotifications(notificationsToDelete: List<Notification>) {
+        notificationsToDelete.forEach {
+            dynamoDbClient.deleteItem(
+                DeleteItemRequest.builder()
+                    .tableName(tableConfig.notificationsTableName)
+                    .key(
+                        mutableMapOf<String, AttributeValue>(
+                            "id" to AttributeValue.builder().s(it.id.toString()).build(),
+                            "gssCode" to AttributeValue.builder().s(it.gssCode).build(),
+                        )
+                    )
+                    .build()
+            )
+        }
     }
 
     @TestConfiguration
