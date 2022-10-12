@@ -10,7 +10,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.Channel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyMessage
 import java.util.concurrent.TimeUnit
 
@@ -23,7 +23,7 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
         // Given
         val gssCode = aGssCode()
         val sourceType = SourceType.VOTER_MINUS_CARD
-        val sourceReference = aSourceReference()
+        val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyMessage(
             channel = Channel.EMAIL,
             gssCode = gssCode,

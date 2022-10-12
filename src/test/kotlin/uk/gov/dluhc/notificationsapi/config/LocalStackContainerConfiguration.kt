@@ -52,7 +52,7 @@ class LocalStackContainerConfiguration {
                     DockerImageName.parse("localstack/localstack:1.1.0")
                 ).withEnv(
                     mapOf(
-                        "SERVICES" to "dynamodb",
+                        "SERVICES" to "dynamodb, sqs",
                         "AWS_DEFAULT_REGION" to DEFAULT_REGION,
                     )
                 )
@@ -95,7 +95,8 @@ class LocalStackContainerConfiguration {
 
     private fun GenericContainer<*>.createSqsQueue(queueName: String): String {
         val execInContainer = execInContainer(
-            "awslocal", "sqs", "create-queue", "--queue-name", queueName, "--attributes", "DelaySeconds=1"
+            "awslocal", "sqs", "create-queue", "--queue-name", queueName,
+            "--attributes", "VisibilityTimeout=1,MessageRetentionPeriod=5"
         )
         return execInContainer.stdout.let {
             objectMapper.readValue(it, Map::class.java)
