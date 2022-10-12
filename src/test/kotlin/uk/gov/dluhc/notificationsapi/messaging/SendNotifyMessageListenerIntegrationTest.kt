@@ -24,7 +24,6 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
         // Given
         val gssCode = aGssCode()
         val sourceType = SourceType.VOTER_MINUS_CARD
-        val notificationSourceType = VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyMessage(
             channel = Channel.EMAIL,
@@ -62,16 +61,17 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
             sourceReference = sourceReference
         )
         wireMockService.stubNotifySendEmailBadRequestResponse()
+        wireMockService.verifyNotifySendEmailCalledExactly(0)
 
         // When
         sqsMessagingTemplate.convertAndSend(sendUkGovNotifyMessageQueueName, payload)
 
         // Then
-        await.pollDelay(Duration.ofSeconds(1)).atMost(3, TimeUnit.SECONDS).untilAsserted {
+        await.pollDelay(Duration.ofSeconds(2)).atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendEmailCalledExactly(1)
         }
-        val actualEntity = notificationRepository.getBySourceReference(gssCode, VOTER_CARD, sourceReference)
-        assertThat(actualEntity).isNull()
+        val actualEntity = notificationRepository.getBySourceReference(gssCode, sourceReference)
+        assertThat(actualEntity).isEmpty()
     }
 
     @Test
@@ -95,7 +95,7 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
         await.pollDelay(Duration.ofSeconds(1)).atMost(5, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendEmailCalledMoreThan(1)
         }
-        val actualEntity = notificationRepository.getBySourceReference(gssCode, VOTER_CARD, sourceReference)
-        assertThat(actualEntity).isNull()
+        val actualEntity = notificationRepository.getBySourceReference(gssCode, sourceReference)
+        assertThat(actualEntity).isEmpty()
     }
 }
