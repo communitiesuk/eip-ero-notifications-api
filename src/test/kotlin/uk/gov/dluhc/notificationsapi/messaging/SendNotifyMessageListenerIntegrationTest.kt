@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.messaging.models.Channel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
@@ -24,7 +23,6 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
         // Given
         val gssCode = aGssCode()
         val sourceType = SourceType.VOTER_MINUS_CARD
-        val notificationSourceType = VOTER_CARD
         val sourceReference = aSourceReference()
         val payload = buildSendNotifyMessage(
             channel = Channel.EMAIL,
@@ -32,6 +30,7 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
             sourceType = sourceType,
             sourceReference = sourceReference
         )
+        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, gssCode))
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
@@ -40,10 +39,8 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(5, TimeUnit.SECONDS).untilAsserted {
-            val actualEntity =
-                notificationRepository.getBySourceReference(gssCode, notificationSourceType, sourceReference)
-
-            assertThat(actualEntity).isNotNull
+            val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
+            assertThat(actualEntity).hasSize(1)
             wireMockService.verifyNotifySendEmailCalled()
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch")

@@ -1,5 +1,5 @@
 dynamodb:
-  notificationsTableName: ${DYNAMODB_NOTIFICATIONS_TABLE_NAME:notification}
+  notificationsTableName: ${DYNAMODB_NOTIFICATIONS_TABLE_NAME}
 
 api:
   notify:

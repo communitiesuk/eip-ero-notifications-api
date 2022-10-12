@@ -2,6 +2,8 @@ package uk.gov.dluhc.notificationsapi.database.entity
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondarySortKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey
 import java.time.LocalDateTime
 import java.util.UUID
@@ -9,8 +11,8 @@ import java.util.UUID
 @DynamoDbBean
 data class Notification(
     @get:DynamoDbPartitionKey var id: UUID? = null,
-    @get:DynamoDbSortKey var gssCode: String? = null,
-    var sourceReference: String? = null,
+    @get:DynamoDbSortKey @get:DynamoDbSecondarySortKey(indexNames = [SOURCE_REFERENCE_INDEX_NAME]) var gssCode: String? = null,
+    @get:DynamoDbSecondaryPartitionKey(indexNames = [SOURCE_REFERENCE_INDEX_NAME]) var sourceReference: String? = null,
     var sourceType: SourceType? = null,
     var type: NotificationType? = null,
     var channel: Channel? = null,
@@ -34,6 +36,10 @@ data class Notification(
     @Override
     override fun toString(): String {
         return this::class.simpleName + "(id = $id)"
+    }
+
+    companion object {
+        const val SOURCE_REFERENCE_INDEX_NAME = "SourceReferenceIndex"
     }
 }
 
