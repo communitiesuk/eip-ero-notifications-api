@@ -45,12 +45,5 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
         val index = table.index("notificationsBySourceReference")
         val query = QueryEnhancedRequest.builder().queryConditional(queryConditional).build()
         return index.query(query).flatMap { it.items() }
-        // return table.scan().items()
-        //     .first {
-        //         notification ->
-        //         notification.gssCode == gssCode &&
-        //             notification.sourceType == sourceType &&
-        //             notification.sourceReference == sourceReference
-        //     }
     }
 }
