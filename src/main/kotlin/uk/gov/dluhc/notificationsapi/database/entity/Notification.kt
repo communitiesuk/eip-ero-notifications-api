@@ -11,8 +11,8 @@ import java.util.UUID
 @DynamoDbBean
 data class Notification(
     @get:DynamoDbPartitionKey var id: UUID? = null,
-    @get:DynamoDbSortKey @get:DynamoDbSecondarySortKey(indexNames = ["notificationsBySourceReference"]) var gssCode: String? = null,
-    @get:DynamoDbSecondaryPartitionKey(indexNames = ["notificationsBySourceReference"]) var sourceReference: String? = null,
+    @get:DynamoDbSortKey @get:DynamoDbSecondarySortKey(indexNames = [SOURCE_REFERENCE_INDEX_NAME]) var gssCode: String? = null,
+    @get:DynamoDbSecondaryPartitionKey(indexNames = [SOURCE_REFERENCE_INDEX_NAME]) var sourceReference: String? = null,
     var sourceType: SourceType? = null,
     var type: NotificationType? = null,
     var channel: Channel? = null,
@@ -36,6 +36,10 @@ data class Notification(
     @Override
     override fun toString(): String {
         return this::class.simpleName + "(id = $id)"
+    }
+
+    companion object {
+        const val SOURCE_REFERENCE_INDEX_NAME = "SourceReferenceIndex"
     }
 }
 

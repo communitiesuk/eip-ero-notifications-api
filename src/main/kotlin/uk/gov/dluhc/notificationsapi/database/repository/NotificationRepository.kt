@@ -9,6 +9,7 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 import uk.gov.dluhc.notificationsapi.config.DynamoDbConfiguration
 import uk.gov.dluhc.notificationsapi.database.NotificationNotFoundException
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
+import uk.gov.dluhc.notificationsapi.database.entity.Notification.Companion.SOURCE_REFERENCE_INDEX_NAME
 import java.util.UUID
 
 @Repository
@@ -25,25 +26,20 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
     }
 
     fun getNotification(notificationId: UUID, gssCode: String): Notification {
-        val key = Key.builder()
-            .partitionValue(notificationId.toString())
-            .sortValue(gssCode)
-            .build()
         try {
-            return table.getItem(key)
+            return table.getItem(key(notificationId.toString(), gssCode))
         } catch (ex: NullPointerException) {
             throw NotificationNotFoundException(notificationId, gssCode)
         }
     }
 
     fun getBySourceReference(sourceReference: String, gssCode: String): List<Notification> {
-        val key = Key.builder()
-            .partitionValue(sourceReference)
-            .sortValue(gssCode)
-            .build()
-        val queryConditional = QueryConditional.keyEqualTo(key)
-        val index = table.index("notificationsBySourceReference")
+        val queryConditional = QueryConditional.keyEqualTo(key(sourceReference, gssCode))
+        val index = table.index(SOURCE_REFERENCE_INDEX_NAME)
         val query = QueryEnhancedRequest.builder().queryConditional(queryConditional).build()
         return index.query(query).flatMap { it.items() }
     }
+
+    private fun key(partitionValue: String, sortValue: String): Key =
+        Key.builder().partitionValue(partitionValue).sortValue(sortValue).build()
 }

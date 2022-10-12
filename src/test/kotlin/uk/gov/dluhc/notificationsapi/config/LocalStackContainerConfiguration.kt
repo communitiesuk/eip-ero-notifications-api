@@ -22,6 +22,7 @@ import software.amazon.awssdk.services.dynamodb.model.KeyType
 import software.amazon.awssdk.services.dynamodb.model.Projection
 import software.amazon.awssdk.services.dynamodb.model.ProjectionType
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput
+import uk.gov.dluhc.notificationsapi.database.entity.Notification.Companion.SOURCE_REFERENCE_INDEX_NAME
 import java.net.InetAddress
 import java.net.URI
 
@@ -124,23 +125,18 @@ class LocalStackContainerConfiguration {
         }
 
         val attributeDefinitions: MutableList<AttributeDefinition> = mutableListOf(
-            AttributeDefinition.builder().attributeName("id").attributeType("S").build(),
-            AttributeDefinition.builder().attributeName("gssCode").attributeType("S").build(),
-            AttributeDefinition.builder().attributeName("sourceReference").attributeType("S").build()
+            attributeDefinition("id"),
+            attributeDefinition("gssCode"),
+            attributeDefinition("sourceReference"),
         )
 
-        val keySchema: MutableList<KeySchemaElement> = mutableListOf(
-            KeySchemaElement.builder().attributeName("id").keyType(KeyType.HASH).build(),
-            KeySchemaElement.builder().attributeName("gssCode").keyType(KeyType.RANGE).build()
-        )
+        val keySchema: MutableList<KeySchemaElement> = mutableListOf(partitionKey("id"), sortKey("gssCode"))
 
-        val indexKeySchema: MutableList<KeySchemaElement> = mutableListOf(
-            KeySchemaElement.builder().attributeName("sourceReference").keyType(KeyType.HASH).build(),
-            KeySchemaElement.builder().attributeName("gssCode").keyType(KeyType.RANGE).build()
-        )
+        val indexKeySchema: MutableList<KeySchemaElement> =
+            mutableListOf(partitionKey("sourceReference"), sortKey("gssCode"))
 
         val indexSchema = GlobalSecondaryIndex.builder()
-            .indexName("notificationsBySourceReference")
+            .indexName(SOURCE_REFERENCE_INDEX_NAME)
             .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(0L).writeCapacityUnits(0L).build())
             .keySchema(indexKeySchema)
             .projection(Projection.builder().projectionType(ProjectionType.ALL).build())
@@ -156,6 +152,15 @@ class LocalStackContainerConfiguration {
 
         dynamoDbClient.createTable(request)
     }
+
+    private fun attributeDefinition(name: String): AttributeDefinition =
+        AttributeDefinition.builder().attributeName(name).attributeType("S").build()
+
+    private fun partitionKey(name: String): KeySchemaElement =
+        KeySchemaElement.builder().attributeName(name).keyType(KeyType.HASH).build()
+
+    private fun sortKey(name: String): KeySchemaElement =
+        KeySchemaElement.builder().attributeName(name).keyType(KeyType.RANGE).build()
 
     private fun GenericContainer<*>.getEndpointOverride(): URI? {
         val ipAddress = InetAddress.getByName(host).hostAddress
