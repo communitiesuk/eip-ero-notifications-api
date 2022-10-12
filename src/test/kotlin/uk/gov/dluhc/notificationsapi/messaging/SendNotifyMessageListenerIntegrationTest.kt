@@ -12,7 +12,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyMessage
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 private val logger = KotlinLogging.logger {}
