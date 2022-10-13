@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyMessage
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 private val logger = KotlinLogging.logger {}
@@ -38,12 +39,63 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
 
         // Then
         val stopWatch = StopWatch.createStarted()
-        await.atMost(5, TimeUnit.SECONDS).untilAsserted {
+        await.pollDelay(Duration.ofSeconds(2)).atMost(3, TimeUnit.SECONDS).untilAsserted {
+            wireMockService.verifyNotifySendEmailCalledExactly(1)
             val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
             assertThat(actualEntity).hasSize(1)
-            wireMockService.verifyNotifySendEmailCalled()
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch")
         }
+    }
+
+    @Test
+    fun `should fail to process message as UK Gov Notify service raised non-retryable error`() {
+        // Given
+        val gssCode = aGssCode()
+        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceReference = aRandomSourceReference()
+        val payload = buildSendNotifyMessage(
+            channel = Channel.EMAIL,
+            gssCode = gssCode,
+            sourceType = sourceType,
+            sourceReference = sourceReference
+        )
+        wireMockService.stubNotifySendEmailBadRequestResponse()
+        wireMockService.verifyNotifySendEmailCalledExactly(0)
+
+        // When
+        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyMessageQueueName, payload)
+
+        // Then
+        await.pollDelay(Duration.ofSeconds(2)).atMost(3, TimeUnit.SECONDS).untilAsserted {
+            wireMockService.verifyNotifySendEmailCalledExactly(1)
+        }
+        val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
+        assertThat(actualEntity).isEmpty()
+    }
+
+    @Test
+    fun `should process message as UK Gov Notify service raised retryable error`() {
+        // Given
+        val gssCode = aGssCode()
+        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceReference = aRandomSourceReference()
+        val payload = buildSendNotifyMessage(
+            channel = Channel.EMAIL,
+            gssCode = gssCode,
+            sourceType = sourceType,
+            sourceReference = sourceReference
+        )
+        wireMockService.stubNotifySendEmailInternalErrorResponse()
+
+        // When
+        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyMessageQueueName, payload)
+
+        // Then
+        await.pollDelay(Duration.ofSeconds(1)).atMost(5, TimeUnit.SECONDS).untilAsserted {
+            wireMockService.verifyNotifySendEmailCalledMoreThan(1)
+        }
+        val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
+        assertThat(actualEntity).isEmpty()
     }
 }

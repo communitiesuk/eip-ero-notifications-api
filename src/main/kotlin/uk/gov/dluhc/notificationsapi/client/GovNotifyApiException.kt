@@ -9,11 +9,14 @@ package uk.gov.dluhc.notificationsapi.client
 
 abstract class GovNotifyApiException(message: String) : RuntimeException(message)
 
-class GovNotifyApiNotFoundException(message: String) :
+abstract class GovNotifyNonRetryableException(message: String) :
     GovNotifyApiException(message)
 
+class GovNotifyApiNotFoundException(message: String) :
+    GovNotifyNonRetryableException(message)
+
 class GovNotifyApiBadRequestException(message: String) :
-    GovNotifyApiException(message)
+    GovNotifyNonRetryableException(message)
 
 class GovNotifyApiGeneralException(message: String) :
     GovNotifyApiException(message)
