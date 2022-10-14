@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.exception.SdkClientException
 import software.amazon.awssdk.core.exception.SdkServiceException
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
+import uk.gov.dluhc.notificationsapi.client.GovNotifyNonRetryableException
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
@@ -28,8 +29,12 @@ class SendNotificationService(
     fun sendNotification(request: SendNotificationRequestDto) {
         val notificationId = randomUUID()
         val sentAt = LocalDateTime.now(clock)
-        val notification = sendNotificationForChannel(request, notificationId, sentAt)
-        saveSentMessageOrLogError(notification)
+        try {
+            val notification = sendNotificationForChannel(request, notificationId, sentAt)
+            saveSentMessageOrLogError(notification)
+        } catch (ex: GovNotifyNonRetryableException) {
+            logger.warn("Non-retryable error returned from the Notify service: ${ex.message}")
+        }
     }
 
     private fun sendNotificationForChannel(

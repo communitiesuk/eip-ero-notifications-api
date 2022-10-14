@@ -38,10 +38,10 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
 
         // Then
         val stopWatch = StopWatch.createStarted()
-        await.atMost(5, TimeUnit.SECONDS).untilAsserted {
+        await.atMost(3, TimeUnit.SECONDS).untilAsserted {
+            wireMockService.verifyNotifySendEmailCalled()
             val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
             assertThat(actualEntity).hasSize(1)
-            wireMockService.verifyNotifySendEmailCalled()
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch")
         }

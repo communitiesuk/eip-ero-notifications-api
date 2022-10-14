@@ -9,7 +9,9 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
+import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
@@ -24,7 +26,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 @ExtendWith(MockitoExtension::class)
-internal class SendNotificationServiceTestDto {
+internal class SendNotificationServiceTest {
 
     private lateinit var sendNotificationService: SendNotificationService
 
@@ -73,5 +75,23 @@ internal class SendNotificationServiceTestDto {
             eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
         )
         verify(notificationRepository).saveNotification(notification)
+    }
+
+    @Test
+    fun `should send email notification and handle non-retryable Notify client error`() {
+        // Given
+        val request = aSendNotificationRequestDto()
+        val notificationType = aNotificationType()
+        val emailAddress = anEmailAddress()
+        val personalisation = aNotificationPersonalisationMap()
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
+
+        // When
+        sendNotificationService.sendNotification(request)
+
+        // Then
+        verify(notifyApiClient).sendEmail(eq(notificationType), eq(emailAddress), eq(personalisation), any())
+        verifyNoInteractions(notificationMapper)
+        verifyNoInteractions(notificationRepository)
     }
 }
