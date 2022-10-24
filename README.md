@@ -34,6 +34,7 @@ The following environment variables must be set in order to run the application:
 * `AWS_SECRET_ACCESS_KEY` - the AWS secret access key
 * `AWS_REGION` - the AWS region
 * `SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI` - the uri of the cognito ERO user pool JWT issuer.
+* `DYNAMODB_ENDPOINT` - the localstack endpoint
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.

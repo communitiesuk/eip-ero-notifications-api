@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
+import java.net.URI
 
 @Configuration
 class AwsDynamoDbClientConfiguration {
@@ -18,13 +19,20 @@ class AwsDynamoDbClientConfiguration {
             .build()
 
     @Bean
-    fun dynamoDbClient(): DynamoDbClient = DynamoDbClient.builder()
-        .credentialsProvider(DefaultCredentialsProvider.create())
-        .build()
+    fun dynamoDbClient(dynamoDbConfiguration: DynamoDbConfiguration): DynamoDbClient {
+        val builder = DynamoDbClient.builder().credentialsProvider(DefaultCredentialsProvider.create())
+
+        if (dynamoDbConfiguration.endpoint != null) {
+            builder.endpointOverride(dynamoDbConfiguration.endpoint)
+        }
+
+        return builder.build()
+    }
 }
 
 @ConfigurationProperties(prefix = "dynamodb")
 @ConstructorBinding
 data class DynamoDbConfiguration(
     val notificationsTableName: String,
+    val endpoint: URI?
 )
