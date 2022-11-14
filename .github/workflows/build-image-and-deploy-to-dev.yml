@@ -74,13 +74,13 @@ jobs:
           aws-region: eu-west-2
 
       - name: Login to Amazon ECR (live env)
-        id: login-ecr
+        id: login-ecr-live
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push image to Amazon ECR (live env)
-        id: build-image
+        id: build-image-live
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr-live.outputs.registry }}
           ECR_REPOSITORY: notifications-api-repo
           IMAGE_TAG: ${{ steps.bump-semver.outputs.new_version }}
         run: |
