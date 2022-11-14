@@ -84,11 +84,10 @@ jobs:
           ECR_REPOSITORY: notifications-api-repo
           IMAGE_TAG: ${{ steps.bump-semver.outputs.new_version }}
         run: |
-          ./gradlew bootBuildImage
           IMAGE=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker tag eip-ero-notifications-api:latest $IMAGE
           docker push $IMAGE
-          echo "::set-output name=image::$IMAGE"
+          echo "::set-output name=live-image::$IMAGE"
 
   deploy:
     needs: build-and-tag
