@@ -66,18 +66,18 @@ jobs:
           echo "::set-output name=image::$IMAGE"
 
       # Now deploy the same image to live ECR
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials (live env)
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.LIVE_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.LIVE_AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
 
-      - name: Login to Amazon ECR
+      - name: Login to Amazon ECR (live env)
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECR (live env)
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
