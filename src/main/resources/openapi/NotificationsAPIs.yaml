@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.1.0'
+  version: '1.2.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -23,7 +23,7 @@ paths:
   #
 
   #
-  # Generate Template Preview
+  # Generate Template Preview Will be @Deprecated soon
   # --------------------------------------------------------------------------------
 
   '/templates/{templateType}/preview':
@@ -39,7 +39,7 @@ paths:
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Generate Template Preview
+        - Generate Template Preview - Deprecated
       responses:
         200:
           description: Default response for CORS method
@@ -76,7 +76,7 @@ paths:
       description: Generates a text and html preview for a given template type and personalisation data
       operationId: generate-template-preview
       tags:
-        - Generate Template Preview
+        - Generate Template Preview - Deprecated
       requestBody:
         $ref: '#/components/requestBodies/GenerateTemplatePreview'
       responses:
@@ -113,6 +113,96 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Photo Resubmission Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/photo-resubmission/{language}/preview':
+    parameters:
+      - name: language
+        description: Language in which template to be previewed
+        schema:
+          $ref: '#/components/schemas/Language'
+        in: path
+        required: true
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Photo Resubmission Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text and html preview for a photo resubmission template type and personalisation data
+      description: Generates a text and html preview for a photo resubmission template type and personalisation data
+      operationId: generate-photo-resubmission-template-preview
+      tags:
+        - Generate Photo Resubmission Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GeneratePhotoResubmissionTemplatePreview'
+      responses:
+        '200':
+          $ref: '#/components/responses/GeneratePhotoResubmissionTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/photo-resubmission/{language}/preview'
+        requestParameters:
+          integration.request.path.language: method.request.path.language
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
 components:
   #
   # Schema and Enum Definitions
@@ -155,6 +245,48 @@ components:
         - application-approved
         - application-rejected
         - photo-resubmission
+    Language:
+      title: Language
+      description: The language to view the template
+      type: string
+      enum:
+        - english
+        - welsh
+    GeneratePhotoResubmissionTemplatePreviewRequest:
+      title: GeneratePhotoResubmissionTemplatePreviewRequest
+      description: An object containing map of personalisation data for the photo resubmission template
+      type: object
+      properties:
+        personalisation:
+          type: object
+          additionalProperties:
+            type: string
+          description: Map of personalisation data
+          example:
+            name: Fred
+            surname: Blogs
+            email: fref.blogs@example.com
+      required:
+        - personalisation
+    GeneratePhotoResubmissionTemplatePreviewResponse:
+      title: GeneratePhotoResubmissionTemplatePreviewResponse
+      type: object
+      description: Response containing the result of template preview in text format and if supported also in html format
+      properties:
+        text:
+          type: string
+          description: Text preview of the template with personalisation data
+          example: Hi Fred Blogs,
+        subject:
+          type: string
+          description: Preview of the subject with personalisation data, if the template supports subject field
+          example: Fred Blogs photo resubmission
+        html:
+          type: string
+          description: Html preview of the template with personalisation data, if the template supports html format
+          example: <p>Hi Fred Blogs,</p>
+      required:
+        - text
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
       description: An object containing template type and map of personalisation data for the template
@@ -194,6 +326,22 @@ components:
   # Response Body Definitions
   # --------------------------------------------------------------------------------
   responses:
+    GeneratePhotoResubmissionTemplatePreview:
+      description: Response containing the result of photo resubmission previews in text and html format
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneratePhotoResubmissionTemplatePreviewResponse'
     GenerateTemplatePreview:
       description: Response containing the result of template previews in text and html format
       headers:
@@ -215,6 +363,11 @@ components:
   # Request Body Definitions
   # --------------------------------------------------------------------------------
   requestBodies:
+    GeneratePhotoResubmissionTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneratePhotoResubmissionTemplatePreviewRequest'
     GenerateTemplatePreview:
       content:
         application/json:

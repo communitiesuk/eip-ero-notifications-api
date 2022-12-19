@@ -17,7 +17,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 
 @ExtendWith(MockitoExtension::class)
-class GenerateTemplateRequestDtoMapperTest {
+class GenerateTemplatePreviewRequestDtoMapperTest {
     @InjectMocks
     private lateinit var mapper: GenerateTemplatePreviewRequestDtoMapperImpl
 

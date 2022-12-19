@@ -7,14 +7,14 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 plugins {
     id("org.springframework.boot") version "2.7.5"
     id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.7.20"
-    kotlin("kapt") version "1.7.20"
-    kotlin("plugin.spring") version "1.7.0"
-    kotlin("plugin.jpa") version "1.7.20"
-    kotlin("plugin.allopen") version "1.7.20"
-    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
-    id("org.jlleitschuh.gradle.ktlint-idea") version "10.3.0"
-    id("org.openapi.generator") version "6.2.0"
+    kotlin("jvm") version "1.7.21"
+    kotlin("kapt") version "1.7.21"
+    kotlin("plugin.spring") version "1.7.21"
+    kotlin("plugin.jpa") version "1.7.21"
+    kotlin("plugin.allopen") version "1.7.21"
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "11.0.0"
+    id("org.openapi.generator") version "6.2.1"
     id("org.owasp.dependencycheck") version "7.2.0"
 }
 
@@ -51,7 +51,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.2")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
@@ -59,7 +59,7 @@ dependencies {
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.12")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.13")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government
@@ -85,14 +85,14 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
 
-    testImplementation("org.testcontainers:junit-jupiter:1.17.5")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+    testImplementation("org.testcontainers:testcontainers:1.17.6")
+
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
 
-    testImplementation("org.testcontainers:testcontainers:1.17.4")
-
-    testImplementation("com.github.tomakehurst:wiremock-jre8:2.34.0")
-    testImplementation("net.datafaker:datafaker:1.6.0")
+    testImplementation("com.github.tomakehurst:wiremock-jre8:2.35.0")
+    testImplementation("net.datafaker:datafaker:1.7.0")
 
     // Libraries to support creating JWTs in tests
     testImplementation("io.jsonwebtoken:jjwt-impl:0.11.5")

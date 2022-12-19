@@ -16,8 +16,8 @@ abstract class GenerateTemplatePreviewRequestDtoMapper {
     @Autowired
     private lateinit var notificationTypeMapper: NotificationTypeMapper
 
-    @Mapping(expression = "java( getTemplateId(templateType) )", target = "templateId")
-    @Mapping(source = "request.personalisation", target = "personalisation")
+    @Mapping(target = "templateId", expression = "java( getTemplateId(templateType) )")
+    @Mapping(target = "personalisation", source = "request.personalisation")
     abstract fun toGenerateTemplatePreviewRequestDto(
         templateType: TemplateType,
         request: GenerateTemplatePreviewRequest
