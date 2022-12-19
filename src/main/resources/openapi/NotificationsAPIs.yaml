@@ -400,6 +400,10 @@ components:
           example: PE3 6SB
       required:
         - street
+        - property
+        - locality
+        - town
+        - area
         - postcode
   #
   # Response Body Definitions
