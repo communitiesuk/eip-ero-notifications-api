@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.messaging.models.Channel
+import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -25,7 +25,7 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
         val sourceType = SourceType.VOTER_MINUS_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyMessage(
-            channel = Channel.EMAIL,
+            channel = NotificationChannel.EMAIL,
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference

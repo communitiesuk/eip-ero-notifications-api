@@ -117,14 +117,7 @@ paths:
   # Generate Photo Resubmission Template Preview
   # --------------------------------------------------------------------------------
 
-  '/templates/photo-resubmission/{language}/preview':
-    parameters:
-      - name: language
-        description: Language in which template to be previewed
-        schema:
-          $ref: '#/components/schemas/Language'
-        in: path
-        required: true
+  '/templates/photo-resubmission/preview':
     options:
       summary: CORS support
       description: |
@@ -193,9 +186,8 @@ paths:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/templates/photo-resubmission/{language}/preview'
+        uri: '${base_uri}/templates/photo-resubmission/preview'
         requestParameters:
-          integration.request.path.language: method.request.path.language
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -230,7 +222,7 @@ components:
           items:
             type: string
           example:
-            - 'Error on field ''templateType'': rejected value [email]'
+            - 'Error on field ''channel'': rejected value [email]'
       required:
         - timestamp
         - status
@@ -252,11 +244,21 @@ components:
       enum:
         - english
         - welsh
+    NotificationChannel:
+      title: NotificationChannel
+      description: The channel to notify an applicant
+      type: string
+      enum:
+        - email
     GeneratePhotoResubmissionTemplatePreviewRequest:
       title: GeneratePhotoResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the photo resubmission template preview
       type: object
       properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
         applicationReference:
           type: string
           description: The reference number of the Voter Card Application
@@ -276,8 +278,11 @@ components:
         eroContactDetails:
           $ref: '#/components/schemas/ContactDetails'
       required:
+        - channel
+        - language
         - applicationReference
         - firstName
+        - photoRequestFreeText
         - uploadPhotoLink
         - eroContactDetails
     GenerateTemplatePreviewRequest:

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.0.0'
+  version: '1.1.0'
   description: |-
     Notifications SQS Message Types
     
@@ -43,7 +43,7 @@ components:
       description: SQS Message for sending GOV.UK Notify messages
       properties:
         channel:
-          $ref: '#/components/schemas/Channel'
+          $ref: '#/components/schemas/NotificationChannel'
         sourceType:
           $ref: '#/components/schemas/SourceType'
         sourceReference:
@@ -87,8 +87,9 @@ components:
         - name
         - value
 
-    Channel:
-      title: Channel
+    NotificationChannel:
+      title: NotificationChannel
+      description: The channel to notify an applicant
       type: string
       enum:
         - email
