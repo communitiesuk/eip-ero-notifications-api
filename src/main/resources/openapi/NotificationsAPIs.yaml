@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.2.0'
+  version: '1.2.1'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -264,7 +264,6 @@ components:
           $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
       required:
         - channel
-        - applicationReference
         - personalisation
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
