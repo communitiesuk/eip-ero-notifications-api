@@ -5,9 +5,9 @@ import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePrevie
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 
 @Mapper
-abstract class PhotoResubmissionTemplatePreviewDtoMapper {
+interface PhotoResubmissionTemplatePreviewDtoMapper {
 
-    abstract fun toPhotoResubmissionTemplatePreviewDto(
+    fun toPhotoResubmissionTemplatePreviewDto(
         request: GeneratePhotoResubmissionTemplatePreviewRequest
     ): GeneratePhotoResubmissionTemplatePreviewDto
 }
