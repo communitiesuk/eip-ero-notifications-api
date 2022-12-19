@@ -164,7 +164,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/GeneratePhotoResubmissionTemplatePreview'
       responses:
-        '200':
+        '201':
           $ref: '#/components/responses/GenerateTemplatePreview'
         '400':
           description: Error response describing fields in the request payload that are in error
