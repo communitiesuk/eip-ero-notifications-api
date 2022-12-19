@@ -242,8 +242,9 @@ components:
       description: The language to view the template
       type: string
       enum:
-        - english
-        - welsh
+        - cy
+        - en
+      default: en
     NotificationChannel:
       title: NotificationChannel
       description: The channel to notify an applicant
@@ -259,32 +260,12 @@ components:
           $ref: '#/components/schemas/NotificationChannel'
         language:
           $ref: '#/components/schemas/Language'
-        applicationReference:
-          type: string
-          description: The reference number of the Voter Card Application
-          example: A3JSZC4CRH
-        firstName:
-          type: string
-          description: The applicant's first name
-          example: Fred
-        photoRequestFreeText:
-          type: string
-          description: Free text regarding photo request
-          example: Please provide a clear image
-        uploadPhotoLink:
-          type: string
-          description: The URL link to upload a new image
-          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
-        eroContactDetails:
-          $ref: '#/components/schemas/ContactDetails'
+        personalisation:
+          $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
       required:
         - channel
-        - language
         - applicationReference
-        - firstName
-        - photoRequestFreeText
-        - uploadPhotoLink
-        - eroContactDetails
+        - personalisation
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
       description: An object containing template type and map of personalisation data for the template
@@ -319,6 +300,35 @@ components:
           example: <p>Hi Fred Blogs,</p>
       required:
         - text
+    PhotoResubmissionPersonalisation:
+      title: PhotoResubmissionPersonalisation
+      type: object
+      description: Personalisation details for photo resubmission template
+      properties:
+        applicationReference:
+          type: string
+          description: The reference number of the Voter Card Application
+          example: A3JSZC4CRH
+        firstName:
+          type: string
+          description: The applicant's first name
+          example: Fred
+        photoRequestFreeText:
+          type: string
+          description: Free text regarding photo request
+          example: Please provide a clear image
+        uploadPhotoLink:
+          type: string
+          description: The URL link to upload a new image
+          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
+        eroContactDetails:
+          $ref: '#/components/schemas/ContactDetails'
+      required:
+        - applicationReference
+        - firstName
+        - photoRequestFreeText
+        - uploadPhotoLink
+        - eroContactDetails
     ContactDetails:
       title: ContactDetails
       type: object
