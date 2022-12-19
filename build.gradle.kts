@@ -63,7 +63,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government
-    implementation("uk.gov.service.notify:notifications-java-client:3.17.3-RELEASE")
+    implementation("uk.gov.service.notify:notifications-java-client:3.18.0-RELEASE")
 
     // webclient
     implementation("org.springframework:spring-webflux")
