@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.1.0'
+  version: '1.2.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -23,7 +23,7 @@ paths:
   #
 
   #
-  # Generate Template Preview
+  # Generate Template Preview Will be @Deprecated soon
   # --------------------------------------------------------------------------------
 
   '/templates/{templateType}/preview':
@@ -39,7 +39,7 @@ paths:
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Generate Template Preview
+        - Generate Template Preview - Deprecated
       responses:
         200:
           description: Default response for CORS method
@@ -76,7 +76,7 @@ paths:
       description: Generates a text and html preview for a given template type and personalisation data
       operationId: generate-template-preview
       tags:
-        - Generate Template Preview
+        - Generate Template Preview - Deprecated
       requestBody:
         $ref: '#/components/requestBodies/GenerateTemplatePreview'
       responses:
@@ -113,6 +113,88 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Photo Resubmission Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/photo-resubmission/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Photo Resubmission Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text and html preview for a photo resubmission template type and personalisation data
+      description: Generates a text and html preview for a photo resubmission template type and personalisation data
+      operationId: generate-photo-resubmission-template-preview
+      tags:
+        - Generate Photo Resubmission Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GeneratePhotoResubmissionTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/photo-resubmission/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
 components:
   #
   # Schema and Enum Definitions
@@ -140,7 +222,7 @@ components:
           items:
             type: string
           example:
-            - 'Error on field ''templateType'': rejected value [email]'
+            - 'Error on field ''channel'': rejected value [email]'
       required:
         - timestamp
         - status
@@ -155,6 +237,35 @@ components:
         - application-approved
         - application-rejected
         - photo-resubmission
+    Language:
+      title: Language
+      description: The language to view the template
+      type: string
+      enum:
+        - cy
+        - en
+      default: en
+    NotificationChannel:
+      title: NotificationChannel
+      description: The channel to notify an applicant
+      type: string
+      enum:
+        - email
+    GeneratePhotoResubmissionTemplatePreviewRequest:
+      title: GeneratePhotoResubmissionTemplatePreviewRequest
+      description: An object containing request attributes required for generating the photo resubmission template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
+      required:
+        - channel
+        - applicationReference
+        - personalisation
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
       description: An object containing template type and map of personalisation data for the template
@@ -189,7 +300,111 @@ components:
           example: <p>Hi Fred Blogs,</p>
       required:
         - text
-
+    PhotoResubmissionPersonalisation:
+      title: PhotoResubmissionPersonalisation
+      type: object
+      description: Personalisation details for photo resubmission template
+      properties:
+        applicationReference:
+          type: string
+          description: The reference number of the Voter Card Application
+          example: A3JSZC4CRH
+        firstName:
+          type: string
+          description: The applicant's first name
+          example: Fred
+        photoRequestFreeText:
+          type: string
+          description: Free text regarding photo request
+          example: Please provide a clear image
+        uploadPhotoLink:
+          type: string
+          description: The URL link to upload a new image
+          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
+        eroContactDetails:
+          $ref: '#/components/schemas/ContactDetails'
+      required:
+        - applicationReference
+        - firstName
+        - photoRequestFreeText
+        - uploadPhotoLink
+        - eroContactDetails
+    ContactDetails:
+      title: ContactDetails
+      type: object
+      description: Contact details for an ERO
+      properties:
+        localAuthorityName:
+          description: Name of the Local Authority
+          type: string
+          example: City of Sunderland
+        website:
+          description: ERO website address
+          type: string
+          example: "https://ero-address.com"
+        phone:
+          description: ERO phone number
+          type: string
+          example: 01234 567890
+        email:
+          description: Email address for an ERO
+          type: string
+          example: fred.blogs@some-domain.co.uk
+        address:
+          $ref: '#/components/schemas/Address'
+      required:
+        - localAuthorityName
+        - website
+        - phone
+        - email
+        - address
+    Address:
+      title: Address
+      description: Address format used throughout gov.uk voter services for an ERO.
+      type: object
+      x-examples:
+        Minimum data:
+          street: Street 1
+          postcode: PC1 2FB
+        Normal Address:
+          street: East Lodge
+          property: Balruddery
+          locality: Invergowrie
+          town: Dundee
+          area: Angus
+          postcode: DD25LF
+      properties:
+        street:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: Charles Lane
+        property:
+          type: string
+          maxLength: 255
+        locality:
+          type: string
+          maxLength: 255
+        town:
+          type: string
+          maxLength: 255
+          example: London
+        area:
+          type: string
+          maxLength: 255
+        postcode:
+          type: string
+          pattern: '^((([A-PR-UWYZ][0-9][0-9]?)|(([A-PR-UWYZ][A-HK-Y][0-9][0-9]?)|(([A-PR-UWYZ][0-9][A-HJKSTUW])|([A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRVWXY]))))[0-9][ABD-HJLNP-UW-Z]{2})$'
+          minLength: 1
+          maxLength: 10
+          example: PE3 6SB
+      required:
+        - street
+        - property
+        - locality
+        - town
+        - area
+        - postcode
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------
@@ -215,6 +430,11 @@ components:
   # Request Body Definitions
   # --------------------------------------------------------------------------------
   requestBodies:
+    GeneratePhotoResubmissionTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneratePhotoResubmissionTemplatePreviewRequest'
     GenerateTemplatePreview:
       content:
         application/json:

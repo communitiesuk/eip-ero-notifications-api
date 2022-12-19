@@ -1,8 +1,8 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
-import uk.gov.dluhc.notificationsapi.messaging.models.Channel
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
+import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationInner
@@ -12,7 +12,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 
 fun buildSendNotifyMessage(
-    channel: Channel = Channel.EMAIL,
+    channel: NotificationChannel = NotificationChannel.EMAIL,
     sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
