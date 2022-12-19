@@ -19,7 +19,7 @@ import javax.validation.Valid
 @CrossOrigin
 class TemplateController(
     private val templateService: TemplateService,
-    private val generateTemplatePreviewRequestDtoMapper: GenerateTemplatePreviewRequestDtoMapper
+    private val generateTemplatePreviewRequestDtoMapper: GenerateTemplatePreviewRequestDtoMapper,
 ) {
     @InitBinder
     fun initBinder(dataBinder: WebDataBinder) {
@@ -27,6 +27,7 @@ class TemplateController(
     }
 
     @PostMapping("/templates/{templateType}/preview")
+    @Deprecated(message = "Use template specific method")
     fun generateTemplatePreview(
         @PathVariable templateType: TemplateType,
         @Valid @RequestBody request: GenerateTemplatePreviewRequest
