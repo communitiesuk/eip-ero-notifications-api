@@ -18,14 +18,14 @@ import uk.gov.dluhc.notificationsapi.models.TemplateType
  */
 @Component
 class NotificationTemplateMapper(
-    private val notifyTemplateConfiguration: NotifyTemplateConfiguration,
+    private val notifyTemplateConfiguration: NotifyTemplateConfiguration, // TODO We might need to redesign the notifyTemplateConfiguration
     private val notificationTypeMapper: NotificationTypeMapper
 ) {
 
     fun fromNotificationTypeInLanguageForChannel(
         messageType: NotificationType,
         language: LanguageDto? = EN,
-        channel: NotificationChannel
+        channel: NotificationChannel // TODO Notification channel logic in next PR
     ): String {
         return if (language == null || language == EN) {
             when (messageType) {
