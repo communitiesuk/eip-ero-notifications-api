@@ -4,7 +4,7 @@ import org.mapstruct.Mapper
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 
-@Mapper
+@Mapper(uses = [LanguageMapper::class])
 interface PhotoResubmissionTemplatePreviewDtoMapper {
 
     fun toPhotoResubmissionTemplatePreviewDto(

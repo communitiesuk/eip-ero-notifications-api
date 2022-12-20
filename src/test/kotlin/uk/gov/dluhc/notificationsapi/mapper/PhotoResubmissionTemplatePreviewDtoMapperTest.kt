@@ -2,6 +2,13 @@ package uk.gov.dluhc.notificationsapi.mapper
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.given
+import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
@@ -11,9 +18,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetail
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
 
+@ExtendWith(MockitoExtension::class)
 class PhotoResubmissionTemplatePreviewDtoMapperTest {
 
-    private val mapper = PhotoResubmissionTemplatePreviewDtoMapperImpl()
+    @InjectMocks
+    private lateinit var mapper: PhotoResubmissionTemplatePreviewDtoMapperImpl
+
+    @Mock
+    private lateinit var languageMapper: LanguageMapper
 
     @Test
     fun `should map to dto`() {
@@ -22,6 +34,8 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
             channel = NotificationChannel.EMAIL,
             language = Language.EN
         )
+
+        given(languageMapper.toDto(any())).willReturn(LanguageDto.EN)
 
         val expected = buildGeneratePhotoResubmissionTemplatePreviewDto(
             channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
@@ -59,5 +73,6 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
 
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        verify(languageMapper).toDto(Language.EN)
     }
 }
