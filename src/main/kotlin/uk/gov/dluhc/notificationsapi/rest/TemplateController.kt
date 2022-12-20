@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import uk.gov.dluhc.notificationsapi.config.TemplateTypeEditor
 import uk.gov.dluhc.notificationsapi.mapper.GenerateTemplatePreviewRequestDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.TemplateType
@@ -20,6 +22,7 @@ import javax.validation.Valid
 class TemplateController(
     private val templateService: TemplateService,
     private val generateTemplatePreviewRequestDtoMapper: GenerateTemplatePreviewRequestDtoMapper,
+    private val photoResubmissionTemplatePreviewDtoMapper: PhotoResubmissionTemplatePreviewDtoMapper
 ) {
     @InitBinder
     fun initBinder(dataBinder: WebDataBinder) {
@@ -36,6 +39,21 @@ class TemplateController(
             templateService.generateTemplatePreview(
                 generateTemplatePreviewRequestDtoMapper.toGenerateTemplatePreviewRequestDto(
                     templateType,
+                    request
+                )
+            )
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
+    }
+
+    @PostMapping("/templates/photo-resubmission/preview")
+    fun generatePhotoResubmissionTemplatePreview(
+        @Valid @RequestBody request: GeneratePhotoResubmissionTemplatePreviewRequest
+    ): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generatePhotoResubmissionTemplatePreview(
+                photoResubmissionTemplatePreviewDtoMapper.toPhotoResubmissionTemplatePreviewDto(
                     request
                 )
             )
