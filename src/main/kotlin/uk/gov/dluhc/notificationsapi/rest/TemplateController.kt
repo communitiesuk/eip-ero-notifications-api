@@ -19,14 +19,15 @@ import javax.validation.Valid
 @CrossOrigin
 class TemplateController(
     private val templateService: TemplateService,
-    private val generateTemplatePreviewRequestDtoMapper: GenerateTemplatePreviewRequestDtoMapper
+    private val generateTemplatePreviewRequestDtoMapper: GenerateTemplatePreviewRequestDtoMapper,
 ) {
     @InitBinder
     fun initBinder(dataBinder: WebDataBinder) {
         dataBinder.registerCustomEditor(TemplateType::class.java, TemplateTypeEditor())
     }
 
-    @PostMapping("/templates/{templateType}/preview")
+    @PostMapping("/deprecated/templates/{templateType}/preview")
+    @Deprecated(message = "Use template specific method")
     fun generateTemplatePreview(
         @PathVariable templateType: TemplateType,
         @Valid @RequestBody request: GenerateTemplatePreviewRequest

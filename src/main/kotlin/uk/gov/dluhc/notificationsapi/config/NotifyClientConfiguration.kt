@@ -17,8 +17,12 @@ class NotifyClientConfiguration {
 @ConfigurationProperties(prefix = "api.notify.template")
 @ConstructorBinding
 data class NotifyTemplateConfiguration(
-    val receivedEmail: String,
-    val approvedEmail: String,
-    val rejectedEmail: String,
-    val photoResubmissionEmail: String
+    val receivedEmailEnglish: String,
+    val receivedEmailWelsh: String,
+    val approvedEmailEnglish: String,
+    val approvedEmailWelsh: String,
+    val rejectedEmailEnglish: String,
+    val rejectedEmailWelsh: String,
+    val photoResubmissionEmailEnglish: String,
+    val photoResubmissionEmailWelsh: String
 )

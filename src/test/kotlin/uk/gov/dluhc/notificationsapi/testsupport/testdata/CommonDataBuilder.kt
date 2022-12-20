@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata
 
+import org.apache.commons.lang3.RandomStringUtils
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -34,3 +35,5 @@ fun aNotificationPersonalisationMap(): Map<String, String> = mapOf(
 )
 
 fun aLocalDateTime(): LocalDateTime = LocalDateTime.of(2022, 10, 6, 9, 58, 24)
+
+fun aValidApplicationReference(): String = "V${RandomStringUtils.randomAlphabetic(9).uppercase()}"

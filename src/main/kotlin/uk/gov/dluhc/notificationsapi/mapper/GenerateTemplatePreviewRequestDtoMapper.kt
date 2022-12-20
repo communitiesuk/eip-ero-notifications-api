@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 
 @Mapper
+@Deprecated(message = "Use template specific method")
 abstract class GenerateTemplatePreviewRequestDtoMapper {
     @Autowired
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
