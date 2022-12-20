@@ -42,7 +42,7 @@ class TemplateServiceTest {
             "name_param" to "John",
             "custom_title" to "Resubmitting photo",
         )
-        val language = LanguageDto.EN
+        val language = LanguageDto.ENGLISH
         val channel = NotificationChannel.EMAIL
         val request = buildGeneratePhotoResubmissionTemplatePreviewDto(
             language = language,

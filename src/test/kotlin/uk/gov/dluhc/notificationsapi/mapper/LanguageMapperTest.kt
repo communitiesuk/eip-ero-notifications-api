@@ -13,8 +13,8 @@ class LanguageMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "CY, CY",
-            "EN, EN",
+            "CY, WELSH",
+            "EN, ENGLISH",
         ]
     )
     fun `should map to language dto`(

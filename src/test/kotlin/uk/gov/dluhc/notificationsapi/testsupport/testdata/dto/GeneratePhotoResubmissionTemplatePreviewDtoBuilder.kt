@@ -11,7 +11,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 
 fun buildGeneratePhotoResubmissionTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
-    language: LanguageDto = LanguageDto.EN,
+    language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto()
 ): GeneratePhotoResubmissionTemplatePreviewDto =
     GeneratePhotoResubmissionTemplatePreviewDto(

@@ -35,11 +35,11 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
             language = Language.EN
         )
 
-        given(languageMapper.toDto(any())).willReturn(LanguageDto.EN)
+        given(languageMapper.toDto(any())).willReturn(LanguageDto.ENGLISH)
 
         val expected = buildGeneratePhotoResubmissionTemplatePreviewDto(
             channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
-            language = LanguageDto.EN,
+            language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
                 buildPhotoResubmissionPersonalisationDto(
                     applicationReference = applicationReference,

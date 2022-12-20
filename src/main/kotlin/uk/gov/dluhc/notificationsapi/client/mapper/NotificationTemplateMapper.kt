@@ -3,7 +3,7 @@ package uk.gov.dluhc.notificationsapi.client.mapper
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.config.NotifyTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.LanguageDto.EN
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_APPROVED
@@ -24,10 +24,10 @@ class NotificationTemplateMapper(
 
     fun fromNotificationTypeInLanguageForChannel(
         messageType: NotificationType,
-        language: LanguageDto? = EN,
+        language: LanguageDto? = ENGLISH,
         channel: NotificationChannel // TODO Notification channel logic in next PR
     ): String {
-        return if (language == null || language == EN) {
+        return if (language == null || language == ENGLISH) {
             when (messageType) {
                 APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
                 APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
@@ -56,7 +56,7 @@ class NotificationTemplateMapper(
 
     fun fromTemplateTypeForChannelAndLanguage(
         templateType: TemplateType,
-        language: LanguageDto? = EN,
+        language: LanguageDto? = ENGLISH,
         channel: NotificationChannel
     ): String =
         fromNotificationTypeInLanguageForChannel(
