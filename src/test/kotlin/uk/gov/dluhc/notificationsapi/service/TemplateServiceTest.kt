@@ -12,6 +12,8 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.models.TemplateType
@@ -40,10 +42,14 @@ class TemplateServiceTest {
             "name_param" to "John",
             "custom_title" to "Resubmitting photo",
         )
-        val request = buildGeneratePhotoResubmissionTemplatePreviewDto()
+        val language = LanguageDto.EN
+        val request = buildGeneratePhotoResubmissionTemplatePreviewDto(
+            language = LanguageDto.EN,
+            channel = NotificationChannel.EMAIL
+        )
         val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
         given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
-        given(notificationTemplateMapper.fromTemplateType(any())).willReturn(templateId)
+        given(notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(any(), any(), any())).willReturn(templateId)
         given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
@@ -53,7 +59,7 @@ class TemplateServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-        verify(notificationTemplateMapper).fromTemplateType(TemplateType.PHOTO_MINUS_RESUBMISSION)
+        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, language, NotificationChannel.EMAIL)
         verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper)
     }
 }
