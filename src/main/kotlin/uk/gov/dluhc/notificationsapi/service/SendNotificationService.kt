@@ -55,11 +55,12 @@ class SendNotificationService(
         sentAt: LocalDateTime
     ): Notification {
         with(request) {
-            val templateId = notificationTemplateMapper.fromNotificationTypeInLanguageForChannel(
-                notificationType = notificationType,
-                language = language,
-                channel = channel
-            )
+            val templateId =
+                notificationTemplateMapper.fromNotificationTypeInLanguageForChannel(
+                    notificationType = notificationType,
+                    language = language,
+                    channel = NotificationChannel.EMAIL
+                )
             val sendNotificationDto =
                 govNotifyApiClient.sendEmail(
                     templateId = templateId,

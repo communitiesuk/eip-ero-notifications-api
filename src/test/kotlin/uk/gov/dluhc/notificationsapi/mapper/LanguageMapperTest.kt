@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.models.Language
+import uk.gov.dluhc.notificationsapi.messaging.models.Language as MessageLanguageEnum
 
 class LanguageMapperTest {
 
@@ -17,14 +18,34 @@ class LanguageMapperTest {
             "EN, ENGLISH",
         ]
     )
-    fun `should map to language dto`(
-        request: Language,
+    fun `should map api language to language dto`(
+        apiLanguageEnum: Language,
         expected: LanguageDto
     ) {
         // Given
 
         // When
-        val actual = mapper.fromApiToDto(request)
+        val actual = mapper.fromApiToDto(apiLanguageEnum)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "CY, WELSH",
+            "EN, ENGLISH",
+        ]
+    )
+    fun `should map message language to language dto`(
+        messageLanguageEnum: MessageLanguageEnum,
+        expected: LanguageDto
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.fromMessageToDto(messageLanguageEnum)
 
         // Then
         assertThat(actual).isEqualTo(expected)
