@@ -56,7 +56,7 @@ class SendNotificationService(
     ): Notification {
         with(request) {
             val templateId =
-                notificationTemplateMapper.fromNotificationTypeInLanguageForChannel(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     notificationType = notificationType,
                     language = language,
                     channel = NotificationChannel.EMAIL

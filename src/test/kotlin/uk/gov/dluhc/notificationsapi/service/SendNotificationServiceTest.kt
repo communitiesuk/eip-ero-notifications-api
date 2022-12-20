@@ -74,13 +74,13 @@ internal class SendNotificationServiceTest {
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationDto)
         given(notificationMapper.createNotification(any(), any(), any(), any())).willReturn(notification)
-        given(notificationTemplateMapper.fromNotificationTypeInLanguageForChannel(any(), any(), any())).willReturn(templateId)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request)
 
         // Then
-        verify(notificationTemplateMapper).fromNotificationTypeInLanguageForChannel(notificationType, language, channel)
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verify(notificationMapper).createNotification(
             any(),
@@ -103,13 +103,13 @@ internal class SendNotificationServiceTest {
         val templateId = aTemplateId().toString()
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
-        given(notificationTemplateMapper.fromNotificationTypeInLanguageForChannel(any(), any(), any())).willReturn(templateId)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request)
 
         // Then
-        verify(notificationTemplateMapper).fromNotificationTypeInLanguageForChannel(notificationType, language, channel)
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verifyNoInteractions(notificationMapper)
         verifyNoInteractions(notificationRepository)

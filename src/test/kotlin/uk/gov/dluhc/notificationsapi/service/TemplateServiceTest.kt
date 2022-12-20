@@ -60,7 +60,7 @@ class TemplateServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, language, channel)
+        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, channel, language)
         verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper)
     }
 }

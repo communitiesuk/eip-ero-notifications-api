@@ -70,7 +70,7 @@ internal class NotificationTemplateMapperTest {
         // Given
 
         // When
-        val notifyTemplateId = mapper.fromNotificationTypeInLanguageForChannel(notificationType, language, EMAIL)
+        val notifyTemplateId = mapper.fromNotificationTypeForChannelInLanguage(notificationType, EMAIL, language)
 
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)
@@ -106,7 +106,7 @@ internal class NotificationTemplateMapperTest {
         given(notificationTypeMapper.toNotificationType(any())).willReturn(mockedNotificationType)
 
         // When
-        val notifyTemplateId = mapper.fromTemplateTypeForChannelAndLanguage(templateType, language, EMAIL)
+        val notifyTemplateId = mapper.fromTemplateTypeForChannelAndLanguage(templateType, EMAIL, language)
 
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)

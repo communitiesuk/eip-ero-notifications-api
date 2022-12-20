@@ -25,6 +25,7 @@ fun buildSendNotifyMessage(
 ): SendNotifyMessage =
     SendNotifyMessage(
         channel = channel,
+        language = language,
         sourceType = sourceType,
         sourceReference = sourceReference,
         gssCode = gssCode,

@@ -18,14 +18,44 @@ import uk.gov.dluhc.notificationsapi.models.TemplateType
  */
 @Component
 class NotificationTemplateMapper(
-    private val notifyTemplateConfiguration: NotifyTemplateConfiguration, // TODO We might need to redesign the notifyTemplateConfiguration
+    private val notifyTemplateConfiguration: NotifyTemplateConfiguration,
     private val notificationTypeMapper: NotificationTypeMapper
 ) {
 
-    fun fromNotificationTypeInLanguageForChannel(
+    fun fromNotificationTypeForChannelInLanguage(
         notificationType: NotificationType,
-        language: LanguageDto? = ENGLISH,
-        channel: NotificationChannel // TODO Notification channel logic in next PR
+        channel: NotificationChannel,
+        language: LanguageDto?
+    ): String {
+        return when (channel) {
+            NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(notificationType, language)
+        }
+    }
+
+    @Deprecated("Will be removed, please use fromNotificationTypeForChannelInLanguage()")
+    fun fromNotificationType(messageType: NotificationType): String {
+        return when (messageType) {
+            APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
+            APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
+            APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
+            PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
+        }
+    }
+
+    fun fromTemplateTypeForChannelAndLanguage(
+        templateType: TemplateType,
+        channel: NotificationChannel,
+        language: LanguageDto?
+    ): String =
+        fromNotificationTypeForChannelInLanguage(
+            notificationType = notificationTypeMapper.toNotificationType(templateType),
+            channel = channel,
+            language = language
+        )
+
+    private fun fromEmailNotificationTypeInLanguage(
+        notificationType: NotificationType,
+        language: LanguageDto?
     ): String {
         return if (language == null || language == ENGLISH) {
             when (notificationType) {
@@ -43,25 +73,4 @@ class NotificationTemplateMapper(
             }
         }
     }
-
-    @Deprecated("Will be removed, please use fromNotificationTypeInLanguage()")
-    fun fromNotificationType(messageType: NotificationType): String {
-        return when (messageType) {
-            APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
-            APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
-            APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
-            PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
-        }
-    }
-
-    fun fromTemplateTypeForChannelAndLanguage(
-        templateType: TemplateType,
-        language: LanguageDto? = ENGLISH,
-        channel: NotificationChannel
-    ): String =
-        fromNotificationTypeInLanguageForChannel(
-            notificationType = notificationTypeMapper.toNotificationType(templateType),
-            language = language,
-            channel = channel
-        )
 }
