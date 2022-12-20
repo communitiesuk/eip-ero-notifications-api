@@ -29,16 +29,16 @@ class NotificationTemplateMapper(
     ): String {
         return if (language == null || language == EN) {
             when (messageType) {
-                APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmail
-                APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmail
-                APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmail
+                APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
+                APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
+                APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
                 PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
             }
         } else {
             when (messageType) {
-                APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmail
-                APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmail
-                APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmail
+                APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailWelsh
+                APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailWelsh
+                APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailWelsh
                 PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailWelsh
             }
         }
@@ -47,9 +47,9 @@ class NotificationTemplateMapper(
     @Deprecated("Will be removed, please use fromNotificationTypeInLanguage()")
     fun fromNotificationType(messageType: NotificationType): String {
         return when (messageType) {
-            APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmail
-            APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmail
-            APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmail
+            APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
+            APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
+            APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
             PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
         }
     }
