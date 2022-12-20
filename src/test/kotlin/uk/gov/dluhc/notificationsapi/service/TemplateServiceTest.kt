@@ -43,9 +43,10 @@ class TemplateServiceTest {
             "custom_title" to "Resubmitting photo",
         )
         val language = LanguageDto.EN
+        val channel = NotificationChannel.EMAIL
         val request = buildGeneratePhotoResubmissionTemplatePreviewDto(
-            language = LanguageDto.EN,
-            channel = NotificationChannel.EMAIL
+            language = language,
+            channel = channel
         )
         val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
         given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
@@ -59,7 +60,7 @@ class TemplateServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, language, NotificationChannel.EMAIL)
+        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, language, channel)
         verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper)
     }
 }

@@ -12,7 +12,6 @@ class PhotoResubmissionPersonalisationMapperTest {
     fun `should map dto to personalisation map`() {
         // Given
         val personalisationDto = buildPhotoResubmissionPersonalisationDto()
-
         val expected = mutableMapOf<String, String>()
         with(personalisationDto) {
             expected["applicationReference"] = applicationReference
@@ -25,11 +24,11 @@ class PhotoResubmissionPersonalisationMapperTest {
                 expected["eroWebsite"] = website
                 expected["eroEmail"] = email
                 with(address) {
-                    expected["eroAddressLine1"] = street
-                    expected["eroAddressLine2"] = `property`
-                    expected["eroAddressLine3"] = locality
-                    expected["eroAddressLine4"] = town
-                    expected["eroAddressLine5"] = area
+                    expected["eroAddressLine1"] = `property`
+                    expected["eroAddressLine2"] = street
+                    expected["eroAddressLine3"] = town
+                    expected["eroAddressLine4"] = area
+                    expected["eroAddressLine5"] = locality
                     expected["eroPostcode"] = postcode
                 }
             }

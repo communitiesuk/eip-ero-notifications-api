@@ -20,11 +20,11 @@ class PhotoResubmissionPersonalisationMapper {
                 personalisation["eroWebsite"] = website
                 personalisation["eroEmail"] = email
                 with(address) {
-                    personalisation["eroAddressLine1"] = street
-                    personalisation["eroAddressLine2"] = `property`
-                    personalisation["eroAddressLine3"] = locality
-                    personalisation["eroAddressLine4"] = town
-                    personalisation["eroAddressLine5"] = area // TODO are these address mappings correct?
+                    personalisation["eroAddressLine1"] = `property`
+                    personalisation["eroAddressLine2"] = street
+                    personalisation["eroAddressLine3"] = town
+                    personalisation["eroAddressLine4"] = area
+                    personalisation["eroAddressLine5"] = locality
                     personalisation["eroPostcode"] = postcode
                 }
             }
