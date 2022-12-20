@@ -19,6 +19,7 @@ abstract class GenerateTemplatePreviewRequestDtoMapper {
 
     @Mapping(target = "templateId", expression = "java( getTemplateId(templateType) )")
     @Mapping(target = "personalisation", source = "request.personalisation")
+    @Deprecated(message = "Use template specific method")
     abstract fun toGenerateTemplatePreviewRequestDto(
         templateType: TemplateType,
         request: GenerateTemplatePreviewRequest

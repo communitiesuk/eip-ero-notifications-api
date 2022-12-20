@@ -7,12 +7,13 @@ import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationInner
+import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationNameValue
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
-@Mapper
+@Mapper(uses = [LanguageMapper::class])
 abstract class SendNotifyMessageMapper {
 
     @Mapping(source = "messageType", target = "notificationType", qualifiedByName = ["mapMessageType"])
@@ -29,6 +30,6 @@ abstract class SendNotifyMessageMapper {
     @Named("mapMessageType")
     abstract fun map(messageType: MessageType): NotificationType
 
-    fun map(placeholders: List<TemplatePersonalisationInner>): Map<String, String> =
-        placeholders.associate { it.name!! to it.value!! }
+    fun map(placeholders: List<TemplatePersonalisationNameValue>): Map<String, String> =
+        placeholders.associate { it.name to it.value }
 }

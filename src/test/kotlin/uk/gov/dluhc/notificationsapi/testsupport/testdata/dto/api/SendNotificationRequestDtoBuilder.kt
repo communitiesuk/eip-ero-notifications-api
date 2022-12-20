@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api
 
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
@@ -21,6 +22,7 @@ fun buildSendNotificationRequestDto(
     emailAddress: String = anEmailAddress(),
     notificationType: NotificationType = aNotificationType(),
     channel: NotificationChannel = aNotificationChannel(),
+    language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: Map<String, String> = aNotificationPersonalisationMap(),
 ): SendNotificationRequestDto =
     SendNotificationRequestDto(
@@ -31,6 +33,7 @@ fun buildSendNotificationRequestDto(
         emailAddress = emailAddress,
         notificationType = notificationType,
         channel = channel,
+        language = language,
         personalisation = personalisation,
     )
 

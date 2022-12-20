@@ -23,7 +23,7 @@ class TemplateService(
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(PHOTO_MINUS_RESUBMISSION, language, channel),
+                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(PHOTO_MINUS_RESUBMISSION, channel, language),
                 photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(personalisation)
             )
         }

@@ -4,8 +4,10 @@ import mu.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
@@ -18,14 +20,18 @@ private val logger = KotlinLogging.logger {}
 
 internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
 
-    @Test
-    fun `should process message to send Email and save notification`() {
+    @ParameterizedTest
+    @EnumSource(Language::class)
+    fun `should process message to send Email for given language and save notification`(
+        language: Language
+    ) {
         // Given
         val gssCode = aGssCode()
         val sourceType = SourceType.VOTER_MINUS_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyMessage(
             channel = NotificationChannel.EMAIL,
+            language = language,
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference
@@ -43,7 +49,7 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
             val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
             assertThat(actualEntity).hasSize(1)
             stopWatch.stop()
-            logger.info("completed assertions in $stopWatch")
+            logger.info("completed assertions in $stopWatch for language $language")
         }
     }
 }
