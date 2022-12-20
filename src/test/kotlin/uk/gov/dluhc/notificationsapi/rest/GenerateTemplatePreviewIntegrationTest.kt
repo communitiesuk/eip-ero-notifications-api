@@ -22,6 +22,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
+@Deprecated(message = "Use template specific method int test")
 internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
     private val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
 
@@ -190,7 +191,7 @@ internal class GenerateTemplatePreviewIntegrationTest : IntegrationTest() {
     }
 
     private fun buildUri(templateType: String = "photo-resubmission") =
-        UriComponentsBuilder.fromUriString("/templates/{templateType}/preview").buildAndExpand(templateType)
+        UriComponentsBuilder.fromUriString("/deprecated/templates/{templateType}/preview").buildAndExpand(templateType)
             .toUriString()
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =

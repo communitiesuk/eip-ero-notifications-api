@@ -26,7 +26,7 @@ class TemplateController(
         dataBinder.registerCustomEditor(TemplateType::class.java, TemplateTypeEditor())
     }
 
-    @PostMapping("/templates/{templateType}/preview")
+    @PostMapping("/deprecated/templates/{templateType}/preview")
     @Deprecated(message = "Use template specific method")
     fun generateTemplatePreview(
         @PathVariable templateType: TemplateType,
