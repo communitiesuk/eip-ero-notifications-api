@@ -17,6 +17,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 
 @ExtendWith(MockitoExtension::class)
+@Deprecated(message = "Use template specific method")
 class GenerateTemplatePreviewRequestDtoMapperTest {
     @InjectMocks
     private lateinit var mapper: GenerateTemplatePreviewRequestDtoMapperImpl

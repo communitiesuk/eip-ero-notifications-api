@@ -35,7 +35,7 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
             language = Language.EN
         )
 
-        given(languageMapper.toDto(any())).willReturn(LanguageDto.ENGLISH)
+        given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
 
         val expected = buildGeneratePhotoResubmissionTemplatePreviewDto(
             channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
@@ -73,6 +73,6 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
 
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-        verify(languageMapper).toDto(Language.EN)
+        verify(languageMapper).fromApiToDto(Language.EN)
     }
 }

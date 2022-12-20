@@ -12,14 +12,18 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
+import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationRequestDto
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
@@ -34,6 +38,9 @@ internal class SendNotificationServiceTest {
     private lateinit var notificationRepository: NotificationRepository
 
     @Mock
+    private lateinit var notificationTemplateMapper: NotificationTemplateMapper
+
+    @Mock
     private lateinit var notifyApiClient: GovNotifyApiClient
 
     @Mock
@@ -45,6 +52,7 @@ internal class SendNotificationServiceTest {
     fun setUp() {
         sendNotificationService = SendNotificationService(
             notificationRepository,
+            notificationTemplateMapper,
             notifyApiClient,
             notificationMapper,
             fixedClock
@@ -54,20 +62,26 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send email notification`() {
         // Given
-        val request = aSendNotificationRequestDto()
+        val channel = NotificationChannel.EMAIL
+        val language = LanguageDto.ENGLISH
+        val request = buildSendNotificationRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
         val personalisation = aNotificationPersonalisationMap()
         val sendNotificationDto = buildSendNotificationDto()
-        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationDto)
         val notification = aNotification()
+        val templateId = aTemplateId().toString()
+
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationDto)
         given(notificationMapper.createNotification(any(), any(), any(), any())).willReturn(notification)
+        given(notificationTemplateMapper.fromNotificationTypeInLanguageForChannel(any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request)
 
         // Then
-        verify(notifyApiClient).sendEmail(eq(notificationType), eq(emailAddress), eq(personalisation), any())
+        verify(notificationTemplateMapper).fromNotificationTypeInLanguageForChannel(notificationType, language, channel)
+        verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verify(notificationMapper).createNotification(
             any(),
             eq(request),
@@ -80,17 +94,23 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send email notification and handle non-retryable Notify client error`() {
         // Given
-        val request = aSendNotificationRequestDto()
+        val channel = NotificationChannel.EMAIL
+        val language = LanguageDto.WELSH
+        val request = buildSendNotificationRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
         val personalisation = aNotificationPersonalisationMap()
+        val templateId = aTemplateId().toString()
+
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
+        given(notificationTemplateMapper.fromNotificationTypeInLanguageForChannel(any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request)
 
         // Then
-        verify(notifyApiClient).sendEmail(eq(notificationType), eq(emailAddress), eq(personalisation), any())
+        verify(notificationTemplateMapper).fromNotificationTypeInLanguageForChannel(notificationType, language, channel)
+        verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verifyNoInteractions(notificationMapper)
         verifyNoInteractions(notificationRepository)
     }

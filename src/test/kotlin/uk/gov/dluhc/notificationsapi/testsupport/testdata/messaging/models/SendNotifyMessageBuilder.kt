@@ -5,7 +5,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
-import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationInner
+import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationNameValue
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -18,7 +18,7 @@ fun buildSendNotifyMessage(
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
     messageType: MessageType = MessageType.APPLICATION_MINUS_REJECTED,
-    personalisation: List<TemplatePersonalisationInner> = listOf(TemplatePersonalisationInner(name = "applicant_name", value = "John")),
+    personalisation: List<TemplatePersonalisationNameValue> = listOf(TemplatePersonalisationNameValue(name = "applicant_name", value = "John")),
     toAddress: MessageAddress = MessageAddress(emailAddress = anEmailAddress()),
 ): SendNotifyMessage =
     SendNotifyMessage(

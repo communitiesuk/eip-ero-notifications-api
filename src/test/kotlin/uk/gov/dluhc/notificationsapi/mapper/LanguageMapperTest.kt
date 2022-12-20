@@ -24,7 +24,7 @@ class LanguageMapperTest {
         // Given
 
         // When
-        val actual = mapper.toDto(request)
+        val actual = mapper.fromApiToDto(request)
 
         // Then
         assertThat(actual).isEqualTo(expected)

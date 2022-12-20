@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.1.0'
+  version: '1.2.0'
   description: |-
     Notifications SQS Message Types
     
@@ -44,6 +44,8 @@ components:
       properties:
         channel:
           $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
         sourceType:
           $ref: '#/components/schemas/SourceType'
         sourceReference:
@@ -63,6 +65,7 @@ components:
           $ref: '#/components/schemas/TemplatePersonalisation'
       required:
         - channel
+        - language
         - sourceType
         - sourceReference
         - gssCode
@@ -75,17 +78,31 @@ components:
       type: array
       description: Template personalisation values to replace each template placeholder.
       items:
-        type: object
-        properties:
-          name:
-            type: string
-            example: "applicant-name"
-          value:
-            type: string
-            example: "John"
+        $ref: '#/components/schemas/TemplatePersonalisationNameValue'
+
+    TemplatePersonalisationNameValue:
+      title: TemplatePersonalisationNameValue
+      type: object
+      description: Template personalisation name value item.
+      properties:
+        name:
+          type: string
+          example: "applicant-name"
+        value:
+          type: string
+          example: "John"
       required:
         - name
         - value
+
+    Language:
+      title: Language
+      description: The language to notify an applicant
+      type: string
+      enum:
+        - cy
+        - en
+      default: en
 
     NotificationChannel:
       title: NotificationChannel

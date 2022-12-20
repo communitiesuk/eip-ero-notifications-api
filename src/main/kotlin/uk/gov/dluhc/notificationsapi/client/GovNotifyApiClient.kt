@@ -2,9 +2,7 @@ package uk.gov.dluhc.notificationsapi.client
 
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
-import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
-import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.service.notify.NotificationClient
@@ -19,17 +17,15 @@ private val logger = KotlinLogging.logger {}
 @Component
 class GovNotifyApiClient(
     private val notificationClient: NotificationClient,
-    private val notificationTemplateMapper: NotificationTemplateMapper,
     private val sendNotificationResponseMapper: SendNotificationResponseMapper
 ) {
 
     fun sendEmail(
-        notificationType: NotificationType,
+        templateId: String,
         emailAddress: String,
         personalisation: Map<String, String>,
         notificationId: UUID
     ): SendNotificationResponseDto {
-        val templateId = notificationTemplateMapper.fromNotificationType(notificationType)
         try {
             return notificationClient.sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
                 .run {

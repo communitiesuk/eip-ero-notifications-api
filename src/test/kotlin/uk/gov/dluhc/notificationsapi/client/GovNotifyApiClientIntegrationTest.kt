@@ -9,9 +9,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePre
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import java.util.UUID
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
 
 internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
 
@@ -20,14 +19,14 @@ internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
         @Test
         fun `should send email`() {
             // Given
-            val notificationType = aNotificationType()
+            val templateId = aTemplateId().toString()
             val emailAddress = anEmailAddress()
             val personalisation = aNotificationPersonalisationMap()
             val notificationId = aNotificationId()
             wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
             // When
-            govNotifyApiClient.sendEmail(notificationType, emailAddress, personalisation, notificationId)
+            govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId)
 
             // Then
             wireMockService.verifyNotifySendEmailCalled()
@@ -39,7 +38,7 @@ internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
         @Test
         fun `should generate template preview`() {
             // Given
-            val templateId = UUID.randomUUID().toString()
+            val templateId = aTemplateId().toString()
             val response = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
             wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(response)
             val personalisation = mapOf(

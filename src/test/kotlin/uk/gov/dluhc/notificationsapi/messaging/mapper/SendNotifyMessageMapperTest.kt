@@ -2,15 +2,25 @@ package uk.gov.dluhc.notificationsapi.messaging.mapper
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.given
+import org.mockito.kotlin.verify
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
+import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationInner
+import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationNameValue
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -18,8 +28,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
+@ExtendWith(MockitoExtension::class)
 internal class SendNotifyMessageMapperTest {
-    private val mapper = SendNotifyMessageMapperImpl()
+
+    @InjectMocks
+    private lateinit var mapper: SendNotifyMessageMapperImpl
+
+    @Mock
+    private lateinit var languageMapper: LanguageMapper
 
     @ParameterizedTest
     @CsvSource(
@@ -60,10 +76,10 @@ internal class SendNotifyMessageMapperTest {
     fun `should create email notification`() {
         // Given
         val placeholders = listOf(
-            TemplatePersonalisationInner(name = "subject", value = "test subject"),
-            TemplatePersonalisationInner(name = "applicant_name", value = "John"),
-            TemplatePersonalisationInner(name = "custom_title", value = "Resubmitting photo"),
-            TemplatePersonalisationInner(name = "date", value = "15/Oct/2022")
+            TemplatePersonalisationNameValue(name = "subject", value = "test subject"),
+            TemplatePersonalisationNameValue(name = "applicant_name", value = "John"),
+            TemplatePersonalisationNameValue(name = "custom_title", value = "Resubmitting photo"),
+            TemplatePersonalisationNameValue(name = "date", value = "15/Oct/2022")
         )
         val expected = mapOf(
             "subject" to "test subject",
@@ -90,15 +106,19 @@ internal class SendNotifyMessageMapperTest {
         val expectedSourceType = SourceType.VOTER_CARD
         val expectedNotificationType = NotificationType.APPLICATION_REJECTED
         val expectedPersonalisation = mapOf("applicant_name" to "John")
+        val expectedLanguage = LanguageDto.ENGLISH
+
+        given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
 
         val request = SendNotifyMessage(
             channel = SqsChannel.EMAIL,
+            language = Language.EN,
             sourceType = SqsSourceType.VOTER_MINUS_CARD,
             sourceReference = sourceReference,
             gssCode = gssCode,
             requestor = requestor,
             messageType = MessageType.APPLICATION_MINUS_REJECTED,
-            personalisation = listOf(TemplatePersonalisationInner(name = "applicant_name", value = "John")),
+            personalisation = listOf(TemplatePersonalisationNameValue(name = "applicant_name", value = "John")),
             toAddress = MessageAddress(emailAddress = emailAddress),
         )
 
@@ -114,5 +134,6 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
         assertThat(notification.personalisation).isEqualTo(expectedPersonalisation)
         assertThat(notification.emailAddress).isEqualTo(emailAddress)
+        verify(languageMapper).fromMessageToDto(Language.EN)
     }
 }

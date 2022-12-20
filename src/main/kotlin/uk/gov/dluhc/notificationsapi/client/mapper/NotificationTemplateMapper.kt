@@ -23,19 +23,19 @@ class NotificationTemplateMapper(
 ) {
 
     fun fromNotificationTypeInLanguageForChannel(
-        messageType: NotificationType,
+        notificationType: NotificationType,
         language: LanguageDto? = ENGLISH,
         channel: NotificationChannel // TODO Notification channel logic in next PR
     ): String {
         return if (language == null || language == ENGLISH) {
-            when (messageType) {
+            when (notificationType) {
                 APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
                 APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
                 APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
                 PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
             }
         } else {
-            when (messageType) {
+            when (notificationType) {
                 APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailWelsh
                 APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailWelsh
                 APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailWelsh
@@ -60,7 +60,7 @@ class NotificationTemplateMapper(
         channel: NotificationChannel
     ): String =
         fromNotificationTypeInLanguageForChannel(
-            messageType = notificationTypeMapper.toNotificationType(templateType),
+            notificationType = notificationTypeMapper.toNotificationType(templateType),
             language = language,
             channel = channel
         )
