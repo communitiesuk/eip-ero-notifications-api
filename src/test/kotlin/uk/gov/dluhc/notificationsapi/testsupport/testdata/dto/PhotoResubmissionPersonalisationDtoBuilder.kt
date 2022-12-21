@@ -53,7 +53,6 @@ fun buildPhotoResubmissionPersonalisationDtoFromMessage(
     }
 }
 
-
 fun buildPersonalisationMapFromDto(
     personalisationDto: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
 ): Map<String, String> {

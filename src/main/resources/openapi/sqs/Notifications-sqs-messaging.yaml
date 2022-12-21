@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.3.1'
+  version: '1.4.0'
   description: |-
     Notifications SQS Message Types
     
@@ -40,7 +40,7 @@ components:
     SendNotifyMessage:
       title: SendNotifyMessage
       type: object
-      description: SQS Message for sending GOV.UK Notify messages
+      description: SQS Message for sending GOV.UK Notify messages. This is a generic message format which can be extended for various template types.
       properties:
         channel:
           $ref: '#/components/schemas/NotificationChannel'
@@ -82,28 +82,6 @@ components:
           $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
       required:
         - personalisation
-
-    TemplatePersonalisation:
-      title: TemplatePersonalisation
-      type: array
-      description: Template personalisation values to replace each template placeholder.
-      items:
-        $ref: '#/components/schemas/TemplatePersonalisationNameValue'
-
-    TemplatePersonalisationNameValue:
-      title: TemplatePersonalisationNameValue
-      type: object
-      description: Template personalisation name value item.
-      properties:
-        name:
-          type: string
-          example: "applicant-name"
-        value:
-          type: string
-          example: "John"
-      required:
-        - name
-        - value
 
     PhotoResubmissionPersonalisation:
       title: PhotoResubmissionPersonalisation

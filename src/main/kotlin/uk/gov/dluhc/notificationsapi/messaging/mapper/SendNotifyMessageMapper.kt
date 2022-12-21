@@ -9,7 +9,6 @@ import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationNameValue
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
 @Mapper(uses = [LanguageMapper::class])
@@ -27,7 +26,4 @@ abstract class SendNotifyMessageMapper {
     @ValueMapping(target = "APPLICATION_REJECTED", source = "APPLICATION_MINUS_REJECTED")
     @ValueMapping(target = "PHOTO_RESUBMISSION", source = "PHOTO_MINUS_RESUBMISSION")
     protected abstract fun mapToNotificationType(messageType: MessageType): NotificationType
-
-    fun map(placeholders: List<TemplatePersonalisationNameValue>): Map<String, String> =
-        placeholders.associate { it.name to it.value }
 }

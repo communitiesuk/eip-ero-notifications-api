@@ -20,7 +20,6 @@ import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationNameValue
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -69,29 +68,6 @@ internal class SendNotifyMessageMapperTest {
 
         // When
         val actual = mapper.mapToNotificationType(messageType)
-
-        // Then
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `should create email notification`() {
-        // Given
-        val placeholders = listOf(
-            TemplatePersonalisationNameValue(name = "subject", value = "test subject"),
-            TemplatePersonalisationNameValue(name = "applicant_name", value = "John"),
-            TemplatePersonalisationNameValue(name = "custom_title", value = "Resubmitting photo"),
-            TemplatePersonalisationNameValue(name = "date", value = "15/Oct/2022")
-        )
-        val expected = mapOf(
-            "subject" to "test subject",
-            "applicant_name" to "John",
-            "custom_title" to "Resubmitting photo",
-            "date" to "15/Oct/2022"
-        )
-
-        // When
-        val actual = mapper.map(placeholders)
 
         // Then
         assertThat(actual).isEqualTo(expected)
