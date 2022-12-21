@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.3.0'
+  version: '1.3.1'
   description: |-
     Notifications SQS Message Types
     
@@ -61,8 +61,6 @@ components:
           $ref: '#/components/schemas/MessageAddress'
         messageType:
           $ref: '#/components/schemas/MessageType'
-        personalisation1:
-          $ref: '#/components/schemas/TemplatePersonalisation'
       required:
         - channel
         - language
@@ -82,6 +80,8 @@ components:
       properties:
         personalisation:
           $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
+      required:
+        - personalisation
 
     TemplatePersonalisation:
       title: TemplatePersonalisation
@@ -199,16 +199,11 @@ components:
           maxLength: 255
         postcode:
           type: string
-          pattern: '^((([A-PR-UWYZ][0-9][0-9]?)|(([A-PR-UWYZ][A-HK-Y][0-9][0-9]?)|(([A-PR-UWYZ][0-9][A-HJKSTUW])|([A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRVWXY]))))[0-9][ABD-HJLNP-UW-Z]{2})$'
           minLength: 1
           maxLength: 10
           example: PE3 6SB
       required:
         - street
-        - property
-        - locality
-        - town
-        - area
         - postcode
     Language:
       title: Language

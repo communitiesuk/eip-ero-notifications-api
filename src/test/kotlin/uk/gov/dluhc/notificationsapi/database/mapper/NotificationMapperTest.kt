@@ -17,20 +17,19 @@ import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapp
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseBody
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseSubject
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseTemplateUri
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseTemplateVersion
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aSendNotificationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseBody
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseSubject
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateUri
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateVersion
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
 
 @ExtendWith(MockitoExtension::class)
 internal class NotificationMapperTest {
@@ -137,7 +136,6 @@ internal class NotificationMapperTest {
             emailAddress = emailAddress,
             notificationType = notificationType,
             personalisation = personalisationDto,
-            personalisation1 = aNotificationPersonalisationMap(),
         )
         val sendNotificationDto = aSendNotificationDto()
         val expectedNotifyDetails = aNotifyDetails(sendNotificationDto)

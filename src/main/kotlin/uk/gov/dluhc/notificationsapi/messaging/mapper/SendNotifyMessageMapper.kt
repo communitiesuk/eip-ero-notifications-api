@@ -8,7 +8,6 @@ import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationNameValue
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
@@ -18,12 +17,7 @@ abstract class SendNotifyMessageMapper {
 
     @Mapping(target = "notificationType", source = "messageType")
     @Mapping(target = "emailAddress", source = "message.toAddress.emailAddress")
-    @Deprecated("Use template specific request dto mapper method ")
-    abstract fun toSendNotificationRequestDto(message: SendNotifyMessage): SendNotificationRequestDto
-
-    @Mapping(target = "notificationType", source = "messageType")
-    @Mapping(target = "emailAddress", source = "message.toAddress.emailAddress")
-    abstract fun fromPhotoResubmissionToSendNotificationRequestDto(message: SendNotifyPhotoResubmissionMessage): SendNotificationRequestDto
+    abstract fun toSendNotificationRequestDto(message: SendNotifyPhotoResubmissionMessage): SendNotificationRequestDto
 
     @ValueMapping(target = "VOTER_CARD", source = "VOTER_MINUS_CARD")
     protected abstract fun mapToSourceType(sourceType: SqsSourceType): SourceType

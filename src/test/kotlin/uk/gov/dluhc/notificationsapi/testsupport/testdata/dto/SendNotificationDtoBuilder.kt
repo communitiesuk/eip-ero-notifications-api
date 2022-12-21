@@ -1,4 +1,4 @@
-package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api
+package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
 import java.util.UUID

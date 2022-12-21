@@ -24,7 +24,7 @@ class SendNotifyPhotoResubmissionMessageListener(
                 "MessageType: ${payload.messageType}, " +
                 "Language: ${payload.language}"
         }
-        with(notifySendMessageMapper.fromPhotoResubmissionToSendNotificationRequestDto(payload)) {
+        with(notifySendMessageMapper.toSendNotificationRequestDto(payload)) {
             sendNotificationService.sendNotification(this)
         }
     }
