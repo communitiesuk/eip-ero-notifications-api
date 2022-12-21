@@ -5,7 +5,6 @@ import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.mapToEmptyIfNull
 
 fun buildPhotoResubmissionPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
@@ -37,11 +36,11 @@ fun buildPersonalisationMapFromDto(
             personalisationMap["eroWebsite"] = website
             personalisationMap["eroEmail"] = email
             with(address) {
-                personalisationMap["eroAddressLine1"] = mapToEmptyIfNull(property)
+                personalisationMap["eroAddressLine1"] = property ?: ""
                 personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = mapToEmptyIfNull(town)
-                personalisationMap["eroAddressLine4"] = mapToEmptyIfNull(area)
-                personalisationMap["eroAddressLine5"] = mapToEmptyIfNull(locality)
+                personalisationMap["eroAddressLine3"] = town ?: ""
+                personalisationMap["eroAddressLine4"] = area ?: ""
+                personalisationMap["eroAddressLine5"] = locality ?: ""
                 personalisationMap["eroPostcode"] = postcode
             }
         }

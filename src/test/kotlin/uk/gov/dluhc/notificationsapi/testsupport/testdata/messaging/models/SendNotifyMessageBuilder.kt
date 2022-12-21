@@ -20,7 +20,7 @@ fun buildSendNotifyMessage(
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
     messageType: MessageType = MessageType.APPLICATION_MINUS_REJECTED,
-    personalisation: List<TemplatePersonalisationNameValue> = listOf(TemplatePersonalisationNameValue(name = "applicant_name", value = "John")),
+    personalisation1: List<TemplatePersonalisationNameValue> = listOf(TemplatePersonalisationNameValue(name = "applicant_name", value = "John")),
     toAddress: MessageAddress = MessageAddress(emailAddress = anEmailAddress()),
 ): SendNotifyMessage =
     SendNotifyMessage(
@@ -31,7 +31,7 @@ fun buildSendNotifyMessage(
         gssCode = gssCode,
         requestor = requestor,
         messageType = messageType,
-        personalisation = personalisation,
+        personalisation1 = personalisation1,
         toAddress = toAddress,
     )
 

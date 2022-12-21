@@ -9,5 +9,6 @@ data class SendNotificationRequestDto(
     val sourceReference: String,
     val emailAddress: String,
     val notificationType: NotificationType,
-    val personalisation: Map<String, String>
+    val personalisation: PhotoResubmissionPersonalisationDto,
+    val personalisation1: Map<String, String>
 )

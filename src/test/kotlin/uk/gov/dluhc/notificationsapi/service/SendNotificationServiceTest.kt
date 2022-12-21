@@ -17,6 +17,7 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
@@ -41,6 +42,9 @@ internal class SendNotificationServiceTest {
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
 
     @Mock
+    private lateinit var photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper
+
+    @Mock
     private lateinit var notifyApiClient: GovNotifyApiClient
 
     @Mock
@@ -53,6 +57,7 @@ internal class SendNotificationServiceTest {
         sendNotificationService = SendNotificationService(
             notificationRepository,
             notificationTemplateMapper,
+            photoResubmissionPersonalisationMapper,
             notifyApiClient,
             notificationMapper,
             fixedClock

@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import java.time.Clock
 import java.time.LocalDateTime
 import java.util.UUID
@@ -23,6 +24,7 @@ private val logger = KotlinLogging.logger {}
 class SendNotificationService(
     private val notificationRepository: NotificationRepository,
     private val notificationTemplateMapper: NotificationTemplateMapper,
+    private val photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper,
     private val govNotifyApiClient: GovNotifyApiClient,
     private val notificationMapper: NotificationMapper,
     private val clock: Clock,
@@ -65,7 +67,7 @@ class SendNotificationService(
                 govNotifyApiClient.sendEmail(
                     templateId = templateId,
                     emailAddress = emailAddress,
-                    personalisation = personalisation,
+                    personalisation = photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(personalisation),
                     notificationId = notificationId
                 )
             return notificationMapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
