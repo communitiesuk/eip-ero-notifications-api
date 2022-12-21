@@ -10,7 +10,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 
 internal class GovNotifyApiClientIntegrationTest : IntegrationTest() {
 

@@ -13,12 +13,12 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
 import java.util.concurrent.TimeUnit
 
 private val logger = KotlinLogging.logger {}
 
-internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
+internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : IntegrationTest() {
 
     @ParameterizedTest
     @EnumSource(Language::class)
@@ -29,7 +29,7 @@ internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
         val gssCode = aGssCode()
         val sourceType = SourceType.VOTER_MINUS_CARD
         val sourceReference = aRandomSourceReference()
-        val payload = buildSendNotifyMessage(
+        val payload = buildSendNotifyPhotoResubmissionMessage(
             channel = NotificationChannel.EMAIL,
             language = language,
             gssCode = gssCode,

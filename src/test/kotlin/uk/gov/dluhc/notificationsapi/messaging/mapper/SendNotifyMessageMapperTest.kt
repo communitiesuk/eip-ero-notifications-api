@@ -19,12 +19,13 @@ import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.TemplatePersonalisationNameValue
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDtoFromMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoResubmissionPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
@@ -47,7 +48,7 @@ internal class SendNotifyMessageMapperTest {
         // Given
 
         // When
-        val actual = mapper.map(sourceType)
+        val actual = mapper.mapToSourceType(sourceType)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -62,41 +63,18 @@ internal class SendNotifyMessageMapperTest {
             "PHOTO_MINUS_RESUBMISSION, PHOTO_RESUBMISSION",
         ]
     )
-    fun `should map Message Type`(messageType: MessageType, expected: NotificationType) {
+    fun `should map Message Type to NotificationType `(messageType: MessageType, expected: NotificationType) {
         // Given
 
         // When
-        val actual = mapper.map(messageType)
+        val actual = mapper.mapToNotificationType(messageType)
 
         // Then
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `should create email notification`() {
-        // Given
-        val placeholders = listOf(
-            TemplatePersonalisationNameValue(name = "subject", value = "test subject"),
-            TemplatePersonalisationNameValue(name = "applicant_name", value = "John"),
-            TemplatePersonalisationNameValue(name = "custom_title", value = "Resubmitting photo"),
-            TemplatePersonalisationNameValue(name = "date", value = "15/Oct/2022")
-        )
-        val expected = mapOf(
-            "subject" to "test subject",
-            "applicant_name" to "John",
-            "custom_title" to "Resubmitting photo",
-            "date" to "15/Oct/2022"
-        )
-
-        // When
-        val actual = mapper.map(placeholders)
-
-        // Then
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `should map SQS SendNotifyMessage to SendNotificationRequestDto`() {
+    fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationRequestDto`() {
         // Given
         val gssCode = aGssCode()
         val requestor = aRequestor()
@@ -104,22 +82,23 @@ internal class SendNotifyMessageMapperTest {
         val emailAddress = anEmailAddress()
         val expectedChannel = NotificationChannel.EMAIL
         val expectedSourceType = SourceType.VOTER_CARD
-        val expectedNotificationType = NotificationType.APPLICATION_REJECTED
-        val expectedPersonalisation = mapOf("applicant_name" to "John")
+        val expectedNotificationType = NotificationType.PHOTO_RESUBMISSION
+        val personalisationMessage = buildPhotoResubmissionPersonalisationMessage()
+        val expectedPersonalisationDto = buildPhotoResubmissionPersonalisationDtoFromMessage(personalisationMessage)
         val expectedLanguage = LanguageDto.ENGLISH
 
         given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
 
-        val request = SendNotifyMessage(
+        val request = SendNotifyPhotoResubmissionMessage(
             channel = SqsChannel.EMAIL,
             language = Language.EN,
             sourceType = SqsSourceType.VOTER_MINUS_CARD,
             sourceReference = sourceReference,
             gssCode = gssCode,
             requestor = requestor,
-            messageType = MessageType.APPLICATION_MINUS_REJECTED,
-            personalisation = listOf(TemplatePersonalisationNameValue(name = "applicant_name", value = "John")),
+            messageType = MessageType.PHOTO_MINUS_RESUBMISSION,
             toAddress = MessageAddress(emailAddress = emailAddress),
+            personalisation = personalisationMessage,
         )
 
         // When
@@ -132,7 +111,7 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.gssCode).isEqualTo(gssCode)
         assertThat(notification.requestor).isEqualTo(requestor)
         assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
-        assertThat(notification.personalisation).isEqualTo(expectedPersonalisation)
+        assertThat(notification.personalisation).isEqualTo(expectedPersonalisationDto)
         assertThat(notification.emailAddress).isEqualTo(emailAddress)
         verify(languageMapper).fromMessageToDto(Language.EN)
     }

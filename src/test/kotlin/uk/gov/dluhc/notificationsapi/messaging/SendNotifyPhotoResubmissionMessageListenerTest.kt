@@ -10,14 +10,14 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aSendNotificationRequestDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aSendNotifyMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aSendNotifyPhotoResubmissionMessage
 
 @ExtendWith(MockitoExtension::class)
-internal class SendNotifyMessageListenerTest {
+internal class SendNotifyPhotoResubmissionMessageListenerTest {
 
     @InjectMocks
-    private lateinit var listener: SendNotifyMessageListener
+    private lateinit var listener: SendNotifyPhotoResubmissionMessageListener
 
     @Mock
     private lateinit var sendNotifyMessageMapper: SendNotifyMessageMapper
@@ -28,7 +28,7 @@ internal class SendNotifyMessageListenerTest {
     @Test
     fun `should handle SQS SendNotifyMessage`() {
         // Given
-        val sqsMessage = aSendNotifyMessage()
+        val sqsMessage = aSendNotifyPhotoResubmissionMessage()
         val request = aSendNotificationRequestDto()
         given(sendNotifyMessageMapper.toSendNotificationRequestDto(any())).willReturn(request)
 

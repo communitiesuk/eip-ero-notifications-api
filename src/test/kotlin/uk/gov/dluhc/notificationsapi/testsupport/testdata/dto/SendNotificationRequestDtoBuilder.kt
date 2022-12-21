@@ -1,13 +1,13 @@
-package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api
+package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationChannel
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -23,7 +23,7 @@ fun buildSendNotificationRequestDto(
     notificationType: NotificationType = aNotificationType(),
     channel: NotificationChannel = aNotificationChannel(),
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: Map<String, String> = aNotificationPersonalisationMap(),
+    personalisation: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
 ): SendNotificationRequestDto =
     SendNotificationRequestDto(
         gssCode = gssCode,

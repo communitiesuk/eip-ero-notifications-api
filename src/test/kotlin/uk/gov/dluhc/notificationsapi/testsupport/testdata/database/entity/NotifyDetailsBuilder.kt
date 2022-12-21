@@ -2,14 +2,14 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity
 
 import uk.gov.dluhc.notificationsapi.database.entity.NotifyDetails
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseBody
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseFromEmail
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseReference
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseSubject
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseTemplateUri
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseTemplateVersion
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseBody
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseFromEmail
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseReference
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseSubject
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateUri
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateVersion
 import java.util.UUID
 
 fun buildNotifyDetails(

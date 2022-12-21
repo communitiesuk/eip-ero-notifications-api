@@ -22,8 +22,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
 import uk.gov.service.notify.SendEmailResponse

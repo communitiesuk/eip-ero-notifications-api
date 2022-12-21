@@ -17,13 +17,14 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
@@ -41,6 +42,9 @@ internal class SendNotificationServiceTest {
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
 
     @Mock
+    private lateinit var photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper
+
+    @Mock
     private lateinit var notifyApiClient: GovNotifyApiClient
 
     @Mock
@@ -53,6 +57,7 @@ internal class SendNotificationServiceTest {
         sendNotificationService = SendNotificationService(
             notificationRepository,
             notificationTemplateMapper,
+            photoResubmissionPersonalisationMapper,
             notifyApiClient,
             notificationMapper,
             fixedClock
@@ -67,7 +72,7 @@ internal class SendNotificationServiceTest {
         val request = buildSendNotificationRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
-        val personalisation = aNotificationPersonalisationMap()
+        val personalisation = buildPersonalisationMapFromDto()
         val sendNotificationDto = buildSendNotificationDto()
         val notification = aNotification()
         val templateId = aTemplateId().toString()
@@ -75,6 +80,7 @@ internal class SendNotificationServiceTest {
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationDto)
         given(notificationMapper.createNotification(any(), any(), any(), any())).willReturn(notification)
         given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+        given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
         sendNotificationService.sendNotification(request)
@@ -89,6 +95,7 @@ internal class SendNotificationServiceTest {
             eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
         )
         verify(notificationRepository).saveNotification(notification)
+        verify(photoResubmissionPersonalisationMapper).toTemplatePersonalisationMap(request.personalisation)
     }
 
     @Test
@@ -99,11 +106,12 @@ internal class SendNotificationServiceTest {
         val request = buildSendNotificationRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
-        val personalisation = aNotificationPersonalisationMap()
+        val personalisation = buildPersonalisationMapFromDto()
         val templateId = aTemplateId().toString()
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
         given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+        given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
         sendNotificationService.sendNotification(request)
@@ -111,7 +119,7 @@ internal class SendNotificationServiceTest {
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
-        verifyNoInteractions(notificationMapper)
-        verifyNoInteractions(notificationRepository)
+        verify(photoResubmissionPersonalisationMapper).toTemplatePersonalisationMap(request.personalisation)
+        verifyNoInteractions(notificationMapper, notificationRepository)
     }
 }

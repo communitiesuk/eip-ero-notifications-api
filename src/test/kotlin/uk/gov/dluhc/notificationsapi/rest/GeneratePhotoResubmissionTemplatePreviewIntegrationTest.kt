@@ -14,10 +14,10 @@ import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert.Companion.assertThat
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildAddressWithOptionalParamsNull
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildContactDetails
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildPhotoResubmissionPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildAddressRequestWithOptionalParamsNull
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetailsRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildPhotoResubmissionPersonalisationRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit.MILLIS
@@ -314,7 +314,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(
-            personalisation = buildPhotoResubmissionPersonalisation(eroContactDetails = buildContactDetails(address = buildAddressWithOptionalParamsNull()))
+            personalisation = buildPhotoResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()))
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(

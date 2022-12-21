@@ -3,9 +3,9 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 import uk.gov.dluhc.notificationsapi.dto.AddressDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.mapToEmptyIfNull
 
 fun buildPhotoResubmissionPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
@@ -22,6 +22,37 @@ fun buildPhotoResubmissionPersonalisationDto(
         eroContactDetails = eroContactDetails
     )
 
+fun buildPhotoResubmissionPersonalisationDtoFromMessage(
+    personalisationMessage: PhotoResubmissionPersonalisation
+): PhotoResubmissionPersonalisationDto {
+    return with(personalisationMessage) {
+        PhotoResubmissionPersonalisationDto(
+            applicationReference = applicationReference,
+            firstName = firstName,
+            photoRequestFreeText = photoRequestFreeText,
+            uploadPhotoLink = uploadPhotoLink,
+            eroContactDetails = with(eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode,
+                        )
+                    }
+                )
+            }
+        )
+    }
+}
+
 fun buildPersonalisationMapFromDto(
     personalisationDto: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
 ): Map<String, String> {
@@ -37,11 +68,11 @@ fun buildPersonalisationMapFromDto(
             personalisationMap["eroWebsite"] = website
             personalisationMap["eroEmail"] = email
             with(address) {
-                personalisationMap["eroAddressLine1"] = mapToEmptyIfNull(property)
+                personalisationMap["eroAddressLine1"] = property ?: ""
                 personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = mapToEmptyIfNull(town)
-                personalisationMap["eroAddressLine4"] = mapToEmptyIfNull(area)
-                personalisationMap["eroAddressLine5"] = mapToEmptyIfNull(locality)
+                personalisationMap["eroAddressLine3"] = town ?: ""
+                personalisationMap["eroAddressLine4"] = area ?: ""
+                personalisationMap["eroAddressLine5"] = locality ?: ""
                 personalisationMap["eroPostcode"] = postcode
             }
         }

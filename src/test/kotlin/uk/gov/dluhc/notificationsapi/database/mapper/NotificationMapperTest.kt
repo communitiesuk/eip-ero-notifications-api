@@ -2,30 +2,43 @@ package uk.gov.dluhc.notificationsapi.database.mapper
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
+import org.mockito.kotlin.given
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseBody
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseSubject
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseTemplateUri
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aNotifySendEmailSuccessResponseTemplateVersion
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aSendNotificationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.aTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.api.buildSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseBody
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseSubject
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateUri
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateVersion
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
 
+@ExtendWith(MockitoExtension::class)
 internal class NotificationMapperTest {
 
-    private val mapper = NotificationMapperImpl()
+    @InjectMocks
+    private lateinit var mapper: NotificationMapperImpl
+
+    @Mock
+    private lateinit var photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper
 
     @ParameterizedTest
     @CsvSource(
@@ -114,7 +127,7 @@ internal class NotificationMapperTest {
         val emailAddress = anEmailAddress()
         val notificationType = NotificationType.APPLICATION_APPROVED
         val expectedNotificationType = uk.gov.dluhc.notificationsapi.database.entity.NotificationType.APPLICATION_APPROVED
-        val personalisation = aNotificationPersonalisationMap()
+        val personalisationDto = buildPhotoResubmissionPersonalisationDto()
         val request = buildSendNotificationRequestDto(
             gssCode = gssCode,
             requestor = requestor,
@@ -122,11 +135,14 @@ internal class NotificationMapperTest {
             sourceReference = sourceReference,
             emailAddress = emailAddress,
             notificationType = notificationType,
-            personalisation = personalisation,
+            personalisation = personalisationDto,
         )
         val sendNotificationDto = aSendNotificationDto()
         val expectedNotifyDetails = aNotifyDetails(sendNotificationDto)
         val sentAt = aLocalDateTime()
+
+        val expectedPersonalisationMap = buildPersonalisationMapFromDto(personalisationDto)
+        given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(expectedPersonalisationMap)
 
         // When
         val notification = mapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
@@ -139,7 +155,7 @@ internal class NotificationMapperTest {
         Assertions.assertThat(notification.sourceType).isEqualTo(expectedSourceType)
         Assertions.assertThat(notification.sourceReference).isEqualTo(sourceReference)
         Assertions.assertThat(notification.toEmail).isEqualTo(emailAddress)
-        Assertions.assertThat(notification.personalisation).isEqualTo(personalisation)
+        Assertions.assertThat(notification.personalisation).isEqualTo(expectedPersonalisationMap)
         Assertions.assertThat(notification.notifyDetails).isEqualTo(expectedNotifyDetails)
         Assertions.assertThat(notification.sentAt).isEqualTo(sentAt)
     }

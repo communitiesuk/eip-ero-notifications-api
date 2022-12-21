@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.2.0'
+  version: '1.4.0'
   description: |-
     Notifications SQS Message Types
     
@@ -40,7 +40,7 @@ components:
     SendNotifyMessage:
       title: SendNotifyMessage
       type: object
-      description: SQS Message for sending GOV.UK Notify messages
+      description: SQS Message for sending GOV.UK Notify messages. This is a generic message format which can be extended for various template types.
       properties:
         channel:
           $ref: '#/components/schemas/NotificationChannel'
@@ -61,8 +61,6 @@ components:
           $ref: '#/components/schemas/MessageAddress'
         messageType:
           $ref: '#/components/schemas/MessageType'
-        personalisation:
-          $ref: '#/components/schemas/TemplatePersonalisation'
       required:
         - channel
         - language
@@ -73,28 +71,118 @@ components:
         - toAddress
         - messageType
 
-    TemplatePersonalisation:
-      title: TemplatePersonalisation
-      type: array
-      description: Template personalisation values to replace each template placeholder.
-      items:
-        $ref: '#/components/schemas/TemplatePersonalisationNameValue'
-
-    TemplatePersonalisationNameValue:
-      title: TemplatePersonalisationNameValue
+    SendNotifyPhotoResubmissionMessage:
+      title: SendNotifyPhotoResubmissionMessage
       type: object
-      description: Template personalisation name value item.
+      description: SQS Message for sending GOV.UK Notify messages for Photo resubmission
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
-        name:
-          type: string
-          example: "applicant-name"
-        value:
-          type: string
-          example: "John"
+        personalisation:
+          $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
       required:
-        - name
-        - value
+        - personalisation
 
+    PhotoResubmissionPersonalisation:
+      title: PhotoResubmissionPersonalisation
+      type: object
+      description: Personalisation details for photo resubmission template
+      properties:
+        applicationReference:
+          type: string
+          description: The reference number of the Voter Card Application
+          example: A3JSZC4CRH
+        firstName:
+          type: string
+          description: The applicant's first name
+          example: Fred
+        photoRequestFreeText:
+          type: string
+          description: Free text regarding photo request
+          example: Please provide a clear image
+        uploadPhotoLink:
+          type: string
+          description: The URL link to upload a new image
+          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
+        eroContactDetails:
+          $ref: '#/components/schemas/ContactDetails'
+      required:
+        - applicationReference
+        - firstName
+        - photoRequestFreeText
+        - uploadPhotoLink
+        - eroContactDetails
+    ContactDetails:
+      title: ContactDetails
+      type: object
+      description: Contact details for an ERO
+      properties:
+        localAuthorityName:
+          description: Name of the Local Authority
+          type: string
+          example: City of Sunderland
+        website:
+          description: ERO website address
+          type: string
+          example: "https://ero-address.com"
+        phone:
+          description: ERO phone number
+          type: string
+          example: 01234 567890
+        email:
+          description: Email address for an ERO
+          type: string
+          example: fred.blogs@some-domain.co.uk
+        address:
+          $ref: '#/components/schemas/Address'
+      required:
+        - localAuthorityName
+        - website
+        - phone
+        - email
+        - address
+    Address:
+      title: Address
+      description: Address format used throughout gov.uk voter services for an ERO.
+      type: object
+      x-examples:
+        Minimum data:
+          street: Street 1
+          postcode: PC1 2FB
+        Normal Address:
+          street: East Lodge
+          property: Balruddery
+          locality: Invergowrie
+          town: Dundee
+          area: Angus
+          postcode: DD25LF
+      properties:
+        street:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: Charles Lane
+        property:
+          type: string
+          maxLength: 255
+        locality:
+          type: string
+          maxLength: 255
+        town:
+          type: string
+          maxLength: 255
+          example: London
+        area:
+          type: string
+          maxLength: 255
+        postcode:
+          type: string
+          minLength: 1
+          maxLength: 10
+          example: PE3 6SB
+      required:
+        - street
+        - postcode
     Language:
       title: Language
       description: The language to notify an applicant
