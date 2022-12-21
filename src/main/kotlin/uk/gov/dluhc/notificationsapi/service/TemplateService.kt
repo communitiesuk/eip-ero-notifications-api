@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.GenerateTemplatePreviewRequestDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.models.TemplateType.PHOTO_MINUS_RESUBMISSION
@@ -15,10 +14,6 @@ class TemplateService(
     private val photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper,
     private val notificationTemplateMapper: NotificationTemplateMapper
 ) {
-
-    @Deprecated(message = "Use template specific method")
-    fun generateTemplatePreview(request: GenerateTemplatePreviewRequestDto): NotifyTemplatePreviewDto =
-        with(request) { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) }
 
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
