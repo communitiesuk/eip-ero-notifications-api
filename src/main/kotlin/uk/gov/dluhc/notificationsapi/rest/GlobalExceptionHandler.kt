@@ -23,33 +23,26 @@ import javax.servlet.RequestDispatcher.ERROR_STATUS_CODE
 class GlobalExceptionHandler(
     private var errorAttributes: ApiRequestErrorAttributes
 ) : ResponseEntityExceptionHandler() {
+
     @ExceptionHandler(value = [GovNotifyApiNotFoundException::class])
     protected fun handleGovNotifyApiNotFoundException(
         e: GovNotifyApiNotFoundException,
         request: WebRequest
-    ): ResponseEntity<Any?>? {
-        val status = NOT_FOUND
+    ): ResponseEntity<Any>? {
         request.setAttribute(
             ERROR_MESSAGE,
             "Notification template not found for the given template type",
             SCOPE_REQUEST
         )
-        request.setAttribute(ERROR_STATUS_CODE, status.value(), SCOPE_REQUEST)
-        val body = errorAttributes.getErrorResponse(request)
-
-        return handleExceptionInternal(e, body, HttpHeaders(), status, request)
+        return populateErrorResponseAndHandleExceptionInternal(e, NOT_FOUND, request)
     }
 
     @ExceptionHandler(value = [GovNotifyApiBadRequestException::class])
     protected fun handleGovNotifyApiBadRequestException(
         e: GovNotifyApiBadRequestException,
         request: WebRequest
-    ): ResponseEntity<Any?>? {
-        val status = BAD_REQUEST
-        request.setAttribute(ERROR_STATUS_CODE, status.value(), SCOPE_REQUEST)
-        val body = errorAttributes.getErrorResponse(request)
-
-        return handleExceptionInternal(e, body, HttpHeaders(), status, request)
+    ): ResponseEntity<Any>? {
+        return populateErrorResponseAndHandleExceptionInternal(e, BAD_REQUEST, request)
     }
 
     override fun handleHttpMessageNotReadable(
@@ -58,10 +51,7 @@ class GlobalExceptionHandler(
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
-        request.setAttribute(ERROR_STATUS_CODE, status.value(), SCOPE_REQUEST)
-        val body = errorAttributes.getErrorResponse(request)
-
-        return handleExceptionInternal(e, body, headers, status, request)
+        return populateErrorResponseAndHandleExceptionInternal(e, status, request)
     }
 
     override fun handleMethodArgumentNotValid(
@@ -70,10 +60,7 @@ class GlobalExceptionHandler(
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
-        request.setAttribute(ERROR_STATUS_CODE, status.value(), SCOPE_REQUEST)
-        val body = errorAttributes.getErrorResponse(request)
-
-        return handleExceptionInternal(e, body, headers, status, request)
+        return populateErrorResponseAndHandleExceptionInternal(e, status, request)
     }
 
     override fun handleTypeMismatch(
@@ -82,9 +69,17 @@ class GlobalExceptionHandler(
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
-        request.setAttribute(ERROR_STATUS_CODE, status.value(), SCOPE_REQUEST)
         request.setAttribute(ERROR_MESSAGE, ex.cause?.message ?: "", SCOPE_REQUEST)
+        return populateErrorResponseAndHandleExceptionInternal(ex, status, request)
+    }
+
+    private fun populateErrorResponseAndHandleExceptionInternal(
+        exception: Exception,
+        status: HttpStatus,
+        request: WebRequest
+    ): ResponseEntity<Any> {
+        request.setAttribute(ERROR_STATUS_CODE, status.value(), SCOPE_REQUEST)
         val body = errorAttributes.getErrorResponse(request)
-        return handleExceptionInternal(ex, body, headers, status, request)
+        return handleExceptionInternal(exception, body, HttpHeaders(), status, request)
     }
 }

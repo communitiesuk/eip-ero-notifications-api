@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.2.1'
+  version: '1.2.2'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -310,6 +310,9 @@ components:
           example: A3JSZC4CRH
         firstName:
           type: string
+          pattern: '.*[a-zA-Z]+.*'
+          minLength: 1
+          maxLength: 255
           description: The applicant's first name
           example: Fred
         photoRequestFreeText:
