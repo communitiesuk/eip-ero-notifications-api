@@ -10,9 +10,9 @@ data class ContactDetailsDto(
 
 data class AddressDto(
     val street: String,
-    val `property`: String,
-    val locality: String,
-    val town: String,
-    val area: String,
+    val `property`: String?,
+    val locality: String?,
+    val town: String?,
+    val area: String?,
     val postcode: String,
 )
