@@ -53,10 +53,10 @@ fun buildContactDetails(
 
 fun buildAddress(
     street: String = faker.address().streetName(),
-    property: String = faker.address().buildingNumber(),
-    locality: String = faker.address().streetName(),
-    town: String = faker.address().city(),
-    area: String = faker.address().state(),
+    property: String? = faker.address().buildingNumber(),
+    locality: String? = faker.address().streetName(),
+    town: String? = faker.address().city(),
+    area: String? = faker.address().state(),
     postcode: String = getAValidPostcode(),
 ): Address = Address(
     street = street,
@@ -65,4 +65,11 @@ fun buildAddress(
     town = town,
     area = area,
     postcode = postcode,
+)
+
+fun buildAddressWithOptionalParamsNull(): Address = buildAddress(
+    property = null,
+    locality = null,
+    town = null,
+    area = null,
 )
