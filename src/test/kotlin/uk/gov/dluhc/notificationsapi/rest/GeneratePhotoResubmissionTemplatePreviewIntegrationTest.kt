@@ -123,8 +123,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             .hasNoValidationErrors()
     }
 
-    private fun WebTestClient.RequestBodySpec.withAValidBody(
-    ): WebTestClient.RequestBodySpec =
+    private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
             Mono.just(buildGeneratePhotoResubmissionTemplatePreviewRequest()),
             GeneratePhotoResubmissionTemplatePreviewRequest::class.java
