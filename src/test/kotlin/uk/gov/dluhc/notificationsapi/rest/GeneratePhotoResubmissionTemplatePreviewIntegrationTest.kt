@@ -2,7 +2,6 @@ package uk.gov.dluhc.notificationsapi.rest
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -193,7 +192,6 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
     }
 
     @Test
-    @Disabled("Need to fix the test as it fails for a valid request")
     fun `should return template preview given valid json request`() {
         // Given
         val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
@@ -208,10 +206,10 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
                 "photoRequestFreeText": "Please provide a clear image",
-                "uploadPhotoLink": "http://localhost:8080/photo/398c1be2-7950-48a2-aca8-14cb9276a673",
+                "uploadPhotoLink": "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
                 "eroContactDetails": {
                   "localAuthorityName": "City of Sunderland",
-                  "website": "https://ero-address.com",
+                  "website": "ero-address.com",
                   "phone": "01234 567890",
                   "email": "fred.blogs@some-domain.co.uk",
                   "address": {
@@ -228,17 +226,17 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         """.trimIndent()
 
         val expectedPersonalisationDataMap = mutableMapOf(
-            "applicationReference" to "applicationReference",
+            "applicationReference" to "A3JSZC4CRH",
             "firstName" to "Fred",
             "photoRequestFreeText" to "Please provide a clear image",
-            "uploadPhotoLink" to "http://localhost:8080/photo/398c1be2-7950-48a2-aca8-14cb9276a673",
+            "uploadPhotoLink" to "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
             "LAName" to "City of Sunderland",
-            "eroWebsite" to "https://ero-address.com",
+            "eroWebsite" to "ero-address.com",
             "eroEmail" to "fred.blogs@some-domain.co.uk",
             "eroPhone" to "01234 567890",
             "eroAddressLine1" to "Some Property",
             "eroAddressLine2" to "Charles Lane Street",
-            "eroAddressLine3" to "Some locality",
+            "eroAddressLine3" to "London",
             "eroAddressLine4" to "Charles Area",
             "eroAddressLine5" to "Some locality",
             "eroPostcode" to "PE3 6SB"
@@ -250,10 +248,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             .uri(URI_TEMPLATE)
             .bearerToken(getBearerToken())
             .contentType(APPLICATION_JSON)
-            .body(
-                Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
-            )
+            .bodyValue(requestBody)
             .exchange()
             .expectStatus().isOk
             .returnResult(GenerateTemplatePreviewResponse::class.java)
@@ -290,7 +285,6 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
                 "eroPostcode" to eroContactDetails.address.postcode
             )
         }
-
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
         // When
