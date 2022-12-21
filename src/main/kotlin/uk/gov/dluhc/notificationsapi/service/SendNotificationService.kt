@@ -10,8 +10,9 @@ import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import java.time.Clock
 import java.time.LocalDateTime
@@ -46,31 +47,22 @@ class SendNotificationService(
         notificationId: UUID,
         sentAt: LocalDateTime
     ): Notification {
-        return when (request.channel) {
-            NotificationChannel.EMAIL -> sendEmailNotification(request, notificationId, sentAt)
+        when (request.channel) {
+            EMAIL -> {
+                val sendNotificationDto = sendGovNotifyEmail(request, notificationId)
+                return notificationMapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
+            }
         }
     }
 
-    private fun sendEmailNotification(
+    private fun sendGovNotifyEmail(
         request: SendNotificationRequestDto,
         notificationId: UUID,
-        sentAt: LocalDateTime
-    ): Notification {
+    ): SendNotificationResponseDto {
         with(request) {
-            val templateId =
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
-                    notificationType = notificationType,
-                    language = language,
-                    channel = NotificationChannel.EMAIL
-                )
-            val sendNotificationDto =
-                govNotifyApiClient.sendEmail(
-                    templateId = templateId,
-                    emailAddress = emailAddress,
-                    personalisation = photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(personalisation),
-                    notificationId = notificationId
-                )
-            return notificationMapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
+            val templateId = notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, EMAIL, language)
+            val personalisationMap = photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(personalisation)
+            return govNotifyApiClient.sendEmail(templateId, emailAddress, personalisationMap, notificationId)
         }
     }
 
