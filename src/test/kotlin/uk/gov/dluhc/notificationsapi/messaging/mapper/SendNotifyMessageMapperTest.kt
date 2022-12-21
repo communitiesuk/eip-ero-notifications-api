@@ -25,6 +25,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoResubmissionPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
@@ -106,8 +107,8 @@ internal class SendNotifyMessageMapperTest {
         val expectedChannel = NotificationChannel.EMAIL
         val expectedSourceType = SourceType.VOTER_CARD
         val expectedNotificationType = NotificationType.PHOTO_RESUBMISSION
-        val personalisationRequest = buildPhotoResubmissionPersonalisationMessage()
-        val expectedPersonalisation = null
+        val personalisationMessage = buildPhotoResubmissionPersonalisationMessage()
+        val expectedPersonalisationDto = buildPhotoResubmissionPersonalisationDtoFromMessage(personalisationMessage)
         val expectedLanguage = LanguageDto.ENGLISH
 
         given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
@@ -121,7 +122,7 @@ internal class SendNotifyMessageMapperTest {
             requestor = requestor,
             messageType = MessageType.PHOTO_MINUS_RESUBMISSION,
             toAddress = MessageAddress(emailAddress = emailAddress),
-            personalisation = personalisationRequest,
+            personalisation = personalisationMessage,
         )
 
         // When
@@ -134,7 +135,7 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.gssCode).isEqualTo(gssCode)
         assertThat(notification.requestor).isEqualTo(requestor)
         assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
-        assertThat(notification.personalisation).isEqualTo(expectedPersonalisation)
+        assertThat(notification.personalisation).isEqualTo(expectedPersonalisationDto)
         assertThat(notification.emailAddress).isEqualTo(emailAddress)
         verify(languageMapper).fromMessageToDto(Language.EN)
     }

@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 import uk.gov.dluhc.notificationsapi.dto.AddressDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
@@ -20,6 +21,38 @@ fun buildPhotoResubmissionPersonalisationDto(
         uploadPhotoLink = uploadPhotoLink,
         eroContactDetails = eroContactDetails
     )
+
+fun buildPhotoResubmissionPersonalisationDtoFromMessage(
+    personalisationMessage: PhotoResubmissionPersonalisation
+): PhotoResubmissionPersonalisationDto {
+    return with(personalisationMessage) {
+        PhotoResubmissionPersonalisationDto(
+            applicationReference = applicationReference,
+            firstName = firstName,
+            photoRequestFreeText = photoRequestFreeText,
+            uploadPhotoLink = uploadPhotoLink,
+            eroContactDetails = with(eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode,
+                        )
+                    }
+                )
+            }
+        )
+    }
+}
+
 
 fun buildPersonalisationMapFromDto(
     personalisationDto: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),

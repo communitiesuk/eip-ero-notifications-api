@@ -14,7 +14,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationR
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aSendNotifyPhotoResubmissionMessage
 
 @ExtendWith(MockitoExtension::class)
-internal class SendNotifyMessageListenerTest {
+internal class SendNotifyPhotoResubmissionMessageListenerTest {
 
     @InjectMocks
     private lateinit var listener: SendNotifyPhotoResubmissionMessageListener

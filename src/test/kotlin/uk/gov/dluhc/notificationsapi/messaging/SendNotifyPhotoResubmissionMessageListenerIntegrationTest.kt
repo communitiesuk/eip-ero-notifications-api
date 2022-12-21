@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 private val logger = KotlinLogging.logger {}
 
-internal class SendNotifyMessageListenerIntegrationTest : IntegrationTest() {
+internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : IntegrationTest() {
 
     @ParameterizedTest
     @EnumSource(Language::class)
