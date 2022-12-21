@@ -32,16 +32,6 @@ class NotificationTemplateMapper(
         }
     }
 
-    @Deprecated("Will be removed, please use fromNotificationTypeForChannelInLanguage()")
-    fun fromNotificationType(messageType: NotificationType): String {
-        return when (messageType) {
-            APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
-            APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
-            APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
-            PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
-        }
-    }
-
     fun fromTemplateTypeForChannelAndLanguage(
         templateType: TemplateType,
         channel: NotificationChannel,

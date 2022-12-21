@@ -8,6 +8,7 @@ import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.PhotoResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.getAValidPostcode
 
 fun buildGeneratePhotoResubmissionTemplatePreviewRequest(
     channel: NotificationChannel = NotificationChannel.EMAIL,
@@ -56,7 +57,7 @@ fun buildAddress(
     locality: String = faker.address().streetName(),
     town: String = faker.address().city(),
     area: String = faker.address().state(),
-    postcode: String = faker.address().postcode(),
+    postcode: String = getAValidPostcode(),
 ): Address = Address(
     street = street,
     property = property,
