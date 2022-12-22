@@ -85,6 +85,9 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    // mongo core datatypes, so that we can generate a Mongo ObjectId (a 12 byte/24 char hex string ID)
+    testImplementation("org.mongodb:bson:4.8.1")
+
     testImplementation("org.testcontainers:junit-jupiter:1.17.6")
     testImplementation("org.testcontainers:testcontainers:1.17.6")
 
