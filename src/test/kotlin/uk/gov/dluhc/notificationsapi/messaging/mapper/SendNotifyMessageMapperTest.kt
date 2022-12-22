@@ -45,7 +45,7 @@ internal class SendNotifyMessageMapperTest {
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Test
-    fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationPhotoResubmissionRequestDto`() {
+    fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationRequestDto`() {
         // Given
         val gssCode = aGssCode()
         val requestor = aRequestor()
@@ -55,7 +55,6 @@ internal class SendNotifyMessageMapperTest {
         val expectedSourceType = SourceType.VOTER_CARD
         val expectedNotificationType = PHOTO_RESUBMISSION
         val personalisationMessage = buildPhotoResubmissionPersonalisationMessage()
-        val expectedPersonalisationDto = buildPhotoResubmissionPersonalisationDtoFromMessage(personalisationMessage)
         val expectedLanguage = LanguageDto.ENGLISH
 
         given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
@@ -75,7 +74,7 @@ internal class SendNotifyMessageMapperTest {
         )
 
         // When
-        val notification = mapper.toSendNotificationPhotoResubmissionRequestDto(request)
+        val notification = mapper.toSendNotificationRequestDto(request)
 
         // Then
         assertThat(notification.channel).isEqualTo(expectedChannel)
@@ -84,10 +83,22 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.gssCode).isEqualTo(gssCode)
         assertThat(notification.requestor).isEqualTo(requestor)
         assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
-        assertThat(notification.personalisation).isEqualTo(expectedPersonalisationDto)
         assertThat(notification.emailAddress).isEqualTo(emailAddress)
         verify(languageMapper).fromMessageToDto(Language.EN)
         verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.PHOTO_MINUS_RESUBMISSION)
         verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+    }
+
+    @Test
+    fun `should map SQS PhotoResubmissionPersonalisation to PhotoResubmissionPersonalisationDto`() {
+        // Given
+        val personalisationMessage = buildPhotoResubmissionPersonalisationMessage()
+        val expectedPersonalisationDto = buildPhotoResubmissionPersonalisationDtoFromMessage(personalisationMessage)
+
+        // When
+        val actualPhotoResubmissionDto = mapper.toPhotoResubmissionPersonalisationDto(personalisationMessage)
+
+        // Then
+        assertThat(actualPhotoResubmissionDto).isEqualTo(expectedPersonalisationDto)
     }
 }

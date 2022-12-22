@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.dto
 
-abstract class SendNotificationRequestDto(
+data class SendNotificationRequestDto(
     val channel: NotificationChannel,
     val language: LanguageDto,
     val gssCode: String,
@@ -9,25 +9,4 @@ abstract class SendNotificationRequestDto(
     val sourceReference: String,
     val emailAddress: String,
     val notificationType: NotificationType,
-)
-
-class SendNotificationPhotoResubmissionRequestDto(
-    val personalisation: PhotoResubmissionPersonalisationDto,
-    channel: NotificationChannel,
-    language: LanguageDto,
-    gssCode: String,
-    requestor: String,
-    sourceType: SourceType,
-    sourceReference: String,
-    emailAddress: String,
-    notificationType: NotificationType,
-) : SendNotificationRequestDto(
-    gssCode = gssCode,
-    requestor = requestor,
-    sourceType = sourceType,
-    sourceReference = sourceReference,
-    emailAddress = emailAddress,
-    notificationType = notificationType,
-    channel = channel,
-    language = language,
 )

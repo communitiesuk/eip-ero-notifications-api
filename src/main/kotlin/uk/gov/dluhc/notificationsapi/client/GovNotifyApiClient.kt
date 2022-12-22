@@ -27,7 +27,7 @@ class GovNotifyApiClient(
         notificationId: UUID
     ): SendNotificationResponseDto {
         try {
-            logger.info { "Sending email for templateId [$templateId] , notificationId [$notificationId]" }
+            logger.info { "Sending email for templateId [$templateId], notificationId [$notificationId]" }
             return notificationClient.sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
                 .run {
                     sendNotificationResponseMapper.toSendNotificationResponse(this)

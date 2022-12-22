@@ -30,7 +30,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationD
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationPhotoResubmissionRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 
 @ExtendWith(MockitoExtension::class)
@@ -95,14 +95,13 @@ internal class NotificationMapperTest {
         val notificationType = PHOTO_RESUBMISSION
         val expectedNotificationType = NotificationType.PHOTO_RESUBMISSION
         val personalisationDto = buildPhotoResubmissionPersonalisationDto()
-        val request = buildSendNotificationPhotoResubmissionRequestDto(
+        val request = buildSendNotificationRequestDto(
             gssCode = gssCode,
             requestor = requestor,
             sourceType = sourceType,
             sourceReference = sourceReference,
             emailAddress = emailAddress,
             notificationType = notificationType,
-            personalisation = personalisationDto,
         )
         val personalisationMap = buildPersonalisationMapFromDto(personalisationDto)
         val sendNotificationResponseDto = aSendNotificationDto()
