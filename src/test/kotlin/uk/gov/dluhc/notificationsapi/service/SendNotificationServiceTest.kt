@@ -17,7 +17,6 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
@@ -42,9 +41,6 @@ internal class SendNotificationServiceTest {
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
 
     @Mock
-    private lateinit var photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper
-
-    @Mock
     private lateinit var notifyApiClient: GovNotifyApiClient
 
     @Mock
@@ -57,7 +53,6 @@ internal class SendNotificationServiceTest {
         sendNotificationService = SendNotificationService(
             notificationRepository,
             notificationTemplateMapper,
-            photoResubmissionPersonalisationMapper,
             notifyApiClient,
             notificationMapper,
             fixedClock
@@ -73,17 +68,16 @@ internal class SendNotificationServiceTest {
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
         val personalisation = buildPersonalisationMapFromDto()
-        val sendNotificationDto = buildSendNotificationDto()
+        val sendNotificationResponseDto = buildSendNotificationDto()
         val notification = aNotification()
         val templateId = aTemplateId().toString()
 
-        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationDto)
-        given(notificationMapper.createNotification(any(), any(), any(), any())).willReturn(notification)
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
         given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
-        given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
-        sendNotificationService.sendNotification(request)
+        sendNotificationService.sendNotification(request, personalisation)
 
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
@@ -91,11 +85,11 @@ internal class SendNotificationServiceTest {
         verify(notificationMapper).createNotification(
             any(),
             eq(request),
-            eq(sendNotificationDto),
+            eq(personalisation),
+            eq(sendNotificationResponseDto),
             eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
         )
         verify(notificationRepository).saveNotification(notification)
-        verify(photoResubmissionPersonalisationMapper).toTemplatePersonalisationMap(request.personalisation)
     }
 
     @Test
@@ -111,15 +105,13 @@ internal class SendNotificationServiceTest {
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
         given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
-        given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
-        sendNotificationService.sendNotification(request)
+        sendNotificationService.sendNotification(request, personalisation)
 
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
-        verify(photoResubmissionPersonalisationMapper).toTemplatePersonalisationMap(request.personalisation)
         verifyNoInteractions(notificationMapper, notificationRepository)
     }
 }

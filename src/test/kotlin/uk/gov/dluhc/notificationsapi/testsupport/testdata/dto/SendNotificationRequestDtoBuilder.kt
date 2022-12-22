@@ -3,7 +3,6 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
-import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -23,7 +22,6 @@ fun buildSendNotificationRequestDto(
     notificationType: NotificationType = aNotificationType(),
     channel: NotificationChannel = aNotificationChannel(),
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
 ): SendNotificationRequestDto =
     SendNotificationRequestDto(
         gssCode = gssCode,
@@ -34,7 +32,6 @@ fun buildSendNotificationRequestDto(
         notificationType = notificationType,
         channel = channel,
         language = language,
-        personalisation = personalisation,
     )
 
 fun aSendNotificationRequestDto() = buildSendNotificationRequestDto()

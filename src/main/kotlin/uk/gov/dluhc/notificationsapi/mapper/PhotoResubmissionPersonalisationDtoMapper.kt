@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
 
 @Component
-class PhotoResubmissionPersonalisationMapper {
+class PhotoResubmissionPersonalisationDtoMapper {
 
     fun toTemplatePersonalisationMap(dto: PhotoResubmissionPersonalisationDto): Map<String, String> {
         val personalisation = mutableMapOf<String, String>()

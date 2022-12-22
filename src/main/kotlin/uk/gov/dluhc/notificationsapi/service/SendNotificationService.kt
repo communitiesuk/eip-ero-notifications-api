@@ -12,8 +12,6 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
-import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
 import java.time.Clock
 import java.time.LocalDateTime
 import java.util.UUID
@@ -25,18 +23,17 @@ private val logger = KotlinLogging.logger {}
 class SendNotificationService(
     private val notificationRepository: NotificationRepository,
     private val notificationTemplateMapper: NotificationTemplateMapper,
-    private val photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper,
     private val govNotifyApiClient: GovNotifyApiClient,
     private val notificationMapper: NotificationMapper,
     private val clock: Clock,
 ) {
 
-    fun sendNotification(request: SendNotificationRequestDto) {
+    fun sendNotification(requestDto: SendNotificationRequestDto, personalisationMap: Map<String, String>) {
         val notificationId = randomUUID()
         val sentAt = LocalDateTime.now(clock)
         try {
-            val notification = sendNotificationForChannel(request, notificationId, sentAt)
-            saveSentMessageOrLogError(notification)
+            val sentNotification = sendNotificationForChannel(requestDto, personalisationMap, notificationId, sentAt)
+            saveSentMessageOrLogError(sentNotification)
         } catch (ex: GovNotifyNonRetryableException) {
             logger.warn("Non-retryable error returned from the Notify service: ${ex.message}")
         }
@@ -44,25 +41,33 @@ class SendNotificationService(
 
     private fun sendNotificationForChannel(
         request: SendNotificationRequestDto,
+        personalisationMap: Map<String, String>,
         notificationId: UUID,
         sentAt: LocalDateTime
     ): Notification {
         when (request.channel) {
             EMAIL -> {
-                val sendNotificationDto = sendGovNotifyEmail(request, notificationId)
-                return notificationMapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
+                return sendGovNotifyEmail(request, personalisationMap, notificationId, sentAt)
             }
         }
     }
 
     private fun sendGovNotifyEmail(
         request: SendNotificationRequestDto,
+        personalisationMap: Map<String, String>,
         notificationId: UUID,
-    ): SendNotificationResponseDto {
+        sentAt: LocalDateTime
+    ): Notification {
         with(request) {
             val templateId = notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, EMAIL, language)
-            val personalisationMap = photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(personalisation)
-            return govNotifyApiClient.sendEmail(templateId, emailAddress, personalisationMap, notificationId)
+            val sendNotificationGovResponseDto = govNotifyApiClient.sendEmail(templateId, emailAddress, personalisationMap, notificationId)
+            return notificationMapper.createNotification(
+                notificationId = notificationId,
+                request = request,
+                personalisation = personalisationMap,
+                sendNotificationResponse = sendNotificationGovResponseDto,
+                sentAt = sentAt
+            )
         }
     }
 
