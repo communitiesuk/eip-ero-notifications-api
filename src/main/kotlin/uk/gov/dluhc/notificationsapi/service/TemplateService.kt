@@ -5,13 +5,13 @@ import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.models.TemplateType.PHOTO_MINUS_RESUBMISSION
 
 @Service
 class TemplateService(
     private val govNotifyApiClient: GovNotifyApiClient,
-    private val photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper,
+    private val photoResubmissionPersonalisationDtoMapper: PhotoResubmissionPersonalisationDtoMapper,
     private val notificationTemplateMapper: NotificationTemplateMapper
 ) {
 
@@ -19,7 +19,7 @@ class TemplateService(
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(PHOTO_MINUS_RESUBMISSION, channel, language),
-                photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(personalisation)
+                photoResubmissionPersonalisationDtoMapper.toTemplatePersonalisationMap(personalisation)
             )
         }
     }

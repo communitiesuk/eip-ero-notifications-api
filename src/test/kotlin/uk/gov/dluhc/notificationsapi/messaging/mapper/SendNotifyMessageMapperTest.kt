@@ -24,7 +24,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoResubmissionPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
@@ -87,18 +86,5 @@ internal class SendNotifyMessageMapperTest {
         verify(languageMapper).fromMessageToDto(Language.EN)
         verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.PHOTO_MINUS_RESUBMISSION)
         verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
-    }
-
-    @Test
-    fun `should map SQS PhotoResubmissionPersonalisation to PhotoResubmissionPersonalisationDto`() {
-        // Given
-        val personalisationMessage = buildPhotoResubmissionPersonalisationMessage()
-        val expectedPersonalisationDto = buildPhotoResubmissionPersonalisationDtoFromMessage(personalisationMessage)
-
-        // When
-        val actualPhotoResubmissionDto = mapper.toPhotoResubmissionPersonalisationDto(personalisationMessage)
-
-        // Then
-        assertThat(actualPhotoResubmissionDto).isEqualTo(expectedPersonalisationDto)
     }
 }

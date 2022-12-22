@@ -7,9 +7,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetail
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
 
-class PhotoResubmissionPersonalisationMapperTest {
+class PhotoResubmissionPersonalisationDtoMapperTest {
 
-    private val mapper = PhotoResubmissionPersonalisationMapper()
+    private val mapper = PhotoResubmissionPersonalisationDtoMapper()
 
     @Test
     fun `should map dto to personalisation map when all fields present`() {

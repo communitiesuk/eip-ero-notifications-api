@@ -15,7 +15,7 @@ import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 
@@ -31,7 +31,7 @@ class TemplateServiceTest {
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
 
     @Mock
-    private lateinit var photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper
+    private lateinit var photoResubmissionPersonalisationDtoMapper: PhotoResubmissionPersonalisationDtoMapper
 
     @Test
     fun `should return photo resubmission template preview`() {
@@ -51,7 +51,7 @@ class TemplateServiceTest {
         val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
         given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
         given(notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(any(), any(), any())).willReturn(templateId)
-        given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
+        given(photoResubmissionPersonalisationDtoMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
 
