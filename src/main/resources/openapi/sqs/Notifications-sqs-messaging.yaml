@@ -22,16 +22,6 @@ paths:
   # SQS Queues start here
   # --------------------------------------------------------------------------------
   #
-  '/send-uk-gov-notify-message':
-    post:
-      tags:
-        - SQS Queues
-      requestBody:
-        $ref: '#/components/requestBodies/SendNotifyMessage'
-      responses:
-        '204':
-          description: No response content.
-
   '/send-uk-gov-notify-photo-resubmission-message':
     post:
       tags:
@@ -260,12 +250,6 @@ components:
   # Request Body Definitions
   # --------------------------------------------------------------------------------
   requestBodies:
-    SendNotifyMessage:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SendNotifyMessage'
-
     SendNotifyPhotoResubmissionMessage:
       content:
         application/json:
