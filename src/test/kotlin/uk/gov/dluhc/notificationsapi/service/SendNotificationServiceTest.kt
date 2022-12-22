@@ -24,7 +24,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotif
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationPhotoResubmissionRequestDto
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
@@ -65,25 +65,25 @@ internal class SendNotificationServiceTest {
     }
 
     @Test
-    fun `should send email notification`() {
+    fun `should send photo resubmission email notification`() {
         // Given
         val channel = NotificationChannel.EMAIL
         val language = LanguageDto.ENGLISH
-        val request = buildSendNotificationRequestDto(channel = channel, language = language)
+        val request = buildSendNotificationPhotoResubmissionRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
         val personalisation = buildPersonalisationMapFromDto()
-        val sendNotificationDto = buildSendNotificationDto()
+        val sendNotificationResponseDto = buildSendNotificationDto()
         val notification = aNotification()
         val templateId = aTemplateId().toString()
 
-        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationDto)
-        given(notificationMapper.createNotification(any(), any(), any(), any())).willReturn(notification)
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
         given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
         given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
-        sendNotificationService.sendNotification(request)
+        sendNotificationService.sendPhotoResubmissionNotification(request)
 
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
@@ -91,7 +91,8 @@ internal class SendNotificationServiceTest {
         verify(notificationMapper).createNotification(
             any(),
             eq(request),
-            eq(sendNotificationDto),
+            eq(personalisation),
+            eq(sendNotificationResponseDto),
             eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
         )
         verify(notificationRepository).saveNotification(notification)
@@ -99,11 +100,11 @@ internal class SendNotificationServiceTest {
     }
 
     @Test
-    fun `should send email notification and handle non-retryable Notify client error`() {
+    fun `should send photo resubmission email notification and handle non-retryable Notify client error`() {
         // Given
         val channel = NotificationChannel.EMAIL
         val language = LanguageDto.WELSH
-        val request = buildSendNotificationRequestDto(channel = channel, language = language)
+        val request = buildSendNotificationPhotoResubmissionRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
         val personalisation = buildPersonalisationMapFromDto()
@@ -114,7 +115,7 @@ internal class SendNotificationServiceTest {
         given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
-        sendNotificationService.sendNotification(request)
+        sendNotificationService.sendPhotoResubmissionNotification(request)
 
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)

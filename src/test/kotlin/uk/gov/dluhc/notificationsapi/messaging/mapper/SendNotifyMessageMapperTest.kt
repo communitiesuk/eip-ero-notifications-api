@@ -3,8 +3,6 @@ package uk.gov.dluhc.notificationsapi.messaging.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -13,9 +11,11 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
-import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
+import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
@@ -38,43 +38,14 @@ internal class SendNotifyMessageMapperTest {
     @Mock
     private lateinit var languageMapper: LanguageMapper
 
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "VOTER_MINUS_CARD, VOTER_CARD",
-        ]
-    )
-    fun `should map Source Type`(sourceType: SqsSourceType, expected: SourceType) {
-        // Given
+    @Mock
+    private lateinit var notificationTypeMapper: NotificationTypeMapper
 
-        // When
-        val actual = mapper.mapToSourceType(sourceType)
-
-        // Then
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "APPLICATION_MINUS_RECEIVED, APPLICATION_RECEIVED",
-            "APPLICATION_MINUS_APPROVED, APPLICATION_APPROVED",
-            "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
-            "PHOTO_MINUS_RESUBMISSION, PHOTO_RESUBMISSION",
-        ]
-    )
-    fun `should map Message Type to NotificationType `(messageType: MessageType, expected: NotificationType) {
-        // Given
-
-        // When
-        val actual = mapper.mapToNotificationType(messageType)
-
-        // Then
-        assertThat(actual).isEqualTo(expected)
-    }
+    @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Test
-    fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationRequestDto`() {
+    fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationPhotoResubmissionRequestDto`() {
         // Given
         val gssCode = aGssCode()
         val requestor = aRequestor()
@@ -82,12 +53,14 @@ internal class SendNotifyMessageMapperTest {
         val emailAddress = anEmailAddress()
         val expectedChannel = NotificationChannel.EMAIL
         val expectedSourceType = SourceType.VOTER_CARD
-        val expectedNotificationType = NotificationType.PHOTO_RESUBMISSION
+        val expectedNotificationType = PHOTO_RESUBMISSION
         val personalisationMessage = buildPhotoResubmissionPersonalisationMessage()
         val expectedPersonalisationDto = buildPhotoResubmissionPersonalisationDtoFromMessage(personalisationMessage)
         val expectedLanguage = LanguageDto.ENGLISH
 
         given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
+        given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(PHOTO_RESUBMISSION)
+        given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
 
         val request = SendNotifyPhotoResubmissionMessage(
             channel = SqsChannel.EMAIL,
@@ -102,7 +75,7 @@ internal class SendNotifyMessageMapperTest {
         )
 
         // When
-        val notification = mapper.toSendNotificationRequestDto(request)
+        val notification = mapper.toSendNotificationPhotoResubmissionRequestDto(request)
 
         // Then
         assertThat(notification.channel).isEqualTo(expectedChannel)
@@ -114,5 +87,7 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.personalisation).isEqualTo(expectedPersonalisationDto)
         assertThat(notification.emailAddress).isEqualTo(emailAddress)
         verify(languageMapper).fromMessageToDto(Language.EN)
+        verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.PHOTO_MINUS_RESUBMISSION)
+        verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
     }
 }

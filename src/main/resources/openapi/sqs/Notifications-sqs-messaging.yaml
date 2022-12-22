@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.4.0'
+  version: '1.4.1'
   description: |-
     Notifications SQS Message Types
     
@@ -28,6 +28,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-photo-resubmission-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyPhotoResubmissionMessage'
       responses:
         '204':
           description: No response content.
@@ -255,3 +265,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyMessage'
+
+    SendNotifyPhotoResubmissionMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyPhotoResubmissionMessage'

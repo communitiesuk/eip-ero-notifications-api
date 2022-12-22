@@ -3,17 +3,18 @@ package uk.gov.dluhc.notificationsapi.database.mapper
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
-import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import org.mockito.kotlin.verify
+import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationMapper
+import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
@@ -29,7 +30,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationD
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationPhotoResubmissionRequestDto
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 
 @ExtendWith(MockitoExtension::class)
 internal class NotificationMapperTest {
@@ -38,45 +40,10 @@ internal class NotificationMapperTest {
     private lateinit var mapper: NotificationMapperImpl
 
     @Mock
-    private lateinit var photoResubmissionPersonalisationMapper: PhotoResubmissionPersonalisationMapper
+    private lateinit var notificationTypeMapper: NotificationTypeMapper
 
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "APPLICATION_RECEIVED, APPLICATION_RECEIVED",
-            "APPLICATION_REJECTED, APPLICATION_REJECTED",
-            "APPLICATION_APPROVED, APPLICATION_APPROVED",
-            "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION"
-        ]
-    )
-    fun `should map DTO Notification Type to Entity Notification Type`(
-        dtoType: NotificationType,
-        expected: uk.gov.dluhc.notificationsapi.database.entity.NotificationType
-    ) {
-        // Given
-
-        // When
-        val actual = mapper.toNotificationType(dtoType)
-
-        // Then
-        Assertions.assertThat(actual).isEqualTo(expected)
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "VOTER_CARD, VOTER_CARD",
-        ]
-    )
-    fun `should map DTO Source Type to Entity Source Type`(dtoType: SourceType, expected: uk.gov.dluhc.notificationsapi.database.entity.SourceType) {
-        // Given
-
-        // When
-        val actual = mapper.toSourceType(dtoType)
-
-        // Then
-        Assertions.assertThat(actual).isEqualTo(expected)
-    }
+    @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Test
     fun `should map to NotifyDetails`() {
@@ -122,13 +89,13 @@ internal class NotificationMapperTest {
         val gssCode = aGssCode()
         val requestor = aRequestor()
         val sourceType = SourceType.VOTER_CARD
-        val expectedSourceType = uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
+        val expectedSourceType = SourceTypeEntityEnum.VOTER_CARD
         val sourceReference = aSourceReference()
         val emailAddress = anEmailAddress()
-        val notificationType = NotificationType.APPLICATION_APPROVED
-        val expectedNotificationType = uk.gov.dluhc.notificationsapi.database.entity.NotificationType.APPLICATION_APPROVED
+        val notificationType = PHOTO_RESUBMISSION
+        val expectedNotificationType = NotificationType.PHOTO_RESUBMISSION
         val personalisationDto = buildPhotoResubmissionPersonalisationDto()
-        val request = buildSendNotificationRequestDto(
+        val request = buildSendNotificationPhotoResubmissionRequestDto(
             gssCode = gssCode,
             requestor = requestor,
             sourceType = sourceType,
@@ -137,15 +104,16 @@ internal class NotificationMapperTest {
             notificationType = notificationType,
             personalisation = personalisationDto,
         )
-        val sendNotificationDto = aSendNotificationDto()
-        val expectedNotifyDetails = aNotifyDetails(sendNotificationDto)
+        val personalisationMap = buildPersonalisationMapFromDto(personalisationDto)
+        val sendNotificationResponseDto = aSendNotificationDto()
+        val expectedNotifyDetails = aNotifyDetails(sendNotificationResponseDto)
         val sentAt = aLocalDateTime()
 
-        val expectedPersonalisationMap = buildPersonalisationMapFromDto(personalisationDto)
-        given(photoResubmissionPersonalisationMapper.toTemplatePersonalisationMap(any())).willReturn(expectedPersonalisationMap)
+        given(notificationTypeMapper.toNotificationTypeEntity(any())).willReturn(NotificationType.PHOTO_RESUBMISSION)
+        given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(expectedSourceType)
 
         // When
-        val notification = mapper.createNotification(notificationId, request, sendNotificationDto, sentAt)
+        val notification = mapper.createNotification(notificationId, request, personalisationMap, sendNotificationResponseDto, sentAt)
 
         // Then
         Assertions.assertThat(notification.id).isEqualTo(notificationId)
@@ -155,8 +123,11 @@ internal class NotificationMapperTest {
         Assertions.assertThat(notification.sourceType).isEqualTo(expectedSourceType)
         Assertions.assertThat(notification.sourceReference).isEqualTo(sourceReference)
         Assertions.assertThat(notification.toEmail).isEqualTo(emailAddress)
-        Assertions.assertThat(notification.personalisation).isEqualTo(expectedPersonalisationMap)
+        Assertions.assertThat(notification.personalisation).isEqualTo(personalisationMap)
         Assertions.assertThat(notification.notifyDetails).isEqualTo(expectedNotifyDetails)
         Assertions.assertThat(notification.sentAt).isEqualTo(sentAt)
+
+        verify(notificationTypeMapper).toNotificationTypeEntity(PHOTO_RESUBMISSION)
+        verify(sourceTypeMapper).toSourceTypeEntity(SourceType.VOTER_CARD)
     }
 }

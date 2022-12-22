@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.database.repository
 
+import mu.KotlinLogging
 import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.Key
@@ -12,6 +13,8 @@ import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.entity.Notification.Companion.SOURCE_REFERENCE_INDEX_NAME
 import java.util.UUID
 
+private val logger = KotlinLogging.logger {}
+
 @Repository
 class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: DynamoDbConfiguration) {
 
@@ -22,6 +25,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
     private val table = client.table(tableConfig.notificationsTableName, tableSchema)
 
     fun saveNotification(notification: Notification) {
+        logger.debug("Saving notification for type [${notification.type}], channel: [${notification.channel}]")
         table.putItem(notification)
     }
 

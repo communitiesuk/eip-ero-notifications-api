@@ -14,7 +14,7 @@ private val logger = KotlinLogging.logger { }
 @Component
 class SendNotifyPhotoResubmissionMessageListener(
     private val sendNotificationService: SendNotificationService,
-    private val notifySendMessageMapper: SendNotifyMessageMapper
+    private val sendNotifyMessageMapper: SendNotifyMessageMapper
 ) : MessageListener<SendNotifyPhotoResubmissionMessage> {
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-message-queue-name}"])
     override fun handleMessage(@Valid @Payload payload: SendNotifyPhotoResubmissionMessage) {
@@ -24,8 +24,8 @@ class SendNotifyPhotoResubmissionMessageListener(
                 "MessageType: ${payload.messageType}, " +
                 "Language: ${payload.language}"
         }
-        with(notifySendMessageMapper.toSendNotificationRequestDto(payload)) {
-            sendNotificationService.sendNotification(this)
+        with(sendNotifyMessageMapper.toSendNotificationPhotoResubmissionRequestDto(payload)) {
+            sendNotificationService.sendPhotoResubmissionNotification(this)
         }
     }
 }

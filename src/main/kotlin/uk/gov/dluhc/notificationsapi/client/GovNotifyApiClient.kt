@@ -27,6 +27,7 @@ class GovNotifyApiClient(
         notificationId: UUID
     ): SendNotificationResponseDto {
         try {
+            logger.info { "Sending email for templateId [$templateId] , notificationId [$notificationId]" }
             return notificationClient.sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
                 .run {
                     sendNotificationResponseMapper.toSendNotificationResponse(this)
@@ -38,6 +39,7 @@ class GovNotifyApiClient(
 
     fun generateTemplatePreview(templateId: String, personalisation: Map<String, String>): NotifyTemplatePreviewDto =
         try {
+            logger.info { "Generating template preview for templateId [$templateId]" }
             notificationClient.generateTemplatePreview(templateId, personalisation).run {
                 NotifyTemplatePreviewDto(body, subject.orElse(null), html.orElse(null))
             }
