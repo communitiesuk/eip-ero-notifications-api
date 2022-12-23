@@ -21,7 +21,7 @@ class SendNotifyPhotoResubmissionMessageListener(
     private val photoResubmissionPersonalisationDtoMapper: PhotoResubmissionPersonalisationDtoMapper,
 ) : MessageListener<SendNotifyPhotoResubmissionMessage> {
 
-    @SqsListener(value = ["\${sqs.send-uk-gov-notify-message-queue-name}"])
+    @SqsListener(value = ["\${sqs.send-uk-gov-notify-photo-resubmission-message-queue-name}"])
     override fun handleMessage(@Valid @Payload payload: SendNotifyPhotoResubmissionMessage) {
         logger.info {
             "received 'send UK Gov notify message' request for gssCode: ${payload.gssCode} with" +
