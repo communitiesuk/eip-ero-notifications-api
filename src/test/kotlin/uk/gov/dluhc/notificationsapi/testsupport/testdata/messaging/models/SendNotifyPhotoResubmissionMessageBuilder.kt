@@ -11,14 +11,12 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.getIerDsApplicationId
 
 fun buildSendNotifyPhotoResubmissionMessage(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: Language = Language.EN,
     sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
     sourceReference: String = aSourceReference(),
-    applicationId: String = getIerDsApplicationId(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
     messageType: MessageType = MessageType.PHOTO_MINUS_RESUBMISSION,
@@ -30,7 +28,6 @@ fun buildSendNotifyPhotoResubmissionMessage(
         language = language,
         sourceType = sourceType,
         sourceReference = sourceReference,
-        applicationId = applicationId,
         gssCode = gssCode,
         requestor = requestor,
         messageType = messageType,
