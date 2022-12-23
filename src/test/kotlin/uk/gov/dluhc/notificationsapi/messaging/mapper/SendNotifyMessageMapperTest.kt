@@ -24,7 +24,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.getIerDsApplicationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoResubmissionPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
@@ -66,7 +65,6 @@ internal class SendNotifyMessageMapperTest {
             language = Language.EN,
             sourceType = SqsSourceType.VOTER_MINUS_CARD,
             sourceReference = sourceReference,
-            applicationId = getIerDsApplicationId(),
             gssCode = gssCode,
             requestor = requestor,
             messageType = MessageType.PHOTO_MINUS_RESUBMISSION,

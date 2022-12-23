@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.4.2'
+  version: '1.4.1'
   description: |-
     Notifications SQS Message Types
     
@@ -48,11 +48,6 @@ components:
           $ref: '#/components/schemas/Language'
         sourceType:
           $ref: '#/components/schemas/SourceType'
-        applicationId:
-          type: string
-          pattern: '^[a-fA-F\d]{24}$'
-          description: The unique identifier of the Voter Card Application. A 24 character hex string.
-          example: 1f0f76a9a66f438b9bb33070
         sourceReference:
           type: string
           description: Reference in the source of the application this message relates
@@ -70,7 +65,6 @@ components:
         - channel
         - language
         - sourceType
-        - applicationId
         - sourceReference
         - gssCode
         - requestor
