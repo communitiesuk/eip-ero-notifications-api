@@ -40,8 +40,8 @@ internal abstract class IntegrationTest {
     @Autowired
     protected lateinit var sqsMessagingTemplate: QueueMessagingTemplate
 
-    @Value("\${sqs.send-uk-gov-notify-message-queue-name}")
-    protected lateinit var sendUkGovNotifyMessageQueueName: String
+    @Value("\${sqs.send-uk-gov-notify-photo-resubmission-message-queue-name}")
+    protected lateinit var sendUkGovNotifyPhotoResubmissionMessageQueueName: String
 
     @Autowired
     protected lateinit var webTestClient: WebTestClient

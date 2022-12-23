@@ -79,9 +79,9 @@ class LocalStackContainerConfiguration {
     @Bean
     fun localStackContainerSqsSettings(
         applicationContext: ConfigurableApplicationContext,
-        @Value("\${sqs.send-uk-gov-notify-message-queue-name}") sendUkGovNotifyMessageQueueName: String,
+        @Value("\${sqs.send-uk-gov-notify-photo-resubmission-message-queue-name}") sendUkGovNotifyPhotoResubmissionMessageQueueName: String,
     ): LocalStackContainerSettings {
-        val queueUrlVoterCardApplication = localStackContainer.createSqsQueue(sendUkGovNotifyMessageQueueName)
+        val sendUkGovNotifyPhotoResubmissionQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionMessageQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 
@@ -89,7 +89,7 @@ class LocalStackContainerConfiguration {
 
         return LocalStackContainerSettings(
             apiUrl = apiUrl,
-            queueUrlVoterCardApplication = queueUrlVoterCardApplication,
+            sendUkGovNotifyPhotoResubmissionQueueName = sendUkGovNotifyPhotoResubmissionQueueName,
         )
     }
 
@@ -172,5 +172,5 @@ class LocalStackContainerConfiguration {
 
 data class LocalStackContainerSettings(
     val apiUrl: String,
-    val queueUrlVoterCardApplication: String,
+    val sendUkGovNotifyPhotoResubmissionQueueName: String,
 )

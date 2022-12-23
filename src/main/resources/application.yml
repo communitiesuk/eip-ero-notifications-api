@@ -15,4 +15,4 @@ api:
         photo-resubmission-email-welsh: e81185e8-000d-49a4-9e96-42311447a62d
 
 sqs:
-  send-uk-gov-notify-message-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_MESSAGE_QUEUE_NAME}
+  send-uk-gov-notify-photo-resubmission-message-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_MESSAGE_QUEUE_NAME}
