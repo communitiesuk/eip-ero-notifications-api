@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_APPROVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.models.TemplateType
@@ -53,6 +54,7 @@ class NotificationTemplateMapper(
                 APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
                 APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
                 PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
+                ID_DOCUMENT_RESUBMISSION -> notifyTemplateConfiguration.idDocumentResubmissionEmailEnglish
             }
         } else {
             when (notificationType) {
@@ -60,6 +62,7 @@ class NotificationTemplateMapper(
                 APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailWelsh
                 APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailWelsh
                 PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailWelsh
+                ID_DOCUMENT_RESUBMISSION -> notifyTemplateConfiguration.idDocumentResubmissionEmailWelsh
             }
         }
     }

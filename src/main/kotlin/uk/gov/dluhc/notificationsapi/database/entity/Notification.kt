@@ -52,6 +52,7 @@ enum class NotificationType {
     APPLICATION_APPROVED,
     APPLICATION_REJECTED,
     PHOTO_RESUBMISSION,
+    ID_DOCUMENT_RESUBMISSION,
 }
 
 enum class Channel {
