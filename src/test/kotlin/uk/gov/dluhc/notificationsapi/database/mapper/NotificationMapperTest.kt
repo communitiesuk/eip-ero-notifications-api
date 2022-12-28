@@ -28,7 +28,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSu
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendEmailSuccessResponseTemplateVersion
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
@@ -103,7 +103,7 @@ internal class NotificationMapperTest {
             emailAddress = emailAddress,
             notificationType = notificationType,
         )
-        val personalisationMap = buildPersonalisationMapFromDto(personalisationDto)
+        val personalisationMap = buildPhotoPersonalisationMapFromDto(personalisationDto)
         val sendNotificationResponseDto = aSendNotificationDto()
         val expectedNotifyDetails = aNotifyDetails(sendNotificationResponseDto)
         val sentAt = aLocalDateTime()

@@ -21,7 +21,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
 import java.time.Clock
@@ -67,7 +67,7 @@ internal class SendNotificationServiceTest {
         val request = buildSendNotificationRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
-        val personalisation = buildPersonalisationMapFromDto()
+        val personalisation = buildPhotoPersonalisationMapFromDto()
         val sendNotificationResponseDto = buildSendNotificationDto()
         val notification = aNotification()
         val templateId = aTemplateId().toString()
@@ -100,7 +100,7 @@ internal class SendNotificationServiceTest {
         val request = buildSendNotificationRequestDto(channel = channel, language = language)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
-        val personalisation = buildPersonalisationMapFromDto()
+        val personalisation = buildPhotoPersonalisationMapFromDto()
         val templateId = aTemplateId().toString()
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)

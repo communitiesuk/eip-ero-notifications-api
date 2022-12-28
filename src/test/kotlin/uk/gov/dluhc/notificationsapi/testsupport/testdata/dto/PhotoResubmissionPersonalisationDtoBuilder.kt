@@ -53,7 +53,7 @@ fun buildPhotoResubmissionPersonalisationDtoFromMessage(
     }
 }
 
-fun buildPersonalisationMapFromDto(
+fun buildPhotoPersonalisationMapFromDto(
     personalisationDto: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
 ): Map<String, String> {
     val personalisationMap = mutableMapOf<String, String>()
@@ -62,6 +62,32 @@ fun buildPersonalisationMapFromDto(
         personalisationMap["firstName"] = firstName
         personalisationMap["photoRequestFreeText"] = photoRequestFreeText
         personalisationMap["uploadPhotoLink"] = uploadPhotoLink
+        with(eroContactDetails) {
+            personalisationMap["LAName"] = localAuthorityName
+            personalisationMap["eroPhone"] = phone
+            personalisationMap["eroWebsite"] = website
+            personalisationMap["eroEmail"] = email
+            with(address) {
+                personalisationMap["eroAddressLine1"] = property ?: ""
+                personalisationMap["eroAddressLine2"] = street
+                personalisationMap["eroAddressLine3"] = town ?: ""
+                personalisationMap["eroAddressLine4"] = area ?: ""
+                personalisationMap["eroAddressLine5"] = locality ?: ""
+                personalisationMap["eroPostcode"] = postcode
+            }
+        }
+    }
+    return personalisationMap
+}
+
+fun buildIdDocumentPersonalisationMapFromDto(
+    personalisationDto: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
+): Map<String, String> {
+    val personalisationMap = mutableMapOf<String, String>()
+    with(personalisationDto) {
+        personalisationMap["applicationReference"] = applicationReference
+        personalisationMap["firstName"] = firstName
+        personalisationMap["documentRequestFreeText"] = photoRequestFreeText
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone
