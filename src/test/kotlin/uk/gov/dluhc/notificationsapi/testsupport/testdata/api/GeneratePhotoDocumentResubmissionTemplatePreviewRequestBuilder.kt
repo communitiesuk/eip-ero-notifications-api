@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.api
 
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.IdDocumentResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.PhotoResubmissionPersonalisation
@@ -20,7 +21,7 @@ fun buildGeneratePhotoResubmissionTemplatePreviewRequest(
 fun buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: Language = Language.EN,
-    personalisation: PhotoResubmissionPersonalisation = buildPhotoResubmissionPersonalisationRequest()
+    personalisation: IdDocumentResubmissionPersonalisation = buildIdDocumentResubmissionPersonalisationRequest()
 ): GenerateIdDocumentResubmissionTemplatePreviewRequest =
     GenerateIdDocumentResubmissionTemplatePreviewRequest(
         channel = channel,

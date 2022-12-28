@@ -18,13 +18,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
 
 @ExtendWith(MockitoExtension::class)
-class PhotoDocumentResubmissionTemplatePreviewDtoMapperTest {
+class ResubmissionTemplatePreviewDtoMapperTest {
 
     @InjectMocks
-    private lateinit var mapper: PhotoDocumentResubmissionTemplatePreviewDtoMapperImpl
+    private lateinit var mapper: ResubmissionTemplatePreviewDtoMapperImpl
 
     @Mock
     private lateinit var languageMapper: LanguageMapper
@@ -92,11 +93,10 @@ class PhotoDocumentResubmissionTemplatePreviewDtoMapperTest {
             channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
-                buildPhotoResubmissionPersonalisationDto(
+                buildIdDocumentResubmissionPersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
-                    photoRequestFreeText = photoRequestFreeText,
-                    uploadPhotoLink = uploadPhotoLink,
+                    idDocumentRequestFreeText = idDocumentRequestFreeText,
                     eroContactDetails = with(eroContactDetails) {
                         buildContactDetailsDto(
                             localAuthorityName = localAuthorityName,

@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import uk.gov.dluhc.notificationsapi.mapper.PhotoDocumentResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.ResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
@@ -15,7 +15,7 @@ import javax.validation.Valid
 @CrossOrigin
 class TemplateController(
     private val templateService: TemplateService,
-    private val photoDocumentResubmissionTemplatePreviewDtoMapper: PhotoDocumentResubmissionTemplatePreviewDtoMapper,
+    private val resubmissionTemplatePreviewDtoMapper: ResubmissionTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -24,7 +24,7 @@ class TemplateController(
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generatePhotoResubmissionTemplatePreview(
-                photoDocumentResubmissionTemplatePreviewDtoMapper.toPhotoResubmissionTemplatePreviewDto(
+                resubmissionTemplatePreviewDtoMapper.toPhotoResubmissionTemplatePreviewDto(
                     request
                 )
             )
@@ -39,7 +39,7 @@ class TemplateController(
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateIdDocumentResubmissionTemplatePreview(
-                photoDocumentResubmissionTemplatePreviewDtoMapper.toIdDocumentResubmissionTemplatePreviewDto(
+                resubmissionTemplatePreviewDtoMapper.toIdDocumentResubmissionTemplatePreviewDto(
                     request
                 )
             )

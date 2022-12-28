@@ -6,12 +6,13 @@ import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
 
-class PhotoResubmissionPersonalisationDtoMapperTest {
+class TemplatePersonalisationDtoMapperTest {
 
-    private val mapper = PhotoResubmissionPersonalisationDtoMapper()
+    private val mapper = TemplatePersonalisationDtoMapper()
 
     @Test
     fun `should map dto to personalisation map when all fields present`() {
@@ -20,7 +21,7 @@ class PhotoResubmissionPersonalisationDtoMapperTest {
         val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
 
         // When
-        val actual = mapper.toTemplatePersonalisationMap(personalisationDto)
+        val actual = mapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
 
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
@@ -37,7 +38,7 @@ class PhotoResubmissionPersonalisationDtoMapperTest {
         val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
 
         // When
-        val actual = mapper.toTemplatePersonalisationMap(personalisationDto)
+        val actual = mapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
 
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
@@ -55,11 +56,11 @@ class PhotoResubmissionPersonalisationDtoMapperTest {
         @Test
         fun `should map dto to personalisation map when all fields present`() {
             // Given
-            val personalisationDto = buildPhotoResubmissionPersonalisationDto()
+            val personalisationDto = buildIdDocumentResubmissionPersonalisationDto()
             val expected = buildIdDocumentPersonalisationMapFromDto(personalisationDto)
 
             // When
-            val actual = mapper.toIdDocumentTemplatePersonalisationMap(personalisationDto)
+            val actual = mapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
@@ -68,7 +69,7 @@ class PhotoResubmissionPersonalisationDtoMapperTest {
         @Test
         fun `should map dto to personalisation map when all optional fields not present`() {
             // Given
-            val personalisationDto = buildPhotoResubmissionPersonalisationDto(
+            val personalisationDto = buildIdDocumentResubmissionPersonalisationDto(
                 eroContactDetails = buildContactDetailsDto(
                     address = buildAddressDtoWithOptionalFieldsNull()
                 )
@@ -76,7 +77,7 @@ class PhotoResubmissionPersonalisationDtoMapperTest {
             val expected = buildIdDocumentPersonalisationMapFromDto(personalisationDto)
 
             // When
-            val actual = mapper.toIdDocumentTemplatePersonalisationMap(personalisationDto)
+            val actual = mapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

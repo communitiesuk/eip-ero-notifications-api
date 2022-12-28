@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
@@ -20,7 +21,7 @@ fun buildGeneratePhotoResubmissionTemplatePreviewDto(
 fun buildGenerateIdDocumentResubmissionTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto()
+    personalisation: IdDocumentResubmissionPersonalisationDto = buildIdDocumentResubmissionPersonalisationDto()
 ): GenerateIdDocumentResubmissionTemplatePreviewDto =
     GenerateIdDocumentResubmissionTemplatePreviewDto(
         channel = channel,

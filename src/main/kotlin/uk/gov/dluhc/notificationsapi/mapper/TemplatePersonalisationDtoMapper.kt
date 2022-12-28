@@ -2,12 +2,13 @@ package uk.gov.dluhc.notificationsapi.mapper
 
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
 
 @Component
-class PhotoResubmissionPersonalisationDtoMapper {
+class TemplatePersonalisationDtoMapper {
 
-    fun toTemplatePersonalisationMap(dto: PhotoResubmissionPersonalisationDto): Map<String, String> {
+    fun toPhotoResubmissionTemplatePersonalisationMap(dto: PhotoResubmissionPersonalisationDto): Map<String, String> {
         val personalisation = mutableMapOf<String, String>()
 
         with(dto) {
@@ -22,13 +23,13 @@ class PhotoResubmissionPersonalisationDtoMapper {
         return personalisation
     }
 
-    fun toIdDocumentTemplatePersonalisationMap(dto: PhotoResubmissionPersonalisationDto): Map<String, String> {
+    fun toIdDocumentResubmissionTemplatePersonalisationMap(dto: IdDocumentResubmissionPersonalisationDto): Map<String, String> {
         val personalisation = mutableMapOf<String, String>()
 
         with(dto) {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
-            personalisation["documentRequestFreeText"] = photoRequestFreeText
+            personalisation["documentRequestFreeText"] = idDocumentRequestFreeText
             with(eroContactDetails) {
                 mapEroContactFields(personalisation)
             }

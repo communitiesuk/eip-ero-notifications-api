@@ -7,7 +7,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTempla
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 
 @Mapper(uses = [LanguageMapper::class])
-interface PhotoDocumentResubmissionTemplatePreviewDtoMapper {
+interface ResubmissionTemplatePreviewDtoMapper {
 
     fun toPhotoResubmissionTemplatePreviewDto(
         request: GeneratePhotoResubmissionTemplatePreviewRequest

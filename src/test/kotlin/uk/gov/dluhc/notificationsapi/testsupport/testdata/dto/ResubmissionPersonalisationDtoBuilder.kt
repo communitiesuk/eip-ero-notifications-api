@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.AddressDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -19,6 +20,19 @@ fun buildPhotoResubmissionPersonalisationDto(
         firstName = firstName,
         photoRequestFreeText = photoRequestFreeText,
         uploadPhotoLink = uploadPhotoLink,
+        eroContactDetails = eroContactDetails
+    )
+
+fun buildIdDocumentResubmissionPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    idDocumentRequestFreeText: String = faker.harryPotter().spell(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+): IdDocumentResubmissionPersonalisationDto =
+    IdDocumentResubmissionPersonalisationDto(
+        applicationReference = applicationReference,
+        firstName = firstName,
+        idDocumentRequestFreeText = idDocumentRequestFreeText,
         eroContactDetails = eroContactDetails
     )
 
@@ -81,13 +95,13 @@ fun buildPhotoPersonalisationMapFromDto(
 }
 
 fun buildIdDocumentPersonalisationMapFromDto(
-    personalisationDto: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
+    personalisationDto: IdDocumentResubmissionPersonalisationDto = buildIdDocumentResubmissionPersonalisationDto(),
 ): Map<String, String> {
     val personalisationMap = mutableMapOf<String, String>()
     with(personalisationDto) {
         personalisationMap["applicationReference"] = applicationReference
         personalisationMap["firstName"] = firstName
-        personalisationMap["documentRequestFreeText"] = photoRequestFreeText
+        personalisationMap["documentRequestFreeText"] = idDocumentRequestFreeText
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone

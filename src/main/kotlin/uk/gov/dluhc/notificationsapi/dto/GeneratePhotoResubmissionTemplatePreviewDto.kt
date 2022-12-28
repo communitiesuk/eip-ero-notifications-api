@@ -5,3 +5,11 @@ data class GeneratePhotoResubmissionTemplatePreviewDto(
     val language: LanguageDto,
     val personalisation: PhotoResubmissionPersonalisationDto
 )
+
+data class PhotoResubmissionPersonalisationDto(
+    val applicationReference: String,
+    val firstName: String,
+    val photoRequestFreeText: String,
+    val uploadPhotoLink: String,
+    val eroContactDetails: ContactDetailsDto
+)

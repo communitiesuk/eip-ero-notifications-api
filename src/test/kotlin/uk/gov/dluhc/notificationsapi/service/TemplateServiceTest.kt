@@ -15,7 +15,7 @@ import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
@@ -32,7 +32,7 @@ class TemplateServiceTest {
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
 
     @Mock
-    private lateinit var photoResubmissionPersonalisationDtoMapper: PhotoResubmissionPersonalisationDtoMapper
+    private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
 
     @Test
     fun `should return photo resubmission template preview`() {
@@ -52,7 +52,7 @@ class TemplateServiceTest {
         val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
         given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
         given(notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(any(), any(), any())).willReturn(templateId)
-        given(photoResubmissionPersonalisationDtoMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
+        given(templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
 
@@ -62,8 +62,8 @@ class TemplateServiceTest {
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
         verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, channel, language)
-        verify(photoResubmissionPersonalisationDtoMapper).toTemplatePersonalisationMap(request.personalisation)
-        verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, photoResubmissionPersonalisationDtoMapper)
+        verify(templatePersonalisationDtoMapper).toPhotoResubmissionTemplatePersonalisationMap(request.personalisation)
+        verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
     }
 
     @Test
@@ -84,7 +84,7 @@ class TemplateServiceTest {
         val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
         given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
         given(notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(any(), any(), any())).willReturn(templateId)
-        given(photoResubmissionPersonalisationDtoMapper.toIdDocumentTemplatePersonalisationMap(any())).willReturn(personalisation)
+        given(templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
 
@@ -94,7 +94,7 @@ class TemplateServiceTest {
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
         verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, channel, language)
-        verify(photoResubmissionPersonalisationDtoMapper).toIdDocumentTemplatePersonalisationMap(request.personalisation)
-        verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, photoResubmissionPersonalisationDtoMapper)
+        verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(request.personalisation)
+        verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
     }
 }

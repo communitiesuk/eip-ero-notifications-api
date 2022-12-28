@@ -17,7 +17,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TO
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildAddressRequestWithOptionalParamsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetailsRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateIdDocumentResubmissionTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildPhotoResubmissionPersonalisationRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildIdDocumentResubmissionPersonalisationRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit.MILLIS
@@ -145,8 +145,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
-                "photoRequestFreeText": "",
-                "uploadPhotoLink": "",
+                "idDocumentRequestFreeText": "",
                 "eroContactDetails": {
                   "localAuthorityName": "",
                   "website": "",
@@ -205,8 +204,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
-                "photoRequestFreeText": "Please provide valid identity document",
-                "uploadPhotoLink": "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
+                "idDocumentRequestFreeText": "Please provide valid identity document",
                 "eroContactDetails": {
                   "localAuthorityName": "City of Sunderland",
                   "website": "ero-address.com",
@@ -270,7 +268,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "documentRequestFreeText" to photoRequestFreeText,
+                "documentRequestFreeText" to idDocumentRequestFreeText,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
@@ -312,13 +310,13 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            personalisation = buildPhotoResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()))
+            personalisation = buildIdDocumentResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()))
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "documentRequestFreeText" to photoRequestFreeText,
+                "documentRequestFreeText" to idDocumentRequestFreeText,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
