@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.4.0'
+  version: '1.4.1'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -148,8 +148,8 @@ paths:
               application/json: |
                 {}
     post:
-      summary: Generates a text and html preview for an id document resubmission template type and personalisation data
-      description: Generates a text and html preview for an id document resubmission template type and personalisation data
+      summary: Generates a text and html preview for an identity document resubmission template type and personalisation data
+      description: Generates a text and html preview for an identity document resubmission template type and personalisation data
       operationId: generate-id-document-resubmission-template-preview
       tags:
         - Generate ID Document Resubmission Template Preview
@@ -247,7 +247,7 @@ components:
         - email
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
-      description: An object containing request attributes required for generating the id document resubmission template preview
+      description: An object containing request attributes required for generating the identity document resubmission template preview
       type: object
       properties:
         channel:
@@ -255,7 +255,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/IdDocumentResubmissionPersonalisation'
+          $ref: '#/components/schemas/IdDocumentPersonalisation'
       required:
         - channel
         - personalisation
@@ -269,7 +269,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
+          $ref: '#/components/schemas/PhotoPersonalisation'
       required:
         - channel
         - personalisation
@@ -307,8 +307,8 @@ components:
           example: <p>Hi Fred Blogs,</p>
       required:
         - text
-    IdDocumentResubmissionPersonalisation:
-      title: IdDocumentResubmissionPersonalisation
+    IdDocumentPersonalisation:
+      title: IdDocumentPersonalisation
       type: object
       description: Personalisation details for an identity document resubmission template
       allOf:
@@ -316,12 +316,12 @@ components:
       properties:
         idDocumentRequestFreeText:
           type: string
-          description: Free text regarding id document request
+          description: Free text regarding identity document request
           example: Please provide a valid identity document
       required:
         - idDocumentRequestFreeText
-    PhotoResubmissionPersonalisation:
-      title: PhotoResubmissionPersonalisation
+    PhotoPersonalisation:
+      title: PhotoPersonalisation
       type: object
       description: Personalisation details for photo resubmission template
       allOf:
@@ -471,7 +471,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateTemplatePreviewRequest'
-            
+
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:
       type: apiKey

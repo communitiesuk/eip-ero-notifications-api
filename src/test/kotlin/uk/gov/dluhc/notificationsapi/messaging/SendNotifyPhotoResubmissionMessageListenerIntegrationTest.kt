@@ -22,7 +22,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
 
     @ParameterizedTest
     @EnumSource(Language::class)
-    fun `should process message to send Email for given language and save notification`(
+    fun `should process photo message to send Email for given language and save notification`(
         language: Language
     ) {
         // Given
