@@ -2,19 +2,20 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.AddressDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
-import uk.gov.dluhc.notificationsapi.dto.PhotoResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
-fun buildPhotoResubmissionPersonalisationDto(
+fun buildPhotoPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     photoRequestFreeText: String = faker.harryPotter().spell(),
     uploadPhotoLink: String = "http://localhost:8080/eros/photo/398c1be2-7950-48a2-aca8-14cb9276a673",
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
-): PhotoResubmissionPersonalisationDto =
-    PhotoResubmissionPersonalisationDto(
+): PhotoPersonalisationDto =
+    PhotoPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
         photoRequestFreeText = photoRequestFreeText,
@@ -22,11 +23,24 @@ fun buildPhotoResubmissionPersonalisationDto(
         eroContactDetails = eroContactDetails
     )
 
+fun buildIdDocumentPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    idDocumentRequestFreeText: String = faker.harryPotter().spell(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+): IdDocumentPersonalisationDto =
+    IdDocumentPersonalisationDto(
+        applicationReference = applicationReference,
+        firstName = firstName,
+        idDocumentRequestFreeText = idDocumentRequestFreeText,
+        eroContactDetails = eroContactDetails
+    )
+
 fun buildPhotoResubmissionPersonalisationDtoFromMessage(
     personalisationMessage: PhotoResubmissionPersonalisation
-): PhotoResubmissionPersonalisationDto {
+): PhotoPersonalisationDto {
     return with(personalisationMessage) {
-        PhotoResubmissionPersonalisationDto(
+        PhotoPersonalisationDto(
             applicationReference = applicationReference,
             firstName = firstName,
             photoRequestFreeText = photoRequestFreeText,
@@ -53,8 +67,8 @@ fun buildPhotoResubmissionPersonalisationDtoFromMessage(
     }
 }
 
-fun buildPersonalisationMapFromDto(
-    personalisationDto: PhotoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto(),
+fun buildPhotoPersonalisationMapFromDto(
+    personalisationDto: PhotoPersonalisationDto = buildPhotoPersonalisationDto(),
 ): Map<String, String> {
     val personalisationMap = mutableMapOf<String, String>()
     with(personalisationDto) {
@@ -62,6 +76,32 @@ fun buildPersonalisationMapFromDto(
         personalisationMap["firstName"] = firstName
         personalisationMap["photoRequestFreeText"] = photoRequestFreeText
         personalisationMap["uploadPhotoLink"] = uploadPhotoLink
+        with(eroContactDetails) {
+            personalisationMap["LAName"] = localAuthorityName
+            personalisationMap["eroPhone"] = phone
+            personalisationMap["eroWebsite"] = website
+            personalisationMap["eroEmail"] = email
+            with(address) {
+                personalisationMap["eroAddressLine1"] = property ?: ""
+                personalisationMap["eroAddressLine2"] = street
+                personalisationMap["eroAddressLine3"] = town ?: ""
+                personalisationMap["eroAddressLine4"] = area ?: ""
+                personalisationMap["eroAddressLine5"] = locality ?: ""
+                personalisationMap["eroPostcode"] = postcode
+            }
+        }
+    }
+    return personalisationMap
+}
+
+fun buildIdDocumentPersonalisationMapFromDto(
+    personalisationDto: IdDocumentPersonalisationDto = buildIdDocumentPersonalisationDto(),
+): Map<String, String> {
+    val personalisationMap = mutableMapOf<String, String>()
+    with(personalisationDto) {
+        personalisationMap["applicationReference"] = applicationReference
+        personalisationMap["firstName"] = firstName
+        personalisationMap["documentRequestFreeText"] = idDocumentRequestFreeText
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone

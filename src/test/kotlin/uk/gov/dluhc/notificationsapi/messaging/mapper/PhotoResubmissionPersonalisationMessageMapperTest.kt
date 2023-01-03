@@ -19,6 +19,6 @@ internal class PhotoResubmissionPersonalisationMessageMapperTest {
         val actualPhotoResubmissionDto = mapper.toPhotoResubmissionPersonalisationDto(personalisationMessage)
 
         // Then
-        assertThat(actualPhotoResubmissionDto).isEqualTo(expectedPersonalisationDto)
+        assertThat(actualPhotoResubmissionDto).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
     }
 }
