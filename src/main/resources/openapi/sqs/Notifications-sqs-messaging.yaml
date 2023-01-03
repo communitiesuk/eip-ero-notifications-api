@@ -89,42 +89,42 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         personalisation:
-          $ref: '#/components/schemas/PhotoResubmissionPersonalisation'
+          $ref: '#/components/schemas/PhotoPersonalisation'
       required:
         - personalisation
 
     SendNotifyIdDocumentResubmissionMessage:
       title: SendNotifyIdDocumentResubmissionMessage
       type: object
-      description: SQS Message for sending GOV.UK Notify messages for an identity document resubmission
+      description: SQS Message for sending GOV.UK Notify messages for an identification document resubmission
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         personalisation:
-          $ref: '#/components/schemas/IdDocumentResubmissionPersonalisation'
+          $ref: '#/components/schemas/IdDocumentPersonalisation'
       required:
         - personalisation
 
-    IdDocumentResubmissionPersonalisation:
-      title: IdDocumentResubmissionPersonalisation
+    IdDocumentPersonalisation:
+      title: IdDocumentPersonalisation
       type: object
       description: Personalisation details for an identity document resubmission template
       allOf:
-        - $ref: '#/components/schemas/GenericResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
       properties:
         idDocumentRequestFreeText:
           type: string
-          description: Free text regarding id document request
+          description: Free text regarding an identity document request
           example: Please provide a valid identity document
       required:
         - idDocumentRequestFreeText
 
-    PhotoResubmissionPersonalisation:
-      title: PhotoResubmissionPersonalisation
+    PhotoPersonalisation:
+      title: PhotoPersonalisation
       type: object
       description: Personalisation details for photo resubmission template
       allOf:
-        - $ref: '#/components/schemas/GenericResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
       properties:
         photoRequestFreeText:
           type: string
@@ -138,10 +138,10 @@ components:
         - photoRequestFreeText
         - uploadPhotoLink
 
-    GenericResubmissionPersonalisation:
-      title: GenericResubmissionPersonalisation
+    BaseResubmissionPersonalisation:
+      title: BaseResubmissionPersonalisation
       type: object
-      description: Generic and common personalisation details for photo and/or id document resubmission template
+      description: Base/Common personalisation details for photo and/or an identification document resubmission template
       properties:
         applicationReference:
           type: string

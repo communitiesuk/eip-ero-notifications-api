@@ -5,8 +5,8 @@ import mu.KotlinLogging
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
-import uk.gov.dluhc.notificationsapi.messaging.mapper.PhotoResubmissionPersonalisationMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
+import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import javax.validation.Valid
@@ -17,7 +17,7 @@ private val logger = KotlinLogging.logger { }
 class SendNotifyPhotoResubmissionMessageListener(
     private val sendNotificationService: SendNotificationService,
     private val sendNotifyMessageMapper: SendNotifyMessageMapper,
-    private val photoResubmissionPersonalisationMessageMapper: PhotoResubmissionPersonalisationMessageMapper,
+    private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
 ) : MessageListener<SendNotifyPhotoResubmissionMessage> {
 
@@ -30,8 +30,8 @@ class SendNotifyPhotoResubmissionMessageListener(
                 "Language: ${payload.language}"
         }
         with(payload) {
-            val sendNotificationRequestDto = sendNotifyMessageMapper.toSendNotificationRequestDto(this)
-            val personalisationDto = photoResubmissionPersonalisationMessageMapper.toPhotoResubmissionPersonalisationDto(personalisation)
+            val sendNotificationRequestDto = sendNotifyMessageMapper.fromPhotoMessageToSendNotificationRequestDto(this)
+            val personalisationDto = templatePersonalisationMessageMapper.toPhotoPersonalisationDto(personalisation)
             val personalisationMap = templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

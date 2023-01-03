@@ -9,8 +9,8 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
-import uk.gov.dluhc.notificationsapi.messaging.mapper.PhotoResubmissionPersonalisationMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
+import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationRequestDto
@@ -27,7 +27,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerTest {
     private lateinit var sendNotifyMessageMapper: SendNotifyMessageMapper
 
     @Mock
-    private lateinit var photoResubmissionPersonalisationMessageMapper: PhotoResubmissionPersonalisationMessageMapper
+    private lateinit var templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper
 
     @Mock
     private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
@@ -36,24 +36,24 @@ internal class SendNotifyPhotoResubmissionMessageListenerTest {
     private lateinit var sendNotificationService: SendNotificationService
 
     @Test
-    fun `should handle SQS SendNotifyMessage`() {
+    fun `should handle SQS SendNotifyPhotoResubmissionMessage`() {
         // Given
         val sqsMessage = aSendNotifyPhotoResubmissionMessage()
         val requestDto = aSendNotificationRequestDto()
         val personalisationMap = aNotificationPersonalisationMap()
-        val photoResubmissionPersonalisationDto = buildPhotoPersonalisationDto()
+        val personalisationDto = buildPhotoPersonalisationDto()
 
-        given(sendNotifyMessageMapper.toSendNotificationRequestDto(any())).willReturn(requestDto)
-        given(photoResubmissionPersonalisationMessageMapper.toPhotoResubmissionPersonalisationDto(any())).willReturn(photoResubmissionPersonalisationDto)
+        given(sendNotifyMessageMapper.fromPhotoMessageToSendNotificationRequestDto(any())).willReturn(requestDto)
+        given(templatePersonalisationMessageMapper.toPhotoPersonalisationDto(any())).willReturn(personalisationDto)
         given(templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(any())).willReturn(personalisationMap)
 
         // When
         listener.handleMessage(sqsMessage)
 
         // Then
-        verify(sendNotifyMessageMapper).toSendNotificationRequestDto(sqsMessage)
-        verify(photoResubmissionPersonalisationMessageMapper).toPhotoResubmissionPersonalisationDto(sqsMessage.personalisation)
-        verify(templatePersonalisationDtoMapper).toPhotoResubmissionTemplatePersonalisationMap(photoResubmissionPersonalisationDto)
+        verify(sendNotifyMessageMapper).fromPhotoMessageToSendNotificationRequestDto(sqsMessage)
+        verify(templatePersonalisationMessageMapper).toPhotoPersonalisationDto(sqsMessage.personalisation)
+        verify(templatePersonalisationDtoMapper).toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
         verify(sendNotificationService).sendNotification(requestDto, personalisationMap)
     }
 }
