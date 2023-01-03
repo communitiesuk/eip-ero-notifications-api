@@ -15,8 +15,9 @@ import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionPersonalisationDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.models.TemplateType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 
 @ExtendWith(MockitoExtension::class)
@@ -31,7 +32,7 @@ class TemplateServiceTest {
     private lateinit var notificationTemplateMapper: NotificationTemplateMapper
 
     @Mock
-    private lateinit var photoResubmissionPersonalisationDtoMapper: PhotoResubmissionPersonalisationDtoMapper
+    private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
 
     @Test
     fun `should return photo resubmission template preview`() {
@@ -51,7 +52,7 @@ class TemplateServiceTest {
         val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
         given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
         given(notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(any(), any(), any())).willReturn(templateId)
-        given(photoResubmissionPersonalisationDtoMapper.toTemplatePersonalisationMap(any())).willReturn(personalisation)
+        given(templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(any())).willReturn(personalisation)
 
         // When
 
@@ -61,6 +62,39 @@ class TemplateServiceTest {
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
         verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, channel, language)
-        verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper)
+        verify(templatePersonalisationDtoMapper).toPhotoResubmissionTemplatePersonalisationMap(request.personalisation)
+        verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+    }
+
+    @Test
+    fun `should return id document resubmission template preview`() {
+        // Given
+        val templateId = "50210eee-4592-11ed-b878-0242ac120005"
+        val personalisation = mapOf(
+            "subject_param" to "test subject",
+            "name_param" to "John",
+            "custom_title" to "Resubmitting photo",
+        )
+        val language = LanguageDto.ENGLISH
+        val channel = NotificationChannel.EMAIL
+        val request = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
+            language = language,
+            channel = channel
+        )
+        val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+        given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
+        given(notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(any(), any(), any())).willReturn(templateId)
+        given(templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(any())).willReturn(personalisation)
+
+        // When
+
+        val actual = templateService.generateIdDocumentResubmissionTemplatePreview(request)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+        verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
+        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, channel, language)
+        verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(request.personalisation)
+        verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
     }
 }

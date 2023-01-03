@@ -18,6 +18,7 @@ class NotificationTypeMapperTest {
             "APPLICATION_MINUS_APPROVED, APPLICATION_APPROVED",
             "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
             "PHOTO_MINUS_RESUBMISSION, PHOTO_RESUBMISSION",
+            "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
         ]
     )
     fun `should map template type to notification type`(source: TemplateType, expected: NotificationType) {
@@ -37,6 +38,7 @@ class NotificationTypeMapperTest {
             "APPLICATION_MINUS_APPROVED, APPLICATION_APPROVED",
             "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
             "PHOTO_MINUS_RESUBMISSION, PHOTO_RESUBMISSION",
+            "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
         ]
     )
     fun `should map Message Type to NotificationType `(messageType: MessageType, expected: NotificationType) {
@@ -55,7 +57,8 @@ class NotificationTypeMapperTest {
             "APPLICATION_RECEIVED, APPLICATION_RECEIVED",
             "APPLICATION_REJECTED, APPLICATION_REJECTED",
             "APPLICATION_APPROVED, APPLICATION_APPROVED",
-            "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION"
+            "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION",
+            "ID_DOCUMENT_RESUBMISSION, ID_DOCUMENT_RESUBMISSION"
         ]
     )
     fun `should map DTO Notification Type to Entity Notification Type`(

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.3.1'
+  version: '1.4.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -104,6 +104,90 @@ paths:
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
+
+  #
+  # Generate ID Document Resubmission Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/id-document-resubmission/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate ID Document Resubmission Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text and html preview for an id document resubmission template type and personalisation data
+      description: Generates a text and html preview for an id document resubmission template type and personalisation data
+      operationId: generate-id-document-resubmission-template-preview
+      tags:
+        - Generate ID Document Resubmission Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateIdDocumentResubmissionTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/id-document-resubmission/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
 components:
   #
   # Schema and Enum Definitions
@@ -146,6 +230,7 @@ components:
         - application-approved
         - application-rejected
         - photo-resubmission
+        - id-document-resubmission
     Language:
       title: Language
       description: The language to view the template
@@ -160,6 +245,20 @@ components:
       type: string
       enum:
         - email
+    GenerateIdDocumentResubmissionTemplatePreviewRequest:
+      title: GenerateIdDocumentResubmissionTemplatePreviewRequest
+      description: An object containing request attributes required for generating the id document resubmission template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/IdDocumentResubmissionPersonalisation'
+      required:
+        - channel
+        - personalisation
     GeneratePhotoResubmissionTemplatePreviewRequest:
       title: GeneratePhotoResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the photo resubmission template preview
@@ -208,10 +307,41 @@ components:
           example: <p>Hi Fred Blogs,</p>
       required:
         - text
+    IdDocumentResubmissionPersonalisation:
+      title: IdDocumentResubmissionPersonalisation
+      type: object
+      description: Personalisation details for an identity document resubmission template
+      allOf:
+        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+      properties:
+        idDocumentRequestFreeText:
+          type: string
+          description: Free text regarding id document request
+          example: Please provide a valid identity document
+      required:
+        - idDocumentRequestFreeText
     PhotoResubmissionPersonalisation:
       title: PhotoResubmissionPersonalisation
       type: object
       description: Personalisation details for photo resubmission template
+      allOf:
+        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+      properties:
+        photoRequestFreeText:
+          type: string
+          description: Free text regarding photo request
+          example: Please provide a clear image
+        uploadPhotoLink:
+          type: string
+          description: The URL link to upload a new image
+          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
+      required:
+        - photoRequestFreeText
+        - uploadPhotoLink
+    BaseResubmissionPersonalisation:
+      title: BaseResubmissionPersonalisation
+      type: object
+      description: Base/Common personalisation details required for a photo or identity document resubmission template
       properties:
         applicationReference:
           type: string
@@ -224,21 +354,11 @@ components:
           maxLength: 255
           description: The applicant's first name
           example: Fred
-        photoRequestFreeText:
-          type: string
-          description: Free text regarding photo request
-          example: Please provide a clear image
-        uploadPhotoLink:
-          type: string
-          description: The URL link to upload a new image
-          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
         eroContactDetails:
           $ref: '#/components/schemas/ContactDetails'
       required:
         - applicationReference
         - firstName
-        - photoRequestFreeText
-        - uploadPhotoLink
         - eroContactDetails
     ContactDetails:
       title: ContactDetails
@@ -341,6 +461,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GeneratePhotoResubmissionTemplatePreviewRequest'
+    GenerateIdDocumentResubmissionTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateIdDocumentResubmissionTemplatePreviewRequest'
     GenerateTemplatePreview:
       content:
         application/json:

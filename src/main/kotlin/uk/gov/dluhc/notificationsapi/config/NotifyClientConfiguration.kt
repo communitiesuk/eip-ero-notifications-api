@@ -24,5 +24,7 @@ data class NotifyTemplateConfiguration(
     val rejectedEmailEnglish: String,
     val rejectedEmailWelsh: String,
     val photoResubmissionEmailEnglish: String,
-    val photoResubmissionEmailWelsh: String
+    val photoResubmissionEmailWelsh: String,
+    val idDocumentResubmissionEmailEnglish: String,
+    val idDocumentResubmissionEmailWelsh: String,
 )
