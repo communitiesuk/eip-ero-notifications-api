@@ -312,7 +312,7 @@ components:
       type: object
       description: Personalisation details for an identity document resubmission template
       allOf:
-        - $ref: '#/components/schemas/GenericResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
       properties:
         idDocumentRequestFreeText:
           type: string
@@ -325,7 +325,7 @@ components:
       type: object
       description: Personalisation details for photo resubmission template
       allOf:
-        - $ref: '#/components/schemas/GenericResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
       properties:
         photoRequestFreeText:
           type: string
@@ -338,10 +338,10 @@ components:
       required:
         - photoRequestFreeText
         - uploadPhotoLink
-    GenericResubmissionPersonalisation:
-      title: GenericResubmissionPersonalisation
+    BaseResubmissionPersonalisation:
+      title: BaseResubmissionPersonalisation
       type: object
-      description: Generic and common personalisation details required for a photo or identity document resubmission template
+      description: Base/Common personalisation details required for a photo or identity document resubmission template
       properties:
         applicationReference:
           type: string

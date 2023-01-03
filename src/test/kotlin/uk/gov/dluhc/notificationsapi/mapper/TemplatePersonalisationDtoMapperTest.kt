@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
 
 class TemplatePersonalisationDtoMapperTest {
 
@@ -17,7 +17,7 @@ class TemplatePersonalisationDtoMapperTest {
     @Test
     fun `should map dto to personalisation map when all fields present`() {
         // Given
-        val personalisationDto = buildPhotoResubmissionPersonalisationDto()
+        val personalisationDto = buildPhotoPersonalisationDto()
         val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
 
         // When
@@ -30,7 +30,7 @@ class TemplatePersonalisationDtoMapperTest {
     @Test
     fun `should map dto to personalisation map when all optional fields not present`() {
         // Given
-        val personalisationDto = buildPhotoResubmissionPersonalisationDto(
+        val personalisationDto = buildPhotoPersonalisationDto(
             eroContactDetails = buildContactDetailsDto(
                 address = buildAddressDtoWithOptionalFieldsNull()
             )
@@ -56,7 +56,7 @@ class TemplatePersonalisationDtoMapperTest {
         @Test
         fun `should map dto to personalisation map when all fields present`() {
             // Given
-            val personalisationDto = buildIdDocumentResubmissionPersonalisationDto()
+            val personalisationDto = buildIdDocumentPersonalisationDto()
             val expected = buildIdDocumentPersonalisationMapFromDto(personalisationDto)
 
             // When
@@ -69,7 +69,7 @@ class TemplatePersonalisationDtoMapperTest {
         @Test
         fun `should map dto to personalisation map when all optional fields not present`() {
             // Given
-            val personalisationDto = buildIdDocumentResubmissionPersonalisationDto(
+            val personalisationDto = buildIdDocumentPersonalisationDto(
                 eroContactDetails = buildContactDetailsDto(
                     address = buildAddressDtoWithOptionalFieldsNull()
                 )

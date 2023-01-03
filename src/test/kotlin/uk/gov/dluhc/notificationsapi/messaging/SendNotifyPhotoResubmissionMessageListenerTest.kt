@@ -14,7 +14,7 @@ import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationRequestDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aSendNotifyPhotoResubmissionMessage
 
 @ExtendWith(MockitoExtension::class)
@@ -41,7 +41,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerTest {
         val sqsMessage = aSendNotifyPhotoResubmissionMessage()
         val requestDto = aSendNotificationRequestDto()
         val personalisationMap = aNotificationPersonalisationMap()
-        val photoResubmissionPersonalisationDto = buildPhotoResubmissionPersonalisationDto()
+        val photoResubmissionPersonalisationDto = buildPhotoPersonalisationDto()
 
         given(sendNotifyMessageMapper.toSendNotificationRequestDto(any())).willReturn(requestDto)
         given(photoResubmissionPersonalisationMessageMapper.toPhotoResubmissionPersonalisationDto(any())).willReturn(photoResubmissionPersonalisationDto)

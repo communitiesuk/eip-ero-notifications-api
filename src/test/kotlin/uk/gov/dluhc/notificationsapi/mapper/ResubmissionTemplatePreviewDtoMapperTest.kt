@@ -18,8 +18,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 
 @ExtendWith(MockitoExtension::class)
 class ResubmissionTemplatePreviewDtoMapperTest {
@@ -44,7 +44,7 @@ class ResubmissionTemplatePreviewDtoMapperTest {
             channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
-                buildPhotoResubmissionPersonalisationDto(
+                buildPhotoPersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
                     photoRequestFreeText = photoRequestFreeText,
@@ -93,7 +93,7 @@ class ResubmissionTemplatePreviewDtoMapperTest {
             channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
-                buildIdDocumentResubmissionPersonalisationDto(
+                buildIdDocumentPersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
                     idDocumentRequestFreeText = idDocumentRequestFreeText,
