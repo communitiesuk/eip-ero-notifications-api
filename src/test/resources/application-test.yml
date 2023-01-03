@@ -14,4 +14,5 @@ api:
     api-key: "developmentintegrationtestkey-137e13d7-6acd-4449-815e-de0eb0c083ba-52408a6d-f230-4c47-9380-128578c3c51a"
 
 sqs:
-  send-uk-gov-notify-photo-resubmission-message-queue-name: 'test-send-uk-gov-notify-photo-resubmission-message'
+  send-uk-gov-notify-photo-resubmission-queue-name: 'test-send-uk-gov-notify-photo-resubmission'
+  send-uk-gov-notify-id-document-resubmission-queue-name: 'test-send-uk-gov-notify-id-doc-resubmission'

@@ -30,11 +30,13 @@ Either `./gradlew bootRun` or run the class `VoterCardApplicationsApiApplication
 
 ### External Environment Variables
 The following environment variables must be set in order to run the application:
-* `AWS_ACCESS_KEY_ID` - the AWS access key ID
-* `AWS_SECRET_ACCESS_KEY` - the AWS secret access key
-* `AWS_REGION` - the AWS region
-* `SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI` - the uri of the cognito ERO user pool JWT issuer.
-* `DYNAMODB_ENDPOINT` - the localstack endpoint
+1. `AWS_ACCESS_KEY_ID` - the AWS access key ID
+2. `AWS_SECRET_ACCESS_KEY` - the AWS secret access key
+3. `AWS_REGION` - the AWS region
+4. `SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI` - the uri of the cognito ERO user pool JWT issuer.
+5. `DYNAMODB_ENDPOINT` - the localstack endpoint
+6. `SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new photo.
+7. `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.
