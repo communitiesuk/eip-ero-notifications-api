@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.4.2'
+  version: '1.4.3'
   description: |-
     Notifications SQS Message Types
     
@@ -28,6 +28,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyPhotoResubmissionMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-id-document-resubmission-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyIdDocumentResubmissionMessage'
       responses:
         '204':
           description: No response content.
@@ -83,10 +93,55 @@ components:
       required:
         - personalisation
 
+    SendNotifyIdDocumentResubmissionMessage:
+      title: SendNotifyIdDocumentResubmissionMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for an identity document resubmission
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        personalisation:
+          $ref: '#/components/schemas/IdDocumentResubmissionPersonalisation'
+      required:
+        - personalisation
+
+    IdDocumentResubmissionPersonalisation:
+      title: IdDocumentResubmissionPersonalisation
+      type: object
+      description: Personalisation details for an identity document resubmission template
+      allOf:
+        - $ref: '#/components/schemas/GenericResubmissionPersonalisation'
+      properties:
+        idDocumentRequestFreeText:
+          type: string
+          description: Free text regarding id document request
+          example: Please provide a valid identity document
+      required:
+        - idDocumentRequestFreeText
+
     PhotoResubmissionPersonalisation:
       title: PhotoResubmissionPersonalisation
       type: object
       description: Personalisation details for photo resubmission template
+      allOf:
+        - $ref: '#/components/schemas/GenericResubmissionPersonalisation'
+      properties:
+        photoRequestFreeText:
+          type: string
+          description: Free text regarding photo request
+          example: Please provide a clear image
+        uploadPhotoLink:
+          type: string
+          description: The URL link to upload a new image
+          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
+      required:
+        - photoRequestFreeText
+        - uploadPhotoLink
+
+    GenericResubmissionPersonalisation:
+      title: GenericResubmissionPersonalisation
+      type: object
+      description: Generic and common personalisation details for photo and/or id document resubmission template
       properties:
         applicationReference:
           type: string
@@ -96,21 +151,11 @@ components:
           type: string
           description: The applicant's first name
           example: Fred
-        photoRequestFreeText:
-          type: string
-          description: Free text regarding photo request
-          example: Please provide a clear image
-        uploadPhotoLink:
-          type: string
-          description: The URL link to upload a new image
-          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
         eroContactDetails:
           $ref: '#/components/schemas/ContactDetails'
       required:
         - applicationReference
         - firstName
-        - photoRequestFreeText
-        - uploadPhotoLink
         - eroContactDetails
     ContactDetails:
       title: ContactDetails
@@ -256,3 +301,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyPhotoResubmissionMessage'
+    SendNotifyIdDocumentResubmissionMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyIdDocumentResubmissionMessage'
