@@ -4,7 +4,7 @@ import uk.gov.dluhc.notificationsapi.dto.AddressDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoResubmissionPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
@@ -36,8 +36,8 @@ fun buildIdDocumentPersonalisationDto(
         eroContactDetails = eroContactDetails
     )
 
-fun buildPhotoResubmissionPersonalisationDtoFromMessage(
-    personalisationMessage: PhotoResubmissionPersonalisation
+fun buildPhotoPersonalisationDtoFromMessage(
+    personalisationMessage: PhotoPersonalisation
 ): PhotoPersonalisationDto {
     return with(personalisationMessage) {
         PhotoPersonalisationDto(

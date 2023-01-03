@@ -13,7 +13,7 @@ interface SendNotifyMessageMapper {
 
     @Mapping(target = "notificationType", source = "messageType")
     @Mapping(target = "emailAddress", source = "message.toAddress.emailAddress")
-    fun toSendNotificationRequestDto(
+    fun fromPhotoMessageToSendNotificationRequestDto(
         message: SendNotifyPhotoResubmissionMessage
     ): SendNotificationRequestDto
 }
