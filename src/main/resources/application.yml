@@ -17,4 +17,5 @@ api:
         id-document-resubmission-email-welsh: 8dfa9c65-0ccf-446f-9a39-3e14f15551d6
 
 sqs:
-  send-uk-gov-notify-photo-resubmission-message-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_MESSAGE_QUEUE_NAME}
+  send-uk-gov-notify-photo-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME}
+  send-uk-gov-notify-id-document-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME}
