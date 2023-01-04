@@ -80,8 +80,10 @@ class LocalStackContainerConfiguration {
     fun localStackContainerSqsSettings(
         applicationContext: ConfigurableApplicationContext,
         @Value("\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}") sendUkGovNotifyPhotoResubmissionQueueName: String,
+        @Value("\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}") sendUkGovNotifyIdDocumentResubmissionQueueName: String,
     ): LocalStackContainerSettings {
-        val sendUkGovNotifyPhotoResubmissionQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
+        val sendUkGovNotifyPhotoResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
+        val sendUkGovNotifyIdDocumentResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyIdDocumentResubmissionQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 
@@ -89,7 +91,8 @@ class LocalStackContainerConfiguration {
 
         return LocalStackContainerSettings(
             apiUrl = apiUrl,
-            sendUkGovNotifyPhotoResubmissionQueueName = sendUkGovNotifyPhotoResubmissionQueueName,
+            sendUkGovNotifyPhotoResubmissionQueueName = sendUkGovNotifyPhotoResubmissionMessageQueueName,
+            sendUkGovNotifyIdDocumentResubmissionQueueName = sendUkGovNotifyIdDocumentResubmissionMessageQueueName,
         )
     }
 
@@ -173,4 +176,5 @@ class LocalStackContainerConfiguration {
 data class LocalStackContainerSettings(
     val apiUrl: String,
     val sendUkGovNotifyPhotoResubmissionQueueName: String,
+    val sendUkGovNotifyIdDocumentResubmissionQueueName: String,
 )

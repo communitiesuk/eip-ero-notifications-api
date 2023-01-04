@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.TemplateType
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
-import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 
 class NotificationTypeMapperTest {
@@ -14,14 +14,14 @@ class NotificationTypeMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "APPLICATION_MINUS_RECEIVED, APPLICATION_RECEIVED",
-            "APPLICATION_MINUS_APPROVED, APPLICATION_APPROVED",
-            "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
-            "PHOTO_MINUS_RESUBMISSION, PHOTO_RESUBMISSION",
-            "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
+            "APPLICATION_RECEIVED, APPLICATION_RECEIVED",
+            "APPLICATION_APPROVED, APPLICATION_APPROVED",
+            "APPLICATION_REJECTED, APPLICATION_REJECTED",
+            "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION",
+            "ID_DOCUMENT_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
         ]
     )
-    fun `should map template type to notification type`(source: TemplateType, expected: NotificationType) {
+    fun `should map template type dto to notification type`(source: TemplateType, expected: NotificationType) {
         // Given
 
         // When

@@ -80,7 +80,7 @@ class ResubmissionTemplatePreviewDtoMapperTest {
     }
 
     @Test
-    fun `should map id document template request to dto`() {
+    fun `should map ID document template request to dto`() {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
             channel = NotificationChannel.EMAIL,

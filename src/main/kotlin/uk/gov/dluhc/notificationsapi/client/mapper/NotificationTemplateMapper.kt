@@ -11,8 +11,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.TemplateType
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
-import uk.gov.dluhc.notificationsapi.models.TemplateType
 
 /**
  * Gets the Notification Template ID configured for each message type.

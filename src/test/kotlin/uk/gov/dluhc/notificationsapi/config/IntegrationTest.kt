@@ -43,6 +43,9 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}")
     protected lateinit var sendUkGovNotifyPhotoResubmissionQueueName: String
 
+    @Value("\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}")
+    protected lateinit var sendUkGovNotifyIdDocumentResubmissionQueueName: String
+
     @Autowired
     protected lateinit var webTestClient: WebTestClient
 

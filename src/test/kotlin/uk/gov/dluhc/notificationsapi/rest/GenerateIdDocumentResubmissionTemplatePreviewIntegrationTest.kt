@@ -25,7 +25,7 @@ import java.time.temporal.ChronoUnit.MILLIS
 internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val templateId = "296a8fe6-8767-477b-9173-ea9feb82fbda"
+        private const val DOCUMENT_TEMPLATE_ID = "296a8fe6-8767-477b-9173-ea9feb82fbda"
         private const val URI_TEMPLATE = "/templates/id-document-resubmission/preview"
     }
 
@@ -57,7 +57,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
     @Test
     fun `should return not found given non existing template`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(templateId)
+        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(DOCUMENT_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -109,7 +109,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
     @Test
     fun `should return bad request given valid missing request body parameters to gov notify`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(templateId)
+        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(DOCUMENT_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -193,8 +193,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
     @Test
     fun `should return template preview given valid json request`() {
         // Given
-        val templateId = "296a8fe6-8767-477b-9173-ea9feb82fbda"
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
+        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = """
@@ -253,14 +252,13 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
     @Test
     fun `should return template preview given valid request with all values populated`() {
         // Given
-        val templateId = "296a8fe6-8767-477b-9173-ea9feb82fbda"
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
+        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest()
@@ -299,14 +297,13 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
     @Test
     fun `should return template preview given valid request when optional values not populated`() {
         // Given
-        val templateId = "296a8fe6-8767-477b-9173-ea9feb82fbda"
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
+        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
@@ -348,7 +345,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
