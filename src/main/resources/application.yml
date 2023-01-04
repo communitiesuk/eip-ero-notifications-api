@@ -11,10 +11,10 @@ api:
         approved-email-welsh: tbc-approved-email-template-id-cy
         rejected-email-english: tbc-rejected-email-template-id-en
         rejected-email-welsh: tbc-rejected-email-template-id-cy
-        photo-resubmission-email-english: f1571006-c3a0-4c97-884a-189f5b103f85
-        photo-resubmission-email-welsh: e81185e8-000d-49a4-9e96-42311447a62d
-        id-document-resubmission-email-english: 296a8fe6-8767-477b-9173-ea9feb82fbda
-        id-document-resubmission-email-welsh: 8dfa9c65-0ccf-446f-9a39-3e14f15551d6
+        photo-resubmission-email-english: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH}
+        photo-resubmission-email-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH}
+        id-document-resubmission-email-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH}
+        id-document-resubmission-email-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH}
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME}
