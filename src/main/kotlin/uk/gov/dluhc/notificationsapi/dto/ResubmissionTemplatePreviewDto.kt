@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.dto
 abstract class BaseGenerateResubmissionTemplatePreviewDto(
     val channel: NotificationChannel,
     val language: LanguageDto,
+    val templateType: TemplateType
 )
 
 class GenerateIdDocumentResubmissionTemplatePreviewDto(
@@ -12,6 +13,7 @@ class GenerateIdDocumentResubmissionTemplatePreviewDto(
 ) : BaseGenerateResubmissionTemplatePreviewDto(
     channel = channel,
     language = language,
+    templateType = TemplateType.ID_DOCUMENT_RESUBMISSION
 )
 
 class GeneratePhotoResubmissionTemplatePreviewDto(
@@ -21,4 +23,5 @@ class GeneratePhotoResubmissionTemplatePreviewDto(
 ) : BaseGenerateResubmissionTemplatePreviewDto(
     channel = channel,
     language = language,
+    templateType = TemplateType.PHOTO_RESUBMISSION
 )

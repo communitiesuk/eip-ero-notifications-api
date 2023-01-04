@@ -7,32 +7,32 @@ import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import javax.validation.Valid
 
 private val logger = KotlinLogging.logger { }
 
 @Component
-class SendNotifyPhotoResubmissionMessageListener(
+class SendNotifyIdDocumentResubmissionMessageListener(
     private val sendNotificationService: SendNotificationService,
     private val sendNotifyMessageMapper: SendNotifyMessageMapper,
     private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
-) : MessageListener<SendNotifyPhotoResubmissionMessage> {
+) : MessageListener<SendNotifyIdDocumentResubmissionMessage> {
 
-    @SqsListener(value = ["\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyPhotoResubmissionMessage) {
+    @SqsListener(value = ["\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}"])
+    override fun handleMessage(@Valid @Payload payload: SendNotifyIdDocumentResubmissionMessage) {
         logger.info {
-            "received 'send UK Gov notify photo message' request for gssCode: ${payload.gssCode} with " +
+            "received 'send UK Gov notify ID document message' request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +
                 "messageType: ${payload.messageType}, " +
                 "language: ${payload.language}"
         }
         with(payload) {
-            val sendNotificationRequestDto = sendNotifyMessageMapper.fromPhotoMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toPhotoPersonalisationDto(personalisation)
-            val personalisationMap = templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
+            val sendNotificationRequestDto = sendNotifyMessageMapper.fromIdDocumentMessageToSendNotificationRequestDto(this)
+            val personalisationDto = templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(personalisation)
+            val personalisationMap = templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }
     }

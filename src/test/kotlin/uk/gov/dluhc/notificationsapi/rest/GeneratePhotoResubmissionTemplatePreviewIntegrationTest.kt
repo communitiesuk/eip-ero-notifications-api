@@ -25,7 +25,7 @@ import java.time.temporal.ChronoUnit.MILLIS
 internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
+        private const val PHOTO_TEMPLATE_ID = "f1571006-c3a0-4c97-884a-189f5b103f85"
         private const val URI_TEMPLATE = "/templates/photo-resubmission/preview"
     }
 
@@ -57,7 +57,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return not found given non existing template`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(templateId)
+        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(PHOTO_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -109,7 +109,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return bad request given valid missing request body parameters to gov notify`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(templateId)
+        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(PHOTO_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -194,8 +194,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return template preview given valid json request`() {
         // Given
-        val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
+        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = PHOTO_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = """
@@ -256,14 +255,13 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(PHOTO_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
     @Test
     fun `should return template preview given valid request with all values populated`() {
         // Given
-        val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
+        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = PHOTO_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest()
@@ -303,14 +301,13 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(PHOTO_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
     @Test
     fun `should return template preview given valid request when optional values not populated`() {
         // Given
-        val templateId = "f1571006-c3a0-4c97-884a-189f5b103f85"
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
+        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = PHOTO_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(
@@ -353,7 +350,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(PHOTO_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =

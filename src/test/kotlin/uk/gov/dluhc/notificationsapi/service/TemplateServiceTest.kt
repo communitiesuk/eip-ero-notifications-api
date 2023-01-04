@@ -14,9 +14,9 @@ import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.TemplateType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
-import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 
@@ -61,7 +61,7 @@ class TemplateServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_MINUS_RESUBMISSION, channel, language)
+        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.PHOTO_RESUBMISSION, channel, language)
         verify(templatePersonalisationDtoMapper).toPhotoResubmissionTemplatePersonalisationMap(request.personalisation)
         verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
     }
@@ -93,7 +93,7 @@ class TemplateServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected)
         verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, channel, language)
+        verify(notificationTemplateMapper).fromTemplateTypeForChannelAndLanguage(TemplateType.ID_DOCUMENT_RESUBMISSION, channel, language)
         verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(request.personalisation)
         verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
     }

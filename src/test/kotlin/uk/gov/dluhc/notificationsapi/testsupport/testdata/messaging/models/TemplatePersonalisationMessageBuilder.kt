@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
 import uk.gov.dluhc.notificationsapi.messaging.models.Address
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
+import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
@@ -19,6 +20,19 @@ fun buildPhotoPersonalisationMessage(
         firstName = firstName,
         photoRequestFreeText = photoRequestFreeText,
         uploadPhotoLink = uploadPhotoLink,
+        eroContactDetails = eroContactDetails
+    )
+
+fun buildIdDocumentPersonalisationMessage(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    idDocumentRequestFreeText: String = faker.harryPotter().spell(),
+    eroContactDetails: ContactDetails = buildContactDetailsMessage()
+): IdDocumentPersonalisation =
+    IdDocumentPersonalisation(
+        applicationReference = applicationReference,
+        firstName = firstName,
+        idDocumentRequestFreeText = idDocumentRequestFreeText,
         eroContactDetails = eroContactDetails
     )
 
