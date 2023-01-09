@@ -14,17 +14,32 @@ class NotifyClientConfiguration {
     fun notificationClient(@Value("\${api.notify.api-key}") apiKey: String) = NotificationClient(apiKey)
 }
 
-@ConfigurationProperties(prefix = "api.notify.template")
+@ConfigurationProperties(prefix = "api.notify.template.email")
 @ConstructorBinding
-data class NotifyTemplateConfiguration(
-    val receivedEmailEnglish: String,
-    val receivedEmailWelsh: String,
-    val approvedEmailEnglish: String,
-    val approvedEmailWelsh: String,
-    val rejectedEmailEnglish: String,
-    val rejectedEmailWelsh: String,
-    val photoResubmissionEmailEnglish: String,
-    val photoResubmissionEmailWelsh: String,
-    val idDocumentResubmissionEmailEnglish: String,
-    val idDocumentResubmissionEmailWelsh: String,
+data class NotifyEmailTemplateConfiguration(
+    val receivedEnglish: String,
+    val receivedWelsh: String,
+    val approvedEnglish: String,
+    val approvedWelsh: String,
+    val rejectedEnglish: String,
+    val rejectedWelsh: String,
+    val photoResubmissionEnglish: String,
+    val photoResubmissionWelsh: String,
+    val idDocumentResubmissionEnglish: String,
+    val idDocumentResubmissionWelsh: String,
+)
+
+@ConfigurationProperties(prefix = "api.notify.template.letter")
+@ConstructorBinding
+data class NotifyLetterTemplateConfiguration(
+    val receivedEnglish: String,
+    val receivedWelsh: String,
+    val approvedEnglish: String,
+    val approvedWelsh: String,
+    val rejectedEnglish: String,
+    val rejectedWelsh: String,
+    val photoResubmissionEnglish: String,
+    val photoResubmissionWelsh: String,
+    val idDocumentResubmissionEnglish: String,
+    val idDocumentResubmissionWelsh: String,
 )

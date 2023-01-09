@@ -1,7 +1,8 @@
 package uk.gov.dluhc.notificationsapi.client.mapper
 
 import org.springframework.stereotype.Component
-import uk.gov.dluhc.notificationsapi.config.NotifyTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
@@ -19,19 +20,10 @@ import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
  */
 @Component
 class NotificationTemplateMapper(
-    private val notifyTemplateConfiguration: NotifyTemplateConfiguration,
+    private val notifyEmailTemplateConfiguration: NotifyEmailTemplateConfiguration,
+    private val notifyLetterTemplateConfiguration: NotifyLetterTemplateConfiguration,
     private val notificationTypeMapper: NotificationTypeMapper
 ) {
-
-    fun fromNotificationTypeForChannelInLanguage(
-        notificationType: NotificationType,
-        channel: NotificationChannel,
-        language: LanguageDto?
-    ): String {
-        return when (channel) {
-            NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(notificationType, language)
-        }
-    }
 
     fun fromTemplateTypeForChannelAndLanguage(
         templateType: TemplateType,
@@ -44,26 +36,54 @@ class NotificationTemplateMapper(
             language = language
         )
 
-    private fun fromEmailNotificationTypeInLanguage(
+    fun fromNotificationTypeForChannelInLanguage(
         notificationType: NotificationType,
+        channel: NotificationChannel,
         language: LanguageDto?
     ): String {
-        return if (language == null || language == ENGLISH) {
-            when (notificationType) {
-                APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailEnglish
-                APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailEnglish
-                APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailEnglish
-                PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailEnglish
-                ID_DOCUMENT_RESUBMISSION -> notifyTemplateConfiguration.idDocumentResubmissionEmailEnglish
-            }
-        } else {
-            when (notificationType) {
-                APPLICATION_RECEIVED -> notifyTemplateConfiguration.receivedEmailWelsh
-                APPLICATION_APPROVED -> notifyTemplateConfiguration.approvedEmailWelsh
-                APPLICATION_REJECTED -> notifyTemplateConfiguration.rejectedEmailWelsh
-                PHOTO_RESUBMISSION -> notifyTemplateConfiguration.photoResubmissionEmailWelsh
-                ID_DOCUMENT_RESUBMISSION -> notifyTemplateConfiguration.idDocumentResubmissionEmailWelsh
-            }
+        return when (channel) {
+            NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(notificationType, language)
+            NotificationChannel.LETTER -> fromLetterNotificationTypeInLanguage(notificationType, language)
         }
+    }
+
+    private fun fromEmailNotificationTypeInLanguage(notificationType: NotificationType, language: LanguageDto?) =
+        if (useEnglishTemplate(language)) englishEmail(notificationType) else welshEmail(notificationType)
+
+    private fun useEnglishTemplate(language: LanguageDto?) = language == null || language == ENGLISH
+
+    private fun welshEmail(notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> notifyEmailTemplateConfiguration.receivedWelsh
+        APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedWelsh
+        APPLICATION_REJECTED -> notifyEmailTemplateConfiguration.rejectedWelsh
+        PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionWelsh
+        ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionWelsh
+    }
+
+    private fun englishEmail(notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> notifyEmailTemplateConfiguration.receivedEnglish
+        APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedEnglish
+        APPLICATION_REJECTED -> notifyEmailTemplateConfiguration.rejectedEnglish
+        PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionEnglish
+        ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionEnglish
+    }
+
+    private fun fromLetterNotificationTypeInLanguage(notificationType: NotificationType, language: LanguageDto?) =
+        if (useEnglishTemplate(language)) englishLetter(notificationType) else welshLetter(notificationType)
+
+    private fun welshLetter(notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> notifyLetterTemplateConfiguration.receivedWelsh
+        APPLICATION_APPROVED -> notifyLetterTemplateConfiguration.approvedWelsh
+        APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedWelsh
+        PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionWelsh
+        ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionWelsh
+    }
+
+    private fun englishLetter(notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> notifyLetterTemplateConfiguration.receivedEnglish
+        APPLICATION_APPROVED -> notifyLetterTemplateConfiguration.approvedEnglish
+        APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedEnglish
+        PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionEnglish
+        ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionEnglish
     }
 }
