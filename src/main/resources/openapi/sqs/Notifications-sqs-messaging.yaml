@@ -42,6 +42,16 @@ paths:
         '204':
           description: No response content.
 
+  '/remove-application-notifications-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/RemoveApplicationNotificationsMessage'
+      responses:
+        '204':
+          description: No response content.
+
 components:
   #
   # Schema and Enum Definitions
@@ -104,6 +114,24 @@ components:
           $ref: '#/components/schemas/IdDocumentPersonalisation'
       required:
         - personalisation
+
+    RemoveApplicationNotificationsMessage:
+      title: RemoveApplicationNotificationsMessage
+      type: object
+      description: SQS Message for removing an application's notifications once the retention period has passed.
+      properties:
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+        sourceReference:
+          type: string
+          description: Reference of the application in the corresponding source system that the message relates to
+        gssCode:
+          type: string
+          description: GSS code of the ERO the application belongs to
+      required:
+        - sourceType
+        - sourceReference
+        - gssCode
 
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
@@ -306,3 +334,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyIdDocumentResubmissionMessage'
+    RemoveApplicationNotificationsMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RemoveApplicationNotificationsMessage'
