@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.4.3'
+  version: '1.4.4'
   description: |-
     Notifications SQS Message Types
     
@@ -38,6 +38,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyIdDocumentResubmissionMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/remove-application-notifications-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/RemoveApplicationNotificationsMessage'
       responses:
         '204':
           description: No response content.
@@ -104,6 +114,24 @@ components:
           $ref: '#/components/schemas/IdDocumentPersonalisation'
       required:
         - personalisation
+
+    RemoveApplicationNotificationsMessage:
+      title: RemoveApplicationNotificationsMessage
+      type: object
+      description: SQS Message for removing an application's notifications once the retention period has passed.
+      properties:
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+        sourceReference:
+          type: string
+          description: Reference of the application in the corresponding source system that the message relates to
+        gssCode:
+          type: string
+          description: GSS code of the ERO the application belongs to
+      required:
+        - sourceType
+        - sourceReference
+        - gssCode
 
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
@@ -306,3 +334,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyIdDocumentResubmissionMessage'
+    RemoveApplicationNotificationsMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RemoveApplicationNotificationsMessage'
