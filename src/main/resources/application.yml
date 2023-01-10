@@ -31,3 +31,4 @@ api:
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME}
   send-uk-gov-notify-id-document-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME}
+  remove-application-notifications-queue-name: ${SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME}

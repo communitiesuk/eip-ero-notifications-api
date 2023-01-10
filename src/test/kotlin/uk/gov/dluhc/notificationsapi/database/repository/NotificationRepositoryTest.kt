@@ -147,4 +147,21 @@ internal class NotificationRepositoryTest : IntegrationTest() {
         // Then
         assertThat(fetchedNotificationList).isEmpty()
     }
+
+    @Test
+    fun `should remove notifications by source reference`() {
+        // Given
+        val gssCode = aGssCode()
+        val sourceReference = aRandomSourceReference()
+        notificationRepository.saveNotification(aNotification())
+
+        // When
+        notificationRepository.removeBySourceReference(sourceReference, gssCode)
+
+        // Then
+        val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, gssCode)
+
+        // Then
+        assertThat(fetchedNotificationList).isEmpty()
+    }
 }
