@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.client
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
+import uk.gov.dluhc.notificationsapi.dto.PostalAddress
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.service.notify.NotificationClient
@@ -34,6 +35,24 @@ class GovNotifyApiClient(
                 }
         } catch (ex: NotificationClientException) {
             throw logAndThrowGovNotifyApiException("Send email", ex, templateId)
+        }
+    }
+
+    fun sendLetter(
+        templateId: String,
+        postalAddress: PostalAddress,
+        placeholders: Map<String, String>,
+        notificationId: UUID
+    ): SendNotificationResponseDto {
+        try {
+            logger.info { "Sending letter for templateId [$templateId], notificationId [$notificationId]" }
+            val personalisation = placeholders + postalAddress.toPersonalisationMap()
+            return notificationClient.sendLetter(templateId, personalisation, notificationId.toString())
+                .run {
+                    sendNotificationResponseMapper.toSendNotificationResponse(this)
+                }
+        } catch (ex: NotificationClientException) {
+            throw logAndThrowGovNotifyApiException("Send letter", ex, templateId)
         }
     }
 

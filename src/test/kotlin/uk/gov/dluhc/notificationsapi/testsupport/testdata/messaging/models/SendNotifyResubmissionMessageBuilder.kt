@@ -1,14 +1,17 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
+import uk.gov.dluhc.notificationsapi.messaging.models.Address
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
+import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddressPostalAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -23,7 +26,7 @@ fun buildSendNotifyPhotoResubmissionMessage(
     requestor: String = aRequestor(),
     messageType: MessageType = MessageType.PHOTO_MINUS_RESUBMISSION,
     personalisation: PhotoPersonalisation = buildPhotoPersonalisationMessage(),
-    toAddress: MessageAddress = MessageAddress(emailAddress = anEmailAddress()),
+    toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyPhotoResubmissionMessage =
     SendNotifyPhotoResubmissionMessage(
         channel = channel,
@@ -46,7 +49,7 @@ fun buildSendNotifyIdDocumentResubmissionMessage(
     requestor: String = aRequestor(),
     messageType: MessageType = MessageType.PHOTO_MINUS_RESUBMISSION,
     personalisation: IdDocumentPersonalisation = buildIdDocumentPersonalisationMessage(),
-    toAddress: MessageAddress = MessageAddress(emailAddress = anEmailAddress()),
+    toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyIdDocumentResubmissionMessage =
     SendNotifyIdDocumentResubmissionMessage(
         channel = channel,
@@ -58,6 +61,35 @@ fun buildSendNotifyIdDocumentResubmissionMessage(
         messageType = messageType,
         personalisation = personalisation,
         toAddress = toAddress,
+    )
+
+fun aMessageAddress(
+    emailAddress: String? = anEmailAddress(),
+    postalAddress: MessageAddressPostalAddress? = aMessageAddressPostalAddress()
+) = MessageAddress(
+    emailAddress = emailAddress,
+    postalAddress = postalAddress
+)
+
+fun aMessageAddressPostalAddress(
+    addressee: String = faker.name().firstName(),
+    property: String = faker.address().streetName(),
+    street: String = faker.address().buildingNumber(),
+    town: String? = faker.address().streetName(),
+    area: String? = faker.address().city(),
+    locality: String? = faker.address().state(),
+    postcode: String = faker.address().postcode(),
+): MessageAddressPostalAddress =
+    MessageAddressPostalAddress(
+        addressee = addressee,
+        address = Address(
+            property = property,
+            street = street,
+            town = town,
+            area = area,
+            locality = locality,
+            postcode = postcode
+        ),
     )
 
 fun aSendNotifyPhotoResubmissionMessage() = buildSendNotifyPhotoResubmissionMessage()

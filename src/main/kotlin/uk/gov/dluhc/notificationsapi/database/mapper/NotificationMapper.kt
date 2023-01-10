@@ -10,6 +10,8 @@ import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import java.time.LocalDateTime
 import java.util.UUID
+import uk.gov.dluhc.notificationsapi.database.entity.PostalAddress as EntityPostalAddress
+import uk.gov.dluhc.notificationsapi.dto.PostalAddress as DtoPostalAddress
 
 @Mapper(uses = [SourceTypeMapper::class, NotificationTypeMapper::class])
 abstract class NotificationMapper {
@@ -20,7 +22,8 @@ abstract class NotificationMapper {
     @Mapping(target = "requestor", source = "request.requestor")
     @Mapping(target = "sourceReference", source = "request.sourceReference")
     @Mapping(target = "sourceType", source = "request.sourceType")
-    @Mapping(target = "toEmail", source = "request.emailAddress")
+    @Mapping(target = "toEmail", source = "request.toAddress.emailAddress")
+    @Mapping(target = "toPostalAddress", source = "request.toAddress.postalAddress")
     @Mapping(target = "personalisation", source = "personalisation")
     @Mapping(target = "notifyDetails", source = "sendNotificationResponse")
     @Mapping(target = "sentAt", source = "sentAt")
@@ -33,5 +36,6 @@ abstract class NotificationMapper {
         sentAt: LocalDateTime
     ): Notification
 
+    abstract fun toPostalAddress(postalAddress: DtoPostalAddress): EntityPostalAddress
     abstract fun toNotifyDetails(sendNotificationResponse: SendNotificationResponseDto): NotifyDetails
 }

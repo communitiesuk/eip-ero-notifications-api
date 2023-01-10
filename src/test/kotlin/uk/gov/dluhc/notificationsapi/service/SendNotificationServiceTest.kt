@@ -17,7 +17,9 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
@@ -64,7 +66,8 @@ internal class SendNotificationServiceTest {
         // Given
         val channel = NotificationChannel.EMAIL
         val language = LanguageDto.ENGLISH
-        val request = buildSendNotificationRequestDto(channel = channel, language = language)
+        val toAddress = NotificationDestinationDto(emailAddress = anEmailAddress(), postalAddress = null)
+        val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
         val personalisation = buildPhotoPersonalisationMapFromDto()
@@ -97,7 +100,8 @@ internal class SendNotificationServiceTest {
         // Given
         val channel = NotificationChannel.EMAIL
         val language = LanguageDto.WELSH
-        val request = buildSendNotificationRequestDto(channel = channel, language = language)
+        val toAddress = NotificationDestinationDto(emailAddress = anEmailAddress(), postalAddress = null)
+        val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
         val personalisation = buildPhotoPersonalisationMapFromDto()
@@ -112,6 +116,64 @@ internal class SendNotificationServiceTest {
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
+        verifyNoInteractions(notificationMapper, notificationRepository)
+    }
+
+    @Test
+    fun `should send letter notification`() {
+        // Given
+        val channel = NotificationChannel.LETTER
+        val language = LanguageDto.ENGLISH
+        val postalAddress = aPostalAddress()
+        val toAddress = NotificationDestinationDto(emailAddress = null, postalAddress = postalAddress)
+        val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
+        val notificationType = aNotificationType()
+        val personalisation = buildPhotoPersonalisationMapFromDto()
+        val sendNotificationResponseDto = buildSendNotificationDto()
+        val notification = aNotification()
+        val templateId = aTemplateId().toString()
+
+        given(notifyApiClient.sendLetter(any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+
+        // When
+        sendNotificationService.sendNotification(request, personalisation)
+
+        // Then
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
+        verify(notifyApiClient).sendLetter(eq(templateId), eq(postalAddress), eq(personalisation), any())
+        verify(notificationMapper).createNotification(
+            any(),
+            eq(request),
+            eq(personalisation),
+            eq(sendNotificationResponseDto),
+            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
+        )
+        verify(notificationRepository).saveNotification(notification)
+    }
+
+    @Test
+    fun `should send letter notification and handle non-retryable Notify client error`() {
+        // Given
+        val channel = NotificationChannel.LETTER
+        val language = LanguageDto.WELSH
+        val postalAddress = aPostalAddress()
+        val toAddress = NotificationDestinationDto(emailAddress = null, postalAddress = postalAddress)
+        val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
+        val notificationType = aNotificationType()
+        val personalisation = buildPhotoPersonalisationMapFromDto()
+        val templateId = aTemplateId().toString()
+
+        given(notifyApiClient.sendLetter(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+
+        // When
+        sendNotificationService.sendNotification(request, personalisation)
+
+        // Then
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
+        verify(notifyApiClient).sendLetter(eq(templateId), eq(postalAddress), eq(personalisation), any())
         verifyNoInteractions(notificationMapper, notificationRepository)
     }
 }

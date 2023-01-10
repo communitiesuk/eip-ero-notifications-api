@@ -18,14 +18,14 @@ import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
-import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDestination
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aMessageAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
@@ -46,13 +46,17 @@ internal class SendNotifyMessageMapperTest {
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
+    @Mock
+    private lateinit var notificationDestinationDtoMapper: NotificationDestinationDtoMapper
+
     @Test
     fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationRequestDto`() {
         // Given
         val gssCode = aGssCode()
         val requestor = aRequestor()
         val sourceReference = aSourceReference()
-        val emailAddress = anEmailAddress()
+        val toAddress = aMessageAddress()
+        val expectedToAddress = aNotificationDestination()
         val expectedChannel = NotificationChannel.EMAIL
         val expectedSourceType = SourceType.VOTER_CARD
         val expectedNotificationType = PHOTO_RESUBMISSION
@@ -62,6 +66,7 @@ internal class SendNotifyMessageMapperTest {
         given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
         given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
         given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+        given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
 
         val request = SendNotifyPhotoResubmissionMessage(
             channel = SqsChannel.EMAIL,
@@ -71,7 +76,7 @@ internal class SendNotifyMessageMapperTest {
             gssCode = gssCode,
             requestor = requestor,
             messageType = MessageType.PHOTO_MINUS_RESUBMISSION,
-            toAddress = MessageAddress(emailAddress = emailAddress),
+            toAddress = toAddress,
             personalisation = personalisationMessage,
         )
 
@@ -85,10 +90,11 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.gssCode).isEqualTo(gssCode)
         assertThat(notification.requestor).isEqualTo(requestor)
         assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
-        assertThat(notification.emailAddress).isEqualTo(emailAddress)
+        assertThat(notification.toAddress).isEqualTo(expectedToAddress)
         verify(languageMapper).fromMessageToDto(Language.EN)
         verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.PHOTO_MINUS_RESUBMISSION)
         verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+        verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
     }
 
     @Test
@@ -97,7 +103,8 @@ internal class SendNotifyMessageMapperTest {
         val gssCode = aGssCode()
         val requestor = aRequestor()
         val sourceReference = aSourceReference()
-        val emailAddress = anEmailAddress()
+        val toAddress = aMessageAddress()
+        val expectedToAddress = aNotificationDestination()
         val expectedChannel = NotificationChannel.EMAIL
         val expectedSourceType = SourceType.VOTER_CARD
         val expectedNotificationType = ID_DOCUMENT_RESUBMISSION
@@ -107,6 +114,7 @@ internal class SendNotifyMessageMapperTest {
         given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
         given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
         given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+        given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
 
         val request = SendNotifyIdDocumentResubmissionMessage(
             channel = SqsChannel.EMAIL,
@@ -116,7 +124,7 @@ internal class SendNotifyMessageMapperTest {
             gssCode = gssCode,
             requestor = requestor,
             messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION,
-            toAddress = MessageAddress(emailAddress = emailAddress),
+            toAddress = toAddress,
             personalisation = personalisationMessage,
         )
 
@@ -130,9 +138,10 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.gssCode).isEqualTo(gssCode)
         assertThat(notification.requestor).isEqualTo(requestor)
         assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
-        assertThat(notification.emailAddress).isEqualTo(emailAddress)
+        assertThat(notification.toAddress).isEqualTo(expectedToAddress)
         verify(languageMapper).fromMessageToDto(Language.EN)
         verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION)
         verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+        verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
     }
 }
