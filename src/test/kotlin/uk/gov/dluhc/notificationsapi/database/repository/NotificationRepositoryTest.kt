@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.anEntityChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.anEntityNotificationType
@@ -153,7 +154,7 @@ internal class NotificationRepositoryTest : IntegrationTest() {
         // Given
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(aNotification())
+        notificationRepository.saveNotification(aNotificationBuilder(gssCode = gssCode, sourceReference = sourceReference))
 
         // When
         notificationRepository.removeBySourceReference(sourceReference, gssCode)
