@@ -15,7 +15,11 @@ paths:
   # RESTful style endpoints start here
   # --------------------------------------------------------------------------------
   #
-  '/eros/{eroId}/{applicationType}/applications/{applicationId}':
+
+  #
+  # Get a summary of all communications sent for a specified Voter Card Application
+  # --------------------------------------------------------------------------------
+  '/eros/{eroId}/communications/applications/{applicationId}':
     parameters:
       - name: eroId
         description: The ID of the Electoral Registration Office responsible for the Application.
@@ -23,14 +27,8 @@ paths:
           type: string
         in: path
         required: true
-      - name: applicationType
-        description: The type of the Application
-        schema:
-          $ref: '#/components/schemas/ApplicationType'
-        in: path
-        required: true
       - name: applicationId
-        description: The identifier of the Application to retrieve the communications history.
+        description: The identifier of the Voter Card Application to retrieve the communications history.
         schema:
           type: string
         in: path
@@ -40,7 +38,7 @@ paths:
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Application communications history
+        - Voter Card Application Communications History
       responses:
         200:
           description: Default response for CORS method
@@ -73,10 +71,10 @@ paths:
               application/json: |
                 {}
     get:
-      summary: Returns the communication history for an application
-      description: Returns the communication history for an application
+      summary: Returns the communication history for a Voter Card Application
+      description: Returns the communication history for a Voter Card Application, sorted by the communication sent date in descending order (most recent first).
       tags:
-        - Application communications history
+        - Voter Card Application Communications History
       responses:
         '200':
           $ref: '#/components/responses/CommunicationsHistory'
@@ -85,10 +83,9 @@ paths:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/eros/{eroId}/{applicationType}/applications/{applicationId}'
+        uri: '${base_uri}/eros/{eroId}/communications/applications/{applicationId}'
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
-          integration.request.path.applicationType: method.request.path.applicationType
           integration.request.path.applicationId: method.request.path.applicationId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
@@ -328,12 +325,6 @@ components:
       enum:
         - email
         - letter
-    ApplicationType:
-      title: ApplicationType
-      description: The application type
-      type: string
-      enum:
-        - voter-card
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview
@@ -545,7 +536,7 @@ components:
           $ref: '#/components/schemas/NotificationChannel'
         templateType:
           $ref: '#/components/schemas/TemplateType'
-        requester:
+        requestor:
           type: string
           description: The User ID of the user that originally requested the communication as part of processing the application.
           example: fred@some-ero.gov.uk
@@ -558,7 +549,7 @@ components:
         - id
         - channel
         - type
-        - requester
+        - requestor
         - timestamp
 
   #
