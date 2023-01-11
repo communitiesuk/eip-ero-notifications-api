@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.service
 
 import ch.qos.logback.classic.Level
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowableOfType
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
@@ -11,7 +12,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import software.amazon.awssdk.core.exception.SdkClientException
-import software.amazon.awssdk.core.exception.SdkServiceException
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.TestLogAppender.Companion.hasLog
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aRemoveNotificationsDto
@@ -38,28 +38,21 @@ internal class RemoveNotificationsServiceTest {
     }
 
     @Test
-    fun `should not remove application notifications given SdkClientException`() {
+    fun `should not remove application notifications given SdkException`() {
         // Given
         val removeNotificationsDto = aRemoveNotificationsDto()
-        given(notificationRepository.removeBySourceReference(any(), any())).willThrow(SdkClientException.create("Client exception"))
+        given(notificationRepository.removeBySourceReference(any(), any())).willThrow(SdkClientException.create("SDK exception"))
 
         // When
-        removeNotificationsService.remove(removeNotificationsDto)
+        val ex = catchThrowableOfType(
+            { removeNotificationsService.remove(removeNotificationsDto) },
+            SdkClientException::class.java
+        )
 
         // Then
-        assertThat(hasLog("Client error attempting to remove notifications: software.amazon.awssdk.core.exception.SdkClientException: Client exception", Level.ERROR)).isTrue
-    }
-
-    @Test
-    fun `should not remove application notifications given SdkServiceException`() {
-        // Given
-        val removeNotificationsDto = aRemoveNotificationsDto()
-        given(notificationRepository.removeBySourceReference(any(), any())).willThrow(SdkServiceException.builder().message("Service exception").build())
-
-        // When
-        removeNotificationsService.remove(removeNotificationsDto)
-
-        // Then
-        assertThat(hasLog("Service error attempting to remove notifications: software.amazon.awssdk.core.exception.SdkServiceException: Service exception", Level.ERROR)).isTrue
+        assertThat(ex).isNotNull
+            .isInstanceOf(SdkClientException::class.java)
+            .hasMessage("SDK exception")
+        assertThat(hasLog("Error attempting to remove notifications: software.amazon.awssdk.core.exception.SdkClientException: SDK exception", Level.ERROR)).isTrue
     }
 }

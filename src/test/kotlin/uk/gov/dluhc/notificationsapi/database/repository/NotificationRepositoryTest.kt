@@ -160,8 +160,6 @@ internal class NotificationRepositoryTest : IntegrationTest() {
 
         // Then
         val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, gssCode)
-
-        // Then
         assertThat(fetchedNotificationList).isEmpty()
     }
 }

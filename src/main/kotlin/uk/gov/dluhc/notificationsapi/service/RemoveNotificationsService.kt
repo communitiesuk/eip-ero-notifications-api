@@ -2,8 +2,7 @@ package uk.gov.dluhc.notificationsapi.service
 
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
-import software.amazon.awssdk.core.exception.SdkClientException
-import software.amazon.awssdk.core.exception.SdkServiceException
+import software.amazon.awssdk.core.exception.SdkException
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.RemoveNotificationsDto
 
@@ -26,10 +25,9 @@ class RemoveNotificationsService(
             with(removeNotificationsDto) {
                 notificationRepository.removeBySourceReference(sourceReference, gssCode)
             }
-        } catch (error: SdkClientException) {
-            logger.error { "Client error attempting to remove notifications: $error" }
-        } catch (error: SdkServiceException) {
-            logger.error { "Service error attempting to remove notifications: $error" }
+        } catch (ex: SdkException) {
+            logger.error { "Error attempting to remove notifications: $ex" }
+            throw ex
         }
     }
 }
