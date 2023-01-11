@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.4.2'
+  version: '1.5.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -15,6 +15,88 @@ paths:
   # RESTful style endpoints start here
   # --------------------------------------------------------------------------------
   #
+  '/eros/{eroId}/{applicationType}/applications/{applicationId}':
+    parameters:
+      - name: eroId
+        description: The ID of the Electoral Registration Office responsible for the Application.
+        schema:
+          type: string
+        in: path
+        required: true
+      - name: applicationType
+        description: The type of the Application
+        schema:
+          $ref: '#/components/schemas/ApplicationType'
+        in: path
+        required: true
+      - name: applicationId
+        description: The identifier of the Application to retrieve the communications history.
+        schema:
+          type: string
+        in: path
+        required: true
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Application communications history
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    get:
+      summary: Returns the communication history for an application
+      description: Returns the communication history for an application
+      tags:
+        - Application communications history
+      responses:
+        '200':
+          $ref: '#/components/responses/CommunicationsHistory'
+      operationId: get-communication-history-by-application-id
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/eros/{eroId}/{applicationType}/applications/{applicationId}'
+        requestParameters:
+          integration.request.path.eroId: method.request.path.eroId
+          integration.request.path.applicationType: method.request.path.applicationType
+          integration.request.path.applicationId: method.request.path.applicationId
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: GET
 
   #
   # --------------------------------------------------------------------------------
@@ -246,6 +328,12 @@ components:
       enum:
         - email
         - letter
+    ApplicationType:
+      title: ApplicationType
+      description: The application type
+      type: string
+      enum:
+        - voter-card
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview
@@ -432,6 +520,47 @@ components:
       required:
         - street
         - postcode
+    CommunicationsHistoryResponse:
+      title: CommunicationsHistoryResponse
+      description: Response containing the communications history for an application
+      type: object
+      properties:
+        communications:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommunicationsSummary'
+      required:
+        - communications
+    CommunicationsSummary:
+      title: CommunicationsSummary
+      description: The summary data for an individual communication sent as part of an application.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID of the communication
+          example: '7dcf22b7-cf2f-47e6-b548-0afab1a359fd'
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        templateType:
+          $ref: '#/components/schemas/TemplateType'
+        requester:
+          type: string
+          description: The User ID of the user that originally requested the communication as part of processing the application.
+          example: fred@some-ero.gov.uk
+        timestamp:
+          type: string
+          format: date-time
+          example: '2022-09-28T18:01:42.105Z'
+          description: The timestamp that the communication was sent.
+      required:
+        - id
+        - channel
+        - type
+        - requester
+        - timestamp
+
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------
@@ -452,6 +581,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateTemplatePreviewResponse'
+    CommunicationsHistory:
+      description: Response containing the communications history for an application
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommunicationsHistoryResponse'
 
   #
   # Request Body Definitions
