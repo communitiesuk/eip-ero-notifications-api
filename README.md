@@ -37,14 +37,15 @@ The following environment variables must be set in order to run the application:
 5. `DYNAMODB_ENDPOINT` - the localstack endpoint
 6. `SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new photo.
 7. `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
-8. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new photo in English
-9. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new photo in Welsh
-10. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document in English
-11. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document in Welsh
-12. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo in English
-13. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
-14. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
-15. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
+8. `SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME` - the queue name for removing an applicant's notification data.
+9. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new photo in English
+10. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new photo in Welsh
+11. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document in English
+12. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document in Welsh
+13. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo in English
+14. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
+15. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
+16. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.
@@ -58,7 +59,7 @@ The following are overridden by the task definition in AWS:
 * `SPRING_DATASOURCE_URL` - This is set to the deployed RDS' URL.
 * `SPRING_DATASOURCE_DRIVERCLASSNAME` - This is overridden to use the AWS Aurora MySQL JDBC Driver.
 * `SPRING_LIQUIBASE_DRIVERCLASSNAME` - This is overridden to use the AWS Aurora MySQL JDBC Driver.
-*
+
 #### Liquibase Configuration
 * `LIQUIBASE_CONTEXT` Contexts for liquibase scripts.
   For local setup use ddl.
