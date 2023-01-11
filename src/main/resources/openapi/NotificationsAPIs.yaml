@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.4.1'
+  version: '1.4.2'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -245,6 +245,7 @@ components:
       type: string
       enum:
         - email
+        - letter
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview

@@ -11,7 +11,6 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
@@ -20,6 +19,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDoc
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
+import uk.gov.dluhc.notificationsapi.models.NotificationChannel as NotificationChannelApi
 
 @ExtendWith(MockitoExtension::class)
 class ResubmissionTemplatePreviewDtoMapperTest {
@@ -30,18 +31,22 @@ class ResubmissionTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var languageMapper: LanguageMapper
 
+    @Mock
+    private lateinit var channelMapper: NotificationChannelMapper
+
     @Test
     fun `should map photo template request to dto`() {
         // Given
         val request = buildGeneratePhotoResubmissionTemplatePreviewRequest(
-            channel = NotificationChannel.EMAIL,
+            channel = NotificationChannelApi.EMAIL,
             language = Language.EN
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
+        given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.EMAIL)
 
         val expected = buildGeneratePhotoResubmissionTemplatePreviewDto(
-            channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
+            channel = NotificationChannelDto.EMAIL,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
                 buildPhotoPersonalisationDto(
@@ -77,20 +82,22 @@ class ResubmissionTemplatePreviewDtoMapperTest {
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
+        verify(channelMapper).fromApiToDto(NotificationChannelApi.EMAIL)
     }
 
     @Test
     fun `should map ID document template request to dto`() {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            channel = NotificationChannel.EMAIL,
+            channel = NotificationChannelApi.LETTER,
             language = Language.EN
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
+        given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.LETTER)
 
         val expected = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
-            channel = uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL,
+            channel = NotificationChannelDto.LETTER,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
                 buildIdDocumentPersonalisationDto(
@@ -125,5 +132,6 @@ class ResubmissionTemplatePreviewDtoMapperTest {
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
+        verify(channelMapper).fromApiToDto(NotificationChannelApi.LETTER)
     }
 }

@@ -57,4 +57,5 @@ enum class NotificationType {
 
 enum class Channel {
     EMAIL,
+    LETTER
 }

@@ -49,6 +49,10 @@ class SendNotificationService(
             EMAIL -> {
                 return sendGovNotifyEmail(request, personalisationMap, notificationId, sentAt)
             }
+
+            else -> {
+                TODO("Included in EIP1-3280")
+            }
         }
     }
 
@@ -59,8 +63,10 @@ class SendNotificationService(
         sentAt: LocalDateTime
     ): Notification {
         with(request) {
-            val templateId = notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, EMAIL, language)
-            val sendNotificationGovResponseDto = govNotifyApiClient.sendEmail(templateId, emailAddress, personalisationMap, notificationId)
+            val templateId =
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, EMAIL, language)
+            val sendNotificationGovResponseDto =
+                govNotifyApiClient.sendEmail(templateId, emailAddress, personalisationMap, notificationId)
             return notificationMapper.createNotification(
                 notificationId = notificationId,
                 request = request,
