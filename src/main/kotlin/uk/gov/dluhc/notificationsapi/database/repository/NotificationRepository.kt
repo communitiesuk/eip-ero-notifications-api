@@ -44,6 +44,13 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
         return index.query(query).flatMap { it.items() }
     }
 
+    fun removeBySourceReference(sourceReference: String, gssCode: String) {
+        with(getBySourceReference(sourceReference, gssCode)) {
+            logger.debug("Removing [$size] notifications")
+            forEach { notification -> table.deleteItem(notification) }
+        }
+    }
+
     private fun key(partitionValue: String, sortValue: String): Key =
         Key.builder().partitionValue(partitionValue).sortValue(sortValue).build()
 }

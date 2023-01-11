@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.anEntityChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.anEntityNotificationType
@@ -145,6 +146,21 @@ internal class NotificationRepositoryTest : IntegrationTest() {
         val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, gssCode)
 
         // Then
+        assertThat(fetchedNotificationList).isEmpty()
+    }
+
+    @Test
+    fun `should remove notifications by source reference`() {
+        // Given
+        val gssCode = aGssCode()
+        val sourceReference = aRandomSourceReference()
+        notificationRepository.saveNotification(aNotificationBuilder(gssCode = gssCode, sourceReference = sourceReference))
+
+        // When
+        notificationRepository.removeBySourceReference(sourceReference, gssCode)
+
+        // Then
+        val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, gssCode)
         assertThat(fetchedNotificationList).isEmpty()
     }
 }
