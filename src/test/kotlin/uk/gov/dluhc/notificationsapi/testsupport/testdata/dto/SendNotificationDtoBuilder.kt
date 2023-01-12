@@ -5,13 +5,13 @@ import java.util.UUID
 import java.util.concurrent.ThreadLocalRandom
 
 fun buildSendNotificationDto(
-    notificationId: UUID = aNotifySendEmailSuccessResponseId(),
-    reference: String = aNotifySendEmailSuccessResponseReference(),
-    templateId: UUID = aNotifySendEmailSuccessResponseTemplateId(),
-    templateVersion: Int = aNotifySendEmailSuccessResponseTemplateVersion(),
-    templateUri: String = aNotifySendEmailSuccessResponseTemplateUri(templateId),
-    body: String = aNotifySendEmailSuccessResponseBody(),
-    subject: String = aNotifySendEmailSuccessResponseSubject(),
+    notificationId: UUID = aNotifySendSuccessResponseId(),
+    reference: String = aNotifySendSuccessResponseReference(),
+    templateId: UUID = aNotifySendSuccessResponseTemplateId(),
+    templateVersion: Int = aNotifySendSuccessResponseTemplateVersion(),
+    templateUri: String = aNotifySendSuccessResponseTemplateUri(templateId),
+    body: String = aNotifySendSuccessResponseBody(),
+    subject: String = aNotifySendSuccessResponseSubject(),
     fromEmail: String? = aNotifySendEmailSuccessResponseFromEmail(),
 ): SendNotificationResponseDto =
     SendNotificationResponseDto(
@@ -27,20 +27,22 @@ fun buildSendNotificationDto(
 
 fun aSendNotificationDto() = buildSendNotificationDto()
 
-fun aNotifySendEmailSuccessResponseId(): UUID = UUID.randomUUID()
+fun aNotifySendSuccessResponseId(): UUID = UUID.randomUUID()
 
-fun aNotifySendEmailSuccessResponseReference(): String = UUID.randomUUID().toString()
+fun aNotifySendSuccessResponseReference(): String = UUID.randomUUID().toString()
 
 fun aTemplateId(): UUID = UUID.randomUUID()
 
-fun aNotifySendEmailSuccessResponseTemplateId(): UUID = aTemplateId()
+fun aNotifySendSuccessResponseTemplateId(): UUID = aTemplateId()
 
-fun aNotifySendEmailSuccessResponseTemplateVersion(): Int = ThreadLocalRandom.current().nextInt(1, 100)
+fun aNotifySendSuccessResponseTemplateVersion(): Int = ThreadLocalRandom.current().nextInt(1, 100)
 
-fun aNotifySendEmailSuccessResponseTemplateUri(templateId: UUID): String = "https://www.notifications.service.gov.uk/services/137e13d7-6acd-4449-815e-de0eb0c083ba/templates/$templateId"
+fun aNotifySendSuccessResponseTemplateUri(templateId: UUID): String = "https://www.notifications.service.gov.uk/services/137e13d7-6acd-4449-815e-de0eb0c083ba/templates/$templateId"
 
-fun aNotifySendEmailSuccessResponseBody(): String = "Hello John..."
+fun aNotifySendSuccessResponseBody(): String = "Hello John..."
 
-fun aNotifySendEmailSuccessResponseSubject(): String = "Application Photo Declined"
+fun aNotifySendSuccessResponseSubject(): String = "Application Photo Declined"
 
 fun aNotifySendEmailSuccessResponseFromEmail(): String = "voter-card-application-support@valtech.com"
+
+fun aNotifySendLetterSuccessResponsePostage(): String = "second"

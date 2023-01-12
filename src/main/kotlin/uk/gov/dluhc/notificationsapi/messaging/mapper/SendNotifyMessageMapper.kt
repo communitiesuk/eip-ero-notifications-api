@@ -9,17 +9,15 @@ import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 
-@Mapper(uses = [LanguageMapper::class, SourceTypeMapper::class, NotificationTypeMapper::class])
+@Mapper(uses = [LanguageMapper::class, SourceTypeMapper::class, NotificationTypeMapper::class, NotificationDestinationDtoMapper::class])
 interface SendNotifyMessageMapper {
 
     @Mapping(target = "notificationType", source = "messageType")
-    @Mapping(target = "emailAddress", source = "message.toAddress.emailAddress")
     fun fromPhotoMessageToSendNotificationRequestDto(
         message: SendNotifyPhotoResubmissionMessage
     ): SendNotificationRequestDto
 
     @Mapping(target = "notificationType", source = "messageType")
-    @Mapping(target = "emailAddress", source = "message.toAddress.emailAddress")
     fun fromIdDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyIdDocumentResubmissionMessage
     ): SendNotificationRequestDto

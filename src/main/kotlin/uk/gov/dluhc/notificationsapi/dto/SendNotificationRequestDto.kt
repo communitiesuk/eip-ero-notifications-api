@@ -7,6 +7,6 @@ data class SendNotificationRequestDto(
     val requestor: String,
     val sourceType: SourceType,
     val sourceReference: String,
-    val emailAddress: String,
+    val toAddress: NotificationDestinationDto,
     val notificationType: NotificationType,
 )

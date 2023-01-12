@@ -11,6 +11,7 @@ import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import java.time.Clock
 import java.time.LocalDateTime
@@ -45,13 +46,13 @@ class SendNotificationService(
         notificationId: UUID,
         sentAt: LocalDateTime
     ): Notification {
-        when (request.channel) {
+        return when (request.channel) {
             EMAIL -> {
-                return sendGovNotifyEmail(request, personalisationMap, notificationId, sentAt)
+                sendGovNotifyEmail(request, personalisationMap, notificationId, sentAt)
             }
 
-            else -> {
-                TODO("Included in EIP1-3280")
+            LETTER -> {
+                sendGovNotifyLetter(request, personalisationMap, notificationId, sentAt)
             }
         }
     }
@@ -66,7 +67,28 @@ class SendNotificationService(
             val templateId =
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, EMAIL, language)
             val sendNotificationGovResponseDto =
-                govNotifyApiClient.sendEmail(templateId, emailAddress, personalisationMap, notificationId)
+                govNotifyApiClient.sendEmail(templateId, toAddress.emailAddress!!, personalisationMap, notificationId)
+            return notificationMapper.createNotification(
+                notificationId = notificationId,
+                request = request,
+                personalisation = personalisationMap,
+                sendNotificationResponse = sendNotificationGovResponseDto,
+                sentAt = sentAt
+            )
+        }
+    }
+
+    private fun sendGovNotifyLetter(
+        request: SendNotificationRequestDto,
+        personalisationMap: Map<String, String>,
+        notificationId: UUID,
+        sentAt: LocalDateTime
+    ): Notification {
+        with(request) {
+            val templateId =
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, LETTER, language)
+            val sendNotificationGovResponseDto =
+                govNotifyApiClient.sendLetter(templateId, toAddress.postalAddress!!, personalisationMap, notificationId)
             return notificationMapper.createNotification(
                 notificationId = notificationId,
                 request = request,

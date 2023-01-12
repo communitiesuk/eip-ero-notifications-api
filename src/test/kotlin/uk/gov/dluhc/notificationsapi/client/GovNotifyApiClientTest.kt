@@ -21,12 +21,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePre
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
 import uk.gov.service.notify.SendEmailResponse
+import uk.gov.service.notify.SendLetterResponse
 import uk.gov.service.notify.TemplatePreview
 
 @ExtendWith(MockitoExtension::class)
@@ -56,7 +58,7 @@ internal class GovNotifyApiClientTest {
             val sendNotificationDto = buildSendNotificationDto()
 
             given(notificationClient.sendEmail(any(), any(), any(), any())).willReturn(sendEmailResponse)
-            given(sendNotificationResponseMapper.toSendNotificationResponse(any())).willReturn(sendNotificationDto)
+            given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendEmailResponse>())).willReturn(sendNotificationDto)
 
             // When
             val actual = govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId)
@@ -134,6 +136,107 @@ internal class GovNotifyApiClientTest {
             // When
             val ex = Assertions.catchThrowableOfType(
                 { govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId) },
+                GovNotifyApiGeneralException::class.java
+            )
+
+            // Then
+            assertThat(ex.message).isEqualTo(exceptionMessage)
+        }
+    }
+
+    @Nested
+    inner class SendLetter {
+        @Test
+        fun `should send letter`() {
+            // Given
+            val postalAddress = aPostalAddress()
+            val notificationId = aNotificationId()
+            val templateId = aTemplateId().toString()
+
+            val response = NotifySendEmailSuccessResponse()
+            val objectMapper = ObjectMapper()
+            val sendLetterResponse = SendLetterResponse(objectMapper.writeValueAsString(response))
+            val personalisation = aNotificationPersonalisationMap()
+            val sendNotificationDto = buildSendNotificationDto()
+
+            given(notificationClient.sendLetter(any(), any(), any())).willReturn(sendLetterResponse)
+            given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendLetterResponse>())).willReturn(sendNotificationDto)
+
+            // When
+            val actual = govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId)
+
+            // Then
+            verify(notificationClient).sendLetter(
+                templateId,
+                (personalisation + postalAddress.toPersonalisationMap()),
+                notificationId.toString()
+            )
+            verify(sendNotificationResponseMapper).toSendNotificationResponse(sendLetterResponse)
+            assertThat(actual).isSameAs(sendNotificationDto)
+        }
+
+        @Test
+        fun `should throw GovNotifyApiNotFoundException given client throws exception with 404 http result`() {
+            // Given
+            val postalAddress = aPostalAddress()
+            val notificationId = aNotificationId()
+            val personalisation = aNotificationPersonalisationMap()
+            val templateId = aTemplateId().toString()
+            val exceptionMessage = "No result found"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 404)
+
+            given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
+
+            // When
+            val ex = Assertions.catchThrowableOfType(
+                { govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId) },
+                GovNotifyApiNotFoundException::class.java
+            )
+
+            // Then
+            assertThat(ex.message).isEqualTo(exceptionMessage)
+        }
+
+        @Test
+        fun `should throw GovNotifyApiBadRequestException given client throws exception with 400 http result`() {
+            // Given
+            val postalAddress = aPostalAddress()
+            val notificationId = aNotificationId()
+            val personalisation = aNotificationPersonalisationMap()
+            val templateId = aTemplateId().toString()
+            val exceptionMessage = "Can't send to this recipient using a team-only API key"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 400)
+
+            given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
+
+            // When
+            val ex = Assertions.catchThrowableOfType(
+                { govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId) },
+                GovNotifyApiBadRequestException::class.java
+            )
+
+            // Then
+            assertThat(ex.message).isEqualTo(exceptionMessage)
+        }
+
+        @Test
+        fun `should throw GovNotifyApiGeneralException given client exception not specifically handled`() {
+            // Given
+            val postalAddress = aPostalAddress()
+            val notificationId = aNotificationId()
+            val personalisation = aNotificationPersonalisationMap()
+            val templateId = aTemplateId().toString()
+            val exceptionMessage = "Exceeded send limits (LIMIT NUMBER) for today"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 429)
+
+            given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
+
+            // When
+            val ex = Assertions.catchThrowableOfType(
+                { govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId) },
                 GovNotifyApiGeneralException::class.java
             )
 

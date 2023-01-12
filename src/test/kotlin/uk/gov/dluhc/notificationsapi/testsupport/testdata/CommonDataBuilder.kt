@@ -5,7 +5,9 @@ import org.apache.commons.lang3.RandomStringUtils.random
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.PostalAddress
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -41,3 +43,21 @@ fun aLocalDateTime(): LocalDateTime = LocalDateTime.of(2022, 10, 6, 9, 58, 24)
 fun aValidApplicationReference(): String = "V${RandomStringUtils.randomAlphabetic(9).uppercase()}"
 
 fun getAValidPostcode() = random(2, "ABEHW") + randomNumeric(2) + random(2, "ABEHW")
+
+fun aPostalAddress(
+    addressee: String = faker.name().firstName(),
+    property: String? = faker.address().buildingNumber(),
+    street: String = faker.address().streetName(),
+    town: String? = faker.address().streetName(),
+    area: String? = faker.address().city(),
+    locality: String? = faker.address().state(),
+    postcode: String = faker.address().postcode(),
+) = PostalAddress(
+    addressee = addressee,
+    property = property,
+    street = street,
+    town = town,
+    area = area,
+    locality = locality,
+    postcode = postcode,
+)

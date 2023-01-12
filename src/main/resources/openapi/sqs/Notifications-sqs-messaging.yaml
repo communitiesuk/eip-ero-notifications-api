@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.4.4'
+  version: '1.5.0'
   description: |-
     Notifications SQS Message Types
     
@@ -271,6 +271,7 @@ components:
       type: string
       enum:
         - email
+        - letter
 
     SourceType:
       title: SourceType
@@ -298,20 +299,10 @@ components:
         postalAddress:
           type: object
           properties:
-            address_line_1:
+            addressee:
               type: string
-            address_line_2:
-              type: string
-            address_line_3:
-              type: string
-            address_line_4:
-              type: string
-            address_line_5:
-              type: string
-            address_line_6:
-              type: string
-            address_line_7:
-              type: string
+            address:
+              $ref: '#/components/schemas/Address'
         smsNumber:
           type: string
 

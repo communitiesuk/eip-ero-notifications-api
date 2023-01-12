@@ -17,6 +17,7 @@ data class Notification(
     var type: NotificationType? = null,
     var channel: Channel? = null,
     var toEmail: String? = null,
+    var toPostalAddress: PostalAddress? = null,
     var requestor: String? = null,
     var sentAt: LocalDateTime? = null,
     var personalisation: Map<String, String>? = null,

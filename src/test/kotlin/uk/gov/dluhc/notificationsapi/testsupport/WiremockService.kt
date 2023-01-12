@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
+import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
 
 /**
  * Service class to provide support to tests with setting up and managing wiremock stubs
@@ -35,6 +36,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
     private companion object {
         private const val NOTIFY_SEND_EMAIL_URL = "/v2/notifications/email"
+        private const val NOTIFY_SEND_LETTER_URL = "/v2/notifications/letter"
         private const val GENERATE_TEMPLATE_PREVIEW_URL = "/v2/template/{templateId}/preview"
     }
 
@@ -74,6 +76,41 @@ class WiremockService(private val wireMockServer: WireMockServer) {
     fun stubNotifySendEmailInternalErrorResponse() {
         wireMockServer.stubFor(
             post(urlPathMatching(NOTIFY_SEND_EMAIL_URL)).willReturn(
+                serverError().withBody(
+                    """
+                    [{"error": "Exception",
+                    "message": "Internal server error"
+                    }]"""
+                )
+            )
+        )
+    }
+
+    fun stubNotifySendLetterResponse(response: NotifySendLetterSuccessResponse) {
+        wireMockServer.stubFor(
+            post(urlPathMatching(NOTIFY_SEND_LETTER_URL)).willReturn(
+                ResponseDefinitionBuilder.responseDefinition().withStatus(201)
+                    .withBody(objectMapper.writeValueAsString(response))
+            )
+        )
+    }
+
+    fun stubNotifySendLetterBadRequestResponse() {
+        wireMockServer.stubFor(
+            post(urlPathMatching(NOTIFY_SEND_LETTER_URL)).willReturn(
+                badRequest().withBody(
+                    """
+                    [{"error": "BadRequestError",
+                    "message": "Can't send to this recipient using a team-only API key"
+                    }]"""
+                )
+            )
+        )
+    }
+
+    fun stubNotifySendLetterInternalErrorResponse() {
+        wireMockServer.stubFor(
+            post(urlPathMatching(NOTIFY_SEND_LETTER_URL)).willReturn(
                 serverError().withBody(
                     """
                     [{"error": "Exception",
@@ -153,6 +190,10 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
     fun verifyNotifySendEmailCalledMoreThan(expectedCount: Int) {
         wireMockServer.verify(moreThan(expectedCount), newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_EMAIL_URL)))
+    }
+
+    fun verifyNotifySendLetterCalled() {
+        wireMockServer.verify(newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_LETTER_URL)))
     }
 
     fun stubCognitoJwtIssuerResponse() {
