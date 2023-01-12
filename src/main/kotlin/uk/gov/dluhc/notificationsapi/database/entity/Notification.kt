@@ -46,6 +46,7 @@ data class Notification(
 
 enum class SourceType {
     VOTER_CARD,
+    POSTAL,
 }
 
 enum class NotificationType {
