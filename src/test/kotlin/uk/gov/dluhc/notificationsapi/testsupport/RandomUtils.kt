@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport
 
+import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 
 fun getRandomEroId(): String = "${faker.address().city().lowercase()}-city-council"
@@ -11,3 +12,15 @@ fun getDifferentRandomEroId(refEroId: String): String {
     }
     return differentEroId
 }
+
+fun aValidEroName(): String = faker.address().city()
+
+fun aValidLocalAuthorityName(): String = faker.address().city()
+
+fun getRandomGssCode() = "E${randomNumeric(8)}"
+
+fun aValidPhoneNumber(): String = faker.phoneNumber().cellPhone()
+
+fun aValidEmailAddress(): String = "contact@${aValidEroName().replaceSpacesWith("-")}.gov.uk"
+
+fun aValidWebsite(): String = "https://${aValidEroName().replaceSpacesWith("-")}.gov.uk"

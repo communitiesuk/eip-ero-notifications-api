@@ -156,6 +156,12 @@ tasks.create("generate-models-from-openapi-document-Notifications-sqs-message-ty
     packageName.set("uk.gov.dluhc.notificationsapi.messaging")
 }
 
+tasks.create("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
+    enabled = true
+    inputSpec.set("$projectDir/src/main/resources/openapi/external/EROManagementAPIs.yaml")
+    packageName.set("uk.gov.dluhc.eromanagementapi")
+}
+
 // Add the generated code to the source sets
 sourceSets["main"].java {
     this.srcDir("$projectDir/build/generated")

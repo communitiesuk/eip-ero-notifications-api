@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.testsupport
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
+import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.badRequest
 import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
 import com.github.tomakehurst.wiremock.client.WireMock.exactly
@@ -20,6 +21,7 @@ import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder.newRequest
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import uk.gov.dluhc.eromanagementapi.models.ElectoralRegistrationOfficeResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
@@ -209,6 +211,19 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                     """.trimIndent()
                 )
             )
+        )
+    }
+
+    fun stubEroManagementGetEroByEroId(ero: ElectoralRegistrationOfficeResponse, eroId: String) {
+        val responseBody = objectMapper.writeValueAsString(ero)
+        wireMockServer.stubFor(
+            get(WireMock.urlEqualTo("/ero-management-api/eros/$eroId"))
+                .willReturn(
+                    ResponseDefinitionBuilder.responseDefinition()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(responseBody)
+                )
         )
     }
 }

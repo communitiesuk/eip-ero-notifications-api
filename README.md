@@ -46,6 +46,7 @@ The following environment variables must be set in order to run the application:
 14. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
 15. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
 16. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
+17. `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.
