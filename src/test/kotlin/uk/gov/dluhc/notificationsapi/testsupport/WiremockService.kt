@@ -3,7 +3,6 @@ package uk.gov.dluhc.notificationsapi.testsupport
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
-import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.badRequest
 import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
 import com.github.tomakehurst.wiremock.client.WireMock.exactly
@@ -14,6 +13,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.serverError
+import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
 import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.github.tomakehurst.wiremock.http.RequestMethod.POST
@@ -217,7 +217,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
     fun stubEroManagementGetEroByEroId(ero: ElectoralRegistrationOfficeResponse, eroId: String) {
         val responseBody = objectMapper.writeValueAsString(ero)
         wireMockServer.stubFor(
-            get(WireMock.urlEqualTo("/ero-management-api/eros/$eroId"))
+            get(urlEqualTo("/ero-management-api/eros/$eroId"))
                 .willReturn(
                     ResponseDefinitionBuilder.responseDefinition()
                         .withStatus(200)
