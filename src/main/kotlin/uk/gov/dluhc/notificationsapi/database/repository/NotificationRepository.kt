@@ -23,7 +23,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
 
     companion object {
         private val TABLE_SCHEMA = TableSchema.fromBean(Notification::class.java)
-        private val PROJECTION_ATTRIBUTES = listOf("id", "type", "channel", "requestor", "sentAt")
+        private val PROJECTION_ATTRIBUTES = listOf("id", "type", "channel", "requestor", "sentAt", "gssCode")
     }
 
     private val table = client.table(tableConfig.notificationsTableName, TABLE_SCHEMA)
@@ -49,20 +49,24 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
     }
 
     /**
-     * Get all Notifications by sourceReference, gssCode and sourceType.
+     * Get all Notifications by sourceReference and sourceType for one of the specified gssCodes.
      *
      * The returned items are a projection containing just the attributes id, type, channel, requestor and sentAt.
      * The remaining fields in the Notifications will be null.
      */
     fun getBySourceReferenceAndSourceType(
         sourceReference: String,
-        gssCode: String,
         sourceType: SourceType,
+        gssCodes: List<String>,
     ): List<Notification> {
-        val queryConditional = QueryConditional.keyEqualTo(key(sourceReference, gssCode))
+        val queryConditional = QueryConditional.keyEqualTo(key(sourceReference))
         val filterExpression = Expression.builder()
-            .expression("#sourceType = :sourceType").putExpressionName("#sourceType", "sourceType")
+            // .expression("#sourceType = :sourceType AND #gssCode IN (:gssCodes)")
+            .expression("#sourceType = :sourceType")
+            .putExpressionName("#sourceType", "sourceType")
             .putExpressionValue(":sourceType", AttributeValues.stringValue(sourceType.name))
+            // .putExpressionName("#gssCode", "gssCode")
+            // .putExpressionValue(":gssCodes", AttributeValue.fromSs(gssCodes))
             .build()
         val query = QueryEnhancedRequest.builder()
             .queryConditional(queryConditional)
@@ -71,7 +75,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
             .build()
 
         val index = table.index(SOURCE_REFERENCE_INDEX_NAME)
-        return index.query(query).flatMap { it.items() }
+        return index.query(query).flatMap { it.items() }.filter { gssCodes.contains(it.gssCode) }
     }
 
     fun removeBySourceReference(sourceReference: String, gssCode: String) {
@@ -83,4 +87,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
 
     private fun key(partitionValue: String, sortValue: String): Key =
         Key.builder().partitionValue(partitionValue).sortValue(sortValue).build()
+
+    private fun key(partitionValue: String): Key =
+        Key.builder().partitionValue(partitionValue).build()
 }

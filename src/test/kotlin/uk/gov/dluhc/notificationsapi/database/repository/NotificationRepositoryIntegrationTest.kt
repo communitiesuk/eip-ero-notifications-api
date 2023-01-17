@@ -204,7 +204,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         notificationRepository.saveNotification(notification)
 
         // When
-        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, gssCode, VOTER_CARD)
+        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, VOTER_CARD, listOf(gssCode))
 
         // Then
         assertThat(fetchedNotificationList).hasSize(1)
@@ -214,7 +214,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             .hasType(type)
             .hasRequestor(requestor)
             .hasSentAt(sentAt)
-            .hasGssCode(null)
+            // .hasGssCode(null)
             .hasToEmail(null)
             .hasSourceReference(null)
             .hasPersonalisation(null)
@@ -228,10 +228,40 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         // Given
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(aNotification())
+        notificationRepository.saveNotification(
+            aNotificationBuilder(
+                sourceReference = sourceReference,
+                sourceType = VOTER_CARD,
+                gssCode = gssCode,
+            )
+        )
+
+        val otherSourceReference = aRandomSourceReference()
 
         // When
-        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, gssCode, VOTER_CARD)
+        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(otherSourceReference, VOTER_CARD, listOf(gssCode))
+
+        // Then
+        assertThat(fetchedNotificationList).isEmpty()
+    }
+
+    @Test
+    fun `should find no notifications by source reference and source type given no matches in the specified gssCodes`() {
+        // Given
+        val gssCode = aGssCode()
+        val sourceReference = aRandomSourceReference()
+        notificationRepository.saveNotification(
+            aNotificationBuilder(
+                sourceReference = sourceReference,
+                sourceType = VOTER_CARD,
+                gssCode = gssCode,
+            )
+        )
+
+        val otherGssCodes = listOf("W99999999", "E88888888")
+
+        // When
+        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, VOTER_CARD, otherGssCodes)
 
         // Then
         assertThat(fetchedNotificationList).isEmpty()
@@ -245,12 +275,13 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         notificationRepository.saveNotification(
             aNotificationBuilder(
                 sourceReference = sourceReference,
-                sourceType = VOTER_CARD
+                sourceType = VOTER_CARD,
+                gssCode = gssCode,
             )
         )
 
         // When
-        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, gssCode, POSTAL)
+        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, POSTAL, listOf(gssCode))
 
         // Then
         assertThat(fetchedNotificationList).isEmpty()
