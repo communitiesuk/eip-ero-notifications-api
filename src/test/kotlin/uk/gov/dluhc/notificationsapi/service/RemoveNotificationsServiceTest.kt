@@ -12,7 +12,9 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import software.amazon.awssdk.core.exception.SdkClientException
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.testsupport.TestLogAppender.Companion.hasLog
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aRemoveNotificationsDto
 
@@ -22,6 +24,9 @@ internal class RemoveNotificationsServiceTest {
     @Mock
     private lateinit var notificationRepository: NotificationRepository
 
+    @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
+
     @InjectMocks
     private lateinit var removeNotificationsService: RemoveNotificationsService
 
@@ -29,19 +34,22 @@ internal class RemoveNotificationsServiceTest {
     fun `should remove application notifications`() {
         // Given
         val removeNotificationsDto = aRemoveNotificationsDto()
+        given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(VOTER_CARD)
 
         // When
         removeNotificationsService.remove(removeNotificationsDto)
 
         // Then
-        verify(notificationRepository).removeBySourceReference(removeNotificationsDto.sourceReference, removeNotificationsDto.gssCode)
+        verify(notificationRepository).removeBySourceReference(removeNotificationsDto.sourceReference, VOTER_CARD, removeNotificationsDto.gssCode)
+        verify(sourceTypeMapper).toSourceTypeEntity(removeNotificationsDto.sourceType)
     }
 
     @Test
     fun `should not remove application notifications given SdkException`() {
         // Given
         val removeNotificationsDto = aRemoveNotificationsDto()
-        given(notificationRepository.removeBySourceReference(any(), any())).willThrow(SdkClientException.create("SDK exception"))
+        given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(VOTER_CARD)
+        given(notificationRepository.removeBySourceReference(any(), any(), any())).willThrow(SdkClientException.create("SDK exception"))
 
         // When
         val ex = catchThrowableOfType(

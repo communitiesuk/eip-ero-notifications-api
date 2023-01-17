@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.exception.SdkException
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.RemoveNotificationsDto
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 
 private val logger = KotlinLogging.logger {}
 
@@ -13,7 +14,8 @@ private val logger = KotlinLogging.logger {}
  */
 @Service
 class RemoveNotificationsService(
-    private val notificationRepository: NotificationRepository
+    private val notificationRepository: NotificationRepository,
+    private val sourceTypeMapper: SourceTypeMapper,
 ) {
     /**
      * Removes any notifications belonging to an application.
@@ -23,7 +25,8 @@ class RemoveNotificationsService(
     fun remove(removeNotificationsDto: RemoveNotificationsDto) {
         try {
             with(removeNotificationsDto) {
-                notificationRepository.removeBySourceReference(sourceReference, gssCode)
+                val sourceType = sourceTypeMapper.toSourceTypeEntity(this.sourceType)
+                notificationRepository.removeBySourceReference(sourceReference, sourceType, gssCode)
             }
         } catch (ex: SdkException) {
             logger.error { "Error attempting to remove notifications: $ex" }

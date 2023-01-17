@@ -133,14 +133,12 @@ class LocalStackContainerConfiguration {
 
         val attributeDefinitions: MutableList<AttributeDefinition> = mutableListOf(
             attributeDefinition("id"),
-            attributeDefinition("gssCode"),
             attributeDefinition("sourceReference"),
         )
 
-        val keySchema: MutableList<KeySchemaElement> = mutableListOf(partitionKey("id"), sortKey("gssCode"))
+        val keySchema = listOf(partitionKey("id"))
 
-        val indexKeySchema: MutableList<KeySchemaElement> =
-            mutableListOf(partitionKey("sourceReference"), sortKey("gssCode"))
+        val indexKeySchema = listOf(partitionKey("sourceReference"))
 
         val indexSchema = GlobalSecondaryIndex.builder()
             .indexName(SOURCE_REFERENCE_INDEX_NAME)

@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
@@ -21,8 +22,15 @@ internal class RemoveApplicationNotificationsMessageListenerIntegrationTest : In
         // Given
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(aNotificationBuilder(gssCode = gssCode, sourceReference = sourceReference))
-        notificationRepository.saveNotification(aNotificationBuilder(gssCode = gssCode, sourceReference = sourceReference))
+        repeat(2) {
+            notificationRepository.saveNotification(
+                aNotificationBuilder(
+                    gssCode = gssCode,
+                    sourceReference = sourceReference,
+                    sourceType = VOTER_CARD,
+                )
+            )
+        }
         val sqsMessage = buildRemoveApplicationNotificationsMessage(
             gssCode = gssCode,
             sourceReference = sourceReference
@@ -34,7 +42,7 @@ internal class RemoveApplicationNotificationsMessageListenerIntegrationTest : In
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
-            assertThat(notificationRepository.getBySourceReference(sourceReference, gssCode)).isEmpty()
+            assertThat(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))).isEmpty()
             stopWatch.stop()
             logger.info("Completed assertions in $stopWatch for 2 removed notifications")
         }

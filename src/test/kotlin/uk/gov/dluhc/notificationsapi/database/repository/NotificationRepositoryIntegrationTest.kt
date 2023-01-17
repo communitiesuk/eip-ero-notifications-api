@@ -1,7 +1,8 @@
 package uk.gov.dluhc.notificationsapi.database.repository
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowableOfType
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.NotificationNotFoundException
@@ -18,7 +19,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.anEntityChannel
@@ -28,149 +28,173 @@ import java.util.UUID
 
 internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
 
-    @Test
-    fun `should save and get notification by notification id`() {
-        // Given
-        val id = aNotificationId()
-        val gssCode = aGssCode()
-        val type = anEntityNotificationType()
-        val channel = anEntityChannel()
-        val toEmail = anEmailAddress()
-        val requestor = aRequestor()
-        val sourceReference = aSourceReference()
-        val sourceType = anEntitySourceType()
-        val personalisation = aNotificationPersonalisationMap()
-        val notifyDetails = aNotifyDetails()
-        val sentAt = aLocalDateTime()
-        val notification = Notification(
-            id = id,
-            gssCode = gssCode,
-            type = type,
-            toEmail = toEmail,
-            requestor = requestor,
-            sourceReference = sourceReference,
-            sourceType = sourceType,
-            channel = channel,
-            personalisation = personalisation,
-            notifyDetails = notifyDetails,
-            sentAt = sentAt
-        )
+    @Nested
+    inner class GetNotificationById {
+        @Test
+        fun `should save and get notification by notification id`() {
+            // Given
+            val id = aNotificationId()
+            val gssCode = aGssCode()
+            val type = anEntityNotificationType()
+            val channel = anEntityChannel()
+            val toEmail = anEmailAddress()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val sourceType = anEntitySourceType()
+            val personalisation = aNotificationPersonalisationMap()
+            val notifyDetails = aNotifyDetails()
+            val sentAt = aLocalDateTime()
+            val notification = Notification(
+                id = id,
+                gssCode = gssCode,
+                type = type,
+                toEmail = toEmail,
+                requestor = requestor,
+                sourceReference = sourceReference,
+                sourceType = sourceType,
+                channel = channel,
+                personalisation = personalisation,
+                notifyDetails = notifyDetails,
+                sentAt = sentAt
+            )
 
-        // When
-        notificationRepository.saveNotification(notification)
+            // When
+            notificationRepository.saveNotification(notification)
 
-        // Then
-        val fetchedNotification = notificationRepository.getNotification(id, gssCode)
-        assertThat(fetchedNotification)
-            .hasId(id)
-            .hasGssCode(gssCode)
-            .hasType(type)
-            .hasToEmail(toEmail)
-            .hasRequestor(requestor)
-            .hasSourceReference(sourceReference)
-            .hasPersonalisation(personalisation)
-            .hasSentAt(sentAt)
-            .notifyDetails {
-                it.isEqualTo(notifyDetails)
-            }
+            // Then
+            val fetchedNotification = notificationRepository.getNotification(id)
+            assertThat(fetchedNotification)
+                .hasId(id)
+                .hasGssCode(gssCode)
+                .hasType(type)
+                .hasToEmail(toEmail)
+                .hasRequestor(requestor)
+                .hasSourceReference(sourceReference)
+                .hasPersonalisation(personalisation)
+                .hasSentAt(sentAt)
+                .notifyDetails {
+                    it.isEqualTo(notifyDetails)
+                }
+        }
+
+        @Test
+        fun `should fail to get notification by id that does not exist`() {
+            // Given
+            val id = UUID.fromString("1873fb59-c15d-4473-8ff5-12076b102155")
+            val msg = "Notification item not found for id: 1873fb59-c15d-4473-8ff5-12076b102155"
+
+            // When
+            val ex = catchThrowableOfType(
+                { notificationRepository.getNotification(id) },
+                NotificationNotFoundException::class.java
+            )
+
+            // Then
+            assertThat(ex).hasMessage(msg)
+        }
     }
 
-    @Test
-    fun `should fail to get notification by id that does not exist`() {
-        // Given
-        val id = UUID.fromString("1873fb59-c15d-4473-8ff5-12076b102155")
-        val gssCode = "E99999999"
-        val msg = "Notification item not found for id: 1873fb59-c15d-4473-8ff5-12076b102155 and gssCode: E99999999"
+    @Nested
+    inner class GetNotificationBySourceReference {
 
-        // When
-        val ex = Assertions.catchThrowableOfType(
-            { notificationRepository.getNotification(id, gssCode) },
-            NotificationNotFoundException::class.java
-        )
+        @Test
+        fun `should get notification by source reference`() {
+            // Given
+            val gssCode = aGssCode()
+            val sourceReference = aSourceReference()
+            val id = aRandomNotificationId()
+            val type = anEntityNotificationType()
+            val channel = anEntityChannel()
+            val toEmail = anEmailAddress()
+            val requestor = aRequestor()
+            val sourceType = anEntitySourceType()
+            val personalisation = aNotificationPersonalisationMap()
+            val notifyDetails = aNotifyDetails()
+            val sentAt = aLocalDateTime()
+            val notification = Notification(
+                id = id,
+                gssCode = gssCode,
+                type = type,
+                toEmail = toEmail,
+                requestor = requestor,
+                sourceReference = sourceReference,
+                sourceType = sourceType,
+                channel = channel,
+                personalisation = personalisation,
+                notifyDetails = notifyDetails,
+                sentAt = sentAt
+            )
+            deleteNotifications(notificationRepository.getBySourceReference(sourceReference, sourceType, listOf(gssCode)))
+            notificationRepository.saveNotification(notification)
 
-        // Then
-        assertThat(ex).isNotNull
-            .isInstanceOf(NotificationNotFoundException::class.java)
-            .hasMessage(msg)
+            // When
+            val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, sourceType, listOf(gssCode))
+
+            // Then
+            assertThat(fetchedNotificationList).hasSize(1)
+            val fetchedNotification = fetchedNotificationList[0]
+            assertThat(fetchedNotification)
+                .hasId(id)
+                .hasGssCode(gssCode)
+                .hasType(type)
+                .hasToEmail(toEmail)
+                .hasRequestor(requestor)
+                .hasSourceReference(sourceReference)
+                .hasPersonalisation(personalisation)
+                .hasSentAt(sentAt)
+                .notifyDetails {
+                    it.isEqualTo(notifyDetails)
+                }
+        }
+
+        @Test
+        fun `should find no notifications for source reference that does not exist`() {
+            // Given
+            val gssCode = aGssCode()
+            val sourceReference = aRandomSourceReference()
+            val sourceType = anEntitySourceType()
+            notificationRepository.saveNotification(
+                aNotificationBuilder(
+                    sourceReference = sourceReference,
+                    sourceType = sourceType,
+                    gssCode = gssCode,
+                )
+            )
+
+            val otherSourceReference = aRandomSourceReference()
+
+            // When
+            val fetchedNotificationList = notificationRepository.getBySourceReference(otherSourceReference, sourceType, listOf(gssCode))
+
+            // Then
+            assertThat(fetchedNotificationList).isEmpty()
+        }
     }
 
-    @Test
-    fun `should get notification by source reference`() {
-        // Given
-        val gssCode = aGssCode()
-        val sourceReference = aSourceReference()
-        val id = aRandomNotificationId()
-        val type = anEntityNotificationType()
-        val channel = anEntityChannel()
-        val toEmail = anEmailAddress()
-        val requestor = aRequestor()
-        val sourceType = anEntitySourceType()
-        val personalisation = aNotificationPersonalisationMap()
-        val notifyDetails = aNotifyDetails()
-        val sentAt = aLocalDateTime()
-        val notification = Notification(
-            id = id,
-            gssCode = gssCode,
-            type = type,
-            toEmail = toEmail,
-            requestor = requestor,
-            sourceReference = sourceReference,
-            sourceType = sourceType,
-            channel = channel,
-            personalisation = personalisation,
-            notifyDetails = notifyDetails,
-            sentAt = sentAt
-        )
-        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, gssCode))
-        notificationRepository.saveNotification(notification)
+    @Nested
+    inner class RemoveNotificationBySourceReference {
 
-        // When
-        val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, gssCode)
+        @Test
+        fun `should remove notifications by source reference`() {
+            // Given
+            val gssCode = aGssCode()
+            val sourceReference = aRandomSourceReference()
+            val sourceType = anEntitySourceType()
+            notificationRepository.saveNotification(
+                aNotificationBuilder(
+                    gssCode = gssCode,
+                    sourceReference = sourceReference,
+                    sourceType = sourceType,
+                )
+            )
 
-        // Then
-        assertThat(fetchedNotificationList).hasSize(1)
-        val fetchedNotification = fetchedNotificationList[0]
-        assertThat(fetchedNotification)
-            .hasId(id)
-            .hasGssCode(gssCode)
-            .hasType(type)
-            .hasToEmail(toEmail)
-            .hasRequestor(requestor)
-            .hasSourceReference(sourceReference)
-            .hasPersonalisation(personalisation)
-            .hasSentAt(sentAt)
-            .notifyDetails {
-                it.isEqualTo(notifyDetails)
-            }
-    }
+            // When
+            notificationRepository.removeBySourceReference(sourceReference, sourceType, gssCode)
 
-    @Test
-    fun `should find no notifications for source reference that does not exist`() {
-        // Given
-        val gssCode = aGssCode()
-        val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(aNotification())
-
-        // When
-        val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, gssCode)
-
-        // Then
-        assertThat(fetchedNotificationList).isEmpty()
-    }
-
-    @Test
-    fun `should remove notifications by source reference`() {
-        // Given
-        val gssCode = aGssCode()
-        val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(aNotificationBuilder(gssCode = gssCode, sourceReference = sourceReference))
-
-        // When
-        notificationRepository.removeBySourceReference(sourceReference, gssCode)
-
-        // Then
-        val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, gssCode)
-        assertThat(fetchedNotificationList).isEmpty()
+            // Then
+            val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, sourceType, listOf(gssCode))
+            assertThat(fetchedNotificationList).isEmpty()
+        }
     }
 
     @Test
@@ -200,11 +224,11 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             notifyDetails = notifyDetails,
             sentAt = sentAt
         )
-        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, gssCode))
+        deleteNotifications(notificationRepository.getNotificationSummariesBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
         notificationRepository.saveNotification(notification)
 
         // When
-        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, VOTER_CARD, listOf(gssCode))
+        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))
 
         // Then
         assertThat(fetchedNotificationList).hasSize(1)
@@ -214,7 +238,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             .hasType(type)
             .hasRequestor(requestor)
             .hasSentAt(sentAt)
-            // .hasGssCode(null)
+            .hasGssCode(null)
             .hasToEmail(null)
             .hasSourceReference(null)
             .hasPersonalisation(null)
@@ -239,7 +263,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         val otherSourceReference = aRandomSourceReference()
 
         // When
-        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(otherSourceReference, VOTER_CARD, listOf(gssCode))
+        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(otherSourceReference, VOTER_CARD, listOf(gssCode))
 
         // Then
         assertThat(fetchedNotificationList).isEmpty()
@@ -261,7 +285,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         val otherGssCodes = listOf("W99999999", "E88888888")
 
         // When
-        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, VOTER_CARD, otherGssCodes)
+        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(sourceReference, VOTER_CARD, otherGssCodes)
 
         // Then
         assertThat(fetchedNotificationList).isEmpty()
@@ -281,7 +305,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         )
 
         // When
-        val fetchedNotificationList = notificationRepository.getBySourceReferenceAndSourceType(sourceReference, POSTAL, listOf(gssCode))
+        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(sourceReference, POSTAL, listOf(gssCode))
 
         // Then
         assertThat(fetchedNotificationList).isEmpty()
