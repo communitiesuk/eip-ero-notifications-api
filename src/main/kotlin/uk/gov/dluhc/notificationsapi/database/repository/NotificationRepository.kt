@@ -23,23 +23,23 @@ private val logger = KotlinLogging.logger {}
 class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: DynamoDbConfiguration) {
 
     companion object {
-        private val NOTIFICATIONS_TABLE_SCHEMA = TableSchema.fromBean(Notification::class.java)
-        private val NOTIFICATION_SUMMARIES_TABLE_SCHEMA = TableSchema.fromBean(NotificationSummary::class.java)
+        private val NOTIFICATIONS_TABLE_FULL_SCHEMA = TableSchema.fromBean(Notification::class.java)
+        private val NOTIFICATIONS_TABLE_SUMMARY_SCHEMA = TableSchema.fromBean(NotificationSummary::class.java)
     }
 
-    private val notificationsTable = client.table(tableConfig.notificationsTableName, NOTIFICATIONS_TABLE_SCHEMA)
-    private val notificationsSummaryTable = client.table(tableConfig.notificationsTableName, NOTIFICATION_SUMMARIES_TABLE_SCHEMA)
+    private val notificationsTableFull = client.table(tableConfig.notificationsTableName, NOTIFICATIONS_TABLE_FULL_SCHEMA)
+    private val notificationsTableSummary = client.table(tableConfig.notificationsTableName, NOTIFICATIONS_TABLE_SUMMARY_SCHEMA)
 
     fun saveNotification(notification: Notification) {
         logger.debug("Saving notification for type [${notification.type}], channel: [${notification.channel}]")
-        notificationsTable.putItem(notification)
+        notificationsTableFull.putItem(notification)
     }
 
     /**
      * Returns the Notification identified by its id (primary partition key)
      */
     fun getNotification(notificationId: UUID): Notification =
-        notificationsTable.getItem(key(notificationId.toString())) ?: throw NotificationNotFoundException(notificationId)
+        notificationsTableFull.getItem(key(notificationId.toString())) ?: throw NotificationNotFoundException(notificationId)
 
     /**
      * Get all Notifications by sourceReference and sourceType for one of the specified gssCodes.
@@ -48,7 +48,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
         val queryRequest = queryRequest(sourceReference, sourceType, gssCodes)
             .build()
 
-        val index = notificationsTable.index(SOURCE_REFERENCE_INDEX_NAME)
+        val index = notificationsTableFull.index(SOURCE_REFERENCE_INDEX_NAME)
         return index.query(queryRequest).flatMap { it.items() }
     }
 
@@ -59,7 +59,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
         val queryRequest = queryRequest(sourceReference, sourceType, gssCodes)
             .build()
 
-        val index = notificationsSummaryTable.index(SOURCE_REFERENCE_INDEX_NAME)
+        val index = notificationsTableSummary.index(SOURCE_REFERENCE_INDEX_NAME)
         return index.query(queryRequest).flatMap { it.items() }
     }
 
@@ -69,7 +69,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
     fun removeBySourceReference(sourceReference: String, sourceType: SourceType, gssCode: String) {
         with(getBySourceReference(sourceReference, sourceType, listOf(gssCode))) {
             logger.debug("Removing [$size] notifications")
-            forEach { notification -> notificationsTable.deleteItem(notification) }
+            forEach { notification -> notificationsTableFull.deleteItem(notification) }
         }
     }
 

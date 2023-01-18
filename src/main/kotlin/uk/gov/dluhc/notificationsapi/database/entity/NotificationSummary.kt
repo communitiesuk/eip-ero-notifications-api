@@ -6,6 +6,10 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecon
 import java.time.LocalDateTime
 import java.util.UUID
 
+/**
+ * DynamoDB entity that maps to the main `notifications` table, but only includes a subset of the fields/attributes
+ * from the table, effectively being a summary of the Notification.
+ */
 @DynamoDbBean
 data class NotificationSummary(
     @get:DynamoDbPartitionKey var id: UUID? = null,
