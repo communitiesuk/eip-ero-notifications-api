@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType.POSTAL
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.entity.NotificationAssert.Companion.assertThat
+import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.entity.NotificationSummaryAssert.Companion.assertThat
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
@@ -224,7 +225,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             notifyDetails = notifyDetails,
             sentAt = sentAt
         )
-        deleteNotifications(notificationRepository.getNotificationSummariesBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
+        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
         notificationRepository.saveNotification(notification)
 
         // When
@@ -235,16 +236,11 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         val fetchedNotification = fetchedNotificationList[0]
         assertThat(fetchedNotification)
             .hasId(id)
+            .hasSourceReference(sourceReference)
+            .hasGssCode(gssCode)
             .hasType(type)
             .hasRequestor(requestor)
             .hasSentAt(sentAt)
-            .hasGssCode(null)
-            .hasToEmail(null)
-            .hasSourceReference(null)
-            .hasPersonalisation(null)
-            .notifyDetails {
-                it.isNull()
-            }
     }
 
     @Test

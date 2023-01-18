@@ -6,28 +6,22 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecon
 import java.time.LocalDateTime
 import java.util.UUID
 
-const val SOURCE_REFERENCE_INDEX_NAME = "SourceReferenceIndex"
-
 @DynamoDbBean
-data class Notification(
+data class NotificationSummary(
     @get:DynamoDbPartitionKey var id: UUID? = null,
     @get:DynamoDbSecondaryPartitionKey(indexNames = [SOURCE_REFERENCE_INDEX_NAME]) var sourceReference: String? = null,
     var gssCode: String? = null,
     var sourceType: SourceType? = null,
     var type: NotificationType? = null,
     var channel: Channel? = null,
-    var toEmail: String? = null,
-    var toPostalAddress: PostalAddress? = null,
     var requestor: String? = null,
     var sentAt: LocalDateTime? = null,
-    var personalisation: Map<String, String>? = null,
-    var notifyDetails: NotifyDetails? = null,
 ) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
-        other as Notification
+        other as NotificationSummary
 
         return id != null && id == other.id
     }
