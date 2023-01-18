@@ -198,112 +198,138 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         }
     }
 
-    @Test
-    fun `should get notification by source reference and source type`() {
-        // Given
-        val gssCode = aGssCode()
-        val sourceReference = aSourceReference()
-        val id = aRandomNotificationId()
-        val type = anEntityNotificationType()
-        val channel = anEntityChannel()
-        val toEmail = anEmailAddress()
-        val requestor = aRequestor()
-        val sourceType = anEntitySourceType()
-        val personalisation = aNotificationPersonalisationMap()
-        val notifyDetails = aNotifyDetails()
-        val sentAt = aLocalDateTime()
-        val notification = Notification(
-            id = id,
-            gssCode = gssCode,
-            type = type,
-            toEmail = toEmail,
-            requestor = requestor,
-            sourceReference = sourceReference,
-            sourceType = sourceType,
-            channel = channel,
-            personalisation = personalisation,
-            notifyDetails = notifyDetails,
-            sentAt = sentAt
-        )
-        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
-        notificationRepository.saveNotification(notification)
+    @Nested
+    inner class GetNotificationSummariesBySourceReference {
 
-        // When
-        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))
-
-        // Then
-        assertThat(fetchedNotificationList).hasSize(1)
-        val fetchedNotification = fetchedNotificationList[0]
-        assertThat(fetchedNotification)
-            .hasId(id)
-            .hasSourceReference(sourceReference)
-            .hasGssCode(gssCode)
-            .hasType(type)
-            .hasRequestor(requestor)
-            .hasSentAt(sentAt)
-    }
-
-    @Test
-    fun `should find no notifications by source reference and source type given source reference that does not exist`() {
-        // Given
-        val gssCode = aGssCode()
-        val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(
-            aNotificationBuilder(
-                sourceReference = sourceReference,
-                sourceType = VOTER_CARD,
+        @Test
+        fun `should get notification summaries by source reference and source type`() {
+            // Given
+            val gssCode = aGssCode()
+            val sourceReference = aSourceReference()
+            val id = aRandomNotificationId()
+            val type = anEntityNotificationType()
+            val channel = anEntityChannel()
+            val toEmail = anEmailAddress()
+            val requestor = aRequestor()
+            val sourceType = anEntitySourceType()
+            val personalisation = aNotificationPersonalisationMap()
+            val notifyDetails = aNotifyDetails()
+            val sentAt = aLocalDateTime()
+            val notification = Notification(
+                id = id,
                 gssCode = gssCode,
-            )
-        )
-
-        val otherSourceReference = aRandomSourceReference()
-
-        // When
-        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(otherSourceReference, VOTER_CARD, listOf(gssCode))
-
-        // Then
-        assertThat(fetchedNotificationList).isEmpty()
-    }
-
-    @Test
-    fun `should find no notifications by source reference and source type given no matches in the specified gssCodes`() {
-        // Given
-        val gssCode = aGssCode()
-        val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(
-            aNotificationBuilder(
+                type = type,
+                toEmail = toEmail,
+                requestor = requestor,
                 sourceReference = sourceReference,
-                sourceType = VOTER_CARD,
-                gssCode = gssCode,
+                sourceType = sourceType,
+                channel = channel,
+                personalisation = personalisation,
+                notifyDetails = notifyDetails,
+                sentAt = sentAt
             )
-        )
-
-        val otherGssCodes = listOf("W99999999", "E88888888")
-
-        // When
-        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(sourceReference, VOTER_CARD, otherGssCodes)
-
-        // Then
-        assertThat(fetchedNotificationList).isEmpty()
-    }
-
-    @Test
-    fun `should find no notifications by source reference and source type given source type that does not exist`() {
-        // Given
-        val gssCode = aGssCode()
-        val sourceReference = aRandomSourceReference()
-        notificationRepository.saveNotification(
-            aNotificationBuilder(
-                sourceReference = sourceReference,
-                sourceType = VOTER_CARD,
-                gssCode = gssCode,
+            deleteNotifications(
+                notificationRepository.getBySourceReference(
+                    sourceReference,
+                    VOTER_CARD,
+                    listOf(gssCode)
+                )
             )
-        )
+            notificationRepository.saveNotification(notification)
 
-        // When
-        val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(sourceReference, POSTAL, listOf(gssCode))
+            // When
+            val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
+                sourceReference,
+                VOTER_CARD,
+                listOf(gssCode)
+            )
 
-        // Then
-        assertThat(fetchedNotificationList).isEmpty()
+            // Then
+            assertThat(fetchedNotificationList).hasSize(1)
+            val fetchedNotification = fetchedNotificationList[0]
+            assertThat(fetchedNotification)
+                .hasId(id)
+                .hasSourceReference(sourceReference)
+                .hasGssCode(gssCode)
+                .hasType(type)
+                .hasRequestor(requestor)
+                .hasSentAt(sentAt)
+        }
+
+        @Test
+        fun `should find no notification summaries by source reference and source type given source reference that does not exist`() {
+            // Given
+            val gssCode = aGssCode()
+            val sourceReference = aRandomSourceReference()
+            notificationRepository.saveNotification(
+                aNotificationBuilder(
+                    sourceReference = sourceReference,
+                    sourceType = VOTER_CARD,
+                    gssCode = gssCode,
+                )
+            )
+
+            val otherSourceReference = aRandomSourceReference()
+
+            // When
+            val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
+                otherSourceReference,
+                VOTER_CARD,
+                listOf(gssCode)
+            )
+
+            // Then
+            assertThat(fetchedNotificationList).isEmpty()
+        }
+
+        @Test
+        fun `should find no notification summaries by source reference and source type given no matches in the specified gssCodes`() {
+            // Given
+            val gssCode = aGssCode()
+            val sourceReference = aRandomSourceReference()
+            notificationRepository.saveNotification(
+                aNotificationBuilder(
+                    sourceReference = sourceReference,
+                    sourceType = VOTER_CARD,
+                    gssCode = gssCode,
+                )
+            )
+
+            val otherGssCodes = listOf("W99999999", "E88888888")
+
+            // When
+            val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
+                sourceReference,
+                VOTER_CARD,
+                otherGssCodes
+            )
+
+            // Then
+            assertThat(fetchedNotificationList).isEmpty()
+        }
+
+        @Test
+        fun `should find no notification summaries by source reference and source type given source type that does not exist`() {
+            // Given
+            val gssCode = aGssCode()
+            val sourceReference = aRandomSourceReference()
+            notificationRepository.saveNotification(
+                aNotificationBuilder(
+                    sourceReference = sourceReference,
+                    sourceType = VOTER_CARD,
+                    gssCode = gssCode,
+                )
+            )
+
+            // When
+            val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
+                sourceReference,
+                POSTAL,
+                listOf(gssCode)
+            )
+
+            // Then
+            assertThat(fetchedNotificationList).isEmpty()
+        }
     }
 }
