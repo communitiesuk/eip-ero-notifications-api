@@ -10,7 +10,8 @@ const val SOURCE_REFERENCE_INDEX_NAME = "SourceReferenceIndex"
 
 /**
  * DynamoDB entity that maps to the main `notifications` table, and represents a Notification sent as part of an application.
- */@DynamoDbBean
+ */
+@DynamoDbBean
 data class Notification(
     @get:DynamoDbPartitionKey var id: UUID? = null,
     @get:DynamoDbSecondaryPartitionKey(indexNames = [SOURCE_REFERENCE_INDEX_NAME]) var sourceReference: String? = null,
