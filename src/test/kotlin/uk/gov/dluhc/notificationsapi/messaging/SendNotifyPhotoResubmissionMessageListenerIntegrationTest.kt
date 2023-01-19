@@ -7,6 +7,7 @@ import org.awaitility.kotlin.await
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
@@ -37,7 +38,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
             sourceType = sourceType,
             sourceReference = sourceReference
         )
-        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, gssCode))
+        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
@@ -47,7 +48,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendEmailCalled()
-            val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
+            val actualEntity = notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")
@@ -70,7 +71,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
             sourceType = sourceType,
             sourceReference = sourceReference
         )
-        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, gssCode))
+        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
         // When
@@ -80,7 +81,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendLetterCalled()
-            val actualEntity = notificationRepository.getBySourceReference(sourceReference, gssCode)
+            val actualEntity = notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")

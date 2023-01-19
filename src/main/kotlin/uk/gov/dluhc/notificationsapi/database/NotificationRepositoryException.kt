@@ -4,5 +4,5 @@ import java.util.UUID
 
 abstract class NotificationRepositoryException(message: String) : RuntimeException(message)
 
-class NotificationNotFoundException(id: UUID, gssCode: String) :
-    NotificationRepositoryException("Notification item not found for id: $id and gssCode: $gssCode")
+class NotificationNotFoundException(id: UUID) :
+    NotificationRepositoryException("Notification item not found for id: $id")

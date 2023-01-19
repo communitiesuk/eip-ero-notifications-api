@@ -76,9 +76,8 @@ internal abstract class IntegrationTest {
                 DeleteItemRequest.builder()
                     .tableName(tableConfig.notificationsTableName)
                     .key(
-                        mutableMapOf<String, AttributeValue>(
-                            "id" to AttributeValue.builder().s(it.id.toString()).build(),
-                            "gssCode" to AttributeValue.builder().s(it.gssCode).build(),
+                        mapOf(
+                            "id" to AttributeValue.fromS(it.id.toString()),
                         )
                     )
                     .build()
