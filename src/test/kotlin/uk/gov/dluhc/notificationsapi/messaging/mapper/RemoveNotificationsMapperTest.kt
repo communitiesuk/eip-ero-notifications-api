@@ -12,7 +12,6 @@ import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.RemoveApplicationNotificationsMessage
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
@@ -27,10 +26,9 @@ internal class RemoveNotificationsMapperTest {
 
     @Test
     fun `should map SQS RemoveApplicationNotificationsMessage to RemoveNotificationsDto`() {
-        val gssCode = aGssCode()
         val sourceReference = aSourceReference()
         val sourceType = SqsSourceType.VOTER_MINUS_CARD
-        val request = RemoveApplicationNotificationsMessage(gssCode = gssCode, sourceReference = sourceReference, sourceType = sourceType)
+        val request = RemoveApplicationNotificationsMessage(sourceReference = sourceReference, sourceType = sourceType)
         val expectedSourceType = SourceType.VOTER_CARD
         given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
 
@@ -38,7 +36,6 @@ internal class RemoveNotificationsMapperTest {
 
         assertThat(removeNotificationsDto.sourceType).isEqualTo(expectedSourceType)
         assertThat(removeNotificationsDto.sourceReference).isEqualTo(sourceReference)
-        assertThat(removeNotificationsDto.gssCode).isEqualTo(gssCode)
         verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
     }
 }

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.5.0'
+  version: '1.5.1'
   description: |-
     Notifications SQS Message Types
     
@@ -125,13 +125,9 @@ components:
         sourceReference:
           type: string
           description: Reference of the application in the corresponding source system that the message relates to
-        gssCode:
-          type: string
-          description: GSS code of the ERO the application belongs to
       required:
         - sourceType
         - sourceReference
-        - gssCode
 
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation

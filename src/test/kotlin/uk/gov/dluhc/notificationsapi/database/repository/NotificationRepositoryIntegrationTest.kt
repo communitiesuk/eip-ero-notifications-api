@@ -20,6 +20,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.anotherGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.anEntityChannel
@@ -125,11 +126,11 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                 notifyDetails = notifyDetails,
                 sentAt = sentAt
             )
-            deleteNotifications(notificationRepository.getBySourceReference(sourceReference, sourceType, listOf(gssCode)))
+            deleteNotifications(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, sourceType, listOf(gssCode)))
             notificationRepository.saveNotification(notification)
 
             // When
-            val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, sourceType, listOf(gssCode))
+            val fetchedNotificationList = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, sourceType, listOf(gssCode))
 
             // Then
             assertThat(fetchedNotificationList).hasSize(1)
@@ -165,7 +166,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             val otherSourceReference = aRandomSourceReference()
 
             // When
-            val fetchedNotificationList = notificationRepository.getBySourceReference(otherSourceReference, sourceType, listOf(gssCode))
+            val fetchedNotificationList = notificationRepository.getBySourceReferenceAndGssCode(otherSourceReference, sourceType, listOf(gssCode))
 
             // Then
             assertThat(fetchedNotificationList).isEmpty()
@@ -178,22 +179,30 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
         @Test
         fun `should remove notifications by source reference`() {
             // Given
-            val gssCode = aGssCode()
+            val gssCode1 = aGssCode()
+            val gssCode2 = anotherGssCode()
             val sourceReference = aRandomSourceReference()
             val sourceType = anEntitySourceType()
             notificationRepository.saveNotification(
                 aNotificationBuilder(
-                    gssCode = gssCode,
+                    gssCode = gssCode1,
+                    sourceReference = sourceReference,
+                    sourceType = sourceType,
+                )
+            )
+            notificationRepository.saveNotification(
+                aNotificationBuilder(
+                    gssCode = gssCode2,
                     sourceReference = sourceReference,
                     sourceType = sourceType,
                 )
             )
 
             // When
-            notificationRepository.removeBySourceReference(sourceReference, sourceType, gssCode)
+            notificationRepository.removeBySourceReference(sourceReference, sourceType)
 
             // Then
-            val fetchedNotificationList = notificationRepository.getBySourceReference(sourceReference, sourceType, listOf(gssCode))
+            val fetchedNotificationList = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, sourceType, listOf(gssCode1, gssCode2))
             assertThat(fetchedNotificationList).isEmpty()
         }
     }
@@ -229,7 +238,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                 sentAt = sentAt
             )
             deleteNotifications(
-                notificationRepository.getBySourceReference(
+                notificationRepository.getBySourceReferenceAndGssCode(
                     sourceReference,
                     VOTER_CARD,
                     listOf(gssCode)

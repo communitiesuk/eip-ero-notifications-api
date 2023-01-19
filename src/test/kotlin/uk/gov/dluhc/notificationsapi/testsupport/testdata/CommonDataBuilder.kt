@@ -17,6 +17,8 @@ fun aRequestor() = "user-id"
 
 fun aGssCode() = "E99999999"
 
+fun anotherGssCode() = "E88888888"
+
 fun aSourceReference() = "fea5d37b-5c4a-445c-b428-7dc799be1d8e"
 
 fun aRandomSourceReference() = UUID.randomUUID().toString()

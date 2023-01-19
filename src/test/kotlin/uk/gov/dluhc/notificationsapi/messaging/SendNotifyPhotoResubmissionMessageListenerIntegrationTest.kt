@@ -38,7 +38,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
             sourceType = sourceType,
             sourceReference = sourceReference
         )
-        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
+        deleteNotifications(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode)))
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
@@ -48,7 +48,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendEmailCalled()
-            val actualEntity = notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))
+            val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")
@@ -71,7 +71,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
             sourceType = sourceType,
             sourceReference = sourceReference
         )
-        deleteNotifications(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode)))
+        deleteNotifications(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode)))
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
         // When
@@ -81,7 +81,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendLetterCalled()
-            val actualEntity = notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))
+            val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")

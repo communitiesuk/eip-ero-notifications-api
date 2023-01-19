@@ -42,9 +42,9 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
         notificationsTableFull.getItem(key(notificationId.toString())) ?: throw NotificationNotFoundException(notificationId)
 
     /**
-     * Get all Notifications by sourceReference and sourceType for one of the specified gssCodes.
+     * Get all Notifications by sourceReference, sourceType and gssCode for one of the specified gssCodes.
      */
-    fun getBySourceReference(sourceReference: String, sourceType: SourceType, gssCodes: List<String>): List<Notification> {
+    fun getBySourceReferenceAndGssCode(sourceReference: String, sourceType: SourceType, gssCodes: List<String>): List<Notification> {
         val queryRequest = queryRequest(sourceReference, sourceType, gssCodes)
             .build()
 
@@ -64,13 +64,27 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
     }
 
     /**
-     * Remove all Notifications by sourceReference and sourceType for the specified gssCode.
+     * Remove all Notifications by sourceReference and sourceType.
      */
-    fun removeBySourceReference(sourceReference: String, sourceType: SourceType, gssCode: String) {
-        with(getBySourceReference(sourceReference, sourceType, listOf(gssCode))) {
+    fun removeBySourceReference(sourceReference: String, sourceType: SourceType) {
+        with(getBySourceReference(sourceReference, sourceType)) {
             logger.debug("Removing [$size] notifications")
             forEach { notification -> notificationsTableFull.deleteItem(notification) }
         }
+    }
+
+    /**
+     * Private method only intended to be used when removing notifications. It does not require a gssCode because it
+     * could have been changed on the original source application, meaning the one we have stored here would no longer
+     * match.
+     */
+    private fun getBySourceReference(sourceReference: String, sourceType: SourceType): List<Notification> {
+        val queryRequest = QueryEnhancedRequest.builder()
+            .queryConditional(QueryConditional.keyEqualTo(key(sourceReference)))
+            .filterExpression(sourceTypeFilterExpression(sourceType)).build()
+
+        val index = notificationsTableFull.index(SOURCE_REFERENCE_INDEX_NAME)
+        return index.query(queryRequest).flatMap { it.items() }
     }
 
     private fun queryRequest(sourceReference: String, sourceType: SourceType, gssCodes: List<String>): QueryEnhancedRequest.Builder =
@@ -85,6 +99,13 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
             .putExpressionValue(":sourceType", AttributeValue.fromS(sourceType.name))
             .putExpressionName("#gssCode", "gssCode")
             .putExpressionValue(":gssCodes", AttributeValue.fromS(gssCodes.joinToString(",")))
+            .build()
+
+    private fun sourceTypeFilterExpression(sourceType: SourceType): Expression =
+        Expression.builder()
+            .expression("#sourceType = :sourceType")
+            .putExpressionName("#sourceType", "sourceType")
+            .putExpressionValue(":sourceType", AttributeValue.fromS(sourceType.name))
             .build()
 
     private fun key(partitionValue: String): Key =

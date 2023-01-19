@@ -40,7 +40,7 @@ internal class RemoveNotificationsServiceTest {
         removeNotificationsService.remove(removeNotificationsDto)
 
         // Then
-        verify(notificationRepository).removeBySourceReference(removeNotificationsDto.sourceReference, VOTER_CARD, removeNotificationsDto.gssCode)
+        verify(notificationRepository).removeBySourceReference(removeNotificationsDto.sourceReference, VOTER_CARD)
         verify(sourceTypeMapper).toSourceTypeEntity(removeNotificationsDto.sourceType)
     }
 
@@ -49,7 +49,7 @@ internal class RemoveNotificationsServiceTest {
         // Given
         val removeNotificationsDto = aRemoveNotificationsDto()
         given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(VOTER_CARD)
-        given(notificationRepository.removeBySourceReference(any(), any(), any())).willThrow(SdkClientException.create("SDK exception"))
+        given(notificationRepository.removeBySourceReference(any(), any())).willThrow(SdkClientException.create("SDK exception"))
 
         // When
         val ex = catchThrowableOfType(
