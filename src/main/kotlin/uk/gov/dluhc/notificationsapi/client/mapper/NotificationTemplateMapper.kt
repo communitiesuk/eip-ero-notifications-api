@@ -12,8 +12,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
-import uk.gov.dluhc.notificationsapi.dto.TemplateType
-import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 
 /**
  * Gets the Notification Template ID configured for each message type.
@@ -22,16 +20,15 @@ import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 class NotificationTemplateMapper(
     private val notifyEmailTemplateConfiguration: NotifyEmailTemplateConfiguration,
     private val notifyLetterTemplateConfiguration: NotifyLetterTemplateConfiguration,
-    private val notificationTypeMapper: NotificationTypeMapper
 ) {
 
     fun fromTemplateTypeForChannelAndLanguage(
-        templateType: TemplateType,
+        notificationType: NotificationType,
         channel: NotificationChannel,
         language: LanguageDto?
     ): String =
         fromNotificationTypeForChannelInLanguage(
-            notificationType = notificationTypeMapper.toNotificationType(templateType),
+            notificationType = notificationType,
             channel = channel,
             language = language
         )

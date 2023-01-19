@@ -4,32 +4,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
-import uk.gov.dluhc.notificationsapi.dto.TemplateType
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 
 class NotificationTypeMapperTest {
     private val mapper = NotificationTypeMapperImpl()
-
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "APPLICATION_RECEIVED, APPLICATION_RECEIVED",
-            "APPLICATION_APPROVED, APPLICATION_APPROVED",
-            "APPLICATION_REJECTED, APPLICATION_REJECTED",
-            "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION",
-            "ID_DOCUMENT_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
-        ]
-    )
-    fun `should map template type dto to notification type`(source: TemplateType, expected: NotificationType) {
-        // Given
-
-        // When
-        val actual = mapper.toNotificationType(source)
-
-        // Then
-        assertThat(actual).isEqualTo(expected)
-    }
 
     @ParameterizedTest
     @CsvSource(

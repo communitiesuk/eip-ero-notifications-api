@@ -3,13 +3,11 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
-import uk.gov.dluhc.notificationsapi.dto.TemplateType
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 
 @Mapper
 interface NotificationTypeMapper {
-    fun toNotificationType(templateType: TemplateType): NotificationType
 
     @ValueMapping(target = "APPLICATION_RECEIVED", source = "APPLICATION_MINUS_RECEIVED")
     @ValueMapping(target = "APPLICATION_APPROVED", source = "APPLICATION_MINUS_APPROVED")
