@@ -23,8 +23,7 @@ class RemoveApplicationNotificationsMessageListener(
             logger.info {
                 "RemoveApplicationNotificationsMessage received with " +
                     "sourceType: $sourceType and " +
-                    "sourceReference: $sourceReference and " +
-                    "gssCode: $gssCode"
+                    "sourceReference: $sourceReference"
             }
             removeNotificationsService.remove(removeNotificationsMapper.toRemoveNotificationsDto(this))
         }

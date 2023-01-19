@@ -32,7 +32,6 @@ internal class RemoveApplicationNotificationsMessageListenerIntegrationTest : In
             )
         }
         val sqsMessage = buildRemoveApplicationNotificationsMessage(
-            gssCode = gssCode,
             sourceReference = sourceReference
         )
 
@@ -42,7 +41,7 @@ internal class RemoveApplicationNotificationsMessageListenerIntegrationTest : In
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
-            assertThat(notificationRepository.getBySourceReference(sourceReference, VOTER_CARD, listOf(gssCode))).isEmpty()
+            assertThat(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))).isEmpty()
             stopWatch.stop()
             logger.info("Completed assertions in $stopWatch for 2 removed notifications")
         }

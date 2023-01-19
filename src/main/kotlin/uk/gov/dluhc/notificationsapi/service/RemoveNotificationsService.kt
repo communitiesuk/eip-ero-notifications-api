@@ -20,13 +20,13 @@ class RemoveNotificationsService(
     /**
      * Removes any notifications belonging to an application.
      *
-     * @param removeNotificationsDto DTO containing the application's ID and GSS code.
+     * @param removeNotificationsDto DTO containing the application's ID.
      */
     fun remove(removeNotificationsDto: RemoveNotificationsDto) {
         try {
             with(removeNotificationsDto) {
                 val sourceType = sourceTypeMapper.toSourceTypeEntity(this.sourceType)
-                notificationRepository.removeBySourceReference(sourceReference, sourceType, gssCode)
+                notificationRepository.removeBySourceReference(sourceReference, sourceType)
             }
         } catch (ex: SdkException) {
             logger.error { "Error attempting to remove notifications: $ex" }
