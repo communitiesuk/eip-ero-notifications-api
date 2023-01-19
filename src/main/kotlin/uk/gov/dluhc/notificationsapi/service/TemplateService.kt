@@ -18,7 +18,7 @@ class TemplateService(
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(templateType, channel, language),
+                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
                 templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
@@ -27,7 +27,7 @@ class TemplateService(
     fun generateIdDocumentResubmissionTemplatePreview(request: GenerateIdDocumentResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(templateType, channel, language),
+                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
                 templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
