@@ -4,6 +4,7 @@ import org.mapstruct.Mapper
 import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
+import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 
 @Mapper
@@ -17,4 +18,13 @@ interface NotificationTypeMapper {
     fun mapMessageTypeToNotificationType(messageType: MessageType): NotificationType
 
     fun toNotificationTypeEntity(notificationType: NotificationType): NotificationTypeEntity
+
+    fun toNotificationTypeDto(notificationTypeEntity: NotificationTypeEntity): NotificationType
+
+    @ValueMapping(source = "APPLICATION_RECEIVED", target = "APPLICATION_MINUS_RECEIVED")
+    @ValueMapping(source = "APPLICATION_APPROVED", target = "APPLICATION_MINUS_APPROVED")
+    @ValueMapping(source = "APPLICATION_REJECTED", target = "APPLICATION_MINUS_REJECTED")
+    @ValueMapping(source = "PHOTO_RESUBMISSION", target = "PHOTO_MINUS_RESUBMISSION")
+    @ValueMapping(source = "ID_DOCUMENT_RESUBMISSION", target = "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION")
+    fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType
 }

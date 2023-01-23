@@ -92,14 +92,17 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
             .queryConditional(QueryConditional.keyEqualTo(key(sourceReference)))
             .filterExpression(sourceTypeAndGssCodesFilterExpression(sourceType, gssCodes))
 
-    private fun sourceTypeAndGssCodesFilterExpression(sourceType: SourceType, gssCodes: List<String>): Expression =
-        Expression.builder()
-            .expression("#sourceType = :sourceType AND #gssCode IN (:gssCodes)")
+    private fun sourceTypeAndGssCodesFilterExpression(sourceType: SourceType, gssCodes: List<String>): Expression {
+        val filterExpression = Expression.builder()
+            .expression("#sourceType = :sourceType AND #gssCode IN (${List(gssCodes.size) { index -> ":gssCode_$index" }.joinToString(",")})")
             .putExpressionName("#sourceType", "sourceType")
             .putExpressionValue(":sourceType", AttributeValue.fromS(sourceType.name))
             .putExpressionName("#gssCode", "gssCode")
-            .putExpressionValue(":gssCodes", AttributeValue.fromS(gssCodes.joinToString(",")))
-            .build()
+        gssCodes.onEachIndexed { index, gssCode ->
+            filterExpression.putExpressionValue(":gssCode_$index", AttributeValue.fromS(gssCode))
+        }
+        return filterExpression.build()
+    }
 
     private fun sourceTypeFilterExpression(sourceType: SourceType): Expression =
         Expression.builder()
