@@ -555,7 +555,7 @@ components:
         rejectionReasonList:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/ApplicationRejectionReason'
           example: 'Application is incomplete'
         rejectionReasonMessage:
           type: string
@@ -673,6 +673,18 @@ components:
         - type
         - requestor
         - timestamp
+    ApplicationRejectionReason:
+      title: ApplicationRejectionReason
+      description: Enum of reasons why an application was rejected
+      type: string
+      enum:
+        - not-registered-to-vote
+        - incomplete-application
+        - photo-is-not-acceptable
+        - no-response-from-applicant
+        - inaccurate-information
+        - fraudulent-application
+        - other
 
   #
   # Response Body Definitions
