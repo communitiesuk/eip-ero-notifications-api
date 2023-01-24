@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.5.0'
+  version: '1.6.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -267,6 +267,89 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Application Rejected Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/application-rejected/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Application Rejected Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for an application rejected template type and personalisation data
+      description: Generates a text preview for an application rejected template type and personalisation data
+      operationId: generate-application-rejected-template-preview
+      tags:
+        - Generate Application Rejected Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateApplicationRejectedTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateLetterTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/application-rejected/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
 components:
   #
   # Schema and Enum Definitions
@@ -387,6 +470,28 @@ components:
           example: <p>Hi Fred Blogs,</p>
       required:
         - text
+    GenerateLetterTemplatePreviewResponse:
+      title: GenerateLetterTemplatePreviewResponse
+      type: object
+      description: Response containing the result of a letter template preview in text format
+      properties:
+        text:
+          type: string
+          description: Text preview of the template with personalisation data
+          example: Hi Fred Blogs,
+      required:
+        - text
+    GenerateApplicationRejectedTemplatePreviewRequest:
+      title: GenerateApplicationRejectedTemplatePreviewRequest
+      description: An object containing request attributes required for generating the application rejected template preview
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/ApplicationRejectedPersonalisation'
+      required:
+        - personalisation
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
       type: object
@@ -440,6 +545,82 @@ components:
         - applicationReference
         - firstName
         - eroContactDetails
+    ApplicationRejectedPersonalisation:
+      title: ApplicationRejectedPersonalisation
+      type: object
+      description: Personalisation details for an application rejected template
+      properties:
+        applicantContactDetails:
+          $ref: '#/components/schemas/ApplicantContactDetails'
+        eroContactDetails:
+          $ref: '#/components/schemas/ContactDetails'
+        applicationReference:
+          type: string
+          description: The reference number of the Voter Card Application
+          example: A3JSZC4CRH
+        firstName:
+          type: string
+          pattern: '.*[a-zA-Z]+.*'
+          minLength: 1
+          maxLength: 255
+          description: The applicant's first name
+          example: Fred
+        rejectionReasonList:
+          type: array
+          items:
+            type: string
+          example: 'Application is incomplete'
+        rejectionReasonMessage:
+          type: string
+          example: 'Applicant address information is incomplete'
+      required:
+        - applicantContactDetails
+        - eroContactDetails
+        - applicationReference
+        - firstName
+        - rejectionReasonList
+    ApplicantContactDetails:
+      title: ApplicantContactDetails
+      description: Contact details of the applicant
+      properties:
+        line1:
+          description: Address line 1 - Property
+          type: string
+          maxLength: 255
+          example: 106
+        line2:
+          description: Address line 2 - Street
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: Charles Lane
+        line3:
+          description: Address line 3 - Town
+          type: string
+          maxLength: 255
+          example: London
+        line4:
+          description: Address line 4 - Area
+          type: string
+          maxLength: 255
+        line5:
+          description: Address line 5 - Locality
+          type: string
+          maxLength: 255
+        line6:
+          description: Address line 6 - Uprn
+          type: string
+          pattern: '^\d{1,12}$'
+          maxLength: 12
+        line7:
+          description: Address line 7 - Postcode
+          type: string
+          minLength: 1
+          maxLength: 10
+          example: PE3 6SB
+      required:
+        - line2
+        - line7
     ContactDetails:
       title: ContactDetails
       type: object
@@ -572,6 +753,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateTemplatePreviewResponse'
+    GenerateLetterTemplatePreview:
+      description: Response containing the result of a letter template preview in text format
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateLetterTemplatePreviewResponse'
     CommunicationsHistory:
       description: Response containing the communications history for an application
       headers:
@@ -603,6 +800,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateIdDocumentResubmissionTemplatePreviewRequest'
+    GenerateApplicationRejectedTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateApplicationRejectedTemplatePreviewRequest'
     GenerateTemplatePreview:
       content:
         application/json:
