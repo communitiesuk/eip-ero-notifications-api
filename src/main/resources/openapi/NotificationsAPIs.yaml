@@ -497,7 +497,7 @@ components:
       type: object
       description: Personalisation details for an identity document resubmission template
       allOf:
-        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BasePersonalisation'
       properties:
         idDocumentRequestFreeText:
           type: string
@@ -510,7 +510,7 @@ components:
       type: object
       description: Personalisation details for photo resubmission template
       allOf:
-        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BasePersonalisation'
       properties:
         photoRequestFreeText:
           type: string
@@ -523,10 +523,10 @@ components:
       required:
         - photoRequestFreeText
         - uploadPhotoLink
-    BaseResubmissionPersonalisation:
-      title: BaseResubmissionPersonalisation
+    BasePersonalisation:
+      title: BasePersonalisation
       type: object
-      description: Base/Common personalisation details required for a photo or identity document resubmission template
+      description: Base/Common personalisation details required for a template
       properties:
         applicationReference:
           type: string
@@ -549,22 +549,9 @@ components:
       title: ApplicationRejectedPersonalisation
       type: object
       description: Personalisation details for an application rejected template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
       properties:
-        applicantContactDetails:
-          $ref: '#/components/schemas/ApplicantContactDetails'
-        eroContactDetails:
-          $ref: '#/components/schemas/ContactDetails'
-        applicationReference:
-          type: string
-          description: The reference number of the Voter Card Application
-          example: A3JSZC4CRH
-        firstName:
-          type: string
-          pattern: '.*[a-zA-Z]+.*'
-          minLength: 1
-          maxLength: 255
-          description: The applicant's first name
-          example: Fred
         rejectionReasonList:
           type: array
           items:
@@ -574,53 +561,7 @@ components:
           type: string
           example: 'Applicant address information is incomplete'
       required:
-        - applicantContactDetails
-        - eroContactDetails
-        - applicationReference
-        - firstName
         - rejectionReasonList
-    ApplicantContactDetails:
-      title: ApplicantContactDetails
-      description: Contact details of the applicant
-      properties:
-        line1:
-          description: Address line 1 - Property
-          type: string
-          maxLength: 255
-          example: 106
-        line2:
-          description: Address line 2 - Street
-          type: string
-          minLength: 1
-          maxLength: 255
-          example: Charles Lane
-        line3:
-          description: Address line 3 - Town
-          type: string
-          maxLength: 255
-          example: London
-        line4:
-          description: Address line 4 - Area
-          type: string
-          maxLength: 255
-        line5:
-          description: Address line 5 - Locality
-          type: string
-          maxLength: 255
-        line6:
-          description: Address line 6 - Uprn
-          type: string
-          pattern: '^\d{1,12}$'
-          maxLength: 12
-        line7:
-          description: Address line 7 - Postcode
-          type: string
-          minLength: 1
-          maxLength: 10
-          example: PE3 6SB
-      required:
-        - line2
-        - line7
     ContactDetails:
       title: ContactDetails
       type: object
