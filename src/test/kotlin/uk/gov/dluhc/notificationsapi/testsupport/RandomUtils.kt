@@ -3,7 +3,7 @@ package uk.gov.dluhc.notificationsapi.testsupport
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 
-fun getRandomEroId(): String = "${faker.address().city().lowercase()}-city-council"
+fun getRandomEroId(): String = "${aValidEroName().lowercase().replace(Regex("[\\s']"), "-")}-city-council"
 
 fun getDifferentRandomEroId(refEroId: String): String {
     var differentEroId = getRandomEroId()

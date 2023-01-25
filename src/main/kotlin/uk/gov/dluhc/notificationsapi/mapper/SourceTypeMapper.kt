@@ -13,4 +13,6 @@ interface SourceTypeMapper {
     fun toSourceTypeDto(sourceType: SourceTypeMessageEnum): SourceType
 
     fun toSourceTypeEntity(sourceType: SourceType): SourceTypeEntityEnum
+
+    fun fromEntityToDto(sourceType: SourceTypeEntityEnum): SourceType
 }

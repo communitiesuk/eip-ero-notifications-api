@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -26,13 +26,14 @@ class SourceTypeMapperTest {
         val actual = mapper.toSourceTypeDto(sourceType)
 
         // Then
-        Assertions.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @ParameterizedTest
     @CsvSource(
         value = [
             "VOTER_CARD, VOTER_CARD",
+            "POSTAL, POSTAL",
         ]
     )
     fun `should map DTO Source Type to Entity Source Type`(
@@ -45,6 +46,26 @@ class SourceTypeMapperTest {
         val actual = mapper.toSourceTypeEntity(dtoType)
 
         // Then
-        Assertions.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "VOTER_CARD, VOTER_CARD",
+            "POSTAL, POSTAL",
+        ]
+    )
+    fun `should map Entity Source Type to DTO Source Type`(
+        entityType: SourceTypeEntityEnum,
+        expected: SourceType
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.fromEntityToDto(entityType)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
     }
 }

@@ -9,6 +9,8 @@ import uk.gov.dluhc.notificationsapi.dto.PostalAddress
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.util.UUID
 
 fun anEmailAddress() = "user@email.com"
@@ -41,6 +43,8 @@ fun aNotificationPersonalisationMap(): Map<String, String> = mapOf(
 )
 
 fun aLocalDateTime(): LocalDateTime = LocalDateTime.of(2022, 10, 6, 9, 58, 24)
+
+fun anOffsetDateTime(): OffsetDateTime = OffsetDateTime.of(2022, 10, 6, 9, 58, 24, 0, ZoneOffset.UTC)
 
 fun aValidApplicationReference(): String = "V${RandomStringUtils.randomAlphabetic(9).uppercase()}"
 
