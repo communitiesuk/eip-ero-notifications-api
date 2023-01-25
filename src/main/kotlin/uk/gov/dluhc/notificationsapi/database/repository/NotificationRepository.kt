@@ -90,19 +90,10 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
     private fun queryRequest(sourceReference: String, sourceType: SourceType, gssCodes: List<String>): QueryEnhancedRequest.Builder =
         QueryEnhancedRequest.builder()
             .queryConditional(QueryConditional.keyEqualTo(key(sourceReference)))
-            .filterExpression(sourceTypeAndGssCodesFilterExpression(sourceType, gssCodes))
-
-    private fun sourceTypeAndGssCodesFilterExpression(sourceType: SourceType, gssCodes: List<String>): Expression {
-        val filterExpression = Expression.builder()
-            .expression("#sourceType = :sourceType AND #gssCode IN (${List(gssCodes.size) { index -> ":gssCode_$index" }.joinToString(",")})")
-            .putExpressionName("#sourceType", "sourceType")
-            .putExpressionValue(":sourceType", AttributeValue.fromS(sourceType.name))
-            .putExpressionName("#gssCode", "gssCode")
-        gssCodes.onEachIndexed { index, gssCode ->
-            filterExpression.putExpressionValue(":gssCode_$index", AttributeValue.fromS(gssCode))
-        }
-        return filterExpression.build()
-    }
+            .filterExpression(
+                sourceTypeFilterExpression(sourceType)
+                    .and(gssCodesFilterExpression(gssCodes))
+            )
 
     private fun sourceTypeFilterExpression(sourceType: SourceType): Expression =
         Expression.builder()
@@ -110,6 +101,16 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
             .putExpressionName("#sourceType", "sourceType")
             .putExpressionValue(":sourceType", AttributeValue.fromS(sourceType.name))
             .build()
+
+    private fun gssCodesFilterExpression(gssCodes: List<String>): Expression =
+        Expression.builder()
+            .expression("#gssCode IN (${List(gssCodes.size) { index -> ":gssCode_$index" }.joinToString(",")})")
+            .putExpressionName("#gssCode", "gssCode")
+            .also { filterExpression ->
+                gssCodes.onEachIndexed { index, gssCode ->
+                    filterExpression.putExpressionValue(":gssCode_$index", AttributeValue.fromS(gssCode))
+                }
+            }.build()
 
     private fun key(partitionValue: String): Key =
         Key.builder().partitionValue(partitionValue).build()

@@ -82,10 +82,10 @@ class NotificationSummaryMapperTest {
         val actual = mapper.toNotificationSummaryDto(entity)
 
         // Then
-        assertThat(actual).isEqualTo(expected)
         verify(sourceTypeMapper).fromEntityToDto(SourceTypeEntity.VOTER_CARD)
         verify(notificationTypeMapper).toNotificationTypeDto(NotificationTypeEntity.APPLICATION_APPROVED)
         verify(notificationChannelMapper).fromEntityToDto(NotificationChannelEntity.EMAIL)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -123,8 +123,8 @@ class NotificationSummaryMapperTest {
         val actual = mapper.toCommunicationsSummaryApi(dto)
 
         // Then
-        assertThat(actual).isEqualTo(expected)
         verify(notificationChannelMapper).fromMessageToDto(NotificationChannelDto.EMAIL)
         verify(notificationTypeMapper).fromNotificationTypeDtoToTemplateTypeApi(NotificationTypeDto.APPLICATION_APPROVED)
+        assertThat(actual).isEqualTo(expected)
     }
 }

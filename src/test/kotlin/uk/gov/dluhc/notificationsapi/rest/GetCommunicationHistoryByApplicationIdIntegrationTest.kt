@@ -84,7 +84,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
     }
 
     @Test
-    fun `should return response with no NotificationSummaries for application with no previously sent Notifications`() {
+    fun `should return response with no Communication Summaries for application with no previously sent Notifications`() {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
         val eroResponse = buildElectoralRegistrationOfficeResponse(id = ERO_ID)
@@ -110,7 +110,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
     }
 
     @Test
-    fun `should return NotificationSummaries for application`() {
+    fun `should return Communication Summaries for application`() {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
         val eroResponse = buildElectoralRegistrationOfficeResponse(id = ERO_ID)
