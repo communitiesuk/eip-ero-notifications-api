@@ -319,7 +319,7 @@ paths:
         $ref: '#/components/requestBodies/GenerateApplicationRejectedTemplatePreview'
       responses:
         '201':
-          $ref: '#/components/responses/GenerateLetterTemplatePreview'
+          $ref: '#/components/responses/GenerateTemplatePreview'
         '400':
           description: Error response describing fields in the request payload that are in error
           headers:
@@ -468,17 +468,6 @@ components:
           type: string
           description: Html preview of the template with personalisation data, if the template supports html format
           example: <p>Hi Fred Blogs,</p>
-      required:
-        - text
-    GenerateLetterTemplatePreviewResponse:
-      title: GenerateLetterTemplatePreviewResponse
-      type: object
-      description: Response containing the result of a letter template preview in text format
-      properties:
-        text:
-          type: string
-          description: Text preview of the template with personalisation data
-          example: Hi Fred Blogs,
       required:
         - text
     GenerateApplicationRejectedTemplatePreviewRequest:
@@ -706,22 +695,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateTemplatePreviewResponse'
-    GenerateLetterTemplatePreview:
-      description: Response containing the result of a letter template preview in text format
-      headers:
-        Access-Control-Allow-Origin:
-          schema:
-            type: string
-        Access-Control-Allow-Methods:
-          schema:
-            type: string
-        Access-Control-Allow-Headers:
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenerateLetterTemplatePreviewResponse'
     CommunicationsHistory:
       description: Response containing the communications history for an application
       headers:
