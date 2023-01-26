@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.5.0'
+  version: '1.6.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -267,6 +267,89 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Application Rejected Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/application-rejected/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Application Rejected Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for an application rejected template type and personalisation data
+      description: Generates a text preview for an application rejected template type and personalisation data
+      operationId: generate-application-rejected-template-preview
+      tags:
+        - Generate Application Rejected Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateApplicationRejectedTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/application-rejected/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
 components:
   #
   # Schema and Enum Definitions
@@ -387,12 +470,23 @@ components:
           example: <p>Hi Fred Blogs,</p>
       required:
         - text
+    GenerateApplicationRejectedTemplatePreviewRequest:
+      title: GenerateApplicationRejectedTemplatePreviewRequest
+      description: An object containing request attributes required for generating the application rejected template preview
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/ApplicationRejectedPersonalisation'
+      required:
+        - personalisation
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
       type: object
       description: Personalisation details for an identity document resubmission template
       allOf:
-        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BasePersonalisation'
       properties:
         idDocumentRequestFreeText:
           type: string
@@ -405,7 +499,7 @@ components:
       type: object
       description: Personalisation details for photo resubmission template
       allOf:
-        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BasePersonalisation'
       properties:
         photoRequestFreeText:
           type: string
@@ -418,10 +512,10 @@ components:
       required:
         - photoRequestFreeText
         - uploadPhotoLink
-    BaseResubmissionPersonalisation:
-      title: BaseResubmissionPersonalisation
+    BasePersonalisation:
+      title: BasePersonalisation
       type: object
-      description: Base/Common personalisation details required for a photo or identity document resubmission template
+      description: Base/Common personalisation details required for a template
       properties:
         applicationReference:
           type: string
@@ -440,6 +534,23 @@ components:
         - applicationReference
         - firstName
         - eroContactDetails
+    ApplicationRejectedPersonalisation:
+      title: ApplicationRejectedPersonalisation
+      type: object
+      description: Personalisation details for an application rejected template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        rejectionReasonList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationRejectionReason'
+          example: 'Application is incomplete'
+        rejectionReasonMessage:
+          type: string
+          example: 'Applicant address information is incomplete'
+      required:
+        - rejectionReasonList
     ContactDetails:
       title: ContactDetails
       type: object
@@ -551,6 +662,18 @@ components:
         - type
         - requestor
         - timestamp
+    ApplicationRejectionReason:
+      title: ApplicationRejectionReason
+      description: Enum of reasons why an application was rejected
+      type: string
+      enum:
+        - not-registered-to-vote
+        - incomplete-application
+        - photo-is-not-acceptable
+        - no-response-from-applicant
+        - inaccurate-information
+        - fraudulent-application
+        - other
 
   #
   # Response Body Definitions
@@ -603,6 +726,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateIdDocumentResubmissionTemplatePreviewRequest'
+    GenerateApplicationRejectedTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateApplicationRejectedTemplatePreviewRequest'
     GenerateTemplatePreview:
       content:
         application/json:
