@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import uk.gov.dluhc.notificationsapi.database.entity.Channel as ChannelEntity
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel as NotificationChannelApi
 
@@ -45,6 +46,26 @@ class NotificationChannelMapperTest {
 
         // When
         val actual = mapper.fromMessageToDto(apiNotificationChannel)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "EMAIL, EMAIL",
+            "LETTER, LETTER",
+        ]
+    )
+    fun `should map Entity notification channel to DTO notification channel`(
+        entityNotificationChannel: ChannelEntity,
+        expected: NotificationChannelDto
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.fromEntityToDto(entityNotificationChannel)
 
         // Then
         assertThat(actual).isEqualTo(expected)
