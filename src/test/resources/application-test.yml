@@ -18,6 +18,8 @@ api:
         photo-resubmission-welsh: 'e81185e8-000d-49a4-9e96-42311447a62d'
         id-document-resubmission-english: '296a8fe6-8767-477b-9173-ea9feb82fbda'
         id-document-resubmission-welsh: '8dfa9c65-0ccf-446f-9a39-3e14f15551d6'
+        approved-english: 'f06a9084-517f-4ade-99d8-983bbead30f0'
+        approved-welsh: '354399fe-a6b3-48ac-be60-4b208b324ea7'
       letter:
         photo-resubmission-english: '20ff73fd-ae85-447e-8199-c28f7328722d'
         photo-resubmission-welsh: '2d017d11-ccca-4bb4-9e3c-af2f3447578b'

@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.service
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
@@ -29,6 +30,15 @@ class TemplateService(
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
                 templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation)
+            )
+        }
+    }
+
+    fun generateApplicationApprovedTemplatePreview(request: GenerateApplicationApprovedTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(request) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
+                templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(personalisation)
             )
         }
     }
