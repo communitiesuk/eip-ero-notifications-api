@@ -38,3 +38,15 @@ class ApplicationApprovedPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails
 )
+
+class ApplicationRejectedPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val rejectionReasonList: List<String>,
+    val rejectionReasonMessage: String?
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)
