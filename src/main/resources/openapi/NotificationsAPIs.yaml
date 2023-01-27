@@ -350,6 +350,89 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Application Approval Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/application-approved/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Application Approved Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for an application approved template type and personalisation data
+      description: Generates a text preview for an application approved template type and personalisation data
+      operationId: generate-application-approved-template-preview
+      tags:
+        - Generate Application Approved Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateApplicationApprovedTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/application-approved/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
 components:
   #
   # Schema and Enum Definitions
@@ -480,6 +563,18 @@ components:
         personalisation:
           $ref: '#/components/schemas/ApplicationRejectedPersonalisation'
       required:
+        - personalisation
+    GenerateApplicationApprovedTemplatePreviewRequest:
+      title: GenerateApplicationApprovedTemplatePreviewRequest
+      description: An object containing request attributes required for generating the application approved template preview
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/BasePersonalisation'
+      required:
+        - language
         - personalisation
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
@@ -731,6 +826,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateApplicationRejectedTemplatePreviewRequest'
+    GenerateApplicationApprovedTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateApplicationApprovedTemplatePreviewRequest'
     GenerateTemplatePreview:
       content:
         application/json:
