@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.rest
 
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -13,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
  * REST Controller exposing APIs relating to communications that have been sent.
  */
 @RestController
+@CrossOrigin
 class SentCommunicationsController(
     private val sentNotificationsService: SentNotificationsService,
     private val notificationSummaryMapper: NotificationSummaryMapper,
