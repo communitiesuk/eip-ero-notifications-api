@@ -117,31 +117,51 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         wireMockService.stubEroManagementGetEroByEroId(eroResponse, ERO_ID)
 
         val applicationId = aRandomSourceReference()
-
-        val notificationId = aRandomNotificationId()
         val requestor = aRequestor()
-        val sentAt = LocalDateTime.of(2022, 10, 6, 9, 58, 24)
+
+        val sentNotification1 = aNotificationBuilder(
+            id = aRandomNotificationId(),
+            sourceReference = applicationId,
+            sourceType = SourceType.VOTER_CARD,
+            gssCode = eroResponse.localAuthorities[0].gssCode,
+            requestor = requestor,
+            channel = Channel.EMAIL,
+            type = NotificationType.PHOTO_RESUBMISSION,
+            sentAt = LocalDateTime.of(2022, 10, 4, 13, 22, 18),
+        )
         notificationRepository.saveNotification(
-            aNotificationBuilder(
-                id = notificationId,
-                sourceReference = applicationId,
-                sourceType = SourceType.VOTER_CARD,
-                gssCode = eroResponse.localAuthorities[0].gssCode,
-                requestor = requestor,
-                channel = Channel.EMAIL,
-                type = NotificationType.APPLICATION_APPROVED,
-                sentAt = sentAt,
-            )
+            sentNotification1
+        )
+
+        val sentNotification2 = aNotificationBuilder(
+            id = aRandomNotificationId(),
+            sourceReference = applicationId,
+            sourceType = SourceType.VOTER_CARD,
+            gssCode = eroResponse.localAuthorities[0].gssCode,
+            requestor = requestor,
+            channel = Channel.EMAIL,
+            type = NotificationType.APPLICATION_APPROVED,
+            sentAt = LocalDateTime.of(2022, 10, 6, 9, 58, 24),
+        )
+        notificationRepository.saveNotification(
+            sentNotification2
         )
 
         val expected = CommunicationsHistoryResponse(
             communications = listOf(
                 aCommunicationsSummaryBuilder(
-                    id = notificationId,
+                    id = sentNotification2.id!!,
                     requestor = aRequestor(),
                     channel = NotificationChannel.EMAIL,
                     templateType = TemplateType.APPLICATION_MINUS_APPROVED,
-                    timestamp = OffsetDateTime.of(sentAt, ZoneOffset.UTC),
+                    timestamp = OffsetDateTime.of(sentNotification2.sentAt, ZoneOffset.UTC),
+                ),
+                aCommunicationsSummaryBuilder(
+                    id = sentNotification1.id!!,
+                    requestor = aRequestor(),
+                    channel = NotificationChannel.EMAIL,
+                    templateType = TemplateType.PHOTO_MINUS_RESUBMISSION,
+                    timestamp = OffsetDateTime.of(sentNotification1.sentAt, ZoneOffset.UTC),
                 )
             )
         )

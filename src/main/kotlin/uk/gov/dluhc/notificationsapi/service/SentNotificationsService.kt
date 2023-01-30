@@ -36,6 +36,8 @@ class SentNotificationsService(
                 sourceType = sourceTypeMapper.toSourceTypeEntity(sourceType),
                 gssCodes = gssCodes,
             )
+        }.sortedByDescending {
+            it.sentAt
         }.map {
             notificationSummaryMapper.toNotificationSummaryDto(it)
         }.also {
