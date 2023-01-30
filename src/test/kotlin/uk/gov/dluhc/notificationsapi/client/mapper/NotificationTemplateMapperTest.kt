@@ -227,4 +227,3 @@ internal class NotificationTemplateMapperTest {
 }
 
 private fun LanguageDto?.toMessage(): String = if (this == LanguageDto.WELSH) "Welsh" else "English"
-
