@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
@@ -78,6 +80,45 @@ class TemplatePersonalisationDtoMapperTest {
 
             // When
             val actual = mapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+            assertThat(actual["eroAddressLine1"]).isBlank
+            assertThat(actual["eroAddressLine2"]).isEqualTo(personalisationDto.eroContactDetails.address.street)
+            assertThat(actual["eroAddressLine3"]).isBlank
+            assertThat(actual["eroAddressLine4"]).isBlank
+            assertThat(actual["eroAddressLine5"]).isBlank
+            assertThat(actual["eroPostcode"]).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
+    }
+
+    @Nested
+    inner class ToApplicationApprovedTemplatePersonalisationMap {
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildApplicationApprovedPersonalisationDto()
+            val expected = buildApplicationApprovedPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toApplicationApprovedTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should map dto to personalisation map when all optional fields not present`() {
+            // Given
+            val personalisationDto = buildApplicationApprovedPersonalisationDto(
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDtoWithOptionalFieldsNull()
+                )
+            )
+            val expected = buildApplicationApprovedPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toApplicationApprovedTemplatePersonalisationMap(personalisationDto)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

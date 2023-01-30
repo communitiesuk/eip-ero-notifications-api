@@ -70,17 +70,21 @@ class NotificationTemplateMapper(
 
     private fun welshLetter(notificationType: NotificationType) = when (notificationType) {
         APPLICATION_RECEIVED -> notifyLetterTemplateConfiguration.receivedWelsh
-        APPLICATION_APPROVED -> notifyLetterTemplateConfiguration.approvedWelsh
         APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedWelsh
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionWelsh
+        else -> {
+            throw IllegalStateException("No Letter template defined in Welsh for notification type $notificationType")
+        }
     }
 
     private fun englishLetter(notificationType: NotificationType) = when (notificationType) {
         APPLICATION_RECEIVED -> notifyLetterTemplateConfiguration.receivedEnglish
-        APPLICATION_APPROVED -> notifyLetterTemplateConfiguration.approvedEnglish
         APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedEnglish
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionEnglish
+        else -> {
+            throw IllegalStateException("No Letter template defined in English for notification type $notificationType")
+        }
     }
 }

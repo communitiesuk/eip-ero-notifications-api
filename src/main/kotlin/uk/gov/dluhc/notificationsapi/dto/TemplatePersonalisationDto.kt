@@ -28,3 +28,13 @@ class PhotoPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails
 )
+
+class ApplicationApprovedPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)

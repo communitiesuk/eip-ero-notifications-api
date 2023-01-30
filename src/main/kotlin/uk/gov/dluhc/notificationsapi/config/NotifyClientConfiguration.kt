@@ -34,8 +34,6 @@ data class NotifyEmailTemplateConfiguration(
 data class NotifyLetterTemplateConfiguration(
     val receivedEnglish: String,
     val receivedWelsh: String,
-    val approvedEnglish: String,
-    val approvedWelsh: String,
     val rejectedEnglish: String,
     val rejectedWelsh: String,
     val photoResubmissionEnglish: String,

@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
 import org.springframework.stereotype.Component
+import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
@@ -30,6 +31,19 @@ class TemplatePersonalisationDtoMapper {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
             personalisation["documentRequestFreeText"] = idDocumentRequestFreeText
+            with(eroContactDetails) {
+                mapEroContactFields(personalisation)
+            }
+        }
+        return personalisation
+    }
+
+    fun toApplicationApprovedTemplatePersonalisationMap(dto: ApplicationApprovedPersonalisationDto): Map<String, String> {
+        val personalisation = mutableMapOf<String, String>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
             with(eroContactDetails) {
                 mapEroContactFields(personalisation)
             }
