@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.client.mapper
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchException
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
@@ -145,6 +146,32 @@ internal class NotificationTemplateMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
+            ",APPLICATION_APPROVED",
+
+            "ENGLISH,APPLICATION_APPROVED",
+
+            "WELSH,APPLICATION_APPROVED",
+        ]
+    )
+    fun `should fail to map Notification Type in language for letter channel for unsupported combination`(
+        language: LanguageDto?,
+        notificationType: NotificationType,
+    ) {
+        // Given
+
+        // When
+        val error =
+            catchException { mapper.fromNotificationTypeForChannelInLanguage(notificationType, LETTER, language) }
+
+        // Then
+        assertThat(error)
+            .isInstanceOfAny(IllegalStateException::class.java)
+            .hasMessage("No Letter template defined in ${language.toMessage()} for notification type $notificationType")
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
             ",APPLICATION_RECEIVED, RECEIVED-ID-LETTER-ENGLISH",
             ",APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
             ",PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-LETTER-ENGLISH",
@@ -174,4 +201,30 @@ internal class NotificationTemplateMapperTest {
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)
     }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            ",APPLICATION_APPROVED",
+            "ENGLISH,APPLICATION_APPROVED",
+            "WELSH,APPLICATION_APPROVED",
+        ]
+    )
+    fun `should fail to map Template Type in language for unsupported combination`(
+        language: LanguageDto?,
+        templateType: NotificationType,
+    ) {
+        // Given
+
+        // When
+        val error = catchException { mapper.fromTemplateTypeForChannelAndLanguage(templateType, LETTER, language) }
+
+        // Then
+        assertThat(error)
+            .isInstanceOfAny(IllegalStateException::class.java)
+            .hasMessage("No Letter template defined in ${language.toMessage()} for notification type $templateType")
+    }
 }
+
+private fun LanguageDto?.toMessage(): String = if (this == LanguageDto.WELSH) "Welsh" else "English"
+
