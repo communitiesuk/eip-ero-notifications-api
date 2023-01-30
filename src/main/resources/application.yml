@@ -19,8 +19,8 @@ api:
       letter:
         received-english: tbc-received-letter-template-id-en
         received-welsh: tbc-received-letter-template-id-cy
-        rejected-english: ${APPLICATION_REJECTED_LETTER_ENGLISH_TEMPLATE_ID}
-        rejected-welsh: ${APPLICATION_REJECTED_LETTER_WELSH_TEMPLATE_ID}
+        rejected-english: ${TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH}
+        rejected-welsh: ${TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH}
         photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH}
         photo-resubmission-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH}
         id-document-resubmission-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH}
