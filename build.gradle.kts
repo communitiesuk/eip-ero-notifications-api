@@ -22,6 +22,7 @@ group = "uk.gov.dluhc"
 version = "latest"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
+ext["snakeyaml.version"] = "1.33"
 // Spring cloud 3.x integrates with AWS v2, until that is released this project has both AWS v1 and v2 SDK libraries
 extra["springCloudVersion"] = "2.4.2"
 extra["awsSdkVersion"] = "2.18.9"
