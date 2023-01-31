@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
-import uk.gov.dluhc.notificationsapi.messaging.models.BaseResubmissionPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
@@ -20,7 +20,7 @@ fun buildSendNotifyApplicationApprovedMessage(
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
     messageType: MessageType = MessageType.PHOTO_MINUS_RESUBMISSION,
-    personalisation: BaseResubmissionPersonalisation = buildApplicationApprovedPersonalisation(),
+    personalisation: BasePersonalisation = buildApplicationApprovedPersonalisation(),
     toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyApplicationApprovedMessage =
     SendNotifyApplicationApprovedMessage(
@@ -38,8 +38,8 @@ fun buildApplicationApprovedPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage()
-): BaseResubmissionPersonalisation =
-    BaseResubmissionPersonalisation(
+): BasePersonalisation =
+    BasePersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails

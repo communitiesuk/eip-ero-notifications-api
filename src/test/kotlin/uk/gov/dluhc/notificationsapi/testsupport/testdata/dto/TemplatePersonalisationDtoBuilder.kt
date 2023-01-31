@@ -5,7 +5,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
-import uk.gov.dluhc.notificationsapi.messaging.models.BaseResubmissionPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -112,7 +112,7 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
 }
 
 fun buildApplicationApprovedPersonalisationDtoFromMessage(
-    personalisationMessage: BaseResubmissionPersonalisation
+    personalisationMessage: BasePersonalisation
 ): ApplicationApprovedPersonalisationDto {
     return with(personalisationMessage) {
         ApplicationApprovedPersonalisationDto(

@@ -4,7 +4,7 @@ import org.mapstruct.Mapper
 import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
-import uk.gov.dluhc.notificationsapi.messaging.models.BaseResubmissionPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 
@@ -15,5 +15,5 @@ interface TemplatePersonalisationMessageMapper {
 
     fun toIdDocumentPersonalisationDto(personalisationMessage: IdDocumentPersonalisation): IdDocumentPersonalisationDto
 
-    fun toApprovedPersonalisationDto(personalisationMessage: BaseResubmissionPersonalisation): ApplicationApprovedPersonalisationDto
+    fun toApprovedPersonalisationDto(personalisationMessage: BasePersonalisation): ApplicationApprovedPersonalisationDto
 }

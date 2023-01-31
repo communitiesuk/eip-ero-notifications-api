@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.6.0'
+  version: '1.6.1'
   description: |-
     Notifications SQS Message Types
     
@@ -136,7 +136,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         personalisation:
-          $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+          $ref: '#/components/schemas/BasePersonalisation'
       required:
         - personalisation
 
@@ -159,7 +159,7 @@ components:
       type: object
       description: Personalisation details for an identity document resubmission template
       allOf:
-        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BasePersonalisation'
       properties:
         idDocumentRequestFreeText:
           type: string
@@ -173,7 +173,7 @@ components:
       type: object
       description: Personalisation details for photo resubmission template
       allOf:
-        - $ref: '#/components/schemas/BaseResubmissionPersonalisation'
+        - $ref: '#/components/schemas/BasePersonalisation'
       properties:
         photoRequestFreeText:
           type: string
@@ -187,8 +187,8 @@ components:
         - photoRequestFreeText
         - uploadPhotoLink
 
-    BaseResubmissionPersonalisation:
-      title: BaseResubmissionPersonalisation
+    BasePersonalisation:
+      title: BasePersonalisation
       type: object
       description: Base/Common personalisation details for photo and/or an identification document resubmission template
       properties:
