@@ -52,17 +52,21 @@ class NotificationTemplateMapper(
     private fun welshEmail(notificationType: NotificationType) = when (notificationType) {
         APPLICATION_RECEIVED -> notifyEmailTemplateConfiguration.receivedWelsh
         APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedWelsh
-        APPLICATION_REJECTED -> notifyEmailTemplateConfiguration.rejectedWelsh
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionWelsh
+        else -> {
+            throw IllegalStateException("No email template defined in Welsh for notification type $notificationType")
+        }
     }
 
     private fun englishEmail(notificationType: NotificationType) = when (notificationType) {
         APPLICATION_RECEIVED -> notifyEmailTemplateConfiguration.receivedEnglish
         APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedEnglish
-        APPLICATION_REJECTED -> notifyEmailTemplateConfiguration.rejectedEnglish
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionEnglish
+        else -> {
+            throw IllegalStateException("No email template defined in English for notification type $notificationType")
+        }
     }
 
     private fun fromLetterNotificationTypeInLanguage(notificationType: NotificationType, language: LanguageDto?) =
@@ -74,7 +78,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionWelsh
         else -> {
-            throw IllegalStateException("No Letter template defined in Welsh for notification type $notificationType")
+            throw IllegalStateException("No letter template defined in Welsh for notification type $notificationType")
         }
     }
 
@@ -84,7 +88,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionEnglish
         else -> {
-            throw IllegalStateException("No Letter template defined in English for notification type $notificationType")
+            throw IllegalStateException("No letter template defined in English for notification type $notificationType")
         }
     }
 }
