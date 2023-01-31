@@ -29,4 +29,5 @@ api:
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: 'test-send-uk-gov-notify-photo-resubmission'
   send-uk-gov-notify-id-document-resubmission-queue-name: 'test-send-uk-gov-notify-id-doc-resubmission'
+  send-uk-gov-notify-application-approved-queue-name: 'test-send-uk-gov-notify-application-approved'
   remove-application-notifications-queue-name: 'test-remove-application-notifications'

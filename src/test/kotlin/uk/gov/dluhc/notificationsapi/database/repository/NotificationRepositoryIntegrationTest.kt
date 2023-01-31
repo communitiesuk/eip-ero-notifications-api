@@ -126,7 +126,6 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                 notifyDetails = notifyDetails,
                 sentAt = sentAt
             )
-            deleteNotifications(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, sourceType, listOf(gssCode)))
             notificationRepository.saveNotification(notification)
 
             // When
@@ -236,13 +235,6 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                 personalisation = personalisation,
                 notifyDetails = notifyDetails,
                 sentAt = sentAt
-            )
-            deleteNotifications(
-                notificationRepository.getBySourceReferenceAndGssCode(
-                    sourceReference,
-                    VOTER_CARD,
-                    listOf(gssCode)
-                )
             )
             notificationRepository.saveNotification(notification)
 

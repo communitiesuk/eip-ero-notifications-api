@@ -19,6 +19,7 @@ import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationApprovedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -26,6 +27,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDestination
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aMessageAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationApprovedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
@@ -141,6 +143,53 @@ internal class SendNotifyMessageMapperTest {
         assertThat(notification.toAddress).isEqualTo(expectedToAddress)
         verify(languageMapper).fromMessageToDto(Language.EN)
         verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION)
+        verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+        verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+    }
+
+    @Test
+    fun `should map SQS SendNotifyApplicationApprovedMessage to SendNotificationRequestDto`() {
+        // Given
+        val gssCode = aGssCode()
+        val requestor = aRequestor()
+        val sourceReference = aSourceReference()
+        val toAddress = aMessageAddress()
+        val expectedToAddress = aNotificationDestination()
+        val expectedChannel = NotificationChannel.EMAIL
+        val expectedSourceType = SourceType.VOTER_CARD
+        val expectedNotificationType = ID_DOCUMENT_RESUBMISSION
+        val personalisation = buildApplicationApprovedPersonalisation()
+        val expectedLanguage = LanguageDto.ENGLISH
+
+        given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
+        given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
+        given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+        given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+
+        val request = SendNotifyApplicationApprovedMessage(
+            language = Language.EN,
+            sourceType = SqsSourceType.VOTER_MINUS_CARD,
+            sourceReference = sourceReference,
+            gssCode = gssCode,
+            requestor = requestor,
+            messageType = MessageType.APPLICATION_MINUS_APPROVED,
+            toAddress = toAddress,
+            personalisation = personalisation,
+        )
+
+        // When
+        val notification = mapper.fromApprovedMessageToSendNotificationRequestDto(request)
+
+        // Then
+        assertThat(notification.channel).isEqualTo(expectedChannel)
+        assertThat(notification.sourceType).isEqualTo(expectedSourceType)
+        assertThat(notification.sourceReference).isEqualTo(sourceReference)
+        assertThat(notification.gssCode).isEqualTo(gssCode)
+        assertThat(notification.requestor).isEqualTo(requestor)
+        assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
+        assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+        verify(languageMapper).fromMessageToDto(Language.EN)
+        verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.APPLICATION_MINUS_APPROVED)
         verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
         verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
     }

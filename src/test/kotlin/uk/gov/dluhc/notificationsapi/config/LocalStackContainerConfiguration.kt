@@ -81,10 +81,12 @@ class LocalStackContainerConfiguration {
         applicationContext: ConfigurableApplicationContext,
         @Value("\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}") sendUkGovNotifyPhotoResubmissionQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}") sendUkGovNotifyIdDocumentResubmissionQueueName: String,
+        @Value("\${sqs.send-uk-gov-notify-application-approved-queue-name}") sendUkGovNotifyApplicationApprovedQueueName: String,
         @Value("\${sqs.remove-application-notifications-queue-name}") removeApplicationNotificationsQueueName: String
     ): LocalStackContainerSettings {
         val sendUkGovNotifyPhotoResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
         val sendUkGovNotifyIdDocumentResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyIdDocumentResubmissionQueueName)
+        val sendUkGovNotifyApplicationApprovedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyApplicationApprovedQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
@@ -95,6 +97,7 @@ class LocalStackContainerConfiguration {
             apiUrl = apiUrl,
             sendUkGovNotifyPhotoResubmissionQueueName = sendUkGovNotifyPhotoResubmissionMessageQueueName,
             sendUkGovNotifyIdDocumentResubmissionQueueName = sendUkGovNotifyIdDocumentResubmissionMessageQueueName,
+            sendUkGovNotifyApplicationApprovedQueueName = sendUkGovNotifyApplicationApprovedMessageQueueName,
             removeApplicationNotificationsQueueName = removeApplicationNotificationsMessageQueueName
         )
     }
@@ -178,5 +181,6 @@ data class LocalStackContainerSettings(
     val apiUrl: String,
     val sendUkGovNotifyPhotoResubmissionQueueName: String,
     val sendUkGovNotifyIdDocumentResubmissionQueueName: String,
+    val sendUkGovNotifyApplicationApprovedQueueName: String,
     val removeApplicationNotificationsQueueName: String,
 )

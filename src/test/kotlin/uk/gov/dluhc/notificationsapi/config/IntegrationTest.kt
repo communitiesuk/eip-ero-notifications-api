@@ -14,8 +14,8 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest
+import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
-import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.service.notify.NotificationClient
@@ -46,6 +46,9 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}")
     protected lateinit var sendUkGovNotifyIdDocumentResubmissionQueueName: String
 
+    @Value("\${sqs.send-uk-gov-notify-application-approved-queue-name}")
+    protected lateinit var sendUkGovNotifyApplicationApprovedQueueName: String
+
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
 
@@ -59,7 +62,7 @@ internal abstract class IntegrationTest {
     protected lateinit var dynamoDbClient: DynamoDbClient
 
     @Autowired
-    protected lateinit var tableConfig: DynamoDbConfiguration
+    protected lateinit var dynamoDbConfiguration: DynamoDbConfiguration
 
     companion object {
         val localStackContainer = LocalStackContainerConfiguration.getInstance()
@@ -70,18 +73,28 @@ internal abstract class IntegrationTest {
         wireMockService.resetAllStubsAndMappings()
     }
 
-    fun deleteNotifications(notificationsToDelete: List<Notification>) {
-        notificationsToDelete.forEach {
-            dynamoDbClient.deleteItem(
-                DeleteItemRequest.builder()
-                    .tableName(tableConfig.notificationsTableName)
-                    .key(
-                        mapOf(
-                            "id" to AttributeValue.fromS(it.id.toString()),
-                        )
-                    )
-                    .build()
+    @BeforeEach
+    fun clearDatabase() {
+        clearTable(dynamoDbConfiguration.notificationsTableName)
+    }
+
+    protected fun clearTable(tableName: String, partitionKey: String = "id", sortKey: String? = null) {
+        val response = dynamoDbClient.scan(ScanRequest.builder().tableName(tableName).build())
+        response.items().forEach {
+            val keys = mutableMapOf<String, AttributeValue>(
+                partitionKey to AttributeValue.builder().s(it[partitionKey]!!.s()).build(),
             )
+
+            if (sortKey != null) {
+                keys[sortKey] = AttributeValue.builder().s(it[partitionKey]!!.s()).build()
+            }
+
+            val deleteRequest = DeleteItemRequest.builder()
+                .tableName(tableName)
+                .key(keys)
+                .build()
+
+            dynamoDbClient.deleteItem(deleteRequest)
         }
     }
 
