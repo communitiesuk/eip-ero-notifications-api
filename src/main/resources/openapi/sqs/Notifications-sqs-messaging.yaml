@@ -42,6 +42,16 @@ paths:
         '204':
           description: No response content.
 
+  '/send-uk-gov-notify-application-approved-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyApplicationApprovedMessage'
+      responses:
+        '204':
+          description: No response content.
+
   '/remove-application-notifications-message':
     post:
       tags:
@@ -62,8 +72,6 @@ components:
       type: object
       description: SQS Message for sending GOV.UK Notify messages. This is a generic message format which can be extended for various template types.
       properties:
-        channel:
-          $ref: '#/components/schemas/NotificationChannel'
         language:
           $ref: '#/components/schemas/Language'
         sourceType:
@@ -82,7 +90,6 @@ components:
         messageType:
           $ref: '#/components/schemas/MessageType'
       required:
-        - channel
         - language
         - sourceType
         - sourceReference
@@ -98,9 +105,12 @@ components:
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
         personalisation:
           $ref: '#/components/schemas/PhotoPersonalisation'
       required:
+        - channel
         - personalisation
 
     SendNotifyIdDocumentResubmissionMessage:
@@ -110,8 +120,23 @@ components:
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
         personalisation:
           $ref: '#/components/schemas/IdDocumentPersonalisation'
+      required:
+        - channel
+        - personalisation
+
+    SendNotifyApplicationApprovedMessage:
+      title: SendNotifyApplicationApprovedMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for an approved application
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        personalisation:
+          $ref: '#/components/schemas/BaseResubmissionPersonalisation'
       required:
         - personalisation
 
@@ -321,6 +346,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyIdDocumentResubmissionMessage'
+    SendNotifyApplicationApprovedMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyApplicationApprovedMessage'
     RemoveApplicationNotificationsMessage:
       content:
         application/json:
