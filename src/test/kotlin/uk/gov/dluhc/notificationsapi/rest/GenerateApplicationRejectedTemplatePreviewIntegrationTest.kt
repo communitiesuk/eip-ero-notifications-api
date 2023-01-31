@@ -204,8 +204,8 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "rejectionReasonList" to listOf(
-                    "Application is incomplete",
-                    "Applicant has not responded to requests for information",
+                    "Your application was incomplete",
+                    "You did not respond to our requests for information within the timeframe we gave you",
                     "Other"
                 ),
                 "rejectionReasonMessage" to rejectionReasonMessage,
@@ -258,8 +258,8 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "rejectionReasonList" to listOf(
-                    "Application is incomplete",
-                    "Applicant has not responded to requests for information",
+                    "Your application was incomplete",
+                    "You did not respond to our requests for information within the timeframe we gave you",
                     "Other"
                 ),
                 "rejectionReasonMessage" to rejectionReasonMessage,
