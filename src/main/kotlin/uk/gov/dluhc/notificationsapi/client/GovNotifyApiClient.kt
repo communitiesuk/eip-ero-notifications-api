@@ -56,7 +56,7 @@ class GovNotifyApiClient(
         }
     }
 
-    fun generateTemplatePreview(templateId: String, personalisation: Map<String, String>): NotifyTemplatePreviewDto =
+    fun generateTemplatePreview(templateId: String, personalisation: Map<String, Any?>): NotifyTemplatePreviewDto =
         try {
             logger.info { "Generating template preview for templateId [$templateId]" }
             notificationClient.generateTemplatePreview(templateId, personalisation).run {

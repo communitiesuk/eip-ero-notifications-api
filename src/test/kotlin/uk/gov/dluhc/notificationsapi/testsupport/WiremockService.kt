@@ -168,7 +168,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         )
     }
 
-    fun verifyNotifyGenerateTemplatePreview(templateId: String, personalisation: Map<String, Any>?) {
+    fun verifyNotifyGenerateTemplatePreview(templateId: String, personalisation: Map<String, Any?>?) {
         val body = JSONObject()
         if (!personalisation.isNullOrEmpty()) {
             body.put("personalisation", JSONObject(personalisation))

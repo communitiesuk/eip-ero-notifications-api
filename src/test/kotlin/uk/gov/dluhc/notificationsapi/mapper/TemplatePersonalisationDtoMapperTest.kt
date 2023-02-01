@@ -6,50 +6,56 @@ import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
 
 class TemplatePersonalisationDtoMapperTest {
 
     private val mapper = TemplatePersonalisationDtoMapper()
 
-    @Test
-    fun `should map dto to personalisation map when all fields present`() {
-        // Given
-        val personalisationDto = buildPhotoPersonalisationDto()
-        val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
+    @Nested
+    inner class ToPhotoResubmissionTemplatePersonalisationMap {
 
-        // When
-        val actual = mapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildPhotoPersonalisationDto()
+            val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
 
-        // Then
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-    }
+            // When
+            val actual = mapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
 
-    @Test
-    fun `should map dto to personalisation map when all optional fields not present`() {
-        // Given
-        val personalisationDto = buildPhotoPersonalisationDto(
-            eroContactDetails = buildContactDetailsDto(
-                address = buildAddressDtoWithOptionalFieldsNull()
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should map dto to personalisation map when all optional fields not present`() {
+            // Given
+            val personalisationDto = buildPhotoPersonalisationDto(
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDtoWithOptionalFieldsNull()
+                )
             )
-        )
-        val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
+            val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
 
-        // When
-        val actual = mapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
+            // When
+            val actual = mapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
 
-        // Then
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-        assertThat(actual["eroAddressLine1"]).isBlank
-        assertThat(actual["eroAddressLine2"]).isEqualTo(personalisationDto.eroContactDetails.address.street)
-        assertThat(actual["eroAddressLine3"]).isBlank
-        assertThat(actual["eroAddressLine4"]).isBlank
-        assertThat(actual["eroAddressLine5"]).isBlank
-        assertThat(actual["eroPostcode"]).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+            assertThat(actual["eroAddressLine1"]).isBlank
+            assertThat(actual["eroAddressLine2"]).isEqualTo(personalisationDto.eroContactDetails.address.street)
+            assertThat(actual["eroAddressLine3"]).isBlank
+            assertThat(actual["eroAddressLine4"]).isBlank
+            assertThat(actual["eroAddressLine5"]).isBlank
+            assertThat(actual["eroPostcode"]).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
     }
 
     @Nested
@@ -128,6 +134,46 @@ class TemplatePersonalisationDtoMapperTest {
             assertThat(actual["eroAddressLine4"]).isBlank
             assertThat(actual["eroAddressLine5"]).isBlank
             assertThat(actual["eroPostcode"]).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
+    }
+
+    @Nested
+    inner class ToApplicationRejectedTemplatePersonalisationMap {
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildApplicationRejectedPersonalisationDto()
+            val expected = buildApplicationRejectedPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toApplicationRejectedTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should map dto to personalisation map when all optional fields not present`() {
+            // Given
+            val personalisationDto = buildApplicationRejectedPersonalisationDto(
+                rejectionReasonMessage = null,
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDtoWithOptionalFieldsNull()
+                )
+            )
+            val expected = buildApplicationRejectedPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toApplicationRejectedTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+            assertThat(actual["eroAddressLine1"] as String).isBlank
+            assertThat(actual["eroAddressLine2"] as String).isEqualTo(personalisationDto.eroContactDetails.address.street)
+            assertThat(actual["eroAddressLine3"] as String).isBlank
+            assertThat(actual["eroAddressLine4"] as String).isBlank
+            assertThat(actual["eroAddressLine5"] as String).isBlank
+            assertThat(actual["eroPostcode"] as String).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
         }
     }
 }

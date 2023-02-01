@@ -25,6 +25,8 @@ api:
         photo-resubmission-welsh: '2d017d11-ccca-4bb4-9e3c-af2f3447578b'
         id-document-resubmission-english: '5eb873a5-4bbf-44c9-8097-0a0989179b2e'
         id-document-resubmission-welsh: 'd8c5effc-3bcc-46ce-a9b0-0ecc1e5f9f11'
+        rejected-english: 'b8394ffa-9d8c-11ed-a8fc-0242ac120002'
+        rejected-welsh: 'c6524808-9d8c-11ed-a8fc-0242ac120002'
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: 'test-send-uk-gov-notify-photo-resubmission'

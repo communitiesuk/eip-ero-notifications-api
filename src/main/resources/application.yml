@@ -5,26 +5,24 @@ api:
   notify:
     api-key: ${API_NOTIFY_API_KEY}
     template:
-        email:
-          received-english: tbc-received-email-template-id-en
-          received-welsh: tbc-received-email-template-id-cy
-          approved-english: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH}
-          approved-welsh: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH}
-          rejected-english: tbc-rejected-email-template-id-en
-          rejected-welsh: tbc-rejected-email-template-id-cy
-          photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH}
-          photo-resubmission-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH}
-          id-document-resubmission-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH}
-          id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH}
-        letter:
-          received-english: tbc-received-letter-template-id-en
-          received-welsh: tbc-received-letter-template-id-cy
-          rejected-english: tbc-rejected-letter-template-id-en
-          rejected-welsh: tbc-rejected-letter-template-id-cy
-          photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH}
-          photo-resubmission-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH}
-          id-document-resubmission-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH}
-          id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH}
+      email:
+        received-english: tbc-received-email-template-id-en
+        received-welsh: tbc-received-email-template-id-cy
+        approved-english: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH}
+        approved-welsh: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH}
+        photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH}
+        photo-resubmission-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH}
+        id-document-resubmission-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH}
+        id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH}
+      letter:
+        received-english: tbc-received-letter-template-id-en
+        received-welsh: tbc-received-letter-template-id-cy
+        rejected-english: ${TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH}
+        rejected-welsh: ${TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH}
+        photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH}
+        photo-resubmission-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH}
+        id-document-resubmission-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH}
+        id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH}
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME}

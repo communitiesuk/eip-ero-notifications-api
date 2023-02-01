@@ -64,6 +64,12 @@ internal abstract class IntegrationTest {
     @Autowired
     protected lateinit var dynamoDbConfiguration: DynamoDbConfiguration
 
+    @Value("\${api.notify.template.letter.rejected-english}")
+    protected lateinit var applicationRejectedLetterEnglishTemplateId: String
+
+    @Value("\${api.notify.template.letter.rejected-welsh}")
+    protected lateinit var applicationRejectedLetterWelshTemplateId: String
+
     companion object {
         val localStackContainer = LocalStackContainerConfiguration.getInstance()
     }
