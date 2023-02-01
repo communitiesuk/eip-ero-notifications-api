@@ -38,7 +38,6 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
             sourceType = sourceType,
             sourceReference = sourceReference
         )
-        deleteNotifications(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode)))
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
@@ -71,7 +70,6 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
             sourceType = sourceType,
             sourceReference = sourceReference
         )
-        deleteNotifications(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode)))
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
         // When

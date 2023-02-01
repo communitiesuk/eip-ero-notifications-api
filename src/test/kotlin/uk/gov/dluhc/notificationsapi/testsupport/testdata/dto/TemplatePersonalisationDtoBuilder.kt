@@ -5,6 +5,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -88,6 +89,35 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
             applicationReference = applicationReference,
             firstName = firstName,
             idDocumentRequestFreeText = idDocumentRequestFreeText,
+            eroContactDetails = with(eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode,
+                        )
+                    }
+                )
+            }
+        )
+    }
+}
+
+fun buildApplicationApprovedPersonalisationDtoFromMessage(
+    personalisationMessage: BasePersonalisation
+): ApplicationApprovedPersonalisationDto {
+    return with(personalisationMessage) {
+        ApplicationApprovedPersonalisationDto(
+            applicationReference = applicationReference,
+            firstName = firstName,
             eroContactDetails = with(eroContactDetails) {
                 buildContactDetailsDto(
                     localAuthorityName = localAuthorityName,
