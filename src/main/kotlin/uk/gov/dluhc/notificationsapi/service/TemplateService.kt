@@ -20,7 +20,7 @@ class TemplateService(
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
                 templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
@@ -29,7 +29,7 @@ class TemplateService(
     fun generateIdDocumentResubmissionTemplatePreview(request: GenerateIdDocumentResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
                 templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
@@ -38,7 +38,7 @@ class TemplateService(
     fun generateApplicationApprovedTemplatePreview(request: GenerateApplicationApprovedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
                 templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(personalisation)
             )
         }
@@ -47,7 +47,7 @@ class TemplateService(
     fun generateApplicationRejectedTemplatePreview(dto: ApplicationRejectedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(dto) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromTemplateTypeForChannelAndLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
                 templatePersonalisationDtoMapper.toApplicationRejectedTemplatePersonalisationMap(personalisation)
             )
         }

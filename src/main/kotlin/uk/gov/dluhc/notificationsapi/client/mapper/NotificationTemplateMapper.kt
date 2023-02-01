@@ -21,18 +21,6 @@ class NotificationTemplateMapper(
     private val notifyEmailTemplateConfiguration: NotifyEmailTemplateConfiguration,
     private val notifyLetterTemplateConfiguration: NotifyLetterTemplateConfiguration,
 ) {
-
-    fun fromTemplateTypeForChannelAndLanguage(
-        notificationType: NotificationType,
-        channel: NotificationChannel,
-        language: LanguageDto?
-    ): String =
-        fromNotificationTypeForChannelInLanguage(
-            notificationType = notificationType,
-            channel = channel,
-            language = language
-        )
-
     fun fromNotificationTypeForChannelInLanguage(
         notificationType: NotificationType,
         channel: NotificationChannel,

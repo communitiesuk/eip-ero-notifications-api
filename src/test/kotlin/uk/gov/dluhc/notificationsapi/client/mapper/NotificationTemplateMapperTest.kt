@@ -73,39 +73,6 @@ internal class NotificationTemplateMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            ",APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
-            ",APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
-            ",PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
-            ",ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-ENGLISH",
-
-            "ENGLISH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
-            "ENGLISH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
-            "ENGLISH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
-            "WELSH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-WELSH",
-
-            "WELSH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-WELSH",
-            "WELSH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-WELSH",
-            "WELSH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-WELSH",
-            "WELSH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-WELSH",
-        ]
-    )
-    fun `should map Template Type in language for email channel to Notify Template ID`(
-        language: LanguageDto?,
-        notificationType: NotificationType,
-        expected: String
-    ) {
-        // Given
-
-        // When
-        val notifyTemplateId = mapper.fromTemplateTypeForChannelAndLanguage(notificationType, EMAIL, language)
-
-        // Then
-        assertThat(notifyTemplateId).isEqualTo(expected)
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        value = [
             ",APPLICATION_RECEIVED, RECEIVED-ID-LETTER-ENGLISH",
             ",APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
             ",PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-LETTER-ENGLISH",
@@ -165,39 +132,6 @@ internal class NotificationTemplateMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            ",APPLICATION_RECEIVED, RECEIVED-ID-LETTER-ENGLISH",
-            ",APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
-            ",PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-LETTER-ENGLISH",
-            ",ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-LETTER-ENGLISH",
-
-            "ENGLISH,APPLICATION_RECEIVED, RECEIVED-ID-LETTER-ENGLISH",
-            "ENGLISH,APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
-            "ENGLISH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-LETTER-ENGLISH",
-            "WELSH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-LETTER-WELSH",
-
-            "WELSH,APPLICATION_RECEIVED, RECEIVED-ID-LETTER-WELSH",
-            "WELSH,APPLICATION_REJECTED, REJECTED-ID-LETTER-WELSH",
-            "WELSH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-LETTER-WELSH",
-            "WELSH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-LETTER-WELSH",
-        ]
-    )
-    fun `should map Template Type in language for letter channel to Notify Template ID`(
-        language: LanguageDto?,
-        templateType: NotificationType,
-        expected: String
-    ) {
-        // Given
-
-        // When
-        val notifyTemplateId = mapper.fromTemplateTypeForChannelAndLanguage(templateType, LETTER, language)
-
-        // Then
-        assertThat(notifyTemplateId).isEqualTo(expected)
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        value = [
             ",LETTER,APPLICATION_APPROVED, letter",
             "ENGLISH,LETTER,APPLICATION_APPROVED, letter",
             "WELSH,LETTER,APPLICATION_APPROVED, letter",
@@ -215,7 +149,7 @@ internal class NotificationTemplateMapperTest {
         // Given
 
         // When
-        val error = catchException { mapper.fromTemplateTypeForChannelAndLanguage(templateType, channel, language) }
+        val error = catchException { mapper.fromNotificationTypeForChannelInLanguage(templateType, channel, language) }
 
         // Then
         assertThat(error)
