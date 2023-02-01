@@ -190,7 +190,7 @@ components:
     BasePersonalisation:
       title: BasePersonalisation
       type: object
-      description: Base/Common personalisation details for photo and/or an identification document resubmission template
+      description: Basic personalisation details that are common across all templates
       properties:
         applicationReference:
           type: string

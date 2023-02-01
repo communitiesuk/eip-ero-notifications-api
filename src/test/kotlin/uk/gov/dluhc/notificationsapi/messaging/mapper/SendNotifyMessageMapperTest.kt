@@ -11,6 +11,7 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -157,7 +158,7 @@ internal class SendNotifyMessageMapperTest {
         val expectedToAddress = aNotificationDestination()
         val expectedChannel = NotificationChannel.EMAIL
         val expectedSourceType = SourceType.VOTER_CARD
-        val expectedNotificationType = ID_DOCUMENT_RESUBMISSION
+        val expectedNotificationType = NotificationType.APPLICATION_APPROVED
         val personalisation = buildApplicationApprovedPersonalisation()
         val expectedLanguage = LanguageDto.ENGLISH
 
