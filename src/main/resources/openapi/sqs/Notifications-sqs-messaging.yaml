@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.6.1'
+  version: '1.7.0'
   description: |-
     Notifications SQS Message Types
     
@@ -48,6 +48,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyApplicationApprovedMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-application-rejected-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyApplicationRejectedMessage'
       responses:
         '204':
           description: No response content.
@@ -140,6 +150,18 @@ components:
       required:
         - personalisation
 
+    SendNotifyApplicationRejectedMessage:
+      title: SendNotifyApplicationRejectedMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for a rejected application
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        personalisation:
+          $ref: '#/components/schemas/ApplicationRejectedPersonalisation'
+      required:
+        - personalisation
+
     RemoveApplicationNotificationsMessage:
       title: RemoveApplicationNotificationsMessage
       type: object
@@ -187,6 +209,24 @@ components:
         - photoRequestFreeText
         - uploadPhotoLink
 
+    ApplicationRejectedPersonalisation:
+      title: ApplicationRejectedPersonalisation
+      type: object
+      description: Personalisation details for application rejected template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        rejectionReasonList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationRejectionReason'
+          example: 'Application is incomplete'
+        rejectionReasonMessage:
+          type: string
+          example: 'Applicant address information is incomplete'
+      required:
+        - rejectionReasonList
+
     BasePersonalisation:
       title: BasePersonalisation
       type: object
@@ -206,6 +246,7 @@ components:
         - applicationReference
         - firstName
         - eroContactDetails
+
     ContactDetails:
       title: ContactDetails
       type: object
@@ -327,6 +368,18 @@ components:
         smsNumber:
           type: string
 
+    ApplicationRejectionReason:
+      title: ApplicationRejectionReason
+      description: Enum of reasons why an application was rejected
+      type: string
+      enum:
+        - not-registered-to-vote
+        - incomplete-application
+        - photo-is-not-acceptable
+        - no-response-from-applicant
+        - inaccurate-information
+        - fraudulent-application
+        - other
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------
@@ -351,6 +404,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyApplicationApprovedMessage'
+    SendNotifyApplicationRejectedMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyApplicationRejectedMessage'
     RemoveApplicationNotificationsMessage:
       content:
         application/json:
