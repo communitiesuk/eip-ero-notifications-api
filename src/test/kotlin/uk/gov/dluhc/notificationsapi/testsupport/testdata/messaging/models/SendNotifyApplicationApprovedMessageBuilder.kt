@@ -19,7 +19,7 @@ fun buildSendNotifyApplicationApprovedMessage(
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    messageType: MessageType = MessageType.PHOTO_MINUS_RESUBMISSION,
+    messageType: MessageType = MessageType.APPLICATION_MINUS_APPROVED,
     personalisation: BasePersonalisation = buildApplicationApprovedPersonalisation(),
     toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyApplicationApprovedMessage =
