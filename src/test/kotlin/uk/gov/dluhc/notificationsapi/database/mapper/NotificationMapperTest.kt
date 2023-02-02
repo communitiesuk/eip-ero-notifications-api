@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.database.mapper
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -9,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
@@ -31,9 +33,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendSuccess
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifySendSuccessResponseTemplateVersion
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 
 @ExtendWith(MockitoExtension::class)
@@ -47,6 +49,9 @@ internal class NotificationMapperTest {
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
+
+    @Mock
+    private lateinit var objectMapper: ObjectMapper
 
     @Test
     fun `should map to NotifyDetails`() {
@@ -131,7 +136,7 @@ internal class NotificationMapperTest {
         val emailAddress = anEmailAddress()
         val notificationType = PHOTO_RESUBMISSION
         val expectedNotificationType = NotificationType.PHOTO_RESUBMISSION
-        val personalisationDto = buildPhotoPersonalisationDto()
+        val personalisationDto = buildApplicationRejectedPersonalisationDto()
         val request = buildSendNotificationRequestDto(
             gssCode = gssCode,
             requestor = requestor,
@@ -140,16 +145,19 @@ internal class NotificationMapperTest {
             toAddress = NotificationDestinationDto(emailAddress = anEmailAddress(), postalAddress = null),
             notificationType = notificationType,
         )
-        val personalisationMap = buildPhotoPersonalisationMapFromDto(personalisationDto)
+        val personalisationMap = buildApplicationRejectedPersonalisationMapFromDto(personalisationDto)
         val sendNotificationResponseDto = aSendNotificationDto()
         val expectedNotifyDetails = aNotifyDetails(sendNotificationResponseDto)
         val sentAt = aLocalDateTime()
 
         given(notificationTypeMapper.toNotificationTypeEntity(any())).willReturn(NotificationType.PHOTO_RESUBMISSION)
         given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(expectedSourceType)
+        val expectedRejectedReasonList = "[\"rejection reason 1\", \"rejection reason 2\"]"
+        given(objectMapper.writeValueAsString(any())).willReturn(expectedRejectedReasonList)
 
         // When
-        val notification = mapper.createNotification(notificationId, request, personalisationMap, sendNotificationResponseDto, sentAt)
+        val notification =
+            mapper.createNotification(notificationId, request, personalisationMap, sendNotificationResponseDto, sentAt)
 
         // Then
         assertThat(notification.id).isEqualTo(notificationId)
@@ -159,11 +167,15 @@ internal class NotificationMapperTest {
         assertThat(notification.sourceType).isEqualTo(expectedSourceType)
         assertThat(notification.sourceReference).isEqualTo(sourceReference)
         assertThat(notification.toEmail).isEqualTo(emailAddress)
-        assertThat(notification.personalisation).isEqualTo(personalisationMap)
+        assertThat(notification.personalisation).usingRecursiveComparison().ignoringFields("rejectionReasonList")
+            .isEqualTo(personalisationMap)
+        assertThat(notification.personalisation!!["rejectionReasonList"]).isEqualTo(expectedRejectedReasonList)
         assertThat(notification.notifyDetails).isEqualTo(expectedNotifyDetails)
         assertThat(notification.sentAt).isEqualTo(sentAt)
 
         verify(notificationTypeMapper).toNotificationTypeEntity(PHOTO_RESUBMISSION)
         verify(sourceTypeMapper).toSourceTypeEntity(SourceType.VOTER_CARD)
+        verify(objectMapper).writeValueAsString(personalisationMap["rejectionReasonList"])
+        verifyNoMoreInteractions(notificationTypeMapper, sourceTypeMapper, objectMapper)
     }
 }

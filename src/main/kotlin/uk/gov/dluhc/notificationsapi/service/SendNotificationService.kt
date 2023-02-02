@@ -29,7 +29,7 @@ class SendNotificationService(
     private val clock: Clock,
 ) {
 
-    fun sendNotification(requestDto: SendNotificationRequestDto, personalisationMap: Map<String, String>) {
+    fun sendNotification(requestDto: SendNotificationRequestDto, personalisationMap: Map<String, Any?>) {
         val notificationId = randomUUID()
         val sentAt = LocalDateTime.now(clock)
         try {
@@ -42,7 +42,7 @@ class SendNotificationService(
 
     private fun sendNotificationForChannel(
         request: SendNotificationRequestDto,
-        personalisationMap: Map<String, String>,
+        personalisationMap: Map<String, Any?>,
         notificationId: UUID,
         sentAt: LocalDateTime
     ): Notification {
@@ -59,7 +59,7 @@ class SendNotificationService(
 
     private fun sendGovNotifyEmail(
         request: SendNotificationRequestDto,
-        personalisationMap: Map<String, String>,
+        personalisationMap: Map<String, Any?>,
         notificationId: UUID,
         sentAt: LocalDateTime
     ): Notification {
@@ -80,7 +80,7 @@ class SendNotificationService(
 
     private fun sendGovNotifyLetter(
         request: SendNotificationRequestDto,
-        personalisationMap: Map<String, String>,
+        personalisationMap: Map<String, Any?>,
         notificationId: UUID,
         sentAt: LocalDateTime
     ): Notification {

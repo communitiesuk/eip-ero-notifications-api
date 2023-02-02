@@ -37,21 +37,22 @@ The following environment variables must be set in order to run the application:
 5. `DYNAMODB_ENDPOINT` - the localstack endpoint
 6. `SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new photo.
 7. `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
-8. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_APPROVED_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
-9. `SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME` - the queue name for removing an applicant's notification data.
-10. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new photo in English
-11. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new photo in Welsh
-12. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document in English
-13. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document in Welsh
-14. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo in English
-15. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
-16. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
-17. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
-18. `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved in English
-19. `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved in Welsh
-20. `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
-21. `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
-20. `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
+8. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_APPROVED_QUEUE_NAME` - the queue name for sending communications for an approved application.
+9. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_REJECTED_QUEUE_NAME` - the queue name for sending communications for a rejected application.
+10. `SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME` - the queue name for removing an applicant's notification data.
+11. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new photo in English
+12. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new photo in Welsh
+13. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document in English
+14. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document in Welsh
+15. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo in English
+16. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
+17. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
+18. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
+19. `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved in English
+20. `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved in Welsh
+21. `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
+22. `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
+23. `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.

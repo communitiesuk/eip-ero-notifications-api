@@ -43,14 +43,14 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         val incompleteApplication = "Application is incomplete"
         val applicantHasNotResponded = "Applicant has not responded to requests for information"
         val other = "other"
-        given(applicationRejectionReasonMapper.toApplicationRejectionReasonMessage(INCOMPLETE_MINUS_APPLICATION))
+        given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(INCOMPLETE_MINUS_APPLICATION))
             .willReturn(incompleteApplication)
         given(
-            applicationRejectionReasonMapper.toApplicationRejectionReasonMessage(
+            applicationRejectionReasonMapper.toApplicationRejectionReasonString(
                 NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
             )
         ).willReturn(applicantHasNotResponded)
-        given(applicationRejectionReasonMapper.toApplicationRejectionReasonMessage(OTHER)).willReturn(other)
+        given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER)).willReturn(other)
 
         val expected = ApplicationRejectedTemplatePreviewDto(
             language = LanguageDto.ENGLISH,
@@ -88,11 +88,11 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(language)
-        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonMessage(INCOMPLETE_MINUS_APPLICATION)
-        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonMessage(
+        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(INCOMPLETE_MINUS_APPLICATION)
+        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
             NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
         )
-        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonMessage(OTHER)
+        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER)
         verifyNoMoreInteractions(applicationRejectionReasonMapper)
     }
 }
