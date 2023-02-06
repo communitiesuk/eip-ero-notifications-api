@@ -85,7 +85,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         )
     }
 
-    private fun getExpectedPersonalisationMap(payload: SendNotifyApplicationRejectedMessage): Map<String, Any?> =
+    private fun getExpectedPersonalisationMap(payload: SendNotifyApplicationRejectedMessage): Map<String, Any> =
         with(payload.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
@@ -95,23 +95,23 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
                     "You did not respond to our requests for information within the timeframe we gave you",
                     "Other"
                 ),
-                "rejectionReasonMessage" to rejectionReasonMessage,
+                "rejectionReasonMessage" to (rejectionReasonMessage ?: ""),
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
                 "eroPhone" to eroContactDetails.phone,
-                "eroAddressLine1" to eroContactDetails.address.property,
+                "eroAddressLine1" to (eroContactDetails.address.property ?: ""),
                 "eroAddressLine2" to eroContactDetails.address.street,
-                "eroAddressLine3" to eroContactDetails.address.town,
-                "eroAddressLine4" to eroContactDetails.address.area,
-                "eroAddressLine5" to eroContactDetails.address.locality,
+                "eroAddressLine3" to (eroContactDetails.address.town ?: ""),
+                "eroAddressLine4" to (eroContactDetails.address.area ?: ""),
+                "eroAddressLine5" to (eroContactDetails.address.locality ?: ""),
                 "eroPostcode" to eroContactDetails.address.postcode
             )
         }
 
     private fun assertNotificationPersisted(
         payload: SendNotifyApplicationRejectedMessage,
-        expectedPersonalisation: Map<String, Any?>,
+        expectedPersonalisation: Map<String, Any>,
         notifyResponse: NotifySendLetterSuccessResponse
     ) {
         val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
@@ -127,7 +127,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
     private fun assertNotificationDetails(
         actual: Notification,
         payload: SendNotifyApplicationRejectedMessage,
-        expectedPersonalisation: Map<String, Any?>,
+        expectedPersonalisation: Map<String, Any>,
         notifyResponse: NotifySendLetterSuccessResponse
     ) {
         assertThat(actual.id).isNotNull
@@ -153,7 +153,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
 
     private fun assertPersonalisation(
         actualEntity: Notification,
-        expectedPersonalisation: Map<String, Any?>
+        expectedPersonalisation: Map<String, Any>
     ) {
         assertThat(actualEntity.personalisation).usingRecursiveComparison().ignoringCollectionOrder()
             .ignoringFields("rejectionReasonList")

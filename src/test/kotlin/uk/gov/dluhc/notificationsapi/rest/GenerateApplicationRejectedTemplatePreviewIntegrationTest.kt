@@ -9,6 +9,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
@@ -205,28 +206,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language)
-        val expectedPersonalisationDataMap = with(requestBody.personalisation) {
-            mapOf(
-                "applicationReference" to applicationReference,
-                "firstName" to firstName,
-                "rejectionReasonList" to listOf(
-                    "Your application was incomplete",
-                    "You did not respond to our requests for information within the timeframe we gave you",
-                    "Other"
-                ),
-                "rejectionReasonMessage" to rejectionReasonMessage,
-                "LAName" to eroContactDetails.localAuthorityName,
-                "eroWebsite" to eroContactDetails.website,
-                "eroEmail" to eroContactDetails.email,
-                "eroPhone" to eroContactDetails.phone,
-                "eroAddressLine1" to eroContactDetails.address.property,
-                "eroAddressLine2" to eroContactDetails.address.street,
-                "eroAddressLine3" to eroContactDetails.address.town,
-                "eroAddressLine4" to eroContactDetails.address.area,
-                "eroAddressLine5" to eroContactDetails.address.locality,
-                "eroPostcode" to eroContactDetails.address.postcode
-            )
-        }
+        val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation)
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
         // When
@@ -247,6 +227,30 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         Assertions.assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
     }
+
+    private fun getExpectedPersonalisationMap(personalisation: ApplicationRejectedPersonalisation): Map<String, Any> =
+        with(personalisation) {
+            mapOf(
+                "applicationReference" to applicationReference,
+                "firstName" to firstName,
+                "rejectionReasonList" to mutableListOf(
+                    "Your application was incomplete",
+                    "You did not respond to our requests for information within the timeframe we gave you",
+                    "Other"
+                ),
+                "rejectionReasonMessage" to (rejectionReasonMessage ?: ""),
+                "LAName" to eroContactDetails.localAuthorityName,
+                "eroWebsite" to eroContactDetails.website,
+                "eroEmail" to eroContactDetails.email,
+                "eroPhone" to eroContactDetails.phone,
+                "eroAddressLine1" to (eroContactDetails.address.property ?: ""),
+                "eroAddressLine2" to eroContactDetails.address.street,
+                "eroAddressLine3" to (eroContactDetails.address.town ?: ""),
+                "eroAddressLine4" to (eroContactDetails.address.area ?: ""),
+                "eroAddressLine5" to (eroContactDetails.address.locality ?: ""),
+                "eroPostcode" to eroContactDetails.address.postcode
+            )
+        }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(

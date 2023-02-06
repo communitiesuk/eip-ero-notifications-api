@@ -23,7 +23,7 @@ data class Notification(
     var toPostalAddress: PostalAddress? = null,
     var requestor: String? = null,
     var sentAt: LocalDateTime? = null,
-    var personalisation: Map<String, String?>? = null,
+    var personalisation: Map<String, String>? = null,
     var notifyDetails: NotifyDetails? = null,
 ) {
 

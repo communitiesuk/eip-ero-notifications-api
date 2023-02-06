@@ -36,7 +36,7 @@ abstract class NotificationMapper {
     abstract fun createNotification(
         notificationId: UUID,
         request: SendNotificationRequestDto,
-        personalisation: Map<String, Any?>?,
+        personalisation: Map<String, Any>?,
         sendNotificationResponse: SendNotificationResponseDto,
         sentAt: LocalDateTime
     ): Notification
@@ -44,9 +44,9 @@ abstract class NotificationMapper {
     abstract fun toPostalAddress(postalAddress: DtoPostalAddress): EntityPostalAddress
     abstract fun toNotifyDetails(sendNotificationResponse: SendNotificationResponseDto): NotifyDetails
 
-    protected fun toPersonalisation(personalisation: Map<String, Any?>): Map<String, String?> {
+    protected fun toPersonalisation(personalisation: Map<String, Any>): Map<String, String> {
         return personalisation.mapValues {
-            if (it.value is String?) it.value as String? else objectMapper.writeValueAsString(it.value)
+            if (it.value is String) it.value as String else objectMapper.writeValueAsString(it.value)
         }
     }
 }

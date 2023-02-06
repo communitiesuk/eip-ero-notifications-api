@@ -169,7 +169,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         )
     }
 
-    fun verifyNotifyGenerateTemplatePreview(templateId: String, personalisation: Map<String, Any?>?) {
+    fun verifyNotifyGenerateTemplatePreview(templateId: String, personalisation: Map<String, Any>?) {
         val body = JSONObject()
         if (!personalisation.isNullOrEmpty()) {
             body.put("personalisation", JSONObject(personalisation))
@@ -202,7 +202,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
     fun verifyNotifySendLetter(
         templateId: String,
         request: SendNotificationRequestDto,
-        personalisation: Map<String, Any?>?
+        personalisation: Map<String, Any>?
     ) {
         val body = getRequestBodyForNotifySendLetter(templateId, request, personalisation)
 
@@ -215,10 +215,10 @@ class WiremockService(private val wireMockServer: WireMockServer) {
     private fun getRequestBodyForNotifySendLetter(
         templateId: String,
         request: SendNotificationRequestDto,
-        personalisation: Map<String, Any?>?,
+        personalisation: Map<String, Any>?,
     ): JSONObject {
         val body = JSONObject()
-        val finalPersonalisation = HashMap<String, Any?>()
+        val finalPersonalisation = HashMap<String, Any>()
 
         if (!personalisation.isNullOrEmpty()) {
             finalPersonalisation.putAll(personalisation)
@@ -226,11 +226,11 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
         with(request.toAddress.postalAddress!!) {
             finalPersonalisation["address_line_1"] = addressee
-            finalPersonalisation["address_line_2"] = property
+            finalPersonalisation["address_line_2"] = property ?: ""
             finalPersonalisation["address_line_3"] = street
-            finalPersonalisation["address_line_4"] = town
-            finalPersonalisation["address_line_5"] = area
-            finalPersonalisation["address_line_6"] = locality
+            finalPersonalisation["address_line_4"] = town ?: ""
+            finalPersonalisation["address_line_5"] = area ?: ""
+            finalPersonalisation["address_line_6"] = locality ?: ""
             finalPersonalisation["address_line_7"] = postcode
         }
 
