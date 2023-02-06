@@ -22,6 +22,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejec
 import uk.gov.dluhc.notificationsapi.testsupport.model.LetterTemplate
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyApplicationRejectedMessage
+import java.time.Duration
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
@@ -48,7 +49,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         wireMockService.stubNotifySendLetterResponse(notifyResponse)
 
         // Then
-        await.atMost(3, TimeUnit.SECONDS).untilAsserted {
+        await.pollDelay(Duration.ofMillis(500)).atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendLetter(templateId, expectedRequest, expectedPersonalisation)
             assertNotificationPersisted(payload, expectedPersonalisation, notifyResponse)
         }
