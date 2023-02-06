@@ -14,7 +14,7 @@ class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, A
         return AttributeValue.builder().m(
             input?.mapValues {
                 if (it.value is String) {
-                    toAttributeValue(it.value)
+                    toAttributeValue(it.value as String)
                 } else {
                     toAttributeValue(objectMapper.writeValueAsString(it.value))
                 }
@@ -40,5 +40,5 @@ class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, A
         return AttributeValueType.M
     }
 
-    private fun toAttributeValue(value: Any): AttributeValue = AttributeValue.builder().s(value as String).build()
+    private fun toAttributeValue(value: String): AttributeValue = AttributeValue.builder().s(value).build()
 }
