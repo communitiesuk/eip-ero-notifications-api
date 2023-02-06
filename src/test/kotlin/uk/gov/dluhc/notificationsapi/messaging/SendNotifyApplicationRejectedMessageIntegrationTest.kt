@@ -155,13 +155,8 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         actualEntity: Notification,
         expectedPersonalisation: Map<String, Any>
     ) {
-        assertThat(actualEntity.personalisation).usingRecursiveComparison().ignoringCollectionOrder()
-            .ignoringFields("rejectionReasonList")
-            .isEqualTo(expectedPersonalisation)
-        val actualRejectionReasonList =
-            objectMapper.readValue(actualEntity.personalisation!!["rejectionReasonList"], List::class.java)
-        assertThat(actualRejectionReasonList).usingRecursiveComparison()
-            .isEqualTo(expectedPersonalisation["rejectionReasonList"])
+        assertThat(actualEntity.personalisation)
+            .usingRecursiveComparison().ignoringCollectionOrder().isEqualTo(expectedPersonalisation)
     }
 
     private fun assertNotifyDetails(actual: NotifyDetails, notifyResponse: NotifySendLetterSuccessResponse) {

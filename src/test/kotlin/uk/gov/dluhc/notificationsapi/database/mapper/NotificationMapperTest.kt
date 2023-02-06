@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.database.mapper
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -49,9 +48,6 @@ internal class NotificationMapperTest {
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
-
-    @Mock
-    private lateinit var objectMapper: ObjectMapper
 
     @Test
     fun `should map to NotifyDetails`() {
@@ -152,8 +148,6 @@ internal class NotificationMapperTest {
 
         given(notificationTypeMapper.toNotificationTypeEntity(any())).willReturn(NotificationType.PHOTO_RESUBMISSION)
         given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(expectedSourceType)
-        val expectedRejectedReasonList = "[\"rejection reason 1\", \"rejection reason 2\"]"
-        given(objectMapper.writeValueAsString(any())).willReturn(expectedRejectedReasonList)
 
         // When
         val notification =
@@ -169,13 +163,11 @@ internal class NotificationMapperTest {
         assertThat(notification.toEmail).isEqualTo(emailAddress)
         assertThat(notification.personalisation).usingRecursiveComparison().ignoringFields("rejectionReasonList")
             .isEqualTo(personalisationMap)
-        assertThat(notification.personalisation!!["rejectionReasonList"]).isEqualTo(expectedRejectedReasonList)
         assertThat(notification.notifyDetails).isEqualTo(expectedNotifyDetails)
         assertThat(notification.sentAt).isEqualTo(sentAt)
 
         verify(notificationTypeMapper).toNotificationTypeEntity(PHOTO_RESUBMISSION)
         verify(sourceTypeMapper).toSourceTypeEntity(SourceType.VOTER_CARD)
-        verify(objectMapper).writeValueAsString(personalisationMap["rejectionReasonList"])
-        verifyNoMoreInteractions(notificationTypeMapper, sourceTypeMapper, objectMapper)
+        verifyNoMoreInteractions(notificationTypeMapper, sourceTypeMapper)
     }
 }
