@@ -22,6 +22,7 @@ import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.eromanagementapi.models.ElectoralRegistrationOfficeResponse
+import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
@@ -168,7 +169,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         )
     }
 
-    fun verifyNotifyGenerateTemplatePreview(templateId: String, personalisation: Map<String, Any?>?) {
+    fun verifyNotifyGenerateTemplatePreview(templateId: String, personalisation: Map<String, Any>?) {
         val body = JSONObject()
         if (!personalisation.isNullOrEmpty()) {
             body.put("personalisation", JSONObject(personalisation))
@@ -196,6 +197,47 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
     fun verifyNotifySendLetterCalled() {
         wireMockServer.verify(newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_LETTER_URL)))
+    }
+
+    fun verifyNotifySendLetter(
+        templateId: String,
+        request: SendNotificationRequestDto,
+        personalisation: Map<String, Any>?
+    ) {
+        val body = getRequestBodyForNotifySendLetter(templateId, request, personalisation)
+
+        val url = NOTIFY_SEND_LETTER_URL.replace("{templateId}", templateId)
+        wireMockServer.verify(
+            postRequestedFor(urlPathEqualTo(url)).withRequestBody(equalToJson(body.toString(), true, true))
+        )
+    }
+
+    private fun getRequestBodyForNotifySendLetter(
+        templateId: String,
+        request: SendNotificationRequestDto,
+        personalisation: Map<String, Any>?,
+    ): JSONObject {
+        val body = JSONObject()
+        val finalPersonalisation = HashMap<String, Any>()
+
+        if (!personalisation.isNullOrEmpty()) {
+            finalPersonalisation.putAll(personalisation)
+        }
+
+        with(request.toAddress.postalAddress!!) {
+            finalPersonalisation["address_line_1"] = addressee
+            finalPersonalisation["address_line_2"] = property ?: ""
+            finalPersonalisation["address_line_3"] = street
+            finalPersonalisation["address_line_4"] = town ?: ""
+            finalPersonalisation["address_line_5"] = area ?: ""
+            finalPersonalisation["address_line_6"] = locality ?: ""
+            finalPersonalisation["address_line_7"] = postcode
+        }
+
+        body.put("template_id", templateId)
+        body.put("personalisation", JSONObject(finalPersonalisation))
+
+        return body
     }
 
     fun stubCognitoJwtIssuerResponse() {

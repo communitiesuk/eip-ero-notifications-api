@@ -1,5 +1,8 @@
 package uk.gov.dluhc.notificationsapi.config
 
+import com.amazonaws.services.sqs.AmazonSQSAsync
+import com.amazonaws.services.sqs.model.PurgeQueueRequest
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.awspring.cloud.messaging.core.QueueMessagingTemplate
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,6 +41,12 @@ internal abstract class IntegrationTest {
     protected lateinit var notificationRepository: NotificationRepository
 
     @Autowired
+    protected lateinit var amazonSQSAsync: AmazonSQSAsync
+
+    @Autowired
+    protected lateinit var localStackContainerSettings: LocalStackContainerSettings
+
+    @Autowired
     protected lateinit var sqsMessagingTemplate: QueueMessagingTemplate
 
     @Value("\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}")
@@ -48,6 +57,9 @@ internal abstract class IntegrationTest {
 
     @Value("\${sqs.send-uk-gov-notify-application-approved-queue-name}")
     protected lateinit var sendUkGovNotifyApplicationApprovedQueueName: String
+
+    @Value("\${sqs.send-uk-gov-notify-application-rejected-queue-name}")
+    protected lateinit var sendUkGovNotifyApplicationRejectedQueueName: String
 
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
@@ -69,6 +81,9 @@ internal abstract class IntegrationTest {
 
     @Value("\${api.notify.template.letter.rejected-welsh}")
     protected lateinit var applicationRejectedLetterWelshTemplateId: String
+
+    @Autowired
+    protected lateinit var objectMapper: ObjectMapper
 
     companion object {
         val localStackContainer = LocalStackContainerConfiguration.getInstance()
@@ -110,5 +125,20 @@ internal abstract class IntegrationTest {
         @Primary
         fun testNotificationClient(@Value("\${api.notify.api-key}") apiKey: String, wiremockService: WiremockService) =
             NotificationClient(apiKey, wiremockService.wiremockBaseUrl())
+    }
+
+    @BeforeEach
+    fun clearSqsQueues() {
+        with(localStackContainerSettings) {
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName)
+            clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName)
+        }
+    }
+
+    private fun clearSqsQueue(queueUrl: String) {
+        amazonSQSAsync.purgeQueue(PurgeQueueRequest(queueUrl))
     }
 }

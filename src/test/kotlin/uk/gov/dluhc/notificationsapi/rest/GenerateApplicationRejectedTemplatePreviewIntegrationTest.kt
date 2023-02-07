@@ -3,14 +3,18 @@ package uk.gov.dluhc.notificationsapi.rest
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
+import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.Language.CY
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert
@@ -191,36 +195,18 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
             .hasValidationError("Error on field 'personalisation.eroContactDetails.address.postcode': rejected value [PE11111111111], size must be between 1 and 10")
     }
 
-    @Test
-    fun `should return English template preview given valid request`() {
+    @ParameterizedTest
+    @EnumSource(Language::class)
+    fun `should return template preview given valid request`(language: Language) {
         // Given
+        val templateId =
+            if (language == CY) applicationRejectedLetterWelshTemplateId else applicationRejectedLetterEnglishTemplateId
         val notifyClientResponse =
-            NotifyGenerateTemplatePreviewSuccessResponse(id = applicationRejectedLetterEnglishTemplateId)
+            NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest()
-        val expectedPersonalisationDataMap = with(requestBody.personalisation) {
-            mapOf(
-                "applicationReference" to applicationReference,
-                "firstName" to firstName,
-                "rejectionReasonList" to listOf(
-                    "Your application was incomplete",
-                    "You did not respond to our requests for information within the timeframe we gave you",
-                    "Other"
-                ),
-                "rejectionReasonMessage" to rejectionReasonMessage,
-                "LAName" to eroContactDetails.localAuthorityName,
-                "eroWebsite" to eroContactDetails.website,
-                "eroEmail" to eroContactDetails.email,
-                "eroPhone" to eroContactDetails.phone,
-                "eroAddressLine1" to eroContactDetails.address.property,
-                "eroAddressLine2" to eroContactDetails.address.street,
-                "eroAddressLine3" to eroContactDetails.address.town,
-                "eroAddressLine4" to eroContactDetails.address.area,
-                "eroAddressLine5" to eroContactDetails.address.locality,
-                "eroPostcode" to eroContactDetails.address.postcode
-            )
-        }
+        val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language)
+        val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation)
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
         // When
@@ -239,65 +225,32 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(
-            applicationRejectedLetterEnglishTemplateId,
-            expectedPersonalisationDataMap
-        )
+        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
     }
 
-    @Test
-    fun `should return Welsh template preview given valid request`() {
-        // Given
-        val notifyClientResponse =
-            NotifyGenerateTemplatePreviewSuccessResponse(id = applicationRejectedLetterWelshTemplateId)
-        wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
-
-        val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = CY)
-        val expectedPersonalisationDataMap = with(requestBody.personalisation) {
+    private fun getExpectedPersonalisationMap(personalisation: ApplicationRejectedPersonalisation): Map<String, Any> =
+        with(personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectionReasonList" to listOf(
+                "rejectionReasonList" to mutableListOf(
                     "Your application was incomplete",
                     "You did not respond to our requests for information within the timeframe we gave you",
                     "Other"
                 ),
-                "rejectionReasonMessage" to rejectionReasonMessage,
+                "rejectionReasonMessage" to (rejectionReasonMessage ?: ""),
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
                 "eroPhone" to eroContactDetails.phone,
-                "eroAddressLine1" to eroContactDetails.address.property,
+                "eroAddressLine1" to (eroContactDetails.address.property ?: ""),
                 "eroAddressLine2" to eroContactDetails.address.street,
-                "eroAddressLine3" to eroContactDetails.address.town,
-                "eroAddressLine4" to eroContactDetails.address.area,
-                "eroAddressLine5" to eroContactDetails.address.locality,
+                "eroAddressLine3" to (eroContactDetails.address.town ?: ""),
+                "eroAddressLine4" to (eroContactDetails.address.area ?: ""),
+                "eroAddressLine5" to (eroContactDetails.address.locality ?: ""),
                 "eroPostcode" to eroContactDetails.address.postcode
             )
         }
-        val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
-
-        // When
-        val response = webTestClient.post()
-            .uri(URI_TEMPLATE)
-            .bearerToken(getBearerToken())
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(
-                Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
-            )
-            .exchange()
-            .expectStatus().isOk
-            .returnResult(GenerateTemplatePreviewResponse::class.java)
-
-        // Then
-        val actual = response.responseBody.blockFirst()
-        Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(
-            applicationRejectedLetterWelshTemplateId,
-            expectedPersonalisationDataMap
-        )
-    }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(

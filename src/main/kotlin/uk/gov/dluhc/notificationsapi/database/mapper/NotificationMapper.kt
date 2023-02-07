@@ -15,7 +15,6 @@ import uk.gov.dluhc.notificationsapi.dto.PostalAddress as DtoPostalAddress
 
 @Mapper(uses = [SourceTypeMapper::class, NotificationTypeMapper::class])
 abstract class NotificationMapper {
-
     @Mapping(target = "id", source = "notificationId")
     @Mapping(target = "type", source = "request.notificationType")
     @Mapping(target = "gssCode", source = "request.gssCode")
@@ -31,7 +30,7 @@ abstract class NotificationMapper {
     abstract fun createNotification(
         notificationId: UUID,
         request: SendNotificationRequestDto,
-        personalisation: Map<String, String>?,
+        personalisation: Map<String, Any>?,
         sendNotificationResponse: SendNotificationResponseDto,
         sentAt: LocalDateTime
     ): Notification

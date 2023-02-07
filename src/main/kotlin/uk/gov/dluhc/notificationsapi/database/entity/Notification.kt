@@ -1,8 +1,10 @@
 package uk.gov.dluhc.notificationsapi.database.entity
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbConvertedBy
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey
+import uk.gov.dluhc.notificationsapi.database.converter.NotificationPersonalisationMapConverter
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -23,7 +25,8 @@ data class Notification(
     var toPostalAddress: PostalAddress? = null,
     var requestor: String? = null,
     var sentAt: LocalDateTime? = null,
-    var personalisation: Map<String, String>? = null,
+    @get:DynamoDbConvertedBy(value = NotificationPersonalisationMapConverter::class)
+    var personalisation: Map<String, Any>? = null,
     var notifyDetails: NotifyDetails? = null,
 ) {
 

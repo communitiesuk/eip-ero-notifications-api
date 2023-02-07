@@ -222,13 +222,13 @@ fun buildApplicationApprovedPersonalisationMapFromDto(
 
 fun buildApplicationRejectedPersonalisationMapFromDto(
     personalisationDto: ApplicationRejectedPersonalisationDto = buildApplicationRejectedPersonalisationDto()
-): Map<String, Any?> {
-    val personalisationMap = mutableMapOf<String, Any?>()
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["applicationReference"] = applicationReference
         personalisationMap["firstName"] = firstName
         personalisationMap["rejectionReasonList"] = rejectionReasonList
-        personalisationMap["rejectionReasonMessage"] = rejectionReasonMessage
+        personalisationMap["rejectionReasonMessage"] = rejectionReasonMessage ?: ""
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone

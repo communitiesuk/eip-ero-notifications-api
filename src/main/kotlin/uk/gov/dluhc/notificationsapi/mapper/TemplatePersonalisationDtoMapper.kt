@@ -52,14 +52,14 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    fun toApplicationRejectedTemplatePersonalisationMap(dto: ApplicationRejectedPersonalisationDto): Map<String, Any?> {
-        val personalisation = mutableMapOf<String, Any?>()
+    fun toApplicationRejectedTemplatePersonalisationMap(dto: ApplicationRejectedPersonalisationDto): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
 
         with(dto) {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
             personalisation["rejectionReasonList"] = rejectionReasonList
-            personalisation["rejectionReasonMessage"] = rejectionReasonMessage
+            personalisation["rejectionReasonMessage"] = rejectionReasonMessage ?: ""
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)

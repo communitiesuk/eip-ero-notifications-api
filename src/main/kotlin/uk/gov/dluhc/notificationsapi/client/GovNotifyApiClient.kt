@@ -24,7 +24,7 @@ class GovNotifyApiClient(
     fun sendEmail(
         templateId: String,
         emailAddress: String,
-        personalisation: Map<String, String>,
+        personalisation: Map<String, Any>,
         notificationId: UUID
     ): SendNotificationResponseDto {
         try {
@@ -41,7 +41,7 @@ class GovNotifyApiClient(
     fun sendLetter(
         templateId: String,
         postalAddress: PostalAddress,
-        placeholders: Map<String, String>,
+        placeholders: Map<String, Any>,
         notificationId: UUID
     ): SendNotificationResponseDto {
         try {
@@ -56,7 +56,7 @@ class GovNotifyApiClient(
         }
     }
 
-    fun generateTemplatePreview(templateId: String, personalisation: Map<String, Any?>): NotifyTemplatePreviewDto =
+    fun generateTemplatePreview(templateId: String, personalisation: Map<String, Any>): NotifyTemplatePreviewDto =
         try {
             logger.info { "Generating template preview for templateId [$templateId]" }
             notificationClient.generateTemplatePreview(templateId, personalisation).run {

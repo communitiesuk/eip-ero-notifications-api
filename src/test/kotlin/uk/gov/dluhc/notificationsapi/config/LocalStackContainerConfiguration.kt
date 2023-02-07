@@ -58,6 +58,7 @@ class LocalStackContainerConfiguration {
                 )
                     .withReuse(true)
                     .withExposedPorts(DEFAULT_PORT)
+                    .withCreateContainerCmdModifier { it.withName("notifications-api-integration-test-localstack") }
                     .apply {
                         start()
                     }
@@ -82,11 +83,13 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}") sendUkGovNotifyPhotoResubmissionQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}") sendUkGovNotifyIdDocumentResubmissionQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-application-approved-queue-name}") sendUkGovNotifyApplicationApprovedQueueName: String,
+        @Value("\${sqs.send-uk-gov-notify-application-rejected-queue-name}") sendUkGovNotifyApplicationRejectedQueueName: String,
         @Value("\${sqs.remove-application-notifications-queue-name}") removeApplicationNotificationsQueueName: String
     ): LocalStackContainerSettings {
         val sendUkGovNotifyPhotoResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
         val sendUkGovNotifyIdDocumentResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyIdDocumentResubmissionQueueName)
         val sendUkGovNotifyApplicationApprovedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyApplicationApprovedQueueName)
+        val sendUkGovNotifyApplicationRejectedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyApplicationRejectedQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
@@ -98,6 +101,7 @@ class LocalStackContainerConfiguration {
             sendUkGovNotifyPhotoResubmissionQueueName = sendUkGovNotifyPhotoResubmissionMessageQueueName,
             sendUkGovNotifyIdDocumentResubmissionQueueName = sendUkGovNotifyIdDocumentResubmissionMessageQueueName,
             sendUkGovNotifyApplicationApprovedQueueName = sendUkGovNotifyApplicationApprovedMessageQueueName,
+            sendUkGovNotifyApplicationRejectedMessageQueueName = sendUkGovNotifyApplicationRejectedMessageQueueName,
             removeApplicationNotificationsQueueName = removeApplicationNotificationsMessageQueueName
         )
     }
@@ -182,5 +186,26 @@ data class LocalStackContainerSettings(
     val sendUkGovNotifyPhotoResubmissionQueueName: String,
     val sendUkGovNotifyIdDocumentResubmissionQueueName: String,
     val sendUkGovNotifyApplicationApprovedQueueName: String,
+    val sendUkGovNotifyApplicationRejectedMessageQueueName: String,
     val removeApplicationNotificationsQueueName: String,
-)
+) {
+    val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyIdDocumentResubmissionQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName: String = toMappedUrl(sendUkGovNotifyApplicationApprovedQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName: String = toMappedUrl(sendUkGovNotifyApplicationRejectedMessageQueueName, apiUrl)
+    val mappedQueueUrlRemoveApplicationNotificationsQueueName: String = toMappedUrl(removeApplicationNotificationsQueueName, apiUrl)
+
+    private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
+        val rawUrl = URI.create(rawUrlString)
+        val apiUrl = URI.create(apiUrlString)
+        return URI(
+            rawUrl.scheme,
+            rawUrl.userInfo,
+            apiUrl.host,
+            apiUrl.port,
+            rawUrl.path,
+            rawUrl.query,
+            rawUrl.fragment
+        ).toASCIIString()
+    }
+}
