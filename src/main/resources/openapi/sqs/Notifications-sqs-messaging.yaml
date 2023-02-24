@@ -138,6 +138,18 @@ components:
         - channel
         - personalisation
 
+    SendNotifyApplicationReceivedMessage:
+      title: SendNotifyApplicationReceivedMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for a received application
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        personalisation:
+          $ref: '#/components/schemas/BasePersonalisation'
+      required:
+        - personalisation
+
     SendNotifyApplicationApprovedMessage:
       title: SendNotifyApplicationApprovedMessage
       type: object
@@ -350,6 +362,7 @@ components:
         - application-rejected
         - photo-resubmission
         - id-document-resubmission
+        - postal-application-received
 
     MessageAddress:
       type: object
@@ -399,6 +412,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyIdDocumentResubmissionMessage'
+    SendNotifyApplicationReceivedMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyApplicationReceivedMessage'
     SendNotifyApplicationApprovedMessage:
       content:
         application/json:
