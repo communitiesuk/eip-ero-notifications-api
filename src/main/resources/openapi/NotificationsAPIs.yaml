@@ -476,6 +476,7 @@ components:
         - application-rejected
         - photo-resubmission
         - id-document-resubmission
+        - postal-application-received
     Language:
       title: Language
       description: The language to view the template
