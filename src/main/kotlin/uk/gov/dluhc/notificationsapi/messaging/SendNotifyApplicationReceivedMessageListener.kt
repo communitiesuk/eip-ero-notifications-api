@@ -15,10 +15,10 @@ private val logger = KotlinLogging.logger { }
 
 @Component
 class SendNotifyApplicationReceivedMessageListener(
-    private val sendNotificationService: SendNotificationService,
-    private val sendNotifyMessageMapper: SendNotifyMessageMapper,
-    private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
-    private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
+    // private val sendNotificationService: SendNotificationService,
+    // private val sendNotifyMessageMapper: SendNotifyMessageMapper,
+    // private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
+    // private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
 ) : MessageListener<SendNotifyApplicationReceivedMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-application-received-queue-name}"])
