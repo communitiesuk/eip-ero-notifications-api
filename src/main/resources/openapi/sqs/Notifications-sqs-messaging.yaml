@@ -42,6 +42,16 @@ paths:
         '204':
           description: No response content.
 
+  '/send-uk-gov-notify-application-received-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyApplicationReceivedMessage'
+      responses:
+        '204':
+          description: No response content.
+
   '/send-uk-gov-notify-application-approved-message':
     post:
       tags:
