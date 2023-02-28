@@ -372,7 +372,6 @@ components:
         - application-rejected
         - photo-resubmission
         - id-document-resubmission
-        - postal-application-received
 
     MessageAddress:
       type: object
