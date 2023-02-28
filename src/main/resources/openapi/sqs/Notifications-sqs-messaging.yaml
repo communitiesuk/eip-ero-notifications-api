@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.7.0'
+  version: '1.8.0'
   description: |-
     Notifications SQS Message Types
     
@@ -38,6 +38,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyIdDocumentResubmissionMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-application-received-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyApplicationReceivedMessage'
       responses:
         '204':
           description: No response content.
@@ -136,6 +146,18 @@ components:
           $ref: '#/components/schemas/IdDocumentPersonalisation'
       required:
         - channel
+        - personalisation
+
+    SendNotifyApplicationReceivedMessage:
+      title: SendNotifyApplicationReceivedMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for a received application
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        personalisation:
+          $ref: '#/components/schemas/BasePersonalisation'
+      required:
         - personalisation
 
     SendNotifyApplicationApprovedMessage:
@@ -399,6 +421,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyIdDocumentResubmissionMessage'
+    SendNotifyApplicationReceivedMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyApplicationReceivedMessage'
     SendNotifyApplicationApprovedMessage:
       content:
         application/json:
