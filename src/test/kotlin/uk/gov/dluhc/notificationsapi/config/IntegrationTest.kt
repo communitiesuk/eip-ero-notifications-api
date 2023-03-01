@@ -55,6 +55,9 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}")
     protected lateinit var sendUkGovNotifyIdDocumentResubmissionQueueName: String
 
+    @Value("\${sqs.send-uk-gov-notify-application-received-queue-name}")
+    protected lateinit var sendUkGovNotifyApplicationReceivedQueueName: String
+
     @Value("\${sqs.send-uk-gov-notify-application-approved-queue-name}")
     protected lateinit var sendUkGovNotifyApplicationApprovedQueueName: String
 
@@ -132,6 +135,7 @@ internal abstract class IntegrationTest {
         with(localStackContainerSettings) {
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName)
             clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName)

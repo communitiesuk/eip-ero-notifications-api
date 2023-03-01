@@ -37,6 +37,7 @@ The following environment variables must be set in order to run the application:
 5. `DYNAMODB_ENDPOINT` - the localstack endpoint
 6. `SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new photo.
 7. `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
+8. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_RECEIVED_QUEUE_NAME` - the queue name for sending communications for a received application.
 8. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_APPROVED_QUEUE_NAME` - the queue name for sending communications for an approved application.
 9. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_REJECTED_QUEUE_NAME` - the queue name for sending communications for a rejected application.
 10. `SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME` - the queue name for removing an applicant's notification data.
