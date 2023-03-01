@@ -13,50 +13,30 @@ import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 class TemplatePersonalisationDtoMapper {
 
     fun toPhotoResubmissionTemplatePersonalisationMap(dto: PhotoPersonalisationDto): Map<String, String> {
-        val personalisation = getPersonalisationMap(dto)
+        val personalisation = getBasicContactDetailsPersonalisationMap(dto)
 
         with(dto) {
             personalisation["photoRequestFreeText"] = photoRequestFreeText
             personalisation["uploadPhotoLink"] = uploadPhotoLink
-            with(eroContactDetails) {
-                mapEroContactFields(personalisation)
-            }
         }
         return personalisation
     }
 
     fun toIdDocumentResubmissionTemplatePersonalisationMap(dto: IdDocumentPersonalisationDto): Map<String, String> {
-        val personalisation = getPersonalisationMap(dto)
+        val personalisation = getBasicContactDetailsPersonalisationMap(dto)
 
         with(dto) {
             personalisation["documentRequestFreeText"] = idDocumentRequestFreeText
-            with(eroContactDetails) {
-                mapEroContactFields(personalisation)
-            }
         }
         return personalisation
     }
 
     fun toApplicationReceivedTemplatePersonalisationMap(dto: ApplicationReceivedPersonalisationDto): Map<String, String> {
-        val personalisation = getPersonalisationMap(dto)
-
-        with(dto) {
-            with(eroContactDetails) {
-                mapEroContactFields(personalisation)
-            }
-        }
-        return personalisation
+        return getBasicContactDetailsPersonalisationMap(dto)
     }
 
     fun toApplicationApprovedTemplatePersonalisationMap(dto: ApplicationApprovedPersonalisationDto): Map<String, String> {
-        val personalisation = getPersonalisationMap(dto)
-
-        with(dto) {
-            with(eroContactDetails) {
-                mapEroContactFields(personalisation)
-            }
-        }
-        return personalisation
+        return getBasicContactDetailsPersonalisationMap(dto)
     }
 
     fun toApplicationRejectedTemplatePersonalisationMap(dto: ApplicationRejectedPersonalisationDto): Map<String, Any> {
@@ -90,11 +70,14 @@ class TemplatePersonalisationDtoMapper {
         }
     }
 
-    private fun getPersonalisationMap(dto: BaseTemplatePersonalisationDto): MutableMap<String, String> {
+    private fun getBasicContactDetailsPersonalisationMap(dto: BaseTemplatePersonalisationDto): MutableMap<String, String> {
         val personalisation = mutableMapOf<String, String>()
         with(dto) {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
+            with(eroContactDetails) {
+                mapEroContactFields(personalisation)
+            }
         }
         return personalisation
     }
