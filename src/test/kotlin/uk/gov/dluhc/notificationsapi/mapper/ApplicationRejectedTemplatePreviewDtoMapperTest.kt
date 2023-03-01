@@ -14,6 +14,7 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.OTHER
@@ -53,6 +54,7 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER)).willReturn(other)
 
         val expected = ApplicationRejectedTemplatePreviewDto(
+            sourceType = SourceType.VOTER_CARD,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
                 ApplicationRejectedPersonalisationDto(

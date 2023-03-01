@@ -6,8 +6,10 @@ api:
     api-key: ${API_NOTIFY_API_KEY}
     template:
       email:
-        received-english: ${TEMPLATE_APPLICATION_RECEIVED_EMAIL_ENGLISH}
-        received-welsh: ${TEMPLATE_APPLICATION_RECEIVED_EMAIL_WELSH}
+        received-english: tbc-received-letter-template-id-en
+        received-welsh: tbc-received-letter-template-id-cy
+        postal-received-english: ${TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH}
+        postal-received-welsh: ${TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH}
         approved-english: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH}
         approved-welsh: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH}
         photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH}

@@ -65,7 +65,7 @@ class SendNotificationService(
     ): Notification {
         with(request) {
             val templateId =
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, EMAIL, language)
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language)
             val sendNotificationGovResponseDto =
                 govNotifyApiClient.sendEmail(templateId, toAddress.emailAddress!!, personalisationMap, notificationId)
             return notificationMapper.createNotification(
@@ -86,7 +86,7 @@ class SendNotificationService(
     ): Notification {
         with(request) {
             val templateId =
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, LETTER, language)
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, LETTER, language)
             val sendNotificationGovResponseDto =
                 govNotifyApiClient.sendLetter(templateId, toAddress.postalAddress!!, personalisationMap, notificationId)
             return notificationMapper.createNotification(

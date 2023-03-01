@@ -10,6 +10,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
@@ -36,6 +37,7 @@ class GenerateApplicationApprovedTemplatePreviewDtoMapperTest {
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
 
         val expected = buildGenerateApplicationApprovedTemplatePreviewDto(
+            sourceType = SourceType.VOTER_CARD,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
                 buildApplicationApprovedPersonalisationDto(

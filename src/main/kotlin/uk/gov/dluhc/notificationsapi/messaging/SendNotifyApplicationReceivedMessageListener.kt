@@ -26,7 +26,8 @@ class SendNotifyApplicationReceivedMessageListener(
         logger.info {
             "received 'send UK Gov notify application received message' request for gssCode: ${payload.gssCode} with " +
                 "messageType: ${payload.messageType}, " +
-                "language: ${payload.language}"
+                "language: ${payload.language}, " +
+                "sourceType: ${payload.sourceType}"
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromReceivedMessageToSendNotificationRequestDto(this)

@@ -10,6 +10,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
@@ -46,6 +47,7 @@ class ResubmissionTemplatePreviewDtoMapperTest {
         given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.EMAIL)
 
         val expected = buildGeneratePhotoResubmissionTemplatePreviewDto(
+            sourceType = SourceType.VOTER_CARD,
             channel = NotificationChannelDto.EMAIL,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
@@ -97,6 +99,7 @@ class ResubmissionTemplatePreviewDtoMapperTest {
         given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.LETTER)
 
         val expected = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
+            sourceType = SourceType.VOTER_CARD,
             channel = NotificationChannelDto.LETTER,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {

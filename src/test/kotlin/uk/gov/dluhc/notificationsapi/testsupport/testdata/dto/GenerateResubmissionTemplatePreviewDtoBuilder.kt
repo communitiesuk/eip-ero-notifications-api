@@ -6,8 +6,10 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 
 fun buildGeneratePhotoResubmissionTemplatePreviewDto(
+    sourceType: SourceType,
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: PhotoPersonalisationDto = buildPhotoPersonalisationDto()
@@ -16,9 +18,11 @@ fun buildGeneratePhotoResubmissionTemplatePreviewDto(
         channel = channel,
         language = language,
         personalisation = personalisation,
+        sourceType = sourceType
     )
 
 fun buildGenerateIdDocumentResubmissionTemplatePreviewDto(
+    sourceType: SourceType,
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: IdDocumentPersonalisationDto = buildIdDocumentPersonalisationDto()
@@ -27,4 +31,5 @@ fun buildGenerateIdDocumentResubmissionTemplatePreviewDto(
         channel = channel,
         language = language,
         personalisation = personalisation,
+        sourceType = sourceType
     )

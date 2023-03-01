@@ -18,6 +18,7 @@ import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
@@ -74,16 +75,17 @@ internal class SendNotificationServiceTest {
         val sendNotificationResponseDto = buildSendNotificationDto()
         val notification = aNotification()
         val templateId = aTemplateId().toString()
+        val sourceType = SourceType.VOTER_CARD
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
         given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
-        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verify(notificationMapper).createNotification(
             any(),
@@ -106,15 +108,16 @@ internal class SendNotificationServiceTest {
         val emailAddress = anEmailAddress()
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val templateId = aTemplateId().toString()
+        val sourceType = SourceType.VOTER_CARD
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
-        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verifyNoInteractions(notificationMapper, notificationRepository)
     }
@@ -132,16 +135,17 @@ internal class SendNotificationServiceTest {
         val sendNotificationResponseDto = buildSendNotificationDto()
         val notification = aNotification()
         val templateId = aTemplateId().toString()
+        val sourceType = SourceType.VOTER_CARD
 
         given(notifyApiClient.sendLetter(any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
         given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
-        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language)
         verify(notifyApiClient).sendLetter(eq(templateId), eq(postalAddress), eq(personalisation), any())
         verify(notificationMapper).createNotification(
             any(),
@@ -164,15 +168,16 @@ internal class SendNotificationServiceTest {
         val notificationType = aNotificationType()
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val templateId = aTemplateId().toString()
+        val sourceType = SourceType.VOTER_CARD
 
         given(notifyApiClient.sendLetter(any(), any(), any(), any())).willThrow(GovNotifyApiNotFoundException::class.java)
-        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any())).willReturn(templateId)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
 
         // When
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(notificationType, channel, language)
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language)
         verify(notifyApiClient).sendLetter(eq(templateId), eq(postalAddress), eq(personalisation), any())
         verifyNoInteractions(notificationMapper, notificationRepository)
     }

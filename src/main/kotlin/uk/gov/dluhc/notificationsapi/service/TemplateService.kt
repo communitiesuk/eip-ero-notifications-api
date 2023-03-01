@@ -20,7 +20,7 @@ class TemplateService(
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
@@ -29,16 +29,17 @@ class TemplateService(
     fun generateIdDocumentResubmissionTemplatePreview(request: GenerateIdDocumentResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
     }
 
+    // TODO Why does this not extend the BaseGenerateTemplatePreviewDto?
     fun generateApplicationApprovedTemplatePreview(request: GenerateApplicationApprovedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(personalisation)
             )
         }
@@ -47,7 +48,7 @@ class TemplateService(
     fun generateApplicationRejectedTemplatePreview(dto: ApplicationRejectedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(dto) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toApplicationRejectedTemplatePersonalisationMap(personalisation)
             )
         }
