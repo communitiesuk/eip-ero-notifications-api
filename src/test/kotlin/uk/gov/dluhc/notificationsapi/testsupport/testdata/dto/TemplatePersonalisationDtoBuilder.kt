@@ -125,6 +125,35 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
     }
 }
 
+fun buildApplicationReceivedPersonalisationDtoFromMessage(
+    personalisationMessage: BasePersonalisation
+): ApplicationReceivedPersonalisationDto {
+    return with(personalisationMessage) {
+        ApplicationReceivedPersonalisationDto(
+            applicationReference = applicationReference,
+            firstName = firstName,
+            eroContactDetails = with(eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode,
+                        )
+                    }
+                )
+            }
+        )
+    }
+}
+
 fun buildApplicationApprovedPersonalisationDtoFromMessage(
     personalisationMessage: BasePersonalisation
 ): ApplicationApprovedPersonalisationDto {
