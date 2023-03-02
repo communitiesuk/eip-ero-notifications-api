@@ -35,12 +35,12 @@ class NotificationTemplateMapper(
     }
 
     private fun fromEmailNotificationTypeInLanguage(sourceType: SourceType, notificationType: NotificationType, language: LanguageDto?) =
-        if (useEnglishTemplate(language)) englishEmail(sourceType, notificationType) else welshEmail(notificationType)
+        if (useEnglishTemplate(language)) englishEmail(sourceType, notificationType) else welshEmail(sourceType, notificationType)
 
     private fun useEnglishTemplate(language: LanguageDto?) = language == null || language == ENGLISH
 
-    private fun welshEmail(notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> notifyEmailTemplateConfiguration.receivedWelsh
+    private fun welshEmail(sourceType: SourceType, notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> getApplicationReceivedWelshEmailTemplateConfig(sourceType)
         APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedWelsh
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionWelsh
@@ -50,7 +50,7 @@ class NotificationTemplateMapper(
     }
 
     private fun englishEmail(sourceType: SourceType, notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> getApplicationReceivedEnglishTemplateConfig(sourceType)
+        APPLICATION_RECEIVED -> getApplicationReceivedEnglishEmailTemplateConfig(sourceType)
         APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedEnglish
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionEnglish
@@ -82,8 +82,14 @@ class NotificationTemplateMapper(
         }
     }
 
-    private fun getApplicationReceivedEnglishTemplateConfig(sourceType: SourceType) = when (sourceType) {
+    private fun getApplicationReceivedEnglishEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedEnglish
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedEnglish
     }
+
+    private fun getApplicationReceivedWelshEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
+        SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
+        SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
+    }
+
 }
