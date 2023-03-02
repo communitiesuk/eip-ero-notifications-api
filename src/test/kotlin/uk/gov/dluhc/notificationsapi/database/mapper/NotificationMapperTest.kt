@@ -147,7 +147,7 @@ internal class NotificationMapperTest {
         val sentAt = aLocalDateTime()
 
         given(notificationTypeMapper.toNotificationTypeEntity(any())).willReturn(NotificationType.PHOTO_RESUBMISSION)
-        given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(expectedSourceType)
+        given(sourceTypeMapper.fromDtoToEntity(any())).willReturn(expectedSourceType)
 
         // When
         val notification =
@@ -167,7 +167,7 @@ internal class NotificationMapperTest {
         assertThat(notification.sentAt).isEqualTo(sentAt)
 
         verify(notificationTypeMapper).toNotificationTypeEntity(PHOTO_RESUBMISSION)
-        verify(sourceTypeMapper).toSourceTypeEntity(SourceType.VOTER_CARD)
+        verify(sourceTypeMapper).fromDtoToEntity(SourceType.VOTER_CARD)
         verifyNoMoreInteractions(notificationTypeMapper, sourceTypeMapper)
     }
 }

@@ -49,7 +49,7 @@ class SentNotificationsServiceTest {
 
         val gssCodes = listOf(aGssCode(), anotherGssCode())
         given(eroService.lookupGssCodesForEro(any())).willReturn(gssCodes)
-        given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(SourceType.VOTER_CARD)
+        given(sourceTypeMapper.fromDtoToEntity(any())).willReturn(SourceType.VOTER_CARD)
 
         val notificationSummaryEntity1 = aNotificationSummaryBuilder(
             id = aRandomNotificationId(),
@@ -85,7 +85,7 @@ class SentNotificationsServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected)
         verify(eroService).lookupGssCodesForEro(eroId)
-        verify(sourceTypeMapper).toSourceTypeEntity(sourceType)
+        verify(sourceTypeMapper).fromDtoToEntity(sourceType)
         verify(notificationRepository).getNotificationSummariesBySourceReference(sourceReference, SourceType.VOTER_CARD, gssCodes)
         verify(notificationSummaryMapper).toNotificationSummaryDto(notificationSummaryEntity1)
         verify(notificationSummaryMapper).toNotificationSummaryDto(notificationSummaryEntity2)

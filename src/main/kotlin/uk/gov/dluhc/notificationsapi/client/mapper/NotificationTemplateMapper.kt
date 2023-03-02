@@ -91,5 +91,4 @@ class NotificationTemplateMapper(
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
     }
-
 }

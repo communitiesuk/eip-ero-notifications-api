@@ -25,7 +25,7 @@ class RemoveNotificationsService(
     fun remove(removeNotificationsDto: RemoveNotificationsDto) {
         try {
             with(removeNotificationsDto) {
-                val sourceType = sourceTypeMapper.toSourceTypeEntity(this.sourceType)
+                val sourceType = sourceTypeMapper.fromDtoToEntity(this.sourceType)
                 notificationRepository.removeBySourceReference(sourceReference, sourceType)
             }
         } catch (ex: SdkException) {

@@ -492,6 +492,13 @@ components:
       enum:
         - email
         - letter
+    SourceType:
+      title: SourceType
+      description: The source type of the application
+      type: string
+      enum:
+        - voter-card
+        - postal
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview
@@ -573,10 +580,25 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/BasePersonalisation'
+          $ref: '#/components/schemas/SourceType'
       required:
         - language
         - personalisation
+    GenerateApplicationReceivedTemplatePreviewRequest:
+      title: GenerateApplicationReceivedTemplatePreviewRequest
+      description: An object containing request attributes required for generating the application received template preview
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/BasePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - language
+        - personalisation
+        - sourceType
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
       type: object

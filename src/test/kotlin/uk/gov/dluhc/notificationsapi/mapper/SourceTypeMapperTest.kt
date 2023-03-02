@@ -23,7 +23,7 @@ class SourceTypeMapperTest {
         // Given
 
         // When
-        val actual = mapper.toSourceTypeDto(sourceType)
+        val actual = mapper.fromMessageToDto(sourceType)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -43,7 +43,7 @@ class SourceTypeMapperTest {
         // Given
 
         // When
-        val actual = mapper.toSourceTypeEntity(dtoType)
+        val actual = mapper.fromDtoToEntity(dtoType)
 
         // Then
         assertThat(actual).isEqualTo(expected)

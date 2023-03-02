@@ -77,7 +77,7 @@ internal class SendNotifyMessageMapperTest {
 
             given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
-            given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
 
             val request = SendNotifyPhotoResubmissionMessage(
@@ -105,7 +105,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.PHOTO_MINUS_RESUBMISSION)
-            verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
         }
     }
@@ -128,7 +128,7 @@ internal class SendNotifyMessageMapperTest {
 
             given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
-            given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
 
             val request = SendNotifyIdDocumentResubmissionMessage(
@@ -156,7 +156,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION)
-            verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
         }
     }
@@ -179,7 +179,7 @@ internal class SendNotifyMessageMapperTest {
 
             given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
-            given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
 
             val request = SendNotifyApplicationReceivedMessage(
@@ -206,7 +206,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.APPLICATION_MINUS_RECEIVED)
-            verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.POSTAL)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
         }
     }
@@ -229,7 +229,7 @@ internal class SendNotifyMessageMapperTest {
 
             given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
-            given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
 
             val request = SendNotifyApplicationApprovedMessage(
@@ -256,7 +256,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.APPLICATION_MINUS_APPROVED)
-            verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
         }
     }
@@ -299,7 +299,7 @@ internal class SendNotifyMessageMapperTest {
 
             given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
-            given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
 
             // When
@@ -317,7 +317,7 @@ internal class SendNotifyMessageMapperTest {
 
             verify(languageMapper).fromMessageToDto(request.language)
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(request.messageType)
-            verify(sourceTypeMapper).toSourceTypeDto(request.sourceType)
+            verify(sourceTypeMapper).fromMessageToDto(request.sourceType)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(request.toAddress)
         }
     }
