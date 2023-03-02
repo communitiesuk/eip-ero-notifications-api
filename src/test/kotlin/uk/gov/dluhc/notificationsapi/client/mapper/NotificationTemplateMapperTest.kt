@@ -111,11 +111,11 @@ internal class NotificationTemplateMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "SOURCE_TYPE,,APPLICATION_APPROVED",
+            "VOTER_CARD,,APPLICATION_APPROVED",
 
-            "SOURCE_TYPE,ENGLISH,APPLICATION_APPROVED",
+            "VOTER_CARD,ENGLISH,APPLICATION_APPROVED",
 
-            "SOURCE_TYPE,WELSH,APPLICATION_APPROVED",
+            "VOTER_CARD,WELSH,APPLICATION_APPROVED",
         ]
     )
     fun `should fail to map Notification Type in language for letter channel for unsupported combination`(
@@ -138,10 +138,10 @@ internal class NotificationTemplateMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "VOTER_CARD,LETTER,APPLICATION_APPROVED, letter",
+            "VOTER_CARD,,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,ENGLISH,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,WELSH,LETTER,APPLICATION_APPROVED, letter",
-            "VOTER_CARD,EMAIL,APPLICATION_REJECTED, email",
+            "VOTER_CARD,,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,ENGLISH,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,WELSH,EMAIL,APPLICATION_REJECTED, email",
         ]
