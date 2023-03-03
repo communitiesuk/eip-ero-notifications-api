@@ -45,7 +45,6 @@ class TemplateService(
         }
     }
 
-    // TODO Why does this not extend the BaseGenerateTemplatePreviewDto?
     fun generateApplicationApprovedTemplatePreview(request: GenerateApplicationApprovedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(

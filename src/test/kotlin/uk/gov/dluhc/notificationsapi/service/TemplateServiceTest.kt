@@ -18,12 +18,14 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateApplicationApprovedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateApplicationReceivedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 
@@ -117,6 +119,41 @@ class TemplateServiceTest {
             verify(notificationTemplateMapper)
                 .fromNotificationTypeForChannelInLanguage(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, channel, language)
             verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(request.personalisation)
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateApplicationReceivedTemplatePreview {
+        @Test
+        fun `should return application received template preview`() {
+            // Given
+            val templateId = "6d0490ee-e004-402e-808f-5791e8336ddb"
+            val personalisation = mapOf(
+                "subject_param" to "test subject",
+                "name_param" to "John",
+                "custom_title" to "Resubmitting photo",
+            )
+            val language = LanguageDto.ENGLISH
+            val sourceType = SourceType.POSTAL
+            val request = buildGenerateApplicationReceivedTemplatePreviewDto(
+                language = language,
+                sourceType = sourceType
+            )
+            val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(any())).willReturn(personalisation)
+
+            // When
+
+            val actual = templateService.generateApplicationReceivedTemplatePreview(request)
+
+            // Then
+            assertThat(actual).isEqualTo(expected)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
+            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(SourceType.POSTAL, NotificationType.APPLICATION_RECEIVED, NotificationChannel.EMAIL, language)
+            verify(templatePersonalisationDtoMapper).toApplicationReceivedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
     }
