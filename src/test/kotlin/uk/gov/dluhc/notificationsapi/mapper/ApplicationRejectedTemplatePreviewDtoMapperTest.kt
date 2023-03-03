@@ -14,7 +14,6 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.OTHER
@@ -22,6 +21,8 @@ import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildGenerateApplicationRejectedTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 
 @ExtendWith(MockitoExtension::class)
 class ApplicationRejectedTemplatePreviewDtoMapperTest {
@@ -33,14 +34,18 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
+
+    @Mock
     private lateinit var applicationRejectionReasonMapper: ApplicationRejectionReasonMapper
 
     @ParameterizedTest
     @EnumSource(Language::class)
     fun `should map application rejected template request to dto`(language: Language) {
         // Given
-        val request = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language)
+        val request = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language, sourceType = SourceTypeModel.VOTER_MINUS_CARD)
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
+        given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
         val incompleteApplication = "Application is incomplete"
         val applicantHasNotResponded = "Applicant has not responded to requests for information"
         val other = "other"
@@ -54,7 +59,7 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER)).willReturn(other)
 
         val expected = ApplicationRejectedTemplatePreviewDto(
-            sourceType = SourceType.VOTER_CARD,
+            sourceType = SourceTypeDto.VOTER_CARD,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
                 ApplicationRejectedPersonalisationDto(

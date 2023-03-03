@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePre
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.Language.CY
+import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -205,7 +206,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
             NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language)
+        val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language, sourceType = SourceType.VOTER_MINUS_CARD)
         val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation)
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
@@ -254,7 +255,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGenerateApplicationRejectedTemplatePreviewRequest()),
+            Mono.just(buildGenerateApplicationRejectedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
             GenerateApplicationRejectedTemplatePreviewRequest::class.java
         ) as WebTestClient.RequestBodySpec
 }

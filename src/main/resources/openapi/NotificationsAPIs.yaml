@@ -570,6 +570,8 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/ApplicationRejectedPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - personalisation
     GenerateApplicationApprovedTemplatePreviewRequest:
