@@ -5,6 +5,7 @@ import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDtoEnum
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SourceTypeMessageEnum
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApiEnum
 
 @Mapper
 interface SourceTypeMapper {
@@ -16,4 +17,8 @@ interface SourceTypeMapper {
     fun fromDtoToEntity(sourceType: SourceTypeDtoEnum): SourceTypeEntityEnum
 
     fun fromEntityToDto(sourceType: SourceTypeEntityEnum): SourceTypeDtoEnum
+
+    @ValueMapping(source = "VOTER_MINUS_CARD", target = "VOTER_CARD")
+    @ValueMapping(source = "POSTAL", target = "POSTAL")
+    fun fromApiToDto(sourceType: SourceTypeApiEnum): SourceTypeDtoEnum
 }

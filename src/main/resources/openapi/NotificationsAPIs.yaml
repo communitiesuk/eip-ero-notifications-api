@@ -580,7 +580,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/SourceType'
+          $ref: '#/components/schemas/BasePersonalisation'
       required:
         - language
         - personalisation
@@ -849,6 +849,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateApplicationRejectedTemplatePreviewRequest'
+    GenerateApplicationReceivedTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateApplicationReceivedTemplatePreviewRequest'
     GenerateApplicationApprovedTemplatePreview:
       content:
         application/json:
