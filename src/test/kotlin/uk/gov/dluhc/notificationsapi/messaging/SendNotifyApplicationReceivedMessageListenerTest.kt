@@ -36,7 +36,7 @@ internal class SendNotifyApplicationReceivedMessageListenerTest {
     private lateinit var sendNotificationService: SendNotificationService
 
     @Test
-    fun `should handle SQS SendNotifyPhotoResubmissionMessage`() {
+    fun `should handle SQS SendNotifyApplicationReceivedMessage`() {
         // Given
         val sqsMessage = aSendNotifyApplicationReceivedMessage()
         val requestDto = aSendNotificationRequestDto()

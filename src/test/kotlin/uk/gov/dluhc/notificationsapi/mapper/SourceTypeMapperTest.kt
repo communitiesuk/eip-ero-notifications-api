@@ -3,10 +3,10 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
-import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
+import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SourceTypeMessageEnum
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 
 class SourceTypeMapperTest {
     private val mapper = SourceTypeMapperImpl()
