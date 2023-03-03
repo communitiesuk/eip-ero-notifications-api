@@ -510,9 +510,12 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/IdDocumentPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - channel
         - personalisation
+        - sourceType
     GeneratePhotoResubmissionTemplatePreviewRequest:
       title: GeneratePhotoResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the photo resubmission template preview
@@ -529,6 +532,7 @@ components:
       required:
         - channel
         - personalisation
+        - sourceType
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
       description: An object containing template type and map of personalisation data for the template
@@ -544,6 +548,7 @@ components:
             surname: Blogs
       required:
         - personalisation
+        - sourceType
     GenerateTemplatePreviewResponse:
       title: GenerateTemplatePreviewResponse
       type: object
@@ -576,6 +581,7 @@ components:
           $ref: '#/components/schemas/SourceType'
       required:
         - personalisation
+        - sourceType
     GenerateApplicationApprovedTemplatePreviewRequest:
       title: GenerateApplicationApprovedTemplatePreviewRequest
       description: An object containing request attributes required for generating the application approved template preview
@@ -590,6 +596,7 @@ components:
       required:
         - language
         - personalisation
+        - sourceType
     GenerateApplicationReceivedTemplatePreviewRequest:
       title: GenerateApplicationReceivedTemplatePreviewRequest
       description: An object containing request attributes required for generating the application received template preview

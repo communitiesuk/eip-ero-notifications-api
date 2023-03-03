@@ -143,6 +143,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             {
               "channel": "email",
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",

@@ -144,6 +144,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
             {
               "channel": "email",
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "rejectionReasonList": ["incomplete-application", "no-response-from-applicant", "other"],
                 "rejectionReasonMessage": null,

@@ -98,11 +98,13 @@ class ResubmissionTemplatePreviewDtoMapperTest {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
             channel = NotificationChannelApi.LETTER,
-            language = Language.EN
+            language = Language.EN,
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.LETTER)
+        given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
 
         val expected = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
             sourceType = SourceTypeDto.VOTER_CARD,

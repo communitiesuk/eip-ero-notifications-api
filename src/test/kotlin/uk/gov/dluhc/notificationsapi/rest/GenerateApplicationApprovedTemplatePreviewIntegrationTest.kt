@@ -142,6 +142,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         val requestBody = """
             {
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
@@ -199,6 +200,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         val requestBody = """
             {
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
