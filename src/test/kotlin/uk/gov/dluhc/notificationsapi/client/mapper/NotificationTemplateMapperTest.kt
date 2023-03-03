@@ -43,43 +43,6 @@ internal class NotificationTemplateMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "VOTER_CARD,,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,,APPLICATION_RECEIVED, POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,,APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-ENGLISH",
-
-            "VOTER_CARD,ENGLISH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,ENGLISH,APPLICATION_RECEIVED, POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,ENGLISH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,ENGLISH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
-            "VOTER_CARD,ENGLISH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-ENGLISH",
-
-            "VOTER_CARD,WELSH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-WELSH",
-            "VOTER_CARD,WELSH,APPLICATION_RECEIVED, POSTAL-RECEIVED-ID-EMAIL-WELSH",
-            "VOTER_CARD,WELSH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-WELSH",
-            "VOTER_CARD,WELSH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-WELSH",
-            "VOTER_CARD,WELSH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-WELSH"
-        ]
-    )
-    fun `should map Notification Type in language for email channel to Notify Template ID`(
-        sourceType: SourceType,
-        language: LanguageDto?,
-        notificationType: NotificationType,
-        expected: String
-    ) {
-        // Given
-
-        // When
-        val notifyTemplateId = mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language)
-
-        // Then
-        assertThat(notifyTemplateId).isEqualTo(expected)
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        value = [
             "VOTER_CARD,,APPLICATION_RECEIVED, RECEIVED-ID-LETTER-ENGLISH",
             "VOTER_CARD,,APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
             "VOTER_CARD,,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-LETTER-ENGLISH",
@@ -106,6 +69,43 @@ internal class NotificationTemplateMapperTest {
 
         // When
         val notifyTemplateId = mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, LETTER, language)
+
+        // Then
+        assertThat(notifyTemplateId).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "VOTER_CARD,,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
+            "VOTER_CARD,,APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
+            "VOTER_CARD,,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
+            "VOTER_CARD,,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-ENGLISH",
+            "POSTAL,,APPLICATION_RECEIVED, POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
+
+            "VOTER_CARD,ENGLISH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
+            "VOTER_CARD,ENGLISH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
+            "VOTER_CARD,ENGLISH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
+            "VOTER_CARD,ENGLISH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-ENGLISH",
+            "POSTAL,ENGLISH,APPLICATION_RECEIVED, POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
+
+            "VOTER_CARD,WELSH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-WELSH",
+            "VOTER_CARD,WELSH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-WELSH",
+            "VOTER_CARD,WELSH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-ID-EMAIL-WELSH",
+            "VOTER_CARD,WELSH,ID_DOCUMENT_RESUBMISSION, DOCUMENT-RESUBMISSION-ID-EMAIL-WELSH",
+            "POSTAL,WELSH,APPLICATION_RECEIVED, POSTAL-RECEIVED-ID-EMAIL-WELSH"
+        ]
+    )
+    fun `should map Notification Type in language for email channel to Notify Template ID`(
+        sourceType: SourceType,
+        language: LanguageDto?,
+        notificationType: NotificationType,
+        expected: String
+    ) {
+        // Given
+
+        // When
+        val notifyTemplateId = mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language)
 
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)
