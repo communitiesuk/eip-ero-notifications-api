@@ -10,7 +10,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
@@ -21,7 +20,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhoto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel as NotificationChannelApi
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 
 @ExtendWith(MockitoExtension::class)
 class ResubmissionTemplatePreviewDtoMapperTest {
@@ -35,19 +36,24 @@ class ResubmissionTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var channelMapper: NotificationChannelMapper
 
+    @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
+
     @Test
     fun `should map photo template request to dto`() {
         // Given
         val request = buildGeneratePhotoResubmissionTemplatePreviewRequest(
             channel = NotificationChannelApi.EMAIL,
-            language = Language.EN
+            language = Language.EN,
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.EMAIL)
+        given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
 
         val expected = buildGeneratePhotoResubmissionTemplatePreviewDto(
-            sourceType = SourceType.VOTER_CARD,
+            sourceType = SourceTypeDto.VOTER_CARD,
             channel = NotificationChannelDto.EMAIL,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
@@ -99,7 +105,7 @@ class ResubmissionTemplatePreviewDtoMapperTest {
         given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.LETTER)
 
         val expected = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
-            sourceType = SourceType.VOTER_CARD,
+            sourceType = SourceTypeDto.VOTER_CARD,
             channel = NotificationChannelDto.LETTER,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {

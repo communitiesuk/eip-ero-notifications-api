@@ -524,6 +524,8 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/PhotoPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - channel
         - personalisation
@@ -583,6 +585,8 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/BasePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - language
         - personalisation

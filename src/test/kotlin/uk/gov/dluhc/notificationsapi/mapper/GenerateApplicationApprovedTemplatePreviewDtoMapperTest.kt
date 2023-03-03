@@ -10,13 +10,14 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateApplicationApprovedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 
 @ExtendWith(MockitoExtension::class)
 class GenerateApplicationApprovedTemplatePreviewDtoMapperTest {
@@ -27,17 +28,22 @@ class GenerateApplicationApprovedTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var languageMapper: LanguageMapper
 
+    @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
+
     @Test
     fun `should map application approved template request to dto`() {
         // Given
         val request = buildGenerateApplicationApprovedTemplatePreviewRequest(
-            language = Language.EN
+            language = Language.EN,
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
+        given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
 
         val expected = buildGenerateApplicationApprovedTemplatePreviewDto(
-            sourceType = SourceType.VOTER_CARD,
+            sourceType = SourceTypeDto.VOTER_CARD,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
                 buildApplicationApprovedPersonalisationDto(
