@@ -166,13 +166,10 @@ internal class NotificationTemplateMapperTest {
         value = [
             "VOTER_CARD,,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,ENGLISH,LETTER,APPLICATION_APPROVED, letter",
-            "VOTER_CARD,WELSH,LETTER,APPLICATION_APPROVED, letter",
-            "VOTER_CARD,,EMAIL,APPLICATION_REJECTED, email",
-            "VOTER_CARD,ENGLISH,EMAIL,APPLICATION_REJECTED, email",
-            "VOTER_CARD,WELSH,EMAIL,APPLICATION_REJECTED, email",
+            "VOTER_CARD,WELSH,LETTER,APPLICATION_APPROVED, letter"
         ]
     )
-    fun `should fail to map Template Type in language for unsupported combination`(
+    fun `should fail to map letter Template Type in language for unsupported combination`(
         sourceType: SourceType,
         language: LanguageDto?,
         channel: NotificationChannel,
@@ -188,6 +185,32 @@ internal class NotificationTemplateMapperTest {
         assertThat(error)
             .isInstanceOfAny(IllegalStateException::class.java)
             .hasMessage("No $channelString template defined in ${language.toMessage()} for notification type $templateType")
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "VOTER_CARD,,EMAIL,APPLICATION_REJECTED, email",
+            "VOTER_CARD,ENGLISH,EMAIL,APPLICATION_REJECTED, email",
+            "VOTER_CARD,WELSH,EMAIL,APPLICATION_REJECTED, email",
+        ]
+    )
+    fun `should fail to map email Template Type in language for unsupported combination`(
+        sourceType: SourceType,
+        language: LanguageDto?,
+        channel: NotificationChannel,
+        templateType: NotificationType,
+        channelString: String
+    ) {
+        // Given
+
+        // When
+        val error = catchException { mapper.fromNotificationTypeForChannelInLanguage(sourceType, templateType, channel, language) }
+
+        // Then
+        assertThat(error)
+            .isInstanceOfAny(IllegalStateException::class.java)
+            .hasMessage("No $channelString template defined in ${language.toMessage()} for notification type $templateType and sourceType $sourceType")
     }
 }
 

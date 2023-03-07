@@ -45,7 +45,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionWelsh
         else -> {
-            throw IllegalStateException("No email template defined in Welsh for notification type $notificationType")
+            throw IllegalStateException("No email template defined in Welsh for notification type $notificationType and sourceType $sourceType")
         }
     }
 

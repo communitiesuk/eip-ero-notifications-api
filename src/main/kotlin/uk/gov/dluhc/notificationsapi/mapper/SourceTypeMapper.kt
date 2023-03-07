@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
+import org.mapstruct.InheritInverseConfiguration
 import org.mapstruct.Mapper
 import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
@@ -16,6 +17,7 @@ interface SourceTypeMapper {
 
     fun fromDtoToEntity(sourceType: SourceTypeDtoEnum): SourceTypeEntityEnum
 
+    @InheritInverseConfiguration
     fun fromEntityToDto(sourceType: SourceTypeEntityEnum): SourceTypeDtoEnum
 
     @ValueMapping(source = "VOTER_MINUS_CARD", target = "VOTER_CARD")

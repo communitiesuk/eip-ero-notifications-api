@@ -95,6 +95,7 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(language)
+        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(INCOMPLETE_MINUS_APPLICATION)
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
             NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT

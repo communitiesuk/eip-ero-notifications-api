@@ -77,5 +77,6 @@ class GenerateApplicationReceivedTemplatePreviewDtoMapperTest {
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
+        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
     }
 }
