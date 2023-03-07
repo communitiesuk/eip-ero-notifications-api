@@ -108,7 +108,7 @@ paths:
         in: path
         required: true
       - name: applicationId
-        description: The identifier of the Voter Card Application to retrieve the communications history.
+        description: The identifier of the Anonymous Application to retrieve the communications history.
         schema:
           type: string
         in: path
@@ -152,7 +152,10 @@ paths:
                 {}
     post:
       summary: Create an offline communication confirmation
-      description: Create an offline communication confirmation
+      description: |
+        Allows the ERO user to confirm they have contacted the anonymous elector "offline" 
+        (for example by email or post) after they have rejected a photo, document or the application itself. 
+        A new record of the confirmation is created each time.
       operationId: create-offline-communication-confirmation
       tags:
         - Anonymous Elector Document - Communications History
@@ -882,6 +885,7 @@ components:
       enum:
         - email
         - letter
+        - telephone
     CreateOfflineCommunicationConfirmationRequest:
       title: CreateOfflineCommunicationConfirmationRequest
       description: The data to audit that an offline communication has been sent by the ERO to an applicant.
