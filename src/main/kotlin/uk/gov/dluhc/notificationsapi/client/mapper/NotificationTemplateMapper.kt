@@ -55,7 +55,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionEnglish
         else -> {
-            throw IllegalStateException("No email template defined in English for notification type $notificationType")
+            throw IllegalStateException("No email template defined in English for notification type $notificationType and sourceType $sourceType")
         }
     }
 
