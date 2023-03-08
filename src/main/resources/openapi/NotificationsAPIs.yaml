@@ -38,7 +38,7 @@ paths:
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Voter Card Application Communications History
+        - Voter Card Application - Communications History
       responses:
         200:
           description: Default response for CORS method
@@ -74,7 +74,7 @@ paths:
       summary: Returns the communication history for a Voter Card Application
       description: Returns the communication history for a Voter Card Application, sorted by the communication sent date in descending order (most recent first).
       tags:
-        - Voter Card Application Communications History
+        - Voter Card Application - Communications History
       responses:
         '200':
           $ref: '#/components/responses/CommunicationsHistory'
@@ -94,6 +94,103 @@ paths:
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
         httpMethod: GET
+
+  #
+  # Anonymous Elector Document - Communications History
+  # ------------------------------------
+
+  '/eros/{eroId}/communications/anonymous-applications/{applicationId}':
+    parameters:
+      - name: eroId
+        description: The ID of the Electoral Registration Office responsible for the Application.
+        schema:
+          type: string
+        in: path
+        required: true
+      - name: applicationId
+        description: The identifier of the Anonymous Application to retrieve the communications history.
+        schema:
+          type: string
+        in: path
+        required: true
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Anonymous Elector Document - Communications History
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Create an offline communication confirmation for Anonymous Elector document applications
+      description: |
+        Allows the ERO user to confirm they have contacted the anonymous elector "offline" 
+        (for example by email or post) after they have rejected a photo, document or the application itself. 
+        A new record of the confirmation is created each time.
+      operationId: create-offline-communication-confirmation
+      tags:
+        - Anonymous Elector Document - Communications History
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOfflineCommunicationConfirmation'
+      responses:
+        '204':
+          description: The offline communication confirmation was successfully processed
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/eros/{eroId}/communications/anonymous-applications/{applicationId}'
+        requestParameters:
+          integration.request.path.eroId: method.request.path.eroId
+          integration.request.path.applicationId: method.request.path.applicationId
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
 
   #
   # --------------------------------------------------------------------------------
@@ -804,6 +901,39 @@ components:
         - inaccurate-information
         - fraudulent-application
         - other
+    OfflineCommunicationReason:
+      title: OfflineCommunicationReason
+      description: The reason that an offline communication was sent
+      type: string
+      enum:
+        - application-rejected
+        - photo-rejected
+        - document-rejected
+    OfflineCommunicationChannel:
+      title: OfflineCommunicationChannel
+      description: The offline communication channel that was used to notify an applicant
+      type: string
+      enum:
+        - email
+        - letter
+        - telephone
+    CreateOfflineCommunicationConfirmationRequest:
+      title: CreateOfflineCommunicationConfirmationRequest
+      description: The data to audit that an offline communication has been sent by the ERO to an applicant.
+      type: object
+      properties:
+        gssCode:
+          type: string
+          description: The relevant GSS code for the local authority.
+          example: 'E09000007'
+        reason:
+          $ref: '#/components/schemas/OfflineCommunicationReason'
+        channel:
+          $ref: '#/components/schemas/OfflineCommunicationChannel'
+      required:
+        - gssCode
+        - reason
+        - channel
 
   #
   # Response Body Definitions
@@ -876,6 +1006,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateTemplatePreviewRequest'
+    CreateOfflineCommunicationConfirmation:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateOfflineCommunicationConfirmationRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:
