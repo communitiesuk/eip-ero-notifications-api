@@ -1,19 +1,20 @@
-package uk.gov.dluhc.notificationsapi.testsupport.testdata.api
+package uk.gov.dluhc.notificationsapi.testsupport.testdata.models
 
 import uk.gov.dluhc.notificationsapi.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.models.ContactDetails
-import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetailsRequest
 
-fun buildGenerateApplicationApprovedTemplatePreviewRequest(
+fun buildGenerateApplicationReceivedTemplatePreviewRequest(
     language: Language = Language.EN,
     personalisation: BasePersonalisation = buildBasePersonalisation(),
     sourceType: SourceType
-): GenerateApplicationApprovedTemplatePreviewRequest =
-    GenerateApplicationApprovedTemplatePreviewRequest(
+): GenerateApplicationReceivedTemplatePreviewRequest =
+    GenerateApplicationReceivedTemplatePreviewRequest(
         language = language,
         personalisation = personalisation,
         sourceType = sourceType

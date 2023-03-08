@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
+import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert.Companion.assertThat
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -142,6 +143,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             {
               "channel": "email",
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
@@ -201,6 +203,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             {
               "channel": "email",
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
@@ -264,7 +267,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = PHOTO_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest()
+        val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
@@ -311,7 +314,8 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(
-            personalisation = buildPhotoResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()))
+            personalisation = buildPhotoResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
+            sourceType = SourceType.VOTER_MINUS_CARD
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -355,7 +359,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGeneratePhotoResubmissionTemplatePreviewRequest()),
+            Mono.just(buildGeneratePhotoResubmissionTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
             GeneratePhotoResubmissionTemplatePreviewRequest::class.java
         ) as WebTestClient.RequestBodySpec
 }

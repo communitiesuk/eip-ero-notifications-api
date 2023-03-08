@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.AddressDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
@@ -38,6 +39,17 @@ fun buildIdDocumentPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
         idDocumentRequestFreeText = idDocumentRequestFreeText,
+        eroContactDetails = eroContactDetails
+    )
+
+fun buildApplicationReceivedPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+): ApplicationReceivedPersonalisationDto =
+    ApplicationReceivedPersonalisationDto(
+        applicationReference = applicationReference,
+        firstName = firstName,
         eroContactDetails = eroContactDetails
     )
 
@@ -91,6 +103,35 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
             applicationReference = applicationReference,
             firstName = firstName,
             idDocumentRequestFreeText = idDocumentRequestFreeText,
+            eroContactDetails = with(eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode,
+                        )
+                    }
+                )
+            }
+        )
+    }
+}
+
+fun buildApplicationReceivedPersonalisationDtoFromMessage(
+    personalisationMessage: BasePersonalisation
+): ApplicationReceivedPersonalisationDto {
+    return with(personalisationMessage) {
+        ApplicationReceivedPersonalisationDto(
+            applicationReference = applicationReference,
+            firstName = firstName,
             eroContactDetails = with(eroContactDetails) {
                 buildContactDetailsDto(
                     localAuthorityName = localAuthorityName,
@@ -177,6 +218,31 @@ fun buildIdDocumentPersonalisationMapFromDto(
         personalisationMap["applicationReference"] = applicationReference
         personalisationMap["firstName"] = firstName
         personalisationMap["documentRequestFreeText"] = idDocumentRequestFreeText
+        with(eroContactDetails) {
+            personalisationMap["LAName"] = localAuthorityName
+            personalisationMap["eroPhone"] = phone
+            personalisationMap["eroWebsite"] = website
+            personalisationMap["eroEmail"] = email
+            with(address) {
+                personalisationMap["eroAddressLine1"] = property ?: ""
+                personalisationMap["eroAddressLine2"] = street
+                personalisationMap["eroAddressLine3"] = town ?: ""
+                personalisationMap["eroAddressLine4"] = area ?: ""
+                personalisationMap["eroAddressLine5"] = locality ?: ""
+                personalisationMap["eroPostcode"] = postcode
+            }
+        }
+    }
+    return personalisationMap
+}
+
+fun buildApplicationReceivedPersonalisationMapFromDto(
+    personalisationDto: ApplicationReceivedPersonalisationDto = buildApplicationReceivedPersonalisationDto(),
+): Map<String, String> {
+    val personalisationMap = mutableMapOf<String, String>()
+    with(personalisationDto) {
+        personalisationMap["applicationReference"] = applicationReference
+        personalisationMap["firstName"] = firstName
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone

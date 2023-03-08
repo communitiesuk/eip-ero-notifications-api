@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.8.0'
+  version: '1.9.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -491,6 +491,13 @@ components:
       enum:
         - email
         - letter
+    SourceType:
+      title: SourceType
+      description: The source type of the application
+      type: string
+      enum:
+        - voter-card
+        - postal
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview
@@ -502,9 +509,12 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/IdDocumentPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - channel
         - personalisation
+        - sourceType
     GeneratePhotoResubmissionTemplatePreviewRequest:
       title: GeneratePhotoResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the photo resubmission template preview
@@ -516,9 +526,12 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/PhotoPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - channel
         - personalisation
+        - sourceType
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
       description: An object containing template type and map of personalisation data for the template
@@ -534,6 +547,7 @@ components:
             surname: Blogs
       required:
         - personalisation
+        - sourceType
     GenerateTemplatePreviewResponse:
       title: GenerateTemplatePreviewResponse
       type: object
@@ -562,8 +576,11 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/ApplicationRejectedPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - personalisation
+        - sourceType
     GenerateApplicationApprovedTemplatePreviewRequest:
       title: GenerateApplicationApprovedTemplatePreviewRequest
       description: An object containing request attributes required for generating the application approved template preview
@@ -573,9 +590,27 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/BasePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
       required:
         - language
         - personalisation
+        - sourceType
+    GenerateApplicationReceivedTemplatePreviewRequest:
+      title: GenerateApplicationReceivedTemplatePreviewRequest
+      description: An object containing request attributes required for generating the application received template preview
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/BasePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - language
+        - personalisation
+        - sourceType
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
       type: object
@@ -826,6 +861,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateApplicationRejectedTemplatePreviewRequest'
+    GenerateApplicationReceivedTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateApplicationReceivedTemplatePreviewRequest'
     GenerateApplicationApprovedTemplatePreview:
       content:
         application/json:

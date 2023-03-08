@@ -21,6 +21,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildIdDocumentRes
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit.MILLIS
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 
 internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : IntegrationTest() {
 
@@ -142,6 +143,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
             {
               "channel": "email",
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
@@ -200,6 +202,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
             {
               "channel": "email",
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
@@ -261,7 +264,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest()
+        val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(sourceType = SourceTypeModel.VOTER_MINUS_CARD)
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
@@ -307,7 +310,8 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            personalisation = buildIdDocumentResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()))
+            personalisation = buildIdDocumentResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -350,7 +354,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGenerateIdDocumentResubmissionTemplatePreviewRequest()),
+            Mono.just(buildGenerateIdDocumentResubmissionTemplatePreviewRequest(sourceType = SourceTypeModel.VOTER_MINUS_CARD)),
             GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java
         ) as WebTestClient.RequestBodySpec
 }
