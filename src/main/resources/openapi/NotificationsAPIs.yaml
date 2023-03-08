@@ -151,7 +151,7 @@ paths:
               application/json: |
                 {}
     post:
-      summary: Create an offline communication confirmation
+      summary: Create an offline communication confirmation for Anonymous Elector document applications
       description: |
         Allows the ERO user to confirm they have contacted the anonymous elector "offline" 
         (for example by email or post) after they have rejected a photo, document or the application itself. 
@@ -188,10 +188,6 @@ paths:
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
           integration.request.path.applicationId: method.request.path.applicationId
-        responseParameters:
-          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
-          method.response.header.Access-Control-Allow-Methods: '''*'''
-          method.response.header.Access-Control-Allow-Origin: '''*'''
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
