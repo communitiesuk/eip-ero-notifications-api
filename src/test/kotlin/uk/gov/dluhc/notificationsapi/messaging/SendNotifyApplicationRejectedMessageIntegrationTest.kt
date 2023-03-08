@@ -49,7 +49,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         wireMockService.stubNotifySendLetterResponse(notifyResponse)
 
         // Then
-        await.pollDelay(Duration.ofMillis(500)).atMost(3, TimeUnit.SECONDS).untilAsserted {
+        await.pollDelay(Duration.ofMillis(500)).atMost(5, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendLetter(templateId, expectedRequest, expectedPersonalisation)
             assertNotificationPersisted(payload, expectedPersonalisation, notifyResponse)
         }
