@@ -21,6 +21,8 @@ import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
+import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
+import uk.gov.dluhc.notificationsapi.testsupport.getRandomEroId
 import uk.gov.service.notify.NotificationClient
 
 /**
@@ -89,6 +91,8 @@ internal abstract class IntegrationTest {
     protected lateinit var objectMapper: ObjectMapper
 
     companion object {
+        val ERO_ID = getRandomEroId()
+        val OTHER_ERO_ID = getDifferentRandomEroId(ERO_ID)
         val localStackContainer = LocalStackContainerConfiguration.getInstance()
     }
 
