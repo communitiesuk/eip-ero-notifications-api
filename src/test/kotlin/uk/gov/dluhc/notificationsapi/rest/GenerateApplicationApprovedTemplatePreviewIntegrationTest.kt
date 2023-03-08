@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
+import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert.Companion.assertThat
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -141,6 +142,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         val requestBody = """
             {
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
@@ -191,12 +193,14 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
     @Test
     fun `should return template preview given valid json request`() {
         // Given
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = APPLICATION_APPROVED_EN_TEMPLATE_ID)
+        val notifyClientResponse =
+            NotifyGenerateTemplatePreviewSuccessResponse(id = APPLICATION_APPROVED_EN_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = """
             {
               "language": "en",
+              "sourceType": "voter-card",
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
@@ -247,16 +251,21 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(APPLICATION_APPROVED_EN_TEMPLATE_ID, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(
+            APPLICATION_APPROVED_EN_TEMPLATE_ID,
+            expectedPersonalisationDataMap
+        )
     }
 
     @Test
     fun `should return template preview given valid request with all values populated`() {
         // Given
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = APPLICATION_APPROVED_EN_TEMPLATE_ID)
+        val notifyClientResponse =
+            NotifyGenerateTemplatePreviewSuccessResponse(id = APPLICATION_APPROVED_EN_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateApplicationApprovedTemplatePreviewRequest()
+        val requestBody =
+            buildGenerateApplicationApprovedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
@@ -291,17 +300,22 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(APPLICATION_APPROVED_EN_TEMPLATE_ID, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(
+            APPLICATION_APPROVED_EN_TEMPLATE_ID,
+            expectedPersonalisationDataMap
+        )
     }
 
     @Test
     fun `should return template preview given valid request when optional values not populated`() {
         // Given
-        val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = APPLICATION_APPROVED_EN_TEMPLATE_ID)
+        val notifyClientResponse =
+            NotifyGenerateTemplatePreviewSuccessResponse(id = APPLICATION_APPROVED_EN_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateApplicationApprovedTemplatePreviewRequest(
-            personalisation = buildBasePersonalisation(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()))
+            personalisation = buildBasePersonalisation(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
+            sourceType = SourceType.VOTER_MINUS_CARD
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -338,12 +352,15 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         // Then
         val actual = response.responseBody.blockFirst()
         Assertions.assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(APPLICATION_APPROVED_EN_TEMPLATE_ID, expectedPersonalisationDataMap)
+        wireMockService.verifyNotifyGenerateTemplatePreview(
+            APPLICATION_APPROVED_EN_TEMPLATE_ID,
+            expectedPersonalisationDataMap
+        )
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGenerateApplicationApprovedTemplatePreviewRequest()),
+            Mono.just(buildGenerateApplicationApprovedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
             GenerateApplicationApprovedTemplatePreviewRequest::class.java
         ) as WebTestClient.RequestBodySpec
 }

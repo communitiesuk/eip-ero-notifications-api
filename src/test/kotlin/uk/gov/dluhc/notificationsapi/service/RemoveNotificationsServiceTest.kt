@@ -34,21 +34,21 @@ internal class RemoveNotificationsServiceTest {
     fun `should remove application notifications`() {
         // Given
         val removeNotificationsDto = aRemoveNotificationsDto()
-        given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(VOTER_CARD)
+        given(sourceTypeMapper.fromDtoToEntity(any())).willReturn(VOTER_CARD)
 
         // When
         removeNotificationsService.remove(removeNotificationsDto)
 
         // Then
         verify(notificationRepository).removeBySourceReference(removeNotificationsDto.sourceReference, VOTER_CARD)
-        verify(sourceTypeMapper).toSourceTypeEntity(removeNotificationsDto.sourceType)
+        verify(sourceTypeMapper).fromDtoToEntity(removeNotificationsDto.sourceType)
     }
 
     @Test
     fun `should not remove application notifications given SdkException`() {
         // Given
         val removeNotificationsDto = aRemoveNotificationsDto()
-        given(sourceTypeMapper.toSourceTypeEntity(any())).willReturn(VOTER_CARD)
+        given(sourceTypeMapper.fromDtoToEntity(any())).willReturn(VOTER_CARD)
         given(notificationRepository.removeBySourceReference(any(), any())).willThrow(SdkClientException.create("SDK exception"))
 
         // When

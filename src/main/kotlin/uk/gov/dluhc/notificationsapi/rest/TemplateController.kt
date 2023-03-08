@@ -4,10 +4,12 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import uk.gov.dluhc.notificationsapi.mapper.ApplicationReceivedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateApplicationApprovedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.ResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
@@ -20,6 +22,7 @@ import javax.validation.Valid
 class TemplateController(
     private val templateService: TemplateService,
     private val resubmissionTemplatePreviewDtoMapper: ResubmissionTemplatePreviewDtoMapper,
+    private val applicationReceivedTemplatePreviewDtoMapper: ApplicationReceivedTemplatePreviewDtoMapper,
     private val applicationApprovedTemplatePreviewDtoMapper: GenerateApplicationApprovedTemplatePreviewDtoMapper,
     private val applicationRejectedTemplatePreviewDtoMapper: ApplicationRejectedTemplatePreviewDtoMapper
 ) {
@@ -46,6 +49,21 @@ class TemplateController(
         return with(
             templateService.generateIdDocumentResubmissionTemplatePreview(
                 resubmissionTemplatePreviewDtoMapper.toIdDocumentResubmissionTemplatePreviewDto(
+                    request
+                )
+            )
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
+    }
+
+    @PostMapping("/templates/application-received/preview")
+    fun generateApplicationReceivedTemplatePreview(
+        @Valid @RequestBody request: GenerateApplicationReceivedTemplatePreviewRequest
+    ): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generateApplicationReceivedTemplatePreview(
+                applicationReceivedTemplatePreviewDtoMapper.toApplicationReceivedTemplatePreviewDto(
                     request
                 )
             )

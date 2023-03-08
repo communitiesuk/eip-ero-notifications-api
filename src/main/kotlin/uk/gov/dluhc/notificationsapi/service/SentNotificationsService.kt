@@ -33,7 +33,7 @@ class SentNotificationsService(
         eroService.lookupGssCodesForEro(eroId).let { gssCodes ->
             notificationRepository.getNotificationSummariesBySourceReference(
                 sourceReference = sourceReference,
-                sourceType = sourceTypeMapper.toSourceTypeEntity(sourceType),
+                sourceType = sourceTypeMapper.fromDtoToEntity(sourceType),
                 gssCodes = gssCodes,
             )
         }.sortedByDescending {

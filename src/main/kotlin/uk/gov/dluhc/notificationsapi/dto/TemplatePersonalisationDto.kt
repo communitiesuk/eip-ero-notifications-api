@@ -39,6 +39,16 @@ class ApplicationApprovedPersonalisationDto(
     eroContactDetails = eroContactDetails
 )
 
+class ApplicationReceivedPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)
+
 class ApplicationRejectedPersonalisationDto(
     applicationReference: String,
     firstName: String,

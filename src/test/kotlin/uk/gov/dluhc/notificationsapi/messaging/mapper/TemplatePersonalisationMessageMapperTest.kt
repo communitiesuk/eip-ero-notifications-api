@@ -17,10 +17,12 @@ import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDtoFromMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationReceivedPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationApprovedPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationReceivedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
@@ -60,6 +62,23 @@ internal class TemplatePersonalisationMessageMapperTest {
 
             // When
             val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+        }
+    }
+
+    @Nested
+    inner class ToReceivedPersonalisationDto {
+        @Test
+        fun `should map SQS Application Received Personalisation to ApplicationReceivedPersonalisationDto`() {
+            // Given
+            val personalisationMessage = buildApplicationReceivedPersonalisation()
+            val expectedPersonalisationDto =
+                buildApplicationReceivedPersonalisationDtoFromMessage(personalisationMessage)
+
+            // When
+            val actual = mapper.toReceivedPersonalisationDto(personalisationMessage)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)

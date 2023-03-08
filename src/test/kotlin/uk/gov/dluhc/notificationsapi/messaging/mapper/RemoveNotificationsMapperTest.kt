@@ -30,12 +30,12 @@ internal class RemoveNotificationsMapperTest {
         val sourceType = SqsSourceType.VOTER_MINUS_CARD
         val request = RemoveApplicationNotificationsMessage(sourceReference = sourceReference, sourceType = sourceType)
         val expectedSourceType = SourceType.VOTER_CARD
-        given(sourceTypeMapper.toSourceTypeDto(any())).willReturn(expectedSourceType)
+        given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
 
         val removeNotificationsDto = removeNotificationsMapper.toRemoveNotificationsDto(request)
 
         assertThat(removeNotificationsDto.sourceType).isEqualTo(expectedSourceType)
         assertThat(removeNotificationsDto.sourceReference).isEqualTo(sourceReference)
-        verify(sourceTypeMapper).toSourceTypeDto(SqsSourceType.VOTER_MINUS_CARD)
+        verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
     }
 }

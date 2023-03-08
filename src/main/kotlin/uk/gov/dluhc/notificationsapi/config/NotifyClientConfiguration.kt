@@ -19,6 +19,8 @@ class NotifyClientConfiguration {
 data class NotifyEmailTemplateConfiguration(
     val receivedEnglish: String,
     val receivedWelsh: String,
+    val postalReceivedEnglish: String,
+    val postalReceivedWelsh: String,
     val approvedEnglish: String,
     val approvedWelsh: String,
     val photoResubmissionEnglish: String,

@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.service
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
@@ -20,7 +21,7 @@ class TemplateService(
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
@@ -29,8 +30,17 @@ class TemplateService(
     fun generateIdDocumentResubmissionTemplatePreview(request: GenerateIdDocumentResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation)
+            )
+        }
+    }
+
+    fun generateApplicationReceivedTemplatePreview(request: ApplicationReceivedTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(request) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
+                templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(personalisation)
             )
         }
     }
@@ -38,7 +48,7 @@ class TemplateService(
     fun generateApplicationApprovedTemplatePreview(request: GenerateApplicationApprovedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(personalisation)
             )
         }
@@ -47,7 +57,7 @@ class TemplateService(
     fun generateApplicationRejectedTemplatePreview(dto: ApplicationRejectedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(dto) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
                 templatePersonalisationDtoMapper.toApplicationRejectedTemplatePersonalisationMap(personalisation)
             )
         }

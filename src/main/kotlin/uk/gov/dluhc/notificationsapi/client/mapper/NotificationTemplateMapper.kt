@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 
 /**
  * Gets the Notification Template ID configured for each message type.
@@ -22,38 +23,39 @@ class NotificationTemplateMapper(
     private val notifyLetterTemplateConfiguration: NotifyLetterTemplateConfiguration,
 ) {
     fun fromNotificationTypeForChannelInLanguage(
+        sourceType: SourceType,
         notificationType: NotificationType,
         channel: NotificationChannel,
         language: LanguageDto?
     ): String {
         return when (channel) {
-            NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(notificationType, language)
+            NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(sourceType, notificationType, language)
             NotificationChannel.LETTER -> fromLetterNotificationTypeInLanguage(notificationType, language)
         }
     }
 
-    private fun fromEmailNotificationTypeInLanguage(notificationType: NotificationType, language: LanguageDto?) =
-        if (useEnglishTemplate(language)) englishEmail(notificationType) else welshEmail(notificationType)
+    private fun fromEmailNotificationTypeInLanguage(sourceType: SourceType, notificationType: NotificationType, language: LanguageDto?) =
+        if (useEnglishTemplate(language)) englishEmail(sourceType, notificationType) else welshEmail(sourceType, notificationType)
 
     private fun useEnglishTemplate(language: LanguageDto?) = language == null || language == ENGLISH
 
-    private fun welshEmail(notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> notifyEmailTemplateConfiguration.receivedWelsh
+    private fun welshEmail(sourceType: SourceType, notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> getApplicationReceivedWelshEmailTemplateConfig(sourceType)
         APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedWelsh
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionWelsh
         else -> {
-            throw IllegalStateException("No email template defined in Welsh for notification type $notificationType")
+            throw IllegalStateException("No email template defined in Welsh for notification type $notificationType and sourceType $sourceType")
         }
     }
 
-    private fun englishEmail(notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> notifyEmailTemplateConfiguration.receivedEnglish
+    private fun englishEmail(sourceType: SourceType, notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> getApplicationReceivedEnglishEmailTemplateConfig(sourceType)
         APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedEnglish
         PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionEnglish
         else -> {
-            throw IllegalStateException("No email template defined in English for notification type $notificationType")
+            throw IllegalStateException("No email template defined in English for notification type $notificationType and sourceType $sourceType")
         }
     }
 
@@ -78,5 +80,15 @@ class NotificationTemplateMapper(
         else -> {
             throw IllegalStateException("No letter template defined in English for notification type $notificationType")
         }
+    }
+
+    private fun getApplicationReceivedEnglishEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
+        SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedEnglish
+        SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedEnglish
+    }
+
+    private fun getApplicationReceivedWelshEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
+        SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
+        SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
     }
 }
