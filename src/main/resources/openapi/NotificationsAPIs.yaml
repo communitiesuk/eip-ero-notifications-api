@@ -191,7 +191,32 @@ paths:
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
-
+    get:
+      summary: Returns the offline communication confirmation history for an Anonymous Elector Document application
+      description: |
+        Returns the offline communication confirmation history for an Anonymous Elector Document application,
+        sorted by the most recently submitted first. Multiple entries can be returned with the same reason.
+      tags:
+        - Anonymous Elector Document - Communications History
+      responses:
+        '200':
+          $ref: '#/components/responses/CommunicationConfirmationHistory'
+      operationId: get-offline-communication-confirmation-history-by-application-id
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/eros/{eroId}/communications/anonymous-applications/{applicationId}'
+        requestParameters:
+          integration.request.path.eroId: method.request.path.eroId
+          integration.request.path.applicationId: method.request.path.applicationId
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: GET
   #
   # --------------------------------------------------------------------------------
   # RPC style endpoints start here
@@ -934,6 +959,47 @@ components:
         - gssCode
         - reason
         - channel
+    CommunicationConfirmationHistoryResponse:
+      title: CommunicationConfirmationHistoryResponse
+      description: Response containing a list of the communication confirmation history entries for an application
+      type: array
+      items:
+        $ref: '#/components/schemas/CommunicationConfirmationHistoryEntry'
+    CommunicationConfirmationHistoryEntry:
+      title: CommunicationConfirmationHistoryEntry
+      description: The data auditing an offline communication that has been sent by the ERO to an applicant.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID of the communication
+          example: '7dcf22b7-cf2f-47e6-b548-0afab1a359fd'
+        gssCode:
+          type: string
+          description: The relevant GSS code for the local authority.
+          example: 'E09000007'
+        reason:
+          $ref: '#/components/schemas/OfflineCommunicationReason'
+        channel:
+          $ref: '#/components/schemas/OfflineCommunicationChannel'
+        requestor:
+          type: string
+          description: The User ID of the user that originally requested the communication as part of processing the application.
+          example: fred@some-ero.gov.uk
+        timestamp:
+          type: string
+          format: date-time
+          example: '2022-09-28T18:01:42.105Z'
+          description: The timestamp that the communication was sent.
+      required:
+        - id
+        - gssCode
+        - reason
+        - channel
+        - type
+        - requestor
+        - timestamp
 
   #
   # Response Body Definitions
@@ -971,6 +1037,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CommunicationsHistoryResponse'
+    CommunicationConfirmationHistory:
+      description: Response containing the offline communication confirmation history for an application
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommunicationConfirmationHistoryResponse'
 
   #
   # Request Body Definitions
