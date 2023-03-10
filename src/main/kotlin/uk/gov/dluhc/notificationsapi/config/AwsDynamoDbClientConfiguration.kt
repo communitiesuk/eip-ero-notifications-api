@@ -34,5 +34,6 @@ class AwsDynamoDbClientConfiguration {
 @ConstructorBinding
 data class DynamoDbConfiguration(
     val notificationsTableName: String,
+    val communicationConfirmationsTableName: String,
     val endpoint: URI?
 )

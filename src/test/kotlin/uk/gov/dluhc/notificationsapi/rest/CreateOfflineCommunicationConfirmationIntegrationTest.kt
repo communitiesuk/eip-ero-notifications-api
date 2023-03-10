@@ -1,17 +1,24 @@
 package uk.gov.dluhc.notificationsapi.rest
 
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationChannel
+import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationReason
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType
 import uk.gov.dluhc.notificationsapi.models.CreateOfflineCommunicationConfirmationRequest
 import uk.gov.dluhc.notificationsapi.models.OfflineCommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.OfflineCommunicationReason
+import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.entity.CommunicationConfirmationAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
-import uk.gov.dluhc.notificationsapi.testsupport.getRandomGssCode
+import uk.gov.dluhc.notificationsapi.testsupport.model.buildElectoralRegistrationOfficeResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerTokenWithAllRolesExcept
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getVCAnonymousAdminBearerToken
+import java.time.LocalDateTime
 
 internal class CreateOfflineCommunicationConfirmationIntegrationTest : IntegrationTest() {
 
@@ -87,8 +94,52 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             .isForbidden
     }
 
+    @Test
+    fun `should successfully save an offline communication confirmation`() {
+        // Given
+        wireMockService.stubCognitoJwtIssuerResponse()
+        val eroResponse = buildElectoralRegistrationOfficeResponse(id = ERO_ID)
+        wireMockService.stubEroManagementGetEroByEroId(eroResponse, ERO_ID)
+
+        val gssCode = eroResponse.localAuthorities.first().gssCode
+        val sourceReference = aSourceReference()
+        val reason = OfflineCommunicationReason.APPLICATION_MINUS_REJECTED
+        val channel = OfflineCommunicationChannel.LETTER
+        val requestor = "an-ero-user1@$ERO_ID.gov.uk"
+
+        // When
+        webTestClient.post()
+            .uri(URI_TEMPLATE, ERO_ID, sourceReference)
+            // the group ero-vc-anonymous-admin-$ERO_ID is required to be successful
+            .bearerToken(getVCAnonymousAdminBearerToken(ERO_ID, requestor))
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(
+                buildBody(gssCode = gssCode, reason = reason, channel = channel),
+                CreateOfflineCommunicationConfirmationRequest::class.java
+            )
+            .exchange()
+            .expectStatus()
+            .isNoContent
+
+        // Then
+        val actualEntity = communicationConfirmationRepository.getBySourceReferenceAndTypeAndGssCodes(
+            sourceReference = sourceReference,
+            sourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT,
+            gssCodes = listOf(gssCode)
+        )
+        Assertions.assertThat(actualEntity).hasSize(1)
+        CommunicationConfirmationAssert.assertThat(actualEntity.first())
+            .hasGssCode(gssCode)
+            .hasReason(CommunicationConfirmationReason.APPLICATION_REJECTED)
+            .hasChannel(CommunicationConfirmationChannel.LETTER)
+            .hasRequestor(requestor)
+            .hasSourceReference(sourceReference)
+            .hasSourceType(SourceType.ANONYMOUS_ELECTOR_DOCUMENT)
+            .sentAtIsCloseTo(LocalDateTime.now(), 3)
+    }
+
     private fun buildBody(
-        gssCode: String = getRandomGssCode(),
+        gssCode: String = ERO_ID,
         reason: OfflineCommunicationReason = OfflineCommunicationReason.APPLICATION_MINUS_REJECTED,
         channel: OfflineCommunicationChannel = OfflineCommunicationChannel.LETTER,
     ) =

@@ -56,6 +56,8 @@ The following environment variables must be set in order to run the application:
 24. `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
 25. `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
 26. `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
+27. `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
+28. `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.

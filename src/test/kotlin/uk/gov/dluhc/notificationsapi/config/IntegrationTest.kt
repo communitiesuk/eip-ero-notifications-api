@@ -19,6 +19,7 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
+import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
@@ -41,6 +42,9 @@ internal abstract class IntegrationTest {
 
     @Autowired
     protected lateinit var notificationRepository: NotificationRepository
+
+    @Autowired
+    protected lateinit var communicationConfirmationRepository: CommunicationConfirmationRepository
 
     @Autowired
     protected lateinit var amazonSQSAsync: AmazonSQSAsync
@@ -104,6 +108,7 @@ internal abstract class IntegrationTest {
     @BeforeEach
     fun clearDatabase() {
         clearTable(dynamoDbConfiguration.notificationsTableName)
+        clearTable(dynamoDbConfiguration.communicationConfirmationsTableName)
     }
 
     protected fun clearTable(tableName: String, partitionKey: String = "id", sortKey: String? = null) {
