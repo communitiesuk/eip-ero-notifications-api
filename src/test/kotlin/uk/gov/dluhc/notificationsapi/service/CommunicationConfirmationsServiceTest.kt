@@ -20,7 +20,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidKnownEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aCreateOfflineCommunicationConfirmationDtoBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.aCommunicationConfirmationBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aCommunicationConfirmationBuilder
 import java.time.LocalDateTime
 
 @ExtendWith(MockitoExtension::class)

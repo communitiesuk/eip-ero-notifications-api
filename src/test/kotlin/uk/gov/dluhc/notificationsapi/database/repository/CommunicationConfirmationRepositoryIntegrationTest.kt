@@ -15,7 +15,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.anEntitySourceType
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.aCommunicationConfirmationBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aCommunicationConfirmationBuilder
 import java.util.UUID
 
 internal class CommunicationConfirmationRepositoryIntegrationTest : IntegrationTest() {

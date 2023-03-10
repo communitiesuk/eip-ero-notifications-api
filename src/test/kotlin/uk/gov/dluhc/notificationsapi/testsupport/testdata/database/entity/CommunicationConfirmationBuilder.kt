@@ -1,4 +1,4 @@
-package uk.gov.dluhc.notificationsapi.testsupport.testdata.models
+package uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity
 
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmation
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationChannel
