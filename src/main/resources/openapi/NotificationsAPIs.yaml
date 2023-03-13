@@ -195,7 +195,7 @@ paths:
       summary: Returns the offline communication confirmation history for an Anonymous Elector Document application
       description: |
         Returns the offline communication confirmation history for an Anonymous Elector Document application,
-        sorted by the most recently submitted first. Multiple entries can be returned with the same reason.
+        sorted by the most recently submitted first. Multiple entries can be returned with the same reason and/or channel.
       tags:
         - Anonymous Elector Document - Communications History
       responses:
@@ -962,9 +962,14 @@ components:
     CommunicationConfirmationHistoryResponse:
       title: CommunicationConfirmationHistoryResponse
       description: Response containing a list of the communication confirmation history entries for an application
-      type: array
-      items:
-        $ref: '#/components/schemas/CommunicationConfirmationHistoryEntry'
+      type: object
+      properties:
+        communicationConfirmations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommunicationConfirmationHistoryEntry'
+      required:
+        - communicationConfirmations
     CommunicationConfirmationHistoryEntry:
       title: CommunicationConfirmationHistoryEntry
       description: The data auditing an offline communication that has been sent by the ERO to an applicant.
