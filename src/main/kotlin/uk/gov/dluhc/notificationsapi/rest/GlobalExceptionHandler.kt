@@ -17,7 +17,7 @@ import uk.gov.dluhc.notificationsapi.client.GovNotifyApiBadRequestException
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.config.ApiRequestErrorAttributes
 import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
-import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
+import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 import javax.servlet.RequestDispatcher.ERROR_MESSAGE
 import javax.servlet.RequestDispatcher.ERROR_STATUS_CODE
 
@@ -54,10 +54,10 @@ class GlobalExceptionHandler(
 
     @ExceptionHandler(
         value = [
-            InvalidSourceTypeException::class,
+            NotificationTemplateNotFoundException::class,
         ]
     )
-    protected fun handleInvalidSourceTypeException(
+    protected fun handleNotificationTemplateNotFoundException(
         e: Exception,
         request: WebRequest
     ): ResponseEntity<Any>? {

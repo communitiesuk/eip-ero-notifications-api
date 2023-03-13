@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchException
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.EnumSource
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
@@ -12,7 +13,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
-import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
+import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 
 internal class NotificationTemplateMapperTest {
 
@@ -215,25 +216,20 @@ internal class NotificationTemplateMapperTest {
     }
 
     @ParameterizedTest
-    @CsvSource(
-        value = [
-            "ENGLISH, APPLICATION_RECEIVED",
-            "WELSH, APPLICATION_RECEIVED",
-        ]
-    )
-    fun `should fail to map to Application Received Template ID when the Source Type is Anonymous Elector Document`(
+    @EnumSource(LanguageDto::class)
+    fun `should fail to map to Application Received Template ID when the Source Type is Anonymous and Application Received`(
         language: LanguageDto,
-        notificationType: NotificationType,
     ) {
         // Given
         val sourceType: SourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT
+        val notificationType: NotificationType = NotificationType.APPLICATION_RECEIVED
 
         // When
         val error = catchException { mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language) }
 
         // Then
         assertThat(error)
-            .isInstanceOfAny(InvalidSourceTypeException::class.java)
+            .isInstanceOfAny(NotificationTemplateNotFoundException::class.java)
             .hasMessage("No email template defined in ${language.toMessage()} for source type ANONYMOUS_ELECTOR_DOCUMENT")
     }
 }
