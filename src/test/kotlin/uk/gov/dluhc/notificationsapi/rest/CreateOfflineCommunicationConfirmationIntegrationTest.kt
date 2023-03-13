@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.rest
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
@@ -18,7 +19,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TO
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerTokenWithAllRolesExcept
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getVCAnonymousAdminBearerToken
-import java.time.LocalDateTime
+import java.time.LocalDateTime.now
+import java.time.temporal.ChronoUnit.SECONDS
 
 internal class CreateOfflineCommunicationConfirmationIntegrationTest : IntegrationTest() {
 
@@ -127,7 +129,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             sourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT,
             gssCodes = listOf(gssCode)
         )
-        Assertions.assertThat(actualEntity).hasSize(1)
+        assertThat(actualEntity).hasSize(1)
         CommunicationConfirmationAssert.assertThat(actualEntity.first())
             .hasGssCode(gssCode)
             .hasReason(CommunicationConfirmationReason.APPLICATION_REJECTED)
@@ -135,7 +137,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             .hasRequestor(requestor)
             .hasSourceReference(sourceReference)
             .hasSourceType(SourceType.ANONYMOUS_ELECTOR_DOCUMENT)
-            .sentAtIsCloseTo(LocalDateTime.now(), 3)
+            .sentAtIsCloseTo(now(), within(3, SECONDS))
     }
 
     private fun buildBody(

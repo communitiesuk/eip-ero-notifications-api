@@ -3,7 +3,7 @@ package uk.gov.dluhc.notificationsapi.service
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
-import uk.gov.dluhc.notificationsapi.dto.CreateOfflineCommunicationConfirmationDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationDto
 import uk.gov.dluhc.notificationsapi.mapper.CommunicationConfirmationMapper
 
 private val logger = KotlinLogging.logger {}
@@ -17,7 +17,7 @@ class CommunicationConfirmationsService(
     private val communicationConfirmationRepository: CommunicationConfirmationRepository,
     private val communicationConfirmationMapper: CommunicationConfirmationMapper,
 ) {
-    fun saveCommunicationConfirmation(dto: CreateOfflineCommunicationConfirmationDto) =
+    fun saveCommunicationConfirmation(dto: CommunicationConfirmationDto) =
         with(dto) {
             logger.debug { "Saving communication confirmation for $sourceType application $sourceReference" }
 

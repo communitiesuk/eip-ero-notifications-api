@@ -18,8 +18,6 @@ import uk.gov.dluhc.notificationsapi.models.CommunicationsHistoryResponse
 import uk.gov.dluhc.notificationsapi.models.CreateOfflineCommunicationConfirmationRequest
 import uk.gov.dluhc.notificationsapi.service.CommunicationConfirmationsService
 import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
-import java.time.Clock
-import java.time.LocalDateTime
 import javax.validation.Valid
 
 /**
@@ -33,7 +31,6 @@ class SentCommunicationsController(
     private val communicationConfirmationsService: CommunicationConfirmationsService,
     private val notificationSummaryMapper: NotificationSummaryMapper,
     private val communicationConfirmationMapper: CommunicationConfirmationMapper,
-    private val clock: Clock,
 ) {
 
     @GetMapping("applications/{applicationId}")
@@ -64,9 +61,7 @@ class SentCommunicationsController(
         val dto = communicationConfirmationMapper.fromApiToDto(
             eroId = eroId,
             sourceReference = applicationId,
-            sourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT,
             requestor = authentication.name,
-            sentAt = LocalDateTime.now(clock),
             request = request,
         )
         communicationConfirmationsService.saveCommunicationConfirmation(dto)

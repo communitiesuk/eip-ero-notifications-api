@@ -1,4 +1,4 @@
-package uk.gov.dluhc.notificationsapi.service.exception
+package uk.gov.dluhc.notificationsapi.exception
 
 /**
  * This exception is thrown when the gssCode received in a DTO is not associated with the

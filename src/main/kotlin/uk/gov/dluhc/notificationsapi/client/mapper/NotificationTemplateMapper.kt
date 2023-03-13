@@ -13,6 +13,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 
 /**
  * Gets the Notification Template ID configured for each message type.
@@ -86,7 +87,7 @@ class NotificationTemplateMapper(
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedEnglish
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedEnglish
         else -> {
-            throw IllegalStateException("No email template defined in English for source type $sourceType")
+            throw InvalidSourceTypeException("No email template defined in English for source type $sourceType")
         }
     }
 
@@ -94,7 +95,7 @@ class NotificationTemplateMapper(
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
         else -> {
-            throw IllegalStateException("No email template defined in Welsh for source type $sourceType")
+            throw InvalidSourceTypeException("No email template defined in Welsh for source type $sourceType")
         }
     }
 }

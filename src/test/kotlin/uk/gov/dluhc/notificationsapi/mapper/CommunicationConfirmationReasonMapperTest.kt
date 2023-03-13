@@ -1,9 +1,9 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import uk.gov.dluhc.notificationsapi.dto.OfflineCommunicationReasonDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationReasonDto
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationReason as OfflineCommunicationReasonEntity
 import uk.gov.dluhc.notificationsapi.models.OfflineCommunicationReason as OfflineCommunicationReasonApi
 
@@ -18,14 +18,14 @@ class CommunicationConfirmationReasonMapperTest {
             "DOCUMENT_MINUS_REJECTED, DOCUMENT_REJECTED",
         ]
     )
-    fun fromApiToDto(apiEnum: OfflineCommunicationReasonApi, expectedDto: OfflineCommunicationReasonDto) {
+    fun fromApiToDto(apiEnum: OfflineCommunicationReasonApi, expectedDto: CommunicationConfirmationReasonDto) {
         // Given
 
         // When
         val actual = mapper.fromApiToDto(apiEnum)
 
         // Then
-        Assertions.assertThat(actual).isEqualTo(expectedDto)
+        assertThat(actual).isEqualTo(expectedDto)
     }
 
     @ParameterizedTest
@@ -36,13 +36,13 @@ class CommunicationConfirmationReasonMapperTest {
             "DOCUMENT_REJECTED, DOCUMENT_REJECTED",
         ]
     )
-    fun fromDtoToEntity(dto: OfflineCommunicationReasonDto, expectedEntity: OfflineCommunicationReasonEntity) {
+    fun fromDtoToEntity(dto: CommunicationConfirmationReasonDto, expectedEntity: OfflineCommunicationReasonEntity) {
         // Given
 
         // When
         val actual = mapper.fromDtoToEntity(dto)
 
         // Then
-        Assertions.assertThat(actual).isEqualTo(expectedEntity)
+        assertThat(actual).isEqualTo(expectedEntity)
     }
 }

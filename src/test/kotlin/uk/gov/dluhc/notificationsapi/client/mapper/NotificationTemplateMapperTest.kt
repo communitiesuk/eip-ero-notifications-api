@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 
 internal class NotificationTemplateMapperTest {
 
@@ -211,6 +212,29 @@ internal class NotificationTemplateMapperTest {
         assertThat(error)
             .isInstanceOfAny(IllegalStateException::class.java)
             .hasMessage("No $channelString template defined in ${language.toMessage()} for notification type $templateType and sourceType $sourceType")
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "ENGLISH, APPLICATION_RECEIVED",
+            "WELSH, APPLICATION_RECEIVED",
+        ]
+    )
+    fun `should fail to map to Application Received Template ID when the Source Type is Anonymous Elector Document`(
+        language: LanguageDto,
+        notificationType: NotificationType,
+    ) {
+        // Given
+        val sourceType: SourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT
+
+        // When
+        val error = catchException { mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language) }
+
+        // Then
+        assertThat(error)
+            .isInstanceOfAny(InvalidSourceTypeException::class.java)
+            .hasMessage("No email template defined in ${language.toMessage()} for source type ANONYMOUS_ELECTOR_DOCUMENT")
     }
 }
 

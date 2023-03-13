@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.within
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -10,17 +10,16 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmation
-import uk.gov.dluhc.notificationsapi.dto.CreateOfflineCommunicationConfirmationDto
-import uk.gov.dluhc.notificationsapi.dto.OfflineCommunicationChannelDto
-import uk.gov.dluhc.notificationsapi.dto.OfflineCommunicationReasonDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationReasonDto
 import uk.gov.dluhc.notificationsapi.models.CreateOfflineCommunicationConfirmationRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
+import java.time.temporal.ChronoUnit.SECONDS
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationChannel as OfflineCommunicationChannelEntity
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationReason as OfflineCommunicationReasonEntity
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
@@ -51,10 +50,10 @@ class CommunicationConfirmationMapperTest {
         val requestor: String = anEmailAddress()
         val sentAt = aLocalDateTime()
         val gssCode: String = aGssCode()
-        val reason: OfflineCommunicationReasonDto = OfflineCommunicationReasonDto.APPLICATION_REJECTED
-        val channel: OfflineCommunicationChannelDto = OfflineCommunicationChannelDto.LETTER
+        val reason: CommunicationConfirmationReasonDto = CommunicationConfirmationReasonDto.APPLICATION_REJECTED
+        val channel: CommunicationConfirmationChannelDto = CommunicationConfirmationChannelDto.LETTER
 
-        val dto = CreateOfflineCommunicationConfirmationDto(
+        val dto = CommunicationConfirmationDto(
             eroId = eroId,
             gssCode = gssCode,
             sourceReference = sourceReference,
@@ -76,14 +75,14 @@ class CommunicationConfirmationMapperTest {
         val actualEntity: CommunicationConfirmation = mapper.fromDtoToEntity(dto)
 
         // Then
-        Assertions.assertThat(actualEntity.id).isNotNull
-        Assertions.assertThat(actualEntity.gssCode).isEqualTo(gssCode)
-        Assertions.assertThat(actualEntity.sourceReference).isEqualTo(sourceReference)
-        Assertions.assertThat(actualEntity.sourceType).isEqualTo(SourceTypeEntity.ANONYMOUS_ELECTOR_DOCUMENT)
-        Assertions.assertThat(actualEntity.reason).isEqualTo(OfflineCommunicationReasonEntity.APPLICATION_REJECTED)
-        Assertions.assertThat(actualEntity.channel).isEqualTo(OfflineCommunicationChannelEntity.LETTER)
-        Assertions.assertThat(actualEntity.requestor).isEqualTo(requestor)
-        Assertions.assertThat(actualEntity.sentAt).isEqualTo(sentAt)
+        assertThat(actualEntity.id).isNotNull
+        assertThat(actualEntity.gssCode).isEqualTo(gssCode)
+        assertThat(actualEntity.sourceReference).isEqualTo(sourceReference)
+        assertThat(actualEntity.sourceType).isEqualTo(SourceTypeEntity.ANONYMOUS_ELECTOR_DOCUMENT)
+        assertThat(actualEntity.reason).isEqualTo(OfflineCommunicationReasonEntity.APPLICATION_REJECTED)
+        assertThat(actualEntity.channel).isEqualTo(OfflineCommunicationChannelEntity.LETTER)
+        assertThat(actualEntity.requestor).isEqualTo(requestor)
+        assertThat(actualEntity.sentAt).isEqualTo(sentAt)
     }
 
     @Test
@@ -91,9 +90,7 @@ class CommunicationConfirmationMapperTest {
         // Given
         val eroId: String = aValidRandomEroId()
         val sourceReference: String = aSourceReference()
-        val sourceType: SourceTypeDto = SourceTypeDto.ANONYMOUS_ELECTOR_DOCUMENT
         val requestor: String = anEmailAddress()
-        val sentAt = LocalDateTime.now()
 
         val gssCode: String = aGssCode()
         val reason = OfflineCommunicationReasonApi.APPLICATION_MINUS_REJECTED
@@ -106,22 +103,22 @@ class CommunicationConfirmationMapperTest {
         )
 
         given(communicationConfirmationReasonMapper.fromApiToDto(any()))
-            .willReturn(OfflineCommunicationReasonDto.APPLICATION_REJECTED)
+            .willReturn(CommunicationConfirmationReasonDto.APPLICATION_REJECTED)
         given(communicationConfirmationChannelMapper.fromApiToDto(any()))
-            .willReturn(OfflineCommunicationChannelDto.LETTER)
+            .willReturn(CommunicationConfirmationChannelDto.LETTER)
 
         // When
-        val actualDto: CreateOfflineCommunicationConfirmationDto =
-            mapper.fromApiToDto(eroId, sourceReference, sourceType, requestor, sentAt, request)
+        val actualDto: CommunicationConfirmationDto =
+            mapper.fromApiToDto(eroId, sourceReference, requestor, request)
 
         // Then
-        Assertions.assertThat(actualDto.eroId).isEqualTo(eroId)
-        Assertions.assertThat(actualDto.sourceReference).isEqualTo(sourceReference)
-        Assertions.assertThat(actualDto.sourceType).isEqualTo(SourceTypeDto.ANONYMOUS_ELECTOR_DOCUMENT)
-        Assertions.assertThat(actualDto.gssCode).isEqualTo(gssCode)
-        Assertions.assertThat(actualDto.reason).isEqualTo(OfflineCommunicationReasonDto.APPLICATION_REJECTED)
-        Assertions.assertThat(actualDto.channel).isEqualTo(OfflineCommunicationChannelDto.LETTER)
-        Assertions.assertThat(actualDto.requestor).isEqualTo(requestor)
-        Assertions.assertThat(actualDto.sentAt).isCloseToUtcNow(within(1, ChronoUnit.SECONDS))
+        assertThat(actualDto.eroId).isEqualTo(eroId)
+        assertThat(actualDto.sourceReference).isEqualTo(sourceReference)
+        assertThat(actualDto.sourceType).isEqualTo(SourceTypeDto.ANONYMOUS_ELECTOR_DOCUMENT)
+        assertThat(actualDto.gssCode).isEqualTo(gssCode)
+        assertThat(actualDto.reason).isEqualTo(CommunicationConfirmationReasonDto.APPLICATION_REJECTED)
+        assertThat(actualDto.channel).isEqualTo(CommunicationConfirmationChannelDto.LETTER)
+        assertThat(actualDto.requestor).isEqualTo(requestor)
+        assertThat(actualDto.sentAt).isCloseToUtcNow(within(1, SECONDS))
     }
 }

@@ -14,7 +14,7 @@ import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.client.ElectoralRegistrationOfficeGeneralException
 import uk.gov.dluhc.notificationsapi.client.ElectoralRegistrationOfficeManagementApiClient
 import uk.gov.dluhc.notificationsapi.client.ElectoralRegistrationOfficeNotFoundException
-import uk.gov.dluhc.notificationsapi.service.exception.GssCodeMismatchException
+import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anotherGssCode

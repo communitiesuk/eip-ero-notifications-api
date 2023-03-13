@@ -16,7 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiBadRequestException
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.config.ApiRequestErrorAttributes
-import uk.gov.dluhc.notificationsapi.service.exception.GssCodeMismatchException
+import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 import javax.servlet.RequestDispatcher.ERROR_MESSAGE
 import javax.servlet.RequestDispatcher.ERROR_STATUS_CODE
 
@@ -45,6 +46,18 @@ class GlobalExceptionHandler(
         ]
     )
     protected fun handleBadRequestException(
+        e: Exception,
+        request: WebRequest
+    ): ResponseEntity<Any>? {
+        return populateErrorResponseAndHandleExceptionInternal(e, BAD_REQUEST, request)
+    }
+
+    @ExceptionHandler(
+        value = [
+            InvalidSourceTypeException::class,
+        ]
+    )
+    protected fun handleInvalidSourceTypeException(
         e: Exception,
         request: WebRequest
     ): ResponseEntity<Any>? {

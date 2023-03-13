@@ -10,8 +10,8 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmation
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
-import uk.gov.dluhc.notificationsapi.dto.OfflineCommunicationChannelDto
-import uk.gov.dluhc.notificationsapi.dto.OfflineCommunicationReasonDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationReasonDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.CommunicationConfirmationMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -20,7 +20,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidKnownEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aCommunicationConfirmationBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aCreateOfflineCommunicationConfirmationDtoBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aCommunicationConfirmationDtoBuilder
 import java.time.LocalDateTime
 
 @ExtendWith(MockitoExtension::class)
@@ -45,12 +45,12 @@ class CommunicationConfirmationsServiceTest {
         val sourceReference: String = aSourceReference()
         val sourceType: SourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT
         val gssCode: String = aGssCode()
-        val reason: OfflineCommunicationReasonDto = OfflineCommunicationReasonDto.APPLICATION_REJECTED
-        val channel: OfflineCommunicationChannelDto = OfflineCommunicationChannelDto.LETTER
+        val reason: CommunicationConfirmationReasonDto = CommunicationConfirmationReasonDto.APPLICATION_REJECTED
+        val channel: CommunicationConfirmationChannelDto = CommunicationConfirmationChannelDto.LETTER
         val requestor: String = anEmailAddress()
         val sentAt: LocalDateTime = aLocalDateTime()
 
-        val dto = aCreateOfflineCommunicationConfirmationDtoBuilder(
+        val dto = aCommunicationConfirmationDtoBuilder(
             eroId = eroId,
             sourceReference = sourceReference,
             sourceType = sourceType,

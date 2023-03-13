@@ -4,7 +4,7 @@ import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.client.ElectoralRegistrationOfficeManagementApiClient
 import uk.gov.dluhc.notificationsapi.client.ElectoralRegistrationOfficeManagementApiException
-import uk.gov.dluhc.notificationsapi.service.exception.GssCodeMismatchException
+import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
 
 private val logger = KotlinLogging.logger {}
 

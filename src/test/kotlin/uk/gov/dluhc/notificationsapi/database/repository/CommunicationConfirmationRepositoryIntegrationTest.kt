@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.database.repository
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
@@ -57,7 +57,7 @@ internal class CommunicationConfirmationRepositoryIntegrationTest : IntegrationT
                 )
 
             // Then
-            Assertions.assertThat(fetchedCommunicationConfirmationList).hasSize(1)
+            assertThat(fetchedCommunicationConfirmationList).hasSize(1)
             val fetchedCommunicationConfirmation = fetchedCommunicationConfirmationList[0]
             CommunicationConfirmationAssert.assertThat(fetchedCommunicationConfirmation)
                 .hasId(id)
@@ -67,7 +67,7 @@ internal class CommunicationConfirmationRepositoryIntegrationTest : IntegrationT
                 .hasReason(reason)
                 .hasChannel(channel)
                 .hasRequestor(requestor)
-                .sentAtIsCloseTo(sentAt, 0)
+                .hasSentAt(sentAt)
         }
 
         @Test
@@ -94,7 +94,7 @@ internal class CommunicationConfirmationRepositoryIntegrationTest : IntegrationT
                 )
 
             // Then
-            Assertions.assertThat(fetchedCommunicationConfirmationList).isEmpty()
+            assertThat(fetchedCommunicationConfirmationList).isEmpty()
         }
     }
 }

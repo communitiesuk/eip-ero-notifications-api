@@ -1,9 +1,9 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import uk.gov.dluhc.notificationsapi.dto.OfflineCommunicationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationChannelDto
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationChannel as OfflineCommunicationChannelEntity
 import uk.gov.dluhc.notificationsapi.models.OfflineCommunicationChannel as OfflineCommunicationChannelApi
 
@@ -18,14 +18,14 @@ class CommunicationConfirmationChannelMapperTest {
             "TELEPHONE, TELEPHONE",
         ]
     )
-    fun fromApiToDto(apiEnum: OfflineCommunicationChannelApi, expectedDto: OfflineCommunicationChannelDto) {
+    fun fromApiToDto(apiEnum: OfflineCommunicationChannelApi, expectedDto: CommunicationConfirmationChannelDto) {
         // Given
 
         // When
         val actual = mapper.fromApiToDto(apiEnum)
 
         // Then
-        Assertions.assertThat(actual).isEqualTo(expectedDto)
+        assertThat(actual).isEqualTo(expectedDto)
     }
 
     @ParameterizedTest
@@ -36,13 +36,13 @@ class CommunicationConfirmationChannelMapperTest {
             "TELEPHONE, TELEPHONE",
         ]
     )
-    fun fromDtoToEntity(dto: OfflineCommunicationChannelDto, expectedEntity: OfflineCommunicationChannelEntity) {
+    fun fromDtoToEntity(dto: CommunicationConfirmationChannelDto, expectedEntity: OfflineCommunicationChannelEntity) {
         // Given
 
         // When
         val actual = mapper.fromDtoToEntity(dto)
 
         // Then
-        Assertions.assertThat(actual).isEqualTo(expectedEntity)
+        assertThat(actual).isEqualTo(expectedEntity)
     }
 }

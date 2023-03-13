@@ -1,14 +1,13 @@
 package uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.entity
 
 import org.assertj.core.api.AbstractAssert
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.within
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.data.TemporalUnitOffset
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmation
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationChannel
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmationReason
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit.SECONDS
 import java.util.UUID
 
 /**
@@ -101,21 +100,26 @@ class CommunicationConfirmationAssert(actual: CommunicationConfirmation?) :
         return this
     }
 
-    fun sentAtIsCloseTo(expected: LocalDateTime, secondsOffsetAllowed: Long): CommunicationConfirmationAssert {
+    fun hasSentAt(expected: LocalDateTime): CommunicationConfirmationAssert {
+        isNotNull
+        with(actual!!) {
+            if (sentAt != expected) {
+                failWithMessage("Expected sentAt $expected, but was $sentAt")
+            }
+
+            assertThat(sentAt).isEqualTo(expected)
+        }
+        return this
+    }
+
+    fun sentAtIsCloseTo(expected: LocalDateTime, within: TemporalUnitOffset): CommunicationConfirmationAssert {
         isNotNull
         with(actual!!) {
             if (sentAt == null) {
                 failWithMessage("Expecting sentAt not to be null")
             }
 
-            Assertions.assertThat(sentAt)
-                .`as`(
-                    String.format(
-                        "%nExpecting sentAt:%n  $actual%nto be close to:%n  $expected%nwithin " +
-                            "$secondsOffsetAllowed seconds but was ${expected.until(sentAt, SECONDS)}"
-                    )
-                )
-                .isCloseTo(expected, within(secondsOffsetAllowed, SECONDS))
+            assertThat(sentAt).isCloseTo(expected, within)
         }
         return this
     }
