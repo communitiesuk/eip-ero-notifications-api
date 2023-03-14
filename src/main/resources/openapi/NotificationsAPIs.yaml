@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.9.0'
+  version: '1.10.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -889,6 +889,8 @@ components:
       title: CommunicationsSummary
       description: The summary data for an individual communication sent as part of an application.
       type: object
+      allOf:
+        - $ref: '#/components/schemas/UpdatedBy'
       properties:
         id:
           type: string
@@ -899,19 +901,26 @@ components:
           $ref: '#/components/schemas/NotificationChannel'
         templateType:
           $ref: '#/components/schemas/TemplateType'
-        requestor:
-          type: string
-          description: The User ID of the user that originally requested the communication as part of processing the application.
-          example: fred@some-ero.gov.uk
-        timestamp:
-          type: string
-          format: date-time
-          example: '2022-09-28T18:01:42.105Z'
-          description: The timestamp that the communication was sent.
       required:
         - id
         - channel
         - type
+    UpdatedBy:
+      title: UpdatedBy
+      description: Object containing the updated by details of a resource.
+      type: object
+      properties:
+        requestor:
+          description: The User ID of the user that updated the resource.
+          format: email
+          type: string
+          example: fred@some-ero.gov.uk
+        timestamp:
+          description: "The timestamp in ISO-8601 UTC when an update on the resource occurred."
+          type: string
+          format: date-time
+          example: '2022-09-28T18:01:42.105Z'
+      required:
         - requestor
         - timestamp
     ApplicationRejectionReason:
@@ -974,6 +983,8 @@ components:
       title: CommunicationConfirmationHistoryEntry
       description: The data confirming an offline communication has been sent by the ERO to an applicant.
       type: object
+      allOf:
+        - $ref: '#/components/schemas/UpdatedBy'
       properties:
         id:
           type: string
@@ -988,23 +999,12 @@ components:
           $ref: '#/components/schemas/OfflineCommunicationReason'
         channel:
           $ref: '#/components/schemas/OfflineCommunicationChannel'
-        requestor:
-          type: string
-          description: The User ID of the user that submitted the communication confirmation.
-          example: fred@some-ero.gov.uk
-        timestamp:
-          type: string
-          format: date-time
-          example: '2022-09-28T18:01:42.105Z'
-          description: The timestamp that the communication confirmation was received.
       required:
         - id
         - gssCode
         - reason
         - channel
         - type
-        - requestor
-        - timestamp
 
   #
   # Response Body Definitions
