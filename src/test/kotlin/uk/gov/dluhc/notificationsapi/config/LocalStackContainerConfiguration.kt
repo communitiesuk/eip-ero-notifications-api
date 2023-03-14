@@ -22,6 +22,7 @@ import software.amazon.awssdk.services.dynamodb.model.KeyType
 import software.amazon.awssdk.services.dynamodb.model.Projection
 import software.amazon.awssdk.services.dynamodb.model.ProjectionType
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput
+import uk.gov.dluhc.notificationsapi.database.entity.COMMUNICATION_CONFIRMATION_SOURCE_REFERENCE_INDEX_NAME
 import uk.gov.dluhc.notificationsapi.database.entity.SOURCE_REFERENCE_INDEX_NAME
 import java.net.InetAddress
 import java.net.URI
@@ -133,6 +134,7 @@ class LocalStackContainerConfiguration {
             .build()
 
         createNotificationsTable(dynamoDbClient, dbConfiguration.notificationsTableName)
+        createCommunicationConfirmationsTable(dynamoDbClient, dbConfiguration.communicationConfirmationsTableName)
         return dynamoDbClient
     }
 
@@ -152,6 +154,38 @@ class LocalStackContainerConfiguration {
 
         val indexSchema = GlobalSecondaryIndex.builder()
             .indexName(SOURCE_REFERENCE_INDEX_NAME)
+            .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(0L).writeCapacityUnits(0L).build())
+            .keySchema(indexKeySchema)
+            .projection(Projection.builder().projectionType(ProjectionType.ALL).build())
+            .build()
+
+        val request: CreateTableRequest = CreateTableRequest.builder()
+            .tableName(tableName)
+            .keySchema(keySchema)
+            .globalSecondaryIndexes(indexSchema)
+            .attributeDefinitions(attributeDefinitions)
+            .billingMode(BillingMode.PAY_PER_REQUEST)
+            .build()
+
+        dynamoDbClient.createTable(request)
+    }
+
+    private fun createCommunicationConfirmationsTable(dynamoDbClient: DynamoDbClient, tableName: String) {
+        if (dynamoDbClient.listTables().tableNames().contains(tableName)) {
+            return
+        }
+
+        val attributeDefinitions: MutableList<AttributeDefinition> = mutableListOf(
+            attributeDefinition("id"),
+            attributeDefinition("sourceReference"),
+        )
+
+        val keySchema = listOf(partitionKey("id"))
+
+        val indexKeySchema = listOf(partitionKey("sourceReference"))
+
+        val indexSchema = GlobalSecondaryIndex.builder()
+            .indexName(COMMUNICATION_CONFIRMATION_SOURCE_REFERENCE_INDEX_NAME)
             .provisionedThroughput(ProvisionedThroughput.builder().readCapacityUnits(0L).writeCapacityUnits(0L).build())
             .keySchema(indexKeySchema)
             .projection(Projection.builder().projectionType(ProjectionType.ALL).build())

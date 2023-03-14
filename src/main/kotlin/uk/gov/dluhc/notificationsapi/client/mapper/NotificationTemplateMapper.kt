@@ -13,6 +13,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 
 /**
  * Gets the Notification Template ID configured for each message type.
@@ -85,10 +86,16 @@ class NotificationTemplateMapper(
     private fun getApplicationReceivedEnglishEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedEnglish
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedEnglish
+        else -> {
+            throw NotificationTemplateNotFoundException("No email template defined in English for source type $sourceType")
+        }
     }
 
     private fun getApplicationReceivedWelshEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
+        else -> {
+            throw NotificationTemplateNotFoundException("No email template defined in Welsh for source type $sourceType")
+        }
     }
 }
