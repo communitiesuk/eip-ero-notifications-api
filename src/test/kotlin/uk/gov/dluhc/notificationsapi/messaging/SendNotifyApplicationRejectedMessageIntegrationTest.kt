@@ -43,10 +43,11 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         val expectedRequest = getExpectedRequest(payload, languageDto)
         val expectedPersonalisation = getExpectedPersonalisationMap(payload)
 
-        // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyApplicationRejectedQueueName, payload)
         val notifyResponse = NotifySendLetterSuccessResponse(template = LetterTemplate(id = templateId))
         wireMockService.stubNotifySendLetterResponse(notifyResponse)
+
+        // When
+        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyApplicationRejectedQueueName, payload)
 
         // Then
         await.pollDelay(Duration.ofMillis(500)).atMost(5, TimeUnit.SECONDS).untilAsserted {
