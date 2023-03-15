@@ -42,6 +42,10 @@ fun aNotificationPersonalisationMap(): Map<String, String> = mapOf(
     "date" to "15/Oct/2022"
 )
 
+fun aCommunicationConfirmationId(): UUID = UUID.fromString("fa7d3cc2-2983-4d7e-b675-57d882003ecf")
+
+fun aRandomCommunicationConfirmationId(): UUID = UUID.randomUUID()
+
 fun aLocalDateTime(): LocalDateTime = LocalDateTime.of(2022, 10, 6, 9, 58, 24)
 
 fun anOffsetDateTime(): OffsetDateTime = OffsetDateTime.of(2022, 10, 6, 9, 58, 24, 0, ZoneOffset.UTC)

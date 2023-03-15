@@ -4,14 +4,17 @@ import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationReasonDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationConfirmationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidKnownEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import java.time.LocalDateTime
+import java.util.UUID
 
 fun aCommunicationConfirmationDtoBuilder(
+    id: UUID? = aCommunicationConfirmationId(),
     eroId: String = aValidKnownEroId(),
     sourceReference: String = aSourceReference(),
     sourceType: SourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT,
@@ -21,6 +24,7 @@ fun aCommunicationConfirmationDtoBuilder(
     requestor: String = anEmailAddress(),
     sentAt: LocalDateTime = aLocalDateTime(),
 ) = CommunicationConfirmationDto(
+    id = id,
     eroId = eroId,
     gssCode = gssCode,
     sourceReference = sourceReference,

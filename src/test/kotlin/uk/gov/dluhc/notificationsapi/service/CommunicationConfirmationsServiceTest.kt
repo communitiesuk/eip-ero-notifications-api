@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.service
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
@@ -14,6 +15,7 @@ import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationReasonDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.CommunicationConfirmationMapper
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -22,6 +24,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aCommunicationConfirmationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aCommunicationConfirmationDtoBuilder
 import java.time.LocalDateTime
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
 
 @ExtendWith(MockitoExtension::class)
 class CommunicationConfirmationsServiceTest {
@@ -37,6 +40,9 @@ class CommunicationConfirmationsServiceTest {
 
     @Mock
     private lateinit var communicationConfirmationRepository: CommunicationConfirmationRepository
+
+    @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Test
     fun `should save a communication confirmation`() {
@@ -71,5 +77,39 @@ class CommunicationConfirmationsServiceTest {
         verify(eroService).validateGssCodeAssociatedWithEro(eroId, gssCode)
         verify(communicationConfirmationMapper).fromDtoToEntity(dto)
         verify(communicationConfirmationRepository).saveCommunicationConfirmation(expectedEntity)
+    }
+
+    @Test
+    fun `should fetch communication confirmations`() {
+        // Given
+        val eroId: String = aValidKnownEroId()
+        val sourceReference: String = aSourceReference()
+        val sourceType: SourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT
+        val gssCodes = listOf(aGssCode())
+
+        val entities = listOf(aCommunicationConfirmationBuilder())
+
+        val dtos = listOf(aCommunicationConfirmationDtoBuilder())
+
+        given(eroService.lookupGssCodesForEro(any())).willReturn(gssCodes)
+        given(communicationConfirmationRepository.getBySourceReferenceAndTypeAndGssCodes(any(), any(), any()))
+            .willReturn(entities)
+        given(sourceTypeMapper.fromDtoToEntity(any())).willReturn(SourceTypeEntity.ANONYMOUS_ELECTOR_DOCUMENT)
+        given(communicationConfirmationMapper.fromEntitiesToDtos(any())).willReturn(dtos)
+
+        // When
+        val actualDtos =
+            communicationConfirmationsService.getCommunicationConfirmationsForApplication(
+                sourceReference,
+                eroId,
+                sourceType
+            )
+
+        // Then
+        assertThat(actualDtos).isEqualTo(dtos)
+        verify(eroService).lookupGssCodesForEro(eroId)
+        verify(communicationConfirmationRepository).getBySourceReferenceAndTypeAndGssCodes(sourceReference, SourceTypeEntity.ANONYMOUS_ELECTOR_DOCUMENT, gssCodes)
+        verify(sourceTypeMapper).fromDtoToEntity(SourceType.ANONYMOUS_ELECTOR_DOCUMENT)
+        verify(communicationConfirmationMapper).fromEntitiesToDtos(entities)
     }
 }
