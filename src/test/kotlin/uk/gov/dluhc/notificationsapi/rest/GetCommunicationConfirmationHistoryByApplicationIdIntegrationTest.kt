@@ -103,7 +103,7 @@ internal class GetCommunicationConfirmationHistoryByApplicationIdIntegrationTest
 
         val sentConfirmation2 = aCommunicationConfirmationBuilder(
             id = aRandomCommunicationConfirmationId(),
-            gssCode = eroResponse.localAuthorities[0].gssCode,
+            gssCode = eroResponse.localAuthorities[1].gssCode,
             sourceReference = applicationId,
             reason = CommunicationConfirmationReason.PHOTO_REJECTED,
             channel = CommunicationConfirmationChannel.EMAIL,
@@ -116,7 +116,7 @@ internal class GetCommunicationConfirmationHistoryByApplicationIdIntegrationTest
             communicationConfirmations = listOf(
                 aCommunicationConfirmationHistoryEntryBuilder(
                     id = sentConfirmation2.id!!,
-                    gssCode = eroResponse.localAuthorities[0].gssCode,
+                    gssCode = eroResponse.localAuthorities[1].gssCode,
                     reason = OfflineCommunicationReason.PHOTO_MINUS_REJECTED,
                     channel = OfflineCommunicationChannel.EMAIL,
                     requestor = requestor,
