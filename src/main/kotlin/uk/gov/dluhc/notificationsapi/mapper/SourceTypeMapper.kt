@@ -13,6 +13,7 @@ interface SourceTypeMapper {
 
     @ValueMapping(source = "VOTER_MINUS_CARD", target = "VOTER_CARD")
     @ValueMapping(source = "POSTAL", target = "POSTAL")
+    @ValueMapping(source = "PROXY", target = "PROXY")
     fun fromMessageToDto(sourceType: SourceTypeMessageEnum): SourceTypeDtoEnum
 
     fun fromDtoToEntity(sourceType: SourceTypeDtoEnum): SourceTypeEntityEnum
@@ -22,5 +23,6 @@ interface SourceTypeMapper {
 
     @ValueMapping(source = "VOTER_MINUS_CARD", target = "VOTER_CARD")
     @ValueMapping(source = "POSTAL", target = "POSTAL")
+    @ValueMapping(source = "PROXY", target = "PROXY")
     fun fromApiToDto(sourceType: SourceTypeApiEnum): SourceTypeDtoEnum
 }

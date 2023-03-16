@@ -86,6 +86,7 @@ class NotificationTemplateMapper(
     private fun getApplicationReceivedEnglishEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedEnglish
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedEnglish
+        SourceType.PROXY -> notifyEmailTemplateConfiguration.proxyReceivedEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No email template defined in English for source type $sourceType")
         }
@@ -94,6 +95,7 @@ class NotificationTemplateMapper(
     private fun getApplicationReceivedWelshEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
+        SourceType.PROXY -> notifyEmailTemplateConfiguration.proxyReceivedWelsh
         else -> {
             throw NotificationTemplateNotFoundException("No email template defined in Welsh for source type $sourceType")
         }

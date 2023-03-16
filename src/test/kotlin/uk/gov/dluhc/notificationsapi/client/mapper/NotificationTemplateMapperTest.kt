@@ -23,6 +23,8 @@ internal class NotificationTemplateMapperTest {
             receivedWelsh = "RECEIVED-ID-EMAIL-WELSH",
             postalReceivedEnglish = "POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
             postalReceivedWelsh = "POSTAL-RECEIVED-ID-EMAIL-WELSH",
+            proxyReceivedEnglish = "PROXY-RECEIVED-ID-EMAIL-ENGLISH",
+            proxyReceivedWelsh = "PROXY-RECEIVED-ID-EMAIL-WELSH",
             approvedEnglish = "APPROVED-ID-EMAIL-ENGLISH",
             approvedWelsh = "APPROVED-ID-EMAIL-WELSH",
             photoResubmissionEnglish = "PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
