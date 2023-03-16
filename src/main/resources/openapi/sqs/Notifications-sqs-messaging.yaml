@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.8.2'
+  version: '1.8.3'
   description: |-
     Notifications SQS Message Types
     
@@ -363,6 +363,7 @@ components:
       enum:
         - voter-card
         - postal
+        - proxy
 
     MessageType:
       title: MessageType
