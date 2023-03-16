@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.10.1'
+  version: '1.10.2'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -620,6 +620,7 @@ components:
       enum:
         - voter-card
         - postal
+        - proxy
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview
