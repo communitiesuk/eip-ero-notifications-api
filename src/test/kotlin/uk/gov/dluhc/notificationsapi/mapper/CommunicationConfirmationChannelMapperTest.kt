@@ -18,14 +18,14 @@ class CommunicationConfirmationChannelMapperTest {
             "TELEPHONE, TELEPHONE",
         ]
     )
-    fun fromApiToDto(apiEnum: OfflineCommunicationChannelApi, expectedDto: CommunicationConfirmationChannelDto) {
+    fun `from api to dto`(apiEnum: OfflineCommunicationChannelApi, dtoEnum: CommunicationConfirmationChannelDto) {
         // Given
 
         // When
-        val actual = mapper.fromApiToDto(apiEnum)
+        val actualFromApiToDto = mapper.fromApiToDto(apiEnum)
 
         // Then
-        assertThat(actual).isEqualTo(expectedDto)
+        assertThat(actualFromApiToDto).isEqualTo(dtoEnum)
     }
 
     @ParameterizedTest
@@ -36,13 +36,49 @@ class CommunicationConfirmationChannelMapperTest {
             "TELEPHONE, TELEPHONE",
         ]
     )
-    fun fromDtoToEntity(dto: CommunicationConfirmationChannelDto, expectedEntity: OfflineCommunicationChannelEntity) {
+    fun `from dto to api`(dtoEnum: CommunicationConfirmationChannelDto, apiEnum: OfflineCommunicationChannelApi) {
         // Given
 
         // When
-        val actual = mapper.fromDtoToEntity(dto)
+        val actualFromDtoToApi = mapper.fromDtoToApi(dtoEnum)
 
         // Then
-        assertThat(actual).isEqualTo(expectedEntity)
+        assertThat(actualFromDtoToApi).isEqualTo(apiEnum)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "EMAIL, EMAIL",
+            "LETTER, LETTER",
+            "TELEPHONE, TELEPHONE",
+        ]
+    )
+    fun `from entity to dto`(entityEnum: OfflineCommunicationChannelEntity, dtoEnum: CommunicationConfirmationChannelDto) {
+        // Given
+
+        // When
+        val actualFromEntityToDto = mapper.fromEntityToDto(entityEnum)
+
+        // Then
+        assertThat(actualFromEntityToDto).isEqualTo(dtoEnum)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "EMAIL, EMAIL",
+            "LETTER, LETTER",
+            "TELEPHONE, TELEPHONE",
+        ]
+    )
+    fun `from dto to entity`(dtoEnum: CommunicationConfirmationChannelDto, entityEnum: OfflineCommunicationChannelEntity) {
+        // Given
+
+        // When
+        val actualFromDtoToEntity = mapper.fromDtoToEntity(dtoEnum)
+
+        // Then
+        assertThat(actualFromDtoToEntity).isEqualTo(entityEnum)
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.CommunicationConfirmationMapper
 import uk.gov.dluhc.notificationsapi.models.CommunicationConfirmationHistoryResponse
 import uk.gov.dluhc.notificationsapi.models.CreateOfflineCommunicationConfirmationRequest
@@ -51,6 +52,14 @@ class CommunicationConfirmationsController(
     fun getOfflineCommunicationConfirmations(
         @PathVariable eroId: String,
         @PathVariable applicationId: String,
-    ): CommunicationConfirmationHistoryResponse =
-        TODO("EIP1-4400 - AEDs - retrieve list of offline communications - API")
+    ) =
+        communicationConfirmationsService.getCommunicationConfirmationsForApplication(
+            sourceReference = applicationId,
+            eroId = eroId,
+            SourceType.ANONYMOUS_ELECTOR_DOCUMENT,
+        ).let { dtos ->
+            CommunicationConfirmationHistoryResponse(
+                communicationConfirmations = communicationConfirmationMapper.fromDtosToApis(dtos)
+            )
+        }
 }

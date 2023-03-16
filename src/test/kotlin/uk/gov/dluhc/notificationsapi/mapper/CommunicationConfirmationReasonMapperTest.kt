@@ -18,14 +18,32 @@ class CommunicationConfirmationReasonMapperTest {
             "DOCUMENT_MINUS_REJECTED, DOCUMENT_REJECTED",
         ]
     )
-    fun fromApiToDto(apiEnum: OfflineCommunicationReasonApi, expectedDto: CommunicationConfirmationReasonDto) {
+    fun `from api to dto`(apiEnum: OfflineCommunicationReasonApi, dtoEnum: CommunicationConfirmationReasonDto) {
         // Given
 
         // When
-        val actual = mapper.fromApiToDto(apiEnum)
+        val actualFromApiToDto = mapper.fromApiToDto(apiEnum)
 
         // Then
-        assertThat(actual).isEqualTo(expectedDto)
+        assertThat(actualFromApiToDto).isEqualTo(dtoEnum)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "APPLICATION_REJECTED, APPLICATION_MINUS_REJECTED",
+            "PHOTO_REJECTED, PHOTO_MINUS_REJECTED",
+            "DOCUMENT_REJECTED, DOCUMENT_MINUS_REJECTED",
+        ]
+    )
+    fun `from dto to api`(dtoEnum: CommunicationConfirmationReasonDto, apiEnum: OfflineCommunicationReasonApi) {
+        // Given
+
+        // When
+        val actualFromDtoToApi = mapper.fromDtoToApi(dtoEnum)
+
+        // Then
+        assertThat(actualFromDtoToApi).isEqualTo(apiEnum)
     }
 
     @ParameterizedTest
@@ -36,13 +54,31 @@ class CommunicationConfirmationReasonMapperTest {
             "DOCUMENT_REJECTED, DOCUMENT_REJECTED",
         ]
     )
-    fun fromDtoToEntity(dto: CommunicationConfirmationReasonDto, expectedEntity: OfflineCommunicationReasonEntity) {
+    fun `from entity to dto`(entityEnum: OfflineCommunicationReasonEntity, dtoEnum: CommunicationConfirmationReasonDto) {
         // Given
 
         // When
-        val actual = mapper.fromDtoToEntity(dto)
+        val actualFromEntityToDto = mapper.fromEntityToDto(entityEnum)
 
         // Then
-        assertThat(actual).isEqualTo(expectedEntity)
+        assertThat(actualFromEntityToDto).isEqualTo(dtoEnum)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "APPLICATION_REJECTED, APPLICATION_REJECTED",
+            "PHOTO_REJECTED, PHOTO_REJECTED",
+            "DOCUMENT_REJECTED, DOCUMENT_REJECTED",
+        ]
+    )
+    fun `from dto to entity`(dtoEnum: CommunicationConfirmationReasonDto, entityEnum: OfflineCommunicationReasonEntity) {
+        // Given
+
+        // When
+        val actualFromDtoToEntity = mapper.fromDtoToEntity(dtoEnum)
+
+        // Then
+        assertThat(actualFromDtoToEntity).isEqualTo(entityEnum)
     }
 }

@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
+import org.mapstruct.InheritInverseConfiguration
 import org.mapstruct.Mapper
 import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.dto.CommunicationConfirmationReasonDto
@@ -14,5 +15,10 @@ interface CommunicationConfirmationReasonMapper {
     @ValueMapping(target = "DOCUMENT_REJECTED", source = "DOCUMENT_MINUS_REJECTED")
     fun fromApiToDto(apiReasonEnum: OfflineCommunicationReasonApi): CommunicationConfirmationReasonDto
 
+    @InheritInverseConfiguration
+    fun fromDtoToApi(dtoReasonEnum: CommunicationConfirmationReasonDto): OfflineCommunicationReasonApi
+
     fun fromDtoToEntity(dtoEnum: CommunicationConfirmationReasonDto): OfflineCommunicationReasonEntity
+
+    fun fromEntityToDto(entityEnum: OfflineCommunicationReasonEntity): CommunicationConfirmationReasonDto
 }
