@@ -15,6 +15,8 @@ class SourceTypeMapperTest {
     @CsvSource(
         value = [
             "VOTER_MINUS_CARD, VOTER_CARD",
+            "POSTAL, POSTAL",
+            "PROXY, PROXY"
         ]
     )
     fun `should map Message Source Type enum to DTO Source Type`(
@@ -35,6 +37,7 @@ class SourceTypeMapperTest {
         value = [
             "VOTER_CARD, VOTER_CARD",
             "POSTAL, POSTAL",
+            "PROXY, PROXY"
         ]
     )
     fun `should map DTO Source Type to Entity Source Type`(
@@ -55,6 +58,7 @@ class SourceTypeMapperTest {
         value = [
             "VOTER_CARD, VOTER_CARD",
             "POSTAL, POSTAL",
+            "PROXY, PROXY"
         ]
     )
     fun `should map Entity Source Type to DTO Source Type`(
@@ -75,6 +79,7 @@ class SourceTypeMapperTest {
         value = [
             "POSTAL, POSTAL",
             "VOTER_MINUS_CARD, VOTER_CARD",
+            "PROXY, PROXY"
         ]
     )
     fun `should map api sourceType to sourceType dto`(
