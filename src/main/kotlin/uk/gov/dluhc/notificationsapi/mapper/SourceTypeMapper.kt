@@ -12,8 +12,6 @@ import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApiEnum
 interface SourceTypeMapper {
 
     @ValueMapping(source = "VOTER_MINUS_CARD", target = "VOTER_CARD")
-    @ValueMapping(source = "POSTAL", target = "POSTAL")
-    @ValueMapping(source = "PROXY", target = "PROXY")
     fun fromMessageToDto(sourceType: SourceTypeMessageEnum): SourceTypeDtoEnum
 
     fun fromDtoToEntity(sourceType: SourceTypeDtoEnum): SourceTypeEntityEnum
@@ -22,7 +20,5 @@ interface SourceTypeMapper {
     fun fromEntityToDto(sourceType: SourceTypeEntityEnum): SourceTypeDtoEnum
 
     @ValueMapping(source = "VOTER_MINUS_CARD", target = "VOTER_CARD")
-    @ValueMapping(source = "POSTAL", target = "POSTAL")
-    @ValueMapping(source = "PROXY", target = "PROXY")
     fun fromApiToDto(sourceType: SourceTypeApiEnum): SourceTypeDtoEnum
 }
