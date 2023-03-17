@@ -53,13 +53,15 @@ The following environment variables must be set in order to run the application:
 21. `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing postal application is received in Welsh
 22. `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing proxy application is received in English
 23. `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing proxy application is received in Welsh
-24. `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved in English
-25. `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved in Welsh
-26. `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
-27. `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
-28. `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
-29. `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
-30. `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations
+24. `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing overseas application is received in English
+25. `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing overseas application is received in Welsh
+26. `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved in English
+27. `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved in Welsh
+28. `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
+29. `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
+30. `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
+31. `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
+32. `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.

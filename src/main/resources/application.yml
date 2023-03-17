@@ -13,6 +13,8 @@ api:
         postal-received-welsh: ${TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH}
         proxy-received-english: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH}
         proxy-received-welsh: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_WELSH}
+        overseas-received-english: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH}
+        overseas-received-welsh: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH}
         approved-english: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH}
         approved-welsh: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH}
         photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH}
