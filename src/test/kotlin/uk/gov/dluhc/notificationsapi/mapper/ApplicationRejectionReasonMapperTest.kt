@@ -29,8 +29,8 @@ class ApplicationRejectionReasonMapperTest {
                 "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, You did not respond to our requests for information within the timeframe we gave you",
                 "FRAUDULENT_MINUS_APPLICATION, Your application contained inaccurate information",
                 "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, We have not been able to confirm that you are registered to vote at the address you provided",
-                "DUPLICATE_MINUS_APPLICATION, We have received one or more similar or duplicate applications for the details provided",
-                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain requiring photo identification",
+                "DUPLICATE_MINUS_APPLICATION, We have received one or more duplicate or very similar applications for the details provided",
+                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain that require photo identification",
                 "OTHER, Other"
             ]
         )
@@ -86,8 +86,8 @@ class ApplicationRejectionReasonMapperTest {
                 "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, You did not respond to our requests for information within the timeframe we gave you",
                 "FRAUDULENT_MINUS_APPLICATION, Your application contained inaccurate information",
                 "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, We have not been able to confirm that you are registered to vote at the address you provided",
-                "DUPLICATE_MINUS_APPLICATION, We have received one or more similar or duplicate applications for the details provided",
-                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain requiring photo identification",
+                "DUPLICATE_MINUS_APPLICATION, We have received one or more duplicate or very similar applications for the details provided",
+                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain that require photo identification",
                 "OTHER, Other"
             ]
         )
