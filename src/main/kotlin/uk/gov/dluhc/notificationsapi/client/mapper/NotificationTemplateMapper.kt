@@ -87,6 +87,7 @@ class NotificationTemplateMapper(
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedEnglish
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedEnglish
         SourceType.PROXY -> notifyEmailTemplateConfiguration.proxyReceivedEnglish
+        SourceType.OVERSEAS -> notifyEmailTemplateConfiguration.overseasReceivedEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No email template defined in English for source type $sourceType")
         }
@@ -96,6 +97,7 @@ class NotificationTemplateMapper(
         SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
         SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
         SourceType.PROXY -> notifyEmailTemplateConfiguration.proxyReceivedWelsh
+        SourceType.OVERSEAS -> notifyEmailTemplateConfiguration.overseasReceivedWelsh
         else -> {
             throw NotificationTemplateNotFoundException("No email template defined in Welsh for source type $sourceType")
         }

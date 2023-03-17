@@ -23,6 +23,8 @@ data class NotifyEmailTemplateConfiguration(
     val postalReceivedWelsh: String,
     val proxyReceivedEnglish: String,
     val proxyReceivedWelsh: String,
+    val overseasReceivedEnglish: String,
+    val overseasReceivedWelsh: String,
     val approvedEnglish: String,
     val approvedWelsh: String,
     val photoResubmissionEnglish: String,

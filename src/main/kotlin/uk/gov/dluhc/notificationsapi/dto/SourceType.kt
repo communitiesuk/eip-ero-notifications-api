@@ -5,4 +5,5 @@ enum class SourceType {
     POSTAL,
     ANONYMOUS_ELECTOR_DOCUMENT,
     PROXY,
+    OVERSEAS,
 }

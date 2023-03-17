@@ -24,8 +24,10 @@ internal class SendNotifyApplicationReceivedMessageListenerIntegrationTest : Int
     @CsvSource(
         "CY, POSTAL, POSTAL",
         "CY, PROXY, PROXY",
+        "CY, OVERSEAS, OVERSEAS",
         "EN, POSTAL, POSTAL",
-        "EN, PROXY, PROXY"
+        "EN, PROXY, PROXY",
+        "EN, OVERSEAS, OVERSEAS"
     )
     fun `should process application received message to send Email for given language and save notification`(
         language: Language,
