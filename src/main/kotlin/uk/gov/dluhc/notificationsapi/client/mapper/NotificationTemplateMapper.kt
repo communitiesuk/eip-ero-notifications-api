@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.client.mapper
 
 import org.springframework.stereotype.Component
+import uk.gov.dluhc.notificationsapi.config.AbstractNotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
@@ -13,6 +14,10 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
+import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
+import uk.gov.dluhc.notificationsapi.dto.SourceType.PROXY
+import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 
 /**
@@ -35,33 +40,58 @@ class NotificationTemplateMapper(
         }
     }
 
-    private fun fromEmailNotificationTypeInLanguage(sourceType: SourceType, notificationType: NotificationType, language: LanguageDto?) =
-        if (useEnglishTemplate(language)) englishEmail(sourceType, notificationType) else welshEmail(sourceType, notificationType)
+    private fun fromEmailNotificationTypeInLanguage(
+        sourceType: SourceType,
+        notificationType: NotificationType,
+        language: LanguageDto?
+    ): String {
+        val config = getSourceTemplateEmailTemplateConfiguration(sourceType)
+        return if (useEnglishTemplate(language)) englishEmail(config, notificationType)
+        else welshEmail(config, notificationType)
+    }
+
+    private fun getSourceTemplateEmailTemplateConfiguration(sourceType: SourceType): AbstractNotifyEmailTemplateConfiguration =
+        when (sourceType) {
+            OVERSEAS -> notifyEmailTemplateConfiguration.overseas
+            POSTAL -> notifyEmailTemplateConfiguration.postal
+            PROXY -> notifyEmailTemplateConfiguration.proxy
+            VOTER_CARD -> notifyEmailTemplateConfiguration.voterCard
+            else -> {
+                throw NotificationTemplateNotFoundException("No email template configuration defined for sourceType $sourceType")
+            }
+        }
 
     private fun useEnglishTemplate(language: LanguageDto?) = language == null || language == ENGLISH
 
-    private fun welshEmail(sourceType: SourceType, notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> getApplicationReceivedWelshEmailTemplateConfig(sourceType)
-        APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedWelsh
-        PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionWelsh
-        ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionWelsh
-        else -> {
-            throw IllegalStateException("No email template defined in Welsh for notification type $notificationType and sourceType $sourceType")
+    private fun welshEmail(config: AbstractNotifyEmailTemplateConfiguration, notificationType: NotificationType) =
+        when (notificationType) {
+            APPLICATION_RECEIVED -> config.receivedWelsh
+            APPLICATION_APPROVED -> config.approvedWelsh
+            PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
+            ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
+            else -> {
+                throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
+            }
         }
-    }
+            ?: throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
 
-    private fun englishEmail(sourceType: SourceType, notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> getApplicationReceivedEnglishEmailTemplateConfig(sourceType)
-        APPLICATION_APPROVED -> notifyEmailTemplateConfiguration.approvedEnglish
-        PHOTO_RESUBMISSION -> notifyEmailTemplateConfiguration.photoResubmissionEnglish
-        ID_DOCUMENT_RESUBMISSION -> notifyEmailTemplateConfiguration.idDocumentResubmissionEnglish
-        else -> {
-            throw IllegalStateException("No email template defined in English for notification type $notificationType and sourceType $sourceType")
+    private fun englishEmail(config: AbstractNotifyEmailTemplateConfiguration, notificationType: NotificationType) =
+        when (notificationType) {
+            APPLICATION_RECEIVED -> config.receivedEnglish
+            APPLICATION_APPROVED -> config.approvedEnglish
+            PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
+            ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
+            else -> {
+                throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
+            }
         }
-    }
+            ?: throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
 
-    private fun fromLetterNotificationTypeInLanguage(notificationType: NotificationType, language: LanguageDto?) =
-        if (useEnglishTemplate(language)) englishLetter(notificationType) else welshLetter(notificationType)
+    private fun fromLetterNotificationTypeInLanguage(
+        notificationType: NotificationType,
+        language: LanguageDto?
+    ) = (if (useEnglishTemplate(language)) englishLetter(notificationType) else welshLetter(notificationType))
+        ?: throw NotificationTemplateNotFoundException("No letter template defined in $language for notification type $notificationType")
 
     private fun welshLetter(notificationType: NotificationType) = when (notificationType) {
         APPLICATION_RECEIVED -> notifyLetterTemplateConfiguration.receivedWelsh
@@ -69,7 +99,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionWelsh
         else -> {
-            throw IllegalStateException("No letter template defined in Welsh for notification type $notificationType")
+            throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType")
         }
     }
 
@@ -79,27 +109,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionEnglish
         else -> {
-            throw IllegalStateException("No letter template defined in English for notification type $notificationType")
-        }
-    }
-
-    private fun getApplicationReceivedEnglishEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
-        SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedEnglish
-        SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedEnglish
-        SourceType.PROXY -> notifyEmailTemplateConfiguration.proxyReceivedEnglish
-        SourceType.OVERSEAS -> notifyEmailTemplateConfiguration.overseasReceivedEnglish
-        else -> {
-            throw NotificationTemplateNotFoundException("No email template defined in English for source type $sourceType")
-        }
-    }
-
-    private fun getApplicationReceivedWelshEmailTemplateConfig(sourceType: SourceType) = when (sourceType) {
-        SourceType.VOTER_CARD -> notifyEmailTemplateConfiguration.receivedWelsh
-        SourceType.POSTAL -> notifyEmailTemplateConfiguration.postalReceivedWelsh
-        SourceType.PROXY -> notifyEmailTemplateConfiguration.proxyReceivedWelsh
-        SourceType.OVERSEAS -> notifyEmailTemplateConfiguration.overseasReceivedWelsh
-        else -> {
-            throw NotificationTemplateNotFoundException("No email template defined in Welsh for source type $sourceType")
+            throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType")
         }
     }
 }

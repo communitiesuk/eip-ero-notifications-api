@@ -85,10 +85,10 @@ internal abstract class IntegrationTest {
     @Autowired
     protected lateinit var dynamoDbConfiguration: DynamoDbConfiguration
 
-    @Value("\${api.notify.template.letter.rejected-english}")
+    @Value("\${api.notify.template.voter-card.letter.rejected-english}")
     protected lateinit var applicationRejectedLetterEnglishTemplateId: String
 
-    @Value("\${api.notify.template.letter.rejected-welsh}")
+    @Value("\${api.notify.template.voter-card.letter.rejected-welsh}")
     protected lateinit var applicationRejectedLetterWelshTemplateId: String
 
     @Autowired

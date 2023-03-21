@@ -7,6 +7,10 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.OverseasNotifyEmailTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.PostalNotifyEmailTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.ProxyNotifyEmailTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.VoterCardNotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
@@ -19,20 +23,28 @@ internal class NotificationTemplateMapperTest {
 
     private val mapper = NotificationTemplateMapper(
         NotifyEmailTemplateConfiguration(
-            receivedEnglish = "RECEIVED-ID-EMAIL-ENGLISH",
-            receivedWelsh = "RECEIVED-ID-EMAIL-WELSH",
-            postalReceivedEnglish = "POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
-            postalReceivedWelsh = "POSTAL-RECEIVED-ID-EMAIL-WELSH",
-            proxyReceivedEnglish = "PROXY-RECEIVED-ID-EMAIL-ENGLISH",
-            proxyReceivedWelsh = "PROXY-RECEIVED-ID-EMAIL-WELSH",
-            overseasReceivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
-            overseasReceivedWelsh = "OVERSEAS-RECEIVED-ID-EMAIL-WELSH",
-            approvedEnglish = "APPROVED-ID-EMAIL-ENGLISH",
-            approvedWelsh = "APPROVED-ID-EMAIL-WELSH",
-            photoResubmissionEnglish = "PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
-            photoResubmissionWelsh = "PHOTO-RESUBMISSION-ID-EMAIL-WELSH",
-            idDocumentResubmissionEnglish = "DOCUMENT-RESUBMISSION-ID-EMAIL-ENGLISH",
-            idDocumentResubmissionWelsh = "DOCUMENT-RESUBMISSION-ID-EMAIL-WELSH"
+            voterCard = VoterCardNotifyEmailTemplateConfiguration(
+                receivedEnglish = "RECEIVED-ID-EMAIL-ENGLISH",
+                receivedWelsh = "RECEIVED-ID-EMAIL-WELSH",
+                approvedEnglish = "APPROVED-ID-EMAIL-ENGLISH",
+                approvedWelsh = "APPROVED-ID-EMAIL-WELSH",
+                photoResubmissionEnglish = "PHOTO-RESUBMISSION-ID-EMAIL-ENGLISH",
+                photoResubmissionWelsh = "PHOTO-RESUBMISSION-ID-EMAIL-WELSH",
+                idDocumentResubmissionEnglish = "DOCUMENT-RESUBMISSION-ID-EMAIL-ENGLISH",
+                idDocumentResubmissionWelsh = "DOCUMENT-RESUBMISSION-ID-EMAIL-WELSH"
+            ),
+            postal = PostalNotifyEmailTemplateConfiguration(
+                receivedEnglish = "POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
+                receivedWelsh = "POSTAL-RECEIVED-ID-EMAIL-WELSH",
+            ),
+            proxy = ProxyNotifyEmailTemplateConfiguration(
+                receivedEnglish = "PROXY-RECEIVED-ID-EMAIL-ENGLISH",
+                receivedWelsh = "PROXY-RECEIVED-ID-EMAIL-WELSH",
+            ),
+            overseas = OverseasNotifyEmailTemplateConfiguration(
+                receivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
+                receivedWelsh = "OVERSEAS-RECEIVED-ID-EMAIL-WELSH",
+            ),
         ),
         NotifyLetterTemplateConfiguration(
             receivedEnglish = "RECEIVED-ID-LETTER-ENGLISH",
@@ -172,7 +184,7 @@ internal class NotificationTemplateMapperTest {
 
         // Then
         assertThat(error)
-            .isInstanceOfAny(IllegalStateException::class.java)
+            .isInstanceOfAny(NotificationTemplateNotFoundException::class.java)
             .hasMessage("No letter template defined in ${language.toMessage()} for notification type $notificationType")
     }
 
@@ -198,7 +210,7 @@ internal class NotificationTemplateMapperTest {
 
         // Then
         assertThat(error)
-            .isInstanceOfAny(IllegalStateException::class.java)
+            .isInstanceOfAny(NotificationTemplateNotFoundException::class.java)
             .hasMessage("No $channelString template defined in ${language.toMessage()} for notification type $templateType")
     }
 
@@ -224,7 +236,7 @@ internal class NotificationTemplateMapperTest {
 
         // Then
         assertThat(error)
-            .isInstanceOfAny(IllegalStateException::class.java)
+            .isInstanceOfAny(NotificationTemplateNotFoundException::class.java)
             .hasMessage("No $channelString template defined in ${language.toMessage()} for notification type $templateType and sourceType $sourceType")
     }
 
@@ -243,7 +255,7 @@ internal class NotificationTemplateMapperTest {
         // Then
         assertThat(error)
             .isInstanceOfAny(NotificationTemplateNotFoundException::class.java)
-            .hasMessage("No email template defined in ${language.toMessage()} for source type ANONYMOUS_ELECTOR_DOCUMENT")
+            .hasMessage("No email template configuration defined for sourceType ANONYMOUS_ELECTOR_DOCUMENT")
     }
 }
 
