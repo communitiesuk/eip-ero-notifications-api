@@ -37,15 +37,15 @@ class PostalNotifyEmailTemplateConfiguration(
     receivedEnglish: String,
     receivedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
-    sourceType,
-    receivedEnglish,
-    receivedWelsh,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    sourceType = sourceType,
+    receivedEnglish = receivedEnglish,
+    receivedWelsh = receivedWelsh,
+    approvedEnglish = null,
+    approvedWelsh = null,
+    photoResubmissionEnglish = null,
+    photoResubmissionWelsh = null,
+    idDocumentResubmissionEnglish = null,
+    idDocumentResubmissionWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -55,15 +55,15 @@ class ProxyNotifyEmailTemplateConfiguration(
     receivedEnglish: String,
     receivedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
-    sourceType,
-    receivedEnglish,
-    receivedWelsh,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    sourceType = sourceType,
+    receivedEnglish = receivedEnglish,
+    receivedWelsh = receivedWelsh,
+    approvedEnglish = null,
+    approvedWelsh = null,
+    photoResubmissionEnglish = null,
+    photoResubmissionWelsh = null,
+    idDocumentResubmissionEnglish = null,
+    idDocumentResubmissionWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -73,15 +73,15 @@ class OverseasNotifyEmailTemplateConfiguration(
     receivedEnglish: String,
     receivedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
-    sourceType,
-    receivedEnglish,
-    receivedWelsh,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    sourceType = sourceType,
+    receivedEnglish = receivedEnglish,
+    receivedWelsh = receivedWelsh,
+    approvedEnglish = null,
+    approvedWelsh = null,
+    photoResubmissionEnglish = null,
+    photoResubmissionWelsh = null,
+    idDocumentResubmissionEnglish = null,
+    idDocumentResubmissionWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -97,15 +97,15 @@ class VoterCardNotifyEmailTemplateConfiguration(
     idDocumentResubmissionEnglish: String,
     idDocumentResubmissionWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
-    sourceType,
-    receivedEnglish,
-    receivedWelsh,
-    approvedEnglish,
-    approvedWelsh,
-    photoResubmissionEnglish,
-    photoResubmissionWelsh,
-    idDocumentResubmissionEnglish,
-    idDocumentResubmissionWelsh,
+    sourceType = sourceType,
+    receivedEnglish = receivedEnglish,
+    receivedWelsh = receivedWelsh,
+    approvedEnglish = approvedEnglish,
+    approvedWelsh = approvedWelsh,
+    photoResubmissionEnglish = photoResubmissionEnglish,
+    photoResubmissionWelsh = photoResubmissionWelsh,
+    idDocumentResubmissionEnglish = idDocumentResubmissionEnglish,
+    idDocumentResubmissionWelsh = idDocumentResubmissionWelsh,
 )
 
 abstract class AbstractNotifyEmailTemplateConfiguration(

@@ -50,8 +50,8 @@ class NotificationTemplateMapper(
         else welshEmail(config, notificationType)
     }
 
-    private fun getSourceTemplateEmailTemplateConfiguration(sourceType: SourceType): AbstractNotifyEmailTemplateConfiguration {
-        val config = when (sourceType) {
+    private fun getSourceTemplateEmailTemplateConfiguration(sourceType: SourceType): AbstractNotifyEmailTemplateConfiguration =
+        when (sourceType) {
             OVERSEAS -> notifyEmailTemplateConfiguration.overseas
             POSTAL -> notifyEmailTemplateConfiguration.postal
             PROXY -> notifyEmailTemplateConfiguration.proxy
@@ -60,8 +60,6 @@ class NotificationTemplateMapper(
                 throw NotificationTemplateNotFoundException("No email template configuration defined for sourceType $sourceType")
             }
         }
-        return config
-    }
 
     private fun useEnglishTemplate(language: LanguageDto?) = language == null || language == ENGLISH
 
