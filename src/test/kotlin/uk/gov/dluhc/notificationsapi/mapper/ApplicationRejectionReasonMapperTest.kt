@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.context.support.ResourceBundleMessageSource
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason as ApplicationRejectionReasonMessageEnum
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason as ApplicationRejectionReasonApiEnum
 
@@ -40,7 +41,7 @@ class ApplicationRejectionReasonMapperTest {
             // Given
 
             // When
-            val actual = mapper.toApplicationRejectionReasonString(rejectionReason)
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.ENGLISH)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -70,7 +71,7 @@ class ApplicationRejectionReasonMapperTest {
             // Given
 
             // When
-            val actual = mapper.toApplicationRejectionReasonString(rejectionReason)
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.ENGLISH)
 
             // Then
             assertThat(actual).isEqualTo(expected)

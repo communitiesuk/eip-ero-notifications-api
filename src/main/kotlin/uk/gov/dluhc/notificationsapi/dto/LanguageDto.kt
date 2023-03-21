@@ -1,6 +1,8 @@
 package uk.gov.dluhc.notificationsapi.dto
 
-enum class LanguageDto(val value: String) {
-    WELSH("cy"),
-    ENGLISH("en"),
+import java.util.Locale
+
+enum class LanguageDto(val value: String, val locale: Locale) {
+    WELSH("cy", Locale("cy", "WALES")),
+    ENGLISH("en", Locale.ENGLISH),
 }

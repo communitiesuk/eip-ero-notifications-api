@@ -208,7 +208,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language, sourceType = SourceType.VOTER_MINUS_CARD)
-        val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation)
+        val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation, language)
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
         // When
@@ -230,16 +230,12 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
     }
 
-    private fun getExpectedPersonalisationMap(personalisation: ApplicationRejectedPersonalisation): Map<String, Any> =
+    private fun getExpectedPersonalisationMap(personalisation: ApplicationRejectedPersonalisation, language: Language): Map<String, Any> =
         with(personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectionReasonList" to mutableListOf(
-                    "Your application was incomplete",
-                    "You did not respond to our requests for information within the timeframe we gave you",
-                    "Other"
-                ),
+                "rejectionReasonList" to getExpectedRejectionReasonList(language),
                 "rejectionReasonMessage" to (rejectionReasonMessage ?: ""),
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
@@ -253,6 +249,19 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
                 "eroPostcode" to eroContactDetails.address.postcode
             )
         }
+
+    private fun getExpectedRejectionReasonList(language: Language) = when (language) {
+        CY -> mutableListOf(
+            "Mae'r cais yn anghyflawn",
+            "Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
+            "Other"
+        )
+        else -> mutableListOf(
+            "Your application was incomplete",
+            "You did not respond to our requests for information within the timeframe we gave you",
+            "Other"
+        )
+    }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
