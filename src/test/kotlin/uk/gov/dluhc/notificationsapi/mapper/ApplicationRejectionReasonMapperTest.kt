@@ -34,7 +34,7 @@ class ApplicationRejectionReasonMapperTest {
                 "OTHER, Other"
             ]
         )
-        fun `should map enums to human readable messages`(
+        fun `should map enums to human readable messages in English`(
             rejectionReason: ApplicationRejectionReasonApiEnum,
             expected: String
         ) {
@@ -42,6 +42,33 @@ class ApplicationRejectionReasonMapperTest {
 
             // When
             val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.ENGLISH)
+
+            // Then
+            assertThat(actual).isEqualTo(expected)
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "INCOMPLETE_MINUS_APPLICATION, Mae'r cais yn anghyflawn",
+                "INACCURATE_MINUS_INFORMATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Nid yw'r ffotograff yn bodloni'r meini prawf",
+                "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
+                "FRAUDULENT_MINUS_APPLICATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
+                "DUPLICATE_MINUS_APPLICATION, We have received one or more similar or duplicate applications for the details provided",
+                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain requiring photo identification",
+                "OTHER, Other"
+            ]
+        )
+        fun `should map enums to human readable messages in Welsh`(
+            rejectionReason: ApplicationRejectionReasonApiEnum,
+            expected: String
+        ) {
+            // Given
+
+            // When
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.WELSH)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -64,7 +91,7 @@ class ApplicationRejectionReasonMapperTest {
                 "OTHER, Other"
             ]
         )
-        fun `should map enums to human readable messages`(
+        fun `should map enums to human readable messages in English`(
             rejectionReason: ApplicationRejectionReasonMessageEnum,
             expected: String
         ) {
@@ -72,6 +99,33 @@ class ApplicationRejectionReasonMapperTest {
 
             // When
             val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.ENGLISH)
+
+            // Then
+            assertThat(actual).isEqualTo(expected)
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "INCOMPLETE_MINUS_APPLICATION, Mae'r cais yn anghyflawn",
+                "INACCURATE_MINUS_INFORMATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Nid yw'r ffotograff yn bodloni'r meini prawf",
+                "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
+                "FRAUDULENT_MINUS_APPLICATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
+                "DUPLICATE_MINUS_APPLICATION, We have received one or more similar or duplicate applications for the details provided",
+                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain requiring photo identification",
+                "OTHER, Other"
+            ]
+        )
+        fun `should map enums to human readable messages in Welsh`(
+            rejectionReason: ApplicationRejectionReasonMessageEnum,
+            expected: String
+        ) {
+            // Given
+
+            // When
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.WELSH)
 
             // Then
             assertThat(actual).isEqualTo(expected)
