@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.10.3'
+  version: '1.11.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -390,6 +390,89 @@ paths:
         httpMethod: POST
 
   #
+  # Generate ID Document Required Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/id-document-required/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate ID Document Required Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text and html preview for an ID document required template type and personalisation data
+      description: Generates a text and html preview for an ID document required template type and personalisation data
+      operationId: generate-id-document-required-template-preview
+      tags:
+        - Generate ID Document Required Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateIdDocumentRequiredTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          description: Error response describing fields in the request payload that are in error
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/id-document-required/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
+  #
   # Generate Application Rejected Template Preview
   # --------------------------------------------------------------------------------
 
@@ -656,6 +739,23 @@ components:
         - channel
         - personalisation
         - sourceType
+    GenerateIdDocumentRequiredTemplatePreviewRequest:
+      title: GenerateIdDocumentRequiredTemplatePreviewRequest
+      description: An object containing request attributes required for generating the ID document required template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/IdDocumentRequiredPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
     GenerateTemplatePreviewRequest:
       title: GenerateTemplatePreviewRequest
       description: An object containing template type and map of personalisation data for the template
@@ -766,6 +866,12 @@ components:
       required:
         - photoRequestFreeText
         - uploadPhotoLink
+    IdDocumentRequiredPersonalisation:
+      title: IdDocumentRequiredPersonalisation
+      type: object
+      description: Personalisation details for an ID document required template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
     BasePersonalisation:
       title: BasePersonalisation
       type: object
@@ -1077,6 +1183,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateIdDocumentResubmissionTemplatePreviewRequest'
+    GenerateIdDocumentRequiredTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateIdDocumentRequiredTemplatePreviewRequest'
     GenerateApplicationRejectedTemplatePreview:
       content:
         application/json:
