@@ -11,6 +11,7 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
@@ -112,11 +113,21 @@ internal class TemplatePersonalisationMessageMapperTest {
             val applicantHasNotResponded = "Applicant has not responded to requests for information"
             val other = "other"
 
-            given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(INCOMPLETE_MINUS_APPLICATION))
+            given(
+                applicationRejectionReasonMapper.toApplicationRejectionReasonString(
+                    INCOMPLETE_MINUS_APPLICATION,
+                    ENGLISH
+                )
+            )
                 .willReturn(incompleteApplication)
-            given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT))
+            given(
+                applicationRejectionReasonMapper.toApplicationRejectionReasonString(
+                    NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
+                    ENGLISH
+                )
+            )
                 .willReturn(applicantHasNotResponded)
-            given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER)).willReturn(other)
+            given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER, ENGLISH)).willReturn(other)
 
             val expectedPersonalisationDto = with(personalisationMessage) {
                 ApplicationRejectedPersonalisationDto(
@@ -146,14 +157,17 @@ internal class TemplatePersonalisationMessageMapperTest {
             }
 
             // When
-            val actual = mapper.toRejectedPersonalisationDto(personalisationMessage)
+            val actual = mapper.toRejectedPersonalisationDto(personalisationMessage, ENGLISH)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
-            verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(INCOMPLETE_MINUS_APPLICATION)
+            verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
+                INCOMPLETE_MINUS_APPLICATION,
+                ENGLISH
+            )
             verify(applicationRejectionReasonMapper)
-                .toApplicationRejectionReasonString(NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT)
-            verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER)
+                .toApplicationRejectionReasonString(NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH)
+            verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER, ENGLISH)
             verifyNoMoreInteractions(applicationRejectionReasonMapper)
         }
     }

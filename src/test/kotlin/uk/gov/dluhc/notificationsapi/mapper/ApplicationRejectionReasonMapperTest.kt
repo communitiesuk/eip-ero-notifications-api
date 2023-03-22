@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.context.support.ResourceBundleMessageSource
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason as ApplicationRejectionReasonMessageEnum
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason as ApplicationRejectionReasonApiEnum
 
@@ -33,14 +34,41 @@ class ApplicationRejectionReasonMapperTest {
                 "OTHER, Other"
             ]
         )
-        fun `should map enums to human readable messages`(
+        fun `should map enums to human readable messages in English`(
             rejectionReason: ApplicationRejectionReasonApiEnum,
             expected: String
         ) {
             // Given
 
             // When
-            val actual = mapper.toApplicationRejectionReasonString(rejectionReason)
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.ENGLISH)
+
+            // Then
+            assertThat(actual).isEqualTo(expected)
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "INCOMPLETE_MINUS_APPLICATION, Mae'r cais yn anghyflawn",
+                "INACCURATE_MINUS_INFORMATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Nid yw'r ffotograff yn bodloni'r meini prawf",
+                "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
+                "FRAUDULENT_MINUS_APPLICATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
+                "DUPLICATE_MINUS_APPLICATION, Rydym wedi derbyn un neu fwy o geisiadau dyblyg neu debyg iawn am y manylion a ddarparwyd",
+                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Mae ein cofnodion yn dangos nad ydych yn gymwys i bleidleisio mewn polau ym Mhrydain Fawr sydd angen prawf adnabod â llun",
+                "OTHER, Other"
+            ]
+        )
+        fun `should map enums to human readable messages in Welsh`(
+            rejectionReason: ApplicationRejectionReasonApiEnum,
+            expected: String
+        ) {
+            // Given
+
+            // When
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.WELSH)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -63,14 +91,41 @@ class ApplicationRejectionReasonMapperTest {
                 "OTHER, Other"
             ]
         )
-        fun `should map enums to human readable messages`(
+        fun `should map enums to human readable messages in English`(
             rejectionReason: ApplicationRejectionReasonMessageEnum,
             expected: String
         ) {
             // Given
 
             // When
-            val actual = mapper.toApplicationRejectionReasonString(rejectionReason)
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.ENGLISH)
+
+            // Then
+            assertThat(actual).isEqualTo(expected)
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "INCOMPLETE_MINUS_APPLICATION, Mae'r cais yn anghyflawn",
+                "INACCURATE_MINUS_INFORMATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Nid yw'r ffotograff yn bodloni'r meini prawf",
+                "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
+                "FRAUDULENT_MINUS_APPLICATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
+                "DUPLICATE_MINUS_APPLICATION, Rydym wedi derbyn un neu fwy o geisiadau dyblyg neu debyg iawn am y manylion a ddarparwyd",
+                "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Mae ein cofnodion yn dangos nad ydych yn gymwys i bleidleisio mewn polau ym Mhrydain Fawr sydd angen prawf adnabod â llun",
+                "OTHER, Other"
+            ]
+        )
+        fun `should map enums to human readable messages in Welsh`(
+            rejectionReason: ApplicationRejectionReasonMessageEnum,
+            expected: String
+        ) {
+            // Given
+
+            // When
+            val actual = mapper.toApplicationRejectionReasonString(rejectionReason, LanguageDto.WELSH)
 
             // Then
             assertThat(actual).isEqualTo(expected)

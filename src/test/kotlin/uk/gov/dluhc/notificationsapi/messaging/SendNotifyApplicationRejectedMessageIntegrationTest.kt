@@ -41,7 +41,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
 
         val payload = buildSendNotifyApplicationRejectedMessage(language = language)
         val expectedRequest = getExpectedRequest(payload, languageDto)
-        val expectedPersonalisation = getExpectedPersonalisationMap(payload)
+        val expectedPersonalisation = getExpectedPersonalisationMap(payload, languageDto)
 
         val notifyResponse = NotifySendLetterSuccessResponse(template = LetterTemplate(id = templateId))
         wireMockService.stubNotifySendLetterResponse(notifyResponse)
@@ -87,16 +87,12 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         )
     }
 
-    private fun getExpectedPersonalisationMap(payload: SendNotifyApplicationRejectedMessage): Map<String, Any> =
+    private fun getExpectedPersonalisationMap(payload: SendNotifyApplicationRejectedMessage, languageDto: LanguageDto): Map<String, Any> =
         with(payload.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectionReasonList" to mutableListOf(
-                    "Your application was incomplete",
-                    "You did not respond to our requests for information within the timeframe we gave you",
-                    "Other"
-                ),
+                "rejectionReasonList" to getExpectedRejectionReasonList(languageDto),
                 "rejectionReasonMessage" to (rejectionReasonMessage ?: ""),
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
@@ -110,6 +106,19 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
                 "eroPostcode" to eroContactDetails.address.postcode
             )
         }
+
+    private fun getExpectedRejectionReasonList(languageDto: LanguageDto) = when (languageDto) {
+        LanguageDto.WELSH -> mutableListOf(
+            "Mae'r cais yn anghyflawn",
+            "Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
+            "Other"
+        )
+        else -> mutableListOf(
+            "Your application was incomplete",
+            "You did not respond to our requests for information within the timeframe we gave you",
+            "Other"
+        )
+    }
 
     private fun assertNotificationPersisted(
         payload: SendNotifyApplicationRejectedMessage,

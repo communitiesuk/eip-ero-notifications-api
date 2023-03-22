@@ -13,7 +13,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.OTHER
@@ -43,24 +43,32 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
     @EnumSource(Language::class)
     fun `should map application rejected template request to dto`(language: Language) {
         // Given
-        val request = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language, sourceType = SourceTypeModel.VOTER_MINUS_CARD)
-        given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
+        val request = buildGenerateApplicationRejectedTemplatePreviewRequest(
+            language = language,
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD
+        )
+        given(languageMapper.fromApiToDto(any())).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
         val incompleteApplication = "Application is incomplete"
         val applicantHasNotResponded = "Applicant has not responded to requests for information"
         val other = "other"
-        given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(INCOMPLETE_MINUS_APPLICATION))
+        given(
+            applicationRejectionReasonMapper.toApplicationRejectionReasonString(
+                INCOMPLETE_MINUS_APPLICATION,
+                ENGLISH
+            )
+        )
             .willReturn(incompleteApplication)
         given(
             applicationRejectionReasonMapper.toApplicationRejectionReasonString(
-                NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
+                NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH
             )
         ).willReturn(applicantHasNotResponded)
-        given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER)).willReturn(other)
+        given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER, ENGLISH)).willReturn(other)
 
         val expected = ApplicationRejectedTemplatePreviewDto(
             sourceType = SourceTypeDto.VOTER_CARD,
-            language = LanguageDto.ENGLISH,
+            language = ENGLISH,
             personalisation = with(request.personalisation) {
                 ApplicationRejectedPersonalisationDto(
                     applicationReference = applicationReference,
@@ -96,11 +104,14 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(language)
         verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
-        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(INCOMPLETE_MINUS_APPLICATION)
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
-            NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
+            INCOMPLETE_MINUS_APPLICATION,
+            ENGLISH
         )
-        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER)
+        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
+            NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH
+        )
+        verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER, ENGLISH)
         verifyNoMoreInteractions(applicationRejectionReasonMapper)
     }
 }
