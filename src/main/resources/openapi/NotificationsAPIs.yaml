@@ -390,16 +390,16 @@ paths:
         httpMethod: POST
 
   #
-  # Generate ID Not Verified By NiNo Template Preview
+  # Generate ID Document Required Template Preview
   # --------------------------------------------------------------------------------
 
-  '/templates/id-not-verified-by-nino/preview':
+  '/templates/id-document-required/preview':
     options:
       summary: CORS support
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Generate ID Not Verified By NiNo Template Preview
+        - Generate ID Document Required Template Preview
       responses:
         200:
           description: Default response for CORS method
@@ -432,13 +432,13 @@ paths:
               application/json: |
                 {}
     post:
-      summary: Generates a text and html preview for an ID not verified by NiNo template type and personalisation data
-      description: Generates a text and html preview for an ID not verified by NiNo template type and personalisation data
-      operationId: generate-id-not-verified-by-nino-template-preview
+      summary: Generates a text and html preview for an ID document required template type and personalisation data
+      description: Generates a text and html preview for an ID document required template type and personalisation data
+      operationId: generate-id-document-required-template-preview
       tags:
-        - Generate ID Not Verified By NiNo Template Preview
+        - Generate ID Document Required Template Preview
       requestBody:
-        $ref: '#/components/requestBodies/GenerateIdNotVerifiedByNiNoTemplatePreview'
+        $ref: '#/components/requestBodies/GenerateIdDocumentRequiredTemplatePreview'
       responses:
         '201':
           $ref: '#/components/responses/GenerateTemplatePreview'
@@ -462,7 +462,7 @@ paths:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/templates/id-not-verified-by-nino/preview'
+        uri: '${base_uri}/templates/id-document-required/preview'
         requestParameters:
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
@@ -739,9 +739,9 @@ components:
         - channel
         - personalisation
         - sourceType
-    GenerateIdNotVerifiedByNiNoTemplatePreviewRequest:
-      title: GenerateIdNotVerifiedByNiNoTemplatePreviewRequest
-      description: An object containing request attributes required for generating the ID not verified by NiNo template preview
+    GenerateIdDocumentRequiredTemplatePreviewRequest:
+      title: GenerateIdDocumentRequiredTemplatePreviewRequest
+      description: An object containing request attributes required for generating the ID document required template preview
       type: object
       properties:
         channel:
@@ -749,7 +749,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/IdNotVerifiedByNiNoPersonalisation'
+          $ref: '#/components/schemas/IdDocumentRequiredPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -866,10 +866,10 @@ components:
       required:
         - photoRequestFreeText
         - uploadPhotoLink
-    IdNotVerifiedByNiNoPersonalisation:
-      title: IdNotVerifiedByNiNoPersonalisation
+    IdDocumentRequiredPersonalisation:
+      title: IdDocumentRequiredPersonalisation
       type: object
-      description: Personalisation details for an ID not verified by NiNo template
+      description: Personalisation details for an ID document required template
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
     BasePersonalisation:
@@ -1183,11 +1183,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateIdDocumentResubmissionTemplatePreviewRequest'
-    GenerateIdNotVerifiedByNiNoTemplatePreview:
+    GenerateIdDocumentRequiredTemplatePreview:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/GenerateIdNotVerifiedByNiNoTemplatePreviewRequest'
+            $ref: '#/components/schemas/GenerateIdDocumentRequiredTemplatePreviewRequest'
     GenerateApplicationRejectedTemplatePreview:
       content:
         application/json:
