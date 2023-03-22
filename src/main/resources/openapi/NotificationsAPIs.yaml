@@ -390,16 +390,16 @@ paths:
         httpMethod: POST
 
   #
-  # Generate NiNo Failure Template Preview
+  # Generate ID Not Verified By NiNo Template Preview
   # --------------------------------------------------------------------------------
 
-  '/templates/nino-failed/preview':
+  '/templates/id-not-verified-by-nino/preview':
     options:
       summary: CORS support
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Generate NiNo Failed Template Preview
+        - Generate ID Not Verified By NiNo Template Preview
       responses:
         200:
           description: Default response for CORS method
@@ -432,13 +432,13 @@ paths:
               application/json: |
                 {}
     post:
-      summary: Generates a text and html preview for a nino failed template type and personalisation data
-      description: Generates a text and html preview for a nino failed template type and personalisation data
-      operationId: generate-nino-failed-template-preview
+      summary: Generates a text and html preview for an ID not verified by NiNo template type and personalisation data
+      description: Generates a text and html preview for an ID not verified by NiNo template type and personalisation data
+      operationId: generate-id-not-verified-by-nino-template-preview
       tags:
-        - Generate NiNo Failed Template Preview
+        - Generate ID Not Verified By NiNo Template Preview
       requestBody:
-        $ref: '#/components/requestBodies/GenerateNiNoFailedTemplatePreview'
+        $ref: '#/components/requestBodies/GenerateIdNotVerifiedByNiNoTemplatePreview'
       responses:
         '201':
           $ref: '#/components/responses/GenerateTemplatePreview'
@@ -462,7 +462,7 @@ paths:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/templates/nino-failed/preview'
+        uri: '${base_uri}/templates/id-not-verified-by-nino/preview'
         requestParameters:
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
@@ -739,9 +739,9 @@ components:
         - channel
         - personalisation
         - sourceType
-    GenerateNiNoFailedTemplatePreviewRequest:
-      title: GenerateNiNoFailedTemplatePreviewRequest
-      description: An object containing request attributes required for generating the nino failed template preview
+    GenerateIdNotVerifiedByNiNoTemplatePreviewRequest:
+      title: GenerateIdNotVerifiedByNiNoTemplatePreviewRequest
+      description: An object containing request attributes required for generating the ID not verified by NiNo template preview
       type: object
       properties:
         channel:
@@ -749,7 +749,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/NiNoFailedPersonalisation'
+          $ref: '#/components/schemas/IdNotVerifiedByNiNoPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -866,10 +866,10 @@ components:
       required:
         - photoRequestFreeText
         - uploadPhotoLink
-    NiNoFailedPersonalisation:
-      title: NiNoFailedPersonalisation
+    IdNotVerifiedByNiNoPersonalisation:
+      title: IdNotVerifiedByNiNoPersonalisation
       type: object
-      description: Personalisation details for a nino failed template
+      description: Personalisation details for an ID not verified by NiNo template
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
     BasePersonalisation:
@@ -1183,11 +1183,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateIdDocumentResubmissionTemplatePreviewRequest'
-    GenerateNiNoFailedTemplatePreview:
+    GenerateIdNotVerifiedByNiNoTemplatePreview:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/GenerateNiNoFailedTemplatePreviewRequest'
+            $ref: '#/components/schemas/GenerateIdNotVerifiedByNiNoTemplatePreviewRequest'
     GenerateApplicationRejectedTemplatePreview:
       content:
         application/json:
