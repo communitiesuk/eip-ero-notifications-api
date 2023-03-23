@@ -111,7 +111,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         LanguageDto.WELSH -> mutableListOf(
             "Mae'r cais yn anghyflawn",
             "Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
-            "Other"
+            "Eraill"
         )
         else -> mutableListOf(
             "Your application was incomplete",
