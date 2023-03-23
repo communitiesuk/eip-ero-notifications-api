@@ -11,6 +11,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_APPROVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -69,6 +70,7 @@ class NotificationTemplateMapper(
             APPLICATION_APPROVED -> config.approvedWelsh
             PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
+            ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -81,6 +83,7 @@ class NotificationTemplateMapper(
             APPLICATION_APPROVED -> config.approvedEnglish
             PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
+            ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -98,6 +101,7 @@ class NotificationTemplateMapper(
         APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedWelsh
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionWelsh
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionWelsh
+        ID_DOCUMENT_REQUIRED -> notifyLetterTemplateConfiguration.idDocumentRequiredWelsh
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType")
         }
@@ -108,6 +112,7 @@ class NotificationTemplateMapper(
         APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedEnglish
         PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionEnglish
         ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionEnglish
+        ID_DOCUMENT_REQUIRED -> notifyLetterTemplateConfiguration.idDocumentRequiredEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType")
         }

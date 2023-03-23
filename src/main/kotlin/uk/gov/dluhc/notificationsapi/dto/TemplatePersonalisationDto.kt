@@ -17,6 +17,16 @@ class IdDocumentPersonalisationDto(
     eroContactDetails = eroContactDetails
 )
 
+class IdDocumentRequiredPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)
+
 class PhotoPersonalisationDto(
     applicationReference: String,
     firstName: String,
