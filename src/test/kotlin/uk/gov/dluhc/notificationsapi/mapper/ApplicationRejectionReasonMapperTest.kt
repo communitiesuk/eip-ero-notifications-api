@@ -58,7 +58,7 @@ class ApplicationRejectionReasonMapperTest {
                 "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
                 "DUPLICATE_MINUS_APPLICATION, Rydym wedi derbyn un neu fwy o geisiadau dyblyg neu debyg iawn am y manylion a ddarparwyd",
                 "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Mae ein cofnodion yn dangos nad ydych yn gymwys i bleidleisio mewn polau ym Mhrydain Fawr sydd angen prawf adnabod â llun",
-                "OTHER, Other"
+                "OTHER, Eraill"
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
@@ -115,7 +115,7 @@ class ApplicationRejectionReasonMapperTest {
                 "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
                 "DUPLICATE_MINUS_APPLICATION, Rydym wedi derbyn un neu fwy o geisiadau dyblyg neu debyg iawn am y manylion a ddarparwyd",
                 "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Mae ein cofnodion yn dangos nad ydych yn gymwys i bleidleisio mewn polau ym Mhrydain Fawr sydd angen prawf adnabod â llun",
-                "OTHER, Other"
+                "OTHER, Eraill"
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
