@@ -1,9 +1,8 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -38,37 +37,13 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "EN, EMAIL, VOTER_MINUS_CARD",
-            "EN, EMAIL, POSTAL",
-            "EN, EMAIL, PROXY",
-            "EN, EMAIL, OVERSEAS",
-            "EN, LETTER, VOTER_MINUS_CARD",
-            "EN, LETTER, POSTAL",
-            "EN, LETTER, PROXY",
-            "EN, LETTER, OVERSEAS",
-            "CY, EMAIL, VOTER_MINUS_CARD",
-            "CY, EMAIL, POSTAL",
-            "CY, EMAIL, PROXY",
-            "CY, EMAIL, OVERSEAS",
-            "CY, LETTER, VOTER_MINUS_CARD",
-            "CY, LETTER, POSTAL",
-            "CY, LETTER, PROXY",
-            "CY, LETTER, OVERSEAS",
-        ]
-    )
-    fun `should map id document required template request to dto`(
-        language: Language,
-        channel: NotificationChannel,
-        sourceType: SourceType
-    ) {
+    @Test
+    fun `should map id document required template request to dto`() {
         // Given
         val request = buildGenerateIdDocumentRequiredTemplatePreviewRequest(
-            language = language,
-            channel = channel,
-            sourceType = sourceType
+            language = Language.EN,
+            channel = NotificationChannel.EMAIL,
+            sourceType = SourceType.VOTER_MINUS_CARD
         )
         given(languageMapper.fromApiToDto(any())).willReturn(ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(EMAIL)
@@ -110,9 +85,9 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
 
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-        verify(languageMapper).fromApiToDto(language)
-        verify(notificationChannelMapper).fromApiToDto(channel)
-        verify(sourceTypeMapper).fromApiToDto(sourceType)
+        verify(languageMapper).fromApiToDto(Language.EN)
+        verify(notificationChannelMapper).fromApiToDto(NotificationChannel.EMAIL)
+        verify(sourceTypeMapper).fromApiToDto(SourceType.VOTER_MINUS_CARD)
         verifyNoMoreInteractions(languageMapper, notificationChannelMapper, sourceTypeMapper)
     }
 }

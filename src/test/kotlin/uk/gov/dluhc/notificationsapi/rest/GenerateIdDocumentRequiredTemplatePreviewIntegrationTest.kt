@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.rest
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -224,7 +224,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
 
         // Then
         val actual = response.responseBody.blockFirst()
-        Assertions.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
     }
 
@@ -257,7 +257,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
 
         // Then
         val actual = response.responseBody.blockFirst()
-        Assertions.assertThat(actual).isEqualTo(expected)
+        assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
     }
 
