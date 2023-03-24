@@ -149,6 +149,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
+                "idDocumentRequiredFreeText" : "",
                 "eroContactDetails": {
                   "localAuthorityName": "",
                   "website": "",
@@ -265,6 +266,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
+                "ninoFailFreeText" to idDocumentRequiredFreeText,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,

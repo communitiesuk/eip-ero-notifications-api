@@ -681,6 +681,7 @@ components:
         - application-rejected
         - photo-resubmission
         - id-document-resubmission
+        - id-document-required
     Language:
       title: Language
       description: The language to view the template

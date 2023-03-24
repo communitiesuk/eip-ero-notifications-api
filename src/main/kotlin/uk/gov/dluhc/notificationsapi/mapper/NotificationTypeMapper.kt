@@ -1,7 +1,6 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
 import org.mapstruct.Mapper
-import org.mapstruct.MappingConstants
 import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
@@ -27,6 +26,6 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "APPLICATION_REJECTED", target = "APPLICATION_MINUS_REJECTED")
     @ValueMapping(source = "PHOTO_RESUBMISSION", target = "PHOTO_MINUS_RESUBMISSION")
     @ValueMapping(source = "ID_DOCUMENT_RESUBMISSION", target = "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION")
-    @ValueMapping(source = MappingConstants.ANY_UNMAPPED, target = MappingConstants.THROW_EXCEPTION)
+    @ValueMapping(source = "ID_DOCUMENT_REQUIRED", target = "ID_MINUS_DOCUMENT_MINUS_REQUIRED")
     fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType
 }
