@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.11.0'
+  version: '1.11.1'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -681,6 +681,7 @@ components:
         - application-rejected
         - photo-resubmission
         - id-document-resubmission
+        - id-document-required
     Language:
       title: Language
       description: The language to view the template
@@ -872,6 +873,13 @@ components:
       description: Personalisation details for an ID document required template
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        idDocumentRequiredFreeText:
+          type: string
+          description: Free text message of why an identity document is requested
+          example: Please provide a valid identity document
+      required:
+        - idDocumentRequiredFreeText
     BasePersonalisation:
       title: BasePersonalisation
       type: object

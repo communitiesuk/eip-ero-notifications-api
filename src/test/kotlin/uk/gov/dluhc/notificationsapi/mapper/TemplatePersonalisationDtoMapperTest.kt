@@ -12,6 +12,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRe
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
@@ -97,6 +99,45 @@ class TemplatePersonalisationDtoMapperTest {
             assertThat(actual["eroAddressLine4"]).isBlank
             assertThat(actual["eroAddressLine5"]).isBlank
             assertThat(actual["eroPostcode"]).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
+    }
+
+    @Nested
+    inner class ToIdDocumentRequiredTemplatePersonalisationMap {
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildIdDocumentRequiredPersonalisationDto()
+            val expected = buildIdDocumentRequiredPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toIdDocumentRequiredTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should map dto to personalisation map when all optional fields not present`() {
+            // Given
+            val personalisationDto = buildIdDocumentRequiredPersonalisationDto(
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDtoWithOptionalFieldsNull()
+                )
+            )
+            val expected = buildIdDocumentRequiredPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toIdDocumentRequiredTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+            assertThat(actual["eroAddressLine1"] as String).isBlank
+            assertThat(actual["eroAddressLine2"] as String).isEqualTo(personalisationDto.eroContactDetails.address.street)
+            assertThat(actual["eroAddressLine3"] as String).isBlank
+            assertThat(actual["eroAddressLine4"] as String).isBlank
+            assertThat(actual["eroAddressLine5"] as String).isBlank
+            assertThat(actual["eroPostcode"] as String).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
         }
     }
 

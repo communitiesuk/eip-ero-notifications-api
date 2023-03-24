@@ -26,8 +26,11 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRe
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateApplicationApprovedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateApplicationReceivedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
+import java.util.UUID
 
 @ExtendWith(MockitoExtension::class)
 class TemplateServiceTest {
@@ -119,6 +122,34 @@ class TemplateServiceTest {
             verify(notificationTemplateMapper)
                 .fromNotificationTypeForChannelInLanguage(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, channel, language)
             verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(request.personalisation)
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class generateIdDocumentRequiredTemplatePreview {
+        @Test
+        fun `should return id document required template preview`() {
+            // Given
+            val dto = buildGenerateIdDocumentRequiredTemplatePreviewDto()
+            val templateId = UUID.randomUUID().toString()
+            val personalisationMap = buildIdDocumentRequiredPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toIdDocumentRequiredTemplatePersonalisationMap(any()))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateIdDocumentRequiredTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(dto.sourceType, dto.notificationType, dto.channel, dto.language)
+            verify(templatePersonalisationDtoMapper).toIdDocumentRequiredTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
     }

@@ -91,6 +91,18 @@ internal abstract class IntegrationTest {
     @Value("\${api.notify.template.voter-card.letter.rejected-welsh}")
     protected lateinit var applicationRejectedLetterWelshTemplateId: String
 
+    @Value("\${api.notify.template.voter-card.email.id-document-required-english}")
+    protected lateinit var idDocumentRequiredEmailEnglishTemplateId: String
+
+    @Value("\${api.notify.template.voter-card.email.id-document-required-welsh}")
+    protected lateinit var idDocumentRequiredEmailWelshTemplateId: String
+
+    @Value("\${api.notify.template.voter-card.letter.id-document-required-english}")
+    protected lateinit var idDocumentRequiredLetterEnglishTemplateId: String
+
+    @Value("\${api.notify.template.voter-card.letter.id-document-required-welsh}")
+    protected lateinit var idDocumentRequiredLetterWelshTemplateId: String
+
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
 

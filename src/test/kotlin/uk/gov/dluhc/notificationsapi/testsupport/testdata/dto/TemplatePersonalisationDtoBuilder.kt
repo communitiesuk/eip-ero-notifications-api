@@ -6,6 +6,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
@@ -40,6 +41,19 @@ fun buildIdDocumentPersonalisationDto(
         firstName = firstName,
         idDocumentRequestFreeText = idDocumentRequestFreeText,
         eroContactDetails = eroContactDetails
+    )
+
+fun buildIdDocumentRequiredPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    idDocumentRequiredFreeText: String = faker.harryPotter().spell()
+): IdDocumentRequiredPersonalisationDto =
+    IdDocumentRequiredPersonalisationDto(
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+        idDocumentRequiredFreeText = idDocumentRequiredFreeText
     )
 
 fun buildApplicationReceivedPersonalisationDto(
@@ -218,6 +232,32 @@ fun buildIdDocumentPersonalisationMapFromDto(
         personalisationMap["applicationReference"] = applicationReference
         personalisationMap["firstName"] = firstName
         personalisationMap["documentRequestFreeText"] = idDocumentRequestFreeText
+        with(eroContactDetails) {
+            personalisationMap["LAName"] = localAuthorityName
+            personalisationMap["eroPhone"] = phone
+            personalisationMap["eroWebsite"] = website
+            personalisationMap["eroEmail"] = email
+            with(address) {
+                personalisationMap["eroAddressLine1"] = property ?: ""
+                personalisationMap["eroAddressLine2"] = street
+                personalisationMap["eroAddressLine3"] = town ?: ""
+                personalisationMap["eroAddressLine4"] = area ?: ""
+                personalisationMap["eroAddressLine5"] = locality ?: ""
+                personalisationMap["eroPostcode"] = postcode
+            }
+        }
+    }
+    return personalisationMap
+}
+
+fun buildIdDocumentRequiredPersonalisationMapFromDto(
+    personalisationDto: IdDocumentRequiredPersonalisationDto = buildIdDocumentRequiredPersonalisationDto(),
+): Map<String, String> {
+    val personalisationMap = mutableMapOf<String, String>()
+    with(personalisationDto) {
+        personalisationMap["applicationReference"] = applicationReference
+        personalisationMap["firstName"] = firstName
+        personalisationMap["ninoFailFreeText"] = idDocumentRequiredFreeText
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone
