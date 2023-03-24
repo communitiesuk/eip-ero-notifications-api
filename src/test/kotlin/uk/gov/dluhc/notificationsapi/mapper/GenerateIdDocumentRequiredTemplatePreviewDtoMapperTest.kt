@@ -97,11 +97,12 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
+                    idDocumentRequiredFreeText = idDocumentRequiredFreeText
                 )
             },
             channel = EMAIL,
-            sourceType = VOTER_CARD
+            sourceType = VOTER_CARD,
         )
 
         // When

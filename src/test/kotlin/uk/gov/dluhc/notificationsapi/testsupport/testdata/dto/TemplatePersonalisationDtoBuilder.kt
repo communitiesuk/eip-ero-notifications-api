@@ -46,12 +46,14 @@ fun buildIdDocumentPersonalisationDto(
 fun buildIdDocumentRequiredPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
-    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    idDocumentRequiredFreeText: String = faker.harryPotter().spell()
 ): IdDocumentRequiredPersonalisationDto =
     IdDocumentRequiredPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
+        idDocumentRequiredFreeText = idDocumentRequiredFreeText
     )
 
 fun buildApplicationReceivedPersonalisationDto(
@@ -255,6 +257,7 @@ fun buildIdDocumentRequiredPersonalisationMapFromDto(
     with(personalisationDto) {
         personalisationMap["applicationReference"] = applicationReference
         personalisationMap["firstName"] = firstName
+        personalisationMap["ninoFailFreeText"] = idDocumentRequiredFreeText
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone

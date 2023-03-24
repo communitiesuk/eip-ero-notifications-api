@@ -30,38 +30,42 @@ Either `./gradlew bootRun` or run the class `VoterCardApplicationsApiApplication
 
 ### External Environment Variables
 The following environment variables must be set in order to run the application:
-1. `AWS_ACCESS_KEY_ID` - the AWS access key ID
-2. `AWS_SECRET_ACCESS_KEY` - the AWS secret access key
-3. `AWS_REGION` - the AWS region
-4. `SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI` - the uri of the cognito ERO user pool JWT issuer.
-5. `DYNAMODB_ENDPOINT` - the localstack endpoint
-6. `SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new photo.
-7. `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
-8. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_RECEIVED_QUEUE_NAME` - the queue name for sending communications for a received application.
-9. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_APPROVED_QUEUE_NAME` - the queue name for sending communications for an approved application.
-10. `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_REJECTED_QUEUE_NAME` - the queue name for sending communications for a rejected application.
-11. `SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME` - the queue name for removing an applicant's notification data.
-12. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new photo in English
-13. `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new photo in Welsh
-14. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document in English
-15. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document in Welsh
-16. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo in English
-17. `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
-18. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
-19. `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
-20. `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing postal application is received in English
-21. `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing postal application is received in Welsh
-22. `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing proxy application is received in English
-23. `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing proxy application is received in Welsh
-24. `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing overseas application is received in English
-25. `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing overseas application is received in Welsh
-26. `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved in English
-27. `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved in Welsh
-28. `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
-29. `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
-30. `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
-31. `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
-32. `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations
+* `AWS_ACCESS_KEY_ID` - the AWS access key ID
+* `AWS_SECRET_ACCESS_KEY` - the AWS secret access key
+* `AWS_REGION` - the AWS region
+* `SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI` - the uri of the cognito ERO user pool JWT issuer.
+* `DYNAMODB_ENDPOINT` - the localstack endpoint
+* `SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new photo.
+* `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
+* `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_RECEIVED_QUEUE_NAME` - the queue name for sending communications for a received application.
+* `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_APPROVED_QUEUE_NAME` - the queue name for sending communications for an approved application.
+* `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_REJECTED_QUEUE_NAME` - the queue name for sending communications for a rejected application.
+* `SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME` - the queue name for removing an applicant's notification data.
+* `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new photo in English
+* `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new photo in Welsh
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document in English
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document in Welsh
+* `TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo in English
+* `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
+* `TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH` - Notify service email template ID for id document required in English
+* `TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_WELSH` - Notify service email template ID for id document required in Welsh
+* `TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_ENGLISH` - Notify service letter template ID for id document required in English
+* `TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_WELSH` - Notify service letter template ID for id document required in Welsh
+* `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing postal application is received in English
+* `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing postal application is received in Welsh
+* `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing proxy application is received in English
+* `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing proxy application is received in Welsh
+* `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing overseas application is received in English
+* `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing overseas application is received in Welsh
+* `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved in English
+* `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved in Welsh
+* `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
+* `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
+* `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
+* `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
+* `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations
 
 #### MYSQL Configuration
 For local setup refer to src/main/resources/db/readme.

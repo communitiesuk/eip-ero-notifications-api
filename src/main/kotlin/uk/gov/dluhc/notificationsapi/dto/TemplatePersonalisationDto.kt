@@ -20,7 +20,8 @@ class IdDocumentPersonalisationDto(
 class IdDocumentRequiredPersonalisationDto(
     applicationReference: String,
     firstName: String,
-    eroContactDetails: ContactDetailsDto
+    eroContactDetails: ContactDetailsDto,
+    val idDocumentRequiredFreeText: String
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,

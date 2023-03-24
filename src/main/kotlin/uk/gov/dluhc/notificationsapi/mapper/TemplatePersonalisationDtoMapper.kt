@@ -38,6 +38,7 @@ class TemplatePersonalisationDtoMapper {
         with(dto) {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
+            personalisation["ninoFailFreeText"] = idDocumentRequiredFreeText
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
