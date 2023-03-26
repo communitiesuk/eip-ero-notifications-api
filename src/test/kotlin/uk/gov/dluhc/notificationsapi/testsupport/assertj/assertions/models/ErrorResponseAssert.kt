@@ -1,6 +1,7 @@
-package uk.gov.dluhc.notificationsapi.testsupport.model
+package uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models
 
 import org.assertj.core.api.AbstractAssert
+import org.springframework.test.web.reactive.server.WebTestClient
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import java.time.OffsetDateTime
 
@@ -9,6 +10,11 @@ class ErrorResponseAssert(actual: ErrorResponse?) :
 
     companion object {
         fun assertThat(actual: ErrorResponse?) = ErrorResponseAssert(actual)
+
+        fun assertThat(actual: WebTestClient.ResponseSpec): ErrorResponseAssert {
+            val returnResult = actual.returnResult(ErrorResponse::class.java).responseBody.blockFirst()
+            return assertThat(returnResult)
+        }
     }
 
     fun hasTimestampNotBefore(expected: OffsetDateTime): ErrorResponseAssert {
@@ -16,6 +22,16 @@ class ErrorResponseAssert(actual: ErrorResponse?) :
         with(actual!!) {
             if (timestamp.isBefore(expected)) {
                 failWithMessage("Expected timestamp to not be before $expected, but was $timestamp")
+            }
+        }
+        return this
+    }
+
+    fun hasTimestampNotAfter(expected: OffsetDateTime): ErrorResponseAssert {
+        isNotNull
+        with(actual!!) {
+            if (timestamp.isAfter(expected)) {
+                failWithMessage("Expected timestamp to not be after $expected, but was $timestamp")
             }
         }
         return this

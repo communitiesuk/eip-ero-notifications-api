@@ -18,8 +18,8 @@ import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.Language.CY
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel.LETTER
+import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
-import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
