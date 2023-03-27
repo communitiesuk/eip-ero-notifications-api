@@ -12,7 +12,7 @@ import uk.gov.dluhc.notificationsapi.database.entity.SourceType
 import uk.gov.dluhc.notificationsapi.models.CreateOfflineCommunicationConfirmationRequest
 import uk.gov.dluhc.notificationsapi.models.OfflineCommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.OfflineCommunicationReason
-import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.entity.CommunicationConfirmationAssert
+import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.entity.CommunicationConfirmationAssert.Companion.assertThat
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.buildElectoralRegistrationOfficeResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
@@ -130,14 +130,14 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             gssCodes = listOf(gssCode)
         )
         assertThat(actualEntity).hasSize(1)
-        CommunicationConfirmationAssert.assertThat(actualEntity.first())
+        assertThat(actualEntity.first())
             .hasGssCode(gssCode)
             .hasReason(CommunicationConfirmationReason.APPLICATION_REJECTED)
             .hasChannel(CommunicationConfirmationChannel.LETTER)
             .hasRequestor(requestor)
             .hasSourceReference(sourceReference)
             .hasSourceType(SourceType.ANONYMOUS_ELECTOR_DOCUMENT)
-            .sentAtIsCloseTo(now(), within(3, SECONDS))
+            .sentAtIsCloseTo(now(clock), within(3, SECONDS))
     }
 
     private fun buildBody(

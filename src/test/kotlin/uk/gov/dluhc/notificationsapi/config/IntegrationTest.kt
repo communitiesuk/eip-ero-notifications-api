@@ -25,6 +25,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.getRandomEroId
 import uk.gov.service.notify.NotificationClient
+import java.time.Clock
 
 /**
  * Base class used to bring up the entire Spring ApplicationContext
@@ -105,6 +106,9 @@ internal abstract class IntegrationTest {
 
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
+
+    @Autowired
+    protected lateinit var clock: Clock
 
     companion object {
         val ERO_ID = getRandomEroId()

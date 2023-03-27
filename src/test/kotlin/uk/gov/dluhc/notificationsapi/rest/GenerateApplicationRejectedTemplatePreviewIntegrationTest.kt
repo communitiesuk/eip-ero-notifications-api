@@ -17,8 +17,8 @@ import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.Language.CY
 import uk.gov.dluhc.notificationsapi.models.SourceType
+import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert.Companion.assertThat
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
-import uk.gov.dluhc.notificationsapi.testsupport.model.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
@@ -75,7 +75,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
 
         // Then
         val actual = response.responseBody.blockFirst()
-        ErrorResponseAssert.assertThat(actual)
+        assertThat(actual)
             .hasTimestampNotBefore(earliestExpectedTimeStamp)
             .hasStatus(404)
             .hasError("Not Found")
@@ -100,7 +100,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
 
         // Then
         val actual = response.responseBody.blockFirst()
-        ErrorResponseAssert.assertThat(actual)
+        assertThat(actual)
             .hasTimestampNotBefore(earliestExpectedTimeStamp)
             .hasStatus(400)
             .hasError("Bad Request")
@@ -127,7 +127,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
 
         // Then
         val actual = response.responseBody.blockFirst()
-        ErrorResponseAssert.assertThat(actual)
+        assertThat(actual)
             .hasTimestampNotBefore(earliestExpectedTimeStamp)
             .hasStatus(400)
             .hasError("Bad Request")
@@ -186,7 +186,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
 
         // Then
         val actual = response.responseBody.blockFirst()
-        ErrorResponseAssert.assertThat(actual)
+        assertThat(actual)
             .hasTimestampNotBefore(earliestExpectedTimeStamp)
             .hasStatus(400)
             .hasError("Bad Request")
