@@ -2,7 +2,7 @@ package uk.gov.dluhc.notificationsapi.messaging
 
 import mu.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -51,7 +51,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendEmailCalled()
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))
-            Assertions.assertThat(actualEntity).hasSize(1).element(0)
+            assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
                 .containsExactlyInAnyOrder(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, EMAIL)
             stopWatch.stop()
@@ -85,7 +85,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             wireMockService.verifyNotifySendLetterCalled()
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))
-            Assertions.assertThat(actualEntity).hasSize(1).element(0)
+            assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
                 .containsExactlyInAnyOrder(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, LETTER)
             stopWatch.stop()
