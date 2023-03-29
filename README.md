@@ -37,6 +37,7 @@ The following environment variables must be set in order to run the application:
 * `DYNAMODB_ENDPOINT` - the localstack endpoint
 * `SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new photo.
 * `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_RESUBMISSION_QUEUE_NAME` - the queue name for sending communications to request a new ID document.
+* `SQS_SEND_UK_GOV_NOTIFY_ID_DOCUMENT_REQUIRED_QUEUE_NAME` - the queue name for sending communications to request a new ID document based on the elector not being IDV'ed by NINo.
 * `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_RECEIVED_QUEUE_NAME` - the queue name for sending communications for a received application.
 * `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_APPROVED_QUEUE_NAME` - the queue name for sending communications for an approved application.
 * `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_REJECTED_QUEUE_NAME` - the queue name for sending communications for a rejected application.

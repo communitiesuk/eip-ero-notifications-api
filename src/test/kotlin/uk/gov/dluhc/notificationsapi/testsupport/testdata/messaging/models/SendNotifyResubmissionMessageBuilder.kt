@@ -8,6 +8,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddressPostalAddres
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
@@ -24,7 +25,6 @@ fun buildSendNotifyPhotoResubmissionMessage(
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    messageType: MessageType = MessageType.PHOTO_MINUS_RESUBMISSION,
     personalisation: PhotoPersonalisation = buildPhotoPersonalisationMessage(),
     toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyPhotoResubmissionMessage =
@@ -35,7 +35,7 @@ fun buildSendNotifyPhotoResubmissionMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = messageType,
+        messageType = MessageType.PHOTO_MINUS_RESUBMISSION,
         personalisation = personalisation,
         toAddress = toAddress,
     )
@@ -47,7 +47,6 @@ fun buildSendNotifyIdDocumentResubmissionMessage(
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    messageType: MessageType = MessageType.PHOTO_MINUS_RESUBMISSION,
     personalisation: IdDocumentPersonalisation = buildIdDocumentPersonalisationMessage(),
     toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyIdDocumentResubmissionMessage =
@@ -58,7 +57,29 @@ fun buildSendNotifyIdDocumentResubmissionMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = messageType,
+        messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION,
+        personalisation = personalisation,
+        toAddress = toAddress,
+    )
+
+fun buildSendNotifyIdDocumentRequiredMessage(
+    channel: NotificationChannel = NotificationChannel.EMAIL,
+    language: Language = Language.EN,
+    sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
+    sourceReference: String = aSourceReference(),
+    gssCode: String = aGssCode(),
+    requestor: String = aRequestor(),
+    personalisation: IdDocumentPersonalisation = buildIdDocumentPersonalisationMessage(),
+    toAddress: MessageAddress = aMessageAddress(),
+): SendNotifyIdDocumentRequiredMessage =
+    SendNotifyIdDocumentRequiredMessage(
+        channel = channel,
+        language = language,
+        sourceType = sourceType,
+        sourceReference = sourceReference,
+        gssCode = gssCode,
+        requestor = requestor,
+        messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_REQUIRED,
         personalisation = personalisation,
         toAddress = toAddress,
     )
@@ -95,3 +116,5 @@ fun aMessageAddressPostalAddress(
 fun aSendNotifyPhotoResubmissionMessage() = buildSendNotifyPhotoResubmissionMessage()
 
 fun aSendNotifyIdDocumentResubmissionMessage() = buildSendNotifyIdDocumentResubmissionMessage()
+
+fun aSendNotifyIdDocumentRequiredMessage() = buildSendNotifyIdDocumentRequiredMessage()

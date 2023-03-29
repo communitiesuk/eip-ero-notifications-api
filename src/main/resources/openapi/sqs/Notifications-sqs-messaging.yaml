@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.8.4'
+  version: '1.9.0'
   description: |-
     Notifications SQS Message Types
     
@@ -38,6 +38,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyIdDocumentResubmissionMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-id-document-required-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyIdDocumentRequiredMessage'
       responses:
         '204':
           description: No response content.
@@ -137,6 +147,21 @@ components:
       title: SendNotifyIdDocumentResubmissionMessage
       type: object
       description: SQS Message for sending GOV.UK Notify messages for an identification document resubmission
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        personalisation:
+          $ref: '#/components/schemas/IdDocumentPersonalisation'
+      required:
+        - channel
+        - personalisation
+
+    SendNotifyIdDocumentRequiredMessage:
+      title: SendNotifyIdDocumentRequiredMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for an identification document required
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
@@ -375,6 +400,7 @@ components:
         - application-rejected
         - photo-resubmission
         - id-document-resubmission
+        - id-document-required
 
     MessageAddress:
       type: object
@@ -426,6 +452,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyIdDocumentResubmissionMessage'
+    SendNotifyIdDocumentRequiredMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyIdDocumentRequiredMessage'
     SendNotifyApplicationReceivedMessage:
       content:
         application/json:

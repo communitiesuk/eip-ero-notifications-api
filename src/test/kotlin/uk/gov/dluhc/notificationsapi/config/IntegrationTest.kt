@@ -34,7 +34,7 @@ import java.time.Clock
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     classes = [IntegrationTest.IntegrationTestConfiguration::class],
 )
-@ActiveProfiles("test")
+@ActiveProfiles("integration-test")
 @AutoConfigureWebTestClient(timeout = "PT5M")
 internal abstract class IntegrationTest {
 
@@ -61,6 +61,9 @@ internal abstract class IntegrationTest {
 
     @Value("\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}")
     protected lateinit var sendUkGovNotifyIdDocumentResubmissionQueueName: String
+
+    @Value("\${sqs.send-uk-gov-notify-id-document-required-queue-name}")
+    protected lateinit var sendUkGovNotifyIdDocumentRequiredQueueName: String
 
     @Value("\${sqs.send-uk-gov-notify-application-received-queue-name}")
     protected lateinit var sendUkGovNotifyApplicationReceivedQueueName: String
@@ -160,6 +163,7 @@ internal abstract class IntegrationTest {
         with(localStackContainerSettings) {
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentRequiredQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName)
