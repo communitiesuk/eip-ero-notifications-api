@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
@@ -117,6 +118,36 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
             applicationReference = applicationReference,
             firstName = firstName,
             idDocumentRequestFreeText = idDocumentRequestFreeText,
+            eroContactDetails = with(eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode,
+                        )
+                    }
+                )
+            }
+        )
+    }
+}
+
+fun buildIdDocumentRequiredPersonalisationDtoFromMessage(
+    personalisationMessage: IdDocumentRequiredPersonalisation
+): IdDocumentRequiredPersonalisationDto {
+    return with(personalisationMessage) {
+        IdDocumentRequiredPersonalisationDto(
+            applicationReference = applicationReference,
+            firstName = firstName,
+            idDocumentRequiredFreeText = idDocumentRequiredFreeText,
             eroContactDetails = with(eroContactDetails) {
                 buildContactDetailsDto(
                     localAuthorityName = localAuthorityName,
