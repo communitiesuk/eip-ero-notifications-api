@@ -40,13 +40,13 @@ class NotificationChannelMapperTest {
         ]
     )
     fun `should map DTO notification channel to API notification channel`(
-        apiNotificationChannel: NotificationChannelDto,
+        notificationChannelDto: NotificationChannelDto,
         expected: NotificationChannelApi
     ) {
         // Given
 
         // When
-        val actual = mapper.fromDtoToApi(apiNotificationChannel)
+        val actual = mapper.fromDtoToApi(notificationChannelDto)
 
         // Then
         assertThat(actual).isEqualTo(expected)

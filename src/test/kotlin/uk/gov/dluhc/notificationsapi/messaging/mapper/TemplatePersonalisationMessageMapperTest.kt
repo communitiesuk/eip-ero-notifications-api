@@ -72,9 +72,9 @@ internal class TemplatePersonalisationMessageMapperTest {
     }
 
     @Nested
-    inner class ToIIdDocumentRequiredPersonalisationDto {
+    inner class ToIdDocumentRequiredPersonalisationDto {
         @Test
-        fun `should map SQS IdDocumentPersonalisationRequired to IdDocumentRequiredPersonalisationDto`() {
+        fun `should map SQS IdDocumentRequiredPersonalisation to IdDocumentRequiredPersonalisationDto`() {
             // Given
             val personalisationMessage = buildIdDocumentRequiredPersonalisationMessage()
             val expectedPersonalisationDto = buildIdDocumentRequiredPersonalisationDtoFromMessage(personalisationMessage)

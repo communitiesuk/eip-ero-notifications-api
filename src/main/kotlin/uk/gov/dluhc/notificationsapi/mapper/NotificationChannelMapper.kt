@@ -9,9 +9,9 @@ import uk.gov.dluhc.notificationsapi.models.NotificationChannel as NotificationC
 @Mapper
 interface NotificationChannelMapper {
 
-    fun fromApiToDto(apiLanguageEnum: NotificationChannelApi): NotificationChannelDto
+    fun fromApiToDto(apiNotificationChannel: NotificationChannelApi): NotificationChannelDto
 
-    fun fromDtoToApi(messageLanguageEnum: NotificationChannelDto): NotificationChannelApi
+    fun fromDtoToApi(notificationChannelDto: NotificationChannelDto): NotificationChannelApi
 
     fun fromEntityToDto(entityEnum: ChannelEntity): NotificationChannelDto
 
