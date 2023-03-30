@@ -19,6 +19,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
+import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
@@ -52,6 +53,9 @@ internal class SendNotifyMessageMapperTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
+    private lateinit var notificationChannelMapper: NotificationChannelMapper
+
+    @Mock
     private lateinit var notificationTypeMapper: NotificationTypeMapper
 
     @Mock
@@ -80,6 +84,7 @@ internal class SendNotifyMessageMapperTest {
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
 
             val request = SendNotifyPhotoResubmissionMessage(
                 channel = SqsChannel.EMAIL,
@@ -108,6 +113,7 @@ internal class SendNotifyMessageMapperTest {
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.PHOTO_MINUS_RESUBMISSION)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(notificationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
     }
 
@@ -131,6 +137,7 @@ internal class SendNotifyMessageMapperTest {
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
 
             val request = SendNotifyIdDocumentResubmissionMessage(
                 channel = SqsChannel.EMAIL,
@@ -159,13 +166,14 @@ internal class SendNotifyMessageMapperTest {
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(notificationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
     }
 
     @Nested
     inner class FromIdDocumentRequiredMessageToSendNotificationRequestDto {
         @Test
-        fun `should map SQS SendNotifyIdDocumentResubmissionMessage to SendNotificationRequestDto`() {
+        fun `should map SQS SendNotifyIdDocumentRequiredMessage to SendNotificationRequestDto`() {
             // Given
             val gssCode = aGssCode()
             val requestor = aRequestor()
@@ -182,6 +190,7 @@ internal class SendNotifyMessageMapperTest {
             given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
 
             val request = SendNotifyIdDocumentRequiredMessage(
                 channel = SqsChannel.EMAIL,
@@ -210,6 +219,7 @@ internal class SendNotifyMessageMapperTest {
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(notificationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
     }
 

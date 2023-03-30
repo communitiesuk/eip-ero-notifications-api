@@ -108,7 +108,7 @@ class NotificationSummaryMapperTest {
             sentAt = sentAt,
         )
 
-        given(notificationChannelMapper.fromMessageToDto(any())).willReturn(NotificationChannel.EMAIL)
+        given(notificationChannelMapper.fromDtoToApi(any())).willReturn(NotificationChannel.EMAIL)
         given(notificationTypeMapper.fromNotificationTypeDtoToTemplateTypeApi(any())).willReturn(TemplateType.APPLICATION_MINUS_APPROVED)
 
         val expected = aCommunicationsSummaryBuilder(
@@ -123,7 +123,7 @@ class NotificationSummaryMapperTest {
         val actual = mapper.toCommunicationsSummaryApi(dto)
 
         // Then
-        verify(notificationChannelMapper).fromMessageToDto(NotificationChannelDto.EMAIL)
+        verify(notificationChannelMapper).fromDtoToApi(NotificationChannelDto.EMAIL)
         verify(notificationTypeMapper).fromNotificationTypeDtoToTemplateTypeApi(NotificationTypeDto.APPLICATION_APPROVED)
         assertThat(actual).isEqualTo(expected)
     }
