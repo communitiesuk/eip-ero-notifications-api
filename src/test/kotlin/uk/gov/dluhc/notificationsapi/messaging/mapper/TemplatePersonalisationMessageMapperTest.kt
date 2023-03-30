@@ -27,6 +27,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationReceivedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 
 @ExtendWith(MockitoExtension::class)
@@ -73,9 +74,9 @@ internal class TemplatePersonalisationMessageMapperTest {
     @Nested
     inner class ToIIdDocumentRequiredPersonalisationDto {
         @Test
-        fun `should map SQS IdDocumentPersonalisation to IdDocumentRequiredPersonalisationDto`() {
+        fun `should map SQS IdDocumentPersonalisationRequired to IdDocumentRequiredPersonalisationDto`() {
             // Given
-            val personalisationMessage = buildIdDocumentPersonalisationMessage()
+            val personalisationMessage = buildIdDocumentRequiredPersonalisationMessage()
             val expectedPersonalisationDto = buildIdDocumentRequiredPersonalisationDtoFromMessage(personalisationMessage)
 
             // When

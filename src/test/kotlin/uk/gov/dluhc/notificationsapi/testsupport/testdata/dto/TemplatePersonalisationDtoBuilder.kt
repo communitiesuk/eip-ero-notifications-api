@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
@@ -140,13 +141,13 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
 }
 
 fun buildIdDocumentRequiredPersonalisationDtoFromMessage(
-    personalisationMessage: IdDocumentPersonalisation
+    personalisationMessage: IdDocumentRequiredPersonalisation
 ): IdDocumentRequiredPersonalisationDto {
     return with(personalisationMessage) {
         IdDocumentRequiredPersonalisationDto(
             applicationReference = applicationReference,
             firstName = firstName,
-            idDocumentRequiredFreeText = idDocumentRequestFreeText,
+            idDocumentRequiredFreeText = idDocumentRequiredFreeText,
             eroContactDetails = with(eroContactDetails) {
                 buildContactDetailsDto(
                     localAuthorityName = localAuthorityName,

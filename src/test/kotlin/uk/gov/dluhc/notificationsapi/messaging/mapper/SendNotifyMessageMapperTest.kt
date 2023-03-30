@@ -39,6 +39,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationReceivedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
@@ -183,7 +184,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedChannel = NotificationChannel.EMAIL
             val expectedSourceType = SourceType.VOTER_CARD
             val expectedNotificationType = ID_DOCUMENT_RESUBMISSION
-            val personalisationMessage = buildIdDocumentPersonalisationMessage()
+            val personalisationMessage = buildIdDocumentRequiredPersonalisationMessage()
             val expectedLanguage = LanguageDto.ENGLISH
 
             given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)

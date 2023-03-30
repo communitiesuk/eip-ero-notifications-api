@@ -168,7 +168,7 @@ components:
         channel:
           $ref: '#/components/schemas/NotificationChannel'
         personalisation:
-          $ref: '#/components/schemas/IdDocumentPersonalisation'
+          $ref: '#/components/schemas/IdDocumentRequiredPersonalisation'
       required:
         - channel
         - personalisation
@@ -236,6 +236,20 @@ components:
           example: Please provide a valid identity document
       required:
         - idDocumentRequestFreeText
+
+    IdDocumentRequiredPersonalisation:
+      title: IdDocumentRequiredPersonalisation
+      type: object
+      description: Personalisation details for an identity document required template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        idDocumentRequiredFreeText:
+          type: string
+          description: Free text regarding an identity document request
+          example: Please provide a valid identity document
+      required:
+        - idDocumentRequiredFreeText
 
     PhotoPersonalisation:
       title: PhotoPersonalisation

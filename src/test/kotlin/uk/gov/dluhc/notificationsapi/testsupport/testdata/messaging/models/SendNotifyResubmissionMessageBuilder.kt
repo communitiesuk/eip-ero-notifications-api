@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
 import uk.gov.dluhc.notificationsapi.messaging.models.Address
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddressPostalAddress
@@ -69,7 +70,7 @@ fun buildSendNotifyIdDocumentRequiredMessage(
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    personalisation: IdDocumentPersonalisation = buildIdDocumentPersonalisationMessage(),
+    personalisation: IdDocumentRequiredPersonalisation = buildIdDocumentRequiredPersonalisationMessage(),
     toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyIdDocumentRequiredMessage =
     SendNotifyIdDocumentRequiredMessage(
