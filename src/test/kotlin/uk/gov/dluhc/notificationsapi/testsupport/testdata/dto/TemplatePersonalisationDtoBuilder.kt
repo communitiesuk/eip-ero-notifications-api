@@ -139,6 +139,36 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
     }
 }
 
+fun buildIdDocumentRequiredPersonalisationDtoFromMessage(
+    personalisationMessage: IdDocumentPersonalisation
+): IdDocumentRequiredPersonalisationDto {
+    return with(personalisationMessage) {
+        IdDocumentRequiredPersonalisationDto(
+            applicationReference = applicationReference,
+            firstName = firstName,
+            idDocumentRequiredFreeText = idDocumentRequestFreeText,
+            eroContactDetails = with(eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode,
+                        )
+                    }
+                )
+            }
+        )
+    }
+}
+
 fun buildApplicationReceivedPersonalisationDtoFromMessage(
     personalisationMessage: BasePersonalisation
 ): ApplicationReceivedPersonalisationDto {

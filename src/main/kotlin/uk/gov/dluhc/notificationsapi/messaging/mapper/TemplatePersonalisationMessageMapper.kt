@@ -7,6 +7,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
@@ -23,6 +24,9 @@ abstract class TemplatePersonalisationMessageMapper {
     abstract fun toPhotoPersonalisationDto(personalisationMessage: PhotoPersonalisation): PhotoPersonalisationDto
 
     abstract fun toIdDocumentPersonalisationDto(personalisationMessage: IdDocumentPersonalisation): IdDocumentPersonalisationDto
+
+    @Mapping(source = "idDocumentRequestFreeText", target = "idDocumentRequiredFreeText")
+    abstract fun toIdDocumentRequiredPersonalisationDto(personalisationMessage: IdDocumentPersonalisation): IdDocumentRequiredPersonalisationDto
 
     abstract fun toReceivedPersonalisationDto(personalisationMessage: BasePersonalisation): ApplicationReceivedPersonalisationDto
 

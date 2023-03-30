@@ -31,8 +31,8 @@ class SendNotifyIdDocumentRequiredMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromIdDocumentRequiredMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(personalisation)
-            val personalisationMap = templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
+            val personalisationDto = templatePersonalisationMessageMapper.toIdDocumentRequiredPersonalisationDto(personalisation)
+            val personalisationMap = templatePersonalisationDtoMapper.toIdDocumentRequiredTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }
     }

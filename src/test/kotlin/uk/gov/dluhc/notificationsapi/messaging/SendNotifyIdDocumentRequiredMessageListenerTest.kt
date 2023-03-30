@@ -14,7 +14,7 @@ import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMes
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationRequestDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aSendNotifyIdDocumentRequiredMessage
 
 @ExtendWith(MockitoExtension::class)
@@ -41,19 +41,19 @@ internal class SendNotifyIdDocumentRequiredMessageListenerTest {
         val sqsMessage = aSendNotifyIdDocumentRequiredMessage()
         val requestDto = aSendNotificationRequestDto()
         val personalisationMap = aNotificationPersonalisationMap()
-        val personalisationDto = buildIdDocumentPersonalisationDto()
+        val personalisationDto = buildIdDocumentRequiredPersonalisationDto()
 
         given(sendNotifyMessageMapper.fromIdDocumentRequiredMessageToSendNotificationRequestDto(any())).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(any())).willReturn(personalisationDto)
-        given(templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(any())).willReturn(personalisationMap)
+        given(templatePersonalisationMessageMapper.toIdDocumentRequiredPersonalisationDto(any())).willReturn(personalisationDto)
+        given(templatePersonalisationDtoMapper.toIdDocumentRequiredTemplatePersonalisationMap(any())).willReturn(personalisationMap)
 
         // When
         listener.handleMessage(sqsMessage)
 
         // Then
         verify(sendNotifyMessageMapper).fromIdDocumentRequiredMessageToSendNotificationRequestDto(sqsMessage)
-        verify(templatePersonalisationMessageMapper).toIdDocumentPersonalisationDto(sqsMessage.personalisation)
-        verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
+        verify(templatePersonalisationMessageMapper).toIdDocumentRequiredPersonalisationDto(sqsMessage.personalisation)
+        verify(templatePersonalisationDtoMapper).toIdDocumentRequiredTemplatePersonalisationMap(personalisationDto)
         verify(sendNotificationService).sendNotification(requestDto, personalisationMap)
     }
 }

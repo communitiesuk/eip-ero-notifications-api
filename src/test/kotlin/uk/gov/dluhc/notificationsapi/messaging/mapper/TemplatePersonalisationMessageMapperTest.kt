@@ -21,6 +21,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationAp
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationReceivedPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDtoFromMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationApprovedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationReceivedPersonalisation
@@ -56,13 +57,29 @@ internal class TemplatePersonalisationMessageMapperTest {
     @Nested
     inner class ToIdDocumentPersonalisationDto {
         @Test
-        fun `should map SQS IdDocumentResubmissionPersonalisation to IdDocumentPersonalisationDto`() {
+        fun `should map SQS IdDocumentPersonalisation to IdDocumentPersonalisationDto`() {
             // Given
             val personalisationMessage = buildIdDocumentPersonalisationMessage()
             val expectedPersonalisationDto = buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage)
 
             // When
             val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+        }
+    }
+
+    @Nested
+    inner class ToIIdDocumentRequiredPersonalisationDto {
+        @Test
+        fun `should map SQS IdDocumentPersonalisation to IdDocumentRequiredPersonalisationDto`() {
+            // Given
+            val personalisationMessage = buildIdDocumentPersonalisationMessage()
+            val expectedPersonalisationDto = buildIdDocumentRequiredPersonalisationDtoFromMessage(personalisationMessage)
+
+            // When
+            val actual = mapper.toIdDocumentRequiredPersonalisationDto(personalisationMessage)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
