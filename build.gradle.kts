@@ -58,6 +58,7 @@ dependencies {
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
