@@ -66,6 +66,9 @@ dependencies {
     // UK Government
     implementation("uk.gov.service.notify:notifications-java-client:3.18.0-RELEASE")
 
+    // Logging
+    runtimeOnly("net.logstash.logback:logstash-logback-encoder:7.3")
+
     // webclient
     implementation("org.springframework:spring-webflux")
     implementation("io.projectreactor.netty:reactor-netty-http")

@@ -1,3 +1,6 @@
+spring:
+  application:
+    name: 'eip-ero-notifications-api'
 dynamodb:
   notificationsTableName: ${DYNAMODB_NOTIFICATIONS_TABLE_NAME}
   communicationConfirmationsTableName: ${DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME}
