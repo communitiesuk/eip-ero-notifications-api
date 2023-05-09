@@ -133,3 +133,7 @@ password: rootPassword
 classpath: /home/valtech/IdeaProjects/eip/eip-ero-voter-card-applications-api/src/main/resources/db/changelog/mysql-connector-java-8.0.29.jar
 context=ddl
 ```
+
+## Templates
+
+See section on [GOV.UK Notify Templates](templates/README.md)
