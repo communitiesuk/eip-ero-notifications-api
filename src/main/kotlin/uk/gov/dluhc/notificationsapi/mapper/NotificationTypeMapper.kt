@@ -28,5 +28,6 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "PHOTO_RESUBMISSION", target = "PHOTO_MINUS_RESUBMISSION")
     @ValueMapping(source = "ID_DOCUMENT_RESUBMISSION", target = "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION")
     @ValueMapping(source = "ID_DOCUMENT_REQUIRED", target = "ID_MINUS_DOCUMENT_MINUS_REQUIRED")
+    @ValueMapping(source = "REJECTED_DOCUMENT", target = "REJECTED_MINUS_DOCUMENT")
     fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType
 }
