@@ -21,6 +21,12 @@ class NotifyClientConfiguration {
         proxy: ProxyNotifyEmailTemplateConfiguration,
         overseas: OverseasNotifyEmailTemplateConfiguration,
     ) = NotifyEmailTemplateConfiguration(voterCard, postal, proxy, overseas)
+
+    @Bean
+    fun notifyLetterTemplateConfiguration(
+        voterCard: VoterCardNotifyLetterTemplateConfiguration,
+        postal: PostalNotifyLetterTemplateConfiguration
+    ) = NotifyLetterTemplateConfiguration(voterCard, postal)
 }
 
 data class NotifyEmailTemplateConfiguration(
@@ -36,6 +42,7 @@ class PostalNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.POSTAL,
     receivedEnglish: String,
     receivedWelsh: String,
+    rejectedDocumentEnglish: String
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -47,7 +54,8 @@ class PostalNotifyEmailTemplateConfiguration(
     idDocumentResubmissionEnglish = null,
     idDocumentResubmissionWelsh = null,
     idDocumentRequiredEnglish = null,
-    idDocumentRequiredWelsh = null
+    idDocumentRequiredWelsh = null,
+    rejectedDocumentEnglish = rejectedDocumentEnglish
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -67,7 +75,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     idDocumentResubmissionEnglish = null,
     idDocumentResubmissionWelsh = null,
     idDocumentRequiredEnglish = null,
-    idDocumentRequiredWelsh = null
+    idDocumentRequiredWelsh = null,
+    rejectedDocumentEnglish = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -87,7 +96,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     idDocumentResubmissionEnglish = null,
     idDocumentResubmissionWelsh = null,
     idDocumentRequiredEnglish = null,
-    idDocumentRequiredWelsh = null
+    idDocumentRequiredWelsh = null,
+    rejectedDocumentEnglish = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -115,7 +125,8 @@ class VoterCardNotifyEmailTemplateConfiguration(
     idDocumentResubmissionEnglish = idDocumentResubmissionEnglish,
     idDocumentResubmissionWelsh = idDocumentResubmissionWelsh,
     idDocumentRequiredEnglish = idDocumentRequiredEnglish,
-    idDocumentRequiredWelsh = idDocumentRequiredWelsh
+    idDocumentRequiredWelsh = idDocumentRequiredWelsh,
+    rejectedDocumentEnglish = null
 )
 
 abstract class AbstractNotifyEmailTemplateConfiguration(
@@ -129,20 +140,73 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val idDocumentResubmissionEnglish: String?,
     val idDocumentResubmissionWelsh: String?,
     val idDocumentRequiredEnglish: String?,
-    val idDocumentRequiredWelsh: String?
+    val idDocumentRequiredWelsh: String?,
+    val rejectedDocumentEnglish: String?
+)
+
+data class NotifyLetterTemplateConfiguration(
+    val voterCard: VoterCardNotifyLetterTemplateConfiguration,
+    val postal: PostalNotifyLetterTemplateConfiguration
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.letter", ignoreUnknownFields = false)
 @ConstructorBinding
-data class NotifyLetterTemplateConfiguration(
-    val receivedEnglish: String? = null,
-    val receivedWelsh: String? = null,
-    val rejectedEnglish: String,
-    val rejectedWelsh: String,
-    val photoResubmissionEnglish: String,
-    val photoResubmissionWelsh: String,
-    val idDocumentResubmissionEnglish: String,
-    val idDocumentResubmissionWelsh: String,
-    val idDocumentRequiredEnglish: String,
-    val idDocumentRequiredWelsh: String
+class VoterCardNotifyLetterTemplateConfiguration(
+    sourceType: SourceType = SourceType.VOTER_CARD,
+    rejectedEnglish: String,
+    rejectedWelsh: String,
+    photoResubmissionEnglish: String,
+    photoResubmissionWelsh: String,
+    idDocumentResubmissionEnglish: String,
+    idDocumentResubmissionWelsh: String,
+    idDocumentRequiredEnglish: String,
+    idDocumentRequiredWelsh: String
+) : AbstractNotifyLetterTemplateConfiguration(
+    sourceType = sourceType,
+    receivedEnglish = null,
+    receivedWelsh = null,
+    rejectedEnglish = rejectedEnglish,
+    rejectedWelsh = rejectedWelsh,
+    photoResubmissionEnglish = photoResubmissionEnglish,
+    photoResubmissionWelsh = photoResubmissionWelsh,
+    idDocumentResubmissionEnglish = idDocumentResubmissionEnglish,
+    idDocumentResubmissionWelsh = idDocumentResubmissionWelsh,
+    idDocumentRequiredEnglish = idDocumentRequiredEnglish,
+    idDocumentRequiredWelsh = idDocumentRequiredWelsh,
+    rejectedDocumentEnglish = null
+)
+
+@ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
+@ConstructorBinding
+class PostalNotifyLetterTemplateConfiguration(
+    sourceType: SourceType = SourceType.POSTAL,
+    rejectedDocumentEnglish: String
+) : AbstractNotifyLetterTemplateConfiguration(
+    sourceType = sourceType,
+    receivedEnglish = null,
+    receivedWelsh = null,
+    rejectedEnglish = null,
+    rejectedWelsh = null,
+    photoResubmissionEnglish = null,
+    photoResubmissionWelsh = null,
+    idDocumentResubmissionEnglish = null,
+    idDocumentResubmissionWelsh = null,
+    idDocumentRequiredEnglish = null,
+    idDocumentRequiredWelsh = null,
+    rejectedDocumentEnglish = rejectedDocumentEnglish
+)
+
+abstract class AbstractNotifyLetterTemplateConfiguration(
+    val sourceType: SourceType,
+    val receivedEnglish: String?,
+    val receivedWelsh: String?,
+    val rejectedEnglish: String?,
+    val rejectedWelsh: String?,
+    val photoResubmissionEnglish: String?,
+    val photoResubmissionWelsh: String?,
+    val idDocumentResubmissionEnglish: String?,
+    val idDocumentResubmissionWelsh: String?,
+    val idDocumentRequiredEnglish: String?,
+    val idDocumentRequiredWelsh: String?,
+    val rejectedDocumentEnglish: String?,
 )

@@ -71,3 +71,15 @@ class ApplicationRejectedPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails
 )
+
+class RejectedDocumentPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val documents: List<String>,
+    val rejectedDocumentFreeText: String?
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)
