@@ -32,6 +32,9 @@ api:
         email:
           received-english: ${TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH}
           received-welsh: ${TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH}
+          rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_EMAIL_ENGLISH}
+        letter:
+          rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_ENGLISH}
       proxy:
         email:
           received-english: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH}

@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 
 @Component
 class TemplatePersonalisationDtoMapper {
@@ -64,6 +65,22 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["rejectionReasonList"] = rejectionReasonList
             personalisation["rejectionReasonMessage"] = rejectionReasonMessage ?: ""
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
+        }
+        return personalisation
+    }
+
+    fun toRejectedDocumentTemplatePersonalisationMap(dto: RejectedDocumentPersonalisationDto): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["rejectedDocuments"] = documents
+            personalisation["rejectionMessage"] = rejectedDocumentFreeText ?: ""
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)

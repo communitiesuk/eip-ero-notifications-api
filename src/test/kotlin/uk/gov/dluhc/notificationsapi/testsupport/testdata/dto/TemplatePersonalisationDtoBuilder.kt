@@ -8,6 +8,7 @@ import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
@@ -76,6 +77,21 @@ fun buildApplicationApprovedPersonalisationDto(
     ApplicationApprovedPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
+        eroContactDetails = eroContactDetails
+    )
+
+fun buildRejectedDocumentPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    rejectedDocumentFreeText: String? = faker.harryPotter().spell(),
+    documents: List<String> = listOf(faker.lordOfTheRings().location()),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+): RejectedDocumentPersonalisationDto =
+    RejectedDocumentPersonalisationDto(
+        applicationReference = applicationReference,
+        firstName = firstName,
+        documents = documents,
+        rejectedDocumentFreeText = rejectedDocumentFreeText,
         eroContactDetails = eroContactDetails
     )
 
@@ -366,6 +382,33 @@ fun buildApplicationRejectedPersonalisationMapFromDto(
         personalisationMap["firstName"] = firstName
         personalisationMap["rejectionReasonList"] = rejectionReasonList
         personalisationMap["rejectionReasonMessage"] = rejectionReasonMessage ?: ""
+        with(eroContactDetails) {
+            personalisationMap["LAName"] = localAuthorityName
+            personalisationMap["eroPhone"] = phone
+            personalisationMap["eroWebsite"] = website
+            personalisationMap["eroEmail"] = email
+            with(address) {
+                personalisationMap["eroAddressLine1"] = property ?: ""
+                personalisationMap["eroAddressLine2"] = street
+                personalisationMap["eroAddressLine3"] = town ?: ""
+                personalisationMap["eroAddressLine4"] = area ?: ""
+                personalisationMap["eroAddressLine5"] = locality ?: ""
+                personalisationMap["eroPostcode"] = postcode
+            }
+        }
+    }
+    return personalisationMap
+}
+
+fun buildRejectedDocumentPersonalisationMapFromDto(
+    personalisationDto: RejectedDocumentPersonalisationDto = buildRejectedDocumentPersonalisationDto()
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+    with(personalisationDto) {
+        personalisationMap["applicationReference"] = applicationReference
+        personalisationMap["firstName"] = firstName
+        personalisationMap["rejectedDocuments"] = documents
+        personalisationMap["rejectionMessage"] = rejectedDocumentFreeText ?: ""
         with(eroContactDetails) {
             personalisationMap["LAName"] = localAuthorityName
             personalisationMap["eroPhone"] = phone
