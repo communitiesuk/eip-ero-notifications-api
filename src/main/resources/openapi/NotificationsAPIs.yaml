@@ -874,7 +874,7 @@ components:
         photoRequestFreeText:
           type: string
           description: A free text with details as to what the applicant needs to do. Not related to any specific rejection reason.
-          example: Please provide a new photo within the next 10 days in order to meeting the application deadline before the next election.
+          example: Please provide a new photo within the next 10 days in order to meet the application deadline before the next election.
         uploadPhotoLink:
           type: string
           description: The URL link to upload a new image
