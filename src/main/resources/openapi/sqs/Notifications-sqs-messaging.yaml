@@ -266,7 +266,7 @@ components:
         photoRejectionNotes:
           type: string
           description: Optional free text giving details as to why the photo was rejected
-          example: Please ensure you hair is not covering any part of your face.
+          example: Please ensure your hair is not covering any part of your face.
         photoRequestFreeText:
           type: string
           description: A free text with details as to what the applicant needs to do. Not related to any specific rejection reason.
