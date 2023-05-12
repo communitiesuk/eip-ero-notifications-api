@@ -6,6 +6,5 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePre
 
 @Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
 interface RejectedSignatureTemplatePreviewDtoMapper {
-
-    fun toTemplatePreviewDto(request: GenerateRejectedSignatureTemplatePreviewRequest): RejectedSignatureTemplatePreviewDto
+    fun toRejectedSignatureTemplatePreviewDto(request: GenerateRejectedSignatureTemplatePreviewRequest): RejectedSignatureTemplatePreviewDto
 }

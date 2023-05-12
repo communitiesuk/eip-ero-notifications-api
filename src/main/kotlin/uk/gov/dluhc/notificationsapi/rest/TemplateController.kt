@@ -136,7 +136,7 @@ class TemplateController(
     fun generateRejectedSignatureTemplatePreview(@Valid @RequestBody request: GenerateRejectedSignatureTemplatePreviewRequest): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateRejectedSignatureTemplatePreview(
-                rejectedSignatureTemplatePreviewDtoMapper.toTemplatePreviewDto(request)
+                rejectedSignatureTemplatePreviewDtoMapper.toRejectedSignatureTemplatePreviewDto(request)
             )
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)

@@ -109,6 +109,7 @@ class NotificationTemplateMapper(
         when (sourceType) {
             POSTAL -> notifyLetterTemplateConfiguration.postal
             VOTER_CARD -> notifyLetterTemplateConfiguration.voterCard
+            PROXY -> notifyLetterTemplateConfiguration.proxy
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template configuration defined for sourceType $sourceType")
             }

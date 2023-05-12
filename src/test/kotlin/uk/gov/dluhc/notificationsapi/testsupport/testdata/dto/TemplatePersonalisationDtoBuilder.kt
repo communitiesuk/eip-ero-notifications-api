@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
@@ -249,24 +250,9 @@ fun buildPhotoPersonalisationMapFromDto(
 ): Map<String, String> {
     val personalisationMap = mutableMapOf<String, String>()
     with(personalisationDto) {
-        personalisationMap["applicationReference"] = applicationReference
-        personalisationMap["firstName"] = firstName
         personalisationMap["photoRequestFreeText"] = photoRequestFreeText
         personalisationMap["uploadPhotoLink"] = uploadPhotoLink
-        with(eroContactDetails) {
-            personalisationMap["LAName"] = localAuthorityName
-            personalisationMap["eroPhone"] = phone
-            personalisationMap["eroWebsite"] = website
-            personalisationMap["eroEmail"] = email
-            with(address) {
-                personalisationMap["eroAddressLine1"] = property ?: ""
-                personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = town ?: ""
-                personalisationMap["eroAddressLine4"] = area ?: ""
-                personalisationMap["eroAddressLine5"] = locality ?: ""
-                personalisationMap["eroPostcode"] = postcode
-            }
-        }
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
 }
@@ -276,23 +262,8 @@ fun buildIdDocumentPersonalisationMapFromDto(
 ): Map<String, String> {
     val personalisationMap = mutableMapOf<String, String>()
     with(personalisationDto) {
-        personalisationMap["applicationReference"] = applicationReference
-        personalisationMap["firstName"] = firstName
         personalisationMap["documentRequestFreeText"] = idDocumentRequestFreeText
-        with(eroContactDetails) {
-            personalisationMap["LAName"] = localAuthorityName
-            personalisationMap["eroPhone"] = phone
-            personalisationMap["eroWebsite"] = website
-            personalisationMap["eroEmail"] = email
-            with(address) {
-                personalisationMap["eroAddressLine1"] = property ?: ""
-                personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = town ?: ""
-                personalisationMap["eroAddressLine4"] = area ?: ""
-                personalisationMap["eroAddressLine5"] = locality ?: ""
-                personalisationMap["eroPostcode"] = postcode
-            }
-        }
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
 }
@@ -302,23 +273,8 @@ fun buildIdDocumentRequiredPersonalisationMapFromDto(
 ): Map<String, String> {
     val personalisationMap = mutableMapOf<String, String>()
     with(personalisationDto) {
-        personalisationMap["applicationReference"] = applicationReference
-        personalisationMap["firstName"] = firstName
         personalisationMap["ninoFailFreeText"] = idDocumentRequiredFreeText
-        with(eroContactDetails) {
-            personalisationMap["LAName"] = localAuthorityName
-            personalisationMap["eroPhone"] = phone
-            personalisationMap["eroWebsite"] = website
-            personalisationMap["eroEmail"] = email
-            with(address) {
-                personalisationMap["eroAddressLine1"] = property ?: ""
-                personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = town ?: ""
-                personalisationMap["eroAddressLine4"] = area ?: ""
-                personalisationMap["eroAddressLine5"] = locality ?: ""
-                personalisationMap["eroPostcode"] = postcode
-            }
-        }
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
 }
@@ -328,74 +284,27 @@ fun buildApplicationReceivedPersonalisationMapFromDto(
 ): Map<String, String> {
     val personalisationMap = mutableMapOf<String, String>()
     with(personalisationDto) {
-        personalisationMap["applicationReference"] = applicationReference
-        personalisationMap["firstName"] = firstName
-        with(eroContactDetails) {
-            personalisationMap["LAName"] = localAuthorityName
-            personalisationMap["eroPhone"] = phone
-            personalisationMap["eroWebsite"] = website
-            personalisationMap["eroEmail"] = email
-            with(address) {
-                personalisationMap["eroAddressLine1"] = property ?: ""
-                personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = town ?: ""
-                personalisationMap["eroAddressLine4"] = area ?: ""
-                personalisationMap["eroAddressLine5"] = locality ?: ""
-                personalisationMap["eroPostcode"] = postcode
-            }
-        }
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
 }
 
 fun buildApplicationApprovedPersonalisationMapFromDto(
     personalisationDto: ApplicationApprovedPersonalisationDto = buildApplicationApprovedPersonalisationDto(),
-): Map<String, String> {
-    val personalisationMap = mutableMapOf<String, String>()
-    with(personalisationDto) {
-        personalisationMap["applicationReference"] = applicationReference
-        personalisationMap["firstName"] = firstName
-        with(eroContactDetails) {
-            personalisationMap["LAName"] = localAuthorityName
-            personalisationMap["eroPhone"] = phone
-            personalisationMap["eroWebsite"] = website
-            personalisationMap["eroEmail"] = email
-            with(address) {
-                personalisationMap["eroAddressLine1"] = property ?: ""
-                personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = town ?: ""
-                personalisationMap["eroAddressLine4"] = area ?: ""
-                personalisationMap["eroAddressLine5"] = locality ?: ""
-                personalisationMap["eroPostcode"] = postcode
-            }
-        }
-    }
-    return personalisationMap
-}
+) = getCommonDetailsMap(
+    personalisationDto.firstName,
+    personalisationDto.applicationReference,
+    personalisationDto.eroContactDetails
+)
 
 fun buildApplicationRejectedPersonalisationMapFromDto(
     personalisationDto: ApplicationRejectedPersonalisationDto = buildApplicationRejectedPersonalisationDto()
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
-        personalisationMap["applicationReference"] = applicationReference
-        personalisationMap["firstName"] = firstName
         personalisationMap["rejectionReasonList"] = rejectionReasonList
         personalisationMap["rejectionReasonMessage"] = rejectionReasonMessage ?: ""
-        with(eroContactDetails) {
-            personalisationMap["LAName"] = localAuthorityName
-            personalisationMap["eroPhone"] = phone
-            personalisationMap["eroWebsite"] = website
-            personalisationMap["eroEmail"] = email
-            with(address) {
-                personalisationMap["eroAddressLine1"] = property ?: ""
-                personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = town ?: ""
-                personalisationMap["eroAddressLine4"] = area ?: ""
-                personalisationMap["eroAddressLine5"] = locality ?: ""
-                personalisationMap["eroPostcode"] = postcode
-            }
-        }
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
 }
@@ -405,24 +314,21 @@ fun buildRejectedDocumentPersonalisationMapFromDto(
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
-        personalisationMap["applicationReference"] = applicationReference
-        personalisationMap["firstName"] = firstName
         personalisationMap["rejectedDocuments"] = documents
         personalisationMap["rejectionMessage"] = rejectedDocumentFreeText ?: ""
-        with(eroContactDetails) {
-            personalisationMap["LAName"] = localAuthorityName
-            personalisationMap["eroPhone"] = phone
-            personalisationMap["eroWebsite"] = website
-            personalisationMap["eroEmail"] = email
-            with(address) {
-                personalisationMap["eroAddressLine1"] = property ?: ""
-                personalisationMap["eroAddressLine2"] = street
-                personalisationMap["eroAddressLine3"] = town ?: ""
-                personalisationMap["eroAddressLine4"] = area ?: ""
-                personalisationMap["eroAddressLine5"] = locality ?: ""
-                personalisationMap["eroPostcode"] = postcode
-            }
-        }
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+    return personalisationMap
+}
+
+fun buildRejectedSignaturePersonalisationMapFromDto(
+    personalisationDto: RejectedSignaturePersonalisationDto = buildRejectedSignaturePersonalisationDto()
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+    with(personalisationDto) {
+        personalisationMap["rejectionNotes"] = rejectionNotes ?: ""
+        personalisationMap["rejectionReasons"] = rejectionReasons ?: emptyList<String>()
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
 }
@@ -464,3 +370,28 @@ fun buildAddressDtoWithOptionalFieldsNull(): AddressDto = buildAddressDto(
     town = null,
     area = null,
 )
+
+private fun getCommonDetailsMap(
+    firstName: String,
+    applicationReference: String,
+    contactDetailsDto: ContactDetailsDto,
+): MutableMap<String, String> {
+    val contactDetailsMap = mutableMapOf<String, String>()
+    contactDetailsMap["applicationReference"] = applicationReference
+    contactDetailsMap["firstName"] = firstName
+    return with(contactDetailsDto) {
+        contactDetailsMap["LAName"] = localAuthorityName
+        contactDetailsMap["eroPhone"] = phone
+        contactDetailsMap["eroWebsite"] = website
+        contactDetailsMap["eroEmail"] = email
+        with(address) {
+            contactDetailsMap["eroAddressLine1"] = property ?: ""
+            contactDetailsMap["eroAddressLine2"] = street
+            contactDetailsMap["eroAddressLine3"] = town ?: ""
+            contactDetailsMap["eroAddressLine4"] = area ?: ""
+            contactDetailsMap["eroAddressLine5"] = locality ?: ""
+            contactDetailsMap["eroPostcode"] = postcode
+        }
+        contactDetailsMap
+    }
+}

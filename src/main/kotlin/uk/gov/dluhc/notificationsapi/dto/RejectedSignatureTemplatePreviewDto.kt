@@ -4,7 +4,7 @@ class RejectedSignatureTemplatePreviewDto(
     sourceType: SourceType,
     channel: NotificationChannel,
     language: LanguageDto,
-    val personalisation: RejectedDocumentPersonalisationDto
+    val personalisation: RejectedSignaturePersonalisationDto
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,
