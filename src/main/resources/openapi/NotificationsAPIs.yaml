@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.12.2'
+  version: '1.13.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -862,17 +862,43 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
+        photoRejectionReasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhotoRejectionReason'
+          description: A list of reasons why the applicant photo has been rejected. A mandatory field, but can be empty.
+        photoRejectionNotes:
+          type: string
+          description: Optional free text giving details as to why the photo was rejected
+          example: Please ensure your hair is not covering any part of your face.
         photoRequestFreeText:
           type: string
-          description: Free text regarding photo request
-          example: Please provide a clear image
+          description: A free text with details as to what the applicant needs to do. Not related to any specific rejection reason.
+          example: Please provide a new photo within the next 10 days in order to meet the application deadline before the next election.
         uploadPhotoLink:
           type: string
           description: The URL link to upload a new image
           example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
       required:
+        - photoRejectionReasons
         - photoRequestFreeText
         - uploadPhotoLink
+
+    PhotoRejectionReason:
+      title: PhotoRejectionReason
+      description: Enum of reasons for rejecting a photo.
+      type: string
+      enum:
+        - not-facing-forwards-or-looking-at-the-camera
+        - photo-not-in-colour-distorted-or-too-dark
+        - other-objects-or-people-in-photo
+        - not-a-plain-facial-expression
+        - eyes-not-open-or-visible-or-hair-in-front-face
+        - wearing-sunglasses-or-tinted-glasses
+        - photo-has-head-covering-aside-from-religious-or-medical
+        - photo-has-red-eye-glare-or-shadows-over-face
+        - other
+
     IdDocumentRequiredPersonalisation:
       title: IdDocumentRequiredPersonalisation
       type: object
