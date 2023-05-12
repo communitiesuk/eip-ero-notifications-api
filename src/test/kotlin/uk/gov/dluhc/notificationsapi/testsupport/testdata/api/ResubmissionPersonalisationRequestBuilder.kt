@@ -4,6 +4,7 @@ import uk.gov.dluhc.notificationsapi.models.Address
 import uk.gov.dluhc.notificationsapi.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.models.PhotoPersonalisation
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getAValidPostcode
@@ -11,6 +12,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.getAValidPostcode
 fun buildPhotoResubmissionPersonalisationRequest(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
+    photoRejectionReasons: List<PhotoRejectionReason> = listOf(PhotoRejectionReason.OTHER),
+    photoRejectionNotes: String? = DataFaker.faker.harryPotter().spell(),
     photoRequestFreeText: String = DataFaker.faker.harryPotter().spell(),
     uploadPhotoLink: String = "http://localhost:8080/eros/photo/398c1be2-7950-48a2-aca8-14cb9276a673",
     eroContactDetails: ContactDetails = buildContactDetailsRequest()
@@ -18,6 +21,8 @@ fun buildPhotoResubmissionPersonalisationRequest(
     PhotoPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
+        photoRejectionReasons = photoRejectionReasons,
+        photoRejectionNotes = photoRejectionNotes,
         photoRequestFreeText = photoRequestFreeText,
         uploadPhotoLink = uploadPhotoLink,
         eroContactDetails = eroContactDetails

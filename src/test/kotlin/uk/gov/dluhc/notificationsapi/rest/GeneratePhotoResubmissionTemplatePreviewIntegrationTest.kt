@@ -147,6 +147,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
+                "photoRejectionReasons": [],
                 "photoRequestFreeText": "",
                 "uploadPhotoLink": "",
                 "eroContactDetails": {
@@ -207,6 +208,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
+                "photoRejectionReasons": ["other"],
                 "photoRequestFreeText": "Please provide a clear image",
                 "uploadPhotoLink": "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
                 "eroContactDetails": {
