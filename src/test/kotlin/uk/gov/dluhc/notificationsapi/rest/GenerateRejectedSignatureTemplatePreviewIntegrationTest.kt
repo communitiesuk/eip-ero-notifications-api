@@ -31,8 +31,8 @@ import java.time.temporal.ChronoUnit.MILLIS
 internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val EMAIL_DOCUMENT_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
-        private const val LETTER_DOCUMENT_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
+        private const val EMAIL_SIGNATURE_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
+        private const val LETTER_SIGNATURE_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
         private const val URI_TEMPLATE = "/templates/rejected-signature/preview"
     }
 
@@ -64,7 +64,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return not found given non existing template`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_DOCUMENT_TEMPLATE_ID)
+        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_SIGNATURE_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -116,7 +116,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return bad request given valid missing request body parameters to gov notify`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_DOCUMENT_TEMPLATE_ID)
+        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_SIGNATURE_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -187,8 +187,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,$EMAIL_DOCUMENT_TEMPLATE_ID",
-            "LETTER,$LETTER_DOCUMENT_TEMPLATE_ID"
+            "EMAIL,$EMAIL_SIGNATURE_TEMPLATE_ID",
+            "LETTER,$LETTER_SIGNATURE_TEMPLATE_ID"
         ]
     )
     fun `should return template preview given valid request`(
@@ -244,8 +244,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,$EMAIL_DOCUMENT_TEMPLATE_ID",
-            "LETTER,$LETTER_DOCUMENT_TEMPLATE_ID"
+            "EMAIL,$EMAIL_SIGNATURE_TEMPLATE_ID",
+            "LETTER,$LETTER_SIGNATURE_TEMPLATE_ID"
         ]
     )
     fun `should return template preview given valid request when optional values are not populated`(
