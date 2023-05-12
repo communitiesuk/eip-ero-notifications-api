@@ -9,6 +9,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
@@ -40,7 +41,9 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         ]
     )
     fun `should map rejected signature template preview request to dto`(channel: NotificationChannel) {
-        validate(channel, rejectionNotes = "Invalid signature", rejectionReasons = listOf("Invalid"))
+        val rejectionReasons = listOf("Invalid")
+        val mappedDto = validate(channel, rejectionNotes = "Invalid signature", rejectionReasons = rejectionReasons)
+        assertThat(mappedDto.personalisation.rejectionReasons).isEqualTo(rejectionReasons)
     }
 
     @ParameterizedTest
@@ -51,14 +54,15 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         ]
     )
     fun `should map rejected signature template preview request with optional fields to dto `(channel: NotificationChannel) {
-        validate(channel)
+        val mappedDto = validate(channel)
+        assertThat(mappedDto.personalisation.rejectionReasons).isEmpty()
     }
 
     private fun validate(
         channel: NotificationChannel,
         rejectionNotes: String? = null,
         rejectionReasons: List<String>? = null
-    ) {
+    ): RejectedSignatureTemplatePreviewDto {
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             channel = channel,
             personalisation = buildRejectedSignaturePersonalisation(
@@ -80,6 +84,10 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
             SourceTypeDto.PROXY,
             LanguageDto.ENGLISH,
         )
-        assertThat(mappedDto.personalisation).usingRecursiveComparison().isEqualTo(request.personalisation)
+        with(mappedDto.personalisation) {
+            assertThat(this).usingRecursiveComparison()
+                .ignoringFields("rejectionReasons").isEqualTo(request.personalisation)
+        }
+        return mappedDto
     }
 }

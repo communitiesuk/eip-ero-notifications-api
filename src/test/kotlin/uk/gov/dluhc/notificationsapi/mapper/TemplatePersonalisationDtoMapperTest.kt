@@ -326,7 +326,6 @@ class TemplatePersonalisationDtoMapperTest {
             // Given
             val personalisationDto = buildRejectedSignaturePersonalisationDto(
                 rejectionNotes = null,
-                rejectionReasons = null,
                 eroContactDetails = buildContactDetailsDto(
                     address = buildAddressDtoWithOptionalFieldsNull()
                 )

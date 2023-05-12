@@ -97,7 +97,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
             personalisation["rejectionNotes"] = getSafeValue(rejectionNotes)
-            personalisation["rejectionReasons"] = rejectionReasons ?: emptyList<String>()
+            personalisation["rejectionReasons"] = rejectionReasons
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)

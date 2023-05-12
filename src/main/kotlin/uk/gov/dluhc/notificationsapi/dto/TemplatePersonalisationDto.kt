@@ -89,7 +89,7 @@ class RejectedSignaturePersonalisationDto(
     firstName: String,
     eroContactDetails: ContactDetailsDto,
     val rejectionNotes: String?,
-    val rejectionReasons: List<String>?,
+    val rejectionReasons: List<String>,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,

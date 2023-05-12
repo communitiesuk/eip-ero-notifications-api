@@ -327,7 +327,7 @@ fun buildRejectedSignaturePersonalisationMapFromDto(
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["rejectionNotes"] = rejectionNotes ?: ""
-        personalisationMap["rejectionReasons"] = rejectionReasons ?: emptyList<String>()
+        personalisationMap["rejectionReasons"] = rejectionReasons
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
