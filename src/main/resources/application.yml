@@ -15,6 +15,8 @@ api:
           approved-welsh: ${TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH}
           photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH}
           photo-resubmission-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH}
+          photo-resubmission-with-reasons-english: ${TEMPLATE_PHOTO_RESUBMISSION_WITH_REASONS_EMAIL_ENGLISH}
+          photo-resubmission-with-reasons-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_WITH_REASONS_EMAIL_WELSH}
           id-document-resubmission-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH}
           id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH}
           id-document-required-english: ${TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH}
@@ -24,6 +26,8 @@ api:
           rejected-welsh: ${TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH}
           photo-resubmission-english: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH}
           photo-resubmission-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH}
+          photo-resubmission-with-reasons-english: ${TEMPLATE_PHOTO_RESUBMISSION_WITH_REASONS_LETTER_ENGLISH}
+          photo-resubmission-with-reasons-welsh: ${TEMPLATE_PHOTO_RESUBMISSION_WITH_REASONS_LETTER_WELSH}
           id-document-resubmission-english: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH}
           id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH}
           id-document-required-english: ${TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_ENGLISH}
