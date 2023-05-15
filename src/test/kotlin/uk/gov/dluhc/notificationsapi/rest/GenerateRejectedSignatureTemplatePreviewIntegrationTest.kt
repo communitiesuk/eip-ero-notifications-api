@@ -259,7 +259,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
         val requestBody = buildGenerateRejectedSignatureTemplatePreviewRequest(
             channel = notificationChannel,
             personalisation = buildRejectedSignaturePersonalisation(
-                rejectionReasons = null,
+                rejectionReasons = emptyList(),
                 rejectionNotes = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
             )

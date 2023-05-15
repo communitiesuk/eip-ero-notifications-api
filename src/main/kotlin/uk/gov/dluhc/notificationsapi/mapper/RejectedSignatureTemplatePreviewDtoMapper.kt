@@ -9,8 +9,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePre
 interface RejectedSignatureTemplatePreviewDtoMapper {
     @Mapping(
         source = "request.personalisation.rejectionReasons",
-        target = "personalisation.rejectionReasons",
-        defaultExpression = "java(java.util.Collections.emptyList())"
+        target = "personalisation.rejectionReasons"
     )
     fun toRejectedSignatureTemplatePreviewDto(request: GenerateRejectedSignatureTemplatePreviewRequest): RejectedSignatureTemplatePreviewDto
 }

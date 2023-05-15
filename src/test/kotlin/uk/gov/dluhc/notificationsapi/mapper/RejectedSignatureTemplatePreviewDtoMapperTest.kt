@@ -61,7 +61,7 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
     private fun validate(
         channel: NotificationChannel,
         rejectionNotes: String? = null,
-        rejectionReasons: List<String>? = null
+        rejectionReasons: List<String> = emptyList()
     ): RejectedSignatureTemplatePreviewDto {
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             channel = channel,
@@ -85,8 +85,7 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
             LanguageDto.ENGLISH,
         )
         with(mappedDto.personalisation) {
-            assertThat(this).usingRecursiveComparison()
-                .ignoringFields("rejectionReasons").isEqualTo(request.personalisation)
+            assertThat(this).usingRecursiveComparison().isEqualTo(request.personalisation)
         }
         return mappedDto
     }
