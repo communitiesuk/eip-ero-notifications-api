@@ -76,16 +76,30 @@ The following environment variables must be set in order to run the application:
 * `TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_WELSH` - Notify service email template ID for id document required in Welsh
 * `TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_ENGLISH` - Notify service letter template ID for id document required in English
 * `TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_WELSH` - Notify service letter template ID for id document required in Welsh
-* `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing postal application is received in English
-* `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing postal application is received in Welsh
-* `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing proxy application is received in English
-* `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing proxy application is received in Welsh
-* `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing overseas application is received in English
-* `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing overseas application is received in Welsh
-* `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved in English
-* `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved in Welsh
-* `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is rejected in English
-* `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected in Welsh
+* `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing postal
+  application is received in English
+* `TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing postal application
+  is received in Welsh
+* `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing proxy application
+  is received in English
+* `TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing proxy application
+  is received in Welsh
+* `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH` - Notify service email template ID for informing overseas
+  application is received in English
+* `TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH` - Notify service email template ID for informing overseas
+  application is received in Welsh
+* `TEMPLATE_APPLICATION_APPROVED_EMAIL_ENGLISH` - Notify service email template ID for informing application is approved
+  in English
+* `TEMPLATE_APPLICATION_APPROVED_EMAIL_WELSH` - Notify service email template ID for informing application is approved
+  in Welsh
+* `TEMPLATE_APPLICATION_REJECTED_LETTER_ENGLISH` - Notify service letter template ID for informing application is
+  rejected in English
+* `TEMPLATE_APPLICATION_REJECTED_LETTER_WELSH` - Notify service letter template ID for informing application is rejected
+  in Welsh
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_EMAIL_ENGLISH` - Notify service email template ID for informing proxy vote
+  application signature rejected in English
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_LETTER_ENGLISH` - Notify service letter template ID for informing proxy vote
+  application signature rejected in English
 * `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
 * `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
 * `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations

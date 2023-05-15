@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.13.0'
+  version: '1.13.2'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -624,6 +624,74 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Rejected Signature Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/rejected-signature/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Rejected Signature Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for a rejected signature template type and personalisation data
+      description: Generates a text preview for a rejected signature template type and personalisation data
+      operationId: generate-rejected-signature-template-preview
+      tags:
+        - Generate Rejected Signature Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateRejectedSignatureTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/rejected-signature/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
 components:
   #
   # Schema and Enum Definitions
@@ -671,6 +739,7 @@ components:
         - id-document-resubmission
         - id-document-required
         - rejected-document
+        - rejected-signature
     Language:
       title: Language
       description: The language to view the template
@@ -1220,6 +1289,45 @@ components:
         - invalid-document-country
         - document-illegible
         - other
+    RejectedSignature:
+      title: RejectedSignature
+      description: The data for the specific rejected signature.
+      type: object
+      properties:
+        rejectionNotes:
+          type: string
+          description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's signature check
+        rejectionReasons:
+          type: array
+          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
+          items:
+            type: string
+      required:
+        - rejectionReasons
+    RejectedSignaturePersonalisation:
+      title: RejectedSignaturePersonalisation
+      type: object
+      description: Personalisation details for a rejected signature
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/RejectedSignature'
+    GenerateRejectedSignatureTemplatePreviewRequest:
+      title: GenerateRejectedSignatureTemplatePreviewRequest
+      description: An object containing request attributes required for generating the rejected signature template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/RejectedSignaturePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
 
   #
   # Response Body Definitions
@@ -1391,6 +1499,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CreateOfflineCommunicationConfirmationRequest'
+    GenerateRejectedSignatureTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateRejectedSignatureTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:
