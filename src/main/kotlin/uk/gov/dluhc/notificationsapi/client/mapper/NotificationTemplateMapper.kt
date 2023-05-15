@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
@@ -87,6 +88,7 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
             REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
+            REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -107,6 +109,7 @@ class NotificationTemplateMapper(
         when (sourceType) {
             POSTAL -> notifyLetterTemplateConfiguration.postal
             VOTER_CARD -> notifyLetterTemplateConfiguration.voterCard
+            PROXY -> notifyLetterTemplateConfiguration.proxy
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template configuration defined for sourceType $sourceType")
             }
@@ -130,6 +133,7 @@ class NotificationTemplateMapper(
         ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
         ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
         REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
+        REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType")
         }

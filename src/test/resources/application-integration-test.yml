@@ -44,6 +44,11 @@ api:
           rejected-document-english: 74ba448b-dce8-434a-baff-968ac3d19657
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
+      proxy:
+        email:
+          rejected-signature-english: 7fa64777-222f-45e9-937b-6236359b79df
+        letter:
+          rejected-signature-english: a934fb1a-a199-41cc-829d-bf025ad1b740
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission
