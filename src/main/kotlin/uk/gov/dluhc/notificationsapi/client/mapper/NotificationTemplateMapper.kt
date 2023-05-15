@@ -15,6 +15,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -72,6 +73,7 @@ class NotificationTemplateMapper(
             APPLICATION_RECEIVED -> config.receivedWelsh
             APPLICATION_APPROVED -> config.approvedWelsh
             PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
+            PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
             else -> {
@@ -85,6 +87,7 @@ class NotificationTemplateMapper(
             APPLICATION_RECEIVED -> config.receivedEnglish
             APPLICATION_APPROVED -> config.approvedEnglish
             PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
+            PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
             REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
@@ -119,6 +122,7 @@ class NotificationTemplateMapper(
         APPLICATION_RECEIVED -> config.receivedWelsh
         APPLICATION_REJECTED -> config.rejectedWelsh
         PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
+        PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
         ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
         ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
         else -> {
@@ -130,6 +134,7 @@ class NotificationTemplateMapper(
         APPLICATION_RECEIVED -> config.receivedEnglish
         APPLICATION_REJECTED -> config.rejectedEnglish
         PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
+        PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
         ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
         ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
         REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
