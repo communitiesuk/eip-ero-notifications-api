@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
 import org.mapstruct.Mapper
+import org.mapstruct.MappingConstants
 import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
@@ -18,6 +19,11 @@ interface NotificationTypeMapper {
     @ValueMapping(target = "ID_DOCUMENT_REQUIRED", source = "ID_MINUS_DOCUMENT_MINUS_REQUIRED")
     fun mapMessageTypeToNotificationType(messageType: MessageType): NotificationType
 
+    // PHOTO_RESUBMISSION should be mapped to PHOTO_RESUBMISSION
+    @ValueMapping(source = "PHOTO_RESUBMISSION", target = "PHOTO_RESUBMISSION")
+    // PHOTO_RESUBMISSION_WITH_REASONS is an implementation detail and not a "business" notification type
+    // Therefore it should be saved to the database as PHOTO_RESUBMISSION
+    @ValueMapping(source = "PHOTO_RESUBMISSION_WITH_REASONS", target = "PHOTO_RESUBMISSION")
     fun toNotificationTypeEntity(notificationType: NotificationType): NotificationTypeEntity
 
     fun toNotificationTypeDto(notificationTypeEntity: NotificationTypeEntity): NotificationType
@@ -30,5 +36,9 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "ID_DOCUMENT_REQUIRED", target = "ID_MINUS_DOCUMENT_MINUS_REQUIRED")
     @ValueMapping(source = "REJECTED_DOCUMENT", target = "REJECTED_MINUS_DOCUMENT")
     @ValueMapping(source = "REJECTED_SIGNATURE", target = "REJECTED_MINUS_SIGNATURE")
+    // Mapping NotificationType.PHOTO_RESUBMISSION_WITH_REASONS to the REST API (TemplateType) is not supported
+    // and will never happen because PHOTO_RESUBMISSION_WITH_REASONS is not saved as a database enum, so it will
+    // never be presented in this method call. MapStruct does not know this though, so makes us handle the scenario
+    @ValueMapping(source = "PHOTO_RESUBMISSION_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType
 }

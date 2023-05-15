@@ -1,8 +1,10 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowableOfType
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.EnumSource
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.models.TemplateType
@@ -39,6 +41,7 @@ class NotificationTypeMapperTest {
             "APPLICATION_REJECTED, APPLICATION_REJECTED",
             "APPLICATION_APPROVED, APPLICATION_APPROVED",
             "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION",
+            "PHOTO_RESUBMISSION_WITH_REASONS, PHOTO_RESUBMISSION",
             "ID_DOCUMENT_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
             "ID_DOCUMENT_REQUIRED, ID_DOCUMENT_REQUIRED",
             "REJECTED_DOCUMENT, REJECTED_DOCUMENT"
@@ -102,5 +105,26 @@ class NotificationTypeMapperTest {
 
         // Then
         assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = NotificationType::class,
+        names = [
+            "PHOTO_RESUBMISSION_WITH_REASONS"
+        ]
+    )
+    fun `should not map Notification Type to Template Type given unsupported value`(unSupportedNotificationType: NotificationType) {
+        // Given
+
+        // When
+        val exception = catchThrowableOfType(
+            { mapper.fromNotificationTypeDtoToTemplateTypeApi(unSupportedNotificationType) },
+            IllegalArgumentException::class.java
+        )
+
+        // Then
+        assertThat(exception)
+            .hasMessage("Unexpected enum constant: $unSupportedNotificationType")
     }
 }

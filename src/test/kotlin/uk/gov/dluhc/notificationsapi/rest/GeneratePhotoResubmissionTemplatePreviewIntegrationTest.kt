@@ -26,7 +26,7 @@ import java.time.temporal.ChronoUnit.MILLIS
 internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val PHOTO_TEMPLATE_ID = "f1571006-c3a0-4c97-884a-189f5b103f85"
+        private const val PHOTO_TEMPLATE_ID = "598f9383-06c9-4dcb-ac53-2583f3845d9b"
         private const val URI_TEMPLATE = "/templates/photo-resubmission/preview"
     }
 
