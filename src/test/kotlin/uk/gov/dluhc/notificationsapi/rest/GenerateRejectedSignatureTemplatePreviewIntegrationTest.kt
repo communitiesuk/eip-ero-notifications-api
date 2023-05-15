@@ -224,7 +224,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             mutableMapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectionReasons" to requestBody.personalisation.rejectionReasons!!,
+                "rejectionReasons" to requestBody.personalisation.rejectionReasons,
                 "rejectionNotes" to rejectionNotes!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,

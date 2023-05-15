@@ -260,5 +260,7 @@ class ProxyNotifyLetterTemplateConfiguration(
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
     rejectedDocumentEnglish = null,
+    photoResubmissionWithReasonsEnglish = null,
+    photoResubmissionWithReasonsWelsh = null,
     rejectedSignatureEnglish = rejectedSignatureEnglish
 )
