@@ -31,7 +31,7 @@ class SendNotifyPhotoResubmissionMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromPhotoMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toPhotoPersonalisationDto(personalisation)
+            val personalisationDto = templatePersonalisationMessageMapper.toPhotoPersonalisationDto(personalisation, sendNotificationRequestDto.language)
             val personalisationMap = templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }
