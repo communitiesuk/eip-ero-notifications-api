@@ -7,16 +7,14 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.RejectedDocument
 import uk.gov.dluhc.notificationsapi.models.RejectedDocumentPersonalisation
 
 @Mapper(uses = [LanguageMapper::class, SourceTypeMapper::class])
 abstract class RejectedDocumentTemplatePreviewDtoMapper {
 
     @Autowired
-    lateinit var rejectedDocumentReasonMapper: RejectedDocumentReasonMapper
-
-    @Autowired
-    lateinit var rejectedDocumentTypeMapper: RejectedDocumentTypeMapper
+    private lateinit var rejectedDocumentMapper: RejectedDocumentMapper
 
     @Mapping(
         target = "personalisation",
@@ -26,23 +24,13 @@ abstract class RejectedDocumentTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "documents",
-        expression = "java( mapDocuments( languageDto, personalisation ) )"
+        expression = "java( mapDocuments( languageDto, personalisation.getDocuments() ) )"
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
         personalisation: RejectedDocumentPersonalisation
     ): RejectedDocumentPersonalisationDto
 
-    fun mapDocuments(
-        languageDto: LanguageDto,
-        personalisation: RejectedDocumentPersonalisation
-    ): List<String> {
-        return personalisation.documents.map { document ->
-            val docType = rejectedDocumentTypeMapper.toDocumentTypeString(document.documentType, languageDto)
-            val docReason = document.rejectionReason?.let { rejectedDocumentReasonMapper.toDocumentRejectionReasonString(it, languageDto) }
-            docType.appendIfNotNull(docReason).appendIfNotNull(document.rejectionNotes)
-        }
-    }
-
-    private fun String.appendIfNotNull(value: String?) = this + (" - $value".takeIf { value != null } ?: "")
+    fun mapDocuments(languageDto: LanguageDto, documents: List<RejectedDocument>) =
+        documents.map { document -> rejectedDocumentMapper.fromApiRejectedDocumentToString(languageDto, document) }
 }

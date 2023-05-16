@@ -12,7 +12,9 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
+import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
@@ -29,6 +31,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentPersonalisationMessage
 
 @ExtendWith(MockitoExtension::class)
 internal class TemplatePersonalisationMessageMapperTest {
@@ -38,6 +42,9 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Mock
     private lateinit var applicationRejectionReasonMapper: ApplicationRejectionReasonMapper
+
+    @Mock
+    private lateinit var rejectedDocumentMapper: RejectedDocumentMapper
 
     @Nested
     inner class ToPhotoPersonalisationDto {
@@ -187,6 +194,51 @@ internal class TemplatePersonalisationMessageMapperTest {
                 .toApplicationRejectionReasonString(NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH)
             verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER, ENGLISH)
             verifyNoMoreInteractions(applicationRejectionReasonMapper)
+        }
+    }
+
+    @Nested
+    inner class ToRejectedDocumentPersonalisationDto {
+        @Test
+        fun `should map SQS RejectedDocumentPersonalisation to RejectedDocumentPersonalisationDto`() {
+            // Given
+            val doc = buildRejectedDocument()
+            val personalisationMessage = buildRejectedDocumentPersonalisationMessage(documents = listOf(doc))
+            val docString = "Driving Licence - unreadable"
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                RejectedDocumentPersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    documents = listOf(docString),
+                    rejectedDocumentFreeText = rejectedDocumentMessage,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode
+                                )
+                            }
+                        )
+                    }
+                )
+            }
+            val language = ENGLISH
+            given(rejectedDocumentMapper.fromMessagingRejectedDocumentToString(language, doc)).willReturn(docString)
+
+            // When
+            val actual = mapper.toRejectedDocumentPersonalisationDto(personalisationMessage, language)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }
     }
 }

@@ -36,46 +36,31 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
     private lateinit var mapper: RejectedDocumentTemplatePreviewDtoMapperImpl
 
     @Mock
+    private lateinit var rejectedDocumentMapper: RejectedDocumentMapper
+
+    @Mock
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
-    @Mock
-    private lateinit var rejectedDocumentReasonMapper: RejectedDocumentReasonMapper
-
-    @Mock
-    private lateinit var rejectedDocumentTypeMapper: RejectedDocumentTypeMapper
-
     @ParameterizedTest
     @EnumSource(Language::class)
     fun `should map rejected document template request to dto`(language: Language) {
         // Given
+        val documentOne = buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReason = DOCUMENT_MINUS_TOO_MINUS_OLD, rejectionNotes = null)
+        val documentTwo = buildRejectedDocument(documentType = BIRTH_MINUS_CERTIFICATE, rejectionReason = UNREADABLE_MINUS_DOCUMENT, rejectionNotes = null)
+        val documentThree = buildRejectedDocument(documentType = MORTGAGE_MINUS_STATEMENT, rejectionReason = OTHER, rejectionNotes = "Some notes")
         val request = buildGenerateRejectedDocumentTemplatePreviewRequest(
             language = language,
             sourceType = SourceTypeModel.POSTAL,
-            personalisation = buildRejectedDocumentPersonalisation(
-                documents = listOf(
-                    buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReason = DOCUMENT_MINUS_TOO_MINUS_OLD, rejectionNotes = null),
-                    buildRejectedDocument(documentType = BIRTH_MINUS_CERTIFICATE, rejectionReason = UNREADABLE_MINUS_DOCUMENT, rejectionNotes = null),
-                    buildRejectedDocument(documentType = MORTGAGE_MINUS_STATEMENT, rejectionReason = OTHER, rejectionNotes = "Some notes")
-                )
-            )
+            personalisation = buildRejectedDocumentPersonalisation(documents = listOf(documentOne, documentTwo, documentThree))
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(SourceTypeModel.POSTAL)).willReturn(SourceTypeDto.POSTAL)
-        val tooOldReason = "Document is too old"
-        val unreadableReason = "Document is not readable"
-        val other = "other"
-        given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(DOCUMENT_MINUS_TOO_MINUS_OLD, ENGLISH)).willReturn(tooOldReason)
-        given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(UNREADABLE_MINUS_DOCUMENT, ENGLISH)).willReturn(unreadableReason)
-        given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(OTHER, ENGLISH)).willReturn(other)
-        val utilityBillDoc = "Utility Bill"
-        val birthCertDoc = "Birth Certificate"
-        val mortgageDoc = "Mortgage statement"
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(UTILITY_MINUS_BILL, ENGLISH)).willReturn(utilityBillDoc)
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(BIRTH_MINUS_CERTIFICATE, ENGLISH)).willReturn(birthCertDoc)
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(MORTGAGE_MINUS_STATEMENT, ENGLISH)).willReturn(mortgageDoc)
+        given(rejectedDocumentMapper.fromApiRejectedDocumentToString(ENGLISH, documentOne)).willReturn("Utility Bill - Document is too old")
+        given(rejectedDocumentMapper.fromApiRejectedDocumentToString(ENGLISH, documentTwo)).willReturn("Birth Certificate - Document is not readable")
+        given(rejectedDocumentMapper.fromApiRejectedDocumentToString(ENGLISH, documentThree)).willReturn("Mortgage statement - other - Some notes")
 
         // When
         val actual = mapper.toRejectedDocumentTemplatePreviewDto(request)
@@ -123,19 +108,19 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
     @EnumSource(Language::class)
     fun `should map rejected document template request to dto when optional fields null`(language: Language) {
         // Given
+        val document = buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReason = null, rejectionNotes = null)
         val request = buildGenerateRejectedDocumentTemplatePreviewRequest(
             language = language,
             sourceType = SourceTypeModel.POSTAL,
             personalisation = buildRejectedDocumentPersonalisation(
-                documents = listOf(buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReason = null, rejectionNotes = null)),
+                documents = listOf(document),
                 rejectedDocumentFreeText = null,
                 eroContactDetails = buildEroContactDetails(address = buildAddressRequestWithOptionalParamsNull())
             )
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(SourceTypeModel.POSTAL)).willReturn(SourceTypeDto.POSTAL)
-        val utilityBillDoc = "Utility Bill"
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(UTILITY_MINUS_BILL, ENGLISH)).willReturn(utilityBillDoc)
+        given(rejectedDocumentMapper.fromApiRejectedDocumentToString(ENGLISH, document)).willReturn("Utility Bill")
 
         // When
         val actual = mapper.toRejectedDocumentTemplatePreviewDto(request)

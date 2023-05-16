@@ -13,6 +13,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejec
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 
 @Mapper(
     uses = [
@@ -56,5 +57,10 @@ interface SendNotifyMessageMapper {
     @Mapping(target = "notificationType", source = "messageType")
     fun fromRejectedMessageToSendNotificationRequestDto(
         message: SendNotifyApplicationRejectedMessage
+    ): SendNotificationRequestDto
+
+    @Mapping(target = "notificationType", source = "messageType")
+    fun fromRejectedDocumentMessageToSendNotificationRequestDto(
+        message: SendNotifyRejectedDocumentMessage
     ): SendNotificationRequestDto
 }

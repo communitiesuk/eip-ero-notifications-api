@@ -16,6 +16,7 @@ interface NotificationTypeMapper {
     @ValueMapping(target = "PHOTO_RESUBMISSION", source = "PHOTO_MINUS_RESUBMISSION")
     @ValueMapping(target = "ID_DOCUMENT_RESUBMISSION", source = "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION")
     @ValueMapping(target = "ID_DOCUMENT_REQUIRED", source = "ID_MINUS_DOCUMENT_MINUS_REQUIRED")
+    @ValueMapping(target = "REJECTED_DOCUMENT", source = "REJECTED_MINUS_DOCUMENT")
     fun mapMessageTypeToNotificationType(messageType: MessageType): NotificationType
 
     fun toNotificationTypeEntity(notificationType: NotificationType): NotificationTypeEntity

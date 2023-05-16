@@ -30,6 +30,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejec
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -41,6 +42,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
@@ -382,6 +384,64 @@ internal class SendNotifyMessageMapperTest {
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(request.messageType)
             verify(sourceTypeMapper).fromMessageToDto(request.sourceType)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(request.toAddress)
+        }
+    }
+
+    @Nested
+    inner class FromRejectedDocumentMessageToSendNotificationRequestDto {
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "CY, WELSH",
+                "EN, ENGLISH",
+            ]
+        )
+        fun `should map SQS SendNotifyRejectedDocumentMessage to SendNotificationRequestDto`(
+            language: Language,
+            expectedLanguage: LanguageDto
+        ) {
+            // Given
+            val gssCode = aGssCode()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val toAddress = aMessageAddress()
+            val personalisation = buildRejectedDocumentPersonalisationMessage()
+
+            val request = SendNotifyRejectedDocumentMessage(
+                channel = SqsChannel.EMAIL,
+                language = language,
+                sourceType = SqsSourceType.POSTAL,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                messageType = MessageType.REJECTED_MINUS_DOCUMENT,
+                toAddress = toAddress,
+                personalisation = personalisation,
+            )
+
+            val expectedToAddress = aNotificationDestination()
+            val expectedChannel = NotificationChannel.EMAIL
+            val expectedSourceType = SourceType.POSTAL
+            val expectedNotificationType = NotificationType.APPLICATION_REJECTED
+
+            given(notificationChannelMapper.fromMessagingApiToDto(request.channel)).willReturn(expectedChannel)
+            given(languageMapper.fromMessageToDto(request.language)).willReturn(expectedLanguage)
+            given(notificationTypeMapper.mapMessageTypeToNotificationType(MessageType.REJECTED_MINUS_DOCUMENT)).willReturn(expectedNotificationType)
+            given(sourceTypeMapper.fromMessageToDto(request.sourceType)).willReturn(expectedSourceType)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(request.toAddress)).willReturn(expectedToAddress)
+
+            // When
+            val notification = mapper.fromRejectedDocumentMessageToSendNotificationRequestDto(request)
+
+            // Then
+            assertThat(notification.channel).isEqualTo(expectedChannel)
+            assertThat(notification.language).isEqualTo(expectedLanguage)
+            assertThat(notification.gssCode).isEqualTo(gssCode)
+            assertThat(notification.requestor).isEqualTo(requestor)
+            assertThat(notification.sourceType).isEqualTo(expectedSourceType)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
         }
     }
 }
