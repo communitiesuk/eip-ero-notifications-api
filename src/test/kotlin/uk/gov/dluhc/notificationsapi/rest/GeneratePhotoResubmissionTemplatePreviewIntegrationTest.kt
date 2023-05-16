@@ -229,9 +229,11 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             }
         """.trimIndent()
 
-        val expectedPersonalisationDataMap = mutableMapOf(
+        val expectedPersonalisationDataMap = mapOf(
             "applicationReference" to "A3JSZC4CRH",
             "firstName" to "Fred",
+            "photoRejectionReasons" to listOf("Other"),
+            "photoRejectionNotes" to "",
             "photoRequestFreeText" to "Please provide a clear image",
             "uploadPhotoLink" to "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
             "LAName" to "City of Sunderland",
@@ -274,6 +276,8 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
+                "photoRejectionReasons" to listOf("Other"),
+                "photoRejectionNotes" to (photoRejectionNotes ?: ""),
                 "photoRequestFreeText" to photoRequestFreeText,
                 "uploadPhotoLink" to uploadPhotoLink,
                 "LAName" to eroContactDetails.localAuthorityName,
@@ -323,6 +327,8 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
+                "photoRejectionReasons" to listOf("Other"),
+                "photoRejectionNotes" to (photoRejectionNotes ?: ""),
                 "photoRequestFreeText" to photoRequestFreeText,
                 "uploadPhotoLink" to uploadPhotoLink,
                 "LAName" to eroContactDetails.localAuthorityName,

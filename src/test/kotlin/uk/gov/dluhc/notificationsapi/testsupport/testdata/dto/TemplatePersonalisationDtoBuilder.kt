@@ -253,10 +253,12 @@ fun buildApplicationApprovedPersonalisationDtoFromMessage(
 }
 
 fun buildPhotoPersonalisationMapFromDto(
-    personalisationDto: PhotoPersonalisationDto = buildPhotoPersonalisationDto(),
-): Map<String, String> {
-    val personalisationMap = mutableMapOf<String, String>()
+    personalisationDto: PhotoPersonalisationDto = buildPhotoPersonalisationDto()
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
+        personalisationMap["photoRejectionReasons"] = photoRejectionReasons
+        personalisationMap["photoRejectionNotes"] = photoRejectionNotes ?: ""
         personalisationMap["photoRequestFreeText"] = photoRequestFreeText
         personalisationMap["uploadPhotoLink"] = uploadPhotoLink
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
