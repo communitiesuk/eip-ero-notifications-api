@@ -57,11 +57,11 @@ class TemplatePersonalisationDtoMapperTest {
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-            assertThat(actual["eroAddressLine1"]).isBlank
+            assertThat(actual["eroAddressLine1"] as String).isBlank
             assertThat(actual["eroAddressLine2"]).isEqualTo(personalisationDto.eroContactDetails.address.street)
-            assertThat(actual["eroAddressLine3"]).isBlank
-            assertThat(actual["eroAddressLine4"]).isBlank
-            assertThat(actual["eroAddressLine5"]).isBlank
+            assertThat(actual["eroAddressLine3"] as String).isBlank
+            assertThat(actual["eroAddressLine4"] as String).isBlank
+            assertThat(actual["eroAddressLine5"] as String).isBlank
             assertThat(actual["eroPostcode"]).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
         }
     }

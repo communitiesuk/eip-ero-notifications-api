@@ -44,7 +44,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerTest {
         val personalisationDto = buildPhotoPersonalisationDto()
 
         given(sendNotifyMessageMapper.fromPhotoMessageToSendNotificationRequestDto(any())).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toPhotoPersonalisationDto(any())).willReturn(personalisationDto)
+        given(templatePersonalisationMessageMapper.toPhotoPersonalisationDto(any(), any())).willReturn(personalisationDto)
         given(templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(any())).willReturn(personalisationMap)
 
         // When
@@ -52,7 +52,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerTest {
 
         // Then
         verify(sendNotifyMessageMapper).fromPhotoMessageToSendNotificationRequestDto(sqsMessage)
-        verify(templatePersonalisationMessageMapper).toPhotoPersonalisationDto(sqsMessage.personalisation)
+        verify(templatePersonalisationMessageMapper).toPhotoPersonalisationDto(sqsMessage.personalisation, requestDto.language)
         verify(templatePersonalisationDtoMapper).toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
         verify(sendNotificationService).sendNotification(requestDto, personalisationMap)
     }

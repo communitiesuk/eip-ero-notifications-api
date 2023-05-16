@@ -32,6 +32,8 @@ class PhotoPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
+    val photoRejectionReasons: List<String>,
+    val photoRejectionNotes: String?,
     val photoRequestFreeText: String,
     val uploadPhotoLink: String
 ) : BaseTemplatePersonalisationDto(

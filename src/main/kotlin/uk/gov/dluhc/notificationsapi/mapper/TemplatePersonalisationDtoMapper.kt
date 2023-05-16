@@ -15,14 +15,18 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 @Component
 class TemplatePersonalisationDtoMapper {
 
-    fun toPhotoResubmissionTemplatePersonalisationMap(dto: PhotoPersonalisationDto): Map<String, String> {
-        val personalisation = getBasicContactDetailsPersonalisationMap(dto)
-
-        with(dto) {
-            personalisation["photoRequestFreeText"] = photoRequestFreeText
-            personalisation["uploadPhotoLink"] = uploadPhotoLink
+    fun toPhotoResubmissionTemplatePersonalisationMap(dto: PhotoPersonalisationDto): Map<String, Any> {
+        return with(dto) {
+            getBasicContactDetailsPersonalisationMap(this)
+                .plus(
+                    mapOf(
+                        "photoRejectionReasons" to photoRejectionReasons,
+                        "photoRejectionNotes" to getSafeValue(photoRejectionNotes),
+                        "photoRequestFreeText" to photoRequestFreeText,
+                        "uploadPhotoLink" to uploadPhotoLink,
+                    )
+                )
         }
-        return personalisation
     }
 
     fun toIdDocumentResubmissionTemplatePersonalisationMap(dto: IdDocumentPersonalisationDto): Map<String, String> {
