@@ -21,6 +21,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicatio
 fun buildPhotoPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
+    photoRejectionReasons: List<String> = listOf("There are other people or objects in the photo"),
+    photoRejectionNotes: String? = "Please ensure you frame only your head and shoulders in the photo",
     photoRequestFreeText: String = faker.harryPotter().spell(),
     uploadPhotoLink: String = "http://localhost:8080/eros/photo/398c1be2-7950-48a2-aca8-14cb9276a673",
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
@@ -28,6 +30,8 @@ fun buildPhotoPersonalisationDto(
     PhotoPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
+        photoRejectionReasons = photoRejectionReasons,
+        photoRejectionNotes = photoRejectionNotes,
         photoRequestFreeText = photoRequestFreeText,
         uploadPhotoLink = uploadPhotoLink,
         eroContactDetails = eroContactDetails
@@ -97,12 +101,15 @@ fun buildRejectedDocumentPersonalisationDto(
     )
 
 fun buildPhotoPersonalisationDtoFromMessage(
-    personalisationMessage: PhotoPersonalisation
+    personalisationMessage: PhotoPersonalisation,
+    photoRejectionReasons: List<String>
 ): PhotoPersonalisationDto {
     return with(personalisationMessage) {
         PhotoPersonalisationDto(
             applicationReference = applicationReference,
             firstName = firstName,
+            photoRejectionReasons = photoRejectionReasons,
+            photoRejectionNotes = photoRejectionNotes,
             photoRequestFreeText = photoRequestFreeText,
             uploadPhotoLink = uploadPhotoLink,
             eroContactDetails = with(eroContactDetails) {
