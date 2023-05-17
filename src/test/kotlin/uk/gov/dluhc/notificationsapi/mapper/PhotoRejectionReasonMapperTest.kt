@@ -31,7 +31,6 @@ class PhotoRejectionReasonMapperTest {
                 "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Wearing sunglasses, or tinted glasses'",
                 "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'The photo has a head covering (aside from religious or medical)'",
                 "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'The photo has ''red-eye'', glare or shadows over face'",
-                "OTHER, 'Other'"
             ]
         )
         fun `should map enums to human readable messages in English`(
@@ -58,7 +57,6 @@ class PhotoRejectionReasonMapperTest {
                 "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Gwisgo sbectol haul, neu sbectol arlliw'",
                 "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'Mae gan y llun orchudd pen (ar wahân i orchudd crefyddol neu feddygol)'",
                 "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'Mae gan y llun ''lygad coch'', llacharedd neu gysgodion dros yr wyneb'",
-                "OTHER, 'Eraill'"
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
@@ -88,7 +86,6 @@ class PhotoRejectionReasonMapperTest {
                 "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Wearing sunglasses, or tinted glasses'",
                 "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'The photo has a head covering (aside from religious or medical)'",
                 "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'The photo has ''red-eye'', glare or shadows over face'",
-                "OTHER, 'Other'"
             ]
         )
         fun `should map enums to human readable messages in English`(
@@ -115,7 +112,6 @@ class PhotoRejectionReasonMapperTest {
                 "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Gwisgo sbectol haul, neu sbectol arlliw'",
                 "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'Mae gan y llun orchudd pen (ar wahân i orchudd crefyddol neu feddygol)'",
                 "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'Mae gan y llun ''lygad coch'', llacharedd neu gysgodion dros yr wyneb'",
-                "OTHER, 'Eraill'"
             ]
         )
         fun `should map enums to human readable messages in Welsh`(

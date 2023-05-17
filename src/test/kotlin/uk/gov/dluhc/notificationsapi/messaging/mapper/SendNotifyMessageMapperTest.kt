@@ -31,7 +31,6 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRecei
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejectedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -43,6 +42,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
@@ -81,7 +81,8 @@ internal class SendNotifyMessageMapperTest {
             val expectedSourceType = SourceType.VOTER_CARD
             val expectedNotificationType = PHOTO_RESUBMISSION
             val personalisationMessage = buildPhotoPersonalisationMessage(
-                photoRejectionReasons = emptyList()
+                photoRejectionReasons = emptyList(),
+                photoRejectionNotes = null
             )
             val expectedLanguage = LanguageDto.ENGLISH
 
@@ -90,14 +91,13 @@ internal class SendNotifyMessageMapperTest {
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
 
-            val request = SendNotifyPhotoResubmissionMessage(
+            val request = buildSendNotifyPhotoResubmissionMessage(
                 channel = SqsChannel.EMAIL,
                 language = Language.EN,
                 sourceType = SqsSourceType.VOTER_MINUS_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.PHOTO_MINUS_RESUBMISSION,
                 toAddress = toAddress,
                 personalisation = personalisationMessage,
             )
@@ -131,7 +131,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedSourceType = SourceType.VOTER_CARD
             val expectedNotificationType = PHOTO_RESUBMISSION_WITH_REASONS
             val personalisationMessage = buildPhotoPersonalisationMessage(
-                photoRejectionReasons = listOf(PhotoRejectionReason.OTHER)
+                photoRejectionReasons = listOf(PhotoRejectionReason.OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO)
             )
             val expectedLanguage = LanguageDto.ENGLISH
 
@@ -140,14 +140,13 @@ internal class SendNotifyMessageMapperTest {
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
 
-            val request = SendNotifyPhotoResubmissionMessage(
+            val request = buildSendNotifyPhotoResubmissionMessage(
                 channel = SqsChannel.EMAIL,
                 language = Language.EN,
                 sourceType = SqsSourceType.VOTER_MINUS_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.PHOTO_MINUS_RESUBMISSION,
                 toAddress = toAddress,
                 personalisation = personalisationMessage,
             )

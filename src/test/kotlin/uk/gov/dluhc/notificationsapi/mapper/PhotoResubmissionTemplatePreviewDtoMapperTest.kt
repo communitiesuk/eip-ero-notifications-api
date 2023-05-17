@@ -15,6 +15,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildPhotoResubmissionPersonalisationRequest
@@ -117,7 +118,8 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = listOf(
                     NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
-                    WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
+                    WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                    OTHER // OTHER is deliberately excluded from the photo rejection reason mapping
                 ),
                 photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable."
             )
@@ -129,7 +131,8 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
 
         given(photoRejectionReasonMapper.toPhotoRejectionReasonString(any<PhotoRejectionReason>(), any())).willReturn(
             "Not a plain facial expression",
-            "Wearing sunglasses, or tinted glasses"
+            "Wearing sunglasses, or tinted glasses",
+            // a mapping from OTHER is not expected - this is by design
         )
 
         val expected = buildGeneratePhotoResubmissionTemplatePreviewDto(
