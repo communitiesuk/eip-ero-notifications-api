@@ -208,7 +208,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
-                "photoRejectionReasons": ["other"],
+                "photoRejectionReasons": ["other-objects-or-people-in-photo"],
                 "photoRequestFreeText": "Please provide a clear image",
                 "uploadPhotoLink": "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
                 "eroContactDetails": {
@@ -232,7 +232,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         val expectedPersonalisationDataMap = mapOf(
             "applicationReference" to "A3JSZC4CRH",
             "firstName" to "Fred",
-            "photoRejectionReasons" to listOf("Other"),
+            "photoRejectionReasons" to listOf("There are other people or objects in the photo"),
             "photoRejectionNotes" to "",
             "photoRequestFreeText" to "Please provide a clear image",
             "uploadPhotoLink" to "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
@@ -276,7 +276,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "photoRejectionReasons" to listOf("Other"),
+                "photoRejectionReasons" to listOf("There are other people or objects in the photo"),
                 "photoRejectionNotes" to (photoRejectionNotes ?: ""),
                 "photoRequestFreeText" to photoRequestFreeText,
                 "uploadPhotoLink" to uploadPhotoLink,
@@ -327,7 +327,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "photoRejectionReasons" to listOf("Other"),
+                "photoRejectionReasons" to listOf("There are other people or objects in the photo"),
                 "photoRejectionNotes" to (photoRejectionNotes ?: ""),
                 "photoRequestFreeText" to photoRequestFreeText,
                 "uploadPhotoLink" to uploadPhotoLink,

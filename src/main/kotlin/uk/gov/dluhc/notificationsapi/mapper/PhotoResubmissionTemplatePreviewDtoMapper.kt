@@ -1,11 +1,14 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
+import org.apache.commons.lang3.StringUtils.isNotBlank
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.springframework.beans.factory.annotation.Autowired
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.PhotoPersonalisation
@@ -26,10 +29,13 @@ abstract class PhotoResubmissionTemplatePreviewDtoMapper {
     ): GeneratePhotoResubmissionTemplatePreviewDto
 
     protected fun photoResubmissionNotificationType(request: GeneratePhotoResubmissionTemplatePreviewRequest): NotificationType =
-        if (request.personalisation.photoRejectionReasons.isEmpty())
-            NotificationType.PHOTO_RESUBMISSION
-        else
-            NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+        // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
+        with(request.personalisation) {
+            if (photoRejectionReasonsExcludingOther.isNotEmpty() || isNotBlank(photoRejectionNotes))
+                PHOTO_RESUBMISSION_WITH_REASONS
+            else
+                PHOTO_RESUBMISSION
+        }
 
     @Mapping(
         target = "photoRejectionReasons",
@@ -44,7 +50,7 @@ abstract class PhotoResubmissionTemplatePreviewDtoMapper {
         languageDto: LanguageDto,
         personalisation: PhotoPersonalisation
     ): List<String> {
-        return personalisation.photoRejectionReasons.map { reason ->
+        return personalisation.photoRejectionReasonsExcludingOther.map { reason ->
             photoRejectionReasonMapper.toPhotoRejectionReasonString(
                 reason,
                 languageDto

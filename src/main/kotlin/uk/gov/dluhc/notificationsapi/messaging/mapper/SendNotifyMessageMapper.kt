@@ -1,8 +1,11 @@
 package uk.gov.dluhc.notificationsapi.messaging.mapper
 
+import org.apache.commons.lang3.StringUtils.isNotBlank
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
@@ -60,8 +63,11 @@ abstract class SendNotifyMessageMapper {
     ): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
-        if (message.personalisation.photoRejectionReasons.isEmpty())
-            NotificationType.PHOTO_RESUBMISSION
-        else
-            NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+        // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
+        with(message.personalisation) {
+            if (photoRejectionReasonsExcludingOther.isNotEmpty() || isNotBlank(photoRejectionNotes))
+                PHOTO_RESUBMISSION_WITH_REASONS
+            else
+                PHOTO_RESUBMISSION
+        }
 }
