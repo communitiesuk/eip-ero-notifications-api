@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.13.2'
+  version: '1.13.3'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -1277,6 +1277,11 @@ components:
         - p45-or-p60-form
         - statement-of-or-entitlement-to-benefits
         - completed-attestation-documents
+        - passport
+        - eea-issued-id-card
+        - photocard-driving-licence
+        - biometric-identity-document
+        - ni-electoral-identity-card
     DocumentRejectionReason:
       title: DocumentRejectionReason
       description: Enum of reasons why a document may be rejected
