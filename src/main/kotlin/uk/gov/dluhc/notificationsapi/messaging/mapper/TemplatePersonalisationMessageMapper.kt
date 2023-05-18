@@ -69,7 +69,7 @@ abstract class TemplatePersonalisationMessageMapper {
         languageDto: LanguageDto,
         personalisation: PhotoPersonalisation
     ): List<String> {
-        return personalisation.photoRejectionReasons.map { reason ->
+        return personalisation.photoRejectionReasonsExcludingOther.map { reason ->
             photoRejectionReasonMapper.toPhotoRejectionReasonString(
                 reason,
                 languageDto

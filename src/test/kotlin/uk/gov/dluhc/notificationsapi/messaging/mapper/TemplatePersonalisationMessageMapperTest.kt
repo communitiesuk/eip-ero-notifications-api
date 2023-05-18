@@ -77,13 +77,15 @@ internal class TemplatePersonalisationMessageMapperTest {
             val personalisationMessage = buildPhotoPersonalisationMessage(
                 photoRejectionReasons = listOf(
                     NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
-                    WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
+                    WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                    PhotoRejectionReason.OTHER // OTHER is deliberately excluded from the photo rejection reason mapping
                 ),
                 photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable."
             )
             val photoRejectionReasons: List<String> = listOf(
                 "Not a plain facial expression",
-                "Wearing sunglasses, or tinted glasses"
+                "Wearing sunglasses, or tinted glasses",
+                // a mapping from OTHER is not expected - this is by design
             )
             val expectedPersonalisationDto = buildPhotoPersonalisationDtoFromMessage(
                 personalisationMessage,
