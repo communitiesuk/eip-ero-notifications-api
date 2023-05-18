@@ -15,7 +15,7 @@ class NotifyClientConfiguration {
     fun notificationClient(
         @Value("\${api.notify.api-key}") apiKey: String,
         @Value("\${api.notify.base-url}") baseUrl: String
-    ) = NotificationClient(apiKey)
+    ) = NotificationClient(apiKey, baseUrl)
 
     @Bean
     fun notifyEmailTemplateConfiguration(
