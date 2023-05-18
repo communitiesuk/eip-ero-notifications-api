@@ -37,7 +37,12 @@ class RejectedDocumentTypeMapperTest {
                 "UTILITY_MINUS_BILL, Utility bill",
                 "P45_MINUS_OR_MINUS_P60_MINUS_FORM, P45 or P60 form",
                 "STATEMENT_MINUS_OF_MINUS_OR_MINUS_ENTITLEMENT_MINUS_TO_MINUS_BENEFITS, Statement of or entitlement to benefits",
-                "COMPLETED_MINUS_ATTESTATION_MINUS_DOCUMENTS, Completed attestation documents"
+                "COMPLETED_MINUS_ATTESTATION_MINUS_DOCUMENTS, Completed attestation documents",
+                "PASSPORT, Passport",
+                "EEA_MINUS_ISSUED_MINUS_ID_MINUS_CARD,EEA issued ID card",
+                "PHOTOCARD_MINUS_DRIVING_MINUS_LICENCE, Photo card driving licence",
+                "BIOMETRIC_MINUS_IDENTITY_MINUS_DOCUMENT, Biometric identity document",
+                "NI_MINUS_ELECTORAL_MINUS_IDENTITY_MINUS_CARD, NI electoral identity card",
             ]
         )
         fun `should map enums to human readable messages in English`(
