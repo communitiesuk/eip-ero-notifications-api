@@ -573,7 +573,7 @@ components:
         - invalid-document-type
         - duplicate-document
         - invalid-document-country
-        - document-illegible
+        - applicant-details-not-clear
         - other
   #
   # Response Body Definitions

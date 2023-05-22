@@ -27,7 +27,7 @@ class RejectedDocumentReasonMapperTest {
                 "INVALID_MINUS_DOCUMENT_MINUS_TYPE, The document type is not valid",
                 "DUPLICATE_MINUS_DOCUMENT, The document is a duplicate",
                 "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, The country for the document is invalid",
-                "DOCUMENT_MINUS_ILLEGIBLE, The document does not show the applicant details clearly",
+                "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, The document does not show the applicant details clearly",
                 "OTHER, Other"
             ]
         )
