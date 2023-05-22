@@ -574,6 +574,7 @@ components:
         - duplicate-document
         - invalid-document-country
         - applicant-details-not-clear
+        - details-on-document-do-not-match
         - other
   #
   # Response Body Definitions
