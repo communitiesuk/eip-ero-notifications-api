@@ -43,6 +43,7 @@ class NotificationTypeMapperTest {
             "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION",
             "PHOTO_RESUBMISSION_WITH_REASONS, PHOTO_RESUBMISSION",
             "ID_DOCUMENT_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
+            "ID_DOCUMENT_RESUBMISSION_WITH_REASONS, ID_DOCUMENT_RESUBMISSION",
             "ID_DOCUMENT_REQUIRED, ID_DOCUMENT_REQUIRED",
             "REJECTED_DOCUMENT, REJECTED_DOCUMENT"
         ]
@@ -111,7 +112,8 @@ class NotificationTypeMapperTest {
     @EnumSource(
         value = NotificationType::class,
         names = [
-            "PHOTO_RESUBMISSION_WITH_REASONS"
+            "PHOTO_RESUBMISSION_WITH_REASONS",
+            "ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
         ]
     )
     fun `should not map Notification Type to Template Type given unsupported value`(unSupportedNotificationType: NotificationType) {
