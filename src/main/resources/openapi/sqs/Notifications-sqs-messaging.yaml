@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.10.0'
+  version: '1.11.0'
   description: |-
     Notifications SQS Message Types
     
@@ -252,11 +252,16 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
+        rejectedDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RejectedDocument'
         idDocumentRequestFreeText:
           type: string
-          description: Free text regarding an identity document request
-          example: Please provide a valid identity document
+          description: A free text field containing details as to what the applicant needs to do. Not related to any specific rejection reason.
+          example: Please provide new identity documents within the next 10 days in order to meet the application deadline before the next election.
       required:
+        - rejectedDocuments
         - idDocumentRequestFreeText
 
     IdDocumentRequiredPersonalisation:

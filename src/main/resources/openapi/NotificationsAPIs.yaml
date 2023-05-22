@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.13.3'
+  version: '1.14.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -918,10 +918,14 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
+        rejectedDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RejectedDocument'
         idDocumentRequestFreeText:
           type: string
-          description: Free text regarding identity document request
-          example: Please provide a valid identity document
+          description: A free text field containing details as to what the applicant needs to do. Not related to any specific rejection reason.
+          example: Please provide new identity documents within the next 10 days in order to meet the application deadline before the next election.
       required:
         - idDocumentRequestFreeText
     PhotoPersonalisation:
