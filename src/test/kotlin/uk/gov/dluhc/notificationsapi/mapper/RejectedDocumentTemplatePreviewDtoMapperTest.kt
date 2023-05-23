@@ -56,9 +56,9 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
             sourceType = SourceTypeModel.POSTAL,
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = listOf(
-                    buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReason = DOCUMENT_MINUS_TOO_MINUS_OLD, rejectionNotes = null),
-                    buildRejectedDocument(documentType = BIRTH_MINUS_CERTIFICATE, rejectionReason = UNREADABLE_MINUS_DOCUMENT, rejectionNotes = null),
-                    buildRejectedDocument(documentType = MORTGAGE_MINUS_STATEMENT, rejectionReason = OTHER, rejectionNotes = "Some notes")
+                    buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD), rejectionNotes = null),
+                    buildRejectedDocument(documentType = BIRTH_MINUS_CERTIFICATE, rejectionReasons = listOf(UNREADABLE_MINUS_DOCUMENT), rejectionNotes = null),
+                    buildRejectedDocument(documentType = MORTGAGE_MINUS_STATEMENT, rejectionReasons = listOf(OTHER), rejectionNotes = "Some notes")
                 )
             )
         )
@@ -127,7 +127,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
             language = language,
             sourceType = SourceTypeModel.POSTAL,
             personalisation = buildRejectedDocumentPersonalisation(
-                documents = listOf(buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReason = null, rejectionNotes = null)),
+                documents = listOf(buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReasons = emptyList(), rejectionNotes = null)),
                 rejectedDocumentFreeText = null,
                 eroContactDetails = buildEroContactDetails(address = buildAddressRequestWithOptionalParamsNull())
             )

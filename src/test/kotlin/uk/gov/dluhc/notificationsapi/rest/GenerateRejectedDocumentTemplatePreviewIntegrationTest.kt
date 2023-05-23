@@ -291,7 +291,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
 
         val requestBody = buildGenerateRejectedDocumentTemplatePreviewRequest(
             personalisation = buildRejectedDocumentPersonalisation(
-                documents = listOf(buildRejectedDocument(rejectionReason = null, rejectionNotes = null)),
+                documents = listOf(buildRejectedDocument(rejectionReasons = emptyList(), rejectionNotes = null)),
                 rejectedDocumentFreeText = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
             ),
