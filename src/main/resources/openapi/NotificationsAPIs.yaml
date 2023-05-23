@@ -1290,6 +1290,7 @@ components:
         - photocard-driving-licence
         - biometric-identity-document
         - ni-electoral-identity-card
+        - cd-issued-driving-licence
     DocumentRejectionReason:
       title: DocumentRejectionReason
       description: Enum of reasons why a document may be rejected
