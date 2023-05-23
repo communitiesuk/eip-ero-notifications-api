@@ -1253,13 +1253,17 @@ components:
       properties:
         documentType:
           $ref: '#/components/schemas/DocumentType'
-        rejectionReason:
-          $ref: '#/components/schemas/DocumentRejectionReason'
+        rejectionReasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentRejectionReason'
+          description: A list of reasons why the document has been rejected. A mandatory field, but can be empty.
         rejectionNotes:
           type: string
           description: The additional notes provided when the document was rejected
       required:
         - documentType
+        - rejectionReasons
     DocumentType:
       title: DocumentType
       description: Enum of possible types of document
@@ -1296,7 +1300,8 @@ components:
         - invalid-document-type
         - duplicate-document
         - invalid-document-country
-        - document-illegible
+        - applicant-details-not-clear
+        - details-on-document-do-not-match
         - other
     RejectedSignature:
       title: RejectedSignature

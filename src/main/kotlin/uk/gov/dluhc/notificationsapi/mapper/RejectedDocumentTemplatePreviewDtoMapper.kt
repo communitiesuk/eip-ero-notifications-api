@@ -39,7 +39,10 @@ abstract class RejectedDocumentTemplatePreviewDtoMapper {
     ): List<String> {
         return personalisation.documents.map { document ->
             val docType = rejectedDocumentTypeMapper.toDocumentTypeString(document.documentType, languageDto)
-            val docReason = document.rejectionReason?.let { rejectedDocumentReasonMapper.toDocumentRejectionReasonString(it, languageDto) }
+            // EIP1-4790 introduced multiple rejection reasons - currently only the first if present is mapped to the template
+            val docReason = document.rejectionReasons
+                .firstOrNull()
+                ?.let { rejectedDocumentReasonMapper.toDocumentRejectionReasonString(it, languageDto) }
             docType.appendIfNotNull(docReason).appendIfNotNull(document.rejectionNotes)
         }
     }
