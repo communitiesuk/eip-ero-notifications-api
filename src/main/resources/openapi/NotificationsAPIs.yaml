@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.11.2'
+  version: '1.13.3'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -554,6 +554,144 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+
+  #
+  # Generate Rejected Document Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/rejected-document/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Rejected Document Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for a rejected document template type and personalisation data
+      description: Generates a text preview for a rejected document template type and personalisation data
+      operationId: generate-rejected-document-template-preview
+      tags:
+        - Generate Rejected Document Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateRejectedDocumentTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/rejected-document/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
+  #
+  # Generate Rejected Signature Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/rejected-signature/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Rejected Signature Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for a rejected signature template type and personalisation data
+      description: Generates a text preview for a rejected signature template type and personalisation data
+      operationId: generate-rejected-signature-template-preview
+      tags:
+        - Generate Rejected Signature Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateRejectedSignatureTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/rejected-signature/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
 components:
   #
   # Schema and Enum Definitions
@@ -600,6 +738,8 @@ components:
         - photo-resubmission
         - id-document-resubmission
         - id-document-required
+        - rejected-document
+        - rejected-signature
     Language:
       title: Language
       description: The language to view the template
@@ -754,6 +894,23 @@ components:
         - language
         - personalisation
         - sourceType
+    GenerateRejectedDocumentTemplatePreviewRequest:
+      title: GenerateRejectedDocumentTemplatePreviewRequest
+      description: An object containing request attributes required for generating the rejected document template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/RejectedDocumentPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
       type: object
@@ -774,17 +931,43 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
+        photoRejectionReasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhotoRejectionReason'
+          description: A list of reasons why the applicant photo has been rejected. A mandatory field, but can be empty.
+        photoRejectionNotes:
+          type: string
+          description: Optional free text giving details as to why the photo was rejected
+          example: Please ensure your hair is not covering any part of your face.
         photoRequestFreeText:
           type: string
-          description: Free text regarding photo request
-          example: Please provide a clear image
+          description: A free text with details as to what the applicant needs to do. Not related to any specific rejection reason.
+          example: Please provide a new photo within the next 10 days in order to meet the application deadline before the next election.
         uploadPhotoLink:
           type: string
           description: The URL link to upload a new image
           example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
       required:
+        - photoRejectionReasons
         - photoRequestFreeText
         - uploadPhotoLink
+
+    PhotoRejectionReason:
+      title: PhotoRejectionReason
+      description: Enum of reasons for rejecting a photo.
+      type: string
+      enum:
+        - not-facing-forwards-or-looking-at-the-camera
+        - photo-not-in-colour-distorted-or-too-dark
+        - other-objects-or-people-in-photo
+        - not-a-plain-facial-expression
+        - eyes-not-open-or-visible-or-hair-in-front-face
+        - wearing-sunglasses-or-tinted-glasses
+        - photo-has-head-covering-aside-from-religious-or-medical
+        - photo-has-red-eye-glare-or-shadows-over-face
+        - other
+
     IdDocumentRequiredPersonalisation:
       title: IdDocumentRequiredPersonalisation
       type: object
@@ -798,6 +981,24 @@ components:
           example: Please provide a valid identity document
       required:
         - idDocumentRequiredFreeText
+    RejectedDocumentPersonalisation:
+      title: RejectedDocumentPersonalisation
+      type: object
+      description: Personalisation details for a rejected document template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/RejectedDocument'
+          minItems: 1
+        rejectedDocumentFreeText:
+          type: string
+          description: Free text message to provided further information regarding the document rejection
+          example: Please provide a valid document within 28 days
+      required:
+        - documents
     BasePersonalisation:
       title: BasePersonalisation
       type: object
@@ -1041,6 +1242,97 @@ components:
         - reason
         - channel
         - type
+    RejectedDocument:
+      title: RejectedDocument
+      description: The data for the specific rejected document.
+      type: object
+      properties:
+        documentType:
+          $ref: '#/components/schemas/DocumentType'
+        rejectionReason:
+          $ref: '#/components/schemas/DocumentRejectionReason'
+        rejectionNotes:
+          type: string
+          description: The additional notes provided when the document was rejected
+      required:
+        - documentType
+    DocumentType:
+      title: DocumentType
+      description: Enum of possible types of document
+      type: string
+      enum:
+        - birth-certificate
+        - marriage-or-civil-partnership-certificate
+        - adoption-certificate
+        - firearms-certificate
+        - uk-cd-issued-non-photo-card-driving-licence
+        - non-uk-cd-issued-driving-licence
+        - police-bail-sheet
+        - mortgage-statement
+        - bank-or-building-society-statement-or-confirmation-letter
+        - credit-card-statement
+        - pension-statement
+        - council-tax-statement-or-demand-letter
+        - utility-bill
+        - p45-or-p60-form
+        - statement-of-or-entitlement-to-benefits
+        - completed-attestation-documents
+        - passport
+        - eea-issued-id-card
+        - photocard-driving-licence
+        - biometric-identity-document
+        - ni-electoral-identity-card
+    DocumentRejectionReason:
+      title: DocumentRejectionReason
+      description: Enum of reasons why a document may be rejected
+      type: string
+      enum:
+        - document-too-old
+        - unreadable-document
+        - invalid-document-type
+        - duplicate-document
+        - invalid-document-country
+        - document-illegible
+        - other
+    RejectedSignature:
+      title: RejectedSignature
+      description: The data for the specific rejected signature.
+      type: object
+      properties:
+        rejectionNotes:
+          type: string
+          description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's signature check
+        rejectionReasons:
+          type: array
+          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
+          items:
+            type: string
+      required:
+        - rejectionReasons
+    RejectedSignaturePersonalisation:
+      title: RejectedSignaturePersonalisation
+      type: object
+      description: Personalisation details for a rejected signature
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/RejectedSignature'
+    GenerateRejectedSignatureTemplatePreviewRequest:
+      title: GenerateRejectedSignatureTemplatePreviewRequest
+      description: An object containing request attributes required for generating the rejected signature template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/RejectedSignaturePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
 
   #
   # Response Body Definitions
@@ -1197,6 +1489,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateApplicationApprovedTemplatePreviewRequest'
+    GenerateRejectedDocumentTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateRejectedDocumentTemplatePreviewRequest'
     GenerateTemplatePreview:
       content:
         application/json:
@@ -1207,6 +1504,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CreateOfflineCommunicationConfirmationRequest'
+    GenerateRejectedSignatureTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateRejectedSignatureTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.9.0'
+  version: '1.10.0'
   description: |-
     Notifications SQS Message Types
     
@@ -78,6 +78,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyApplicationRejectedMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-rejected-document-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyRejectedDocumentMessage'
       responses:
         '204':
           description: No response content.
@@ -209,6 +219,18 @@ components:
       required:
         - personalisation
 
+    SendNotifyRejectedDocumentMessage:
+      title: SendNotifyRejectedDocumentMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for a rejected application
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        personalisation:
+          $ref: '#/components/schemas/RejectedDocumentPersonalisation'
+      required:
+        - personalisation
+
     RemoveApplicationNotificationsMessage:
       title: RemoveApplicationNotificationsMessage
       type: object
@@ -258,17 +280,42 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
+        photoRejectionReasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhotoRejectionReason'
+          description: A list of reasons why the applicant photo has been rejected. A mandatory field, but can be empty.
+        photoRejectionNotes:
+          type: string
+          description: Optional free text giving details as to why the photo was rejected
+          example: Please ensure your hair is not covering any part of your face.
         photoRequestFreeText:
           type: string
-          description: Free text regarding photo request
-          example: Please provide a clear image
+          description: A free text with details as to what the applicant needs to do. Not related to any specific rejection reason.
+          example: Please provide a new photo within the next 10 days in order to meet the application deadline before the next election.
         uploadPhotoLink:
           type: string
           description: The URL link to upload a new image
           example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/photos/398c1be2-7950-48a2-aca8-14cb9276a673'
       required:
+        - photoRejectionReasons
         - photoRequestFreeText
         - uploadPhotoLink
+
+    PhotoRejectionReason:
+      title: PhotoRejectionReason
+      description: Enum of reasons for rejecting a photo.
+      type: string
+      enum:
+        - not-facing-forwards-or-looking-at-the-camera
+        - photo-not-in-colour-distorted-or-too-dark
+        - other-objects-or-people-in-photo
+        - not-a-plain-facial-expression
+        - eyes-not-open-or-visible-or-hair-in-front-face
+        - wearing-sunglasses-or-tinted-glasses
+        - photo-has-head-covering-aside-from-religious-or-medical
+        - photo-has-red-eye-glare-or-shadows-over-face
+        - other
 
     ApplicationRejectedPersonalisation:
       title: ApplicationRejectedPersonalisation
@@ -287,6 +334,25 @@ components:
           example: 'Applicant address information is incomplete'
       required:
         - rejectionReasonList
+
+    RejectedDocumentPersonalisation:
+      title: RejectedDocumentPersonalisation
+      type: object
+      description: Personalisation details for rejected document template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/RejectedDocument'
+          minItems: 1
+        rejectedDocumentMessage:
+          type: string
+          description: Free text message to provided further information regarding the document rejection
+          example: Please provide a valid document within 28 days
+      required:
+        - documents
 
     BasePersonalisation:
       title: BasePersonalisation
@@ -447,6 +513,59 @@ components:
         - duplicate-application
         - no-franchise-to-vote
         - other
+
+    RejectedDocument:
+      title: RejectedDocument
+      description: The data for the specific rejected document.
+      type: object
+      properties:
+        documentType:
+          $ref: '#/components/schemas/DocumentType'
+        rejectionReason:
+          $ref: '#/components/schemas/DocumentRejectionReason'
+        rejectionNotes:
+          type: string
+          description: The additional notes provided when the document was rejected
+      required:
+        - documentType
+    DocumentType:
+      title: DocumentType
+      description: Enum of possible types of document
+      type: string
+      enum:
+        - birth-certificate
+        - marriage-or-civil-partnership-certificate
+        - adoption-certificate
+        - firearms-certificate
+        - uk-cd-issued-non-photo-card-driving-licence
+        - non-uk-cd-issued-driving-licence
+        - police-bail-sheet
+        - mortgage-statement
+        - bank-or-building-society-statement-or-confirmation-letter
+        - credit-card-statement
+        - pension-statement
+        - council-tax-statement-or-demand-letter
+        - utility-bill
+        - p45-or-p60-form
+        - statement-of-or-entitlement-to-benefits
+        - completed-attestation-documents
+        - passport
+        - eea-issued-id-card
+        - photocard-driving-licence
+        - biometric-identity-document
+        - ni-electoral-identity-card
+    DocumentRejectionReason:
+      title: DocumentRejectionReason
+      description: Enum of reasons why a document may be rejected
+      type: string
+      enum:
+        - document-too-old
+        - unreadable-document
+        - invalid-document-type
+        - duplicate-document
+        - invalid-document-country
+        - document-illegible
+        - other
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------
@@ -486,6 +605,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyApplicationRejectedMessage'
+    SendNotifyRejectedDocumentMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyRejectedDocumentMessage'
     RemoveApplicationNotificationsMessage:
       content:
         application/json:

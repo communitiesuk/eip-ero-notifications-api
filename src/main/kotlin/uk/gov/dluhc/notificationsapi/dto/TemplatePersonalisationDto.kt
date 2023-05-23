@@ -32,6 +32,8 @@ class PhotoPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
+    val photoRejectionReasons: List<String>,
+    val photoRejectionNotes: String?,
     val photoRequestFreeText: String,
     val uploadPhotoLink: String
 ) : BaseTemplatePersonalisationDto(
@@ -66,6 +68,30 @@ class ApplicationRejectedPersonalisationDto(
     eroContactDetails: ContactDetailsDto,
     val rejectionReasonList: List<String>,
     val rejectionReasonMessage: String?
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)
+
+class RejectedDocumentPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val documents: List<String>,
+    val rejectedDocumentFreeText: String?
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)
+
+class RejectedSignaturePersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val rejectionNotes: String?,
+    val rejectionReasons: List<String>,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,

@@ -11,6 +11,7 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
@@ -19,10 +20,21 @@ import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 
 @Mapper
 abstract class TemplatePersonalisationMessageMapper {
-    @Autowired
-    lateinit var applicationRejectionReasonMapper: ApplicationRejectionReasonMapper
 
-    abstract fun toPhotoPersonalisationDto(personalisationMessage: PhotoPersonalisation): PhotoPersonalisationDto
+    @Autowired
+    protected lateinit var applicationRejectionReasonMapper: ApplicationRejectionReasonMapper
+
+    @Autowired
+    protected lateinit var photoRejectionReasonMapper: PhotoRejectionReasonMapper
+
+    @Mapping(
+        target = "photoRejectionReasons",
+        expression = "java( mapPhotoRejectionReasons( languageDto, personalisationMessage ) )"
+    )
+    abstract fun toPhotoPersonalisationDto(
+        personalisationMessage: PhotoPersonalisation,
+        languageDto: LanguageDto
+    ): PhotoPersonalisationDto
 
     abstract fun toIdDocumentPersonalisationDto(personalisationMessage: IdDocumentPersonalisation): IdDocumentPersonalisationDto
 
@@ -41,12 +53,24 @@ abstract class TemplatePersonalisationMessageMapper {
         languageDto: LanguageDto
     ): ApplicationRejectedPersonalisationDto
 
-    fun mapApplicationRejectionReasons(
+    protected fun mapApplicationRejectionReasons(
         languageDto: LanguageDto,
         personalisationMessage: ApplicationRejectedPersonalisation
     ): List<String> {
         return personalisationMessage.rejectionReasonList.map { reason ->
             applicationRejectionReasonMapper.toApplicationRejectionReasonString(
+                reason,
+                languageDto
+            )
+        }
+    }
+
+    protected fun mapPhotoRejectionReasons(
+        languageDto: LanguageDto,
+        personalisation: PhotoPersonalisation
+    ): List<String> {
+        return personalisation.photoRejectionReasonsExcludingOther.map { reason ->
+            photoRejectionReasonMapper.toPhotoRejectionReasonString(
                 reason,
                 languageDto
             )

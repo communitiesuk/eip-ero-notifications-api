@@ -26,7 +26,7 @@ import java.time.temporal.ChronoUnit.MILLIS
 internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val PHOTO_TEMPLATE_ID = "f1571006-c3a0-4c97-884a-189f5b103f85"
+        private const val PHOTO_TEMPLATE_ID = "598f9383-06c9-4dcb-ac53-2583f3845d9b"
         private const val URI_TEMPLATE = "/templates/photo-resubmission/preview"
     }
 
@@ -147,6 +147,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
               "personalisation": {
                 "applicationReference": "",
                 "firstName": "",
+                "photoRejectionReasons": [],
                 "photoRequestFreeText": "",
                 "uploadPhotoLink": "",
                 "eroContactDetails": {
@@ -207,6 +208,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
               "personalisation": {
                 "applicationReference": "A3JSZC4CRH",
                 "firstName": "Fred",
+                "photoRejectionReasons": ["other-objects-or-people-in-photo"],
                 "photoRequestFreeText": "Please provide a clear image",
                 "uploadPhotoLink": "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
                 "eroContactDetails": {
@@ -227,9 +229,11 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             }
         """.trimIndent()
 
-        val expectedPersonalisationDataMap = mutableMapOf(
+        val expectedPersonalisationDataMap = mapOf(
             "applicationReference" to "A3JSZC4CRH",
             "firstName" to "Fred",
+            "photoRejectionReasons" to listOf("There are other people or objects in the photo"),
+            "photoRejectionNotes" to "",
             "photoRequestFreeText" to "Please provide a clear image",
             "uploadPhotoLink" to "photo-398c1be2-7950-48a2-aca8-14cb9276a673",
             "LAName" to "City of Sunderland",
@@ -272,6 +276,8 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
+                "photoRejectionReasons" to listOf("There are other people or objects in the photo"),
+                "photoRejectionNotes" to (photoRejectionNotes ?: ""),
                 "photoRequestFreeText" to photoRequestFreeText,
                 "uploadPhotoLink" to uploadPhotoLink,
                 "LAName" to eroContactDetails.localAuthorityName,
@@ -321,6 +327,8 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
+                "photoRejectionReasons" to listOf("There are other people or objects in the photo"),
+                "photoRejectionNotes" to (photoRejectionNotes ?: ""),
                 "photoRequestFreeText" to photoRequestFreeText,
                 "uploadPhotoLink" to uploadPhotoLink,
                 "LAName" to eroContactDetails.localAuthorityName,

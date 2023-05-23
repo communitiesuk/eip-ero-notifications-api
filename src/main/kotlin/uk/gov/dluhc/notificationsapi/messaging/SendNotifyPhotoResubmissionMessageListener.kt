@@ -4,6 +4,7 @@ import io.awspring.cloud.messaging.listener.annotation.SqsListener
 import mu.KotlinLogging
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
+import uk.gov.dluhc.messagingsupport.MessageListener
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
@@ -31,7 +32,7 @@ class SendNotifyPhotoResubmissionMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromPhotoMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toPhotoPersonalisationDto(personalisation)
+            val personalisationDto = templatePersonalisationMessageMapper.toPhotoPersonalisationDto(personalisation, sendNotificationRequestDto.language)
             val personalisationMap = templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

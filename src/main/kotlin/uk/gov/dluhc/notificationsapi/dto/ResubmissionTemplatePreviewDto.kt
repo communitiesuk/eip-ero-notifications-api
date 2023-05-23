@@ -16,10 +16,11 @@ class GeneratePhotoResubmissionTemplatePreviewDto(
     sourceType: SourceType,
     channel: NotificationChannel,
     language: LanguageDto,
-    val personalisation: PhotoPersonalisationDto
+    val personalisation: PhotoPersonalisationDto,
+    notificationType: NotificationType
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,
     language = language,
-    notificationType = NotificationType.PHOTO_RESUBMISSION
+    notificationType = notificationType
 )

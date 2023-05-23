@@ -8,13 +8,18 @@ import uk.gov.dluhc.notificationsapi.mapper.ApplicationReceivedTemplatePreviewDt
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateApplicationApprovedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateIdDocumentRequiredTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.ResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.service.TemplateService
 import javax.validation.Valid
@@ -23,11 +28,14 @@ import javax.validation.Valid
 @CrossOrigin
 class TemplateController(
     private val templateService: TemplateService,
-    private val resubmissionTemplatePreviewDtoMapper: ResubmissionTemplatePreviewDtoMapper,
+    private val identityDocumentResubmissionTemplatePreviewDtoMapper: IdentityDocumentResubmissionTemplatePreviewDtoMapper,
+    private val photoResubmissionTemplatePreviewDtoMapper: PhotoResubmissionTemplatePreviewDtoMapper,
     private val generateIdDocumentRequiredTemplatePreviewDtoMapper: GenerateIdDocumentRequiredTemplatePreviewDtoMapper,
     private val applicationReceivedTemplatePreviewDtoMapper: ApplicationReceivedTemplatePreviewDtoMapper,
     private val applicationApprovedTemplatePreviewDtoMapper: GenerateApplicationApprovedTemplatePreviewDtoMapper,
-    private val applicationRejectedTemplatePreviewDtoMapper: ApplicationRejectedTemplatePreviewDtoMapper
+    private val applicationRejectedTemplatePreviewDtoMapper: ApplicationRejectedTemplatePreviewDtoMapper,
+    private val rejectedDocumentTemplatePreviewDtoMapper: RejectedDocumentTemplatePreviewDtoMapper,
+    private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -36,7 +44,7 @@ class TemplateController(
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generatePhotoResubmissionTemplatePreview(
-                resubmissionTemplatePreviewDtoMapper.toPhotoResubmissionTemplatePreviewDto(
+                photoResubmissionTemplatePreviewDtoMapper.toPhotoResubmissionTemplatePreviewDto(
                     request
                 )
             )
@@ -51,7 +59,7 @@ class TemplateController(
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateIdDocumentResubmissionTemplatePreview(
-                resubmissionTemplatePreviewDtoMapper.toIdDocumentResubmissionTemplatePreviewDto(
+                identityDocumentResubmissionTemplatePreviewDtoMapper.toIdDocumentResubmissionTemplatePreviewDto(
                     request
                 )
             )
@@ -109,6 +117,28 @@ class TemplateController(
         return with(
             templateService.generateApplicationRejectedTemplatePreview(
                 applicationRejectedTemplatePreviewDtoMapper.toApplicationRejectedTemplatePreviewDto(request)
+            )
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
+    }
+
+    @PostMapping("/templates/rejected-document/preview")
+    fun generateRejectedDocumentTemplatePreview(@Valid @RequestBody request: GenerateRejectedDocumentTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generateRejectedDocumentTemplatePreview(
+                rejectedDocumentTemplatePreviewDtoMapper.toRejectedDocumentTemplatePreviewDto(request)
+            )
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
+    }
+
+    @PostMapping("/templates/rejected-signature/preview")
+    fun generateRejectedSignatureTemplatePreview(@Valid @RequestBody request: GenerateRejectedSignatureTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generateRejectedSignatureTemplatePreview(
+                rejectedSignatureTemplatePreviewDtoMapper.toRejectedSignatureTemplatePreviewDto(request)
             )
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)

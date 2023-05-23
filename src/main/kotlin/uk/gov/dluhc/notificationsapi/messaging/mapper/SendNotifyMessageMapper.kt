@@ -1,7 +1,11 @@
 package uk.gov.dluhc.notificationsapi.messaging.mapper
 
+import org.apache.commons.lang3.StringUtils.isNotBlank
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
@@ -23,38 +27,47 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissio
         NotificationDestinationDtoMapper::class
     ]
 )
-interface SendNotifyMessageMapper {
+abstract class SendNotifyMessageMapper {
 
-    @Mapping(target = "notificationType", source = "messageType")
-    fun fromPhotoMessageToSendNotificationRequestDto(
+    @Mapping(target = "notificationType", expression = "java( photoResubmissionNotificationType(message) )")
+    abstract fun fromPhotoMessageToSendNotificationRequestDto(
         message: SendNotifyPhotoResubmissionMessage
     ): SendNotificationRequestDto
 
     @Mapping(target = "notificationType", source = "messageType")
-    fun fromIdDocumentMessageToSendNotificationRequestDto(
+    abstract fun fromIdDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyIdDocumentResubmissionMessage
     ): SendNotificationRequestDto
 
     @Mapping(target = "notificationType", source = "messageType")
-    fun fromIdDocumentRequiredMessageToSendNotificationRequestDto(
+    abstract fun fromIdDocumentRequiredMessageToSendNotificationRequestDto(
         message: SendNotifyIdDocumentRequiredMessage
     ): SendNotificationRequestDto
 
     @Mapping(target = "channel", constant = "EMAIL")
     @Mapping(target = "notificationType", source = "messageType")
-    fun fromReceivedMessageToSendNotificationRequestDto(
+    abstract fun fromReceivedMessageToSendNotificationRequestDto(
         message: SendNotifyApplicationReceivedMessage
     ): SendNotificationRequestDto
 
     @Mapping(target = "channel", constant = "EMAIL")
     @Mapping(target = "notificationType", source = "messageType")
-    fun fromApprovedMessageToSendNotificationRequestDto(
+    abstract fun fromApprovedMessageToSendNotificationRequestDto(
         message: SendNotifyApplicationApprovedMessage
     ): SendNotificationRequestDto
 
     @Mapping(target = "channel", constant = "LETTER")
     @Mapping(target = "notificationType", source = "messageType")
-    fun fromRejectedMessageToSendNotificationRequestDto(
+    abstract fun fromRejectedMessageToSendNotificationRequestDto(
         message: SendNotifyApplicationRejectedMessage
     ): SendNotificationRequestDto
+
+    protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
+        // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
+        with(message.personalisation) {
+            if (photoRejectionReasonsExcludingOther.isNotEmpty() || isNotBlank(photoRejectionNotes))
+                PHOTO_RESUBMISSION_WITH_REASONS
+            else
+                PHOTO_RESUBMISSION
+        }
 }

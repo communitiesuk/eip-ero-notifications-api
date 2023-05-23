@@ -6,16 +6,22 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.verifyNoInteractions
 import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationReceivedPersonalisationDtoFromMessage
@@ -39,19 +45,71 @@ internal class TemplatePersonalisationMessageMapperTest {
     @Mock
     private lateinit var applicationRejectionReasonMapper: ApplicationRejectionReasonMapper
 
+    @Mock
+    private lateinit var photoRejectionReasonMapper: PhotoRejectionReasonMapper
+
     @Nested
     inner class ToPhotoPersonalisationDto {
         @Test
-        fun `should map SQS PhotoResubmissionPersonalisation to PhotoPersonalisationDto`() {
+        fun `should map SQS PhotoResubmissionPersonalisation to PhotoPersonalisationDto given no rejection reasons`() {
             // Given
-            val personalisationMessage = buildPhotoPersonalisationMessage()
-            val expectedPersonalisationDto = buildPhotoPersonalisationDtoFromMessage(personalisationMessage)
+            val personalisationMessage = buildPhotoPersonalisationMessage(
+                photoRejectionReasons = emptyList(),
+                photoRejectionNotes = null,
+            )
+            val photoRejectionReasons: List<String> = emptyList()
+            val expectedPersonalisationDto = buildPhotoPersonalisationDtoFromMessage(
+                personalisationMessage,
+                photoRejectionReasons
+            )
 
             // When
-            val actual = mapper.toPhotoPersonalisationDto(personalisationMessage)
+            val actual = mapper.toPhotoPersonalisationDto(personalisationMessage, ENGLISH)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+            verifyNoInteractions(photoRejectionReasonMapper)
+        }
+
+        @Test
+        fun `should map SQS PhotoResubmissionPersonalisation to PhotoPersonalisationDto given rejection reasons`() {
+            // Given
+            val personalisationMessage = buildPhotoPersonalisationMessage(
+                photoRejectionReasons = listOf(
+                    NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
+                    WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                    PhotoRejectionReason.OTHER // OTHER is deliberately excluded from the photo rejection reason mapping
+                ),
+                photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable."
+            )
+            val photoRejectionReasons: List<String> = listOf(
+                "Not a plain facial expression",
+                "Wearing sunglasses, or tinted glasses",
+                // a mapping from OTHER is not expected - this is by design
+            )
+            val expectedPersonalisationDto = buildPhotoPersonalisationDtoFromMessage(
+                personalisationMessage,
+                photoRejectionReasons
+            )
+
+            given(photoRejectionReasonMapper.toPhotoRejectionReasonString(any<PhotoRejectionReason>(), any())).willReturn(
+                "Not a plain facial expression",
+                "Wearing sunglasses, or tinted glasses"
+            )
+
+            // When
+            val actual = mapper.toPhotoPersonalisationDto(personalisationMessage, ENGLISH)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+            verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
+                NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
+                ENGLISH
+            )
+            verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
+                WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                ENGLISH
+            )
         }
     }
 

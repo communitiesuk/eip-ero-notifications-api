@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.client.mapper
 
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.config.AbstractNotifyEmailTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.AbstractNotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
@@ -14,6 +15,9 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
@@ -37,7 +41,7 @@ class NotificationTemplateMapper(
     ): String {
         return when (channel) {
             NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(sourceType, notificationType, language)
-            NotificationChannel.LETTER -> fromLetterNotificationTypeInLanguage(notificationType, language)
+            NotificationChannel.LETTER -> fromLetterNotificationTypeInLanguage(sourceType, notificationType, language)
         }
     }
 
@@ -69,6 +73,7 @@ class NotificationTemplateMapper(
             APPLICATION_RECEIVED -> config.receivedWelsh
             APPLICATION_APPROVED -> config.approvedWelsh
             PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
+            PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
             else -> {
@@ -82,8 +87,11 @@ class NotificationTemplateMapper(
             APPLICATION_RECEIVED -> config.receivedEnglish
             APPLICATION_APPROVED -> config.approvedEnglish
             PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
+            PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
+            REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
+            REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -91,28 +99,46 @@ class NotificationTemplateMapper(
             ?: throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
 
     private fun fromLetterNotificationTypeInLanguage(
+        sourceType: SourceType,
         notificationType: NotificationType,
         language: LanguageDto?
-    ) = (if (useEnglishTemplate(language)) englishLetter(notificationType) else welshLetter(notificationType))
-        ?: throw NotificationTemplateNotFoundException("No letter template defined in $language for notification type $notificationType")
+    ): String {
+        val config = getSourceTemplateLetterTemplateConfiguration(sourceType)
+        return (if (useEnglishTemplate(language)) englishLetter(config, notificationType) else welshLetter(config, notificationType))
+            ?: throw NotificationTemplateNotFoundException("No letter template defined in $language for notification type $notificationType")
+    }
 
-    private fun welshLetter(notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> notifyLetterTemplateConfiguration.receivedWelsh
-        APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedWelsh
-        PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionWelsh
-        ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionWelsh
-        ID_DOCUMENT_REQUIRED -> notifyLetterTemplateConfiguration.idDocumentRequiredWelsh
+    private fun getSourceTemplateLetterTemplateConfiguration(sourceType: SourceType): AbstractNotifyLetterTemplateConfiguration =
+        when (sourceType) {
+            POSTAL -> notifyLetterTemplateConfiguration.postal
+            VOTER_CARD -> notifyLetterTemplateConfiguration.voterCard
+            PROXY -> notifyLetterTemplateConfiguration.proxy
+            else -> {
+                throw NotificationTemplateNotFoundException("No letter template configuration defined for sourceType $sourceType")
+            }
+        }
+
+    private fun welshLetter(config: AbstractNotifyLetterTemplateConfiguration, notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> config.receivedWelsh
+        APPLICATION_REJECTED -> config.rejectedWelsh
+        PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
+        PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
+        ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
+        ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType")
         }
     }
 
-    private fun englishLetter(notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> notifyLetterTemplateConfiguration.receivedEnglish
-        APPLICATION_REJECTED -> notifyLetterTemplateConfiguration.rejectedEnglish
-        PHOTO_RESUBMISSION -> notifyLetterTemplateConfiguration.photoResubmissionEnglish
-        ID_DOCUMENT_RESUBMISSION -> notifyLetterTemplateConfiguration.idDocumentResubmissionEnglish
-        ID_DOCUMENT_REQUIRED -> notifyLetterTemplateConfiguration.idDocumentRequiredEnglish
+    private fun englishLetter(config: AbstractNotifyLetterTemplateConfiguration, notificationType: NotificationType) = when (notificationType) {
+        APPLICATION_RECEIVED -> config.receivedEnglish
+        APPLICATION_REJECTED -> config.rejectedEnglish
+        PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
+        PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
+        ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
+        ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
+        REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
+        REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType")
         }
