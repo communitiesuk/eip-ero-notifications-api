@@ -22,6 +22,8 @@ api:
           photo-resubmission-with-reasons-welsh: 1cdf430d-8c85-4dbf-be57-466374abd967
           id-document-resubmission-english: 296a8fe6-8767-477b-9173-ea9feb82fbda
           id-document-resubmission-welsh: 8dfa9c65-0ccf-446f-9a39-3e14f15551d6
+          id-document-resubmission-with-reasons-english: bd30cf0b-751b-4590-bf7c-b3a6a3b3b87e
+          id-document-resubmission-with-reasons-welsh: 018d5add-aa1f-4022-9a6c-ec63bccf8242
           approved-english: f06a9084-517f-4ade-99d8-983bbead30f0
           approved-welsh: 354399fe-a6b3-48ac-be60-4b208b324ea7
           id-document-required-english: fdd31588-c982-11ed-afa1-0242ac120002
@@ -33,6 +35,8 @@ api:
           photo-resubmission-with-reasons-welsh: d44041d7-c64e-4467-9487-b2cc00d73087
           id-document-resubmission-english: 5eb873a5-4bbf-44c9-8097-0a0989179b2e
           id-document-resubmission-welsh: d8c5effc-3bcc-46ce-a9b0-0ecc1e5f9f11
+          id-document-resubmission-with-reasons-english: 4ef03f27-861d-4346-86a7-c88642116bd2
+          id-document-resubmission-with-reasons-welsh: e7bea078-0c7b-4123-af69-aff0b7a22481
           rejected-english: b8394ffa-9d8c-11ed-a8fc-0242ac120002
           rejected-welsh: c6524808-9d8c-11ed-a8fc-0242ac120002
           id-document-required-english: bdd326c2-c982-11ed-afa1-0242ac120002
