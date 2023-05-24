@@ -4,12 +4,13 @@ class GenerateIdDocumentResubmissionTemplatePreviewDto(
     sourceType: SourceType,
     channel: NotificationChannel,
     language: LanguageDto,
-    val personalisation: IdDocumentPersonalisationDto
+    val personalisation: IdDocumentPersonalisationDto,
+    notificationType: NotificationType
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,
     language = language,
-    notificationType = NotificationType.ID_DOCUMENT_RESUBMISSION
+    notificationType = notificationType
 )
 
 class GeneratePhotoResubmissionTemplatePreviewDto(

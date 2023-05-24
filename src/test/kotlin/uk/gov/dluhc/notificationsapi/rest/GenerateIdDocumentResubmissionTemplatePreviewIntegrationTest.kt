@@ -26,7 +26,7 @@ import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val DOCUMENT_TEMPLATE_ID = "296a8fe6-8767-477b-9173-ea9feb82fbda"
+        private const val DOCUMENT_TEMPLATE_ID = "bd30cf0b-751b-4590-bf7c-b3a6a3b3b87e"
         private const val URI_TEMPLATE = "/templates/id-document-resubmission/preview"
     }
 
@@ -220,7 +220,13 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                     "area": "Charles Area",
                     "postcode": "PE3 6SB"
                   }
-                }
+                },
+                "rejectedDocuments": [
+                    {
+                        "documentType": "birth-certificate",
+                        "rejectionReasons": ["unreadable-document"]
+                    }
+                ]
               }
             }
         """.trimIndent()
