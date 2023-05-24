@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -19,7 +21,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
-import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
@@ -132,7 +133,7 @@ class TemplateServiceTest {
     }
 
     @Nested
-    inner class generateIdDocumentRequiredTemplatePreview {
+    inner class GenerateIdDocumentRequiredTemplatePreview {
         @Test
         fun `should return id document required template preview`() {
             // Given
@@ -161,8 +162,11 @@ class TemplateServiceTest {
 
     @Nested
     inner class GenerateApplicationReceivedTemplatePreview {
-        @Test
-        fun `should return application received template preview`() {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY"])
+        fun `should return application received template preview`(
+            sourceType: SourceType
+        ) {
             // Given
             val templateId = "6d0490ee-e004-402e-808f-5791e8336ddb"
             val personalisation = mapOf(
@@ -171,7 +175,6 @@ class TemplateServiceTest {
                 "custom_title" to "Resubmitting photo",
             )
             val language = LanguageDto.ENGLISH
-            val sourceType = SourceType.POSTAL
             val request = buildGenerateApplicationReceivedTemplatePreviewDto(
                 language = language,
                 sourceType = sourceType
@@ -188,7 +191,7 @@ class TemplateServiceTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(SourceType.POSTAL, NotificationType.APPLICATION_RECEIVED, NotificationChannel.EMAIL, language)
+            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, NotificationType.APPLICATION_RECEIVED, NotificationChannel.EMAIL, language)
             verify(templatePersonalisationDtoMapper).toApplicationReceivedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -259,10 +262,13 @@ class TemplateServiceTest {
 
     @Nested
     inner class GenerateRejectedDocumentTemplatePreview {
-        @Test
-        fun `should return rejected document template preview`() {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY"])
+        fun `should return rejected document template preview`(
+            sourceType: SourceType
+        ) {
             // Given
-            val dto = buildRejectedDocumentTemplatePreviewDto(POSTAL)
+            val dto = buildRejectedDocumentTemplatePreviewDto(sourceType)
             val templateId = "50210eee-4592-11ed-b878-0242ac120005"
             val personalisationMap = buildRejectedDocumentPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")

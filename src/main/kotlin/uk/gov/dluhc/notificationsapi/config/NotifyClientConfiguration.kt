@@ -70,7 +70,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.PROXY,
     receivedEnglish: String,
     receivedWelsh: String,
-    rejectedSignatureEnglish: String
+    rejectedSignatureEnglish: String,
+    rejectedDocumentEnglish: String
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -87,8 +88,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     idDocumentResubmissionWithReasonsWelsh = null,
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
-    rejectedDocumentEnglish = null,
-    rejectedSignatureEnglish = rejectedSignatureEnglish
+    rejectedDocumentEnglish = rejectedDocumentEnglish,
+    rejectedSignatureEnglish = rejectedSignatureEnglish,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -266,7 +267,8 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
 @ConstructorBinding
 class ProxyNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.PROXY,
-    rejectedSignatureEnglish: String
+    rejectedSignatureEnglish: String,
+    rejectedDocumentEnglish: String
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -281,7 +283,7 @@ class ProxyNotifyLetterTemplateConfiguration(
     idDocumentResubmissionWithReasonsEnglish = null,
     idDocumentResubmissionWithReasonsWelsh = null,
     idDocumentRequiredWelsh = null,
-    rejectedDocumentEnglish = null,
+    rejectedDocumentEnglish = rejectedDocumentEnglish,
     photoResubmissionWithReasonsEnglish = null,
     photoResubmissionWithReasonsWelsh = null,
     rejectedSignatureEnglish = rejectedSignatureEnglish

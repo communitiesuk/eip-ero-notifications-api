@@ -50,8 +50,13 @@ api:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
       proxy:
         email:
+          received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
+          received-welsh: 58e34070-fe52-4bd8-b799-7eaa35cf87b4
+          rejected-document-english: 74ba448b-dce8-434a-baff-968ac3d19657
           rejected-signature-english: 7fa64777-222f-45e9-937b-6236359b79df
+
         letter:
+          rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-signature-english: a934fb1a-a199-41cc-829d-bf025ad1b740
 
 sqs:
