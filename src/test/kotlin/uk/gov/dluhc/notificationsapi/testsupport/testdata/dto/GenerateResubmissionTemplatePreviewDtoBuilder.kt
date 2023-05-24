@@ -28,11 +28,13 @@ fun buildGenerateIdDocumentResubmissionTemplatePreviewDto(
     sourceType: SourceType,
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: IdDocumentPersonalisationDto = buildIdDocumentPersonalisationDto()
+    personalisation: IdDocumentPersonalisationDto = buildIdDocumentPersonalisationDto(),
+    notificationType: NotificationType = NotificationType.ID_DOCUMENT_RESUBMISSION
 ): GenerateIdDocumentResubmissionTemplatePreviewDto =
     GenerateIdDocumentResubmissionTemplatePreviewDto(
         channel = channel,
         language = language,
         personalisation = personalisation,
-        sourceType = sourceType
+        sourceType = sourceType,
+        notificationType = notificationType
     )

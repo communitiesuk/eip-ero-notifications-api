@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -23,6 +24,7 @@ import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
@@ -42,6 +44,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
@@ -172,7 +175,7 @@ internal class SendNotifyMessageMapperTest {
     @Nested
     inner class FromIdDocumentMessageToSendNotificationRequestDto {
         @Test
-        fun `should map SQS SendNotifyIdDocumentResubmissionMessage to SendNotificationRequestDto`() {
+        fun `should map SQS SendNotifyIdDocumentResubmissionMessage to SendNotificationRequestDto given no document rejection reasons`() {
             // Given
             val gssCode = aGssCode()
             val requestor = aRequestor()
@@ -182,11 +185,12 @@ internal class SendNotifyMessageMapperTest {
             val expectedChannel = NotificationChannel.EMAIL
             val expectedSourceType = SourceType.VOTER_CARD
             val expectedNotificationType = ID_DOCUMENT_RESUBMISSION
-            val personalisationMessage = buildIdDocumentPersonalisationMessage()
+            val personalisationMessage = buildIdDocumentPersonalisationMessage(
+                rejectedDocuments = emptyList()
+            )
             val expectedLanguage = LanguageDto.ENGLISH
 
             given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
-            given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
@@ -215,7 +219,60 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(notificationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
+        }
+
+        @Test
+        fun `should map SQS SendNotifyIdDocumentResubmissionMessage to SendNotificationRequestDto given document rejection reasons`() {
+            // Given
+            val gssCode = aGssCode()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val toAddress = aMessageAddress()
+            val expectedToAddress = aNotificationDestination()
+            val expectedChannel = NotificationChannel.EMAIL
+            val expectedSourceType = SourceType.VOTER_CARD
+            val expectedNotificationType = ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+            val personalisationMessage = buildIdDocumentPersonalisationMessage(
+                rejectedDocuments = listOf(
+                    buildRejectedDocument(
+                        rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD)
+                    )
+                )
+            )
+            val expectedLanguage = LanguageDto.ENGLISH
+
+            given(languageMapper.fromMessageToDto(any())).willReturn(expectedLanguage)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
+
+            val request = SendNotifyIdDocumentResubmissionMessage(
+                channel = SqsChannel.EMAIL,
+                language = Language.EN,
+                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION,
+                toAddress = toAddress,
+                personalisation = personalisationMessage,
+            )
+
+            // When
+            val notification = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
+
+            // Then
+            assertThat(notification.channel).isEqualTo(expectedChannel)
+            assertThat(notification.sourceType).isEqualTo(expectedSourceType)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
+            assertThat(notification.gssCode).isEqualTo(gssCode)
+            assertThat(notification.requestor).isEqualTo(requestor)
+            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            verify(languageMapper).fromMessageToDto(Language.EN)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(notificationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
