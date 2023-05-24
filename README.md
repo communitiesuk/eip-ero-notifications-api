@@ -66,12 +66,16 @@ The following environment variables must be set in order to run the application:
 * `TEMPLATE_PHOTO_RESUBMISSION_WITH_REASONS_EMAIL_WELSH` - Notify service email template ID for requesting a new photo (with reasons) in Welsh
 * `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document in English
 * `TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document in Welsh
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_WITH_REASONS_EMAIL_ENGLISH` - Notify service email template ID for requesting a new identification document (with reasons) in English
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_WITH_REASONS_EMAIL_WELSH` - Notify service email template ID for requesting a new identification document (with reasons) in Welsh
 * `TEMPLATE_PHOTO_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo in English
 * `TEMPLATE_PHOTO_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new photo in Welsh
 * `TEMPLATE_PHOTO_RESUBMISSION_WITH_REASONS_LETTER_ENGLISH` - Notify service letter template ID for requesting a new photo (with reasons) in English
 * `TEMPLATE_PHOTO_RESUBMISSION_WITH_REASONS_LETTER_WELSH` - Notify service letter template ID for requesting a new photo (with reasons) in Welsh
 * `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document in English
 * `TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document in Welsh
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_WITH_REASONS_LETTER_ENGLISH` - Notify service letter template ID for requesting a new identification document (with reasons) in English
+* `TEMPLATE_ID_DOCUMENT_RESUBMISSION_WITH_REASONS_LETTER_WELSH` - Notify service letter template ID for requesting a new identification document (with reasons) in Welsh
 * `TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH` - Notify service email template ID for id document required in English
 * `TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_WELSH` - Notify service email template ID for id document required in Welsh
 * `TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_ENGLISH` - Notify service letter template ID for id document required in English

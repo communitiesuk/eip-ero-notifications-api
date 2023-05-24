@@ -14,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
@@ -75,6 +76,7 @@ class NotificationTemplateMapper(
             PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
             PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
+            ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
@@ -89,6 +91,7 @@ class NotificationTemplateMapper(
             PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
             PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
+            ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsEnglish
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
             REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
             REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
@@ -124,6 +127,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
         PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
         ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
+        ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
         ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType")
@@ -136,6 +140,7 @@ class NotificationTemplateMapper(
         PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
         PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
         ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
+        ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsEnglish
         ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
         REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
         REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
