@@ -8,6 +8,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.verify
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
@@ -44,7 +45,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerTest {
         val personalisationDto = buildIdDocumentPersonalisationDto()
 
         given(sendNotifyMessageMapper.fromIdDocumentMessageToSendNotificationRequestDto(any())).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(any(), any())).willReturn(personalisationDto)
+        given(templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(any(), any(), any())).willReturn(personalisationDto)
         given(templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(any())).willReturn(personalisationMap)
 
         // When
@@ -52,7 +53,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerTest {
 
         // Then
         verify(sendNotifyMessageMapper).fromIdDocumentMessageToSendNotificationRequestDto(sqsMessage)
-        verify(templatePersonalisationMessageMapper).toIdDocumentPersonalisationDto(sqsMessage.personalisation, requestDto.language)
+        verify(templatePersonalisationMessageMapper).toIdDocumentPersonalisationDto(sqsMessage.personalisation, requestDto.language, NotificationChannel.EMAIL)
         verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
         verify(sendNotificationService).sendNotification(requestDto, personalisationMap)
     }

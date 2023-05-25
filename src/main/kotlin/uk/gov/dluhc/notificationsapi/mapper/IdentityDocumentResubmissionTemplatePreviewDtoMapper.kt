@@ -11,6 +11,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.IdDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 
 @Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
 abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
@@ -21,7 +22,7 @@ abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
     @Mapping(target = "notificationType", expression = "java( idDocumentResubmissionNotificationType(request) )")
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getChannel() ) )"
     )
     abstract fun toIdDocumentResubmissionTemplatePreviewDto(
         request: GenerateIdDocumentResubmissionTemplatePreviewRequest,
@@ -41,10 +42,11 @@ abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "documentRejectionText",
-        expression = "java( documentRejectionTextMapper.toDocumentRejectionText( languageDto, personalisation ) )"
+        expression = "java( documentRejectionTextMapper.toDocumentRejectionText( languageDto, personalisation, channel ) )"
     )
     protected abstract fun mapPersonalisation(
         languageDto: LanguageDto,
-        personalisation: IdDocumentPersonalisation
+        personalisation: IdDocumentPersonalisation,
+        channel: NotificationChannel
     ): IdDocumentPersonalisationDto
 }
