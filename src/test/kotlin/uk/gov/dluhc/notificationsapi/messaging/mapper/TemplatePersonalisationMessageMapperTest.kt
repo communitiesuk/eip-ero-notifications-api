@@ -15,10 +15,12 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
+import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
@@ -47,6 +49,9 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Mock
     private lateinit var photoRejectionReasonMapper: PhotoRejectionReasonMapper
+
+    @Mock
+    private lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
 
     @Nested
     inner class ToPhotoPersonalisationDto {
@@ -119,13 +124,26 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS IdDocumentPersonalisation to IdDocumentPersonalisationDto`() {
             // Given
             val personalisationMessage = buildIdDocumentPersonalisationMessage()
-            val expectedPersonalisationDto = buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage)
+
+            val documentRejectionText = """
+                Utility Bill
+                
+                * The document is too old
+                
+                ----
+            
+            """.trimIndent()
+            given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>()))
+                .willReturn(documentRejectionText)
+
+            val expectedPersonalisationDto = buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage, documentRejectionText)
 
             // When
-            val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage)
+            val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+            verify(documentRejectionTextMapper).toDocumentRejectionText(ENGLISH, personalisationMessage)
         }
     }
 

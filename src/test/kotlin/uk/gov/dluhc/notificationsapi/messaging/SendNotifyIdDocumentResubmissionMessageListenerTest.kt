@@ -44,7 +44,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerTest {
         val personalisationDto = buildIdDocumentPersonalisationDto()
 
         given(sendNotifyMessageMapper.fromIdDocumentMessageToSendNotificationRequestDto(any())).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(any())).willReturn(personalisationDto)
+        given(templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(any(), any())).willReturn(personalisationDto)
         given(templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(any())).willReturn(personalisationMap)
 
         // When
@@ -52,7 +52,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerTest {
 
         // Then
         verify(sendNotifyMessageMapper).fromIdDocumentMessageToSendNotificationRequestDto(sqsMessage)
-        verify(templatePersonalisationMessageMapper).toIdDocumentPersonalisationDto(sqsMessage.personalisation)
+        verify(templatePersonalisationMessageMapper).toIdDocumentPersonalisationDto(sqsMessage.personalisation, requestDto.language)
         verify(templatePersonalisationDtoMapper).toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
         verify(sendNotificationService).sendNotification(requestDto, personalisationMap)
     }
