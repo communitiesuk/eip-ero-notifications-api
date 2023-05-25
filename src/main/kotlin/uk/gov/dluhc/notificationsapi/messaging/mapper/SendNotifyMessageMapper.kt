@@ -73,11 +73,11 @@ abstract class SendNotifyMessageMapper {
         }
 
     protected fun idDocumentResubmissionNotificationType(message: SendNotifyIdDocumentResubmissionMessage): NotificationType =
-        // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if all rejected documents have either any rejection reasons (excluding OTHER)
+        // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if any rejected documents have either any rejection reasons (excluding OTHER)
         // or has rejection notes
         with(message.personalisation) {
             if (rejectedDocuments.isNotEmpty() &&
-                rejectedDocuments.all { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
+                rejectedDocuments.any { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
             )
                 ID_DOCUMENT_RESUBMISSION_WITH_REASONS
             else

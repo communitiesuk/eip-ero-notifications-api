@@ -427,6 +427,41 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
 
             // Then
+            assertThat(actual.notificationType).isEqualTo(ID_DOCUMENT_RESUBMISSION_WITH_REASONS)
+        }
+
+        @Test
+        fun `should map ID document template request to dto with correct NotificationType mapping given no documents have rejection reasons or rejection notes`() {
+            // Given
+            val request = buildSendNotifyIdDocumentResubmissionMessage(
+                personalisation = buildIdDocumentPersonalisationMessage(
+                    rejectedDocuments = listOf(
+                        buildRejectedDocument(
+                            rejectionReasons = emptyList(),
+                            rejectionNotes = null
+                        ),
+                        buildRejectedDocument(
+                            rejectionReasons = emptyList(),
+                            rejectionNotes = null
+                        ),
+                        buildRejectedDocument(
+                            rejectionReasons = emptyList(),
+                            rejectionNotes = null
+                        )
+                    )
+                )
+            )
+
+            given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
+                .willReturn(aNotificationDestination())
+            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+
+            // When
+            val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
+
+            // Then
             assertThat(actual.notificationType).isEqualTo(ID_DOCUMENT_RESUBMISSION)
         }
     }
