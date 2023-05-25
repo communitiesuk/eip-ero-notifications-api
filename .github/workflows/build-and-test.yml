@@ -32,8 +32,6 @@ jobs:
           AWS_PROFILE_ARG: ""
         run: ./gradlew clean check --no-daemon
 
-      - name: Run gradle `check` to lint source code and run tests
-        run: ./gradlew clean check --no-daemon
       - name: Save logs on test failure
         uses: actions/upload-artifact@v3
         if: failure()
