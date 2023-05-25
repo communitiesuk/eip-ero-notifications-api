@@ -47,6 +47,9 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
+    @Mock
+    private lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
+
     companion object {
         @JvmStatic
         fun documentRejectionReasons_to_NotificationType(): Stream<Arguments> {
@@ -225,6 +228,42 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
                     ),
                     buildRejectedDocument(
                         rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                        rejectionNotes = null
+                    ),
+                    buildRejectedDocument(
+                        rejectionReasons = emptyList(),
+                        rejectionNotes = null
+                    )
+                )
+            )
+        )
+
+        given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
+        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER)
+        given(sourceTypeMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD)
+
+        // When
+        val actual = mapper.toIdDocumentResubmissionTemplatePreviewDto(request)
+
+        // Then
+        assertThat(actual.notificationType).isEqualTo(ID_DOCUMENT_RESUBMISSION_WITH_REASONS)
+    }
+
+    @Test
+    fun `should map ID document template request to dto with correct NotificationType mapping given no documents have rejection reasons or rejection notes`() {
+        // Given
+        val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
+            channel = NotificationChannel.LETTER,
+            language = Language.EN,
+            sourceType = SourceType.VOTER_MINUS_CARD,
+            personalisation = buildIdDocumentResubmissionPersonalisationRequest(
+                rejectedDocuments = listOf(
+                    buildRejectedDocument(
+                        rejectionReasons = emptyList(),
+                        rejectionNotes = null
+                    ),
+                    buildRejectedDocument(
+                        rejectionReasons = emptyList(),
                         rejectionNotes = null
                     ),
                     buildRejectedDocument(

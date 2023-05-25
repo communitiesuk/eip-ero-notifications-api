@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.messaging.mapper
 
-import org.apache.commons.lang3.StringUtils.isNotBlank
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
@@ -67,18 +66,18 @@ abstract class SendNotifyMessageMapper {
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
         with(message.personalisation) {
-            if (photoRejectionReasonsExcludingOther.isNotEmpty() || isNotBlank(photoRejectionNotes))
+            if (photoRejectionReasonsExcludingOther.isNotEmpty() || !photoRejectionNotes.isNullOrBlank())
                 PHOTO_RESUBMISSION_WITH_REASONS
             else
                 PHOTO_RESUBMISSION
         }
 
     protected fun idDocumentResubmissionNotificationType(message: SendNotifyIdDocumentResubmissionMessage): NotificationType =
-        // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if all rejected documents have either any rejection reasons (excluding OTHER)
+        // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if any rejected documents have either any rejection reasons (excluding OTHER)
         // or has rejection notes
         with(message.personalisation) {
             if (rejectedDocuments.isNotEmpty() &&
-                rejectedDocuments.all { it.rejectionReasonsExcludingOther.isNotEmpty() || isNotBlank(it.rejectionNotes) }
+                rejectedDocuments.any { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
             )
                 ID_DOCUMENT_RESUBMISSION_WITH_REASONS
             else

@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.apache.commons.lang3.StringUtils.isNotBlank
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,7 +30,7 @@ abstract class PhotoResubmissionTemplatePreviewDtoMapper {
     protected fun photoResubmissionNotificationType(request: GeneratePhotoResubmissionTemplatePreviewRequest): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
         with(request.personalisation) {
-            if (photoRejectionReasonsExcludingOther.isNotEmpty() || isNotBlank(photoRejectionNotes))
+            if (photoRejectionReasonsExcludingOther.isNotEmpty() || !photoRejectionNotes.isNullOrBlank())
                 PHOTO_RESUBMISSION_WITH_REASONS
             else
                 PHOTO_RESUBMISSION
