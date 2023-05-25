@@ -28,11 +28,11 @@ abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
     ): GenerateIdDocumentResubmissionTemplatePreviewDto
 
     protected fun idDocumentResubmissionNotificationType(request: GenerateIdDocumentResubmissionTemplatePreviewRequest): NotificationType =
-        // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if all rejected documents have either any rejection reasons (excluding OTHER)
+        // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if any rejected documents have either any rejection reasons (excluding OTHER)
         // or has rejection notes
         with(request.personalisation) {
             if (!rejectedDocuments.isNullOrEmpty() &&
-                rejectedDocuments.all { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
+                rejectedDocuments.any { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
             )
                 ID_DOCUMENT_RESUBMISSION_WITH_REASONS
             else
