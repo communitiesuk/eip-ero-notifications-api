@@ -11,6 +11,7 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
@@ -27,6 +28,9 @@ abstract class TemplatePersonalisationMessageMapper {
     @Autowired
     protected lateinit var photoRejectionReasonMapper: PhotoRejectionReasonMapper
 
+    @Autowired
+    protected lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
+
     @Mapping(
         target = "photoRejectionReasons",
         expression = "java( mapPhotoRejectionReasons( languageDto, personalisationMessage ) )"
@@ -36,7 +40,11 @@ abstract class TemplatePersonalisationMessageMapper {
         languageDto: LanguageDto
     ): PhotoPersonalisationDto
 
-    abstract fun toIdDocumentPersonalisationDto(personalisationMessage: IdDocumentPersonalisation): IdDocumentPersonalisationDto
+    @Mapping(
+        target = "documentRejectionText",
+        expression = "java( mapDocumentRejectionText( languageDto, personalisationMessage ) )"
+    )
+    abstract fun toIdDocumentPersonalisationDto(personalisationMessage: IdDocumentPersonalisation, languageDto: LanguageDto): IdDocumentPersonalisationDto
 
     abstract fun toIdDocumentRequiredPersonalisationDto(personalisationMessage: IdDocumentRequiredPersonalisation): IdDocumentRequiredPersonalisationDto
 
@@ -75,5 +83,12 @@ abstract class TemplatePersonalisationMessageMapper {
                 languageDto
             )
         }
+    }
+
+    protected fun mapDocumentRejectionText(
+        languageDto: LanguageDto,
+        personalisation: IdDocumentPersonalisation
+    ): String? {
+        return documentRejectionTextMapper.toDocumentRejectionText(languageDto, personalisation)
     }
 }

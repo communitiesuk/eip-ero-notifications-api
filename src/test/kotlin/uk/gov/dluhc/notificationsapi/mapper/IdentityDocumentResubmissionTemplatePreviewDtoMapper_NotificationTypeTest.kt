@@ -47,6 +47,9 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
+    @Mock
+    private lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
+
     companion object {
         @JvmStatic
         fun documentRejectionReasons_to_NotificationType(): Stream<Arguments> {

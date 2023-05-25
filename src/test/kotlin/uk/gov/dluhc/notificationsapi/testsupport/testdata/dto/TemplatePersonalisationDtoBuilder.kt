@@ -41,13 +41,15 @@ fun buildIdDocumentPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     idDocumentRequestFreeText: String = faker.harryPotter().spell(),
-    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    documentRejectionText: String? = null,
 ): IdDocumentPersonalisationDto =
     IdDocumentPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
         idDocumentRequestFreeText = idDocumentRequestFreeText,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
+        documentRejectionText = documentRejectionText,
     )
 
 fun buildIdDocumentRequiredPersonalisationDto(
@@ -135,13 +137,15 @@ fun buildPhotoPersonalisationDtoFromMessage(
 }
 
 fun buildIdDocumentPersonalisationDtoFromMessage(
-    personalisationMessage: IdDocumentPersonalisation
+    personalisationMessage: IdDocumentPersonalisation,
+    documentRejectionText: String? = null,
 ): IdDocumentPersonalisationDto {
     return with(personalisationMessage) {
         IdDocumentPersonalisationDto(
             applicationReference = applicationReference,
             firstName = firstName,
             idDocumentRequestFreeText = idDocumentRequestFreeText,
+            documentRejectionText = documentRejectionText,
             eroContactDetails = with(eroContactDetails) {
                 buildContactDetailsDto(
                     localAuthorityName = localAuthorityName,
