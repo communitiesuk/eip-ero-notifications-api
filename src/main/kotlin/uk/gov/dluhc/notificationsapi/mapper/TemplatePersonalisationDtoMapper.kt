@@ -34,6 +34,9 @@ class TemplatePersonalisationDtoMapper {
 
         with(dto) {
             personalisation["documentRequestFreeText"] = idDocumentRequestFreeText
+            if (!documentRejectionText.isNullOrEmpty()) {
+                personalisation["documentRejectionText"] = documentRejectionText
+            }
         }
         return personalisation
     }
