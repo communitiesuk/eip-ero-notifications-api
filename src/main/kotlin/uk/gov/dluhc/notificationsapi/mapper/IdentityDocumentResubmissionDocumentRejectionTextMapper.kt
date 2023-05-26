@@ -19,6 +19,7 @@ import uk.gov.dluhc.notificationsapi.models.IdDocumentPersonalisation as IdDocum
 @Component
 class IdentityDocumentResubmissionDocumentRejectionTextMapper(
     private val rejectedDocumentReasonMapper: RejectedDocumentReasonMapper,
+    private val rejectedDocumentTypeMapper: RejectedDocumentTypeMapper,
 ) {
 
     companion object {
@@ -37,7 +38,7 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
     fun toDocumentRejectionText(language: LanguageDto, personalisation: IdDocumentPersonalisationApi): String? {
         return personalisation.rejectedDocuments?.joinToString("\n") { rejectedDocument ->
             REJECTED_DOCUMENT_MARKDOWN_TEMPLATE
-                .replaceApiDocumentType(rejectedDocument.documentType)
+                .replaceApiDocumentType(rejectedDocument.documentType, language)
                 .replaceListOfApiReasons(rejectedDocument.rejectionReasons, language)
                 .replaceRejectionReasonNotes(rejectedDocument.rejectionNotes)
         }?.plus("\n")
@@ -46,16 +47,16 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
     fun toDocumentRejectionText(language: LanguageDto, personalisation: IdDocumentPersonalisationMessaging): String? {
         return personalisation.rejectedDocuments?.joinToString("\n") { rejectedDocument ->
             REJECTED_DOCUMENT_MARKDOWN_TEMPLATE
-                .replaceMessagingDocumentType(rejectedDocument.documentType)
+                .replaceMessagingDocumentType(rejectedDocument.documentType, language)
                 .replaceListOfMessagingReasons(rejectedDocument.rejectionReasons, language)
                 .replaceRejectionReasonNotes(rejectedDocument.rejectionNotes)
         }?.plus("\n")
     }
 
-    private fun String.replaceApiDocumentType(documentType: DocumentTypeApi): String =
+    private fun String.replaceApiDocumentType(documentType: DocumentTypeApi, language: LanguageDto): String =
         replace(
             "<document-type>",
-            documentType.toString()
+            rejectedDocumentTypeMapper.toDocumentTypeString(documentType, language)
         )
 
     private fun String.replaceListOfApiReasons(
@@ -84,10 +85,10 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
             }
         )
 
-    private fun String.replaceMessagingDocumentType(documentType: DocumentTypeMessaging): String =
+    private fun String.replaceMessagingDocumentType(documentType: DocumentTypeMessaging, language: LanguageDto): String =
         replace(
             "<document-type>",
-            documentType.toString()
+            rejectedDocumentTypeMapper.toDocumentTypeString(documentType, language)
         )
 
     private fun String.replaceListOfMessagingReasons(
