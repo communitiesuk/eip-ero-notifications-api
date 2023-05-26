@@ -61,8 +61,10 @@ class PostalNotifyEmailTemplateConfiguration(
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
     rejectedDocumentEnglish = rejectedDocumentEnglish,
-    rejectedSignatureEnglish = null
-)
+    rejectedSignatureEnglish = null,
+    rejectedSignatureWelsh = null,
+
+    )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
 @ConstructorBinding
@@ -70,7 +72,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.PROXY,
     receivedEnglish: String,
     receivedWelsh: String,
-    rejectedSignatureEnglish: String
+    rejectedSignatureEnglish: String,
+    rejectedSignatureWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -88,7 +91,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
     rejectedDocumentEnglish = null,
-    rejectedSignatureEnglish = rejectedSignatureEnglish
+    rejectedSignatureEnglish = rejectedSignatureEnglish,
+    rejectedSignatureWelsh = rejectedSignatureWelsh
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -114,7 +118,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
     rejectedDocumentEnglish = null,
-    rejectedSignatureEnglish = null
+    rejectedSignatureEnglish = null,
+    rejectedSignatureWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -152,7 +157,8 @@ class VoterCardNotifyEmailTemplateConfiguration(
     idDocumentRequiredEnglish = idDocumentRequiredEnglish,
     idDocumentRequiredWelsh = idDocumentRequiredWelsh,
     rejectedDocumentEnglish = null,
-    rejectedSignatureEnglish = null
+    rejectedSignatureEnglish = null,
+    rejectedSignatureWelsh = null
 )
 
 abstract class AbstractNotifyEmailTemplateConfiguration(
@@ -172,7 +178,8 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val idDocumentRequiredEnglish: String?,
     val idDocumentRequiredWelsh: String?,
     val rejectedDocumentEnglish: String?,
-    val rejectedSignatureEnglish: String?
+    val rejectedSignatureEnglish: String?,
+    val rejectedSignatureWelsh: String?
 )
 
 data class NotifyLetterTemplateConfiguration(
@@ -214,7 +221,8 @@ class VoterCardNotifyLetterTemplateConfiguration(
     idDocumentRequiredEnglish = idDocumentRequiredEnglish,
     idDocumentRequiredWelsh = idDocumentRequiredWelsh,
     rejectedDocumentEnglish = null,
-    rejectedSignatureEnglish = null
+    rejectedSignatureEnglish = null,
+    rejectedSignatureWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -239,7 +247,8 @@ class PostalNotifyLetterTemplateConfiguration(
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
     rejectedDocumentEnglish = rejectedDocumentEnglish,
-    rejectedSignatureEnglish = null
+    rejectedSignatureEnglish = null,
+    rejectedSignatureWelsh = null
 )
 
 abstract class AbstractNotifyLetterTemplateConfiguration(
@@ -260,13 +269,15 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val idDocumentRequiredWelsh: String?,
     val rejectedDocumentEnglish: String?,
     val rejectedSignatureEnglish: String?,
+    val rejectedSignatureWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
 @ConstructorBinding
 class ProxyNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.PROXY,
-    rejectedSignatureEnglish: String
+    rejectedSignatureEnglish: String,
+    rejectedSignatureWelsh: String
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -284,5 +295,6 @@ class ProxyNotifyLetterTemplateConfiguration(
     rejectedDocumentEnglish = null,
     photoResubmissionWithReasonsEnglish = null,
     photoResubmissionWithReasonsWelsh = null,
-    rejectedSignatureEnglish = rejectedSignatureEnglish
+    rejectedSignatureEnglish = rejectedSignatureEnglish,
+    rejectedSignatureWelsh = rejectedSignatureWelsh
 )
