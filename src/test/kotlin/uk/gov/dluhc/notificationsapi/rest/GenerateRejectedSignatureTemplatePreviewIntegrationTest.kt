@@ -349,16 +349,13 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
 
         // Then
         val actual = response.responseBody.blockFirst()
+        val sourceTypeValue = sourceTypeMapper.fromApiToDto(sourceType)
+        val expectedErrorMessage =
+            "No ${notificationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REJECTED_SIGNATURE} and sourceType $sourceTypeValue"
         assertThat(actual)
             .hasStatus(400)
             .hasError("Bad Request")
-            .hasMessageContaining(
-                "No ${notificationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REJECTED_SIGNATURE} and sourceType ${
-                    sourceTypeMapper.fromApiToDto(
-                        sourceType
-                    )
-                }"
-            )
+            .hasMessageContaining(expectedErrorMessage)
             .hasNoValidationErrors()
     }
 

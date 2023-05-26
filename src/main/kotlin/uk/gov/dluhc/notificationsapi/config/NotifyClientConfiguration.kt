@@ -63,8 +63,7 @@ class PostalNotifyEmailTemplateConfiguration(
     rejectedDocumentEnglish = rejectedDocumentEnglish,
     rejectedSignatureEnglish = null,
     rejectedSignatureWelsh = null,
-
-    )
+)
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
 @ConstructorBinding
