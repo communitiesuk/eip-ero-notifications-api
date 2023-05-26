@@ -51,6 +51,7 @@ internal class NotificationTemplateMapperTest {
                 receivedEnglish = "PROXY-RECEIVED-ID-EMAIL-ENGLISH",
                 receivedWelsh = "PROXY-RECEIVED-ID-EMAIL-WELSH",
                 rejectedSignatureEnglish = "PROXY-REJECTED-SIGNATURE-EMAIL-ENGLISH",
+                rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-EMAIL-ENGLISH",
             ),
             overseas = OverseasNotifyEmailTemplateConfiguration(
                 receivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
@@ -76,7 +77,8 @@ internal class NotificationTemplateMapperTest {
                 rejectedDocumentEnglish = "POSTAL-REJECTED-DOCUMENT-LETTER-ENGLISH"
             ),
             proxy = ProxyNotifyLetterTemplateConfiguration(
-                rejectedSignatureEnglish = "PROXY-REJECTED-SIGNATURE-LETTER-ENGLISH"
+                rejectedSignatureEnglish = "PROXY-REJECTED-SIGNATURE-LETTER-ENGLISH",
+                rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-LETTER-WELSH"
             )
         )
     )
@@ -212,12 +214,9 @@ internal class NotificationTemplateMapperTest {
     @CsvSource(
         value = [
             "VOTER_CARD,,APPLICATION_APPROVED",
-
             "VOTER_CARD,ENGLISH,APPLICATION_APPROVED",
-
             "VOTER_CARD,WELSH,APPLICATION_APPROVED",
-
-            "PROXY,WELSH,REJECTED_SIGNATURE"
+            "POSTAL,WELSH,REJECTED_SIGNATURE"
         ]
     )
     fun `should fail to map Notification Type in language for letter channel for unsupported combination`(
@@ -234,7 +233,7 @@ internal class NotificationTemplateMapperTest {
         // Then
         assertThat(error)
             .isInstanceOfAny(NotificationTemplateNotFoundException::class.java)
-            .hasMessage("No letter template defined in ${language.toMessage()} for notification type $notificationType")
+            .hasMessage("No letter template defined in ${language.toMessage()} for notification type $notificationType and sourceType $sourceType")
     }
 
     @ParameterizedTest
@@ -243,7 +242,7 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,ENGLISH,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,WELSH,LETTER,APPLICATION_APPROVED, letter",
-            "PROXY,WELSH,LETTER, REJECTED_SIGNATURE, letter"
+            "POSTAL,WELSH,LETTER,REJECTED_SIGNATURE, letter",
         ]
     )
     fun `should fail to map letter Template Type in language for unsupported combination`(
@@ -261,7 +260,7 @@ internal class NotificationTemplateMapperTest {
         // Then
         assertThat(error)
             .isInstanceOfAny(NotificationTemplateNotFoundException::class.java)
-            .hasMessage("No $channelString template defined in ${language.toMessage()} for notification type $templateType")
+            .hasMessage("No $channelString template defined in ${language.toMessage()} for notification type $templateType and sourceType $sourceType")
     }
 
     @ParameterizedTest
@@ -270,7 +269,7 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,ENGLISH,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,WELSH,EMAIL,APPLICATION_REJECTED, email",
-            "PROXY,WELSH,EMAIL, REJECTED_SIGNATURE, email"
+            "POSTAL,WELSH,EMAIL, REJECTED_SIGNATURE, email"
         ]
     )
     fun `should fail to map email Template Type in language for unsupported combination`(
