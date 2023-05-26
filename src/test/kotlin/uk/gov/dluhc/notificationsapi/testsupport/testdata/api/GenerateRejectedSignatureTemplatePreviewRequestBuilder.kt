@@ -13,11 +13,12 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContact
 fun buildGenerateRejectedSignatureTemplatePreviewRequest(
     sourceType: SourceType = SourceType.PROXY,
     channel: NotificationChannel = NotificationChannel.EMAIL,
-    personalisation: RejectedSignaturePersonalisation = buildRejectedSignaturePersonalisation()
+    personalisation: RejectedSignaturePersonalisation = buildRejectedSignaturePersonalisation(),
+    language: Language? = Language.EN,
 ) = GenerateRejectedSignatureTemplatePreviewRequest(
     channel = channel,
     sourceType = sourceType,
-    language = Language.EN,
+    language = language,
     personalisation = personalisation
 )
 
