@@ -14,6 +14,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
@@ -124,6 +125,7 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS IdDocumentPersonalisation to IdDocumentPersonalisationDto`() {
             // Given
             val personalisationMessage = buildIdDocumentPersonalisationMessage()
+            val channel = NotificationChannel.EMAIL
 
             val documentRejectionText = """
                 Utility Bill
@@ -133,17 +135,17 @@ internal class TemplatePersonalisationMessageMapperTest {
                 ----
             
             """.trimIndent()
-            given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>()))
+            given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any()))
                 .willReturn(documentRejectionText)
 
             val expectedPersonalisationDto = buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage, documentRejectionText)
 
             // When
-            val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH)
+            val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH, NotificationChannel.EMAIL)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
-            verify(documentRejectionTextMapper).toDocumentRejectionText(ENGLISH, personalisationMessage)
+            verify(documentRejectionTextMapper).toDocumentRejectionText(ENGLISH, personalisationMessage, channel)
         }
     }
 

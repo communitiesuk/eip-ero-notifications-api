@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
@@ -42,9 +43,9 @@ abstract class TemplatePersonalisationMessageMapper {
 
     @Mapping(
         target = "documentRejectionText",
-        expression = "java( mapDocumentRejectionText( languageDto, personalisationMessage ) )"
+        expression = "java( mapDocumentRejectionText( languageDto, personalisationMessage, channel ) )"
     )
-    abstract fun toIdDocumentPersonalisationDto(personalisationMessage: IdDocumentPersonalisation, languageDto: LanguageDto): IdDocumentPersonalisationDto
+    abstract fun toIdDocumentPersonalisationDto(personalisationMessage: IdDocumentPersonalisation, languageDto: LanguageDto, channel: NotificationChannel): IdDocumentPersonalisationDto
 
     abstract fun toIdDocumentRequiredPersonalisationDto(personalisationMessage: IdDocumentRequiredPersonalisation): IdDocumentRequiredPersonalisationDto
 
@@ -87,8 +88,13 @@ abstract class TemplatePersonalisationMessageMapper {
 
     protected fun mapDocumentRejectionText(
         languageDto: LanguageDto,
-        personalisation: IdDocumentPersonalisation
+        personalisation: IdDocumentPersonalisation,
+        channel: NotificationChannel
     ): String? {
-        return documentRejectionTextMapper.toDocumentRejectionText(languageDto, personalisation)
+        return documentRejectionTextMapper.toDocumentRejectionText(
+            language = languageDto,
+            personalisation = personalisation,
+            channel = channel
+        )
     }
 }

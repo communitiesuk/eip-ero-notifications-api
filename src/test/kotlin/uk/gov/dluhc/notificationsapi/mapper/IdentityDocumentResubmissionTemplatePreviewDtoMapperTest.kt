@@ -62,7 +62,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
-        given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>())).willReturn(
+        given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any())).willReturn(
             null
         )
 
@@ -107,7 +107,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(channelMapper).fromApiToDto(NotificationChannelApi.LETTER)
         verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
-        verify(documentRejectionTextMapper).toDocumentRejectionText(LanguageDto.ENGLISH, personalisation)
+        verify(documentRejectionTextMapper).toDocumentRejectionText(LanguageDto.ENGLISH, personalisation, NotificationChannelApi.LETTER)
     }
 
     @Test
@@ -135,11 +135,9 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
             Utility Bill
             
             * The document is too old
-            
-            ----
         
         """.trimIndent()
-        given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>()))
+        given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any()))
             .willReturn(documentRejectionText)
 
         val expected = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
@@ -183,6 +181,6 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(channelMapper).fromApiToDto(NotificationChannelApi.LETTER)
         verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
-        verify(documentRejectionTextMapper).toDocumentRejectionText(LanguageDto.ENGLISH, personalisation)
+        verify(documentRejectionTextMapper).toDocumentRejectionText(LanguageDto.ENGLISH, personalisation, NotificationChannelApi.LETTER)
     }
 }
