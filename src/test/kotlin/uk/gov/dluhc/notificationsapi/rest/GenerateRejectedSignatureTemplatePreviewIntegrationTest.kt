@@ -5,13 +5,17 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
+import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert.Companion.assertThat
@@ -31,10 +35,15 @@ import java.time.temporal.ChronoUnit.MILLIS
 internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val EMAIL_SIGNATURE_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
-        private const val LETTER_SIGNATURE_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
+        private const val EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
+        private const val LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
+        private const val EMAIL_SIGNATURE_WELSH_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
+        private const val LETTER_SIGNATURE_WELSH_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
         private const val URI_TEMPLATE = "/templates/rejected-signature/preview"
     }
+
+    @Autowired
+    private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @BeforeEach
     fun setup() {
@@ -64,7 +73,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return not found given non existing template`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_SIGNATURE_TEMPLATE_ID)
+        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -116,7 +125,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return bad request given valid missing request body parameters to gov notify`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_SIGNATURE_TEMPLATE_ID)
+        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -187,8 +196,10 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,$EMAIL_SIGNATURE_TEMPLATE_ID",
-            "LETTER,$LETTER_SIGNATURE_TEMPLATE_ID"
+            "EMAIL,$EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
+            "LETTER,$LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
+            "EMAIL,$EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY",
+            "LETTER,$LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY"
         ]
     )
     fun `should return template preview given valid request`(
@@ -244,8 +255,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,$EMAIL_SIGNATURE_TEMPLATE_ID",
-            "LETTER,$LETTER_SIGNATURE_TEMPLATE_ID"
+            "EMAIL,$EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID",
+            "LETTER,$LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID"
         ]
     )
     fun `should return template preview given valid request when optional values are not populated`(
@@ -301,6 +312,53 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "EMAIL,EN,POSTAL",
+            "LETTER,EN,POSTAL",
+            "EMAIL,CY,POSTAL",
+            "LETTER,CY,POSTAL",
+            "EMAIL,,POSTAL",
+            "LETTER,,POSTAL",
+            "EMAIL,EN,VOTER_MINUS_CARD",
+        ]
+    )
+    fun `should return bad request if a template is not configured`(
+        notificationChannel: NotificationChannel,
+        language: Language?,
+        sourceType: SourceType
+    ) {
+
+        // Given
+        val requestBody = buildGenerateRejectedSignatureTemplatePreviewRequest(
+            channel = notificationChannel,
+            language = language,
+            sourceType = sourceType,
+        )
+        // When
+        val response = webTestClient.post()
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(APPLICATION_JSON)
+            .withABody(requestBody)
+            .exchange()
+            .expectStatus()
+            .isBadRequest
+            .returnResult(ErrorResponse::class.java)
+
+        // Then
+        val actual = response.responseBody.blockFirst()
+        val sourceTypeValue = sourceTypeMapper.fromApiToDto(sourceType)
+        val expectedErrorMessage =
+            "No ${notificationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REJECTED_SIGNATURE} and sourceType $sourceTypeValue"
+        assertThat(actual)
+            .hasStatus(400)
+            .hasError("Bad Request")
+            .hasMessageContaining(expectedErrorMessage)
+            .hasNoValidationErrors()
+    }
+
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         withABody(buildGenerateRejectedSignatureTemplatePreviewRequest(sourceType = SourceType.PROXY))
 
@@ -311,3 +369,5 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
         ) as WebTestClient.RequestBodySpec
     }
 }
+
+private fun Language?.toMessage(): String = if (this == Language.CY) "Welsh" else "English"
