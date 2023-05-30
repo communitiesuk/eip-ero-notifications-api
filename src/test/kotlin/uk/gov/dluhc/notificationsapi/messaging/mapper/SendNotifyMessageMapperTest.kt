@@ -504,7 +504,7 @@ internal class SendNotifyMessageMapperTest {
                 "EMAIL,EN,EMAIL,ENGLISH",
                 "EMAIL,CY,EMAIL,WELSH",
                 "LETTER,EN,LETTER,ENGLISH",
-                "LETTER,CY,LETTER,ENGLISH",
+                "LETTER,CY,LETTER,WELSH",
             ]
         )
         fun `should map SQS SendNotifyRejectedSignatureMessage to SendNotificationRequestDto with rejection reasons and notes`(

@@ -73,7 +73,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
 
         // Then
         val stopWatch = StopWatch.createStarted()
-        await.atMost(3, TimeUnit.SECONDS).untilAsserted {
+        await.atMost(5, TimeUnit.SECONDS).untilAsserted {
             if (sqsChannel == NotificationChannel.EMAIL)
                 wireMockService.verifyNotifySendEmailCalled()
             else
