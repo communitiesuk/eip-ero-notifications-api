@@ -37,8 +37,6 @@ class SendNotificationService(
             saveSentMessageOrLogError(sentNotification)
         } catch (ex: GovNotifyNonRetryableException) {
             logger.warn("Non-retryable error returned from the Notify service: ${ex.message}")
-        } catch (e: Exception) {
-            logger.error { "Unhandled error  = ${e.message}" }
         }
     }
 
