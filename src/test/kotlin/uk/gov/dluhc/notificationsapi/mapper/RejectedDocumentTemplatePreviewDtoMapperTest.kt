@@ -3,7 +3,8 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -26,6 +27,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContact
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildGenerateRejectedDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedDocument
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedDocumentPersonalisation
+import java.util.stream.Stream
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 
@@ -47,13 +49,29 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var rejectedDocumentTypeMapper: RejectedDocumentTypeMapper
 
+    companion object {
+        @JvmStatic
+        fun sourceType_to_language(): Stream<Arguments> {
+            return Stream.of(
+                Arguments.of(SourceTypeModel.POSTAL, SourceTypeDto.POSTAL, Language.EN),
+                Arguments.of(SourceTypeModel.POSTAL, SourceTypeDto.POSTAL, Language.CY),
+                Arguments.of(SourceTypeModel.PROXY, SourceTypeDto.PROXY, Language.EN),
+                Arguments.of(SourceTypeModel.PROXY, SourceTypeDto.PROXY, Language.CY),
+            )
+        }
+    }
+
     @ParameterizedTest
-    @EnumSource(Language::class)
-    fun `should map rejected document template request to dto`(language: Language) {
+    @MethodSource("sourceType_to_language")
+    fun `should map rejected document template request to dto`(
+        sourceTypeModel: SourceTypeModel,
+        sourceTypeDto: SourceTypeDto,
+        language: Language
+    ) {
         // Given
         val request = buildGenerateRejectedDocumentTemplatePreviewRequest(
             language = language,
-            sourceType = SourceTypeModel.POSTAL,
+            sourceType = sourceTypeModel,
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = listOf(
                     buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD), rejectionNotes = null),
@@ -63,7 +81,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
             )
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
-        given(sourceTypeMapper.fromApiToDto(SourceTypeModel.POSTAL)).willReturn(SourceTypeDto.POSTAL)
+        given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
         val tooOldReason = "Document is too old"
         val unreadableReason = "Document is not readable"
         val other = "other"
@@ -83,7 +101,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
         // Then
         val expected = RejectedDocumentTemplatePreviewDto(
             channel = NotificationChannel.EMAIL,
-            sourceType = SourceTypeDto.POSTAL,
+            sourceType = sourceTypeDto,
             language = ENGLISH,
             personalisation = with(request.personalisation) {
                 RejectedDocumentPersonalisationDto(
@@ -120,12 +138,16 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
     }
 
     @ParameterizedTest
-    @EnumSource(Language::class)
-    fun `should map rejected document template request to dto when optional fields null`(language: Language) {
+    @MethodSource("sourceType_to_language")
+    fun `should map rejected document template request to dto when optional fields null`(
+        sourceTypeModel: SourceTypeModel,
+        sourceTypeDto: SourceTypeDto,
+        language: Language
+    ) {
         // Given
         val request = buildGenerateRejectedDocumentTemplatePreviewRequest(
             language = language,
-            sourceType = SourceTypeModel.POSTAL,
+            sourceType = sourceTypeModel,
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = listOf(buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReasons = emptyList(), rejectionNotes = null)),
                 rejectedDocumentFreeText = null,
@@ -133,7 +155,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
             )
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
-        given(sourceTypeMapper.fromApiToDto(SourceTypeModel.POSTAL)).willReturn(SourceTypeDto.POSTAL)
+        given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
         val utilityBillDoc = "Utility Bill"
         given(rejectedDocumentTypeMapper.toDocumentTypeString(UTILITY_MINUS_BILL, ENGLISH)).willReturn(utilityBillDoc)
 
@@ -143,7 +165,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
         // Then
         val expected = RejectedDocumentTemplatePreviewDto(
             channel = NotificationChannel.EMAIL,
-            sourceType = SourceTypeDto.POSTAL,
+            sourceType = sourceTypeDto,
             language = ENGLISH,
             personalisation = with(request.personalisation) {
                 RejectedDocumentPersonalisationDto(

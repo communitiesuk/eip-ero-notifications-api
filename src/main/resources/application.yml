@@ -41,15 +41,21 @@ api:
           received-english: ${TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_ENGLISH}
           received-welsh: ${TEMPLATE_POSTAL_APPLICATION_RECEIVED_EMAIL_WELSH}
           rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_EMAIL_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_EMAIL_WELSH}
         letter:
           rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_WELSH}
       proxy:
         email:
           received-english: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH}
           received-welsh: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_WELSH}
+          rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_EMAIL_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_EMAIL_WELSH}
           rejected-signature-english: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_EMAIL_ENGLISH}
           rejected-signature-welsh: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_EMAIL_WELSH}
         letter:
+          rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_WELSH}
           rejected-signature-english: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_LETTER_ENGLISH}
           rejected-signature-welsh: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_LETTER_WELSH}
       overseas:
