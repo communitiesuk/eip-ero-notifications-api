@@ -78,7 +78,6 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
             ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
-            REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -131,7 +130,6 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
             ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
-            REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }

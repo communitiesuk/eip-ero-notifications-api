@@ -12,7 +12,8 @@ import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTempla
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel.LETTER
-import uk.gov.dluhc.notificationsapi.models.SourceType.POSTAL
+import uk.gov.dluhc.notificationsapi.models.SourceType
+import uk.gov.dluhc.notificationsapi.testsupport.annotations.AllowedSourceTypesTest
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert.Companion.assertThat
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -61,8 +62,10 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .isForbidden
     }
 
-    @Test
-    fun `should return not found given non existing template`() {
+    @AllowedSourceTypesTest
+    fun `should return not found given non existing template`(
+        sourceType: SourceType
+    ) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_DOCUMENT_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
@@ -72,7 +75,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .uri(URI_TEMPLATE)
             .bearerToken(getBearerToken())
             .contentType(APPLICATION_JSON)
-            .withAValidBody()
+            .withAValidBody(sourceType)
             .exchange()
             .expectStatus()
             .isNotFound
@@ -113,8 +116,10 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .hasNoValidationErrors()
     }
 
-    @Test
-    fun `should return bad request given valid missing request body parameters to gov notify`() {
+    @AllowedSourceTypesTest
+    fun `should return bad request given valid missing request body parameters to gov notify`(
+        sourceType: SourceType
+    ) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_DOCUMENT_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
@@ -124,7 +129,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .uri(URI_TEMPLATE)
             .bearerToken(getBearerToken())
             .contentType(APPLICATION_JSON)
-            .withAValidBody()
+            .withAValidBody(sourceType)
             .exchange()
             .expectStatus()
             .isBadRequest
@@ -140,13 +145,15 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .hasNoValidationErrors()
     }
 
-    @Test
-    fun `should return bad request given invalid request with invalid fields`() {
+    @AllowedSourceTypesTest
+    fun `should return bad request given invalid request with invalid fields`(
+        sourceType: SourceType
+    ) {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
 
         val requestBody = buildGenerateRejectedDocumentTemplatePreviewRequest(
-            sourceType = POSTAL,
+            sourceType = sourceType,
             personalisation = buildRejectedDocumentPersonalisation(
                 applicationReference = "",
                 firstName = "",
@@ -182,13 +189,15 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .hasValidationError("Error on field 'personalisation.eroContactDetails.address.postcode': rejected value [PE11111111111], size must be between 1 and 10")
     }
 
-    @Test
-    fun `should return template preview given valid json request for email`() {
+    @AllowedSourceTypesTest
+    fun `should return template preview given valid json request for email`(
+        sourceType: SourceType
+    ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = EMAIL_DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateRejectedDocumentTemplatePreviewRequest(
-            sourceType = POSTAL,
+            sourceType = sourceType,
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = listOf(buildRejectedDocument(rejectionNotes = "Some notes here"))
             )
@@ -229,14 +238,16 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
         wireMockService.verifyNotifyGenerateTemplatePreview(EMAIL_DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
-    @Test
-    fun `should return template preview given valid request for letter`() {
+    @AllowedSourceTypesTest
+    fun `should return template preview given valid request for letter`(
+        sourceType: SourceType
+    ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = LETTER_DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateRejectedDocumentTemplatePreviewRequest(
-            sourceType = POSTAL,
+            sourceType = sourceType,
             channel = LETTER,
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = listOf(
@@ -283,8 +294,10 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
         wireMockService.verifyNotifyGenerateTemplatePreview(LETTER_DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
-    @Test
-    fun `should return template preview given valid request when optional values not populated`() {
+    @AllowedSourceTypesTest
+    fun `should return template preview given valid request when optional values not populated`(
+        sourceType: SourceType
+    ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = EMAIL_DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
@@ -295,7 +308,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 rejectedDocumentFreeText = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
             ),
-            sourceType = POSTAL
+            sourceType = sourceType
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -337,8 +350,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
         wireMockService.verifyNotifyGenerateTemplatePreview(EMAIL_DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
     }
 
-    private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
-        withABody(buildGenerateRejectedDocumentTemplatePreviewRequest(sourceType = POSTAL))
+    private fun WebTestClient.RequestBodySpec.withAValidBody(sourceType: SourceType): WebTestClient.RequestBodySpec =
+        withABody(buildGenerateRejectedDocumentTemplatePreviewRequest(sourceType = sourceType))
 
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateRejectedDocumentTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
