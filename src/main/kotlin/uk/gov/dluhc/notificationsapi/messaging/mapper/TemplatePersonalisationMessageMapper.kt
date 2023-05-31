@@ -11,14 +11,17 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
 
 @Mapper
 abstract class TemplatePersonalisationMessageMapper {
@@ -31,6 +34,9 @@ abstract class TemplatePersonalisationMessageMapper {
 
     @Autowired
     protected lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
+
+    @Autowired
+    protected lateinit var rejectedDocumentsMapper: RejectedDocumentsMapper
 
     @Mapping(
         target = "photoRejectionReasons",
@@ -73,6 +79,16 @@ abstract class TemplatePersonalisationMessageMapper {
             )
         }
     }
+
+    @Mapping(
+        target = "documents",
+        expression = "java( rejectedDocumentsMapper.mapRejectionDocumentsFromMessaging(languageDto, personalisation.getDocuments()) )"
+    )
+    @Mapping(target = "rejectedDocumentFreeText", source = "personalisation.rejectedDocumentMessage")
+    abstract fun toRejectedDocumentPersonalisationDto(
+        personalisation: RejectedDocumentPersonalisation,
+        languageDto: LanguageDto
+    ): RejectedDocumentPersonalisationDto
 
     protected fun mapPhotoRejectionReasons(
         languageDto: LanguageDto,

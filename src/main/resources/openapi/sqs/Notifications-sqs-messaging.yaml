@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.11.0'
+  version: '1.11.1'
   description: |-
     Notifications SQS Message Types
     
@@ -226,9 +226,12 @@ components:
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
         personalisation:
           $ref: '#/components/schemas/RejectedDocumentPersonalisation'
       required:
+        - channel
         - personalisation
 
     RemoveApplicationNotificationsMessage:
@@ -486,6 +489,7 @@ components:
         - photo-resubmission
         - id-document-resubmission
         - id-document-required
+        - rejected-document
 
     MessageAddress:
       type: object
