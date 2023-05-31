@@ -72,6 +72,7 @@ sqs:
   send-uk-gov-notify-application-rejected-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_APPLICATION_REJECTED_QUEUE_NAME}
   send-uk-gov-notify-rejected-document-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_REJECTED_DOCUMENT_QUEUE_NAME}
   remove-application-notifications-queue-name: ${SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME}
+  send-uk-gov-notify-rejected-signature-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_REJECTED_SIGNATURE_QUEUE_NAME}
 
 logging:
   pattern:

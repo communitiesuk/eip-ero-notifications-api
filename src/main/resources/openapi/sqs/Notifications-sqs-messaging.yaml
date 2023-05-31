@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.11.1'
+  version: '1.12.1'
   description: |-
     Notifications SQS Message Types
     
@@ -98,6 +98,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/RemoveApplicationNotificationsMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-rejected-signature-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyRejectedSignatureMessage'
       responses:
         '204':
           description: No response content.
@@ -490,6 +500,7 @@ components:
         - id-document-resubmission
         - id-document-required
         - rejected-document
+        - rejected-signature
 
     MessageAddress:
       type: object
@@ -581,6 +592,42 @@ components:
         - applicant-details-not-clear
         - details-on-document-do-not-match
         - other
+    RejectedSignature:
+      title: RejectedSignature
+      description: The data for the specific rejected signature.
+      type: object
+      properties:
+        rejectionNotes:
+          type: string
+          description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's signature check
+        rejectionReasons:
+          type: array
+          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
+          items:
+            type: string
+      required:
+        - rejectionReasons
+    RejectedSignaturePersonalisation:
+      title: RejectedSignaturePersonalisation
+      type: object
+      description: Personalisation details for a rejected signature
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/RejectedSignature'
+    SendNotifyRejectedSignatureMessage:
+      title: SendNotifyRejectedSignatureMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for a rejected signature
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        personalisation:
+          $ref: '#/components/schemas/RejectedSignaturePersonalisation'
+      required:
+        - personalisation
+        - channel
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------
@@ -630,3 +677,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RemoveApplicationNotificationsMessage'
+
+    SendNotifyRejectedSignatureMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyRejectedSignatureMessage'

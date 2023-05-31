@@ -41,6 +41,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
 
 @ExtendWith(MockitoExtension::class)
 internal class TemplatePersonalisationMessageMapperTest {
@@ -314,6 +315,25 @@ internal class TemplatePersonalisationMessageMapperTest {
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+        }
+    }
+
+    @Nested
+    inner class ToRejectedSignaturePersonalisationDto {
+        @Test
+        fun `should map SQS RejectedSignaturePersonalisation to RejectedSignaturePersonalisationDto`() {
+            // Given
+            val rejectionReasons = listOf("Reason1", "Reason2")
+            val rejectionNotes = "Invalid Signature"
+            val personalisationMessage = buildRejectedSignaturePersonalisation(
+                rejectionReasons = rejectionReasons,
+                rejectionNotes = rejectionNotes
+            )
+
+            // When
+            val actual = mapper.toRejectedSignaturePersonalisationDto(personalisationMessage)
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(personalisationMessage)
         }
     }
 }

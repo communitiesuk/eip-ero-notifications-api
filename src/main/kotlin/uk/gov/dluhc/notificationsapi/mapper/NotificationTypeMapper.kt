@@ -11,13 +11,14 @@ import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as Notific
 @Mapper
 interface NotificationTypeMapper {
 
-    @ValueMapping(target = "APPLICATION_RECEIVED", source = "APPLICATION_MINUS_RECEIVED")
-    @ValueMapping(target = "APPLICATION_APPROVED", source = "APPLICATION_MINUS_APPROVED")
-    @ValueMapping(target = "APPLICATION_REJECTED", source = "APPLICATION_MINUS_REJECTED")
-    @ValueMapping(target = "PHOTO_RESUBMISSION", source = "PHOTO_MINUS_RESUBMISSION")
-    @ValueMapping(target = "ID_DOCUMENT_RESUBMISSION", source = "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION")
-    @ValueMapping(target = "ID_DOCUMENT_REQUIRED", source = "ID_MINUS_DOCUMENT_MINUS_REQUIRED")
-    @ValueMapping(target = "REJECTED_DOCUMENT", source = "REJECTED_MINUS_DOCUMENT")
+    @ValueMapping(source = "APPLICATION_MINUS_RECEIVED", target = "APPLICATION_RECEIVED")
+    @ValueMapping(source = "APPLICATION_MINUS_APPROVED", target = "APPLICATION_APPROVED")
+    @ValueMapping(source = "APPLICATION_MINUS_REJECTED", target = "APPLICATION_REJECTED")
+    @ValueMapping(source = "PHOTO_MINUS_RESUBMISSION", target = "PHOTO_RESUBMISSION")
+    @ValueMapping(source = "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION", target = "ID_DOCUMENT_RESUBMISSION")
+    @ValueMapping(source = "ID_MINUS_DOCUMENT_MINUS_REQUIRED", target = "ID_DOCUMENT_REQUIRED")
+    @ValueMapping(source = "REJECTED_MINUS_SIGNATURE", target = "REJECTED_SIGNATURE")
+    @ValueMapping(source = "REJECTED_MINUS_DOCUMENT", target = "REJECTED_DOCUMENT")
     fun mapMessageTypeToNotificationType(messageType: MessageType): NotificationType
 
     // PHOTO_RESUBMISSION_WITH_REASONS is an implementation detail and not a "business" notification type

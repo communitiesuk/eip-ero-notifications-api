@@ -268,4 +268,12 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                 )
         )
     }
+
+    fun verifyNotifySendEmailNeverCalled() {
+        wireMockServer.verify(0, newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_EMAIL_URL)))
+    }
+
+    fun verifyNotifySendLetterNeverCalled() {
+        wireMockServer.verify(0, newRequestPattern(POST, urlPathEqualTo(NOTIFY_SEND_LETTER_URL)))
+    }
 }

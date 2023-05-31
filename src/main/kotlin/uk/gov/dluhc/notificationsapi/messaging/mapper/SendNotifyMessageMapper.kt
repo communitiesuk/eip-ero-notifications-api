@@ -19,6 +19,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequir
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
 
 @Mapper(
     uses = [
@@ -76,9 +77,9 @@ abstract class SendNotifyMessageMapper {
                 PHOTO_RESUBMISSION
         }
 
+    // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if any rejected documents have either any rejection reasons (excluding OTHER)
+    // or has rejection notes
     protected fun idDocumentResubmissionNotificationType(message: SendNotifyIdDocumentResubmissionMessage): NotificationType =
-        // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if any rejected documents have either any rejection reasons (excluding OTHER)
-        // or has rejection notes
         with(message.personalisation) {
             if (rejectedDocuments.isNotEmpty() &&
                 rejectedDocuments.any { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
@@ -87,4 +88,9 @@ abstract class SendNotifyMessageMapper {
             else
                 ID_DOCUMENT_RESUBMISSION
         }
+
+    @Mapping(source = "messageType", target = "notificationType")
+    abstract fun fromRejectedSignatureMessageToSendNotificationRequestDto(
+        message: SendNotifyRejectedSignatureMessage,
+    ): SendNotificationRequestDto
 }
