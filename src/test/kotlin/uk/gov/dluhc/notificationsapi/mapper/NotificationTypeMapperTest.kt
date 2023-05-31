@@ -21,7 +21,8 @@ class NotificationTypeMapperTest {
             "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
             "PHOTO_MINUS_RESUBMISSION, PHOTO_RESUBMISSION",
             "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
-            "ID_MINUS_DOCUMENT_MINUS_REQUIRED, ID_DOCUMENT_REQUIRED"
+            "ID_MINUS_DOCUMENT_MINUS_REQUIRED, ID_DOCUMENT_REQUIRED",
+            "REJECTED_MINUS_SIGNATURE, REJECTED_SIGNATURE"
         ]
     )
     fun `should map Message Type to NotificationType`(messageType: MessageType, expected: NotificationType) {

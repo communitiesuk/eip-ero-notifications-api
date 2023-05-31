@@ -107,6 +107,9 @@ internal abstract class IntegrationTest {
     @Value("\${api.notify.template.voter-card.letter.id-document-required-welsh}")
     protected lateinit var idDocumentRequiredLetterWelshTemplateId: String
 
+    @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}")
+    protected lateinit var sendUkGovNotifyRejectedSignatureQueueName: String
+
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
 
@@ -171,7 +174,7 @@ internal abstract class IntegrationTest {
         }
     }
 
-    private fun clearSqsQueue(queueUrl: String) {
+    fun clearSqsQueue(queueUrl: String) {
         amazonSQSAsync.purgeQueue(PurgeQueueRequest(queueUrl))
     }
 }
