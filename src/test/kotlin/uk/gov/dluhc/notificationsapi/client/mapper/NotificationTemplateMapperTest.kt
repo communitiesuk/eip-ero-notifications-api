@@ -229,7 +229,6 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,WELSH,APPLICATION_APPROVED",
             "POSTAL,WELSH,REJECTED_SIGNATURE",
             "POSTAL,WELSH,REJECTED_DOCUMENT",
-            "PROXY,WELSH,REJECTED_SIGNATURE",
             "PROXY,WELSH,REJECTED_DOCUMENT"
         ]
     )
@@ -258,7 +257,6 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,WELSH,LETTER,APPLICATION_APPROVED, letter",
             "POSTAL,WELSH,LETTER,REJECTED_SIGNATURE, letter",
             "POSTAL,WELSH,LETTER, REJECTED_DOCUMENT, letter",
-            "PROXY,WELSH,LETTER, REJECTED_SIGNATURE, letter",
             "PROXY,WELSH,LETTER, REJECTED_DOCUMENT, letter"
         ]
     )
@@ -287,7 +285,6 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,ENGLISH,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,WELSH,EMAIL,APPLICATION_REJECTED, email",
             "POSTAL,WELSH,EMAIL, REJECTED_SIGNATURE, email",
-            "PROXY,WELSH,EMAIL, REJECTED_SIGNATURE, email",
             "POSTAL,WELSH,EMAIL, REJECTED_DOCUMENT, email",
             "PROXY,WELSH,EMAIL, REJECTED_DOCUMENT, email"
         ]
