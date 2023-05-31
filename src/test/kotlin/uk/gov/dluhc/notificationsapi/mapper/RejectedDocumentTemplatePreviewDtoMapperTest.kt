@@ -13,12 +13,6 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
-import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.OTHER
-import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT
-import uk.gov.dluhc.notificationsapi.models.DocumentType.BIRTH_MINUS_CERTIFICATE
-import uk.gov.dluhc.notificationsapi.models.DocumentType.MORTGAGE_MINUS_STATEMENT
-import uk.gov.dluhc.notificationsapi.models.DocumentType.UTILITY_MINUS_BILL
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildAddressRequestWithOptionalParamsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
@@ -44,10 +38,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Mock
-    private lateinit var rejectedDocumentReasonMapper: RejectedDocumentReasonMapper
-
-    @Mock
-    private lateinit var rejectedDocumentTypeMapper: RejectedDocumentTypeMapper
+    private lateinit var rejectedDocumentsMapper: RejectedDocumentsMapper
 
     companion object {
         @JvmStatic
@@ -69,31 +60,15 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
         language: Language
     ) {
         // Given
+        val documents = listOf(buildRejectedDocument())
         val request = buildGenerateRejectedDocumentTemplatePreviewRequest(
             language = language,
             sourceType = sourceTypeModel,
-            personalisation = buildRejectedDocumentPersonalisation(
-                documents = listOf(
-                    buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD), rejectionNotes = null),
-                    buildRejectedDocument(documentType = BIRTH_MINUS_CERTIFICATE, rejectionReasons = listOf(UNREADABLE_MINUS_DOCUMENT), rejectionNotes = null),
-                    buildRejectedDocument(documentType = MORTGAGE_MINUS_STATEMENT, rejectionReasons = listOf(OTHER), rejectionNotes = "Some notes")
-                )
-            )
+            personalisation = buildRejectedDocumentPersonalisation(documents = documents)
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
-        val tooOldReason = "Document is too old"
-        val unreadableReason = "Document is not readable"
-        val other = "other"
-        given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(DOCUMENT_MINUS_TOO_MINUS_OLD, ENGLISH)).willReturn(tooOldReason)
-        given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(UNREADABLE_MINUS_DOCUMENT, ENGLISH)).willReturn(unreadableReason)
-        given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(OTHER, ENGLISH)).willReturn(other)
-        val utilityBillDoc = "Utility Bill"
-        val birthCertDoc = "Birth Certificate"
-        val mortgageDoc = "Mortgage statement"
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(UTILITY_MINUS_BILL, ENGLISH)).willReturn(utilityBillDoc)
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(BIRTH_MINUS_CERTIFICATE, ENGLISH)).willReturn(birthCertDoc)
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(MORTGAGE_MINUS_STATEMENT, ENGLISH)).willReturn(mortgageDoc)
+        given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(ENGLISH, documents)).willReturn(listOf("Doc1", "Doc2"))
 
         // When
         val actual = mapper.toRejectedDocumentTemplatePreviewDto(request)
@@ -107,11 +82,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
                 RejectedDocumentPersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
-                    documents = listOf(
-                        "Utility Bill - Document is too old",
-                        "Birth Certificate - Document is not readable",
-                        "Mortgage statement - other - Some notes"
-                    ),
+                    documents = listOf("Doc1", "Doc2"),
                     rejectedDocumentFreeText = rejectedDocumentFreeText,
                     eroContactDetails = with(eroContactDetails) {
                         buildContactDetailsDto(
@@ -145,19 +116,19 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
         language: Language
     ) {
         // Given
+        val documents = listOf(buildRejectedDocument())
         val request = buildGenerateRejectedDocumentTemplatePreviewRequest(
             language = language,
             sourceType = sourceTypeModel,
             personalisation = buildRejectedDocumentPersonalisation(
-                documents = listOf(buildRejectedDocument(documentType = UTILITY_MINUS_BILL, rejectionReasons = emptyList(), rejectionNotes = null)),
+                documents = documents,
                 rejectedDocumentFreeText = null,
                 eroContactDetails = buildEroContactDetails(address = buildAddressRequestWithOptionalParamsNull())
             )
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
-        val utilityBillDoc = "Utility Bill"
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(UTILITY_MINUS_BILL, ENGLISH)).willReturn(utilityBillDoc)
+        given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(ENGLISH, documents)).willReturn(listOf("Doc1"))
 
         // When
         val actual = mapper.toRejectedDocumentTemplatePreviewDto(request)
@@ -171,7 +142,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
                 RejectedDocumentPersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
-                    documents = listOf("Utility Bill"),
+                    documents = listOf("Doc1"),
                     rejectedDocumentFreeText = null,
                     eroContactDetails = with(eroContactDetails) {
                         buildContactDetailsDto(
