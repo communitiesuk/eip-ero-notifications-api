@@ -87,6 +87,7 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.send-uk-gov-notify-application-received-queue-name}") sendUkGovNotifyApplicationReceivedQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-application-approved-queue-name}") sendUkGovNotifyApplicationApprovedQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-application-rejected-queue-name}") sendUkGovNotifyApplicationRejectedQueueName: String,
+        @Value("\${sqs.send-uk-gov-notify-rejected-document-queue-name}") sendUkGovNotifyRejectedDocumentQueueName: String,
         @Value("\${sqs.remove-application-notifications-queue-name}") removeApplicationNotificationsQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}") sendUkGovNotifyRejectedSignatureQueueName: String
     ): LocalStackContainerSettings {
@@ -96,6 +97,7 @@ class LocalStackContainerConfiguration {
         val sendUkGovNotifyApplicationReceivedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyApplicationReceivedQueueName)
         val sendUkGovNotifyApplicationApprovedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyApplicationApprovedQueueName)
         val sendUkGovNotifyApplicationRejectedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyApplicationRejectedQueueName)
+        val sendUkGovNotifyRejectedDocumentMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRejectedDocumentQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
         localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
 
@@ -111,6 +113,7 @@ class LocalStackContainerConfiguration {
             sendUkGovNotifyApplicationReceivedQueueName = sendUkGovNotifyApplicationReceivedMessageQueueName,
             sendUkGovNotifyApplicationApprovedQueueName = sendUkGovNotifyApplicationApprovedMessageQueueName,
             sendUkGovNotifyApplicationRejectedMessageQueueName = sendUkGovNotifyApplicationRejectedMessageQueueName,
+            sendUkGovNotifyRejectedDocumentMessageQueueName = sendUkGovNotifyRejectedDocumentMessageQueueName,
             removeApplicationNotificationsQueueName = removeApplicationNotificationsMessageQueueName
         )
     }
@@ -231,6 +234,7 @@ data class LocalStackContainerSettings(
     val sendUkGovNotifyApplicationReceivedQueueName: String,
     val sendUkGovNotifyApplicationApprovedQueueName: String,
     val sendUkGovNotifyApplicationRejectedMessageQueueName: String,
+    val sendUkGovNotifyRejectedDocumentMessageQueueName: String,
     val removeApplicationNotificationsQueueName: String,
 ) {
     val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
@@ -239,6 +243,7 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName: String = toMappedUrl(sendUkGovNotifyApplicationReceivedQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName: String = toMappedUrl(sendUkGovNotifyApplicationApprovedQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName: String = toMappedUrl(sendUkGovNotifyApplicationRejectedMessageQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName: String = toMappedUrl(sendUkGovNotifyRejectedDocumentMessageQueueName, apiUrl)
     val mappedQueueUrlRemoveApplicationNotificationsQueueName: String = toMappedUrl(removeApplicationNotificationsQueueName, apiUrl)
 
     private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
