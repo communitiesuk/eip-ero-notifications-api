@@ -62,15 +62,11 @@ api:
           rejected-document-welsh: 74ba448b-dce8-434a-baff-968ac3d19658
           rejected-signature-english: 7fa64777-222f-45e9-937b-6236359b79df
           rejected-signature-welsh: 29ba37c4-f857-4f56-934a-5ff86b81204f
-          nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
-          nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
           rejected-signature-english: a934fb1a-a199-41cc-829d-bf025ad1b740
           rejected-signature-welsh: 36c4aeed-abae-4a36-ab83-97000381a62a
-          nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
-          nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission
