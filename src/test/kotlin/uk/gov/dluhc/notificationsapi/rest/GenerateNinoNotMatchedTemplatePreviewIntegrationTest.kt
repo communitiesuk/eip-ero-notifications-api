@@ -70,8 +70,8 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             .isForbidden
     }
 
-    @Test
-    fun `should return not found given non existing template`() {
+    @AllowedSourceTypesTest
+    fun `should return not found given non existing template`(sourceType: SourceType) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_ENGLISH_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
@@ -81,7 +81,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             .uri(URI_TEMPLATE)
             .bearerToken(getBearerToken())
             .contentType(MediaType.APPLICATION_JSON)
-            .withAValidBody(SourceType.POSTAL)
+            .withAValidBody(sourceType)
             .exchange()
             .expectStatus()
             .isNotFound
@@ -122,8 +122,8 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             .hasNoValidationErrors()
     }
 
-    @Test
-    fun `should return bad request given valid missing request body parameters to gov notify`() {
+    @AllowedSourceTypesTest
+    fun `should return bad request given valid missing request body parameters to gov notify`(sourceType: SourceType) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_ENGLISH_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
@@ -133,7 +133,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             .uri(URI_TEMPLATE)
             .bearerToken(getBearerToken())
             .contentType(MediaType.APPLICATION_JSON)
-            .withAValidBody(SourceType.POSTAL)
+            .withAValidBody(sourceType)
             .exchange()
             .expectStatus()
             .isBadRequest
