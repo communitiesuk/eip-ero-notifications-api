@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePrev
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
@@ -99,6 +100,20 @@ class TemplateService(
                     language
                 ),
                 templatePersonalisationDtoMapper.toRejectedSignatureTemplatePersonalisationMap(personalisation)
+            )
+        }
+    }
+
+    fun generateNinoNotMatchedTemplatePreview(dto: NinoNotMatchedTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(dto) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
+                templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisation)
             )
         }
     }

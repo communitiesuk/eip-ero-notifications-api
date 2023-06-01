@@ -44,7 +44,9 @@ class PostalNotifyEmailTemplateConfiguration(
     receivedEnglish: String,
     receivedWelsh: String,
     rejectedDocumentEnglish: String,
-    rejectedDocumentWelsh: String
+    rejectedDocumentWelsh: String,
+    ninoNotMatchedEnglish: String,
+    ninoNotMatchedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -65,6 +67,8 @@ class PostalNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = null,
     rejectedSignatureWelsh = null,
+    ninoNotMatchedEnglish = ninoNotMatchedEnglish,
+    ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -76,7 +80,9 @@ class ProxyNotifyEmailTemplateConfiguration(
     rejectedSignatureEnglish: String,
     rejectedSignatureWelsh: String,
     rejectedDocumentEnglish: String,
-    rejectedDocumentWelsh: String
+    rejectedDocumentWelsh: String,
+    ninoNotMatchedEnglish: String,
+    ninoNotMatchedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -97,6 +103,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
+    ninoNotMatchedEnglish = ninoNotMatchedEnglish,
+    ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -124,7 +132,9 @@ class OverseasNotifyEmailTemplateConfiguration(
     rejectedDocumentEnglish = null,
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
-    rejectedSignatureWelsh = null
+    rejectedSignatureWelsh = null,
+    ninoNotMatchedWelsh = null,
+    ninoNotMatchedEnglish = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -164,7 +174,9 @@ class VoterCardNotifyEmailTemplateConfiguration(
     rejectedDocumentEnglish = null,
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
-    rejectedSignatureWelsh = null
+    rejectedSignatureWelsh = null,
+    ninoNotMatchedEnglish = null,
+    ninoNotMatchedWelsh = null,
 )
 
 abstract class AbstractNotifyEmailTemplateConfiguration(
@@ -186,7 +198,9 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val rejectedDocumentEnglish: String?,
     val rejectedDocumentWelsh: String?,
     val rejectedSignatureEnglish: String?,
-    val rejectedSignatureWelsh: String?
+    val rejectedSignatureWelsh: String?,
+    val ninoNotMatchedEnglish: String?,
+    val ninoNotMatchedWelsh: String?,
 )
 
 data class NotifyLetterTemplateConfiguration(
@@ -230,7 +244,9 @@ class VoterCardNotifyLetterTemplateConfiguration(
     rejectedDocumentEnglish = null,
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
-    rejectedSignatureWelsh = null
+    rejectedSignatureWelsh = null,
+    ninoNotMatchedWelsh = null,
+    ninoNotMatchedEnglish = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -238,7 +254,9 @@ class VoterCardNotifyLetterTemplateConfiguration(
 class PostalNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.POSTAL,
     rejectedDocumentEnglish: String,
-    rejectedDocumentWelsh: String
+    rejectedDocumentWelsh: String,
+    ninoNotMatchedEnglish: String?,
+    ninoNotMatchedWelsh: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -258,7 +276,9 @@ class PostalNotifyLetterTemplateConfiguration(
     rejectedDocumentEnglish = rejectedDocumentEnglish,
     rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = null,
-    rejectedSignatureWelsh = null
+    rejectedSignatureWelsh = null,
+    ninoNotMatchedEnglish = ninoNotMatchedEnglish,
+    ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
 
 abstract class AbstractNotifyLetterTemplateConfiguration(
@@ -281,6 +301,8 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val rejectedDocumentWelsh: String?,
     val rejectedSignatureEnglish: String?,
     val rejectedSignatureWelsh: String?,
+    val ninoNotMatchedEnglish: String?,
+    val ninoNotMatchedWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
@@ -291,6 +313,8 @@ class ProxyNotifyLetterTemplateConfiguration(
     rejectedSignatureWelsh: String,
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
+    ninoNotMatchedEnglish: String,
+    ninoNotMatchedWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -310,5 +334,7 @@ class ProxyNotifyLetterTemplateConfiguration(
     photoResubmissionWithReasonsEnglish = null,
     photoResubmissionWithReasonsWelsh = null,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
-    rejectedSignatureWelsh = rejectedSignatureWelsh
+    rejectedSignatureWelsh = rejectedSignatureWelsh,
+    ninoNotMatchedEnglish = ninoNotMatchedEnglish,
+    ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )

@@ -46,7 +46,9 @@ internal class NotificationTemplateMapperTest {
                 receivedEnglish = "POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
                 receivedWelsh = "POSTAL-RECEIVED-ID-EMAIL-WELSH",
                 rejectedDocumentEnglish = "POSTAL-REJECTED-DOCUMENT-EMAIL-ENGLISH",
-                rejectedDocumentWelsh = "POSTAL-REJECTED-DOCUMENT-EMAIL-WELSH"
+                rejectedDocumentWelsh = "POSTAL-REJECTED-DOCUMENT-EMAIL-WELSH",
+                ninoNotMatchedEnglish = "POSTAL-NINO-NOT-MATCHED-EMAIL-ENGLISH",
+                ninoNotMatchedWelsh = "POSTAL-NINO-NOT-MATCHED-EMAIL-WELSH",
             ),
             proxy = ProxyNotifyEmailTemplateConfiguration(
                 receivedEnglish = "PROXY-RECEIVED-ID-EMAIL-ENGLISH",
@@ -55,6 +57,8 @@ internal class NotificationTemplateMapperTest {
                 rejectedDocumentWelsh = "PROXY-REJECTED-DOCUMENT-EMAIL-WELSH",
                 rejectedSignatureEnglish = "PROXY-REJECTED-SIGNATURE-EMAIL-ENGLISH",
                 rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-EMAIL-WELSH",
+                ninoNotMatchedEnglish = "PROXY-NINO-NOT-MATCHED-EMAIL-ENGLISH",
+                ninoNotMatchedWelsh = "PROXY-NINO-NOT-MATCHED-EMAIL-WELSH"
             ),
             overseas = OverseasNotifyEmailTemplateConfiguration(
                 receivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
@@ -78,13 +82,17 @@ internal class NotificationTemplateMapperTest {
             ),
             postal = PostalNotifyLetterTemplateConfiguration(
                 rejectedDocumentEnglish = "POSTAL-REJECTED-DOCUMENT-LETTER-ENGLISH",
-                rejectedDocumentWelsh = "POSTAL-REJECTED-DOCUMENT-LETTER-WELSH"
+                rejectedDocumentWelsh = "POSTAL-REJECTED-DOCUMENT-LETTER-WELSH",
+                ninoNotMatchedEnglish = "POSTAL-NINO-NOT-MATCHED-LETTER-ENGLISH",
+                ninoNotMatchedWelsh = "POSTAL-NINO-NOT-MATCHED-LETTER-WELSH"
             ),
             proxy = ProxyNotifyLetterTemplateConfiguration(
                 rejectedDocumentEnglish = "PROXY-REJECTED-DOCUMENT-LETTER-ENGLISH",
                 rejectedDocumentWelsh = "PROXY-REJECTED-DOCUMENT-LETTER-WELSH",
                 rejectedSignatureEnglish = "PROXY-REJECTED-SIGNATURE-LETTER-ENGLISH",
                 rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-LETTER-WELSH",
+                ninoNotMatchedEnglish = "PROXY-NINO-NOT-MATCHED-LETTER-ENGLISH",
+                ninoNotMatchedWelsh = "PROXY-NINO-NOT-MATCHED-LETTER-WELSH",
             )
         )
     )
@@ -101,6 +109,7 @@ internal class NotificationTemplateMapperTest {
             "POSTAL,,REJECTED_DOCUMENT, POSTAL-REJECTED-DOCUMENT-LETTER-ENGLISH",
             "PROXY,,REJECTED_DOCUMENT, PROXY-REJECTED-DOCUMENT-LETTER-ENGLISH",
             "PROXY,,REJECTED_SIGNATURE, PROXY-REJECTED-SIGNATURE-LETTER-ENGLISH",
+            "POSTAL,,NINO_NOT_MATCHED, POSTAL-NINO-NOT-MATCHED-LETTER-ENGLISH",
 
             "VOTER_CARD,ENGLISH,APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
             "VOTER_CARD,ENGLISH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-LETTER-ENGLISH",
@@ -111,6 +120,7 @@ internal class NotificationTemplateMapperTest {
             "POSTAL,ENGLISH,REJECTED_DOCUMENT, POSTAL-REJECTED-DOCUMENT-LETTER-ENGLISH",
             "PROXY,ENGLISH,REJECTED_DOCUMENT, PROXY-REJECTED-DOCUMENT-LETTER-ENGLISH",
             "PROXY,ENGLISH,REJECTED_SIGNATURE, PROXY-REJECTED-SIGNATURE-LETTER-ENGLISH",
+            "POSTAL,ENGLISH,NINO_NOT_MATCHED, POSTAL-NINO-NOT-MATCHED-LETTER-ENGLISH",
 
             "VOTER_CARD,WELSH,APPLICATION_REJECTED, REJECTED-ID-LETTER-WELSH",
             "VOTER_CARD,WELSH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-LETTER-WELSH",
@@ -151,6 +161,7 @@ internal class NotificationTemplateMapperTest {
             "PROXY,,APPLICATION_RECEIVED, PROXY-RECEIVED-ID-EMAIL-ENGLISH",
             "OVERSEAS,,APPLICATION_RECEIVED, OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
             "PROXY,,REJECTED_SIGNATURE, PROXY-REJECTED-SIGNATURE-EMAIL-ENGLISH",
+            "POSTAL,,NINO_NOT_MATCHED, POSTAL-NINO-NOT-MATCHED-EMAIL-ENGLISH",
 
             "VOTER_CARD,ENGLISH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
             "VOTER_CARD,ENGLISH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
@@ -165,6 +176,7 @@ internal class NotificationTemplateMapperTest {
             "PROXY,ENGLISH,APPLICATION_RECEIVED, PROXY-RECEIVED-ID-EMAIL-ENGLISH",
             "OVERSEAS,ENGLISH,APPLICATION_RECEIVED, OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
             "PROXY,ENGLISH,REJECTED_SIGNATURE, PROXY-REJECTED-SIGNATURE-EMAIL-ENGLISH",
+            "POSTAL,ENGLISH,NINO_NOT_MATCHED, POSTAL-NINO-NOT-MATCHED-EMAIL-ENGLISH",
 
             "VOTER_CARD,WELSH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-WELSH",
             "VOTER_CARD,WELSH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-WELSH",

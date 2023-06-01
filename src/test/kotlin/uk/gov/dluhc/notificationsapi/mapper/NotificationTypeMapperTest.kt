@@ -97,7 +97,8 @@ class NotificationTypeMapperTest {
             "PHOTO_RESUBMISSION, PHOTO_MINUS_RESUBMISSION",
             "ID_DOCUMENT_RESUBMISSION, ID_MINUS_DOCUMENT_MINUS_RESUBMISSION",
             "ID_DOCUMENT_REQUIRED, ID_MINUS_DOCUMENT_MINUS_REQUIRED",
-            "REJECTED_DOCUMENT, REJECTED_MINUS_DOCUMENT"
+            "REJECTED_DOCUMENT, REJECTED_MINUS_DOCUMENT",
+            "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED"
         ]
     )
     fun `should map Notification Type to Template Type`(notificationType: NotificationType, expected: TemplateType) {
