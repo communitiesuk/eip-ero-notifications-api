@@ -82,7 +82,9 @@ class ProxyNotifyEmailTemplateConfiguration(
     rejectedSignatureEnglish: String,
     rejectedSignatureWelsh: String,
     rejectedDocumentEnglish: String,
-    rejectedDocumentWelsh: String
+    rejectedDocumentWelsh: String,
+    ninoNotMatchedEnglish: String,
+    ninoNotMatchedWelsh: String?
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -103,8 +105,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
-    ninoNotMatchedEnglish = null,
-    ninoNotMatchedWelsh = null,
+    ninoNotMatchedEnglish = ninoNotMatchedEnglish,
+    ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -315,6 +317,8 @@ class ProxyNotifyLetterTemplateConfiguration(
     rejectedSignatureWelsh: String,
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
+    ninoNotMatchedWelsh: String?,
+    ninoNotMatchedEnglish: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -335,6 +339,6 @@ class ProxyNotifyLetterTemplateConfiguration(
     photoResubmissionWithReasonsWelsh = null,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
-    ninoNotMatchedEnglish = null,
-    ninoNotMatchedWelsh = null,
+    ninoNotMatchedEnglish = ninoNotMatchedEnglish,
+    ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )

@@ -81,4 +81,5 @@ sqs:
   send-uk-gov-notify-application-rejected-queue-name: test-send-uk-gov-notify-application-rejected
   send-uk-gov-notify-rejected-document-queue-name: test-send-uk-gov-notify-rejected-document
   send-uk-gov-notify-rejected-signature-queue-name: test-send-uk-gov-notify-rejected-signature
+  send-uk-gov-notify-nino-not-matched-queue-name: test-send-uk-gov-notify-nino-not-matched
   remove-application-notifications-queue-name: test-remove-application-notifications
