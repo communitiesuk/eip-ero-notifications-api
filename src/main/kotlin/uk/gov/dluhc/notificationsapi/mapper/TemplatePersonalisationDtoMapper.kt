@@ -8,6 +8,7 @@ import uk.gov.dluhc.notificationsapi.dto.BaseTemplatePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
@@ -105,6 +106,21 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["rejectionNotes"] = getSafeValue(rejectionNotes)
             personalisation["rejectionReasons"] = rejectionReasons
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
+        }
+        return personalisation
+    }
+
+    fun toNinoNotMatchedTemplatePersonalisationMap(dto: NinoNotMatchedPersonalisationDto): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["additionalNotes"] = getSafeValue(additionalNotes)
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
