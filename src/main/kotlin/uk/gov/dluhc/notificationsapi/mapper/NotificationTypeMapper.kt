@@ -39,6 +39,7 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "ID_DOCUMENT_REQUIRED", target = "ID_MINUS_DOCUMENT_MINUS_REQUIRED")
     @ValueMapping(source = "REJECTED_DOCUMENT", target = "REJECTED_MINUS_DOCUMENT")
     @ValueMapping(source = "REJECTED_SIGNATURE", target = "REJECTED_MINUS_SIGNATURE")
+    @ValueMapping(source = "NINO_NOT_MATCHED", target = "NINO_MINUS_NOT_MINUS_MATCHED")
     // Mapping NotificationType.PHOTO_RESUBMISSION_WITH_REASONS or NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
     // to the REST API (TemplateType) is not supported and will never happen because PHOTO_RESUBMISSION_WITH_REASONS
     // and ID_DOCUMENT_RESUBMISSION_WITH_REASONS are not saved as database enums, so they will never be presented in

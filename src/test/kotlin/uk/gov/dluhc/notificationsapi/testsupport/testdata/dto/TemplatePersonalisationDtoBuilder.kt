@@ -7,6 +7,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
@@ -383,6 +384,29 @@ fun buildAddressDtoWithOptionalFieldsNull(): AddressDto = buildAddressDto(
     town = null,
     area = null,
 )
+
+fun buildNinoNotMatchedPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    additionalNotes: String? = "Additional Notes"
+): NinoNotMatchedPersonalisationDto = NinoNotMatchedPersonalisationDto(
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+    applicationReference = applicationReference,
+    additionalNotes = additionalNotes
+)
+
+fun buildNinoNotMatchedPersonalisationMapFromDto(
+    personalisationDto: NinoNotMatchedPersonalisationDto = buildNinoNotMatchedPersonalisationDto()
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+    with(personalisationDto) {
+        personalisationMap["additionalNotes"] = additionalNotes ?: ""
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+    return personalisationMap
+}
 
 private fun getCommonDetailsMap(
     firstName: String,

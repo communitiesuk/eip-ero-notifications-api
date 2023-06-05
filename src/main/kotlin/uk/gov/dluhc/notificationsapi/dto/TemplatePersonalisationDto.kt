@@ -98,3 +98,14 @@ class RejectedSignaturePersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails
 )
+
+class NinoNotMatchedPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val additionalNotes: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)

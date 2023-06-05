@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectedTemplatePreviewDt
 import uk.gov.dluhc.notificationsapi.mapper.GenerateApplicationApprovedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateIdDocumentRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.NinoNotMatchedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
@@ -17,6 +18,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplateP
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
@@ -35,7 +37,8 @@ class TemplateController(
     private val applicationApprovedTemplatePreviewDtoMapper: GenerateApplicationApprovedTemplatePreviewDtoMapper,
     private val applicationRejectedTemplatePreviewDtoMapper: ApplicationRejectedTemplatePreviewDtoMapper,
     private val rejectedDocumentTemplatePreviewDtoMapper: RejectedDocumentTemplatePreviewDtoMapper,
-    private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper
+    private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper,
+    private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -143,5 +146,11 @@ class TemplateController(
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
+    }
+
+    @PostMapping("/templates/nino-not-matched/preview")
+    fun generateNinoNotMatchedTemplatePreview(@Valid @RequestBody request: GenerateNinoNotMatchedTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        return templateService.generateNinoNotMatchedTemplatePreview(ninoNotMatchedTemplatePreviewDtoMapper.toDto(request))
+            .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
     }
 }
