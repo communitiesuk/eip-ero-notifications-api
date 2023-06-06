@@ -28,7 +28,8 @@ class SendNotifyNinoNotMatchedMessageListener(
             "received 'send UK Gov notify NiNo not matched message' request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +
                 "messageType: ${payload.messageType}, " +
-                "language: ${payload.language}"
+                "language: ${payload.language}, "  +
+                "sourceReference: ${payload.sourceReference}"
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(this)
