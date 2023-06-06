@@ -47,11 +47,15 @@ api:
           received-welsh: 58e34070-fe52-4bd8-b799-7eaa35cf87b4
           rejected-document-english: 74ba448b-dce8-434a-baff-968ac3d19657
           rejected-document-welsh: 74ba448b-dce8-434a-baff-968ac3d19658
+          rejected-signature-english: ea7dac2e-81b8-47ea-90a3-2d3fbc1c2394
+          rejected-signature-welsh: 747fa9dc-f59a-4669-bf32-d3b59b20852b
           nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
+          rejected-signature-english: 34250705-346a-4e24-9110-0a46f4e65dda
+          rejected-signature-welsh: 08687c2c-225e-4e99-a1f1-ee884ddbbba3
           nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
       proxy:
@@ -76,5 +80,5 @@ sqs:
   send-uk-gov-notify-application-approved-queue-name: test-send-uk-gov-notify-application-approved
   send-uk-gov-notify-application-rejected-queue-name: test-send-uk-gov-notify-application-rejected
   send-uk-gov-notify-rejected-document-queue-name: test-send-uk-gov-notify-rejected-document
-  remove-application-notifications-queue-name: test-remove-application-notifications
   send-uk-gov-notify-rejected-signature-queue-name: test-send-uk-gov-notify-rejected-signature
+  remove-application-notifications-queue-name: test-remove-application-notifications

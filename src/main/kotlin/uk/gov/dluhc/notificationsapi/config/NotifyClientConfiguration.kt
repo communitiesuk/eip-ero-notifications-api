@@ -45,6 +45,8 @@ class PostalNotifyEmailTemplateConfiguration(
     receivedWelsh: String,
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
+    rejectedSignatureEnglish: String,
+    rejectedSignatureWelsh: String,
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
@@ -65,8 +67,8 @@ class PostalNotifyEmailTemplateConfiguration(
     idDocumentRequiredWelsh = null,
     rejectedDocumentEnglish = rejectedDocumentEnglish,
     rejectedDocumentWelsh = rejectedDocumentWelsh,
-    rejectedSignatureEnglish = null,
-    rejectedSignatureWelsh = null,
+    rejectedSignatureEnglish = rejectedSignatureEnglish,
+    rejectedSignatureWelsh = rejectedSignatureWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
@@ -253,6 +255,8 @@ class PostalNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.POSTAL,
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
+    rejectedSignatureEnglish: String,
+    rejectedSignatureWelsh: String,
     ninoNotMatchedEnglish: String?,
     ninoNotMatchedWelsh: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
@@ -273,8 +277,8 @@ class PostalNotifyLetterTemplateConfiguration(
     idDocumentRequiredWelsh = null,
     rejectedDocumentEnglish = rejectedDocumentEnglish,
     rejectedDocumentWelsh = rejectedDocumentWelsh,
-    rejectedSignatureEnglish = null,
-    rejectedSignatureWelsh = null,
+    rejectedSignatureEnglish = rejectedSignatureEnglish,
+    rejectedSignatureWelsh = rejectedSignatureWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )

@@ -9,10 +9,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.database.entity.SourceType.PROXY
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
-import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -20,7 +18,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRejectedSignatureMessage
 import java.util.concurrent.TimeUnit
-import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
+import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SourceTypeMessaging
 
 private val logger = KotlinLogging.logger {}
 
@@ -35,15 +34,21 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,EN",
-            "EMAIL,CY",
-            "LETTER,EN",
-            "LETTER,CY",
+            "EMAIL,EN,PROXY,PROXY",
+            "EMAIL,CY,PROXY,PROXY",
+            "LETTER,EN,PROXY,PROXY",
+            "LETTER,CY,PROXY,PROXY",
+            "EMAIL,EN,POSTAL,POSTAL",
+            "EMAIL,CY,POSTAL,POSTAL",
+            "LETTER,EN,POSTAL,POSTAL",
+            "LETTER,CY,POSTAL,POSTAL",
         ]
     )
-    fun `should process rejected signature notification message from Proxy Service`(
+    fun `should process rejected signature notification message from relevant service`(
         sqsChannel: NotificationChannel,
-        language: Language
+        language: Language,
+        sourceType: SourceTypeMessaging,
+        expectedSourceType: SourceTypeEntity
     ) {
         val rejectionReasons = listOf("Reason1", "Reason2")
         val rejectionNotes = "Invalid Signature"
@@ -57,7 +62,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         val payload = buildSendNotifyRejectedSignatureMessage(
             channel = sqsChannel,
             language = language,
-            sourceType = SourceType.PROXY,
+            sourceType = sourceType,
             sourceReference = sourceReference,
             gssCode = gssCode,
             personalisation = personalisationMessage,
@@ -79,7 +84,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
             else
                 wireMockService.verifyNotifySendLetterCalled()
             val actualEntity =
-                notificationRepository.getBySourceReferenceAndGssCode(sourceReference, PROXY, listOf(gssCode))
+                notificationRepository.getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language and channel $sqsChannel")
@@ -89,16 +94,14 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,EN,POSTAL",
-            "EMAIL,CY,POSTAL",
             "LETTER,EN,OVERSEAS",
             "LETTER,CY,OVERSEAS",
         ]
     )
-    fun `should not process rejected signature notification message from non proxy services`(
+    fun `should not process rejected signature notification message from non enabled services`(
         sqsChannel: NotificationChannel,
         language: Language,
-        sourceType: SourceType
+        sourceType: SourceTypeMessaging
     ) {
         val rejectionReasons = listOf("Reason1", "Reason2")
         val rejectionNotes = "Invalid Signature"
@@ -131,7 +134,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
             val actualEntity =
                 notificationRepository.getBySourceReferenceAndGssCode(
                     sourceReference,
-                    SourceTypeEntityEnum.valueOf(sourceType.name),
+                    SourceTypeEntity.valueOf(sourceType.name),
                     listOf(gssCode)
                 )
             assertThat(actualEntity).hasSize(0)
