@@ -35,10 +35,14 @@ import java.time.temporal.ChronoUnit.MILLIS
 internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
-        private const val LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
-        private const val EMAIL_SIGNATURE_WELSH_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
-        private const val LETTER_SIGNATURE_WELSH_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
+        private const val POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID = "ea7dac2e-81b8-47ea-90a3-2d3fbc1c2394"
+        private const val POSTAL_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID = "747fa9dc-f59a-4669-bf32-d3b59b20852b"
+        private const val POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID = "34250705-346a-4e24-9110-0a46f4e65dda"
+        private const val POSTAL_LETTER_SIGNATURE_WELSH_TEMPLATE_ID = "08687c2c-225e-4e99-a1f1-ee884ddbbba3"
+        private const val PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID = "7fa64777-222f-45e9-937b-6236359b79df"
+        private const val PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID = "a934fb1a-a199-41cc-829d-bf025ad1b740"
+        private const val PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID = "29ba37c4-f857-4f56-934a-5ff86b81204f"
+        private const val PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID = "36c4aeed-abae-4a36-ab83-97000381a62a"
         private const val URI_TEMPLATE = "/templates/rejected-signature/preview"
     }
 
@@ -73,7 +77,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return not found given non existing template`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID)
+        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -125,7 +129,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @Test
     fun `should return bad request given valid missing request body parameters to gov notify`() {
         // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID)
+        wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
 
         // When
@@ -196,21 +200,29 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,$EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
-            "LETTER,$LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
-            "EMAIL,$EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY",
-            "LETTER,$LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY"
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY"
         ]
     )
     fun `should return template preview given valid request`(
+        sourceType: SourceType,
         notificationChannel: NotificationChannel,
-        templateId: String
+        templateId: String,
+        language: Language,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateRejectedSignatureTemplatePreviewRequest(
+            sourceType = sourceType,
             channel = notificationChannel,
+            language = language,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = listOf("Invalid signature"),
                 rejectionNotes = "Invalid"
@@ -255,11 +267,14 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,$EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID",
-            "LETTER,$LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID"
+            "POSTAL,EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID",
+            "POSTAL,LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID",
+            "PROXY,EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID",
+            "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID"
         ]
     )
     fun `should return template preview given valid request when optional values are not populated`(
+        sourceType: SourceType,
         notificationChannel: NotificationChannel,
         templateId: String
     ) {
@@ -315,13 +330,10 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,EN,POSTAL",
-            "LETTER,EN,POSTAL",
-            "EMAIL,CY,POSTAL",
-            "LETTER,CY,POSTAL",
-            "EMAIL,,POSTAL",
-            "LETTER,,POSTAL",
             "EMAIL,EN,VOTER_MINUS_CARD",
+            "EMAIL,CY,VOTER_MINUS_CARD",
+            "LETTER,EN,VOTER_MINUS_CARD",
+            "LETTER,CY,VOTER_MINUS_CARD",
         ]
     )
     fun `should return bad request if a template is not configured`(
