@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.12.1'
+  version: '1.12.2'
   description: |-
     Notifications SQS Message Types
     
@@ -112,6 +112,15 @@ paths:
         '204':
           description: No response content.
 
+  '/send-uk-gov-notify-nino-not-matched-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyNinoNotMatchedMessage'
+      responses:
+        '204':
+          description: No response content.
 components:
   #
   # Schema and Enum Definitions
@@ -501,6 +510,7 @@ components:
         - id-document-required
         - rejected-document
         - rejected-signature
+        - nino-not-matched
 
     MessageAddress:
       type: object
@@ -628,6 +638,35 @@ components:
       required:
         - personalisation
         - channel
+    NinoNotMatched:
+      title: NinoNotMatched
+      description: The data for the specific message.
+      type: object
+      properties:
+        additionalNotes:
+          type: string
+          description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's NiNo check
+    NinoNotMatchedPersonalisation:
+      title: NinoNotMatchedPersonalisation
+      type: object
+      description: Personalisation details for a NiNo not matched
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/NinoNotMatched'
+    SendNotifyNinoNotMatchedMessage:
+      title: SendNotifyNinoNotMatchedMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for nino not matched
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        personalisation:
+          $ref: '#/components/schemas/NinoNotMatchedPersonalisation'
+      required:
+        - personalisation
+        - channel
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------
@@ -683,3 +722,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyRejectedSignatureMessage'
+
+    SendNotifyNinoNotMatchedMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyNinoNotMatchedMessage'

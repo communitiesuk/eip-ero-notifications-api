@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
@@ -21,6 +22,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectedPersona
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
@@ -91,6 +93,12 @@ abstract class TemplatePersonalisationMessageMapper {
         personalisation: RejectedDocumentPersonalisation,
         languageDto: LanguageDto
     ): RejectedDocumentPersonalisationDto
+
+    @Mapping(target = "additionalNotes", source = "personalisation.additionalNotes")
+    abstract fun toNinoNotMatchedPersonalisationDto(
+        personalisation: NinoNotMatchedPersonalisation,
+        languageDto: LanguageDto
+    ): NinoNotMatchedPersonalisationDto
 
     protected fun mapPhotoRejectionReasons(
         languageDto: LanguageDto,

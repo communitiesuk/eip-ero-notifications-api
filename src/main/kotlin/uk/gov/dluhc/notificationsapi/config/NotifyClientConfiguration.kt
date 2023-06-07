@@ -315,6 +315,8 @@ class ProxyNotifyLetterTemplateConfiguration(
     rejectedSignatureWelsh: String,
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
+    ninoNotMatchedWelsh: String?,
+    ninoNotMatchedEnglish: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -335,6 +337,6 @@ class ProxyNotifyLetterTemplateConfiguration(
     photoResubmissionWithReasonsWelsh = null,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
-    ninoNotMatchedEnglish = null,
-    ninoNotMatchedWelsh = null,
+    ninoNotMatchedEnglish = ninoNotMatchedEnglish,
+    ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
