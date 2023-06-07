@@ -2,6 +2,8 @@ package uk.gov.dluhc.notificationsapi.rest
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.http.MediaType
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.Channel
@@ -25,6 +27,7 @@ import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.UUID
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
 
 internal class GetCommunicationHistoryByApplicationIdIntegrationTest : IntegrationTest() {
 
@@ -108,8 +111,20 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return Communication Summaries for application`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            ",VOTER_CARD",
+            "VOTER_MINUS_CARD,VOTER_CARD",
+            "POSTAL,POSTAL",
+            "PROXY,PROXY",
+            "OVERSEAS,OVERSEAS"
+        ]
+    )
+    fun `should return Communication Summaries for application`(
+        requestedSourceType: SourceTypeApi?,
+        sourceType: SourceType
+    ) {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
         val eroResponse = buildElectoralRegistrationOfficeResponse(id = ERO_ID)
@@ -121,7 +136,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         val sentNotification1 = aNotificationBuilder(
             id = aRandomNotificationId(),
             sourceReference = applicationId,
-            sourceType = SourceType.VOTER_CARD,
+            sourceType = sourceType,
             gssCode = eroResponse.localAuthorities[0].gssCode,
             requestor = requestor,
             channel = Channel.EMAIL,
@@ -135,7 +150,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         val sentNotification2 = aNotificationBuilder(
             id = aRandomNotificationId(),
             sourceReference = applicationId,
-            sourceType = SourceType.VOTER_CARD,
+            sourceType = sourceType,
             gssCode = eroResponse.localAuthorities[0].gssCode,
             requestor = requestor,
             channel = Channel.EMAIL,
@@ -167,7 +182,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
 
         // When
         val response = webTestClient.get()
-            .uri(buildUri(applicationId = applicationId, eroId = ERO_ID))
+            .uri(buildUri(applicationId = applicationId, eroId = ERO_ID, sourceType = requestedSourceType))
             .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "ero-vc-admin-$ERO_ID")))
             .contentType(MediaType.APPLICATION_JSON)
             .exchange()
@@ -178,6 +193,6 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         assertThat(actual).isEqualTo(expected)
     }
 
-    private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString()) =
-        "/eros/$eroId/communications/applications/$applicationId"
+    private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString(), sourceType: SourceTypeApi? = null) =
+        "/eros/$eroId/communications/applications/$applicationId" + ("?sourceType=$sourceType".takeIf { sourceType != null } ?: "")
 }
