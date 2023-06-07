@@ -22,6 +22,8 @@ api:
           photo-resubmission-with-reasons-welsh: 1cdf430d-8c85-4dbf-be57-466374abd967
           id-document-resubmission-english: 296a8fe6-8767-477b-9173-ea9feb82fbda
           id-document-resubmission-welsh: 8dfa9c65-0ccf-446f-9a39-3e14f15551d6
+          id-document-resubmission-with-reasons-english: bd30cf0b-751b-4590-bf7c-b3a6a3b3b87e
+          id-document-resubmission-with-reasons-welsh: 018d5add-aa1f-4022-9a6c-ec63bccf8242
           approved-english: f06a9084-517f-4ade-99d8-983bbead30f0
           approved-welsh: 354399fe-a6b3-48ac-be60-4b208b324ea7
           id-document-required-english: fdd31588-c982-11ed-afa1-0242ac120002
@@ -33,6 +35,8 @@ api:
           photo-resubmission-with-reasons-welsh: d44041d7-c64e-4467-9487-b2cc00d73087
           id-document-resubmission-english: 5eb873a5-4bbf-44c9-8097-0a0989179b2e
           id-document-resubmission-welsh: d8c5effc-3bcc-46ce-a9b0-0ecc1e5f9f11
+          id-document-resubmission-with-reasons-english: 4ef03f27-861d-4346-86a7-c88642116bd2
+          id-document-resubmission-with-reasons-welsh: e7bea078-0c7b-4123-af69-aff0b7a22481
           rejected-english: b8394ffa-9d8c-11ed-a8fc-0242ac120002
           rejected-welsh: c6524808-9d8c-11ed-a8fc-0242ac120002
           id-document-required-english: bdd326c2-c982-11ed-afa1-0242ac120002
@@ -42,13 +46,31 @@ api:
           received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
           received-welsh: 58e34070-fe52-4bd8-b799-7eaa35cf87b4
           rejected-document-english: 74ba448b-dce8-434a-baff-968ac3d19657
+          rejected-document-welsh: 74ba448b-dce8-434a-baff-968ac3d19658
+          rejected-signature-english: ea7dac2e-81b8-47ea-90a3-2d3fbc1c2394
+          rejected-signature-welsh: 747fa9dc-f59a-4669-bf32-d3b59b20852b
+          nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
+          nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
+          rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
+          rejected-signature-english: 34250705-346a-4e24-9110-0a46f4e65dda
+          rejected-signature-welsh: 08687c2c-225e-4e99-a1f1-ee884ddbbba3
+          nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
+          nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
       proxy:
         email:
+          received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
+          received-welsh: 58e34070-fe52-4bd8-b799-7eaa35cf87b4
+          rejected-document-english: 74ba448b-dce8-434a-baff-968ac3d19657
+          rejected-document-welsh: 74ba448b-dce8-434a-baff-968ac3d19658
           rejected-signature-english: 7fa64777-222f-45e9-937b-6236359b79df
+          rejected-signature-welsh: 29ba37c4-f857-4f56-934a-5ff86b81204f
         letter:
+          rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
+          rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
           rejected-signature-english: a934fb1a-a199-41cc-829d-bf025ad1b740
+          rejected-signature-welsh: 36c4aeed-abae-4a36-ab83-97000381a62a
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission
@@ -57,4 +79,6 @@ sqs:
   send-uk-gov-notify-application-received-queue-name: test-send-uk-gov-notify-application-received
   send-uk-gov-notify-application-approved-queue-name: test-send-uk-gov-notify-application-approved
   send-uk-gov-notify-application-rejected-queue-name: test-send-uk-gov-notify-application-rejected
+  send-uk-gov-notify-rejected-document-queue-name: test-send-uk-gov-notify-rejected-document
+  send-uk-gov-notify-rejected-signature-queue-name: test-send-uk-gov-notify-rejected-signature
   remove-application-notifications-queue-name: test-remove-application-notifications

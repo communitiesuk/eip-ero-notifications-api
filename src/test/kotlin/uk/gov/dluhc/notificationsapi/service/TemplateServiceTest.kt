@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -19,7 +21,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
-import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
@@ -32,6 +33,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDoc
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
@@ -132,7 +135,7 @@ class TemplateServiceTest {
     }
 
     @Nested
-    inner class generateIdDocumentRequiredTemplatePreview {
+    inner class GenerateIdDocumentRequiredTemplatePreview {
         @Test
         fun `should return id document required template preview`() {
             // Given
@@ -161,8 +164,11 @@ class TemplateServiceTest {
 
     @Nested
     inner class GenerateApplicationReceivedTemplatePreview {
-        @Test
-        fun `should return application received template preview`() {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY"])
+        fun `should return application received template preview`(
+            sourceType: SourceType
+        ) {
             // Given
             val templateId = "6d0490ee-e004-402e-808f-5791e8336ddb"
             val personalisation = mapOf(
@@ -171,7 +177,6 @@ class TemplateServiceTest {
                 "custom_title" to "Resubmitting photo",
             )
             val language = LanguageDto.ENGLISH
-            val sourceType = SourceType.POSTAL
             val request = buildGenerateApplicationReceivedTemplatePreviewDto(
                 language = language,
                 sourceType = sourceType
@@ -188,7 +193,7 @@ class TemplateServiceTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(SourceType.POSTAL, NotificationType.APPLICATION_RECEIVED, NotificationChannel.EMAIL, language)
+            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, NotificationType.APPLICATION_RECEIVED, NotificationChannel.EMAIL, language)
             verify(templatePersonalisationDtoMapper).toApplicationReceivedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -259,10 +264,13 @@ class TemplateServiceTest {
 
     @Nested
     inner class GenerateRejectedDocumentTemplatePreview {
-        @Test
-        fun `should return rejected document template preview`() {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY"])
+        fun `should return rejected document template preview`(
+            sourceType: SourceType
+        ) {
             // Given
-            val dto = buildRejectedDocumentTemplatePreviewDto(POSTAL)
+            val dto = buildRejectedDocumentTemplatePreviewDto(sourceType)
             val templateId = "50210eee-4592-11ed-b878-0242ac120005"
             val personalisationMap = buildRejectedDocumentPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
@@ -319,6 +327,42 @@ class TemplateServiceTest {
                     dto.language
                 )
             verify(templatePersonalisationDtoMapper).toRejectedSignatureTemplatePersonalisationMap(dto.personalisation)
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateNinoNotMatchedTemplatePreview {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL"])
+        fun `should return nino not matched template preview`(
+            sourceType: SourceType
+        ) {
+            // Given
+            val dto = buildNinoNotMatchedTemplatePreviewDto(sourceType)
+            val templateId = "80210eee-4592-11ed-b878-0242ac120005"
+            val personalisationMap = buildNinoNotMatchedPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(any()))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateNinoNotMatchedTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
+            verify(templatePersonalisationDtoMapper).toNinoNotMatchedTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
     }

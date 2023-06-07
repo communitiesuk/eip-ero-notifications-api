@@ -74,6 +74,9 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.send-uk-gov-notify-application-rejected-queue-name}")
     protected lateinit var sendUkGovNotifyApplicationRejectedQueueName: String
 
+    @Value("\${sqs.send-uk-gov-notify-rejected-document-queue-name}")
+    protected lateinit var sendUkGovNotifyRejectedDocumentQueueName: String
+
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
 
@@ -106,6 +109,9 @@ internal abstract class IntegrationTest {
 
     @Value("\${api.notify.template.voter-card.letter.id-document-required-welsh}")
     protected lateinit var idDocumentRequiredLetterWelshTemplateId: String
+
+    @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}")
+    protected lateinit var sendUkGovNotifyRejectedSignatureQueueName: String
 
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
@@ -167,11 +173,12 @@ internal abstract class IntegrationTest {
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName)
             clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName)
         }
     }
 
-    private fun clearSqsQueue(queueUrl: String) {
+    fun clearSqsQueue(queueUrl: String) {
         amazonSQSAsync.purgeQueue(PurgeQueueRequest(queueUrl))
     }
 }

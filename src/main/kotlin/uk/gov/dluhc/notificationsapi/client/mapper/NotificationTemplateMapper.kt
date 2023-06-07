@@ -14,6 +14,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
@@ -75,7 +77,10 @@ class NotificationTemplateMapper(
             PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
             PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
+            ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
+            REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
+            NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -89,9 +94,11 @@ class NotificationTemplateMapper(
             PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
             PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
+            ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsEnglish
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
             REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
             REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
+            NINO_NOT_MATCHED -> config.ninoNotMatchedEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -104,8 +111,8 @@ class NotificationTemplateMapper(
         language: LanguageDto?
     ): String {
         val config = getSourceTemplateLetterTemplateConfiguration(sourceType)
-        return (if (useEnglishTemplate(language)) englishLetter(config, notificationType) else welshLetter(config, notificationType))
-            ?: throw NotificationTemplateNotFoundException("No letter template defined in $language for notification type $notificationType")
+        return if (useEnglishTemplate(language)) englishLetter(config, notificationType)
+        else welshLetter(config, notificationType)
     }
 
     private fun getSourceTemplateLetterTemplateConfiguration(sourceType: SourceType): AbstractNotifyLetterTemplateConfiguration =
@@ -118,29 +125,40 @@ class NotificationTemplateMapper(
             }
         }
 
-    private fun welshLetter(config: AbstractNotifyLetterTemplateConfiguration, notificationType: NotificationType) = when (notificationType) {
-        APPLICATION_RECEIVED -> config.receivedWelsh
-        APPLICATION_REJECTED -> config.rejectedWelsh
-        PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
-        PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
-        ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
-        ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
-        else -> {
-            throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType")
+    private fun welshLetter(config: AbstractNotifyLetterTemplateConfiguration, notificationType: NotificationType) =
+        when (notificationType) {
+            APPLICATION_RECEIVED -> config.receivedWelsh
+            APPLICATION_REJECTED -> config.rejectedWelsh
+            PHOTO_RESUBMISSION -> config.photoResubmissionWelsh
+            PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsWelsh
+            ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
+            ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
+            ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
+            REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
+            NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
+            else -> {
+                throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
+            }
         }
-    }
+            ?: throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
 
-    private fun englishLetter(config: AbstractNotifyLetterTemplateConfiguration, notificationType: NotificationType) = when (notificationType) {
+    private fun englishLetter(
+        config: AbstractNotifyLetterTemplateConfiguration,
+        notificationType: NotificationType
+    ): String = when (notificationType) {
         APPLICATION_RECEIVED -> config.receivedEnglish
         APPLICATION_REJECTED -> config.rejectedEnglish
         PHOTO_RESUBMISSION -> config.photoResubmissionEnglish
         PHOTO_RESUBMISSION_WITH_REASONS -> config.photoResubmissionWithReasonsEnglish
         ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionEnglish
+        ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsEnglish
         ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
         REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
         REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
+        NINO_NOT_MATCHED -> config.ninoNotMatchedEnglish
         else -> {
-            throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType")
+            throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
         }
     }
+        ?: throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
 }

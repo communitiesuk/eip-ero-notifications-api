@@ -10,7 +10,8 @@ class IdDocumentPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val idDocumentRequestFreeText: String
+    val idDocumentRequestFreeText: String,
+    val documentRejectionText: String?
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
@@ -92,6 +93,17 @@ class RejectedSignaturePersonalisationDto(
     eroContactDetails: ContactDetailsDto,
     val rejectionNotes: String?,
     val rejectionReasons: List<String>,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails
+)
+
+class NinoNotMatchedPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val additionalNotes: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,

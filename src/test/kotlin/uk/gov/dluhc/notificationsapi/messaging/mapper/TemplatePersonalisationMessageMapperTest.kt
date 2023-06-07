@@ -14,11 +14,16 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
+import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
+import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
@@ -35,6 +40,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
 
 @ExtendWith(MockitoExtension::class)
 internal class TemplatePersonalisationMessageMapperTest {
@@ -47,6 +54,12 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Mock
     private lateinit var photoRejectionReasonMapper: PhotoRejectionReasonMapper
+
+    @Mock
+    private lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
+
+    @Mock
+    private lateinit var rejectedDocumentsMapper: RejectedDocumentsMapper
 
     @Nested
     inner class ToPhotoPersonalisationDto {
@@ -119,13 +132,27 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS IdDocumentPersonalisation to IdDocumentPersonalisationDto`() {
             // Given
             val personalisationMessage = buildIdDocumentPersonalisationMessage()
-            val expectedPersonalisationDto = buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage)
+            val channel = NotificationChannel.EMAIL
+
+            val documentRejectionText = """
+                Utility Bill
+                
+                * The document is too old
+                
+                ----
+            
+            """.trimIndent()
+            given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any()))
+                .willReturn(documentRejectionText)
+
+            val expectedPersonalisationDto = buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage, documentRejectionText)
 
             // When
-            val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage)
+            val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH, NotificationChannel.EMAIL)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+            verify(documentRejectionTextMapper).toDocumentRejectionText(ENGLISH, personalisationMessage, channel)
         }
     }
 
@@ -245,6 +272,68 @@ internal class TemplatePersonalisationMessageMapperTest {
                 .toApplicationRejectionReasonString(NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH)
             verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER, ENGLISH)
             verifyNoMoreInteractions(applicationRejectionReasonMapper)
+        }
+    }
+
+    @Nested
+    inner class ToRejectedDocumentPersonalisationDto {
+        @Test
+        fun `should map SQS Rejected Document Personalisation to RejectedDocumentPersonalisationDto`() {
+            // Given
+            val personalisationMessage = buildRejectedDocumentsPersonalisation()
+            given(rejectedDocumentsMapper.mapRejectionDocumentsFromMessaging(ENGLISH, personalisationMessage.documents)).willReturn(listOf("Doc1", "Doc2"))
+
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                RejectedDocumentPersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    documents = listOf("Doc1", "Doc2"),
+                    rejectedDocumentFreeText = rejectedDocumentMessage,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode
+                                )
+                            }
+                        )
+                    }
+                )
+            }
+
+            // When
+            val actual = mapper.toRejectedDocumentPersonalisationDto(personalisationMessage, ENGLISH)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+        }
+    }
+
+    @Nested
+    inner class ToRejectedSignaturePersonalisationDto {
+        @Test
+        fun `should map SQS RejectedSignaturePersonalisation to RejectedSignaturePersonalisationDto`() {
+            // Given
+            val rejectionReasons = listOf("Reason1", "Reason2")
+            val rejectionNotes = "Invalid Signature"
+            val personalisationMessage = buildRejectedSignaturePersonalisation(
+                rejectionReasons = rejectionReasons,
+                rejectionNotes = rejectionNotes
+            )
+
+            // When
+            val actual = mapper.toRejectedSignaturePersonalisationDto(personalisationMessage)
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(personalisationMessage)
         }
     }
 }

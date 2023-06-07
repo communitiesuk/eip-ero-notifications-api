@@ -26,10 +26,10 @@ fun buildRejectedDocumentPersonalisation(
 
 fun buildRejectedDocument(
     documentType: DocumentType = UTILITY_MINUS_BILL,
-    rejectionReason: DocumentRejectionReason? = DOCUMENT_MINUS_TOO_MINUS_OLD,
+    rejectionReasons: List<DocumentRejectionReason> = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
     rejectionNotes: String? = faker.harryPotter().spell()
 ) = RejectedDocument(
     documentType = documentType,
-    rejectionReason = rejectionReason,
+    rejectionReasons = rejectionReasons,
     rejectionNotes = rejectionNotes
 )

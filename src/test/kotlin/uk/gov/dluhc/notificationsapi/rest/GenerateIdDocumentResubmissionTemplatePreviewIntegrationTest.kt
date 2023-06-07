@@ -7,6 +7,8 @@ import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason
+import uk.gov.dluhc.notificationsapi.models.DocumentType
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
@@ -19,6 +21,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetail
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildIdDocumentResubmissionPersonalisationRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedDocument
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit.MILLIS
 import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
@@ -26,7 +29,7 @@ import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val DOCUMENT_TEMPLATE_ID = "296a8fe6-8767-477b-9173-ea9feb82fbda"
+        private const val DOCUMENT_TEMPLATE_ID = "bd30cf0b-751b-4590-bf7c-b3a6a3b3b87e"
         private const val URI_TEMPLATE = "/templates/id-document-resubmission/preview"
     }
 
@@ -220,7 +223,13 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                     "area": "Charles Area",
                     "postcode": "PE3 6SB"
                   }
-                }
+                },
+                "rejectedDocuments": [
+                    {
+                        "documentType": "birth-certificate",
+                        "rejectionReasons": ["unreadable-document"]
+                    }
+                ]
               }
             }
         """.trimIndent()
@@ -229,6 +238,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
             "applicationReference" to "A3JSZC4CRH",
             "firstName" to "Fred",
             "documentRequestFreeText" to "Please provide valid identity document",
+            "documentRejectionText" to "Birth certificate\n\n* We were unable to read the document provided because it was not clear or not showing the information we needed\n\n----\n\n",
             "LAName" to "City of Sunderland",
             "eroWebsite" to "ero-address.com",
             "eroEmail" to "fred.blogs@some-domain.co.uk",
@@ -264,12 +274,24 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(sourceType = SourceTypeModel.VOTER_MINUS_CARD)
+        val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            personalisation = buildIdDocumentResubmissionPersonalisationRequest(
+                rejectedDocuments = listOf(
+                    buildRejectedDocument(
+                        documentType = DocumentType.BIRTH_MINUS_CERTIFICATE,
+                        rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT),
+                        rejectionNotes = "I can't read it"
+                    )
+                )
+            )
+        )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "documentRequestFreeText" to idDocumentRequestFreeText,
+                "documentRejectionText" to "Birth certificate\n\n* We were unable to read the document provided because it was not clear or not showing the information we needed\n\nI can't read it\n\n----\n\n",
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
@@ -310,7 +332,16 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            personalisation = buildIdDocumentResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
+            personalisation = buildIdDocumentResubmissionPersonalisationRequest(
+                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
+                rejectedDocuments = listOf(
+                    buildRejectedDocument(
+                        documentType = DocumentType.BIRTH_MINUS_CERTIFICATE,
+                        rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT),
+                        rejectionNotes = null
+                    )
+                )
+            ),
             sourceType = SourceTypeModel.VOTER_MINUS_CARD
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
@@ -318,6 +349,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "documentRequestFreeText" to idDocumentRequestFreeText,
+                "documentRejectionText" to "Birth certificate\n\n* We were unable to read the document provided because it was not clear or not showing the information we needed\n\n----\n\n",
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,

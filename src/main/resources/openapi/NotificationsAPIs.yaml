@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.13.3'
+  version: '1.14.1'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -692,6 +692,76 @@ paths:
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
+
+  #
+  # Generate Nino Not matched Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/nino-not-matched/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Nino Not matched Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for nino not matched template type and personalisation data
+      description: Generates a text preview for nino not matched template type and personalisation data
+      operationId: generate-nino-not-matched-template-preview
+      tags:
+        - Generate Nino not matched Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateNinoNotMatchedTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/nino-not-matched/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
 components:
   #
   # Schema and Enum Definitions
@@ -740,6 +810,7 @@ components:
         - id-document-required
         - rejected-document
         - rejected-signature
+        - nino-not-matched
     Language:
       title: Language
       description: The language to view the template
@@ -918,10 +989,14 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
+        rejectedDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RejectedDocument'
         idDocumentRequestFreeText:
           type: string
-          description: Free text regarding identity document request
-          example: Please provide a valid identity document
+          description: A free text field containing details as to what the applicant needs to do. Not related to any specific rejection reason.
+          example: Please provide new identity documents within the next 10 days in order to meet the application deadline before the next election.
       required:
         - idDocumentRequestFreeText
     PhotoPersonalisation:
@@ -1249,13 +1324,17 @@ components:
       properties:
         documentType:
           $ref: '#/components/schemas/DocumentType'
-        rejectionReason:
-          $ref: '#/components/schemas/DocumentRejectionReason'
+        rejectionReasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentRejectionReason'
+          description: A list of reasons why the document has been rejected. A mandatory field, but can be empty.
         rejectionNotes:
           type: string
           description: The additional notes provided when the document was rejected
       required:
         - documentType
+        - rejectionReasons
     DocumentType:
       title: DocumentType
       description: Enum of possible types of document
@@ -1282,6 +1361,7 @@ components:
         - photocard-driving-licence
         - biometric-identity-document
         - ni-electoral-identity-card
+        - cd-issued-driving-licence
     DocumentRejectionReason:
       title: DocumentRejectionReason
       description: Enum of reasons why a document may be rejected
@@ -1292,7 +1372,8 @@ components:
         - invalid-document-type
         - duplicate-document
         - invalid-document-country
-        - document-illegible
+        - applicant-details-not-clear
+        - details-on-document-do-not-match
         - other
     RejectedSignature:
       title: RejectedSignature
@@ -1316,6 +1397,16 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
         - $ref: '#/components/schemas/RejectedSignature'
+    NinoNotMatchedPersonalisation:
+      title: NinoNotMatchedPersonalisation
+      type: object
+      description: Personalisation details for a nino not matched
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        additionalNotes:
+          type: string
+          description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's nino check
     GenerateRejectedSignatureTemplatePreviewRequest:
       title: GenerateRejectedSignatureTemplatePreviewRequest
       description: An object containing request attributes required for generating the rejected signature template preview
@@ -1327,6 +1418,23 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/RejectedSignaturePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
+    GenerateNinoNotMatchedTemplatePreviewRequest:
+      title: GenerateNinoNotMatchedTemplatePreviewRequest
+      description: An object containing request attributes required for generating the nino not matched template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/NinoNotMatchedPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -1509,6 +1617,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateRejectedSignatureTemplatePreviewRequest'
+    GenerateNinoNotMatchedTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateNinoNotMatchedTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:

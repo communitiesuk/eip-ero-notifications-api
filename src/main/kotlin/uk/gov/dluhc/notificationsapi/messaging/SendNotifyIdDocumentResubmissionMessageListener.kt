@@ -32,7 +32,11 @@ class SendNotifyIdDocumentResubmissionMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromIdDocumentMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(personalisation)
+            val personalisationDto = templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(
+                personalisationMessage = personalisation,
+                languageDto = sendNotificationRequestDto.language,
+                channel = sendNotificationRequestDto.channel
+            )
             val personalisationMap = templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

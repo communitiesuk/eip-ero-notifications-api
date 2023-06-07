@@ -1,9 +1,10 @@
 package uk.gov.dluhc.notificationsapi.messaging.mapper
 
-import org.apache.commons.lang3.StringUtils.isNotBlank
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
@@ -17,6 +18,8 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejec
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
 
 @Mapper(
     uses = [
@@ -31,43 +34,63 @@ abstract class SendNotifyMessageMapper {
 
     @Mapping(target = "notificationType", expression = "java( photoResubmissionNotificationType(message) )")
     abstract fun fromPhotoMessageToSendNotificationRequestDto(
-        message: SendNotifyPhotoResubmissionMessage
+        message: SendNotifyPhotoResubmissionMessage,
     ): SendNotificationRequestDto
 
-    @Mapping(target = "notificationType", source = "messageType")
+    @Mapping(target = "notificationType", expression = "java( idDocumentResubmissionNotificationType(message) )")
     abstract fun fromIdDocumentMessageToSendNotificationRequestDto(
-        message: SendNotifyIdDocumentResubmissionMessage
+        message: SendNotifyIdDocumentResubmissionMessage,
     ): SendNotificationRequestDto
 
     @Mapping(target = "notificationType", source = "messageType")
     abstract fun fromIdDocumentRequiredMessageToSendNotificationRequestDto(
-        message: SendNotifyIdDocumentRequiredMessage
+        message: SendNotifyIdDocumentRequiredMessage,
     ): SendNotificationRequestDto
 
     @Mapping(target = "channel", constant = "EMAIL")
     @Mapping(target = "notificationType", source = "messageType")
     abstract fun fromReceivedMessageToSendNotificationRequestDto(
-        message: SendNotifyApplicationReceivedMessage
+        message: SendNotifyApplicationReceivedMessage,
     ): SendNotificationRequestDto
 
     @Mapping(target = "channel", constant = "EMAIL")
     @Mapping(target = "notificationType", source = "messageType")
     abstract fun fromApprovedMessageToSendNotificationRequestDto(
-        message: SendNotifyApplicationApprovedMessage
+        message: SendNotifyApplicationApprovedMessage,
     ): SendNotificationRequestDto
 
     @Mapping(target = "channel", constant = "LETTER")
     @Mapping(target = "notificationType", source = "messageType")
     abstract fun fromRejectedMessageToSendNotificationRequestDto(
-        message: SendNotifyApplicationRejectedMessage
+        message: SendNotifyApplicationRejectedMessage,
     ): SendNotificationRequestDto
+
+    @Mapping(target = "notificationType", source = "messageType")
+    abstract fun fromRejectedDocumentMessageToSendNotificationRequestDto(sendNotifyRejectedDocumentMessage: SendNotifyRejectedDocumentMessage): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
         with(message.personalisation) {
-            if (photoRejectionReasonsExcludingOther.isNotEmpty() || isNotBlank(photoRejectionNotes))
+            if (photoRejectionReasonsExcludingOther.isNotEmpty() || !photoRejectionNotes.isNullOrBlank())
                 PHOTO_RESUBMISSION_WITH_REASONS
             else
                 PHOTO_RESUBMISSION
         }
+
+    // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if any rejected documents have either any rejection reasons (excluding OTHER)
+    // or has rejection notes
+    protected fun idDocumentResubmissionNotificationType(message: SendNotifyIdDocumentResubmissionMessage): NotificationType =
+        with(message.personalisation) {
+            if (rejectedDocuments.isNotEmpty() &&
+                rejectedDocuments.any { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
+            )
+                ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+            else
+                ID_DOCUMENT_RESUBMISSION
+        }
+
+    @Mapping(source = "messageType", target = "notificationType")
+    abstract fun fromRejectedSignatureMessageToSendNotificationRequestDto(
+        message: SendNotifyRejectedSignatureMessage,
+    ): SendNotificationRequestDto
 }
