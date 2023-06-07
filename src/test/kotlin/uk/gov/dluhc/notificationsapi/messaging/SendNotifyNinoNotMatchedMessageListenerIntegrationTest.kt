@@ -4,8 +4,7 @@ import mu.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions
 import org.awaitility.kotlin.await
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
@@ -23,25 +22,17 @@ private val logger = KotlinLogging.logger {}
 
 internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : IntegrationTest() {
 
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "POSTAL, POSTAL",
-            "PROXY, PROXY",
-        ]
-    )
-    fun `should process Nino not matched message to send Email and save notification`(
-        sourceType: SourceType,
-        expectedSourceType: uk.gov.dluhc.notificationsapi.database.entity.SourceType
-    ) {
+    @Test
+    fun `should process Nino not matched message to send Email and save notification`() {
         // Given
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
+        val expectedSourceType = uk.gov.dluhc.notificationsapi.database.entity.SourceType.POSTAL
         val payload = buildSendNotifyNinoNotMatchedMessage(
             channel = NotificationChannel.EMAIL,
             language = Language.EN,
             gssCode = gssCode,
-            sourceType = sourceType,
+            sourceType = SourceType.POSTAL,
             sourceReference = sourceReference
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
@@ -62,25 +53,17 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
         }
     }
 
-    @ParameterizedTest
-    @CsvSource(
-        value = [
-            "POSTAL, POSTAL",
-            "PROXY, PROXY"
-        ]
-    )
-    fun `should process nino not matched message to send Letter and save notification`(
-        sourceType: SourceType,
-        expectedSourceType: uk.gov.dluhc.notificationsapi.database.entity.SourceType
-    ) {
+    @Test
+    fun `should process nino not matched message to send Letter and save notification`() {
         // Given
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
+        val expectedSourceType = uk.gov.dluhc.notificationsapi.database.entity.SourceType.POSTAL
         val payload = buildSendNotifyNinoNotMatchedMessage(
             channel = NotificationChannel.LETTER,
             language = Language.EN,
             gssCode = gssCode,
-            sourceType = sourceType,
+            sourceType = SourceType.POSTAL,
             sourceReference = sourceReference
         )
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())

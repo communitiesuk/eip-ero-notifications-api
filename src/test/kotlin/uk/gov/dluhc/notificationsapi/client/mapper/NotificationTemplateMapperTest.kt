@@ -58,9 +58,7 @@ internal class NotificationTemplateMapperTest {
                 rejectedDocumentEnglish = "PROXY-REJECTED-DOCUMENT-EMAIL-ENGLISH",
                 rejectedDocumentWelsh = "PROXY-REJECTED-DOCUMENT-EMAIL-WELSH",
                 rejectedSignatureEnglish = "PROXY-REJECTED-SIGNATURE-EMAIL-ENGLISH",
-                rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-EMAIL-WELSH",
-                ninoNotMatchedEnglish = "PROXY-NINO-NOT-MATCHED-EMAIL-ENGLISH",
-                ninoNotMatchedWelsh = "PROXY-NINO-NOT-MATCHED-EMAIL-ENGLISH"
+                rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-EMAIL-WELSH"
             ),
             overseas = OverseasNotifyEmailTemplateConfiguration(
                 receivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
