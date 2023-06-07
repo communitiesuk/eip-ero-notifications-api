@@ -92,7 +92,9 @@ internal class NotificationTemplateMapperTest {
                 rejectedDocumentEnglish = "PROXY-REJECTED-DOCUMENT-LETTER-ENGLISH",
                 rejectedDocumentWelsh = "PROXY-REJECTED-DOCUMENT-LETTER-WELSH",
                 rejectedSignatureEnglish = "PROXY-REJECTED-SIGNATURE-LETTER-ENGLISH",
-                rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-LETTER-WELSH"
+                rejectedSignatureWelsh = "PROXY-REJECTED-SIGNATURE-LETTER-WELSH",
+                ninoNotMatchedEnglish = "PROXY-NINO-NOT-MATCHED-LETTER-ENGLISH",
+                ninoNotMatchedWelsh = "PROXY-NINO-NOT-MATCHED-LETTER-ENGLISH"
             )
         )
     )

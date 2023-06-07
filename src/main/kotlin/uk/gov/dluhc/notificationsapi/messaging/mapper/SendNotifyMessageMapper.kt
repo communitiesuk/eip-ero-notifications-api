@@ -17,6 +17,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRecei
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejectedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
@@ -67,6 +68,9 @@ abstract class SendNotifyMessageMapper {
 
     @Mapping(target = "notificationType", source = "messageType")
     abstract fun fromRejectedDocumentMessageToSendNotificationRequestDto(sendNotifyRejectedDocumentMessage: SendNotifyRejectedDocumentMessage): SendNotificationRequestDto
+
+    @Mapping(target = "notificationType", source = "messageType")
+    abstract fun fromNinoNotMatchedMessageToSendNotificationRequestDto(sendNotifyNinoNotMatchedMessage: SendNotifyNinoNotMatchedMessage): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes

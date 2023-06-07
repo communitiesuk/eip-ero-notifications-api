@@ -17,6 +17,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
@@ -34,6 +35,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRecei
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejectedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
@@ -45,6 +47,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNinoNotMatchedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
@@ -613,6 +616,70 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(language)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.PROXY)
+            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(notificationChannelMapper).fromMessagingApiToDto(sqsChannel)
+        }
+    }
+
+    @Nested
+    inner class FromNinoNotMatchedMessageToSendNotificationRequestDto {
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "EMAIL,EN,EMAIL,ENGLISH",
+                "EMAIL,CY,EMAIL,WELSH",
+                "LETTER,EN,LETTER,ENGLISH",
+                "LETTER,CY,LETTER,WELSH",
+            ]
+        )
+        fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
+            sqsChannel: SqsChannel,
+            language: Language,
+            notificationChannel: NotificationChannel,
+            languageDto: LanguageDto
+        ) {
+            // Given
+            val gssCode = aGssCode()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val toAddress = aMessageAddress()
+            val personalisation = buildNinoNotMatchedPersonalisation()
+
+            val expectedToAddress = aNotificationDestination()
+            val expectedSourceType = SourceType.POSTAL
+            val expectedNotificationType = NINO_NOT_MATCHED
+
+            given(notificationTypeMapper.mapMessageTypeToNotificationType(MessageType.NINO_MINUS_NOT_MINUS_MATCHED)).willReturn(
+                NINO_NOT_MATCHED
+            )
+            given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(notificationChannel)
+
+            val request = SendNotifyNinoNotMatchedMessage(
+                language = language,
+                sourceType = SqsSourceType.POSTAL,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                messageType = MessageType.NINO_MINUS_NOT_MINUS_MATCHED,
+                toAddress = toAddress,
+                personalisation = personalisation,
+                channel = sqsChannel
+            )
+
+            val notification = mapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(request)
+
+            assertThat(notification.channel).isEqualTo(notificationChannel)
+            assertThat(notification.sourceType).isEqualTo(SourceType.POSTAL)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
+            assertThat(notification.gssCode).isEqualTo(gssCode)
+            assertThat(notification.requestor).isEqualTo(requestor)
+            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            verify(languageMapper).fromMessageToDto(language)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(notificationChannelMapper).fromMessagingApiToDto(sqsChannel)
         }
