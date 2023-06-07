@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.14.1'
+  version: '1.14.2'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -79,6 +79,14 @@ paths:
         '200':
           $ref: '#/components/responses/CommunicationsHistory'
       operationId: get-communication-history-by-application-id
+      parameters:
+        - name: sourceType
+          description: The source type of the applications to retrieve communications history for, default if not supplied is to use voter-card
+          schema:
+            $ref: '#/components/schemas/SourceType'
+          example: voter-card
+          in: query
+          required: false
       security:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
