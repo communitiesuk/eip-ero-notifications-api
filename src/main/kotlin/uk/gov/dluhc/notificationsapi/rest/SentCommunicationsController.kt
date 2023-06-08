@@ -30,7 +30,7 @@ class SentCommunicationsController(
     fun getCommunicationHistoryByApplicationId(
         @PathVariable eroId: String,
         @PathVariable applicationId: String,
-        @RequestParam(required = false, defaultValue = "VOTER_MINUS_CARD") sourceType: SourceTypeApi
+        @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi
     ): CommunicationsHistoryResponse =
         sentNotificationsService.getNotificationSummariesForApplication(
             sourceReference = applicationId,

@@ -27,7 +27,6 @@ import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.UUID
-import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
 
 internal class GetCommunicationHistoryByApplicationIdIntegrationTest : IntegrationTest() {
 
@@ -86,6 +85,21 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
     }
 
     @Test
+    fun `should return bad request given un recognised source type parameter`() {
+        wireMockService.stubCognitoJwtIssuerResponse()
+        val requestEroId = ERO_ID
+        val userGroupEroId = OTHER_ERO_ID
+
+        webTestClient.get()
+            .uri(buildUri(eroId = requestEroId, sourceType = "unknown"))
+            .bearerToken(getBearerToken(eroId = userGroupEroId, groups = listOf("ero-$userGroupEroId", "ero-vc-admin-$userGroupEroId")))
+            .contentType(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus()
+            .isBadRequest
+    }
+
+    @Test
     fun `should return response with no Communication Summaries for application with no previously sent Notifications`() {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
@@ -115,14 +129,14 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
     @CsvSource(
         value = [
             ",VOTER_CARD",
-            "VOTER_MINUS_CARD,VOTER_CARD",
-            "POSTAL,POSTAL",
-            "PROXY,PROXY",
-            "OVERSEAS,OVERSEAS"
+            "voter-card,VOTER_CARD",
+            "postal,POSTAL",
+            "proxy,PROXY",
+            "overseas,OVERSEAS"
         ]
     )
     fun `should return Communication Summaries for application`(
-        requestedSourceType: SourceTypeApi?,
+        requestedSourceType: String?,
         sourceType: SourceType
     ) {
         // Given
@@ -193,6 +207,6 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         assertThat(actual).isEqualTo(expected)
     }
 
-    private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString(), sourceType: SourceTypeApi? = null) =
+    private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString(), sourceType: String? = null) =
         "/eros/$eroId/communications/applications/$applicationId" + ("?sourceType=$sourceType".takeIf { sourceType != null } ?: "")
 }
