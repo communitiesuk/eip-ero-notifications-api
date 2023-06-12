@@ -79,6 +79,7 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
             ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
+            REJECTED_DOCUMENT -> config.rejectedDocumentWelsh
             REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
             NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             else -> {
@@ -134,6 +135,7 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION -> config.idDocumentResubmissionWelsh
             ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
+            REJECTED_DOCUMENT -> config.rejectedDocumentWelsh
             REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
             NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             else -> {
