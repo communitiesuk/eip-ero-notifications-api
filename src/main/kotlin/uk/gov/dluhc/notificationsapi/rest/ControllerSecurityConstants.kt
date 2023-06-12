@@ -11,3 +11,11 @@ const val HAS_ERO_VC_ADMIN_OR_VC_VIEWER_AUTHORITY = """
                         "ero-vc-viewer-".concat(#eroId)
                         )
         """
+
+const val HAS_ERO_VC_OR_OAVA_ADMIN_AUTHORITY = """
+        hasAnyAuthority("ero-vc-admin-".concat(#eroId),
+                        "ero-postal-admin-".concat(#eroId),
+                        "ero-proxy-admin-".concat(#eroId),
+                        "ero-oe-admin-".concat(#eroId)
+                        )
+    """

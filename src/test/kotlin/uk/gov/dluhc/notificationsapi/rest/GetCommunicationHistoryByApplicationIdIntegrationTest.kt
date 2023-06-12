@@ -128,16 +128,17 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
     @ParameterizedTest
     @CsvSource(
         value = [
-            ",VOTER_CARD",
-            "voter-card,VOTER_CARD",
-            "postal,POSTAL",
-            "proxy,PROXY",
-            "overseas,OVERSEAS"
+            ",VOTER_CARD,ero-vc-admin",
+            "voter-card,VOTER_CARD,ero-vc-admin",
+            "postal,POSTAL,ero-postal-admin",
+            "proxy,PROXY,ero-proxy-admin",
+            "overseas,OVERSEAS,ero-oe-admin"
         ]
     )
     fun `should return Communication Summaries for application`(
         requestedSourceType: String?,
-        sourceType: SourceType
+        sourceType: SourceType,
+        authGroupPrefix: String
     ) {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
@@ -197,7 +198,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         // When
         val response = webTestClient.get()
             .uri(buildUri(applicationId = applicationId, eroId = ERO_ID, sourceType = requestedSourceType))
-            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "ero-vc-admin-$ERO_ID")))
+            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "$authGroupPrefix-$ERO_ID")))
             .contentType(MediaType.APPLICATION_JSON)
             .exchange()
 
