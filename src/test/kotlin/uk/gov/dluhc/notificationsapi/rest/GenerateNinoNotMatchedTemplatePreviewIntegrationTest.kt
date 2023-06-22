@@ -197,13 +197,18 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL,$EMAIL_ENGLISH_TEMPLATE_ID,EN",
-            "LETTER,$LETTER_ENGLISH_TEMPLATE_ID,EN",
-            "EMAIL,$EMAIL_WELSH_TEMPLATE_ID,CY",
-            "LETTER,$LETTER_WELSH_TEMPLATE_ID,CY"
+            "POSTAL, EMAIL,$EMAIL_ENGLISH_TEMPLATE_ID,EN",
+            "POSTAL, LETTER,$LETTER_ENGLISH_TEMPLATE_ID,EN",
+            "POSTAL, EMAIL,$EMAIL_WELSH_TEMPLATE_ID,CY",
+            "POSTAL, LETTER,$LETTER_WELSH_TEMPLATE_ID,CY",
+            "PROXY, EMAIL,$EMAIL_ENGLISH_TEMPLATE_ID,EN",
+            "PROXY, LETTER,$LETTER_ENGLISH_TEMPLATE_ID,EN",
+            "PROXY, EMAIL,$EMAIL_WELSH_TEMPLATE_ID,CY",
+            "PROXY, LETTER,$LETTER_WELSH_TEMPLATE_ID,CY"
         ]
     )
     fun `should return template preview given valid request`(
+        sourceType: SourceType,
         notificationChannel: NotificationChannel,
         templateId: String
     ) {
@@ -211,6 +216,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateNinoNotMatchedTemplatePreviewRequest(
+            sourceType = sourceType,
             channel = notificationChannel,
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = "Invalid"
