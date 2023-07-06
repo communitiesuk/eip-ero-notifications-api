@@ -24,11 +24,13 @@ fun buildRejectedSignaturePersonalisationDto(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
     rejectionNotes: String? = null,
-    rejectionReasons: List<String> = emptyList()
+    rejectionReasons: List<String> = emptyList(),
+    rejectionFreeText: String? = null,
 ) = RejectedSignaturePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     rejectionNotes = rejectionNotes,
-    rejectionReasons = rejectionReasons
+    rejectionReasons = rejectionReasons,
+    rejectionFreeText = rejectionFreeText
 )

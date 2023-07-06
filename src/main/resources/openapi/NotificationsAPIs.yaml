@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.14.2'
+  version: '1.14.3'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -1396,6 +1396,10 @@ components:
           description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
           items:
             type: string
+        rejectionFreeText:
+          type: string
+          description: Free text message to provided further information regarding the document rejection
+          example: Please provide a valid document within 28 days
       required:
         - rejectionReasons
     RejectedSignaturePersonalisation:
