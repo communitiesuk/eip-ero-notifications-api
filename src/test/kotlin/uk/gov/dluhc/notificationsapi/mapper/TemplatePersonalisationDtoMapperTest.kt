@@ -339,6 +339,7 @@ class TemplatePersonalisationDtoMapperTest {
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
             assertThat(actual["rejectionReasons"] as List<*>).isEmpty()
             assertThat(actual["rejectionNotes"] as String?).isBlank
+            assertThat(actual["rejectionFreeText"] as String?).isBlank
             assertThat(actual["eroAddressLine1"] as String).isBlank
             assertThat(actual["eroAddressLine2"] as String).isEqualTo(personalisationDto.eroContactDetails.address.street)
             assertThat(actual["eroAddressLine3"] as String).isBlank

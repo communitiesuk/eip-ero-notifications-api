@@ -342,6 +342,7 @@ fun buildRejectedSignaturePersonalisationMapFromDto(
     with(personalisationDto) {
         personalisationMap["rejectionNotes"] = rejectionNotes ?: ""
         personalisationMap["rejectionReasons"] = rejectionReasons
+        personalisationMap["rejectionFreeText"] = rejectionFreeText ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap

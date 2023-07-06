@@ -225,7 +225,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             language = language,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = listOf("Invalid signature"),
-                rejectionNotes = "Invalid"
+                rejectionNotes = "Invalid",
+                rejectionFreeText = "Free Text"
             )
         )
 
@@ -249,6 +250,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
                 "firstName" to firstName,
                 "rejectionReasons" to requestBody.personalisation.rejectionReasons,
                 "rejectionNotes" to rejectionNotes!!,
+                "rejectionFreeText" to rejectionFreeText!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
@@ -296,6 +298,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
                 "firstName" to firstName,
                 "rejectionReasons" to emptyArray<String>(),
                 "rejectionNotes" to "",
+                "rejectionFreeText" to "",
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
