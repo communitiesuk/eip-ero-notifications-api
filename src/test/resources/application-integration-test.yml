@@ -47,15 +47,19 @@ api:
           received-welsh: 58e34070-fe52-4bd8-b799-7eaa35cf87b4
           rejected-document-english: 74ba448b-dce8-434a-baff-968ac3d19657
           rejected-document-welsh: 74ba448b-dce8-434a-baff-968ac3d19658
-          rejected-signature-english: ea7dac2e-81b8-47ea-90a3-2d3fbc1c2394
-          rejected-signature-welsh: 747fa9dc-f59a-4669-bf32-d3b59b20852b
+          rejected-signature-english: 8fb82c1f-1794-4394-b56e-57c768613293
+          rejected-signature-welsh: c3e6854d-8ad3-4ee7-b112-7b52529732e4
+          rejected-signature-with-reasons-english: a427c8f4-4b6d-4ce5-9378-57b506da6a77
+          rejected-signature-with-reasons-welsh: ad1019c8-a904-4d5f-b77a-bc9e25bbe32e
           nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
-          rejected-signature-english: 34250705-346a-4e24-9110-0a46f4e65dda
-          rejected-signature-welsh: 08687c2c-225e-4e99-a1f1-ee884ddbbba3
+          rejected-signature-english: 8f36972f-2a19-4b73-8186-650fd12d58e7
+          rejected-signature-welsh: 5da3bf04-e35a-47ea-a862-a00b3cf004f2
+          rejected-signature-with-reasons-english: 885739b7-b515-4f9f-89bb-cf5dd18b4fcc
+          rejected-signature-with-reasons-welsh: 4f95fe01-0459-4220-9c62-241be81e76c1
           nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
       proxy:
@@ -64,15 +68,19 @@ api:
           received-welsh: 58e34070-fe52-4bd8-b799-7eaa35cf87b4
           rejected-document-english: 74ba448b-dce8-434a-baff-968ac3d19657
           rejected-document-welsh: 74ba448b-dce8-434a-baff-968ac3d19658
-          rejected-signature-english: 7fa64777-222f-45e9-937b-6236359b79df
-          rejected-signature-welsh: 29ba37c4-f857-4f56-934a-5ff86b81204f
+          rejected-signature-english: 080066e2-d598-40d8-b3e1-ca499bdc9d0e
+          rejected-signature-welsh: 43c0b489-4931-47f0-9cac-aed49839b0d2
+          rejected-signature-with-reasons-english: aae7430b-99ad-49e3-99fc-041e4361a8ba
+          rejected-signature-with-reasons-welsh: d922e924-2972-4746-aaf4-6c82405e7840
           nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
-          rejected-signature-english: a934fb1a-a199-41cc-829d-bf025ad1b740
-          rejected-signature-welsh: 36c4aeed-abae-4a36-ab83-97000381a62a
+          rejected-signature-english: ba0bbe1c-b8a6-420f-a6b6-3ddcd257dabb
+          rejected-signature-welsh: c405a231-f46a-4264-8bdb-ea4542cae378
+          rejected-signature-with-reasons-english: ea0ef1fc-6ba0-4aea-8e0a-030e43b0d41e
+          rejected-signature-with-reasons-welsh: 5de224e5-0fdb-4f13-b090-afc04d05c121
           nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
 

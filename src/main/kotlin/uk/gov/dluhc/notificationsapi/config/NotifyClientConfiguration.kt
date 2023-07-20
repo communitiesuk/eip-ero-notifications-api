@@ -47,6 +47,8 @@ class PostalNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh: String,
     rejectedSignatureEnglish: String,
     rejectedSignatureWelsh: String,
+    rejectedSignatureWithReasonsEnglish: String,
+    rejectedSignatureWithReasonsWelsh: String,
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
@@ -69,6 +71,8 @@ class PostalNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
+    rejectedSignatureWithReasonsEnglish = rejectedSignatureWithReasonsEnglish,
+    rejectedSignatureWithReasonsWelsh = rejectedSignatureWithReasonsWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
@@ -81,6 +85,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     receivedWelsh: String,
     rejectedSignatureEnglish: String,
     rejectedSignatureWelsh: String,
+    rejectedSignatureWithReasonsEnglish: String,
+    rejectedSignatureWithReasonsWelsh: String,
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
     ninoNotMatchedEnglish: String,
@@ -105,6 +111,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
+    rejectedSignatureWithReasonsEnglish = rejectedSignatureWithReasonsEnglish,
+    rejectedSignatureWithReasonsWelsh = rejectedSignatureWithReasonsWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
@@ -135,6 +143,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
     rejectedSignatureWelsh = null,
+    rejectedSignatureWithReasonsEnglish = null,
+    rejectedSignatureWithReasonsWelsh = null,
     ninoNotMatchedWelsh = null,
     ninoNotMatchedEnglish = null,
 )
@@ -177,6 +187,8 @@ class VoterCardNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
     rejectedSignatureWelsh = null,
+    rejectedSignatureWithReasonsEnglish = null,
+    rejectedSignatureWithReasonsWelsh = null,
     ninoNotMatchedEnglish = null,
     ninoNotMatchedWelsh = null,
 )
@@ -201,6 +213,8 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val rejectedDocumentWelsh: String?,
     val rejectedSignatureEnglish: String?,
     val rejectedSignatureWelsh: String?,
+    val rejectedSignatureWithReasonsEnglish: String?,
+    val rejectedSignatureWithReasonsWelsh: String?,
     val ninoNotMatchedEnglish: String?,
     val ninoNotMatchedWelsh: String?,
 )
@@ -247,6 +261,8 @@ class VoterCardNotifyLetterTemplateConfiguration(
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
     rejectedSignatureWelsh = null,
+    rejectedSignatureWithReasonsEnglish = null,
+    rejectedSignatureWithReasonsWelsh = null,
     ninoNotMatchedWelsh = null,
     ninoNotMatchedEnglish = null,
 )
@@ -259,6 +275,8 @@ class PostalNotifyLetterTemplateConfiguration(
     rejectedDocumentWelsh: String,
     rejectedSignatureEnglish: String,
     rejectedSignatureWelsh: String,
+    rejectedSignatureWithReasonsEnglish: String,
+    rejectedSignatureWithReasonsWelsh: String,
     ninoNotMatchedEnglish: String?,
     ninoNotMatchedWelsh: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
@@ -281,6 +299,8 @@ class PostalNotifyLetterTemplateConfiguration(
     rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
+    rejectedSignatureWithReasonsEnglish = rejectedSignatureWithReasonsEnglish,
+    rejectedSignatureWithReasonsWelsh = rejectedSignatureWithReasonsWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )
@@ -305,6 +325,8 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val rejectedDocumentWelsh: String?,
     val rejectedSignatureEnglish: String?,
     val rejectedSignatureWelsh: String?,
+    val rejectedSignatureWithReasonsEnglish: String?,
+    val rejectedSignatureWithReasonsWelsh: String?,
     val ninoNotMatchedEnglish: String?,
     val ninoNotMatchedWelsh: String?,
 )
@@ -315,6 +337,8 @@ class ProxyNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.PROXY,
     rejectedSignatureEnglish: String,
     rejectedSignatureWelsh: String,
+    rejectedSignatureWithReasonsEnglish: String,
+    rejectedSignatureWithReasonsWelsh: String,
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
     ninoNotMatchedWelsh: String?,
@@ -339,6 +363,8 @@ class ProxyNotifyLetterTemplateConfiguration(
     photoResubmissionWithReasonsWelsh = null,
     rejectedSignatureEnglish = rejectedSignatureEnglish,
     rejectedSignatureWelsh = rejectedSignatureWelsh,
+    rejectedSignatureWithReasonsEnglish = rejectedSignatureWithReasonsEnglish,
+    rejectedSignatureWithReasonsWelsh = rejectedSignatureWithReasonsWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
 )

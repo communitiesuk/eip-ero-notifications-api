@@ -28,6 +28,9 @@ interface NotificationTypeMapper {
     // ID_DOCUMENT_RESUBMISSION_WITH_REASONS is an implementation detail and not a "business" notification type
     // Therefore it should be saved to the database as ID_DOCUMENT_RESUBMISSION
     @ValueMapping(source = "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", target = "ID_DOCUMENT_RESUBMISSION")
+    // REJECTED_SIGNATURE_WITH_REASONS is an implementation detail and not a "business" notification type
+    // Therefore it should be saved to the database as REJECTED_SIGNATURE
+    @ValueMapping(source = "REJECTED_SIGNATURE_WITH_REASONS", target = "REJECTED_SIGNATURE")
     fun toNotificationTypeEntity(notificationType: NotificationType): NotificationTypeEntity
 
     fun toNotificationTypeDto(notificationTypeEntity: NotificationTypeEntity): NotificationType
@@ -41,11 +44,15 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "REJECTED_DOCUMENT", target = "REJECTED_MINUS_DOCUMENT")
     @ValueMapping(source = "REJECTED_SIGNATURE", target = "REJECTED_MINUS_SIGNATURE")
     @ValueMapping(source = "NINO_NOT_MATCHED", target = "NINO_MINUS_NOT_MINUS_MATCHED")
-    // Mapping NotificationType.PHOTO_RESUBMISSION_WITH_REASONS or NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
-    // to the REST API (TemplateType) is not supported and will never happen because PHOTO_RESUBMISSION_WITH_REASONS
-    // and ID_DOCUMENT_RESUBMISSION_WITH_REASONS are not saved as database enums, so they will never be presented in
-    // this method call. MapStruct does not know this though, so makes us handle the scenario
+    // Mappings
+    // - NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+    // - NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+    // - NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+    // to the REST API (TemplateType) are not supported and will never happen because they are not saved as database
+    // enums, so they will never be presented in this method call. MapStruct does not know this though, so makes us
+    // handle the scenario
     @ValueMapping(source = "PHOTO_RESUBMISSION_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     @ValueMapping(source = "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
+    @ValueMapping(source = "REJECTED_SIGNATURE_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType
 }

@@ -12,6 +12,11 @@ package uk.gov.dluhc.notificationsapi.dto
  * talk about "the ID document resubmission notification", and do not differentiate between with and without reasons.
  * It is defined here so that it can be mapped to a gov.uk notify templateId (ie. it's an implementation detail), but will be
  * saved to the database (and returned through the REST API) as ID_DOCUMENT_RESUBMISSION
+ *
+ * REJECTED_SIGNATURE_WITH_REASONS is an implementation detail, and is not a "business" notification type - ie. the business
+ * talk about "the rejected signature notification", and do not differentiate between with and without reasons.
+ * It is defined here so that it can be mapped to a gov.uk notify templateId (ie. it's an implementation detail), but will be
+ * saved to the database (and returned through the REST API) as REJECTED_SIGNATURE
  */
 enum class NotificationType {
     APPLICATION_RECEIVED,
@@ -24,5 +29,6 @@ enum class NotificationType {
     ID_DOCUMENT_REQUIRED,
     REJECTED_DOCUMENT,
     REJECTED_SIGNATURE,
+    REJECTED_SIGNATURE_WITH_REASONS,
     NINO_NOT_MATCHED
 }

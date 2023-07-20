@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -11,12 +12,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 
 fun buildGenerateRejectedSignatureTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
-    personalisation: RejectedSignaturePersonalisationDto = buildRejectedSignaturePersonalisationDto()
+    personalisation: RejectedSignaturePersonalisationDto = buildRejectedSignaturePersonalisationDto(),
+    notificationType: NotificationType = NotificationType.REJECTED_SIGNATURE,
 ) = RejectedSignatureTemplatePreviewDto(
     channel = channel,
     sourceType = SourceType.PROXY,
     language = LanguageDto.ENGLISH,
-    personalisation = personalisation
+    personalisation = personalisation,
+    notificationType = notificationType
 )
 
 fun buildRejectedSignaturePersonalisationDto(

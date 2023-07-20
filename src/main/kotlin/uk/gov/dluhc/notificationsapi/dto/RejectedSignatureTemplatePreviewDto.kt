@@ -4,10 +4,11 @@ class RejectedSignatureTemplatePreviewDto(
     sourceType: SourceType,
     channel: NotificationChannel,
     language: LanguageDto,
-    val personalisation: RejectedSignaturePersonalisationDto
+    val personalisation: RejectedSignaturePersonalisationDto,
+    notificationType: NotificationType
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,
     language = language,
-    notificationType = NotificationType.REJECTED_SIGNATURE
+    notificationType = notificationType
 )

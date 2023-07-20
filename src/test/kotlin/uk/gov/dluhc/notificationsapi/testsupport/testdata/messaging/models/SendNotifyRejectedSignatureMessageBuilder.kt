@@ -7,6 +7,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -39,8 +40,12 @@ fun buildRejectedSignaturePersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
-    rejectionNotes: String? = null,
-    rejectionReasons: List<String> = emptyList()
+    rejectionNotes: String? = "Invalid Signature",
+    rejectionReasons: List<SignatureRejectionReason> = listOf(
+        SignatureRejectionReason.TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE,
+        SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR,
+        SignatureRejectionReason.OTHER
+    )
 ) = RejectedSignaturePersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,

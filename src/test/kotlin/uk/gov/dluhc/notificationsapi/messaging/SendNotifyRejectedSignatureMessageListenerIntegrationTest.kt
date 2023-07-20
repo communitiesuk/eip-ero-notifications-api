@@ -50,12 +50,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         sourceType: SourceTypeMessaging,
         expectedSourceType: SourceTypeEntity
     ) {
-        val rejectionReasons = listOf("Reason1", "Reason2")
-        val rejectionNotes = "Invalid Signature"
-        val personalisationMessage = buildRejectedSignaturePersonalisation(
-            rejectionReasons = rejectionReasons,
-            rejectionNotes = rejectionNotes
-        )
+        val personalisationMessage = buildRejectedSignaturePersonalisation()
 
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
@@ -103,12 +98,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         language: Language,
         sourceType: SourceTypeMessaging
     ) {
-        val rejectionReasons = listOf("Reason1", "Reason2")
-        val rejectionNotes = "Invalid Signature"
-        val personalisationMessage = buildRejectedSignaturePersonalisation(
-            rejectionReasons = rejectionReasons,
-            rejectionNotes = rejectionNotes
-        )
+        val personalisationMessage = buildRejectedSignaturePersonalisation()
 
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()

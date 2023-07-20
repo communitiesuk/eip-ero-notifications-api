@@ -612,9 +612,9 @@ components:
           description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's signature check
         rejectionReasons:
           type: array
-          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
           items:
-            type: string
+            $ref: '../NotificationsAPIs.yaml#/components/schemas/SignatureRejectionReason'
+          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
         rejectionFreeText:
           type: string
           description: Free text message to provided further information regarding the document rejection

@@ -18,6 +18,7 @@ import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
@@ -37,6 +38,9 @@ abstract class TemplatePersonalisationMessageMapper {
     protected lateinit var photoRejectionReasonMapper: PhotoRejectionReasonMapper
 
     @Autowired
+    protected lateinit var signatureRejectionReasonMapper: SignatureRejectionReasonMapper
+
+    @Autowired
     protected lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
 
     @Autowired
@@ -50,6 +54,15 @@ abstract class TemplatePersonalisationMessageMapper {
         personalisationMessage: PhotoPersonalisation,
         languageDto: LanguageDto
     ): PhotoPersonalisationDto
+
+    @Mapping(
+        target = "rejectionReasons",
+        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage ) )"
+    )
+    abstract fun toRejectedSignaturePersonalisationDto(
+        personalisationMessage: RejectedSignaturePersonalisation,
+        languageDto: LanguageDto
+    ): RejectedSignaturePersonalisationDto
 
     @Mapping(
         target = "documentRejectionText",
@@ -112,6 +125,18 @@ abstract class TemplatePersonalisationMessageMapper {
         }
     }
 
+    protected fun mapSignatureRejectionReasons(
+        languageDto: LanguageDto,
+        personalisation: RejectedSignaturePersonalisation
+    ): List<String> {
+        return personalisation.rejectionReasonsExcludingOther.map { reason ->
+            signatureRejectionReasonMapper.toSignatureRejectionReasonString(
+                reason,
+                languageDto
+            )
+        }
+    }
+
     protected fun mapDocumentRejectionText(
         languageDto: LanguageDto,
         personalisation: IdDocumentPersonalisation,
@@ -123,6 +148,4 @@ abstract class TemplatePersonalisationMessageMapper {
             channel = channel
         )
     }
-
-    abstract fun toRejectedSignaturePersonalisationDto(personalisationMessage: RejectedSignaturePersonalisation): RejectedSignaturePersonalisationDto
 }

@@ -16,10 +16,12 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
@@ -27,6 +29,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationReceivedPersonalisationDtoFromMessage
@@ -54,6 +57,9 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Mock
     private lateinit var photoRejectionReasonMapper: PhotoRejectionReasonMapper
+
+    @Mock
+    private lateinit var signatureRejectionReasonMapper: SignatureRejectionReasonMapper
 
     @Mock
     private lateinit var documentRejectionTextMapper: IdentityDocumentResubmissionDocumentRejectionTextMapper
@@ -323,17 +329,71 @@ internal class TemplatePersonalisationMessageMapperTest {
         @Test
         fun `should map SQS RejectedSignaturePersonalisation to RejectedSignaturePersonalisationDto`() {
             // Given
-            val rejectionReasons = listOf("Reason1", "Reason2")
-            val rejectionNotes = "Invalid Signature"
-            val personalisationMessage = buildRejectedSignaturePersonalisation(
-                rejectionReasons = rejectionReasons,
-                rejectionNotes = rejectionNotes
+            val personalisationMessage = buildRejectedSignaturePersonalisation()
+            val tooSmall = "The signature was too small or unreadable"
+            val imageUnclear = "The image was not clear"
+            given(
+                signatureRejectionReasonMapper.toSignatureRejectionReasonString(
+                    SignatureRejectionReason.TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE,
+                    ENGLISH
+                )
+            )
+                .willReturn(tooSmall)
+            given(
+                signatureRejectionReasonMapper.toSignatureRejectionReasonString(
+                    SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR,
+                    ENGLISH
+                )
+            )
+                .willReturn(imageUnclear)
+
+            val expectedRejectionReasons = listOf(
+                tooSmall,
+                imageUnclear
+                // a mapping from OTHER is not expected - this is by design
             )
 
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                RejectedSignaturePersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    rejectionReasons = expectedRejectionReasons,
+                    rejectionNotes = rejectionNotes,
+                    rejectionFreeText = null,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode
+                                )
+                            }
+                        )
+                    }
+                )
+            }
+
             // When
-            val actual = mapper.toRejectedSignaturePersonalisationDto(personalisationMessage)
+            val actual = mapper.toRejectedSignaturePersonalisationDto(personalisationMessage, ENGLISH)
             // Then
-            assertThat(actual).usingRecursiveComparison().isEqualTo(personalisationMessage)
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+            verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
+                SignatureRejectionReason.TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE,
+                ENGLISH
+            )
+            verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
+                SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR,
+                ENGLISH
+            )
+            verifyNoMoreInteractions(signatureRejectionReasonMapper)
         }
     }
 }
