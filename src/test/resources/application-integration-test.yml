@@ -8,6 +8,7 @@ cloud:
 
 dynamodb:
   notificationsTableName: unit-test-notifications
+  notificationAuditsTableName: unit-test-notification-audits
   communicationConfirmationsTableName: unit-test-communication-confirmations
 
 api:
