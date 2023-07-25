@@ -613,7 +613,7 @@ components:
         rejectionReasons:
           type: array
           items:
-            $ref: '../NotificationsAPIs.yaml#/components/schemas/SignatureRejectionReason'
+            $ref: '#/components/schemas/SignatureRejectionReason'
           description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
         rejectionFreeText:
           type: string
@@ -628,6 +628,21 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
         - $ref: '#/components/schemas/RejectedSignature'
+    SignatureRejectionReason:
+      title: SignatureRejectionReason
+      description: Enum of reasons why a signature is rejected
+      type: string
+      enum:
+        - too-small-or-unreadable
+        - too-large
+        - unclear-for-scanning
+        - image-not-clear
+        - contrast-too-low
+        - on-lined-or-patterned-paper
+        - on-coloured-paper
+        - obscured-by-shadow
+        - partially-cut-off
+        - other
     SendNotifyRejectedSignatureMessage:
       title: SendNotifyRejectedSignatureMessage
       type: object
