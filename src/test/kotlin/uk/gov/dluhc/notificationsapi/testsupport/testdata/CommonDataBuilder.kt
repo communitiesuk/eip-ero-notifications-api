@@ -27,6 +27,8 @@ fun aRandomSourceReference() = UUID.randomUUID().toString()
 
 fun aSourceType() = SourceType.VOTER_CARD
 
+fun aNotificationAuditId(): UUID = UUID.randomUUID()
+
 fun aNotificationId(): UUID = UUID.fromString("3efbf304-1c47-453d-87f7-6bf5efe0495f")
 
 fun aRandomNotificationId(): UUID = UUID.randomUUID()
