@@ -614,11 +614,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SignatureRejectionReason'
-          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
+          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer.  A mandatory field, but can be empty.
         rejectionFreeText:
           type: string
-          description: Free text message to provided further information regarding the document rejection
-          example: Please provide a valid document within 28 days
+          description: Free text message to provided further information regarding the signature rejection
+          example: Please provide a valid signature within 28 days
       required:
         - rejectionReasons
     RejectedSignaturePersonalisation:
