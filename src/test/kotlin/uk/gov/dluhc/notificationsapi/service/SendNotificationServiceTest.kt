@@ -13,7 +13,9 @@ import org.mockito.kotlin.verifyNoInteractions
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.database.mapper.NotificationAuditMapper
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
+import uk.gov.dluhc.notificationsapi.database.repository.NotificationAuditRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
@@ -23,6 +25,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationAudit
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
@@ -49,6 +52,12 @@ internal class SendNotificationServiceTest {
     @Mock
     private lateinit var notificationMapper: NotificationMapper
 
+    @Mock
+    private lateinit var notificationAuditRepository: NotificationAuditRepository
+
+    @Mock
+    private lateinit var notificationAuditMapper: NotificationAuditMapper
+
     private val fixedClock = Clock.fixed(Instant.ofEpochMilli(0L), ZoneId.systemDefault())
 
     @BeforeEach
@@ -58,6 +67,8 @@ internal class SendNotificationServiceTest {
             notificationTemplateMapper,
             notifyApiClient,
             notificationMapper,
+            notificationAuditRepository,
+            notificationAuditMapper,
             fixedClock
         )
     }
@@ -74,12 +85,14 @@ internal class SendNotificationServiceTest {
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val sendNotificationResponseDto = buildSendNotificationDto()
         val notification = aNotification()
+        val notificationAudit = aNotificationAudit()
         val templateId = aTemplateId().toString()
         val sourceType = SourceType.VOTER_CARD
 
         given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
         given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
         given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
+        given(notificationAuditMapper.createNotificationAudit(any())).willReturn(notificationAudit)
 
         // When
         sendNotificationService.sendNotification(request, personalisation)
@@ -95,6 +108,8 @@ internal class SendNotificationServiceTest {
             eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
         )
         verify(notificationRepository).saveNotification(notification)
+        verify(notificationAuditMapper).createNotificationAudit(notification)
+        verify(notificationAuditRepository).saveNotificationAudit(notificationAudit)
     }
 
     @Test
@@ -119,7 +134,7 @@ internal class SendNotificationServiceTest {
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language)
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
-        verifyNoInteractions(notificationMapper, notificationRepository)
+        verifyNoInteractions(notificationMapper, notificationRepository, notificationAuditMapper, notificationAuditRepository)
     }
 
     @Test
@@ -134,12 +149,14 @@ internal class SendNotificationServiceTest {
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val sendNotificationResponseDto = buildSendNotificationDto()
         val notification = aNotification()
+        val notificationAudit = aNotificationAudit()
         val templateId = aTemplateId().toString()
         val sourceType = SourceType.VOTER_CARD
 
         given(notifyApiClient.sendLetter(any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
         given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
         given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
+        given(notificationAuditMapper.createNotificationAudit(any())).willReturn(notificationAudit)
 
         // When
         sendNotificationService.sendNotification(request, personalisation)
@@ -155,6 +172,8 @@ internal class SendNotificationServiceTest {
             eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
         )
         verify(notificationRepository).saveNotification(notification)
+        verify(notificationAuditMapper).createNotificationAudit(notification)
+        verify(notificationAuditRepository).saveNotificationAudit(notificationAudit)
     }
 
     @Test
@@ -179,6 +198,6 @@ internal class SendNotificationServiceTest {
         // Then
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language)
         verify(notifyApiClient).sendLetter(eq(templateId), eq(postalAddress), eq(personalisation), any())
-        verifyNoInteractions(notificationMapper, notificationRepository)
+        verifyNoInteractions(notificationMapper, notificationRepository, notificationAuditMapper, notificationAuditRepository)
     }
 }

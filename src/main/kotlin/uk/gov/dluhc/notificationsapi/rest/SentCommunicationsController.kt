@@ -26,7 +26,7 @@ class SentCommunicationsController(
 ) {
 
     @GetMapping("applications/{applicationId}")
-    @PreAuthorize(HAS_ERO_VC_OR_OAVA_ADMIN_AUTHORITY)
+    @PreAuthorize(HAS_APPLICATION_SPECIFIC_ERO_ADMIN_AUTHORITY)
     fun getCommunicationHistoryByApplicationId(
         @PathVariable eroId: String,
         @PathVariable applicationId: String,

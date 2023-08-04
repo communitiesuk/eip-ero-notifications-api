@@ -84,6 +84,41 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
             .isForbidden
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            ",ero-postal-admin",
+            ",ero-proxy-admin",
+            ",ero-oe-admin",
+            "voter-card,ero-postal-admin",
+            "voter-card,ero-proxy-admin",
+            "voter-card,ero-oe-admin",
+            "postal,ero-vc-admin",
+            "postal,ero-proxy-admin",
+            "postal,ero-oe-admin",
+            "proxy,ero-vc-admin",
+            "proxy,ero-postal-admin",
+            "proxy,ero-oe-admin",
+            "overseas,ero-vc-admin",
+            "overseas,ero-postal-admin",
+            "overseas,ero-proxy-admin"
+        ]
+    )
+    fun `should return forbidden given user with valid bearer token belonging to a different admin group than the application type specified`(
+        requestedSourceType: String?,
+        authGroupPrefix: String
+    ) {
+        wireMockService.stubCognitoJwtIssuerResponse()
+
+        webTestClient.get()
+            .uri(buildUri(eroId = ERO_ID, sourceType = requestedSourceType))
+            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "$authGroupPrefix-$ERO_ID")))
+            .contentType(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus()
+            .isForbidden
+    }
+
     @Test
     fun `should return bad request given un recognised source type parameter`() {
         wireMockService.stubCognitoJwtIssuerResponse()
