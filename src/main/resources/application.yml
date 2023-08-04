@@ -45,6 +45,8 @@ api:
           rejected-document-welsh: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_EMAIL_WELSH}
           rejected-signature-english: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_EMAIL_ENGLISH}
           rejected-signature-welsh: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_EMAIL_WELSH}
+          rejected-signature-with-reasons-english: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_ENGLISH}
+          rejected-signature-with-reasons-welsh: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_WELSH}
           nino-not-matched-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_WELSH}
         letter:
@@ -52,6 +54,8 @@ api:
           rejected-document-welsh: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_WELSH}
           rejected-signature-english: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_LETTER_ENGLISH}
           rejected-signature-welsh: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_LETTER_WELSH}
+          rejected-signature-with-reasons-english: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_LETTER_ENGLISH}
+          rejected-signature-with-reasons-welsh: ${TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_LETTER_WELSH}
           nino-not-matched-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_LETTER_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_LETTER_WELSH}
       proxy:
@@ -62,6 +66,8 @@ api:
           rejected-document-welsh: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_EMAIL_WELSH}
           rejected-signature-english: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_EMAIL_ENGLISH}
           rejected-signature-welsh: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_EMAIL_WELSH}
+          rejected-signature-with-reasons-english: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_ENGLISH}
+          rejected-signature-with-reasons-welsh: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_WELSH}
           nino-not-matched-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_EMAIL_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_EMAIL_WELSH}
 
@@ -70,6 +76,8 @@ api:
           rejected-document-welsh: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_WELSH}
           rejected-signature-english: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_LETTER_ENGLISH}
           rejected-signature-welsh: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_LETTER_WELSH}
+          rejected-signature-with-reasons-english: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_LETTER_ENGLISH}
+          rejected-signature-with-reasons-welsh: ${TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_LETTER_WELSH}
           nino-not-matched-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_LETTER_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_LETTER_WELSH}
 

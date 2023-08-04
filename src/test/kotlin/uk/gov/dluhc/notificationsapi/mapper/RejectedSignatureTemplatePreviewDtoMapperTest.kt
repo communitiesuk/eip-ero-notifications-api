@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
+import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildRejectedSignaturePersonalisation
@@ -30,6 +31,9 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var notificationChannelMapper: NotificationChannelMapper
 
+    @Mock
+    private lateinit var signatureRejectionReasonMapper: SignatureRejectionReasonMapper
+
     @InjectMocks
     private lateinit var mapper: RejectedSignatureTemplatePreviewDtoMapperImpl
 
@@ -41,9 +45,12 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         ]
     )
     fun `should map rejected signature template preview request to dto`(channel: NotificationChannel) {
-        val rejectionReasons = listOf("Invalid")
-        val mappedDto = validate(channel, rejectionNotes = "Invalid signature", rejectionReasons = rejectionReasons)
-        assertThat(mappedDto.personalisation.rejectionReasons).isEqualTo(rejectionReasons)
+        val rejectionReasonToExpectedRejectReason = mapOf(SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR to "The image was not clear")
+        validate(
+            channel,
+            rejectionNotes = "Invalid signature",
+            rejectionReasonToExpectedRejectReason = rejectionReasonToExpectedRejectReason
+        )
     }
 
     @ParameterizedTest
@@ -61,12 +68,12 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
     private fun validate(
         channel: NotificationChannel,
         rejectionNotes: String? = null,
-        rejectionReasons: List<String> = emptyList()
+        rejectionReasonToExpectedRejectReason: Map<SignatureRejectionReason, String> = emptyMap(),
     ): RejectedSignatureTemplatePreviewDto {
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             channel = channel,
             personalisation = buildRejectedSignaturePersonalisation(
-                rejectionNotes = rejectionNotes, rejectionReasons = rejectionReasons
+                rejectionNotes = rejectionNotes, rejectionReasons = rejectionReasonToExpectedRejectReason.keys.toList()
             )
         )
         given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(
@@ -76,6 +83,14 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         )
         given { sourceTypeMapper.fromApiToDto(SourceType.PROXY) }.willReturn(SourceTypeDto.PROXY)
         given { languageMapper.fromApiToDto(Language.EN) }.willReturn(LanguageDto.ENGLISH)
+        rejectionReasonToExpectedRejectReason.entries.forEach { (reason, expected) ->
+            given(
+                signatureRejectionReasonMapper.toSignatureRejectionReasonString(
+                    reason,
+                    LanguageDto.ENGLISH
+                )
+            ).willReturn(expected)
+        }
 
         val mappedDto = mapper.toRejectedSignatureTemplatePreviewDto(request)
 
@@ -84,9 +99,12 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
             SourceTypeDto.PROXY,
             LanguageDto.ENGLISH,
         )
-        with(mappedDto.personalisation) {
-            assertThat(this).usingRecursiveComparison().isEqualTo(request.personalisation)
-        }
+        assertThat(mappedDto.personalisation)
+            .usingRecursiveComparison()
+            .ignoringFields("rejectionReasons")
+            .isEqualTo(request.personalisation)
+        assertThat(mappedDto.personalisation.rejectionReasons)
+            .isEqualTo(rejectionReasonToExpectedRejectReason.values.toList())
         return mappedDto
     }
 }

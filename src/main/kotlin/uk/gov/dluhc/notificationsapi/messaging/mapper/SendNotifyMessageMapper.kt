@@ -7,6 +7,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
@@ -41,6 +43,11 @@ abstract class SendNotifyMessageMapper {
     @Mapping(target = "notificationType", expression = "java( idDocumentResubmissionNotificationType(message) )")
     abstract fun fromIdDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyIdDocumentResubmissionMessage,
+    ): SendNotificationRequestDto
+
+    @Mapping(target = "notificationType", expression = "java( rejectedSignatureNotificationType(message) )")
+    abstract fun fromRejectedSignatureToSendNotificationRequestDto(
+        message: SendNotifyRejectedSignatureMessage,
     ): SendNotificationRequestDto
 
     @Mapping(target = "notificationType", source = "messageType")
@@ -91,6 +98,16 @@ abstract class SendNotifyMessageMapper {
                 ID_DOCUMENT_RESUBMISSION_WITH_REASONS
             else
                 ID_DOCUMENT_RESUBMISSION
+        }
+
+    // REJECTED_SIGNATURE_WITH_REASONS should be used if any there are either any rejection reasons (excluding OTHER)
+    // or any rejection notes
+    protected fun rejectedSignatureNotificationType(message: SendNotifyRejectedSignatureMessage): NotificationType =
+        with(message.personalisation) {
+            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank())
+                REJECTED_SIGNATURE_WITH_REASONS
+            else
+                REJECTED_SIGNATURE
         }
 
     @Mapping(source = "messageType", target = "notificationType")

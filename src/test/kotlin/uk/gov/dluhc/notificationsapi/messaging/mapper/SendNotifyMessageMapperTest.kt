@@ -577,12 +577,7 @@ internal class SendNotifyMessageMapperTest {
 
             val expectedSourceType = SourceType.PROXY
             val expectedNotificationType = REJECTED_SIGNATURE
-            val rejectionReasons = listOf("Reason1", "Reason2")
-            val rejectionNotes = "Invalid Signature"
-            val personalisationMessage = buildRejectedSignaturePersonalisation(
-                rejectionReasons = rejectionReasons,
-                rejectionNotes = rejectionNotes
-            )
+            val personalisationMessage = buildRejectedSignaturePersonalisation()
 
             given(notificationTypeMapper.mapMessageTypeToNotificationType(MessageType.REJECTED_MINUS_SIGNATURE)).willReturn(
                 REJECTED_SIGNATURE

@@ -102,8 +102,20 @@ The following environment variables must be set in order to run the application:
   in Welsh
 * `TEMPLATE_PROXY_REJECTED_SIGNATURE_EMAIL_ENGLISH` - Notify service email template ID for informing proxy vote
   application signature rejected in English
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_ENGLISH` - Notify service email template ID for informing proxy
+  vote application signature rejected with reasons in English
 * `TEMPLATE_PROXY_REJECTED_SIGNATURE_LETTER_ENGLISH` - Notify service letter template ID for informing proxy vote
   application signature rejected in English
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_LETTER_ENGLISH` - Notify service letter template ID for informing
+  proxy vote application signature rejected with reasons in English
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_EMAIL_WELSH` - Notify service email template ID for informing proxy vote
+  application signature rejected in Welsh
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_WELSH` - Notify service email template ID for informing proxy
+  vote application signature rejected with reasons in Welsh
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_LETTER_WELSH` - Notify service letter template ID for informing proxy vote
+  application signature rejected in Welsh
+* `TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_LETTER_WELSH` - Notify service letter template ID for informing
+  proxy vote application signature rejected with reasons in Welsh
 * `TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_ENGLISH` - Notify service email template ID for informing postal vote
   application Nino not matched in English
 * `TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_WELSH` - Notify service email template ID for informing postal vote
@@ -112,6 +124,22 @@ The following environment variables must be set in order to run the application:
   application Nino not matched in English 
 * `TEMPLATE_POSTAL_NINO_NOT_MATCHED_LETTER_WELSH` - Notify service letter template ID for informing postal vote
   application Nino not matched in Welsh
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_EMAIL_ENGLISH` - Notify service email template ID for informing postal vote
+  application signature rejected in English
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_ENGLISH` - Notify service email template ID for informing
+  postal vote application signature rejected with reasons in English
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_LETTER_ENGLISH` - Notify service letter template ID for informing postal vote
+  application signature rejected in English
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_LETTER_ENGLISH` - Notify service letter template ID for informing
+  postal vote application signature rejected with reasons in English
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_EMAIL_WELSH` - Notify service email template ID for informing postal vote
+  application signature rejected in Welsh
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_EMAIL_WELSH` - Notify service email template ID for informing postal
+  vote application signature rejected with reasons in Welsh
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_LETTER_WELSH` - Notify service letter template ID for informing postal vote
+  application signature rejected in Welsh
+* `TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_LETTER_WELSH` - Notify service letter template ID for informing
+  postal vote application signature rejected with reasons in Welsh
 * `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
 * `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
 * `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations

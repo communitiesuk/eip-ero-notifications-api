@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.14.3'
+  version: '1.14.4'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -1393,13 +1393,13 @@ components:
           description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's signature check
         rejectionReasons:
           type: array
-          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer
           items:
-            type: string
+            $ref: '#/components/schemas/SignatureRejectionReason'
+          description: In case of rejection, multiple reject reasons can be added by an Electoral Registration Officer. A mandatory field, but can be empty.
         rejectionFreeText:
           type: string
-          description: Free text message to provided further information regarding the document rejection
-          example: Please provide a valid document within 28 days
+          description: Free text message to provided further information regarding the signature rejection
+          example: Please provide a valid signature within 28 days
       required:
         - rejectionReasons
     RejectedSignaturePersonalisation:
@@ -1409,6 +1409,21 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
         - $ref: '#/components/schemas/RejectedSignature'
+    SignatureRejectionReason:
+      title: SignatureRejectionReason
+      description: Enum of reasons why a signature is rejected
+      type: string
+      enum:
+        - too-small-or-unreadable
+        - too-large
+        - unclear-for-scanning
+        - image-not-clear
+        - contrast-too-low
+        - on-lined-or-patterned-paper
+        - on-coloured-paper
+        - obscured-by-shadow
+        - partially-cut-off
+        - other
     NinoNotMatchedPersonalisation:
       title: NinoNotMatchedPersonalisation
       type: object
