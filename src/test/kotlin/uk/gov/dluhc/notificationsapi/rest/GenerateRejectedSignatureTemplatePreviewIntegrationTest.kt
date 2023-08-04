@@ -262,7 +262,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
         val actualResponse = response.responseBody.blockFirst()
         val expectedResponse = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
         assertThat(actualResponse).isEqualTo(expectedResponse)
-        val expectedRejectionReasons = if (language == Language.EN) listOf("The image was not clear") else listOf("CY TODO The image was not clear")
+        val expectedRejectionReasons = listOf("The image was not clear")
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mutableMapOf(
                 "applicationReference" to applicationReference,
