@@ -112,6 +112,16 @@ paths:
         '204':
           description: No response content.
 
+  '/send-uk-gov-notify-requested-signature-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyRequestedSignatureMessage'
+      responses:
+        '204':
+          description: No response content.
+
   '/send-uk-gov-notify-nino-not-matched-message':
     post:
       tags:
@@ -510,6 +520,7 @@ components:
         - id-document-required
         - rejected-document
         - rejected-signature
+        - requested-signature
         - nino-not-matched
 
     MessageAddress:
@@ -657,6 +668,36 @@ components:
       required:
         - personalisation
         - channel
+    RequestedSignature:
+      title: RequestedSignature
+      description: The data for the specific requested signature.
+      type: object
+      properties:
+        freeText:
+          type: string
+          description: Free text message to provided further information regarding the signature request
+          example: Please provide a valid signature within 28 days
+    RequestedSignaturePersonalisation:
+      title: RequestedSignaturePersonalisation
+      type: object
+      description: Personalisation details for a requested signature
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/RequestedSignature'
+    SendNotifyRequestedSignatureMessage:
+      title: SendNotifyRequestedSignatureMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify messages for a requested signature
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        personalisation:
+          $ref: '#/components/schemas/RequestedSignaturePersonalisation'
+      required:
+        - personalisation
+        - channel
     NinoNotMatched:
       title: NinoNotMatched
       description: The data for the specific message.
@@ -735,13 +776,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RemoveApplicationNotificationsMessage'
-
     SendNotifyRejectedSignatureMessage:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyRejectedSignatureMessage'
-
+    SendNotifyRequestedSignatureMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyRequestedSignatureMessage'
     SendNotifyNinoNotMatchedMessage:
       content:
         application/json:

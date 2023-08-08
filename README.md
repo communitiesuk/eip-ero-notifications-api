@@ -59,6 +59,8 @@ The following environment variables must be set in order to run the application:
 * `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_RECEIVED_QUEUE_NAME` - the queue name for sending communications for a received application.
 * `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_APPROVED_QUEUE_NAME` - the queue name for sending communications for an approved application.
 * `SQS_SEND_UK_GOV_NOTIFY_APPLICATION_REJECTED_QUEUE_NAME` - the queue name for sending communications for a rejected application.
+* `SQS_SEND_UK_GOV_NOTIFY_REJECTED_SIGNATURE_QUEUE_NAME` - the queue name for sending communications for a rejected signature.
+* `SQS_SEND_UK_GOV_NOTIFY_REQUESTED_SIGNATURE_QUEUE_NAME` - the queue name for sending communications for a requested signature.
 * `SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME` - the queue name for removing an applicant's notification data.
 * `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_ENGLISH` - Notify service email template ID for requesting a new photo in English
 * `TEMPLATE_PHOTO_RESUBMISSION_EMAIL_WELSH` - Notify service email template ID for requesting a new photo in Welsh
@@ -116,6 +118,14 @@ The following environment variables must be set in order to run the application:
   application signature rejected in Welsh
 * `TEMPLATE_PROXY_REJECTED_SIGNATURE_WITH_REASONS_LETTER_WELSH` - Notify service letter template ID for informing
   proxy vote application signature rejected with reasons in Welsh
+* `TEMPLATE_PROXY_REQUESTED_SIGNATURE_EMAIL_ENGLISH` - Notify service email template ID for informing proxy vote
+  application signature requested in English
+* `TEMPLATE_PROXY_REQUESTED_SIGNATURE_LETTER_ENGLISH` - Notify service letter template ID for informing proxy vote
+  application signature requested in English
+* `TEMPLATE_PROXY_REQUESTED_SIGNATURE_EMAIL_WELSH` - Notify service email template ID for informing proxy vote
+  application signature requested in Welsh
+* `TEMPLATE_PROXY_REQUESTED_SIGNATURE_LETTER_WELSH` - Notify service letter template ID for informing proxy vote
+  application signature requested in Welsh
 * `TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_ENGLISH` - Notify service email template ID for informing postal vote
   application Nino not matched in English
 * `TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_WELSH` - Notify service email template ID for informing postal vote
@@ -140,6 +150,14 @@ The following environment variables must be set in order to run the application:
   application signature rejected in Welsh
 * `TEMPLATE_POSTAL_REJECTED_SIGNATURE_WITH_REASONS_LETTER_WELSH` - Notify service letter template ID for informing
   postal vote application signature rejected with reasons in Welsh
+* `TEMPLATE_POSTAL_REQUESTED_SIGNATURE_EMAIL_ENGLISH` - Notify service email template ID for informing postal vote
+  application signature requested in English
+* `TEMPLATE_POSTAL_REQUESTED_SIGNATURE_LETTER_ENGLISH` - Notify service letter template ID for informing postal vote
+  application signature requested in English
+* `TEMPLATE_POSTAL_REQUESTED_SIGNATURE_EMAIL_WELSH` - Notify service email template ID for informing postal vote
+  application signature requested in Welsh
+* `TEMPLATE_POSTAL_REQUESTED_SIGNATURE_LETTER_WELSH` - Notify service letter template ID for informing postal vote
+  application signature requested in Welsh
 * `API_ERO_MANAGEMENT_URL` - the base URL of the ERO Management REST API service.
 * `DYNAMODB_NOTIFICATION_TABLE_NAME` - the Dynamo DB table name containing Notifications
 * `DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME` - the Dynamo DB table name containing Communication Confirmations

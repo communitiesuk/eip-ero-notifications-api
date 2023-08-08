@@ -23,6 +23,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMe
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
 
 @Mapper(
     uses = [
@@ -48,6 +49,11 @@ abstract class SendNotifyMessageMapper {
     @Mapping(target = "notificationType", expression = "java( rejectedSignatureNotificationType(message) )")
     abstract fun fromRejectedSignatureToSendNotificationRequestDto(
         message: SendNotifyRejectedSignatureMessage,
+    ): SendNotificationRequestDto
+
+    @Mapping(target = "notificationType", source = "messageType")
+    abstract fun fromRequestedSignatureToSendNotificationRequestDto(
+        message: SendNotifyRequestedSignatureMessage,
     ): SendNotificationRequestDto
 
     @Mapping(target = "notificationType", source = "messageType")
