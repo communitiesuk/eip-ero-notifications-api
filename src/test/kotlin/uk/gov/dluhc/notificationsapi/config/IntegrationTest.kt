@@ -83,6 +83,12 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
 
+    @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}")
+    protected lateinit var sendUkGovNotifyRejectedSignatureQueueName: String
+
+    @Value("\${sqs.send-uk-gov-notify-requested-signature-queue-name}")
+    protected lateinit var sendUkGovNotifyRequestedSignatureQueueName: String
+
     @Autowired
     protected lateinit var webTestClient: WebTestClient
 
@@ -112,9 +118,6 @@ internal abstract class IntegrationTest {
 
     @Value("\${api.notify.template.voter-card.letter.id-document-required-welsh}")
     protected lateinit var idDocumentRequiredLetterWelshTemplateId: String
-
-    @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}")
-    protected lateinit var sendUkGovNotifyRejectedSignatureQueueName: String
 
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
