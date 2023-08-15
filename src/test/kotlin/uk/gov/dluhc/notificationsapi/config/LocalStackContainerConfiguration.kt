@@ -90,6 +90,7 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.send-uk-gov-notify-rejected-document-queue-name}") sendUkGovNotifyRejectedDocumentQueueName: String,
         @Value("\${sqs.remove-application-notifications-queue-name}") removeApplicationNotificationsQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}") sendUkGovNotifyRejectedSignatureQueueName: String,
+        @Value("\${sqs.send-uk-gov-notify-requested-signature-queue-name}") sendUkGovNotifyRequestedSignatureQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}") sendUkGovNotifyNinoNotMatchedQueueName: String,
     ): LocalStackContainerSettings {
         val sendUkGovNotifyPhotoResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
@@ -102,6 +103,7 @@ class LocalStackContainerConfiguration {
         val sendUkGovNotifyNinoNotMatchedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyNinoNotMatchedQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
         localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
+        localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 

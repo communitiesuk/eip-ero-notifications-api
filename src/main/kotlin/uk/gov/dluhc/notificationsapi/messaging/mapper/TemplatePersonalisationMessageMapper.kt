@@ -14,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
@@ -27,6 +28,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisat
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.RequestedSignaturePersonalisation
 
 @Mapper
 abstract class TemplatePersonalisationMessageMapper {
@@ -63,6 +65,8 @@ abstract class TemplatePersonalisationMessageMapper {
         personalisationMessage: RejectedSignaturePersonalisation,
         languageDto: LanguageDto
     ): RejectedSignaturePersonalisationDto
+
+    abstract fun toRequestedSignaturePersonalisationDto(personalisationMessage: RequestedSignaturePersonalisation): RequestedSignaturePersonalisationDto
 
     @Mapping(
         target = "documentRejectionText",

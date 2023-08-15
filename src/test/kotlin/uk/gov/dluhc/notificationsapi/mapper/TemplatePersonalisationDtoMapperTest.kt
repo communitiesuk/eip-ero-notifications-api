@@ -20,6 +20,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocum
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
 
 class TemplatePersonalisationDtoMapperTest {
@@ -340,6 +342,47 @@ class TemplatePersonalisationDtoMapperTest {
             assertThat(actual["rejectionReasons"] as List<*>).isEmpty()
             assertThat(actual["rejectionNotes"] as String?).isBlank
             assertThat(actual["rejectionFreeText"] as String?).isBlank
+            assertThat(actual["eroAddressLine1"] as String).isBlank
+            assertThat(actual["eroAddressLine2"] as String).isEqualTo(personalisationDto.eroContactDetails.address.street)
+            assertThat(actual["eroAddressLine3"] as String).isBlank
+            assertThat(actual["eroAddressLine4"] as String).isBlank
+            assertThat(actual["eroAddressLine5"] as String).isBlank
+            assertThat(actual["eroPostcode"] as String).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
+    }
+
+    @Nested
+    inner class ToRequestedSignatureTemplatePersonalisationMap {
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildRequestedSignaturePersonalisationDto()
+            val expected = buildRequestedSignaturePersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toRequestedSignatureTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should map dto to personalisation map when all optional fields not present`() {
+            // Given
+            val personalisationDto = buildRequestedSignaturePersonalisationDto(
+                freeText = null,
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDtoWithOptionalFieldsNull()
+                )
+            )
+            val expected = buildRequestedSignaturePersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toRequestedSignatureTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+            assertThat(actual["freeText"] as String?).isBlank
             assertThat(actual["eroAddressLine1"] as String).isBlank
             assertThat(actual["eroAddressLine2"] as String).isEqualTo(personalisationDto.eroContactDetails.address.street)
             assertThat(actual["eroAddressLine3"] as String).isBlank

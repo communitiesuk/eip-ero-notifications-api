@@ -23,7 +23,8 @@ class NotificationTypeMapperTest {
             "ID_MINUS_DOCUMENT_MINUS_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
             "ID_MINUS_DOCUMENT_MINUS_REQUIRED, ID_DOCUMENT_REQUIRED",
             "REJECTED_MINUS_DOCUMENT, REJECTED_DOCUMENT",
-            "REJECTED_MINUS_SIGNATURE, REJECTED_SIGNATURE"
+            "REJECTED_MINUS_SIGNATURE, REJECTED_SIGNATURE",
+            "REQUESTED_MINUS_SIGNATURE, REQUESTED_SIGNATURE",
         ]
     )
     fun `should map Message Type to NotificationType`(messageType: MessageType, expected: NotificationType) {
@@ -47,7 +48,10 @@ class NotificationTypeMapperTest {
             "ID_DOCUMENT_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
             "ID_DOCUMENT_RESUBMISSION_WITH_REASONS, ID_DOCUMENT_RESUBMISSION",
             "ID_DOCUMENT_REQUIRED, ID_DOCUMENT_REQUIRED",
-            "REJECTED_DOCUMENT, REJECTED_DOCUMENT"
+            "REJECTED_DOCUMENT, REJECTED_DOCUMENT",
+            "REJECTED_SIGNATURE, REJECTED_SIGNATURE",
+            "REJECTED_SIGNATURE_WITH_REASONS, REJECTED_SIGNATURE",
+            "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
         ]
     )
     fun `should map DTO Notification Type to Entity Notification Type`(
@@ -72,7 +76,9 @@ class NotificationTypeMapperTest {
             "PHOTO_RESUBMISSION, PHOTO_RESUBMISSION",
             "ID_DOCUMENT_RESUBMISSION, ID_DOCUMENT_RESUBMISSION",
             "ID_DOCUMENT_REQUIRED, ID_DOCUMENT_REQUIRED",
-            "REJECTED_DOCUMENT, REJECTED_DOCUMENT"
+            "REJECTED_DOCUMENT, REJECTED_DOCUMENT",
+            "REJECTED_SIGNATURE, REJECTED_SIGNATURE",
+            "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
         ]
     )
     fun `should map Entity Notification Type to Dto Notification Type`(
@@ -98,7 +104,9 @@ class NotificationTypeMapperTest {
             "ID_DOCUMENT_RESUBMISSION, ID_MINUS_DOCUMENT_MINUS_RESUBMISSION",
             "ID_DOCUMENT_REQUIRED, ID_MINUS_DOCUMENT_MINUS_REQUIRED",
             "REJECTED_DOCUMENT, REJECTED_MINUS_DOCUMENT",
-            "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED"
+            "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED",
+            "REJECTED_SIGNATURE, REJECTED_MINUS_SIGNATURE",
+            "REQUESTED_SIGNATURE, REQUESTED_MINUS_SIGNATURE",
         ]
     )
     fun `should map Notification Type to Template Type`(notificationType: NotificationType, expected: TemplateType) {
@@ -117,6 +125,7 @@ class NotificationTypeMapperTest {
         names = [
             "PHOTO_RESUBMISSION_WITH_REASONS",
             "ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
+            "REJECTED_SIGNATURE_WITH_REASONS",
         ]
     )
     fun `should not map Notification Type to Template Type given unsupported value`(unSupportedNotificationType: NotificationType) {

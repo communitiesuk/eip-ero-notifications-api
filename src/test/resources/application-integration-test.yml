@@ -52,6 +52,8 @@ api:
           rejected-signature-welsh: c3e6854d-8ad3-4ee7-b112-7b52529732e4
           rejected-signature-with-reasons-english: a427c8f4-4b6d-4ce5-9378-57b506da6a77
           rejected-signature-with-reasons-welsh: ad1019c8-a904-4d5f-b77a-bc9e25bbe32e
+          requested-signature-english: 0fdb9022-db38-4f08-8bc4-04c0237097dc
+          requested-signature-welsh: 817c7cd0-60e6-41de-97eb-8617b839cd91
           nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
         letter:
@@ -61,6 +63,8 @@ api:
           rejected-signature-welsh: 5da3bf04-e35a-47ea-a862-a00b3cf004f2
           rejected-signature-with-reasons-english: 885739b7-b515-4f9f-89bb-cf5dd18b4fcc
           rejected-signature-with-reasons-welsh: 4f95fe01-0459-4220-9c62-241be81e76c1
+          requested-signature-english: 870bac52-ac8d-4042-8d0f-0904d33745b4
+          requested-signature-welsh: 07b5208f-7be1-4df3-a2cf-9698c34fd5eb
           nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
       proxy:
@@ -73,6 +77,8 @@ api:
           rejected-signature-welsh: 43c0b489-4931-47f0-9cac-aed49839b0d2
           rejected-signature-with-reasons-english: aae7430b-99ad-49e3-99fc-041e4361a8ba
           rejected-signature-with-reasons-welsh: d922e924-2972-4746-aaf4-6c82405e7840
+          requested-signature-english: 42356c76-f591-40fc-81e2-6cc9fc6bfed0
+          requested-signature-welsh: da14054e-88c5-4e8c-88aa-6fa2b9805ec7
           nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
         letter:
@@ -82,6 +88,8 @@ api:
           rejected-signature-welsh: c405a231-f46a-4264-8bdb-ea4542cae378
           rejected-signature-with-reasons-english: ea0ef1fc-6ba0-4aea-8e0a-030e43b0d41e
           rejected-signature-with-reasons-welsh: 5de224e5-0fdb-4f13-b090-afc04d05c121
+          requested-signature-english: ffb4aac1-05fa-4ece-8ebd-8a7e23df11ec
+          requested-signature-welsh: e70fc804-63cc-419b-9518-b2d6e6101183
           nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
 
@@ -94,5 +102,6 @@ sqs:
   send-uk-gov-notify-application-rejected-queue-name: test-send-uk-gov-notify-application-rejected
   send-uk-gov-notify-rejected-document-queue-name: test-send-uk-gov-notify-rejected-document
   send-uk-gov-notify-rejected-signature-queue-name: test-send-uk-gov-notify-rejected-signature
+  send-uk-gov-notify-requested-signature-queue-name: test-send-uk-gov-notify-requested-signature
   send-uk-gov-notify-nino-not-matched-queue-name: test-send-uk-gov-notify-nino-not-matched
   remove-application-notifications-queue-name: test-remove-application-notifications

@@ -17,6 +17,7 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
@@ -45,6 +46,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRequestedSignaturePersonalisation
 
 @ExtendWith(MockitoExtension::class)
 internal class TemplatePersonalisationMessageMapperTest {
@@ -394,6 +396,46 @@ internal class TemplatePersonalisationMessageMapperTest {
                 ENGLISH
             )
             verifyNoMoreInteractions(signatureRejectionReasonMapper)
+        }
+    }
+
+    @Nested
+    inner class ToRequestedSignaturePersonalisationDto {
+        @Test
+        fun `should map SQS RequestedSignaturePersonalisation to RequestedSignaturePersonalisationDto`() {
+            // Given
+            val personalisationMessage = buildRequestedSignaturePersonalisation()
+
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                RequestedSignaturePersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    freeText = freeText,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode
+                                )
+                            }
+                        )
+                    }
+                )
+            }
+
+            // When
+            val actual = mapper.toRequestedSignaturePersonalisationDto(personalisationMessage)
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }
     }
 }
