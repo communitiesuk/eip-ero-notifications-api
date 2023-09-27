@@ -203,6 +203,79 @@ paths:
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
         httpMethod: GET
+
+  #
+  # Communications Statistics - anonymised statistics about communications for a VAC application
+  # --------------------------------------------------------------------------------
+  '/communications/statistics':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Statistics
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    get:
+      summary: Returns anonymised statistics about communications for a VAC application
+      description: Returns anonymised statistics about communications for a VAC application
+      tags:
+        - Statistics
+      parameters:
+        - name: applicationId
+          description: An identifier of an application
+          schema:
+            type: string
+          in: query
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/CommunicationsStatistics'
+        '404':
+          $ref: '#/components/responses/404ErrorResponse'
+      operationId: get-notification-statistics-by-application-id
+      security:
+        - AWS_IAM: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/voter-authority-certificates/communications/statistics'
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: GET
+
   #
   # --------------------------------------------------------------------------------
   # RPC style endpoints start here
@@ -1441,6 +1514,18 @@ components:
         - channel
         - personalisation
         - sourceType
+    CommunicationsStatisticsResponse:
+      title: CommunicationsStatisticsResponse
+      description: response containing anonymised statistics about communications related to an application
+      type: object
+      properties:
+        photoRequested:
+          type: boolean
+        identityDocumentsRequested:
+          type: boolean
+      required:
+        - photoRequested
+        - identityDocumentsRequested
 
   #
   # Response Body Definitions
@@ -1562,6 +1647,23 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CommunicationConfirmationHistoryResponse'
+    CommunicationsStatistics:
+      description: Response containing statistics about communications for an application
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommunicationsStatisticsResponse'
+
 
   #
   # Request Body Definitions
