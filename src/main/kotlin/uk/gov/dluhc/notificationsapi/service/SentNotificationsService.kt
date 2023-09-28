@@ -43,4 +43,19 @@ class SentNotificationsService(
         }.also {
             logger.info { "Returning ${it.count()} NotificationSummaries for $sourceType application $sourceReference" }
         }
+
+    fun getNotificationsForApplication(
+        sourceReference: String,
+        sourceType: SourceType,
+    ): List<NotificationSummaryDto> =
+        notificationRepository.getNotificationSummariesBySourceReference(
+            sourceReference = sourceReference,
+            sourceType = sourceTypeMapper.fromDtoToEntity(sourceType),
+        ).sortedByDescending {
+            it.sentAt
+        }.map {
+            notificationSummaryMapper.toNotificationSummaryDto(it)
+        }.also {
+            logger.info { "Returning ${it.count()} NotificationSummaries for $sourceType application $sourceReference" }
+        }
 }
