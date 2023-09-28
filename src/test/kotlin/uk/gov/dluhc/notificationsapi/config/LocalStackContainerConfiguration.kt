@@ -89,7 +89,8 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.send-uk-gov-notify-application-rejected-queue-name}") sendUkGovNotifyApplicationRejectedQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-rejected-document-queue-name}") sendUkGovNotifyRejectedDocumentQueueName: String,
         @Value("\${sqs.remove-application-notifications-queue-name}") removeApplicationNotificationsQueueName: String,
-        @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}") sendUkGovNotifyRejectedSignatureQueueName: String
+        @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}") sendUkGovNotifyRejectedSignatureQueueName: String,
+        @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}") triggerVoterCardStatisticsUpdateQueueName: String,
     ): LocalStackContainerSettings {
         val sendUkGovNotifyPhotoResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
         val sendUkGovNotifyIdDocumentResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyIdDocumentResubmissionQueueName)
@@ -99,6 +100,7 @@ class LocalStackContainerConfiguration {
         val sendUkGovNotifyApplicationRejectedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyApplicationRejectedQueueName)
         val sendUkGovNotifyRejectedDocumentMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRejectedDocumentQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
+        val triggerVoterCardStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerVoterCardStatisticsUpdateQueueName)
         localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
@@ -114,14 +116,18 @@ class LocalStackContainerConfiguration {
             sendUkGovNotifyApplicationApprovedQueueName = sendUkGovNotifyApplicationApprovedMessageQueueName,
             sendUkGovNotifyApplicationRejectedMessageQueueName = sendUkGovNotifyApplicationRejectedMessageQueueName,
             sendUkGovNotifyRejectedDocumentMessageQueueName = sendUkGovNotifyRejectedDocumentMessageQueueName,
-            removeApplicationNotificationsQueueName = removeApplicationNotificationsMessageQueueName
+            removeApplicationNotificationsQueueName = removeApplicationNotificationsMessageQueueName,
+            triggerVoterCardStatisticsUpdateQueueName = triggerVoterCardStatisticsMessageQueueName,
         )
     }
 
     private fun GenericContainer<*>.createSqsQueue(queueName: String): String {
+        val isFifo = queueName.endsWith(".fifo")
+        val attributes =
+            if (isFifo) "VisibilityTimeout=1,MessageRetentionPeriod=5,FifoQueue=true"
+            else "VisibilityTimeout=1,MessageRetentionPeriod=5"
         val execInContainer = execInContainer(
-            "awslocal", "sqs", "create-queue", "--queue-name", queueName,
-            "--attributes", "VisibilityTimeout=1,MessageRetentionPeriod=5"
+            "awslocal", "sqs", "create-queue", "--queue-name", queueName, "--attributes", attributes
         )
         return execInContainer.stdout.let {
             objectMapper.readValue(it, Map::class.java)
@@ -236,6 +242,7 @@ data class LocalStackContainerSettings(
     val sendUkGovNotifyApplicationRejectedMessageQueueName: String,
     val sendUkGovNotifyRejectedDocumentMessageQueueName: String,
     val removeApplicationNotificationsQueueName: String,
+    val triggerVoterCardStatisticsUpdateQueueName: String,
 ) {
     val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyIdDocumentResubmissionQueueName, apiUrl)
@@ -245,6 +252,7 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName: String = toMappedUrl(sendUkGovNotifyApplicationRejectedMessageQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName: String = toMappedUrl(sendUkGovNotifyRejectedDocumentMessageQueueName, apiUrl)
     val mappedQueueUrlRemoveApplicationNotificationsQueueName: String = toMappedUrl(removeApplicationNotificationsQueueName, apiUrl)
+    val mappedQueueUrlTriggerVoterCardStatisticsUpdateQueueName: String = toMappedUrl(triggerVoterCardStatisticsUpdateQueueName, apiUrl)
 
     private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
         val rawUrl = URI.create(rawUrlString)
