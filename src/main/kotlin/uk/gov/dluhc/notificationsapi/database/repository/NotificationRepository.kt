@@ -4,8 +4,6 @@ import mu.KotlinLogging
 import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
-import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
-import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest
 import uk.gov.dluhc.notificationsapi.config.DynamoDbConfiguration
 import uk.gov.dluhc.notificationsapi.database.NotificationNotFoundException
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
@@ -53,8 +51,18 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
      * Get all Notification Summaries by sourceReference and sourceType for one of the specified gssCodes.
      */
     fun getNotificationSummariesBySourceReference(sourceReference: String, sourceType: SourceType, gssCodes: List<String>): List<NotificationSummary> {
-        val queryRequest = queryRequest(sourceReference, sourceType, gssCodes)
-            .build()
+        val queryRequest = queryRequest(sourceReference, sourceType, gssCodes).build()
+
+        val index = notificationsTableSummary.index(SOURCE_REFERENCE_INDEX_NAME)
+        return index.query(queryRequest).flatMap { it.items() }
+    }
+
+    /**
+     * Get all Notification Summaries by sourceReference and sourceType. Gss codes are not specified.
+     * This should not be used for endpoints used by EROs, which should specify the ero and gss code to control access.
+     */
+    fun getNotificationSummariesBySourceReference(sourceReference: String, sourceType: SourceType): List<NotificationSummary> {
+        val queryRequest = queryRequestWithoutGssCodes(sourceReference, sourceType).build()
 
         val index = notificationsTableSummary.index(SOURCE_REFERENCE_INDEX_NAME)
         return index.query(queryRequest).flatMap { it.items() }
@@ -76,9 +84,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
      * match.
      */
     private fun getBySourceReference(sourceReference: String, sourceType: SourceType): List<Notification> {
-        val queryRequest = QueryEnhancedRequest.builder()
-            .queryConditional(QueryConditional.keyEqualTo(key(sourceReference)))
-            .filterExpression(sourceTypeFilterExpression(sourceType)).build()
+        val queryRequest = queryRequestWithoutGssCodes(sourceReference, sourceType).build()
 
         val index = notificationsTableFull.index(SOURCE_REFERENCE_INDEX_NAME)
         return index.query(queryRequest).flatMap { it.items() }
