@@ -82,3 +82,4 @@ sqs:
   send-uk-gov-notify-rejected-document-queue-name: test-send-uk-gov-notify-rejected-document
   send-uk-gov-notify-rejected-signature-queue-name: test-send-uk-gov-notify-rejected-signature
   remove-application-notifications-queue-name: test-remove-application-notifications
+  trigger-voter-card-statistics-update-queue-name: test-trigger-voter-card-statistics-update.fifo

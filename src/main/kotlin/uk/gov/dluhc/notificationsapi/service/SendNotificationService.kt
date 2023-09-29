@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import java.time.Clock
 import java.time.LocalDateTime
@@ -26,6 +27,7 @@ class SendNotificationService(
     private val notificationTemplateMapper: NotificationTemplateMapper,
     private val govNotifyApiClient: GovNotifyApiClient,
     private val notificationMapper: NotificationMapper,
+    private val statisticsUpdateService: StatisticsUpdateService,
     private val clock: Clock,
 ) {
 
@@ -35,10 +37,23 @@ class SendNotificationService(
         try {
             val sentNotification = sendNotificationForChannel(requestDto, personalisationMap, notificationId, sentAt)
             saveSentMessageOrLogError(sentNotification)
+            if (shouldSendApplicationStatisticsUpdate(requestDto)) {
+                statisticsUpdateService.triggerVoterCardStatisticsUpdate(requestDto.sourceReference)
+            }
         } catch (ex: GovNotifyNonRetryableException) {
             logger.warn("Non-retryable error returned from the Notify service: ${ex.message}")
         }
     }
+
+    private fun shouldSendApplicationStatisticsUpdate(requestDto: SendNotificationRequestDto): Boolean =
+        when (requestDto.notificationType) {
+            NotificationType.ID_DOCUMENT_REQUIRED -> true
+            NotificationType.ID_DOCUMENT_RESUBMISSION -> true
+            NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> true
+            NotificationType.PHOTO_RESUBMISSION -> true
+            NotificationType.PHOTO_RESUBMISSION_WITH_REASONS -> true
+            else -> false
+        }
 
     private fun sendNotificationForChannel(
         request: SendNotificationRequestDto,

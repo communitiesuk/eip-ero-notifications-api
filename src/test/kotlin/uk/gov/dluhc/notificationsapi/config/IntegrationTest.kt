@@ -4,6 +4,7 @@ import com.amazonaws.services.sqs.AmazonSQSAsync
 import com.amazonaws.services.sqs.model.PurgeQueueRequest
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.awspring.cloud.messaging.core.QueueMessagingTemplate
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -21,6 +22,7 @@ import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
+import uk.gov.dluhc.notificationsapi.stubs.UpdateStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.getRandomEroId
@@ -80,6 +82,9 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
 
+    @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}")
+    protected lateinit var triggerStatisticsUpdateQueueName: String
+
     @Autowired
     protected lateinit var webTestClient: WebTestClient
 
@@ -114,6 +119,9 @@ internal abstract class IntegrationTest {
     protected lateinit var sendUkGovNotifyRejectedSignatureQueueName: String
 
     @Autowired
+    protected lateinit var updateStatisticsMessageListenerStub: UpdateStatisticsMessageListenerStub
+
+    @Autowired
     protected lateinit var objectMapper: ObjectMapper
 
     @Autowired
@@ -136,6 +144,11 @@ internal abstract class IntegrationTest {
         clearTable(dynamoDbConfiguration.communicationConfirmationsTableName)
     }
 
+    @BeforeEach
+    fun clearMessagesFromStubs() {
+        updateStatisticsMessageListenerStub.clear()
+    }
+
     protected fun clearTable(tableName: String, partitionKey: String = "id", sortKey: String? = null) {
         val response = dynamoDbClient.scan(ScanRequest.builder().tableName(tableName).build())
         response.items().forEach {
@@ -153,6 +166,14 @@ internal abstract class IntegrationTest {
                 .build()
 
             dynamoDbClient.deleteItem(deleteRequest)
+        }
+    }
+
+    protected fun assertUpdateStatisticsMessageSent(applicationId: String) {
+        val messages = updateStatisticsMessageListenerStub.getMessages()
+        Assertions.assertThat(messages).isNotEmpty
+        Assertions.assertThat(messages).anyMatch {
+            it.voterCardApplicationId == applicationId
         }
     }
 
