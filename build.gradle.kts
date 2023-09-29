@@ -69,7 +69,7 @@ dependencies {
 
     // internal libs
     implementation("uk.gov.dluhc:logging-library:2.2.0")
-    implementation("uk.gov.dluhc:messaging-support-library:1.0.0")
+    implementation("uk.gov.dluhc:messaging-support-library:1.1.0")
 
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -172,6 +172,12 @@ tasks.create("generate-models-from-openapi-document-Notifications-sqs-message-ty
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/sqs/Notifications-sqs-messaging.yaml")
     packageName.set("uk.gov.dluhc.notificationsapi.messaging")
+}
+
+tasks.create("generate-models-from-openapi-document-vca-sqs-messaging-erop.yaml", GenerateTask::class) {
+    enabled = true
+    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/vca-api-sqs-messaging-erop.yaml")
+    packageName.set("uk.gov.dluhc.votercardapplicationsapi.messaging")
 }
 
 tasks.create("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {

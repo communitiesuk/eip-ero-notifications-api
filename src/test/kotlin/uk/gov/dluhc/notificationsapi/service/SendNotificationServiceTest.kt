@@ -3,6 +3,8 @@ package uk.gov.dluhc.notificationsapi.service
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
@@ -20,6 +22,7 @@ import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
@@ -58,6 +61,9 @@ internal class SendNotificationServiceTest {
     @Mock
     private lateinit var notificationAuditMapper: NotificationAuditMapper
 
+    @Mock
+    private lateinit var statisticsUpdateService: StatisticsUpdateService
+
     private val fixedClock = Clock.fixed(Instant.ofEpochMilli(0L), ZoneId.systemDefault())
 
     @BeforeEach
@@ -69,6 +75,7 @@ internal class SendNotificationServiceTest {
             notificationMapper,
             notificationAuditRepository,
             notificationAuditMapper,
+            statisticsUpdateService,
             fixedClock
         )
     }
@@ -199,5 +206,51 @@ internal class SendNotificationServiceTest {
         verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language)
         verify(notifyApiClient).sendLetter(eq(templateId), eq(postalAddress), eq(personalisation), any())
         verifyNoInteractions(notificationMapper, notificationRepository, notificationAuditMapper, notificationAuditRepository)
+    }
+
+    @ParameterizedTest
+    @EnumSource(NotificationType::class, names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"])
+    fun `should send statistics update for relevant notification types`(notificationType: NotificationType) {
+
+        // Given
+        val channel = NotificationChannel.EMAIL
+        val request = buildSendNotificationRequestDto(notificationType = notificationType)
+        val personalisation = buildPhotoPersonalisationMapFromDto()
+        val response = buildSendNotificationDto()
+        val notification = aNotification()
+        val templateId = aTemplateId().toString()
+
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(response)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
+
+        // When
+        sendNotificationService.sendNotification(request, personalisation)
+
+        // Then
+        verify(statisticsUpdateService).triggerVoterCardStatisticsUpdate(notification.sourceReference!!)
+    }
+
+    @ParameterizedTest
+    @EnumSource(NotificationType::class, names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"], mode = EnumSource.Mode.EXCLUDE)
+    fun `should not send statistics update for irrelevant notification types`(notificationType: NotificationType) {
+
+        // Given
+        val channel = NotificationChannel.EMAIL
+        val request = buildSendNotificationRequestDto(notificationType = notificationType)
+        val personalisation = buildPhotoPersonalisationMapFromDto()
+        val response = buildSendNotificationDto()
+        val notification = aNotification()
+        val templateId = aTemplateId().toString()
+
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(response)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
+
+        // When
+        sendNotificationService.sendNotification(request, personalisation)
+
+        // Then
+        verifyNoInteractions(statisticsUpdateService)
     }
 }

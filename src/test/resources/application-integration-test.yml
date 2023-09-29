@@ -105,3 +105,4 @@ sqs:
   send-uk-gov-notify-requested-signature-queue-name: test-send-uk-gov-notify-requested-signature
   send-uk-gov-notify-nino-not-matched-queue-name: test-send-uk-gov-notify-nino-not-matched
   remove-application-notifications-queue-name: test-remove-application-notifications
+  trigger-voter-card-statistics-update-queue-name: test-trigger-voter-card-statistics-update.fifo
