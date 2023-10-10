@@ -68,6 +68,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
+        given(sourceTypeMapper.toSourceTypeString(sourceTypeModel, ENGLISH)).willReturn("Mapped source type")
         given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(ENGLISH, documents)).willReturn(listOf("Doc1", "Doc2"))
 
         // When
@@ -101,7 +102,8 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
+                    sourceType = "Mapped source type",
                 )
             }
         )
@@ -128,6 +130,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
+        given(sourceTypeMapper.toSourceTypeString(sourceTypeModel, ENGLISH)).willReturn("Mapped source type")
         given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(ENGLISH, documents)).willReturn(listOf("Doc1"))
 
         // When
@@ -161,7 +164,8 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
+                    sourceType = "Mapped source type",
                 )
             }
         )

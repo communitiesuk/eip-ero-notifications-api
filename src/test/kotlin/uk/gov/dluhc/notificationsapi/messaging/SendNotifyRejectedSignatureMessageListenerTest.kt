@@ -45,7 +45,8 @@ class SendNotifyRejectedSignatureMessageListenerTest {
         BDDMockito.given(
             templatePersonalisationMessageMapper.toRejectedSignaturePersonalisationDto(
                 sqsMessage.personalisation,
-                requestDto.language
+                requestDto.language,
+                sqsMessage.sourceType,
             )
         ).willReturn(personalisationDto)
         BDDMockito.given(

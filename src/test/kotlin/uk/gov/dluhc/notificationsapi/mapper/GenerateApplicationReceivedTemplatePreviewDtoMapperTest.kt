@@ -41,6 +41,7 @@ class GenerateApplicationReceivedTemplatePreviewDtoMapperTest {
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
+        given(sourceTypeMapper.toSourceTypeString(SourceTypeModel.VOTER_MINUS_CARD, LanguageDto.ENGLISH)).willReturn("Mapped source type")
 
         val expected = buildGenerateApplicationReceivedTemplatePreviewDto(
             sourceType = SourceTypeDto.VOTER_CARD,
@@ -66,7 +67,8 @@ class GenerateApplicationReceivedTemplatePreviewDtoMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
+                    sourceType = "Mapped source type",
                 )
             }
         )
@@ -78,5 +80,6 @@ class GenerateApplicationReceivedTemplatePreviewDtoMapperTest {
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
+        verify(sourceTypeMapper).toSourceTypeString(SourceTypeModel.VOTER_MINUS_CARD, LanguageDto.ENGLISH)
     }
 }

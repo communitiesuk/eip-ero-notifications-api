@@ -12,6 +12,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
+import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
@@ -23,6 +24,7 @@ import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocument
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
 import uk.gov.dluhc.notificationsapi.mapper.SignatureRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
@@ -31,9 +33,9 @@ import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
+import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDtoFromMessage
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationReceivedPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDtoFromMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationDtoFromMessage
@@ -68,6 +70,9 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Mock
     private lateinit var rejectedDocumentsMapper: RejectedDocumentsMapper
+
+    @Mock
+    private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Nested
     inner class ToPhotoPersonalisationDto {
@@ -186,11 +191,37 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS Application Received Personalisation to ApplicationReceivedPersonalisationDto`() {
             // Given
             val personalisationMessage = buildApplicationReceivedPersonalisation()
-            val expectedPersonalisationDto =
-                buildApplicationReceivedPersonalisationDtoFromMessage(personalisationMessage)
+
+            given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
+
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                ApplicationReceivedPersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode,
+                                )
+                            }
+                        )
+                    },
+                    sourceType = "Mapped source type",
+                )
+            }
 
             // When
-            val actual = mapper.toReceivedPersonalisationDto(personalisationMessage)
+            val actual = mapper.toReceivedPersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
@@ -263,7 +294,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
                 )
             }
 
@@ -290,6 +321,7 @@ internal class TemplatePersonalisationMessageMapperTest {
             // Given
             val personalisationMessage = buildRejectedDocumentsPersonalisation()
             given(rejectedDocumentsMapper.mapRejectionDocumentsFromMessaging(ENGLISH, personalisationMessage.documents)).willReturn(listOf("Doc1", "Doc2"))
+            given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
 
             val expectedPersonalisationDto = with(personalisationMessage) {
                 RejectedDocumentPersonalisationDto(
@@ -314,12 +346,13 @@ internal class TemplatePersonalisationMessageMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
+                    sourceType = "Mapped source type",
                 )
             }
 
             // When
-            val actual = mapper.toRejectedDocumentPersonalisationDto(personalisationMessage, ENGLISH)
+            val actual = mapper.toRejectedDocumentPersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
@@ -354,6 +387,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                 imageUnclear
                 // a mapping from OTHER is not expected - this is by design
             )
+            given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
 
             val expectedPersonalisationDto = with(personalisationMessage) {
                 RejectedSignaturePersonalisationDto(
@@ -379,12 +413,13 @@ internal class TemplatePersonalisationMessageMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
+                    sourceType = "Mapped source type",
                 )
             }
 
             // When
-            val actual = mapper.toRejectedSignaturePersonalisationDto(personalisationMessage, ENGLISH)
+            val actual = mapper.toRejectedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
@@ -405,6 +440,8 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS RequestedSignaturePersonalisation to RequestedSignaturePersonalisationDto`() {
             // Given
             val personalisationMessage = buildRequestedSignaturePersonalisation()
+
+            given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
 
             val expectedPersonalisationDto = with(personalisationMessage) {
                 RequestedSignaturePersonalisationDto(
@@ -428,12 +465,13 @@ internal class TemplatePersonalisationMessageMapperTest {
                                 )
                             }
                         )
-                    }
+                    },
+                    sourceType = "Mapped source type",
                 )
             }
 
             // When
-            val actual = mapper.toRequestedSignaturePersonalisationDto(personalisationMessage)
+            val actual = mapper.toRequestedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

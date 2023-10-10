@@ -9,6 +9,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
@@ -16,6 +17,10 @@ import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildRejectedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRejectedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 
@@ -76,13 +81,11 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
                 rejectionNotes = rejectionNotes, rejectionReasons = rejectionReasonToExpectedRejectReason.keys.toList()
             )
         )
-        given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(
-            NotificationChannelDto.valueOf(
-                channel.name
-            )
-        )
+        val expectedChannel = NotificationChannelDto.valueOf(channel.name)
+        given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
         given { sourceTypeMapper.fromApiToDto(SourceType.PROXY) }.willReturn(SourceTypeDto.PROXY)
         given { languageMapper.fromApiToDto(Language.EN) }.willReturn(LanguageDto.ENGLISH)
+        given(sourceTypeMapper.toSourceTypeString(SourceType.PROXY, LanguageDto.ENGLISH)).willReturn("Mapped source type")
         rejectionReasonToExpectedRejectReason.entries.forEach { (reason, expected) ->
             given(
                 signatureRejectionReasonMapper.toSignatureRejectionReasonString(
@@ -91,20 +94,51 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
                 )
             ).willReturn(expected)
         }
+        val expectedNotificationType =
+            if (rejectionReasonToExpectedRejectReason.isEmpty()) NotificationType.REJECTED_SIGNATURE
+            else NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 
-        val mappedDto = mapper.toRejectedSignatureTemplatePreviewDto(request)
-
-        assertThat(mappedDto).extracting("channel", "sourceType", "language").containsExactly(
-            NotificationChannelDto.valueOf(channel.name),
-            SourceTypeDto.PROXY,
-            LanguageDto.ENGLISH,
+        val expected = buildGenerateRejectedSignatureTemplatePreviewDto(
+            sourceType = SourceTypeDto.PROXY,
+            channel = expectedChannel,
+            language = LanguageDto.ENGLISH,
+            notificationType = expectedNotificationType,
+            personalisation = with(request.personalisation) {
+                buildRejectedSignaturePersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode
+                                )
+                            }
+                        )
+                    },
+                    rejectionReasons = rejectionReasonToExpectedRejectReason.values.toList(),
+                    rejectionNotes = rejectionNotes,
+                    rejectionFreeText = rejectionFreeText,
+                    sourceType = "Mapped source type",
+                )
+            }
         )
-        assertThat(mappedDto.personalisation)
+
+        val actual = mapper.toRejectedSignatureTemplatePreviewDto(request)
+
+        assertThat(actual)
             .usingRecursiveComparison()
-            .ignoringFields("rejectionReasons")
-            .isEqualTo(request.personalisation)
-        assertThat(mappedDto.personalisation.rejectionReasons)
-            .isEqualTo(rejectionReasonToExpectedRejectReason.values.toList())
-        return mappedDto
+            .ignoringCollectionOrderInFields("personalisation.rejectionReasons")
+            .isEqualTo(expected)
+        return actual
     }
 }

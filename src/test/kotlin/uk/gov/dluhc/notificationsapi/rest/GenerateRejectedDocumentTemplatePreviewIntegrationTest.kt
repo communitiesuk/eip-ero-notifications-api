@@ -232,7 +232,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to sourceType.value,
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(EMAIL_DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
@@ -270,7 +271,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to sourceType.value,
             )
         }
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
@@ -325,7 +327,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "eroAddressLine3" to "",
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to sourceType.value,
             )
         }
 

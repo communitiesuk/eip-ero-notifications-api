@@ -197,20 +197,22 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
     @ParameterizedTest
     @CsvSource(
         value = [
-            "POSTAL, EMAIL,$EMAIL_ENGLISH_TEMPLATE_ID,EN",
-            "POSTAL, LETTER,$LETTER_ENGLISH_TEMPLATE_ID,EN",
-            "POSTAL, EMAIL,$EMAIL_WELSH_TEMPLATE_ID,CY",
-            "POSTAL, LETTER,$LETTER_WELSH_TEMPLATE_ID,CY",
-            "PROXY, EMAIL,$EMAIL_ENGLISH_TEMPLATE_ID,EN",
-            "PROXY, LETTER,$LETTER_ENGLISH_TEMPLATE_ID,EN",
-            "PROXY, EMAIL,$EMAIL_WELSH_TEMPLATE_ID,CY",
-            "PROXY, LETTER,$LETTER_WELSH_TEMPLATE_ID,CY"
+            "POSTAL, EMAIL,$EMAIL_ENGLISH_TEMPLATE_ID,EN,postal",
+            "POSTAL, LETTER,$LETTER_ENGLISH_TEMPLATE_ID,EN,postal",
+            "POSTAL, EMAIL,$EMAIL_WELSH_TEMPLATE_ID,CY,drwy'r post",
+            "POSTAL, LETTER,$LETTER_WELSH_TEMPLATE_ID,CY,drwy'r post",
+            "PROXY, EMAIL,$EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy",
+            "PROXY, LETTER,$LETTER_ENGLISH_TEMPLATE_ID,EN,proxy",
+            "PROXY, EMAIL,$EMAIL_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
+            "PROXY, LETTER,$LETTER_WELSH_TEMPLATE_ID,CY,drwy ddirprwy"
         ]
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
         notificationChannel: NotificationChannel,
-        templateId: String
+        templateId: String,
+        language: Language,
+        expectedPersonalisationSourceType: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -218,6 +220,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         val requestBody = buildGenerateNinoNotMatchedTemplatePreviewRequest(
             sourceType = sourceType,
             channel = notificationChannel,
+            language = language,
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = "Invalid"
             )
@@ -251,7 +254,8 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to expectedPersonalisationSourceType,
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
@@ -266,7 +270,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
     )
     fun `should return template preview given valid request when optional values are not populated`(
         notificationChannel: NotificationChannel,
-        templateId: String
+        templateId: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -293,7 +297,8 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
                 "eroAddressLine3" to "",
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to "postal",
             )
         }
 
@@ -324,6 +329,4 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             GenerateNinoNotMatchedTemplatePreviewRequest::class.java
         ) as WebTestClient.RequestBodySpec
     }
-
-    private fun Language?.toMessage(): String = if (this == Language.CY) "Welsh" else "English"
 }

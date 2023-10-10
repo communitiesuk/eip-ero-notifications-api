@@ -91,6 +91,7 @@ class RejectedSignatureTemplatePreviewDtoMapper_NotificationTypeTest {
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(aNotificationChannel())
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(aSourceType())
+        given(sourceTypeMapper.toSourceTypeString(sourceType, LanguageDto.ENGLISH)).willReturn("Mapped source type")
 
         // When
         val actual = mapper.toRejectedSignatureTemplatePreviewDto(request)
@@ -127,6 +128,7 @@ class RejectedSignatureTemplatePreviewDtoMapper_NotificationTypeTest {
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(aNotificationChannel())
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(aSourceType())
+        given(sourceTypeMapper.toSourceTypeString(sourceType, LanguageDto.ENGLISH)).willReturn("Mapped source type")
 
         // When
         val actual = mapper.toRejectedSignatureTemplatePreviewDto(request)
