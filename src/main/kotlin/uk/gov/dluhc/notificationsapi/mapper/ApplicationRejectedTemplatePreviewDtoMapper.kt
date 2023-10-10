@@ -8,6 +8,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.SourceType
 
 @Mapper(uses = [LanguageMapper::class, SourceTypeMapper::class])
 abstract class ApplicationRejectedTemplatePreviewDtoMapper {
@@ -17,17 +18,22 @@ abstract class ApplicationRejectedTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, applicationRejectedTemplatePreviewRequest.getPersonalisation() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
     )
-    abstract fun toApplicationRejectedTemplatePreviewDto(applicationRejectedTemplatePreviewRequest: GenerateApplicationRejectedTemplatePreviewRequest): ApplicationRejectedTemplatePreviewDto
+    abstract fun toApplicationRejectedTemplatePreviewDto(request: GenerateApplicationRejectedTemplatePreviewRequest): ApplicationRejectedTemplatePreviewDto
 
+    @Mapping(
+        target = "sourceType",
+        expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
+    )
     @Mapping(
         target = "rejectionReasonList",
         expression = "java( mapApplicationRejectionReasons( languageDto, personalisation ) )"
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
-        personalisation: ApplicationRejectedPersonalisation
+        personalisation: ApplicationRejectedPersonalisation,
+        sourceType: SourceType,
     ): ApplicationRejectedPersonalisationDto
 
     fun mapApplicationRejectionReasons(
