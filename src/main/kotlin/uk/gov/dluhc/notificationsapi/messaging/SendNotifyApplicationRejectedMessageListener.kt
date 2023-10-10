@@ -31,7 +31,8 @@ class SendNotifyApplicationRejectedMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromRejectedMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toRejectedPersonalisationDto(personalisation, sendNotificationRequestDto.language)
+            val personalisationDto = templatePersonalisationMessageMapper
+                .toRejectedPersonalisationDto(personalisation, sendNotificationRequestDto.language, sourceType)
             val personalisationMap = templatePersonalisationDtoMapper.toApplicationRejectedTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

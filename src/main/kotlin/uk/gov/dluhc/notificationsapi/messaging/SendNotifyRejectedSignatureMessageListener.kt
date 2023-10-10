@@ -33,8 +33,8 @@ class SendNotifyRejectedSignatureMessageListener(
                     "language: $language"
             }
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromRejectedSignatureToSendNotificationRequestDto(this)
-            val personalisationDto =
-                templatePersonalisationMessageMapper.toRejectedSignaturePersonalisationDto(personalisation, sendNotificationRequestDto.language)
+            val personalisationDto = templatePersonalisationMessageMapper
+                .toRejectedSignaturePersonalisationDto(personalisation, sendNotificationRequestDto.language, sourceType)
             val personalisationMap =
                 templatePersonalisationDtoMapper.toRejectedSignatureTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(

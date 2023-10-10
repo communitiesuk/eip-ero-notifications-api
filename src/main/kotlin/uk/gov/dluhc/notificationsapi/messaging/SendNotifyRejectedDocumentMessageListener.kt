@@ -32,7 +32,8 @@ class SendNotifyRejectedDocumentMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromRejectedDocumentMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toRejectedDocumentPersonalisationDto(personalisation, sendNotificationRequestDto.language)
+            val personalisationDto = templatePersonalisationMessageMapper
+                .toRejectedDocumentPersonalisationDto(personalisation, sendNotificationRequestDto.language, sourceType)
             val personalisationMap = templatePersonalisationDtoMapper.toRejectedDocumentTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }
