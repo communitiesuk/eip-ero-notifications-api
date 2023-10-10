@@ -68,7 +68,6 @@ class ApplicationRejectedPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val sourceType: String,
     val rejectionReasonList: List<String>,
     val rejectionReasonMessage: String?,
 ) : BaseTemplatePersonalisationDto(

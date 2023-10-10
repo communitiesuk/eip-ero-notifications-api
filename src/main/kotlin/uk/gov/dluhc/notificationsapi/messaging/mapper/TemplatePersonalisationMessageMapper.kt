@@ -107,17 +107,12 @@ abstract class TemplatePersonalisationMessageMapper {
     abstract fun toApprovedPersonalisationDto(personalisationMessage: BasePersonalisation): ApplicationApprovedPersonalisationDto
 
     @Mapping(
-        target = "sourceType",
-        expression = "java( mapSourceType( languageDto, sourceType ) )",
-    )
-    @Mapping(
         target = "rejectionReasonList",
         expression = "java( mapApplicationRejectionReasons( languageDto, personalisationMessage ) )"
     )
     abstract fun toRejectedPersonalisationDto(
         personalisationMessage: ApplicationRejectedPersonalisation,
         languageDto: LanguageDto,
-        sourceType: SourceType,
     ): ApplicationRejectedPersonalisationDto
 
     protected fun mapApplicationRejectionReasons(
