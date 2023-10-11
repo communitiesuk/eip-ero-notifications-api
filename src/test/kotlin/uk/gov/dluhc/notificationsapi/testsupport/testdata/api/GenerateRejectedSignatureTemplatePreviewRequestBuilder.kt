@@ -29,8 +29,8 @@ fun buildRejectedSignaturePersonalisation(
     eroContactDetails: ContactDetails = buildEroContactDetails(),
     rejectionNotes: String? = "Invalid Signature",
     rejectionReasons: List<SignatureRejectionReason> = listOf(
-        SignatureRejectionReason.TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE,
-        SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR,
+        SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
+        SignatureRejectionReason.TOO_MINUS_DARK,
         SignatureRejectionReason.OTHER
     ),
     rejectionFreeText: String? = null,

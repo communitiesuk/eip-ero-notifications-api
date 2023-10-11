@@ -22,15 +22,11 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE, The signature was too small or unreadable",
-                "TOO_MINUS_LARGE, The signature was too large",
-                "UNCLEAR_MINUS_FOR_MINUS_SCANNING, The signature was not clear for scanning",
-                "IMAGE_MINUS_NOT_MINUS_CLEAR, The image was not clear",
-                "CONTRAST_MINUS_TOO_MINUS_LOW, The contrast was too low",
-                "ON_MINUS_LINED_MINUS_OR_MINUS_PATTERNED_MINUS_PAPER, The signature was on lined or patterned paper",
-                "ON_MINUS_COLOURED_MINUS_PAPER, The signature was on coloured paper",
-                "OBSCURED_MINUS_BY_MINUS_SHADOW, The signature was obscured by shadow",
-                "PARTIALLY_MINUS_CUT_MINUS_OFF, The signature was partially cut off"
+                "PARTIALLY_MINUS_CUT_MINUS_OFF,The image has some of it cut off",
+                "TOO_MINUS_DARK,The image is too dark",
+                "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
+                "HAS_MINUS_SHADOWS,The signature has shadows over it",
+                "WRONG_MINUS_SIZE,The image is either too big or too small",
             ]
         )
         fun `should map enums to human readable messages in English`(
@@ -49,15 +45,11 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE, The signature was too small or unreadable",
-                "TOO_MINUS_LARGE, The signature was too large",
-                "UNCLEAR_MINUS_FOR_MINUS_SCANNING, The signature was not clear for scanning",
-                "IMAGE_MINUS_NOT_MINUS_CLEAR, The image was not clear",
-                "CONTRAST_MINUS_TOO_MINUS_LOW, The contrast was too low",
-                "ON_MINUS_LINED_MINUS_OR_MINUS_PATTERNED_MINUS_PAPER, The signature was on lined or patterned paper",
-                "ON_MINUS_COLOURED_MINUS_PAPER, The signature was on coloured paper",
-                "OBSCURED_MINUS_BY_MINUS_SHADOW, The signature was obscured by shadow",
-                "PARTIALLY_MINUS_CUT_MINUS_OFF, The signature was partially cut off"
+                "PARTIALLY_MINUS_CUT_MINUS_OFF,The image has some of it cut off",
+                "TOO_MINUS_DARK,The image is too dark",
+                "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
+                "HAS_MINUS_SHADOWS,The signature has shadows over it",
+                "WRONG_MINUS_SIZE,The image is either too big or too small",
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
@@ -79,15 +71,11 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE, The signature was too small or unreadable",
-                "TOO_MINUS_LARGE, The signature was too large",
-                "UNCLEAR_MINUS_FOR_MINUS_SCANNING, The signature was not clear for scanning",
-                "IMAGE_MINUS_NOT_MINUS_CLEAR, The image was not clear",
-                "CONTRAST_MINUS_TOO_MINUS_LOW, The contrast was too low",
-                "ON_MINUS_LINED_MINUS_OR_MINUS_PATTERNED_MINUS_PAPER, The signature was on lined or patterned paper",
-                "ON_MINUS_COLOURED_MINUS_PAPER, The signature was on coloured paper",
-                "OBSCURED_MINUS_BY_MINUS_SHADOW, The signature was obscured by shadow",
-                "PARTIALLY_MINUS_CUT_MINUS_OFF, The signature was partially cut off"
+                "PARTIALLY_MINUS_CUT_MINUS_OFF,The image has some of it cut off",
+                "TOO_MINUS_DARK,The image is too dark",
+                "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
+                "HAS_MINUS_SHADOWS,The signature has shadows over it",
+                "WRONG_MINUS_SIZE,The image is either too big or too small",
             ]
         )
         fun `should map enums to human readable messages in English`(
@@ -106,15 +94,11 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE, The signature was too small or unreadable",
-                "TOO_MINUS_LARGE, The signature was too large",
-                "UNCLEAR_MINUS_FOR_MINUS_SCANNING, The signature was not clear for scanning",
-                "IMAGE_MINUS_NOT_MINUS_CLEAR, The image was not clear",
-                "CONTRAST_MINUS_TOO_MINUS_LOW, The contrast was too low",
-                "ON_MINUS_LINED_MINUS_OR_MINUS_PATTERNED_MINUS_PAPER, The signature was on lined or patterned paper",
-                "ON_MINUS_COLOURED_MINUS_PAPER, The signature was on coloured paper",
-                "OBSCURED_MINUS_BY_MINUS_SHADOW, The signature was obscured by shadow",
-                "PARTIALLY_MINUS_CUT_MINUS_OFF, The signature was partially cut off"
+                "PARTIALLY_MINUS_CUT_MINUS_OFF,The image has some of it cut off",
+                "TOO_MINUS_DARK,The image is too dark",
+                "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
+                "HAS_MINUS_SHADOWS,The signature has shadows over it",
+                "WRONG_MINUS_SIZE,The image is either too big or too small",
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
