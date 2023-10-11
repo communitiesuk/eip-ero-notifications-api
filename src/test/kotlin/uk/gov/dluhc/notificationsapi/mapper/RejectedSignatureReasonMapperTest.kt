@@ -45,11 +45,11 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "PARTIALLY_MINUS_CUT_MINUS_OFF,The image has some of it cut off",
-                "TOO_MINUS_DARK,The image is too dark",
-                "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
-                "HAS_MINUS_SHADOWS,The signature has shadows over it",
-                "WRONG_MINUS_SIZE,The image is either too big or too small",
+                "PARTIALLY_MINUS_CUT_MINUS_OFF,Mae darn o'r llun wedi'i dorri i ffwrdd",
+                "TOO_MINUS_DARK,Mae'r llun yn rhy dywyll",
+                "NOT_MINUS_IN_MINUS_FOCUS,Nid yw'r llofnod mewn ffocws",
+                "HAS_MINUS_SHADOWS,Mae cysgodion dros y llofnod",
+                "WRONG_MINUS_SIZE,Mae'r llun naill ai'n rhy fawr neu'n rhy fach",
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
@@ -94,11 +94,11 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "PARTIALLY_MINUS_CUT_MINUS_OFF,The image has some of it cut off",
-                "TOO_MINUS_DARK,The image is too dark",
-                "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
-                "HAS_MINUS_SHADOWS,The signature has shadows over it",
-                "WRONG_MINUS_SIZE,The image is either too big or too small",
+                "PARTIALLY_MINUS_CUT_MINUS_OFF,Mae darn o'r llun wedi'i dorri i ffwrdd",
+                "TOO_MINUS_DARK,Mae'r llun yn rhy dywyll",
+                "NOT_MINUS_IN_MINUS_FOCUS,Nid yw'r llofnod mewn ffocws",
+                "HAS_MINUS_SHADOWS,Mae cysgodion dros y llofnod",
+                "WRONG_MINUS_SIZE,Mae'r llun naill ai'n rhy fawr neu'n rhy fach",
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
