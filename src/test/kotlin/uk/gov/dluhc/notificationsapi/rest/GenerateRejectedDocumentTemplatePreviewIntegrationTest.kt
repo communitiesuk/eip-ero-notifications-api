@@ -221,7 +221,11 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             mutableMapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectedDocuments" to listOf("Utility bill - The document is too old - Some notes here"),
+                "rejectedDocuments" to listOf(
+                    "Utility bill\n" +
+                        "  * The document is too old\n" +
+                        "  * Some notes here"
+                ),
                 "rejectionMessage" to rejectedDocumentFreeText!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
@@ -260,7 +264,11 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectedDocuments" to listOf("Utility bill - The document is too old - Notes for letter"),
+                "rejectedDocuments" to listOf(
+                    "Utility bill\n" +
+                        "  * The document is too old\n" +
+                        "  * Notes for letter"
+                ),
                 "rejectionMessage" to rejectedDocumentFreeText!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
