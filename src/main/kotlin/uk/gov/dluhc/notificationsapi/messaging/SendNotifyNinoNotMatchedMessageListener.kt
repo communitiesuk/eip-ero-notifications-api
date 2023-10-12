@@ -33,7 +33,8 @@ class SendNotifyNinoNotMatchedMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toNinoNotMatchedPersonalisationDto(personalisation, sendNotificationRequestDto.language)
+            val personalisationDto = templatePersonalisationMessageMapper
+                .toNinoNotMatchedPersonalisationDto(personalisation, sendNotificationRequestDto.language, sourceType)
             val personalisationMap = templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

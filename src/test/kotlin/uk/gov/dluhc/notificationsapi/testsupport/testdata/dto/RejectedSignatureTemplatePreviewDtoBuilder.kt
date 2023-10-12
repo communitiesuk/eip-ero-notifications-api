@@ -12,12 +12,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 
 fun buildGenerateRejectedSignatureTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
+    sourceType: SourceType = SourceType.PROXY,
+    language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: RejectedSignaturePersonalisationDto = buildRejectedSignaturePersonalisationDto(),
     notificationType: NotificationType = NotificationType.REJECTED_SIGNATURE,
 ) = RejectedSignatureTemplatePreviewDto(
     channel = channel,
-    sourceType = SourceType.PROXY,
-    language = LanguageDto.ENGLISH,
+    sourceType = sourceType,
+    language = language,
     personalisation = personalisation,
     notificationType = notificationType
 )
@@ -29,11 +31,13 @@ fun buildRejectedSignaturePersonalisationDto(
     rejectionNotes: String? = null,
     rejectionReasons: List<String> = emptyList(),
     rejectionFreeText: String? = null,
+    sourceType: String = "postal",
 ) = RejectedSignaturePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     rejectionNotes = rejectionNotes,
     rejectionReasons = rejectionReasons,
-    rejectionFreeText = rejectionFreeText
+    rejectionFreeText = rejectionFreeText,
+    sourceType = sourceType,
 )

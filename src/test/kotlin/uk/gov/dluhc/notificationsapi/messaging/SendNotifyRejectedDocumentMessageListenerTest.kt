@@ -43,7 +43,7 @@ internal class SendNotifyRejectedDocumentMessageListenerTest {
         val personalisationDto = buildRejectedDocumentPersonalisationDto()
 
         given(sendNotifyMessageMapper.fromRejectedDocumentMessageToSendNotificationRequestDto(sqsMessage)).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toRejectedDocumentPersonalisationDto(sqsMessage.personalisation, requestDto.language)).willReturn(personalisationDto)
+        given(templatePersonalisationMessageMapper.toRejectedDocumentPersonalisationDto(sqsMessage.personalisation, requestDto.language, sqsMessage.sourceType)).willReturn(personalisationDto)
         given(templatePersonalisationDtoMapper.toRejectedDocumentTemplatePersonalisationMap(personalisationDto)).willReturn(personalisationMap)
 
         // When

@@ -32,7 +32,8 @@ class SendNotifyApplicationReceivedMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromReceivedMessageToSendNotificationRequestDto(this)
-            val personalisationDto = templatePersonalisationMessageMapper.toReceivedPersonalisationDto(personalisation)
+            val personalisationDto = templatePersonalisationMessageMapper
+                .toReceivedPersonalisationDto(personalisation, sendNotificationRequestDto.language, sourceType)
             val personalisationMap = templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

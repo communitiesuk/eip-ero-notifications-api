@@ -44,7 +44,7 @@ class SendNotifyRequestedSignatureMessageListenerTest {
 
         given(sendNotifyMessageMapper.fromRequestedSignatureToSendNotificationRequestDto(sqsMessage))
             .willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toRequestedSignaturePersonalisationDto(sqsMessage.personalisation))
+        given(templatePersonalisationMessageMapper.toRequestedSignaturePersonalisationDto(sqsMessage.personalisation, requestDto.language, sqsMessage.sourceType))
             .willReturn(personalisationDto)
         given(templatePersonalisationDtoMapper.toRequestedSignatureTemplatePersonalisationMap(personalisationDto))
             .willReturn(personalisationMap)

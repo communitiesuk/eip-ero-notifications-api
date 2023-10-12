@@ -59,8 +59,19 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    fun toApplicationReceivedTemplatePersonalisationMap(dto: ApplicationReceivedPersonalisationDto): Map<String, String> {
-        return getBasicContactDetailsPersonalisationMap(dto)
+    fun toApplicationReceivedTemplatePersonalisationMap(dto: ApplicationReceivedPersonalisationDto): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
+            personalisation["sourceType"] = sourceType
+        }
+        return personalisation
     }
 
     fun toApplicationApprovedTemplatePersonalisationMap(dto: ApplicationApprovedPersonalisationDto): Map<String, String> {
@@ -95,6 +106,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
+            personalisation["sourceType"] = sourceType
         }
         return personalisation
     }
@@ -112,6 +124,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
+            personalisation["sourceType"] = sourceType
         }
         return personalisation
     }
@@ -127,6 +140,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
+            personalisation["sourceType"] = sourceType
         }
         return personalisation
     }
@@ -142,6 +156,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
+            personalisation["sourceType"] = sourceType
         }
         return personalisation
     }

@@ -3,7 +3,7 @@ package uk.gov.dluhc.notificationsapi.dto
 abstract class BaseTemplatePersonalisationDto(
     val applicationReference: String,
     val firstName: String,
-    val eroContactDetails: ContactDetailsDto
+    val eroContactDetails: ContactDetailsDto,
 )
 
 class IdDocumentPersonalisationDto(
@@ -11,22 +11,22 @@ class IdDocumentPersonalisationDto(
     firstName: String,
     eroContactDetails: ContactDetailsDto,
     val idDocumentRequestFreeText: String,
-    val documentRejectionText: String?
+    val documentRejectionText: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class IdDocumentRequiredPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val idDocumentRequiredFreeText: String
+    val idDocumentRequiredFreeText: String,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class PhotoPersonalisationDto(
@@ -36,11 +36,11 @@ class PhotoPersonalisationDto(
     val photoRejectionReasons: List<String>,
     val photoRejectionNotes: String?,
     val photoRequestFreeText: String,
-    val uploadPhotoLink: String
+    val uploadPhotoLink: String,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class ApplicationApprovedPersonalisationDto(
@@ -50,17 +50,18 @@ class ApplicationApprovedPersonalisationDto(
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class ApplicationReceivedPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
+    val sourceType: String,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class ApplicationRejectedPersonalisationDto(
@@ -68,56 +69,60 @@ class ApplicationRejectedPersonalisationDto(
     firstName: String,
     eroContactDetails: ContactDetailsDto,
     val rejectionReasonList: List<String>,
-    val rejectionReasonMessage: String?
+    val rejectionReasonMessage: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class RejectedDocumentPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
+    val sourceType: String,
     val documents: List<String>,
-    val rejectedDocumentFreeText: String?
+    val rejectedDocumentFreeText: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class RejectedSignaturePersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
+    val sourceType: String,
     val rejectionNotes: String?,
     val rejectionReasons: List<String>,
     val rejectionFreeText: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class RequestedSignaturePersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
+    val sourceType: String,
     val freeText: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )
 
 class NinoNotMatchedPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
+    val sourceType: String,
     val additionalNotes: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
-    eroContactDetails = eroContactDetails
+    eroContactDetails = eroContactDetails,
 )

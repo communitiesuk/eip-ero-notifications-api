@@ -8,12 +8,17 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
+import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildNinoNotMatchedPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 
@@ -49,28 +54,53 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
                 additionalNotes = additionalNotes
             )
         )
-        given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(
-            NotificationChannelDto.valueOf(channel.name)
-        )
+        val expectedChannel = NotificationChannelDto.valueOf(channel.name)
+        given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
         given { sourceTypeMapper.fromApiToDto(SourceType.POSTAL) }.willReturn(SourceTypeDto.POSTAL)
         given { languageMapper.fromApiToDto(Language.EN) }.willReturn(LanguageDto.ENGLISH)
+        given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)).willReturn("Mapped source type")
+
+        val expected = buildNinoNotMatchedTemplatePreviewDto(
+            sourceType = SourceTypeDto.POSTAL,
+            channel = expectedChannel,
+            language = LanguageDto.ENGLISH,
+            personalisation = with(request.personalisation) {
+                buildNinoNotMatchedPersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode
+                                )
+                            }
+                        )
+                    },
+                    additionalNotes = "Invalid",
+                    sourceType = "Mapped source type",
+                )
+            }
+        )
 
         // When
-        val mappedDto = mapper.toDto(request)
+        val actual = mapper.toDto(request)
 
         // Then
-        assertThat(mappedDto)
-            .extracting("channel", "sourceType", "language")
-            .containsExactly(
-                NotificationChannelDto.valueOf(channel.name),
-                SourceTypeDto.POSTAL,
-                LanguageDto.ENGLISH,
-            )
-
-        assertThat(mappedDto.personalisation)
+        assertThat(actual)
             .usingRecursiveComparison()
-            .isEqualTo(request.personalisation)
-
-        assertThat(mappedDto.personalisation.additionalNotes).isEqualTo(additionalNotes)
+            .isEqualTo(expected)
+        verify(languageMapper).fromApiToDto(Language.EN)
+        verify(sourceTypeMapper).fromApiToDto(SourceType.POSTAL)
+        verify(sourceTypeMapper).toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
     }
 }

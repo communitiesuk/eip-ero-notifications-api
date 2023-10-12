@@ -28,9 +28,11 @@ fun buildRequestedSignaturePersonalisationDto(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
     freeText: String? = null,
+    sourceType: String = "postal",
 ) = RequestedSignaturePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     freeText = freeText,
+    sourceType = sourceType,
 )

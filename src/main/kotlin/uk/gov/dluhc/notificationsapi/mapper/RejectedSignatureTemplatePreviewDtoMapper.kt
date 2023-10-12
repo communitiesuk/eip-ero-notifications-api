@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.RejectedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.models.SourceType
 
 @Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
 abstract class RejectedSignatureTemplatePreviewDtoMapper {
@@ -22,7 +23,7 @@ abstract class RejectedSignatureTemplatePreviewDtoMapper {
     )
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
     )
     abstract fun toRejectedSignatureTemplatePreviewDto(
         request: GenerateRejectedSignatureTemplatePreviewRequest
@@ -38,12 +39,17 @@ abstract class RejectedSignatureTemplatePreviewDtoMapper {
         }
 
     @Mapping(
+        target = "sourceType",
+        expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
+    )
+    @Mapping(
         target = "rejectionReasons",
         expression = "java( mapSignatureRejectionReasons( languageDto, personalisation ) )"
     )
     protected abstract fun mapPersonalisation(
         languageDto: LanguageDto,
-        personalisation: RejectedSignaturePersonalisation
+        personalisation: RejectedSignaturePersonalisation,
+        sourceType: SourceType,
     ): RejectedSignaturePersonalisationDto
 
     protected fun mapSignatureRejectionReasons(

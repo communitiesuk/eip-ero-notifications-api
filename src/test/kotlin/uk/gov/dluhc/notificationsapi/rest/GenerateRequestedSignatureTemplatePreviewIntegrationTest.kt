@@ -200,14 +200,14 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
     @ParameterizedTest
     @CsvSource(
         value = [
-            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
-            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
-            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY",
-            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY",
-            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN",
-            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,postal",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,postal",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy'r post",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy'r post",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,proxy",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,proxy",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
         ]
     )
     fun `should return template preview given valid request`(
@@ -215,6 +215,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
         notificationChannel: NotificationChannel,
         templateId: String,
         language: Language,
+        expectedPersonalisationSourceType: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -256,7 +257,8 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to expectedPersonalisationSourceType,
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
@@ -265,16 +267,17 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
     @ParameterizedTest
     @CsvSource(
         value = [
-            "POSTAL,EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID",
-            "POSTAL,LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID",
-            "PROXY,EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID",
-            "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID",
+            "POSTAL,EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,postal",
+            "POSTAL,LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,postal",
+            "PROXY,EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,proxy",
+            "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,proxy",
         ]
     )
     fun `should return template preview given valid request when optional values are not populated`(
         sourceType: SourceType,
         notificationChannel: NotificationChannel,
         templateId: String,
+        expectedPersonalisationSourceType: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -302,7 +305,8 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
                 "eroAddressLine3" to "",
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to expectedPersonalisationSourceType,
             )
         }
 

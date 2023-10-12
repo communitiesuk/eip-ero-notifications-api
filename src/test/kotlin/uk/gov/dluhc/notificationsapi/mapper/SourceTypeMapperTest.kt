@@ -3,13 +3,21 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.springframework.context.support.ResourceBundleMessageSource
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SourceTypeMessageEnum
 import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeModel
 
 class SourceTypeMapperTest {
-    private val mapper = SourceTypeMapperImpl()
+
+    private val messageSource = ResourceBundleMessageSource().apply {
+        setBasenames("messages")
+        setDefaultEncoding("UTF-8")
+        setFallbackToSystemLocale(true)
+    }
+    private val mapper = SourceTypeMapper(messageSource)
 
     @ParameterizedTest
     @CsvSource(
@@ -94,6 +102,94 @@ class SourceTypeMapperTest {
 
         // When
         val actual = mapper.fromApiToDto(apiSourceTypeEnum)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "OVERSEAS,''",
+            "POSTAL,postal",
+            "PROXY,proxy",
+            "VOTER_MINUS_CARD,''",
+        ],
+    )
+    fun `should map message sourceType to human readable messages in English`(
+        sourceType: SourceTypeMessageEnum,
+        expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toSourceTypeString(sourceType, LanguageDto.ENGLISH)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "OVERSEAS,''",
+            "POSTAL,postal",
+            "PROXY,proxy",
+            "VOTER_MINUS_CARD,''",
+        ],
+    )
+    fun `should map API sourceType to human readable messages in English`(
+        sourceType: SourceTypeModel,
+        expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toSourceTypeString(sourceType, LanguageDto.ENGLISH)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "OVERSEAS,''",
+            "POSTAL,drwy'r post",
+            "PROXY,drwy ddirprwy",
+            "VOTER_MINUS_CARD,''",
+        ],
+    )
+    fun `should map message sourceType to human readable messages in Welsh`(
+        sourceType: SourceTypeMessageEnum,
+        expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toSourceTypeString(sourceType, LanguageDto.WELSH)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "OVERSEAS,''",
+            "POSTAL,drwy'r post",
+            "PROXY,drwy ddirprwy",
+            "VOTER_MINUS_CARD,''",
+        ],
+    )
+    fun `should map API sourceType to human readable messages in Welsh`(
+        sourceType: SourceTypeModel,
+        expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toSourceTypeString(sourceType, LanguageDto.WELSH)
 
         // Then
         assertThat(actual).isEqualTo(expected)

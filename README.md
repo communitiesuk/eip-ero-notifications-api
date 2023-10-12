@@ -2,6 +2,9 @@
 Spring Boot microservice that :
 - Provides an API for sending notifications using the [Government Notify](https://www.notifications.service.gov.uk/documentation) service.
 
+_**See section on [GOV.UK Notify Templates](templates/README.md) for details on creating and editing
+templates.**_
+
 ## Developer Setup
 ### Kotlin API Developers
 
@@ -210,6 +213,3 @@ classpath: /home/valtech/IdeaProjects/eip/eip-ero-voter-card-applications-api/sr
 context=ddl
 ```
 
-## Templates
-
-See section on [GOV.UK Notify Templates](templates/README.md)

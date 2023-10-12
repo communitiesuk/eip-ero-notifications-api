@@ -221,7 +221,11 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             mutableMapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectedDocuments" to listOf("Utility bill - The document is too old - Some notes here"),
+                "rejectedDocuments" to listOf(
+                    "Utility bill\n" +
+                        "  * The document is too old\n" +
+                        "  * Some notes here"
+                ),
                 "rejectionMessage" to rejectedDocumentFreeText!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
@@ -232,7 +236,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to sourceType.value,
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(EMAIL_DOCUMENT_TEMPLATE_ID, expectedPersonalisationDataMap)
@@ -259,7 +264,11 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectedDocuments" to listOf("Utility bill - The document is too old - Notes for letter"),
+                "rejectedDocuments" to listOf(
+                    "Utility bill\n" +
+                        "  * The document is too old\n" +
+                        "  * Notes for letter"
+                ),
                 "rejectionMessage" to rejectedDocumentFreeText!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
@@ -270,7 +279,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to sourceType.value,
             )
         }
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
@@ -325,7 +335,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "eroAddressLine3" to "",
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to sourceType.value,
             )
         }
 

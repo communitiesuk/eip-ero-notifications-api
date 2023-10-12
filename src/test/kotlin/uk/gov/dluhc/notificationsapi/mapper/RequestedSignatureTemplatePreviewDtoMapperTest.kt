@@ -13,6 +13,10 @@ import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateRequestedSignatureTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRequestedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDtoEnum
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDtoEnum
 
@@ -42,20 +46,48 @@ class RequestedSignatureTemplatePreviewDtoMapperTest {
             channel = channel,
         )
 
-        given(notificationChannelMapper.fromApiToDto(request.channel))
-            .willReturn(NotificationChannelDtoEnum.valueOf(channel.name))
+        val expectedChannel = NotificationChannelDtoEnum.valueOf(channel.name)
+        given(notificationChannelMapper.fromApiToDto(request.channel)).willReturn(expectedChannel)
         given(sourceTypeMapper.fromApiToDto(SourceType.PROXY)).willReturn(SourceTypeDtoEnum.PROXY)
         given(languageMapper.fromApiToDto(Language.EN)).willReturn(LanguageDto.ENGLISH)
+        given(sourceTypeMapper.toSourceTypeString(SourceType.PROXY, LanguageDto.ENGLISH)).willReturn("Mapped source type")
 
-        val mappedDto = mapper.toRequestedSignatureTemplatePreviewDto(request)
-
-        Assertions.assertThat(mappedDto).extracting("channel", "sourceType", "language").containsExactly(
-            uk.gov.dluhc.notificationsapi.dto.NotificationChannel.valueOf(channel.name),
-            uk.gov.dluhc.notificationsapi.dto.SourceType.PROXY,
-            LanguageDto.ENGLISH,
+        val expected = buildGenerateRequestedSignatureTemplatePreviewDto(
+            sourceType = SourceTypeDtoEnum.PROXY,
+            channel = expectedChannel,
+            language = LanguageDto.ENGLISH,
+            personalisation = with(request.personalisation) {
+                buildRequestedSignaturePersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode
+                                )
+                            }
+                        )
+                    },
+                    freeText = freeText,
+                    sourceType = "Mapped source type",
+                )
+            }
         )
-        Assertions.assertThat(mappedDto.personalisation)
+
+        val actual = mapper.toRequestedSignatureTemplatePreviewDto(request)
+
+        Assertions.assertThat(actual)
             .usingRecursiveComparison()
-            .isEqualTo(request.personalisation)
+            .isEqualTo(expected)
     }
 }

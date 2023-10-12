@@ -8,6 +8,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.RejectedDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.models.SourceType
 
 @Mapper(uses = [LanguageMapper::class, SourceTypeMapper::class])
 abstract class RejectedDocumentTemplatePreviewDtoMapper {
@@ -17,16 +18,21 @@ abstract class RejectedDocumentTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, generateRejectedDocumentTemplatePreviewRequest.getPersonalisation() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
     )
-    abstract fun toRejectedDocumentTemplatePreviewDto(generateRejectedDocumentTemplatePreviewRequest: GenerateRejectedDocumentTemplatePreviewRequest): RejectedDocumentTemplatePreviewDto
+    abstract fun toRejectedDocumentTemplatePreviewDto(request: GenerateRejectedDocumentTemplatePreviewRequest): RejectedDocumentTemplatePreviewDto
 
+    @Mapping(
+        target = "sourceType",
+        expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
+    )
     @Mapping(
         target = "documents",
         expression = "java( rejectedDocumentsMapper.mapRejectionDocumentsFromApi( languageDto, personalisation.getDocuments() ) )"
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
-        personalisation: RejectedDocumentPersonalisation
+        personalisation: RejectedDocumentPersonalisation,
+        sourceType: SourceType
     ): RejectedDocumentPersonalisationDto
 }

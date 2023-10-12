@@ -33,8 +33,8 @@ class SendNotifyRequestedSignatureMessageListener(
                     "language: $language"
             }
             val sendNotificationRequestDto = sendNotifyMessageMapper.fromRequestedSignatureToSendNotificationRequestDto(this)
-            val personalisationDto =
-                templatePersonalisationMessageMapper.toRequestedSignaturePersonalisationDto(personalisation)
+            val personalisationDto = templatePersonalisationMessageMapper
+                .toRequestedSignaturePersonalisationDto(personalisation, sendNotificationRequestDto.language, sourceType)
             val personalisationMap =
                 templatePersonalisationDtoMapper.toRequestedSignatureTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(
