@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.14.5'
+  version: '1.15.0'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -1484,15 +1484,11 @@ components:
       description: Enum of reasons why a signature is rejected
       type: string
       enum:
-        - too-small-or-unreadable
-        - too-large
-        - unclear-for-scanning
-        - image-not-clear
-        - contrast-too-low
-        - on-lined-or-patterned-paper
-        - on-coloured-paper
-        - obscured-by-shadow
         - partially-cut-off
+        - too-dark
+        - not-in-focus
+        - has-shadows
+        - wrong-size
         - other
     RequestedSignature:
       title: RequestedSignature

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.12.5'
+  version: '1.13.0'
   description: |-
     Notifications SQS Message Types
     
@@ -644,15 +644,11 @@ components:
       description: Enum of reasons why a signature is rejected
       type: string
       enum:
-        - too-small-or-unreadable
-        - too-large
-        - unclear-for-scanning
-        - image-not-clear
-        - contrast-too-low
-        - on-lined-or-patterned-paper
-        - on-coloured-paper
-        - obscured-by-shadow
         - partially-cut-off
+        - too-dark
+        - not-in-focus
+        - has-shadows
+        - wrong-size
         - other
     SendNotifyRejectedSignatureMessage:
       title: SendNotifyRejectedSignatureMessage

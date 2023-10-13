@@ -365,26 +365,26 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS RejectedSignaturePersonalisation to RejectedSignaturePersonalisationDto`() {
             // Given
             val personalisationMessage = buildRejectedSignaturePersonalisation()
-            val tooSmall = "The signature was too small or unreadable"
-            val imageUnclear = "The image was not clear"
+            val partiallyCutOff = "The image has some of it cut off"
+            val tooDark = "The image is too dark"
             given(
                 signatureRejectionReasonMapper.toSignatureRejectionReasonString(
-                    SignatureRejectionReason.TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE,
+                    SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
                     ENGLISH
                 )
             )
-                .willReturn(tooSmall)
+                .willReturn(partiallyCutOff)
             given(
                 signatureRejectionReasonMapper.toSignatureRejectionReasonString(
-                    SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR,
+                    SignatureRejectionReason.TOO_MINUS_DARK,
                     ENGLISH
                 )
             )
-                .willReturn(imageUnclear)
+                .willReturn(tooDark)
 
             val expectedRejectionReasons = listOf(
-                tooSmall,
-                imageUnclear
+                partiallyCutOff,
+                tooDark
                 // a mapping from OTHER is not expected - this is by design
             )
             given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
@@ -423,11 +423,11 @@ internal class TemplatePersonalisationMessageMapperTest {
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
-                SignatureRejectionReason.TOO_MINUS_SMALL_MINUS_OR_MINUS_UNREADABLE,
+                SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
                 ENGLISH
             )
             verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
-                SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR,
+                SignatureRejectionReason.TOO_MINUS_DARK,
                 ENGLISH
             )
             verifyNoMoreInteractions(signatureRejectionReasonMapper)

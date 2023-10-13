@@ -50,7 +50,7 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         ]
     )
     fun `should map rejected signature template preview request to dto`(channel: NotificationChannel) {
-        val rejectionReasonToExpectedRejectReason = mapOf(SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR to "The image was not clear")
+        val rejectionReasonToExpectedRejectReason = mapOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF to "The image has some of it cut off")
         validate(
             channel,
             rejectionNotes = "Invalid signature",

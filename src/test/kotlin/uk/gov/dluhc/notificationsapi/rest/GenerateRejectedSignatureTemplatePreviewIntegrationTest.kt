@@ -243,7 +243,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             channel = notificationChannel,
             language = language,
             personalisation = buildRejectedSignaturePersonalisation(
-                rejectionReasons = if (withReasons) listOf(SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR) else emptyList(),
+                rejectionReasons = if (withReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
                 rejectionNotes = if (withReasons) "Invalid" else null,
                 rejectionFreeText = "Free Text"
             )
@@ -263,7 +263,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
         val actualResponse = response.responseBody.blockFirst()
         val expectedResponse = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
         assertThat(actualResponse).isEqualTo(expectedResponse)
-        val expectedRejectionReasons = listOf("The image was not clear")
+        val expectedRejectionReasons = if (language == Language.EN) listOf("The image has some of it cut off") else listOf("Mae darn o'r llun wedi'i dorri i ffwrdd")
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mutableMapOf(
                 "applicationReference" to applicationReference,
@@ -316,7 +316,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             sourceType = sourceType,
             channel = notificationChannel,
             personalisation = buildRejectedSignaturePersonalisation(
-                rejectionReasons = if (populateRejectionReasons) listOf(SignatureRejectionReason.IMAGE_MINUS_NOT_MINUS_CLEAR) else emptyList(),
+                rejectionReasons = if (populateRejectionReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
                 rejectionNotes = if (populateRejectionNotes) "Rejection note" else null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
             )
@@ -325,7 +325,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             mapOf(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "rejectionReasons" to if (populateRejectionReasons) listOf("The image was not clear") else emptyArray<String>(),
+                "rejectionReasons" to if (populateRejectionReasons) listOf("The image has some of it cut off") else emptyArray<String>(),
                 "rejectionNotes" to if (populateRejectionNotes) "Rejection note" else "",
                 "rejectionFreeText" to "",
                 "LAName" to eroContactDetails.localAuthorityName,
