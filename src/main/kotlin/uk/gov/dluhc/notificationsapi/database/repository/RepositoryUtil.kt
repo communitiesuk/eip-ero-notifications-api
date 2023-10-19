@@ -15,6 +15,11 @@ fun queryRequest(sourceReference: String, sourceType: SourceType, gssCodes: List
                 .and(gssCodesFilterExpression(gssCodes))
         )
 
+fun queryRequestWithoutGssCodes(sourceReference: String, sourceType: SourceType): QueryEnhancedRequest.Builder =
+    QueryEnhancedRequest.builder()
+        .queryConditional(QueryConditional.keyEqualTo(key(sourceReference)))
+        .filterExpression(sourceTypeFilterExpression(sourceType))
+
 fun sourceTypeFilterExpression(sourceType: SourceType): Expression =
     Expression.builder()
         .expression("#sourceType = :sourceType")
