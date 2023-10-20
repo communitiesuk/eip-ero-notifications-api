@@ -254,12 +254,12 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         CY -> mutableListOf(
             "Mae'r cais yn anghyflawn",
             "Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
-            "Eraill"
+            "Ni allem dderbyn eich cais"
         )
         else -> mutableListOf(
-            "Your application was incomplete",
+            "The application is incomplete",
             "You did not respond to our requests for information within the timeframe we gave you",
-            "Other"
+            "We could not accept your application"
         )
     }
 

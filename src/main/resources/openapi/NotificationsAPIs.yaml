@@ -1397,6 +1397,12 @@ components:
         - fraudulent-application
         - duplicate-application
         - no-franchise-to-vote
+        - identity-not-confirmed
+        - not-eligible-for-reserved-polls
+        - dob-not-provided
+        - signature-is-not-acceptable
+        - proxy-not-registered-to-vote
+        - proxy-limits
         - other
     OfflineCommunicationReason:
       title: OfflineCommunicationReason

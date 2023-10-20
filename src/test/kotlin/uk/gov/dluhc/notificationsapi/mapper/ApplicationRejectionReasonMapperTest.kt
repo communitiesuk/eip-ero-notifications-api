@@ -23,15 +23,21 @@ class ApplicationRejectionReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "INCOMPLETE_MINUS_APPLICATION, Your application was incomplete",
+                "INCOMPLETE_MINUS_APPLICATION, The application is incomplete",
                 "INACCURATE_MINUS_INFORMATION, Your application contained inaccurate information",
                 "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Your photo did not meet the criteria",
                 "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, You did not respond to our requests for information within the timeframe we gave you",
-                "FRAUDULENT_MINUS_APPLICATION, Your application contained inaccurate information",
-                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, We have not been able to confirm that you are registered to vote at the address you provided",
+                "FRAUDULENT_MINUS_APPLICATION, The application may be fraudulent",
+                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, The applicant is not registered to vote",
                 "DUPLICATE_MINUS_APPLICATION, We have received one or more similar or duplicate applications for the details provided",
                 "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain requiring photo identification",
-                "OTHER, Other"
+                "IDENTITY_MINUS_NOT_MINUS_CONFIRMED, We could not confirm the applicant's identity",
+                "NOT_MINUS_ELIGIBLE_MINUS_FOR_MINUS_RESERVED_MINUS_POLLS, The applicant is not eligible for reserved polls",
+                "DOB_MINUS_NOT_MINUS_PROVIDED, We do not have the applicant's date of birth",
+                "SIGNATURE_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, We could not accept the signature",
+                "PROXY_MINUS_NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, The nominated proxy is not registered to vote",
+                "PROXY_MINUS_LIMITS, The nominated proxy has reached proxy limits",
+                "OTHER, We could not accept your application"
             ]
         )
         fun `should map enums to human readable messages in English`(
@@ -54,11 +60,17 @@ class ApplicationRejectionReasonMapperTest {
                 "INACCURATE_MINUS_INFORMATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
                 "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Nid yw'r ffotograff yn bodloni'r meini prawf",
                 "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
-                "FRAUDULENT_MINUS_APPLICATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "FRAUDULENT_MINUS_APPLICATION, Gall y cais fod yn dwyllodrus",
                 "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
                 "DUPLICATE_MINUS_APPLICATION, Rydym wedi derbyn un neu fwy o geisiadau dyblyg neu debyg iawn am y manylion a ddarparwyd",
                 "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Mae ein cofnodion yn dangos nad ydych yn gymwys i bleidleisio mewn polau ym Mhrydain Fawr sydd angen prawf adnabod â llun",
-                "OTHER, Eraill"
+                "IDENTITY_MINUS_NOT_MINUS_CONFIRMED, Ni allem gadarnhau pwy yw'r ymgeisydd",
+                "NOT_MINUS_ELIGIBLE_MINUS_FOR_MINUS_RESERVED_MINUS_POLLS, Nid yw'r ymgeisydd yn gymwys ar gyfer etholiadau a gadwyd yn �l",
+                "DOB_MINUS_NOT_MINUS_PROVIDED, Nid yw dyddiad geni'r ymgeisydd gennym",
+                "SIGNATURE_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Ni allem dderbyn y llofnod",
+                "PROXY_MINUS_NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r dirprwy a enwebwyd wedi'i gofrestru i bleidleisio",
+                "PROXY_MINUS_LIMITS, Mae'r dirprwy a enwebwyd wedi cyrraedd y terfyn o ran gweithredu fel dirprwy",
+                "OTHER, Ni allem dderbyn eich cais"
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
@@ -80,15 +92,21 @@ class ApplicationRejectionReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "INCOMPLETE_MINUS_APPLICATION, Your application was incomplete",
+                "INCOMPLETE_MINUS_APPLICATION, The application is incomplete",
                 "INACCURATE_MINUS_INFORMATION, Your application contained inaccurate information",
                 "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Your photo did not meet the criteria",
                 "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, You did not respond to our requests for information within the timeframe we gave you",
-                "FRAUDULENT_MINUS_APPLICATION, Your application contained inaccurate information",
-                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, We have not been able to confirm that you are registered to vote at the address you provided",
+                "FRAUDULENT_MINUS_APPLICATION, The application may be fraudulent",
+                "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, The applicant is not registered to vote",
                 "DUPLICATE_MINUS_APPLICATION, We have received one or more similar or duplicate applications for the details provided",
                 "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Our records show you are not eligible to vote in polls in Great Britain requiring photo identification",
-                "OTHER, Other"
+                "IDENTITY_MINUS_NOT_MINUS_CONFIRMED, We could not confirm the applicant's identity",
+                "NOT_MINUS_ELIGIBLE_MINUS_FOR_MINUS_RESERVED_MINUS_POLLS, The applicant is not eligible for reserved polls",
+                "DOB_MINUS_NOT_MINUS_PROVIDED, We do not have the applicant's date of birth",
+                "SIGNATURE_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, We could not accept the signature",
+                "PROXY_MINUS_NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, The nominated proxy is not registered to vote",
+                "PROXY_MINUS_LIMITS, The nominated proxy has reached proxy limits",
+                "OTHER, We could not accept your application"
             ]
         )
         fun `should map enums to human readable messages in English`(
@@ -111,11 +129,17 @@ class ApplicationRejectionReasonMapperTest {
                 "INACCURATE_MINUS_INFORMATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
                 "PHOTO_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Nid yw'r ffotograff yn bodloni'r meini prawf",
                 "NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
-                "FRAUDULENT_MINUS_APPLICATION, Mae'r cais yn cynnwys gwybodaeth anghywir",
+                "FRAUDULENT_MINUS_APPLICATION, Gall y cais fod yn dwyllodrus",
                 "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r ymgeisydd wedi'i gofrestru i bleidleisio",
                 "DUPLICATE_MINUS_APPLICATION, Rydym wedi derbyn un neu fwy o geisiadau dyblyg neu debyg iawn am y manylion a ddarparwyd",
                 "NO_MINUS_FRANCHISE_MINUS_TO_MINUS_VOTE, Mae ein cofnodion yn dangos nad ydych yn gymwys i bleidleisio mewn polau ym Mhrydain Fawr sydd angen prawf adnabod â llun",
-                "OTHER, Eraill"
+                "IDENTITY_MINUS_NOT_MINUS_CONFIRMED, Ni allem gadarnhau pwy yw'r ymgeisydd",
+                "NOT_MINUS_ELIGIBLE_MINUS_FOR_MINUS_RESERVED_MINUS_POLLS, Nid yw'r ymgeisydd yn gymwys ar gyfer etholiadau a gadwyd yn �l",
+                "DOB_MINUS_NOT_MINUS_PROVIDED, Nid yw dyddiad geni'r ymgeisydd gennym",
+                "SIGNATURE_MINUS_IS_MINUS_NOT_MINUS_ACCEPTABLE, Ni allem dderbyn y llofnod",
+                "PROXY_MINUS_NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE, Nid yw'r dirprwy a enwebwyd wedi'i gofrestru i bleidleisio",
+                "PROXY_MINUS_LIMITS, Mae'r dirprwy a enwebwyd wedi cyrraedd y terfyn o ran gweithredu fel dirprwy",
+                "OTHER, Ni allem dderbyn eich cais"
             ]
         )
         fun `should map enums to human readable messages in Welsh`(
