@@ -720,9 +720,13 @@ components:
           $ref: '#/components/schemas/NotificationChannel'
         personalisation:
           $ref: '#/components/schemas/NinoNotMatchedPersonalisation'
+        isSpecialCategoryElector:
+          type: boolean
+          description: Whether the applicant this message is addressed to is a special category elector or not
       required:
         - personalisation
         - channel
+        - isSpecialCategoryElector
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------

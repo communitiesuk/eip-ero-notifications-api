@@ -32,6 +32,9 @@ interface NotificationTypeMapper {
     // REJECTED_SIGNATURE_WITH_REASONS is an implementation detail and not a "business" notification type
     // Therefore it should be saved to the database as REJECTED_SIGNATURE
     @ValueMapping(source = "REJECTED_SIGNATURE_WITH_REASONS", target = "REJECTED_SIGNATURE")
+    // NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR is an implementation detail and not a "business" notification type
+    // Therefore it should be saved to the database as NINO_NOT_MATCHED
+    @ValueMapping(source = "NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR", target = "NINO_NOT_MATCHED")
     fun toNotificationTypeEntity(notificationType: NotificationType): NotificationTypeEntity
 
     fun toNotificationTypeDto(notificationTypeEntity: NotificationTypeEntity): NotificationType
@@ -50,11 +53,13 @@ interface NotificationTypeMapper {
     // - NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
     // - NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
     // - NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+    // - NotificationType.NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR
     // to the REST API (TemplateType) are not supported and will never happen because they are not saved as database
     // enums, so they will never be presented in this method call. MapStruct does not know this though, so makes us
     // handle the scenario
     @ValueMapping(source = "PHOTO_RESUBMISSION_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     @ValueMapping(source = "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     @ValueMapping(source = "REJECTED_SIGNATURE_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
+    @ValueMapping(source = "NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR", target = MappingConstants.THROW_EXCEPTION)
     fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType
 }

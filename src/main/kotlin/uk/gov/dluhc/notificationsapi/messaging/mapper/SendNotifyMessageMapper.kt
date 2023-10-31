@@ -5,6 +5,7 @@ import org.mapstruct.Mapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
@@ -82,8 +83,8 @@ abstract class SendNotifyMessageMapper {
     @Mapping(target = "notificationType", source = "messageType")
     abstract fun fromRejectedDocumentMessageToSendNotificationRequestDto(sendNotifyRejectedDocumentMessage: SendNotifyRejectedDocumentMessage): SendNotificationRequestDto
 
-    @Mapping(target = "notificationType", source = "messageType")
-    abstract fun fromNinoNotMatchedMessageToSendNotificationRequestDto(sendNotifyNinoNotMatchedMessage: SendNotifyNinoNotMatchedMessage): SendNotificationRequestDto
+    @Mapping(target = "notificationType", expression = "java( ninoNotMatchedNotificationType(message) )")
+    abstract fun fromNinoNotMatchedMessageToSendNotificationRequestDto(message: SendNotifyNinoNotMatchedMessage): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
@@ -114,6 +115,13 @@ abstract class SendNotifyMessageMapper {
                 REJECTED_SIGNATURE_WITH_REASONS
             else
                 REJECTED_SIGNATURE
+        }
+
+    protected fun ninoNotMatchedNotificationType(message: SendNotifyNinoNotMatchedMessage): NotificationType =
+        if (message.isSpecialCategoryElector) {
+            NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR
+        } else {
+            NotificationType.NINO_NOT_MATCHED
         }
 
     @Mapping(source = "messageType", target = "notificationType")

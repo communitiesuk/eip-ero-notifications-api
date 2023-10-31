@@ -3,20 +3,15 @@ package uk.gov.dluhc.notificationsapi.dto
 /**
  * Types of notification handled by the service.
  *
- * PHOTO_RESUBMISSION_WITH_REASONS is an implementation detail, and is not a "business" notification type - ie. the business
- * talk about "the photo resubmission notification", and do not differentiate between with and without reasons.
- * It is defined here so that it can be mapped to a gov.uk notify templateId (ie. it's an implementation detail), but will be
- * saved to the database (and returned through the REST API) as PHOTO_RESUBMISSION
- *
- * ID_DOCUMENT_RESUBMISSION_WITH_REASONS is an implementation detail, and is not a "business" notification type - ie. the business
- * talk about "the ID document resubmission notification", and do not differentiate between with and without reasons.
- * It is defined here so that it can be mapped to a gov.uk notify templateId (ie. it's an implementation detail), but will be
- * saved to the database (and returned through the REST API) as ID_DOCUMENT_RESUBMISSION
- *
- * REJECTED_SIGNATURE_WITH_REASONS is an implementation detail, and is not a "business" notification type - ie. the business
- * talk about "the rejected signature notification", and do not differentiate between with and without reasons.
- * It is defined here so that it can be mapped to a gov.uk notify templateId (ie. it's an implementation detail), but will be
- * saved to the database (and returned through the REST API) as REJECTED_SIGNATURE
+ * The notification types
+ * - PHOTO_RESUBMISSION_WITH_REASONS
+ * - ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+ * - REJECTED_SIGNATURE_WITH_REASONS
+ * - NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR
+ * are implementation details, not "business" notification types, and do not differentiate between with vs without
+ * reasons, or ordinary vs special category electors. They are defined here so that they can be mapped to a different
+ * gov.uk notify templateId (ie. it's an implementation detail), but will be saved to the database (and returned through
+ * the REST API) as PHOTO_RESUBMISSION / ID_DOCUMENT_RESUBMISSION / REJECTED_SIGNATURE / NINO_NOT_MATCHED
  */
 enum class NotificationType {
     APPLICATION_RECEIVED,
@@ -31,5 +26,6 @@ enum class NotificationType {
     REJECTED_SIGNATURE,
     REJECTED_SIGNATURE_WITH_REASONS,
     REQUESTED_SIGNATURE,
-    NINO_NOT_MATCHED
+    NINO_NOT_MATCHED,
+    NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR,
 }

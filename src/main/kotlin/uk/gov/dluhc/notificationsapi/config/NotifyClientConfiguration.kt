@@ -53,6 +53,8 @@ class PostalNotifyEmailTemplateConfiguration(
     requestedSignatureWelsh: String,
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
+    ninoNotMatchedSpecialCategoryElectorEnglish: String,
+    ninoNotMatchedSpecialCategoryElectorWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -79,6 +81,8 @@ class PostalNotifyEmailTemplateConfiguration(
     requestedSignatureWelsh = requestedSignatureWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
+    ninoNotMatchedSpecialCategoryElectorEnglish = ninoNotMatchedSpecialCategoryElectorEnglish,
+    ninoNotMatchedSpecialCategoryElectorWelsh = ninoNotMatchedSpecialCategoryElectorWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -97,6 +101,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     rejectedDocumentWelsh: String,
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
+    ninoNotMatchedSpecialCategoryElectorEnglish: String,
+    ninoNotMatchedSpecialCategoryElectorWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -123,6 +129,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     requestedSignatureWelsh = requestedSignatureWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
+    ninoNotMatchedSpecialCategoryElectorEnglish = ninoNotMatchedSpecialCategoryElectorEnglish,
+    ninoNotMatchedSpecialCategoryElectorWelsh = ninoNotMatchedSpecialCategoryElectorWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -157,6 +165,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     requestedSignatureWelsh = null,
     ninoNotMatchedWelsh = null,
     ninoNotMatchedEnglish = null,
+    ninoNotMatchedSpecialCategoryElectorEnglish = null,
+    ninoNotMatchedSpecialCategoryElectorWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -203,6 +213,8 @@ class VoterCardNotifyEmailTemplateConfiguration(
     requestedSignatureWelsh = null,
     ninoNotMatchedEnglish = null,
     ninoNotMatchedWelsh = null,
+    ninoNotMatchedSpecialCategoryElectorEnglish = null,
+    ninoNotMatchedSpecialCategoryElectorWelsh = null,
 )
 
 abstract class AbstractNotifyEmailTemplateConfiguration(
@@ -231,6 +243,8 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val requestedSignatureWelsh: String?,
     val ninoNotMatchedEnglish: String?,
     val ninoNotMatchedWelsh: String?,
+    val ninoNotMatchedSpecialCategoryElectorEnglish: String?,
+    val ninoNotMatchedSpecialCategoryElectorWelsh: String?,
 )
 
 data class NotifyLetterTemplateConfiguration(
@@ -281,6 +295,8 @@ class VoterCardNotifyLetterTemplateConfiguration(
     requestedSignatureWelsh = null,
     ninoNotMatchedWelsh = null,
     ninoNotMatchedEnglish = null,
+    ninoNotMatchedSpecialCategoryElectorEnglish = null,
+    ninoNotMatchedSpecialCategoryElectorWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -296,7 +312,9 @@ class PostalNotifyLetterTemplateConfiguration(
     requestedSignatureEnglish: String,
     requestedSignatureWelsh: String,
     ninoNotMatchedEnglish: String?,
-    ninoNotMatchedWelsh: String?
+    ninoNotMatchedWelsh: String?,
+    ninoNotMatchedSpecialCategoryElectorEnglish: String,
+    ninoNotMatchedSpecialCategoryElectorWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -323,6 +341,8 @@ class PostalNotifyLetterTemplateConfiguration(
     requestedSignatureWelsh = requestedSignatureWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
+    ninoNotMatchedSpecialCategoryElectorEnglish = ninoNotMatchedSpecialCategoryElectorEnglish,
+    ninoNotMatchedSpecialCategoryElectorWelsh = ninoNotMatchedSpecialCategoryElectorWelsh,
 )
 
 abstract class AbstractNotifyLetterTemplateConfiguration(
@@ -351,6 +371,8 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val requestedSignatureWelsh: String?,
     val ninoNotMatchedEnglish: String?,
     val ninoNotMatchedWelsh: String?,
+    val ninoNotMatchedSpecialCategoryElectorEnglish: String?,
+    val ninoNotMatchedSpecialCategoryElectorWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
@@ -366,7 +388,9 @@ class ProxyNotifyLetterTemplateConfiguration(
     rejectedDocumentEnglish: String,
     rejectedDocumentWelsh: String,
     ninoNotMatchedWelsh: String?,
-    ninoNotMatchedEnglish: String?
+    ninoNotMatchedEnglish: String?,
+    ninoNotMatchedSpecialCategoryElectorEnglish: String,
+    ninoNotMatchedSpecialCategoryElectorWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -393,4 +417,6 @@ class ProxyNotifyLetterTemplateConfiguration(
     requestedSignatureWelsh = requestedSignatureWelsh,
     ninoNotMatchedEnglish = ninoNotMatchedEnglish,
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
+    ninoNotMatchedSpecialCategoryElectorEnglish = ninoNotMatchedSpecialCategoryElectorEnglish,
+    ninoNotMatchedSpecialCategoryElectorWelsh = ninoNotMatchedSpecialCategoryElectorWelsh,
 )
