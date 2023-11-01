@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
@@ -40,11 +41,17 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "EMAIL",
-            "LETTER",
+            "EMAIL,false,NINO_NOT_MATCHED",
+            "LETTER,false,NINO_NOT_MATCHED",
+            "EMAIL,true,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
+            "LETTER,true,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
         ]
     )
-    fun `should map nino not matched template preview request to dto`(channel: NotificationChannel) {
+    fun `should map nino not matched template preview request to dto`(
+        channel: NotificationChannel,
+        isSpecialCategoryElector: Boolean,
+        expectedNotificationType: NotificationType,
+    ) {
 
         // Given
         val additionalNotes = "Invalid"
@@ -52,7 +59,8 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
             channel = channel,
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = additionalNotes
-            )
+            ),
+            isSpecialCategoryElector = isSpecialCategoryElector,
         )
         val expectedChannel = NotificationChannelDto.valueOf(channel.name)
         given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
@@ -89,7 +97,8 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
                     additionalNotes = "Invalid",
                     sourceType = "Mapped source type",
                 )
-            }
+            },
+            notificationType = expectedNotificationType,
         )
 
         // When

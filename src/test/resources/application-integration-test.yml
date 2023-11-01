@@ -56,6 +56,8 @@ api:
           requested-signature-welsh: 817c7cd0-60e6-41de-97eb-8617b839cd91
           nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
+          nino-not-matched-special-category-elector-english: 6884a755-9e83-4d5b-8a21-ed547269ccbe
+          nino-not-matched-special-category-elector-welsh: caf616da-c989-4cfb-9392-3f5e78f424e2
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -67,6 +69,8 @@ api:
           requested-signature-welsh: 07b5208f-7be1-4df3-a2cf-9698c34fd5eb
           nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
+          nino-not-matched-special-category-elector-english: 3178650d-460f-47fd-aeee-14a2c8e6a985
+          nino-not-matched-special-category-elector-welsh: bcd3467e-5bc7-4689-9c9b-25a020ca1bca
       proxy:
         email:
           received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
@@ -81,6 +85,8 @@ api:
           requested-signature-welsh: da14054e-88c5-4e8c-88aa-6fa2b9805ec7
           nino-not-matched-english: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
+          nino-not-matched-special-category-elector-english: 6884a755-9e83-4d5b-8a21-ed547269ccbe
+          nino-not-matched-special-category-elector-welsh: caf616da-c989-4cfb-9392-3f5e78f424e2
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -92,6 +98,8 @@ api:
           requested-signature-welsh: e70fc804-63cc-419b-9518-b2d6e6101183
           nino-not-matched-english: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
+          nino-not-matched-special-category-elector-english: 3178650d-460f-47fd-aeee-14a2c8e6a985
+          nino-not-matched-special-category-elector-welsh: bcd3467e-5bc7-4689-9c9b-25a020ca1bca
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission
