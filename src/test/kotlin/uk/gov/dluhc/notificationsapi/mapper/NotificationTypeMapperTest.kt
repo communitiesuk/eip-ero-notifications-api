@@ -54,7 +54,7 @@ class NotificationTypeMapperTest {
             "REJECTED_SIGNATURE_WITH_REASONS, REJECTED_SIGNATURE",
             "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
             "NINO_NOT_MATCHED, NINO_NOT_MATCHED",
-            "NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR, NINO_NOT_MATCHED",
+            "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, NINO_NOT_MATCHED",
         ]
     )
     fun `should map DTO Notification Type to Entity Notification Type`(
@@ -131,7 +131,7 @@ class NotificationTypeMapperTest {
             "PHOTO_RESUBMISSION_WITH_REASONS",
             "ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
             "REJECTED_SIGNATURE_WITH_REASONS",
-            "NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
+            "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
         ]
     )
     fun `should not map Notification Type to Template Type given unsupported value`(unSupportedNotificationType: NotificationType) {

@@ -720,13 +720,13 @@ components:
           $ref: '#/components/schemas/NotificationChannel'
         personalisation:
           $ref: '#/components/schemas/NinoNotMatchedPersonalisation'
-        isSpecialCategoryElector:
+        hasRestrictedDocumentsList:
           type: boolean
-          description: Whether the applicant this message is addressed to is a special category elector or not
+          description: Whether the applicant this message is addressed to has a restricted documents list or not
       required:
         - personalisation
         - channel
-        - isSpecialCategoryElector
+        - hasRestrictedDocumentsList
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------

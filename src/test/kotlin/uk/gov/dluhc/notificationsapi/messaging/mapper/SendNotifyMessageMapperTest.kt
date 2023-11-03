@@ -691,16 +691,16 @@ internal class SendNotifyMessageMapperTest {
                 "EMAIL,CY,false,EMAIL,WELSH,NINO_NOT_MATCHED",
                 "LETTER,EN,false,LETTER,ENGLISH,NINO_NOT_MATCHED",
                 "LETTER,CY,false,LETTER,WELSH,NINO_NOT_MATCHED",
-                "EMAIL,EN,true,EMAIL,ENGLISH,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
-                "EMAIL,CY,true,EMAIL,WELSH,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
-                "LETTER,EN,true,LETTER,ENGLISH,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
-                "LETTER,CY,true,LETTER,WELSH,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
+                "EMAIL,EN,true,EMAIL,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+                "EMAIL,CY,true,EMAIL,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+                "LETTER,EN,true,LETTER,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+                "LETTER,CY,true,LETTER,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
             ]
         )
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
             sqsChannel: SqsChannel,
             language: Language,
-            isSpecialCategoryElector: Boolean,
+            hasRestrictedDocumentsList: Boolean,
             notificationChannel: NotificationChannel,
             languageDto: LanguageDto,
             expectedNotificationType: NotificationType,
@@ -730,7 +730,7 @@ internal class SendNotifyMessageMapperTest {
                 toAddress = toAddress,
                 personalisation = personalisation,
                 channel = sqsChannel,
-                isSpecialCategoryElector = isSpecialCategoryElector,
+                hasRestrictedDocumentsList = hasRestrictedDocumentsList,
             )
 
             val notification = mapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(request)

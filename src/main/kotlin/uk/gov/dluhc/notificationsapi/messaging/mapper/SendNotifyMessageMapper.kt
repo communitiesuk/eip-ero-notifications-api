@@ -5,7 +5,7 @@ import org.mapstruct.Mapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
@@ -118,8 +118,8 @@ abstract class SendNotifyMessageMapper {
         }
 
     protected fun ninoNotMatchedNotificationType(message: SendNotifyNinoNotMatchedMessage): NotificationType =
-        if (message.isSpecialCategoryElector) {
-            NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR
+        if (message.hasRestrictedDocumentsList) {
+            NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
         } else {
             NotificationType.NINO_NOT_MATCHED
         }

@@ -23,8 +23,8 @@ abstract class NinoNotMatchedTemplatePreviewDtoMapper {
     abstract fun toDto(request: GenerateNinoNotMatchedTemplatePreviewRequest): NinoNotMatchedTemplatePreviewDto
 
     protected fun ninoNotMatchedNotificationType(request: GenerateNinoNotMatchedTemplatePreviewRequest): NotificationType =
-        if (request.isSpecialCategoryElector)
-            NotificationType.NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR
+        if (request.hasRestrictedDocumentsList)
+            NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
         else
             NotificationType.NINO_NOT_MATCHED
 

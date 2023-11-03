@@ -23,7 +23,7 @@ fun buildSendNotifyNinoNotMatchedMessage(
     personalisation: NinoNotMatchedPersonalisation = buildNinoNotMatchedPersonalisation(),
     channel: NotificationChannel = NotificationChannel.EMAIL,
     toAddress: MessageAddress = aMessageAddress(),
-    isSpecialCategoryElector: Boolean = false,
+    hasRestrictedDocumentsList: Boolean = false,
 ): SendNotifyNinoNotMatchedMessage =
     SendNotifyNinoNotMatchedMessage(
         language = language,
@@ -35,7 +35,7 @@ fun buildSendNotifyNinoNotMatchedMessage(
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,
-        isSpecialCategoryElector = isSpecialCategoryElector,
+        hasRestrictedDocumentsList = hasRestrictedDocumentsList,
     )
 
 fun buildNinoNotMatchedPersonalisation(

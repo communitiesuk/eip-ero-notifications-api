@@ -43,13 +43,13 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
         value = [
             "EMAIL,false,NINO_NOT_MATCHED",
             "LETTER,false,NINO_NOT_MATCHED",
-            "EMAIL,true,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
-            "LETTER,true,NINO_NOT_MATCHED_SPECIAL_CATEGORY_ELECTOR",
+            "EMAIL,true,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+            "LETTER,true,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
         ]
     )
     fun `should map nino not matched template preview request to dto`(
         channel: NotificationChannel,
-        isSpecialCategoryElector: Boolean,
+        hasRestrictedDocumentsList: Boolean,
         expectedNotificationType: NotificationType,
     ) {
 
@@ -60,7 +60,7 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = additionalNotes
             ),
-            isSpecialCategoryElector = isSpecialCategoryElector,
+            hasRestrictedDocumentsList = hasRestrictedDocumentsList,
         )
         val expectedChannel = NotificationChannelDto.valueOf(channel.name)
         given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)

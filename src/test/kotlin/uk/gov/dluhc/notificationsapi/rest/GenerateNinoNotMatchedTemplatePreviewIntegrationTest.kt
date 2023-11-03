@@ -39,10 +39,10 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         private const val LETTER_ENGLISH_TEMPLATE_ID = "b934fb1a-a199-41cc-829d-bf025ad1b740"
         private const val EMAIL_WELSH_TEMPLATE_ID = "8fa64777-222f-45e9-937b-6236359b79df"
         private const val LETTER_WELSH_TEMPLATE_ID = "b934fb1a-a199-41cc-829d-bf025ad1b740"
-        private const val SPECIAL_CATEGORY_ELECTOR_EMAIL_ENGLISH_TEMPLATE_ID = "6884a755-9e83-4d5b-8a21-ed547269ccbe"
-        private const val SPECIAL_CATEGORY_ELECTOR_LETTER_ENGLISH_TEMPLATE_ID = "3178650d-460f-47fd-aeee-14a2c8e6a985"
-        private const val SPECIAL_CATEGORY_ELECTOR_EMAIL_WELSH_TEMPLATE_ID = "caf616da-c989-4cfb-9392-3f5e78f424e2"
-        private const val SPECIAL_CATEGORY_ELECTOR_LETTER_WELSH_TEMPLATE_ID = "bcd3467e-5bc7-4689-9c9b-25a020ca1bca"
+        private const val RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH_TEMPLATE_ID = "6884a755-9e83-4d5b-8a21-ed547269ccbe"
+        private const val RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH_TEMPLATE_ID = "3178650d-460f-47fd-aeee-14a2c8e6a985"
+        private const val RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH_TEMPLATE_ID = "caf616da-c989-4cfb-9392-3f5e78f424e2"
+        private const val RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH_TEMPLATE_ID = "bcd3467e-5bc7-4689-9c9b-25a020ca1bca"
         private const val URI_TEMPLATE = "/templates/nino-not-matched/preview"
     }
 
@@ -209,20 +209,20 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             "PROXY, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,proxy",
             "PROXY, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
             "PROXY, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
-            "POSTAL, EMAIL, true, $SPECIAL_CATEGORY_ELECTOR_EMAIL_ENGLISH_TEMPLATE_ID,EN,postal",
-            "POSTAL, LETTER, true, $SPECIAL_CATEGORY_ELECTOR_LETTER_ENGLISH_TEMPLATE_ID,EN,postal",
-            "POSTAL, EMAIL, true, $SPECIAL_CATEGORY_ELECTOR_EMAIL_WELSH_TEMPLATE_ID,CY,drwy'r post",
-            "POSTAL, LETTER, true, $SPECIAL_CATEGORY_ELECTOR_LETTER_WELSH_TEMPLATE_ID,CY,drwy'r post",
-            "PROXY, EMAIL, true, $SPECIAL_CATEGORY_ELECTOR_EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy",
-            "PROXY, LETTER, true, $SPECIAL_CATEGORY_ELECTOR_LETTER_ENGLISH_TEMPLATE_ID,EN,proxy",
-            "PROXY, EMAIL, true, $SPECIAL_CATEGORY_ELECTOR_EMAIL_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
-            "PROXY, LETTER, true, $SPECIAL_CATEGORY_ELECTOR_LETTER_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
+            "POSTAL, EMAIL, true, $RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH_TEMPLATE_ID,EN,postal",
+            "POSTAL, LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH_TEMPLATE_ID,EN,postal",
+            "POSTAL, EMAIL, true, $RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH_TEMPLATE_ID,CY,drwy'r post",
+            "POSTAL, LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH_TEMPLATE_ID,CY,drwy'r post",
+            "PROXY, EMAIL, true, $RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy",
+            "PROXY, LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH_TEMPLATE_ID,EN,proxy",
+            "PROXY, EMAIL, true, $RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
+            "PROXY, LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
         ]
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
         notificationChannel: NotificationChannel,
-        isSpecialCategoryElector: Boolean,
+        hasRestrictedDocumentsList: Boolean,
         templateId: String,
         language: Language,
         expectedPersonalisationSourceType: String,
@@ -237,7 +237,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = "Invalid"
             ),
-            isSpecialCategoryElector = isSpecialCategoryElector,
+            hasRestrictedDocumentsList = hasRestrictedDocumentsList,
         )
 
         // When
@@ -280,13 +280,13 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         value = [
             "EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID",
             "LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID",
-            "EMAIL, true, $SPECIAL_CATEGORY_ELECTOR_EMAIL_ENGLISH_TEMPLATE_ID",
-            "LETTER, true, $SPECIAL_CATEGORY_ELECTOR_LETTER_ENGLISH_TEMPLATE_ID",
+            "EMAIL, true, $RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH_TEMPLATE_ID",
+            "LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH_TEMPLATE_ID",
         ]
     )
     fun `should return template preview given valid request when optional values are not populated`(
         notificationChannel: NotificationChannel,
-        isSpecialCategoryElector: Boolean,
+        hasRestrictedDocumentsList: Boolean,
         templateId: String,
     ) {
         // Given
@@ -299,7 +299,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
                 additionalNotes = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
             ),
-            isSpecialCategoryElector = isSpecialCategoryElector,
+            hasRestrictedDocumentsList = hasRestrictedDocumentsList,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
