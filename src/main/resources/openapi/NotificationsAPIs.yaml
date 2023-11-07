@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.15.0'
+  version: '1.15.1'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -1636,10 +1636,14 @@ components:
           $ref: '#/components/schemas/NinoNotMatchedPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
+        hasRestrictedDocumentsList:
+          type: boolean
+          description: Whether the applicant this message is addressed to has a restricted documents list or not
       required:
         - channel
         - personalisation
         - sourceType
+        - hasRestrictedDocumentsList
     CommunicationsStatisticsResponse:
       title: CommunicationsStatisticsResponse
       description: response containing anonymised statistics about communications related to an application

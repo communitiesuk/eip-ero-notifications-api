@@ -25,6 +25,7 @@ class NotificationTypeMapperTest {
             "REJECTED_MINUS_DOCUMENT, REJECTED_DOCUMENT",
             "REJECTED_MINUS_SIGNATURE, REJECTED_SIGNATURE",
             "REQUESTED_MINUS_SIGNATURE, REQUESTED_SIGNATURE",
+            "NINO_MINUS_NOT_MINUS_MATCHED, NINO_NOT_MATCHED",
         ]
     )
     fun `should map Message Type to NotificationType`(messageType: MessageType, expected: NotificationType) {
@@ -52,6 +53,8 @@ class NotificationTypeMapperTest {
             "REJECTED_SIGNATURE, REJECTED_SIGNATURE",
             "REJECTED_SIGNATURE_WITH_REASONS, REJECTED_SIGNATURE",
             "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
+            "NINO_NOT_MATCHED, NINO_NOT_MATCHED",
+            "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, NINO_NOT_MATCHED",
         ]
     )
     fun `should map DTO Notification Type to Entity Notification Type`(
@@ -79,6 +82,7 @@ class NotificationTypeMapperTest {
             "REJECTED_DOCUMENT, REJECTED_DOCUMENT",
             "REJECTED_SIGNATURE, REJECTED_SIGNATURE",
             "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
+            "NINO_NOT_MATCHED, NINO_NOT_MATCHED",
         ]
     )
     fun `should map Entity Notification Type to Dto Notification Type`(
@@ -107,6 +111,7 @@ class NotificationTypeMapperTest {
             "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED",
             "REJECTED_SIGNATURE, REJECTED_MINUS_SIGNATURE",
             "REQUESTED_SIGNATURE, REQUESTED_MINUS_SIGNATURE",
+            "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED",
         ]
     )
     fun `should map Notification Type to Template Type`(notificationType: NotificationType, expected: TemplateType) {
@@ -126,6 +131,7 @@ class NotificationTypeMapperTest {
             "PHOTO_RESUBMISSION_WITH_REASONS",
             "ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
             "REJECTED_SIGNATURE_WITH_REASONS",
+            "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
         ]
     )
     fun `should not map Notification Type to Template Type given unsupported value`(unSupportedNotificationType: NotificationType) {

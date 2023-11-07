@@ -51,6 +51,8 @@ api:
           requested-signature-welsh: ${TEMPLATE_POSTAL_REQUESTED_SIGNATURE_EMAIL_WELSH}
           nino-not-matched-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_WELSH}
+          nino-not-matched-restricted-documents-list-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH}
+          nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH}
         letter:
           rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_ENGLISH}
           rejected-document-welsh: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_WELSH}
@@ -62,6 +64,8 @@ api:
           requested-signature-welsh: ${TEMPLATE_POSTAL_REQUESTED_SIGNATURE_LETTER_WELSH}
           nino-not-matched-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_LETTER_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_LETTER_WELSH}
+          nino-not-matched-restricted-documents-list-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH}
+          nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH}
       proxy:
         email:
           received-english: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH}
@@ -76,6 +80,8 @@ api:
           requested-signature-welsh: ${TEMPLATE_PROXY_REQUESTED_SIGNATURE_EMAIL_WELSH}
           nino-not-matched-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_EMAIL_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_EMAIL_WELSH}
+          nino-not-matched-restricted-documents-list-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH}
+          nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH}
 
         letter:
           rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_ENGLISH}
@@ -88,6 +94,8 @@ api:
           requested-signature-welsh: ${TEMPLATE_PROXY_REQUESTED_SIGNATURE_LETTER_WELSH}
           nino-not-matched-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_LETTER_ENGLISH}
           nino-not-matched-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_LETTER_WELSH}
+          nino-not-matched-restricted-documents-list-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH}
+          nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH}
 
       overseas:
         email:

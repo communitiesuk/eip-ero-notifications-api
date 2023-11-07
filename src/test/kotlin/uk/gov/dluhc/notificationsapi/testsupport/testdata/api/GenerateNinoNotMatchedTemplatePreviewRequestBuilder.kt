@@ -15,11 +15,13 @@ fun buildGenerateNinoNotMatchedTemplatePreviewRequest(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     personalisation: NinoNotMatchedPersonalisation = buildNinoNotMatchedPersonalisation(),
     language: Language? = Language.EN,
+    hasRestrictedDocumentsList: Boolean = false,
 ) = GenerateNinoNotMatchedTemplatePreviewRequest(
     channel = channel,
     sourceType = sourceType,
     language = language,
-    personalisation = personalisation
+    personalisation = personalisation,
+    hasRestrictedDocumentsList = hasRestrictedDocumentsList,
 )
 
 fun buildNinoNotMatchedPersonalisation(

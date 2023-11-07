@@ -17,7 +17,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
@@ -688,17 +687,23 @@ internal class SendNotifyMessageMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "EMAIL,EN,EMAIL,ENGLISH",
-                "EMAIL,CY,EMAIL,WELSH",
-                "LETTER,EN,LETTER,ENGLISH",
-                "LETTER,CY,LETTER,WELSH",
+                "EMAIL,EN,false,EMAIL,ENGLISH,NINO_NOT_MATCHED",
+                "EMAIL,CY,false,EMAIL,WELSH,NINO_NOT_MATCHED",
+                "LETTER,EN,false,LETTER,ENGLISH,NINO_NOT_MATCHED",
+                "LETTER,CY,false,LETTER,WELSH,NINO_NOT_MATCHED",
+                "EMAIL,EN,true,EMAIL,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+                "EMAIL,CY,true,EMAIL,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+                "LETTER,EN,true,LETTER,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+                "LETTER,CY,true,LETTER,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
             ]
         )
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
             sqsChannel: SqsChannel,
             language: Language,
+            hasRestrictedDocumentsList: Boolean,
             notificationChannel: NotificationChannel,
-            languageDto: LanguageDto
+            languageDto: LanguageDto,
+            expectedNotificationType: NotificationType,
         ) {
             // Given
             val gssCode = aGssCode()
@@ -709,11 +714,7 @@ internal class SendNotifyMessageMapperTest {
 
             val expectedToAddress = aNotificationDestination()
             val expectedSourceType = SourceType.POSTAL
-            val expectedNotificationType = NINO_NOT_MATCHED
 
-            given(notificationTypeMapper.mapMessageTypeToNotificationType(MessageType.NINO_MINUS_NOT_MINUS_MATCHED)).willReturn(
-                NINO_NOT_MATCHED
-            )
             given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
@@ -728,7 +729,8 @@ internal class SendNotifyMessageMapperTest {
                 messageType = MessageType.NINO_MINUS_NOT_MINUS_MATCHED,
                 toAddress = toAddress,
                 personalisation = personalisation,
-                channel = sqsChannel
+                channel = sqsChannel,
+                hasRestrictedDocumentsList = hasRestrictedDocumentsList,
             )
 
             val notification = mapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(request)
