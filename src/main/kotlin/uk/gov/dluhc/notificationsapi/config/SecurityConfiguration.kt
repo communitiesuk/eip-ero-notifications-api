@@ -41,7 +41,7 @@ class SecurityConfiguration(
                     it.antMatchers("/actuator/**").permitAll()
 
                     // These requests are authenticated through the API gateway using IAM
-                    it.antMatchers("/communications/statistics").permitAll()
+                    it.antMatchers("/communications/statistics/**").permitAll()
                     it.anyRequest().authenticated()
                 }
                 .oauth2ResourceServer { oAuth2ResourceServerConfigurer ->
