@@ -179,7 +179,7 @@ internal abstract class IntegrationTest {
         val messages = updateStatisticsMessageListenerStub.getMessages()
         Assertions.assertThat(messages).isNotEmpty
         Assertions.assertThat(messages).anyMatch {
-            it.voterCardApplicationId == applicationId
+            it.applicationId == applicationId
         }
     }
 

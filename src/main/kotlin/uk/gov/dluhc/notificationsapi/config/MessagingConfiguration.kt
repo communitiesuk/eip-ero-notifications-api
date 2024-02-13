@@ -21,9 +21,16 @@ class MessagingConfiguration {
     @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}")
     private lateinit var triggerVoterCardStatisticsUpdateQueueName: String
 
+    @Value("\${sqs.trigger-postal-application-statistics-update-queue-name}")
+    private lateinit var triggerPostalApplicationStatisticsUpdateQueueName: String
+
     @Bean
     fun triggerVoterCardStatisticsUpdateQueue(queueMessagingTemplate: QueueMessagingTemplate) =
         MessageQueue<UpdateStatisticsMessage>(triggerVoterCardStatisticsUpdateQueueName, queueMessagingTemplate)
+
+    @Bean
+    fun triggerPostalApplicationStatisticsUpdateQueue(queueMessagingTemplate: QueueMessagingTemplate) =
+        MessageQueue<UpdateStatisticsMessage>(triggerPostalApplicationStatisticsUpdateQueueName, queueMessagingTemplate)
 
     @Bean
     fun queueMessageHandlerFactory(

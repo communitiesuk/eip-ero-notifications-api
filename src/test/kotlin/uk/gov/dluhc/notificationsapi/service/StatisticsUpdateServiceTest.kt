@@ -14,6 +14,7 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.messagingsupport.MessageQueue
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage
 
@@ -36,7 +37,7 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerVoterCardStatisticsUpdate(applicationId)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
 
         // Then
         verify(triggerUpdateStatisticsMessageQueue).submit(
@@ -53,7 +54,7 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerVoterCardStatisticsUpdate(applicationId)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
 
         // Then
         verify(triggerUpdateStatisticsMessageQueue).submit(

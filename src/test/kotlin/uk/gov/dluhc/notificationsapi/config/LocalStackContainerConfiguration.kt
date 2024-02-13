@@ -93,6 +93,7 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.send-uk-gov-notify-requested-signature-queue-name}") sendUkGovNotifyRequestedSignatureQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}") sendUkGovNotifyNinoNotMatchedQueueName: String,
         @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}") triggerVoterCardStatisticsUpdateQueueName: String,
+        @Value("\${sqs.trigger-postal-application-statistics-update-queue-name}") triggerPostalApplicationStatisticsUpdateQueueName: String,
     ): LocalStackContainerSettings {
         val sendUkGovNotifyPhotoResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
         val sendUkGovNotifyIdDocumentResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyIdDocumentResubmissionQueueName)
@@ -104,6 +105,7 @@ class LocalStackContainerConfiguration {
         val sendUkGovNotifyNinoNotMatchedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyNinoNotMatchedQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
         val triggerVoterCardStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerVoterCardStatisticsUpdateQueueName)
+        val triggerPostalApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerPostalApplicationStatisticsUpdateQueueName)
         localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
         localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
 
@@ -123,6 +125,7 @@ class LocalStackContainerConfiguration {
             removeApplicationNotificationsQueueName = removeApplicationNotificationsMessageQueueName,
             sendUkGovNotifyNinoNotMatchedMessageQueueName = sendUkGovNotifyNinoNotMatchedMessageQueueName,
             triggerVoterCardStatisticsUpdateQueueName = triggerVoterCardStatisticsMessageQueueName,
+            triggerPostalApplicationStatisticsUpdateQueueName = triggerPostalApplicationStatisticsMessageQueueName,
         )
     }
 
@@ -249,6 +252,7 @@ data class LocalStackContainerSettings(
     val sendUkGovNotifyNinoNotMatchedMessageQueueName: String,
     val removeApplicationNotificationsQueueName: String,
     val triggerVoterCardStatisticsUpdateQueueName: String,
+    val triggerPostalApplicationStatisticsUpdateQueueName: String,
 ) {
     val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyIdDocumentResubmissionQueueName, apiUrl)
@@ -260,6 +264,7 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlRemoveApplicationNotificationsQueueName: String = toMappedUrl(removeApplicationNotificationsQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName: String = toMappedUrl(sendUkGovNotifyNinoNotMatchedMessageQueueName, apiUrl)
     val mappedQueueUrlTriggerVoterCardStatisticsUpdateQueueName: String = toMappedUrl(triggerVoterCardStatisticsUpdateQueueName, apiUrl)
+    val mappedQueueUrlTriggerPostalApplicationStatisticsUpdateQueueName: String = toMappedUrl(triggerPostalApplicationStatisticsUpdateQueueName, apiUrl)
 
     private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
         val rawUrl = URI.create(rawUrlString)
