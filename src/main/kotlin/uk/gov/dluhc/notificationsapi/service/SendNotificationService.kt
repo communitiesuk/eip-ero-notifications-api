@@ -61,11 +61,11 @@ class SendNotificationService(
             else -> false
         }
 
-    private fun shouldSendApplicationStatisticsUpdate(requestDto: SendNotificationRequestDto) : Boolean =
+    private fun shouldSendApplicationStatisticsUpdate(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.sourceType) {
             SourceType.POSTAL -> shouldSendApplicationStatisticsUpdateForNotificationType(requestDto)
             SourceType.VOTER_CARD -> shouldSendApplicationStatisticsUpdateForNotificationType(requestDto)
-            //TODO: EIP1-8742 Add proxy
+            // TODO: EIP1-8742 Add proxy
             else -> false
         }
 
