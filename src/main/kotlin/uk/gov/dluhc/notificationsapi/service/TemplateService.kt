@@ -3,17 +3,9 @@ package uk.gov.dluhc.notificationsapi.service
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
-import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.*
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.mapper.ParentGuardianRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 
 @Service
@@ -131,5 +123,22 @@ class TemplateService(
                 templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisation)
             )
         }
+
     }
+
+    fun generateParentGuardianRequiredTemplatePreview(dto: GenerateParentGuardianRequiredTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(dto) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
+                templatePersonalisationDtoMapper.toParentGuardianRequiredTemplatePersonalisationMap(personalisation)
+            )
+        }
+
+    }
+
 }

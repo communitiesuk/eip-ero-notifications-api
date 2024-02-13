@@ -126,3 +126,15 @@ class NinoNotMatchedPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
 )
+
+class ParentGuardianPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val sourceType: String,
+    val freeText: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)

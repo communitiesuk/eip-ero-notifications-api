@@ -4,27 +4,8 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import uk.gov.dluhc.notificationsapi.mapper.ApplicationReceivedTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectedTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.GenerateApplicationApprovedTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.GenerateIdDocumentRequiredTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.NinoNotMatchedTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.RequestedSignatureTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentRequiredTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
+import uk.gov.dluhc.notificationsapi.mapper.*
+import uk.gov.dluhc.notificationsapi.models.*
 import uk.gov.dluhc.notificationsapi.service.TemplateService
 import javax.validation.Valid
 
@@ -42,6 +23,7 @@ class TemplateController(
     private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper,
     private val requestedSignatureTemplatePreviewDtoMapper: RequestedSignatureTemplatePreviewDtoMapper,
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
+    private val parentGuardianRequiredTemplateDtoMapper: ParentGuardianRequiredTemplatePreviewDtoMapper
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -164,7 +146,24 @@ class TemplateController(
 
     @PostMapping("/templates/nino-not-matched/preview")
     fun generateNinoNotMatchedTemplatePreview(@Valid @RequestBody request: GenerateNinoNotMatchedTemplatePreviewRequest): GenerateTemplatePreviewResponse {
-        return templateService.generateNinoNotMatchedTemplatePreview(ninoNotMatchedTemplatePreviewDtoMapper.toDto(request))
+        return templateService.generateNinoNotMatchedTemplatePreview(
+            ninoNotMatchedTemplatePreviewDtoMapper.toDto(
+                request
+            )
+        )
             .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
+    }
+
+    @PostMapping("/templates/parent-guardian-required/preview")
+    fun generateParentGuardianRequiredTemplatePreview(@Valid @RequestBody request: GenerateParentGuardianRequiredTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generateParentGuardianRequiredTemplatePreview(
+                parentGuardianRequiredTemplateDtoMapper.toParentGuardianRequiredTemplatePreviewDto(
+                    request
+                )
+            )
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
     }
 }
