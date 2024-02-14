@@ -344,7 +344,6 @@ fun buildParentGuardianRequiredPersonalisationMapFromDto(personalisationDto: Par
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["freeText"] = freeText ?: ""
-        personalisationMap["sourceType"] = sourceType
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap

@@ -161,7 +161,6 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
-            personalisation["sourceType"] = sourceType
         }
         return personalisation
     }

@@ -131,7 +131,6 @@ class ParentGuardianPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val sourceType: String,
     val freeText: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,

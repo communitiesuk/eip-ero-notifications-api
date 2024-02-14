@@ -1214,7 +1214,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/IdDocumentRequiredPersonalisation'
+          $ref: '#/components/schemas/BasePersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:

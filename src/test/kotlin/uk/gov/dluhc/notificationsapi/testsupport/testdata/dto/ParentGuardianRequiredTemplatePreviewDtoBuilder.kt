@@ -32,5 +32,4 @@ fun buildParentGuardianRequiredTemplatePreviewPersonalisation(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     freeText = freeText,
-    sourceType = sourceType,
 )
