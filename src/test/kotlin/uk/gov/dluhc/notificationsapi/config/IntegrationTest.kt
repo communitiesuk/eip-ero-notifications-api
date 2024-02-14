@@ -22,7 +22,8 @@ import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
-import uk.gov.dluhc.notificationsapi.stubs.UpdateStatisticsMessageListenerStub
+import uk.gov.dluhc.notificationsapi.stubs.UpdatePostalStatisticsMessageListenerStub
+import uk.gov.dluhc.notificationsapi.stubs.UpdateVoterCardStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.getRandomEroId
@@ -125,7 +126,10 @@ internal abstract class IntegrationTest {
     protected lateinit var idDocumentRequiredLetterWelshTemplateId: String
 
     @Autowired
-    protected lateinit var updateStatisticsMessageListenerStub: UpdateStatisticsMessageListenerStub
+    protected lateinit var updateVoterCardStatisticsMessageListenerStub: UpdateVoterCardStatisticsMessageListenerStub
+
+    @Autowired
+    protected lateinit var updatePostalStatisticsMessageListenerStub: UpdatePostalStatisticsMessageListenerStub
 
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
@@ -152,7 +156,8 @@ internal abstract class IntegrationTest {
 
     @BeforeEach
     fun clearMessagesFromStubs() {
-        updateStatisticsMessageListenerStub.clear()
+        updateVoterCardStatisticsMessageListenerStub.clear()
+        updatePostalStatisticsMessageListenerStub.clear()
     }
 
     protected fun clearTable(tableName: String, partitionKey: String = "id", sortKey: String? = null) {
@@ -175,11 +180,19 @@ internal abstract class IntegrationTest {
         }
     }
 
-    protected fun assertUpdateStatisticsMessageSent(applicationId: String) {
-        val messages = updateStatisticsMessageListenerStub.getMessages()
+    protected fun assertVoterCardUpdateStatisticsMessageSent(applicationId: String) {
+        val messages = updateVoterCardStatisticsMessageListenerStub.getMessages()
         Assertions.assertThat(messages).isNotEmpty
         Assertions.assertThat(messages).anyMatch {
-            it.applicationId == applicationId
+            it.voterCardApplicationId == applicationId
+        }
+    }
+
+    protected fun assertPostalUpdateStatisticsMessageSent(applicationId: String) {
+        val messages = updatePostalStatisticsMessageListenerStub.getMessages()
+        Assertions.assertThat(messages).isNotEmpty
+        Assertions.assertThat(messages).anyMatch {
+            it.postalApplicationId == applicationId
         }
     }
 

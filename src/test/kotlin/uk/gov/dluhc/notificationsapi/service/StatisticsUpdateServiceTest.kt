@@ -18,7 +18,8 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
-import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage
+import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
+import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
 
 @ExtendWith(MockitoExtension::class)
 class StatisticsUpdateServiceTest {
@@ -26,17 +27,14 @@ class StatisticsUpdateServiceTest {
     @InjectMocks
     private lateinit var statisticsUpdateService: StatisticsUpdateService
 
-    @Mock
-    private lateinit var triggerUpdateStatisticsMessageQueue: MessageQueue<UpdateStatisticsMessage>
-
     @Captor
     private lateinit var headersArgumentCaptor: ArgumentCaptor<Map<String, Any>>
 
     @Mock
-    private lateinit var triggerVoterCardStatisticsUpdateQueue: MessageQueue<UpdateStatisticsMessage>
+    private lateinit var triggerVoterCardStatisticsUpdateQueue: MessageQueue<VoterCardUpdateStatisticsMessage>
 
     @Mock
-    private lateinit var triggerPostalApplicationStatisticsUpdateQueue: MessageQueue<UpdateStatisticsMessage>
+    private lateinit var triggerPostalApplicationStatisticsUpdateQueue: MessageQueue<PostalUpdateStatisticsMessage>
 
     @BeforeEach
     fun setUp() {
@@ -57,7 +55,7 @@ class StatisticsUpdateServiceTest {
 
         // Then
         verify(triggerVoterCardStatisticsUpdateQueue).submit(
-            eq(UpdateStatisticsMessage(applicationId)),
+            eq(VoterCardUpdateStatisticsMessage(applicationId)),
             any()
         )
         verifyNoMoreInteractions(triggerVoterCardStatisticsUpdateQueue)
@@ -87,7 +85,7 @@ class StatisticsUpdateServiceTest {
 
         // Then
         verify(triggerPostalApplicationStatisticsUpdateQueue).submit(
-            eq(UpdateStatisticsMessage(applicationId)),
+            eq(PostalUpdateStatisticsMessage(applicationId)),
             any()
         )
         verifyNoMoreInteractions(triggerPostalApplicationStatisticsUpdateQueue)
@@ -122,6 +120,6 @@ class StatisticsUpdateServiceTest {
         )
         assertThat(headersArgumentCaptor.value.get("message-group-id")).isEqualTo(applicationId)
         assertThat(headersArgumentCaptor.value.get("message-deduplication-id")).isNotNull
-        verifyNoMoreInteractions(triggerUpdateStatisticsMessageQueue)
+        verifyNoMoreInteractions(triggerVoterCardStatisticsUpdateQueue)
     }
 }

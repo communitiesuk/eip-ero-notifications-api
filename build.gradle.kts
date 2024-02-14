@@ -180,6 +180,12 @@ tasks.create("generate-models-from-openapi-document-vca-sqs-messaging-erop.yaml"
     packageName.set("uk.gov.dluhc.votercardapplicationsapi.messaging")
 }
 
+tasks.create("generate-models-from-openapi-document-postal-sqs-messaging-erop.yaml", GenerateTask::class) {
+    enabled = true
+    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/postal-api-sqs-messaging-erop.yaml")
+    packageName.set("uk.gov.dluhc.postalapplicationsapi.messaging")
+}
+
 tasks.create("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/external/EROManagementAPIs.yaml")
