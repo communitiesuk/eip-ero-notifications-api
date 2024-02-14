@@ -14,6 +14,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPer
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildParentGuardianRequiredPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildParentGuardianRequiredTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationDto
@@ -379,6 +381,47 @@ class TemplatePersonalisationDtoMapperTest {
 
             // When
             val actual = mapper.toRequestedSignatureTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+            assertThat(actual["freeText"] as String?).isBlank
+            assertThat(actual["eroAddressLine1"] as String).isBlank
+            assertThat(actual["eroAddressLine2"] as String).isEqualTo(personalisationDto.eroContactDetails.address.street)
+            assertThat(actual["eroAddressLine3"] as String).isBlank
+            assertThat(actual["eroAddressLine4"] as String).isBlank
+            assertThat(actual["eroAddressLine5"] as String).isBlank
+            assertThat(actual["eroPostcode"] as String).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
+    }
+
+    @Nested
+    inner class ToParentGuardianRequiredTemplatePersonalisationMap {
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildParentGuardianRequiredTemplatePreviewPersonalisation()
+            val expected = buildParentGuardianRequiredPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toParentGuardianRequiredTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should map dto to personalisation map when all optional fields not present`() {
+            // Given
+            val personalisationDto = buildParentGuardianRequiredTemplatePreviewPersonalisation(
+                freeText = null,
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDtoWithOptionalFieldsNull()
+                )
+            )
+            val expected = buildParentGuardianRequiredPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toParentGuardianRequiredTemplatePersonalisationMap(personalisationDto)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

@@ -1032,6 +1032,7 @@ components:
         - rejected-signature
         - requested-signature
         - nino-not-matched
+        - parent-guardian-required
     Language:
       title: Language
       description: The language to view the template

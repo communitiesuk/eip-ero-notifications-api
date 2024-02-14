@@ -3,9 +3,18 @@ package uk.gov.dluhc.notificationsapi.service
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
-import uk.gov.dluhc.notificationsapi.dto.*
+import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateParentGuardianRequiredTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.mapper.ParentGuardianRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 
 @Service
@@ -18,7 +27,12 @@ class TemplateService(
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
                 templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
@@ -27,7 +41,12 @@ class TemplateService(
     fun generateIdDocumentResubmissionTemplatePreview(request: GenerateIdDocumentResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
                 templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation)
             )
         }
@@ -36,7 +55,12 @@ class TemplateService(
     fun generateIdDocumentRequiredTemplatePreview(request: GenerateIdDocumentRequiredTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
                 templatePersonalisationDtoMapper.toIdDocumentRequiredTemplatePersonalisationMap(personalisation)
             )
         }
@@ -45,7 +69,12 @@ class TemplateService(
     fun generateApplicationReceivedTemplatePreview(request: ApplicationReceivedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
                 templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(personalisation)
             )
         }
@@ -54,7 +83,12 @@ class TemplateService(
     fun generateApplicationApprovedTemplatePreview(request: GenerateApplicationApprovedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(request) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
                 templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(personalisation)
             )
         }
@@ -63,7 +97,12 @@ class TemplateService(
     fun generateApplicationRejectedTemplatePreview(dto: ApplicationRejectedTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(dto) {
             govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, channel, language),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
                 templatePersonalisationDtoMapper.toApplicationRejectedTemplatePersonalisationMap(personalisation)
             )
         }
@@ -123,7 +162,6 @@ class TemplateService(
                 templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisation)
             )
         }
-
     }
 
     fun generateParentGuardianRequiredTemplatePreview(dto: GenerateParentGuardianRequiredTemplatePreviewDto): NotifyTemplatePreviewDto {
@@ -138,7 +176,5 @@ class TemplateService(
                 templatePersonalisationDtoMapper.toParentGuardianRequiredTemplatePersonalisationMap(personalisation)
             )
         }
-
     }
-
 }
