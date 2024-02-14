@@ -109,6 +109,7 @@ api:
         email:
           received-english: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH}
           received-welsh: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH}
+          parent-guardian-required: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED}
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME}
