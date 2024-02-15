@@ -100,6 +100,13 @@ api:
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-restricted-documents-list-english: 3178650d-460f-47fd-aeee-14a2c8e6a985
           nino-not-matched-restricted-documents-list-welsh: bcd3467e-5bc7-4689-9c9b-25a020ca1bca
+      overseas:
+        email:
+          parent-guardian-required-english: 206e2ea4-c2d4-412c-8abb-59bc9d57445b
+          parent-guardian-required-welsh: 450f8f7a-5821-4b71-a6ab-372e48b086e2
+        letter:
+          parent-guardian-required-english: 273febb3-fe97-4ae5-a4d6-dfd57cc8c6d8
+          parent-guardian-required-welsh: 20f8f805-fac0-453c-871e-41f1d9e0eb29
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission
