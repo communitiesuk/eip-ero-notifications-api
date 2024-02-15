@@ -104,12 +104,17 @@ api:
           nino-not-matched-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_LETTER_WELSH}
           nino-not-matched-restricted-documents-list-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH}
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH}
-
       overseas:
         email:
           received-english: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH}
           received-welsh: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH}
-          parent-guardian-required: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED}
+          parent-guardian-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_EMAIL_ENGLISH}
+          parent-guardian-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_EMAIL_WELSH}
+
+        letter:
+          parent-guardian-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_LETTER_ENGLISH}
+          parent-guardian-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_LETTER_WELSH}
+
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME}

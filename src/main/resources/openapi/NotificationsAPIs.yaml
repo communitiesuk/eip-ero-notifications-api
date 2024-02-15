@@ -1214,7 +1214,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/BasePersonalisation'
+          $ref: '#/components/schemas/ParentGuardianRequiredPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -1313,6 +1313,17 @@ components:
           example: Please provide a valid document within 28 days
       required:
         - documents
+    ParentGuardianRequiredPersonalisation:
+      title: ParentGuardianaRequiredPersonalisation
+      type: object
+      description: Personalisation details for parent guardian required template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        freeText:
+          type: string
+          description: Free text message to provided further information
+          example: Please provide a valid parent or guardian
     BasePersonalisation:
       title: BasePersonalisation
       type: object
