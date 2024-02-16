@@ -177,7 +177,9 @@ class OverseasNotifyEmailTemplateConfiguration(
     receivedEnglish: String,
     receivedWelsh: String,
     parentGuardianRequiredEnglish: String?,
-    parentGuardianRequiredWelsh: String?
+    parentGuardianRequiredWelsh: String?,
+    idDocumentRequiredEnglish: String?,
+    idDocumentRequiredWelsh: String?
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -192,8 +194,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     idDocumentResubmissionWelsh = null,
     idDocumentResubmissionWithReasonsEnglish = null,
     idDocumentResubmissionWithReasonsWelsh = null,
-    idDocumentRequiredEnglish = null,
-    idDocumentRequiredWelsh = null,
+    idDocumentRequiredEnglish = idDocumentRequiredEnglish,
+    idDocumentRequiredWelsh = idDocumentRequiredWelsh,
     rejectedDocumentEnglish = null,
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
@@ -207,7 +209,7 @@ class OverseasNotifyEmailTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = null,
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
     parentGuardianRequiredEnglish = parentGuardianRequiredEnglish,
-    parentGuardianRequiredWelsh = parentGuardianRequiredWelsh
+    parentGuardianRequiredWelsh = parentGuardianRequiredWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -448,7 +450,9 @@ class ProxyNotifyLetterTemplateConfiguration(
 class OverseasNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.OVERSEAS,
     parentGuardianRequiredEnglish: String?,
-    parentGuardianRequiredWelsh: String?
+    parentGuardianRequiredWelsh: String?,
+    idDocumentRequiredEnglish: String?,
+    idDocumentRequiredWelsh: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -463,8 +467,8 @@ class OverseasNotifyLetterTemplateConfiguration(
     idDocumentResubmissionWelsh = null,
     idDocumentResubmissionWithReasonsEnglish = null,
     idDocumentResubmissionWithReasonsWelsh = null,
-    idDocumentRequiredEnglish = null,
-    idDocumentRequiredWelsh = null,
+    idDocumentRequiredEnglish = idDocumentRequiredEnglish,
+    idDocumentRequiredWelsh = idDocumentRequiredWelsh,
     rejectedDocumentEnglish = null,
     rejectedDocumentWelsh = null,
     rejectedSignatureEnglish = null,
@@ -478,6 +482,5 @@ class OverseasNotifyLetterTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = null,
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
     parentGuardianRequiredEnglish = parentGuardianRequiredEnglish,
-    parentGuardianRequiredWelsh = parentGuardianRequiredWelsh
+    parentGuardianRequiredWelsh = parentGuardianRequiredWelsh,
 )
-

@@ -79,7 +79,9 @@ internal class NotificationTemplateMapperTest {
                 receivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
                 receivedWelsh = "OVERSEAS-RECEIVED-ID-EMAIL-WELSH",
                 parentGuardianRequiredEnglish = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-ENGLISH",
-                parentGuardianRequiredWelsh = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-WELSH"
+                parentGuardianRequiredWelsh = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-WELSH",
+                idDocumentRequiredEnglish = "OVERSEAS-ID-DOCUMENT-REQUIRED-ENGLISH",
+                idDocumentRequiredWelsh = "OVERSEAS-ID-DOCUMENT-REQUIRED-WELSH"
             ),
         ),
         NotifyLetterTemplateConfiguration(
@@ -127,7 +129,9 @@ internal class NotificationTemplateMapperTest {
             ),
             overseas = OverseasNotifyLetterTemplateConfiguration(
                 parentGuardianRequiredEnglish = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-ENGLISH",
-                parentGuardianRequiredWelsh = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-WELSH"
+                parentGuardianRequiredWelsh = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-WELSH",
+                idDocumentRequiredEnglish = "OVERSEAS-ID-DOCUMENT-REQUIRED-ENGLISH",
+                idDocumentRequiredWelsh = "OVERSEAS-ID-DOCUMENT-REQUIRED-WELSH"
 
             ),
         )
@@ -155,6 +159,7 @@ internal class NotificationTemplateMapperTest {
             "PROXY,,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-LETTER-ENGLISH",
             "PROXY,,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-LETTER-ENGLISH",
             "OVERSEAS,,PARENT_GUARDIAN_REQUIRED,OVERSEAS-PARENT-GUARDIAN-REQUIRED-ENGLISH",
+            "OVERSEAS,,ID_DOCUMENT_REQUIRED,OVERSEAS-ID-DOCUMENT-REQUIRED-ENGLISH",
 
             "VOTER_CARD,ENGLISH,APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
             "VOTER_CARD,ENGLISH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-LETTER-ENGLISH",
@@ -175,6 +180,7 @@ internal class NotificationTemplateMapperTest {
             "PROXY,ENGLISH,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-LETTER-ENGLISH",
             "PROXY,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-LETTER-ENGLISH",
             "OVERSEAS,ENGLISH,PARENT_GUARDIAN_REQUIRED,OVERSEAS-PARENT-GUARDIAN-REQUIRED-ENGLISH",
+            "OVERSEAS,ENGLISH,ID_DOCUMENT_REQUIRED, OVERSEAS-ID-DOCUMENT-REQUIRED-ENGLISH",
 
             "VOTER_CARD,WELSH,APPLICATION_REJECTED, REJECTED-ID-LETTER-WELSH",
             "VOTER_CARD,WELSH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-LETTER-WELSH",
@@ -195,6 +201,7 @@ internal class NotificationTemplateMapperTest {
             "PROXY,WELSH,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-LETTER-WELSH",
             "PROXY,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-LETTER-WELSH",
             "OVERSEAS,WELSH,PARENT_GUARDIAN_REQUIRED,OVERSEAS-PARENT-GUARDIAN-REQUIRED-WELSH",
+            "OVERSEAS,WELSH,ID_DOCUMENT_REQUIRED, OVERSEAS-ID-DOCUMENT-REQUIRED-WELSH",
         ]
     )
     fun `should map Notification Type in language for letter channel to Notify Template ID`(

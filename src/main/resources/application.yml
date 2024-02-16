@@ -110,10 +110,14 @@ api:
           received-welsh: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH}
           parent-guardian-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_EMAIL_ENGLISH}
           parent-guardian-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_EMAIL_WELSH}
-
+          id-document-required-english: ${TEMPLATE_OVERSEAS_ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH}
+          id-document-required-welsh: ${TEMPLATE_OVERSEAS_ID_DOCUMENT_REQUIRED_EMAIL_WELSH}
+        
         letter:
           parent-guardian-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_LETTER_ENGLISH}
           parent-guardian-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_LETTER_WELSH}
+          id-document-required-english: ${TEMPLATE_OVERSEAS_ID_DOCUMENT_REQUIRED_LETTER_ENGLISH}
+          id-document-required-welsh: ${TEMPLATE_OVERSEAS_ID_DOCUMENT_REQUIRED_LETTER_WELSH}
 
 
 sqs:

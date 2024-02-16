@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
@@ -15,9 +15,8 @@ import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePre
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.Language.CY
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel.EMAIL
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel.LETTER
+import uk.gov.dluhc.notificationsapi.models.NotificationChannel
+import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -30,6 +29,15 @@ import java.time.temporal.ChronoUnit
 internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : IntegrationTest() {
     companion object {
         private const val URI_TEMPLATE = "/templates/id-document-required/preview"
+        private const val ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH_VAC = "fdd31588-c982-11ed-afa1-0242ac120002"
+        private const val ID_DOCUMENT_REQUIRED_EMAIL_WELSH_VAC = "add31fb0-c982-11ed-afa1-0242ac120002"
+        private const val ID_DOCUMENT_REQUIRED_LETTER_ENGLISH_VAC = "bdd326c2-c982-11ed-afa1-0242ac120002"
+        private const val ID_DOCUMENT_REQUIRED_LETTER_WELSH_VAC = "cdd32cd0-c982-11ed-afa1-0242ac120002"
+
+        private const val ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH_OVERSEAS = "cea6ecec-7627-4322-b220-ee70a69f014d"
+        private const val ID_DOCUMENT_REQUIRED_EMAIL_WELSH_OVERSEAS = "1f922de4-1e70-4aaf-9b76-7ab789fe7d1a"
+        private const val ID_DOCUMENT_REQUIRED_LETTER_ENGLISH_OVERSEAS = "0305c716-cfbc-401d-b95b-a6aeda741ba6"
+        private const val ID_DOCUMENT_REQUIRED_LETTER_WELSH_OVERSEAS = "abd343c5-edab-4e58-82b4-293736a464d0"
     }
 
     @BeforeEach
@@ -196,49 +204,33 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
     }
 
     @ParameterizedTest
-    @EnumSource(Language::class)
-    fun `should return email template preview given valid request`(language: Language) {
+    @CsvSource(
+        "$ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH_VAC, VOTER_MINUS_CARD, EN, EMAIL",
+        "$ID_DOCUMENT_REQUIRED_EMAIL_WELSH_VAC, VOTER_MINUS_CARD, CY, EMAIL",
+        "$ID_DOCUMENT_REQUIRED_LETTER_ENGLISH_VAC, VOTER_MINUS_CARD, EN, LETTER",
+        "$ID_DOCUMENT_REQUIRED_LETTER_WELSH_VAC, VOTER_MINUS_CARD, CY, LETTER",
+
+        "$ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH_OVERSEAS, OVERSEAS, EN, EMAIL",
+        "$ID_DOCUMENT_REQUIRED_EMAIL_WELSH_OVERSEAS, OVERSEAS, CY, EMAIL",
+        "$ID_DOCUMENT_REQUIRED_LETTER_ENGLISH_OVERSEAS, OVERSEAS, EN, LETTER",
+        "$ID_DOCUMENT_REQUIRED_LETTER_WELSH_OVERSEAS, OVERSEAS, CY, LETTER",
+    )
+    fun `should return letter template preview given valid request`(
+        templateId: String,
+        sourceType: SourceType,
+        language: Language,
+        channel: NotificationChannel
+    ) {
         // Given
-        val templateId =
-            if (language == CY) idDocumentRequiredEmailWelshTemplateId else idDocumentRequiredEmailEnglishTemplateId
         val notifyClientResponse =
             NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateIdDocumentRequiredTemplatePreviewRequest(language = language, channel = EMAIL)
-        val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation)
-        val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
-
-        // When
-        val response = webTestClient.post()
-            .uri(URI_TEMPLATE)
-            .bearerToken(getBearerToken())
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(
-                Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
-            )
-            .exchange()
-            .expectStatus().isOk
-            .returnResult(GenerateTemplatePreviewResponse::class.java)
-
-        // Then
-        val actual = response.responseBody.blockFirst()
-        assertThat(actual).isEqualTo(expected)
-        wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
-    }
-
-    @ParameterizedTest
-    @EnumSource(Language::class)
-    fun `should return letter template preview given valid request`(language: Language) {
-        // Given
-        val templateId =
-            if (language == CY) idDocumentRequiredLetterWelshTemplateId else idDocumentRequiredLetterEnglishTemplateId
-        val notifyClientResponse =
-            NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
-        wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
-
-        val requestBody = buildGenerateIdDocumentRequiredTemplatePreviewRequest(language = language, channel = LETTER)
+        val requestBody = buildGenerateIdDocumentRequiredTemplatePreviewRequest(
+            language = language,
+            channel = channel,
+            sourceType = sourceType
+        )
         val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation)
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
