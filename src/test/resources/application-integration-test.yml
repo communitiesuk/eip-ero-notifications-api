@@ -106,11 +106,15 @@ api:
           parent-guardian-required-welsh: 450f8f7a-5821-4b71-a6ab-372e48b086e2
           id-document-required-english: cea6ecec-7627-4322-b220-ee70a69f014d
           id-document-required-welsh: 1f922de4-1e70-4aaf-9b76-7ab789fe7d1a
+          qualifying-address-required-english: 00dd5dc0-9573-41ae-a3ac-2bd678f1c84a
+          qualifying-address-required-welsh: 9b6d00f8-d0f9-4921-9523-f69681f2b70b
         letter:
           parent-guardian-required-english: 273febb3-fe97-4ae5-a4d6-dfd57cc8c6d8
           parent-guardian-required-welsh: 20f8f805-fac0-453c-871e-41f1d9e0eb29
           id-document-required-english: 0305c716-cfbc-401d-b95b-a6aeda741ba6
           id-document-required-welsh: abd343c5-edab-4e58-82b4-293736a464d0
+          qualifying-address-required-english: 8110954f-72d3-49ce-bbd1-fdfc22e7bde7
+          qualifying-address-required-welsh: 9a207ce7-150c-425d-beac-89c39c2bd689
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission

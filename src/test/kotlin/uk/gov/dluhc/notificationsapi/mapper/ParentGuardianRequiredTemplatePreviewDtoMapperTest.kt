@@ -71,7 +71,7 @@ class ParentGuardianRequiredTemplatePreviewDtoMapperTest {
                                 )
                             },
 
-                            )
+                        )
                     },
                     freeText = null,
                 )

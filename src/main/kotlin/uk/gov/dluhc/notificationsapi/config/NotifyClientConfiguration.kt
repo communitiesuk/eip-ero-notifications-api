@@ -67,7 +67,9 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val ninoNotMatchedRestrictedDocumentsListEnglish: String?,
     val ninoNotMatchedRestrictedDocumentsListWelsh: String?,
     val parentGuardianRequiredEnglish: String?,
-    val parentGuardianRequiredWelsh: String?
+    val parentGuardianRequiredWelsh: String?,
+    val qualifyingAddressRequiredEnglish: String?,
+    val qualifyingAddressRequiredWelsh: String?
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.email", ignoreUnknownFields = false)
@@ -117,7 +119,9 @@ class PostalNotifyEmailTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
     parentGuardianRequiredEnglish = null,
-    parentGuardianRequiredWelsh = null
+    parentGuardianRequiredWelsh = null,
+    qualifyingAddressRequiredEnglish = null,
+    qualifyingAddressRequiredWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -167,7 +171,9 @@ class ProxyNotifyEmailTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
     parentGuardianRequiredEnglish = null,
-    parentGuardianRequiredWelsh = null
+    parentGuardianRequiredWelsh = null,
+    qualifyingAddressRequiredEnglish = null,
+    qualifyingAddressRequiredWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -179,7 +185,9 @@ class OverseasNotifyEmailTemplateConfiguration(
     parentGuardianRequiredEnglish: String?,
     parentGuardianRequiredWelsh: String?,
     idDocumentRequiredEnglish: String?,
-    idDocumentRequiredWelsh: String?
+    idDocumentRequiredWelsh: String?,
+    qualifyingAddressRequiredEnglish: String?,
+    qualifyingAddressRequiredWelsh: String?
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -210,6 +218,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
     parentGuardianRequiredEnglish = parentGuardianRequiredEnglish,
     parentGuardianRequiredWelsh = parentGuardianRequiredWelsh,
+    qualifyingAddressRequiredEnglish = qualifyingAddressRequiredEnglish,
+    qualifyingAddressRequiredWelsh = qualifyingAddressRequiredWelsh
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -259,7 +269,9 @@ class VoterCardNotifyEmailTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = null,
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
     parentGuardianRequiredEnglish = null,
-    parentGuardianRequiredWelsh = null
+    parentGuardianRequiredWelsh = null,
+    qualifyingAddressRequiredEnglish = null,
+    qualifyingAddressRequiredWelsh = null
 )
 
 data class NotifyLetterTemplateConfiguration(
@@ -298,7 +310,9 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val ninoNotMatchedRestrictedDocumentsListEnglish: String?,
     val ninoNotMatchedRestrictedDocumentsListWelsh: String?,
     val parentGuardianRequiredEnglish: String?,
-    val parentGuardianRequiredWelsh: String?
+    val parentGuardianRequiredWelsh: String?,
+    val qualifyingAddressRequiredEnglish: String?,
+    val qualifyingAddressRequiredWelsh: String?
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.letter", ignoreUnknownFields = false)
@@ -346,7 +360,9 @@ class VoterCardNotifyLetterTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = null,
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
     parentGuardianRequiredEnglish = null,
-    parentGuardianRequiredWelsh = null
+    parentGuardianRequiredWelsh = null,
+    qualifyingAddressRequiredEnglish = null,
+    qualifyingAddressRequiredWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -394,7 +410,9 @@ class PostalNotifyLetterTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
     parentGuardianRequiredEnglish = null,
-    parentGuardianRequiredWelsh = null
+    parentGuardianRequiredWelsh = null,
+    qualifyingAddressRequiredEnglish = null,
+    qualifyingAddressRequiredWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
@@ -442,7 +460,9 @@ class ProxyNotifyLetterTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
     parentGuardianRequiredEnglish = null,
-    parentGuardianRequiredWelsh = null
+    parentGuardianRequiredWelsh = null,
+    qualifyingAddressRequiredEnglish = null,
+    qualifyingAddressRequiredWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.letter", ignoreUnknownFields = false)
@@ -452,7 +472,9 @@ class OverseasNotifyLetterTemplateConfiguration(
     parentGuardianRequiredEnglish: String?,
     parentGuardianRequiredWelsh: String?,
     idDocumentRequiredEnglish: String?,
-    idDocumentRequiredWelsh: String?
+    idDocumentRequiredWelsh: String?,
+    qualifyingAddressRequiredEnglish: String?,
+    qualifyingAddressRequiredWelsh: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -483,4 +505,6 @@ class OverseasNotifyLetterTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
     parentGuardianRequiredEnglish = parentGuardianRequiredEnglish,
     parentGuardianRequiredWelsh = parentGuardianRequiredWelsh,
+    qualifyingAddressRequiredEnglish = qualifyingAddressRequiredEnglish,
+    qualifyingAddressRequiredWelsh = qualifyingAddressRequiredWelsh
 )

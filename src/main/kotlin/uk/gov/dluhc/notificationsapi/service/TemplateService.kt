@@ -14,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.api.GenerateQualifyingAddressRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 
@@ -174,6 +175,20 @@ class TemplateService(
                     language
                 ),
                 templatePersonalisationDtoMapper.toParentGuardianRequiredTemplatePersonalisationMap(personalisation)
+            )
+        }
+    }
+
+    fun generateQualifyingAddressRequiredTemplatePreview(dto: GenerateQualifyingAddressRequiredTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(dto) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
+                templatePersonalisationDtoMapper.toQualifyingAddressRequiredTemplatePersonalisationMap(personalisation)
             )
         }
     }

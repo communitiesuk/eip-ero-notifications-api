@@ -81,7 +81,9 @@ internal class NotificationTemplateMapperTest {
                 parentGuardianRequiredEnglish = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-ENGLISH",
                 parentGuardianRequiredWelsh = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-WELSH",
                 idDocumentRequiredEnglish = "OVERSEAS-ID-DOCUMENT-REQUIRED-ENGLISH",
-                idDocumentRequiredWelsh = "OVERSEAS-ID-DOCUMENT-REQUIRED-WELSH"
+                idDocumentRequiredWelsh = "OVERSEAS-ID-DOCUMENT-REQUIRED-WELSH",
+                qualifyingAddressRequiredEnglish = "OVERSEAS-QUALIFYIDING-ADDRESS-REQUIRED-ENGLISH",
+                qualifyingAddressRequiredWelsh = "OVERSEAS-QUALIFYIDING-ADDRESS-REQUIRED-WELSH"
             ),
         ),
         NotifyLetterTemplateConfiguration(
@@ -131,8 +133,9 @@ internal class NotificationTemplateMapperTest {
                 parentGuardianRequiredEnglish = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-ENGLISH",
                 parentGuardianRequiredWelsh = "OVERSEAS-PARENT-GUARDIAN-REQUIRED-WELSH",
                 idDocumentRequiredEnglish = "OVERSEAS-ID-DOCUMENT-REQUIRED-ENGLISH",
-                idDocumentRequiredWelsh = "OVERSEAS-ID-DOCUMENT-REQUIRED-WELSH"
-
+                idDocumentRequiredWelsh = "OVERSEAS-ID-DOCUMENT-REQUIRED-WELSH",
+                qualifyingAddressRequiredEnglish = "OVERSEAS-QUALIFYIDING-ADDRESS-REQUIRED-ENGLISH",
+                qualifyingAddressRequiredWelsh = "OVERSEAS-QUALIFYIDING-ADDRESS-REQUIRED-WELSH"
             ),
         )
     )

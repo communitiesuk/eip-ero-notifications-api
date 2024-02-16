@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.QualifyingAddressPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
@@ -341,6 +342,15 @@ fun buildRequestedSignaturePersonalisationMapFromDto(
 }
 
 fun buildParentGuardianRequiredPersonalisationMapFromDto(personalisationDto: ParentGuardianPersonalisationDto = buildParentGuardianRequiredTemplatePreviewPersonalisation()): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+    with(personalisationDto) {
+        personalisationMap["freeText"] = freeText ?: ""
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+    return personalisationMap
+}
+
+fun buildQualifyingAddressRequiredPersonlisationMapFromDto(personalisationDto: QualifyingAddressPersonalisationDto = buildQualifyingAddressRequiredTemplatePreviewPersonalisation()): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["freeText"] = freeText ?: ""

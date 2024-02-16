@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -36,6 +37,11 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateReque
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildParentGauardianRequiredTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildParentGuardianRequiredPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildQualifyingAddressRequiredPersonlisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildQualifyingAddressRequiredTemplateDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildQualifyingAddressRequiredTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
@@ -158,7 +164,12 @@ class TemplateServiceTest {
             assertThat(actual).isEqualTo(previewDto)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
             verify(notificationTemplateMapper)
-                .fromNotificationTypeForChannelInLanguage(dto.sourceType, dto.notificationType, dto.channel, dto.language)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
             verify(templatePersonalisationDtoMapper).toIdDocumentRequiredTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -185,8 +196,17 @@ class TemplateServiceTest {
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
-            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
-            given(templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(any())).willReturn(personalisation)
+            given(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    any(),
+                    any(),
+                    any(),
+                    any()
+                )
+            ).willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(any())).willReturn(
+                personalisation
+            )
 
             // When
 
@@ -195,7 +215,12 @@ class TemplateServiceTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, NotificationType.APPLICATION_RECEIVED, NotificationChannel.EMAIL, language)
+            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(
+                sourceType,
+                NotificationType.APPLICATION_RECEIVED,
+                NotificationChannel.EMAIL,
+                language
+            )
             verify(templatePersonalisationDtoMapper).toApplicationReceivedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -220,8 +245,17 @@ class TemplateServiceTest {
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
-            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
-            given(templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(any())).willReturn(personalisation)
+            given(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    any(),
+                    any(),
+                    any(),
+                    any()
+                )
+            ).willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(any())).willReturn(
+                personalisation
+            )
 
             // When
 
@@ -230,7 +264,12 @@ class TemplateServiceTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(VOTER_CARD, NotificationType.APPLICATION_APPROVED, NotificationChannel.EMAIL, language)
+            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(
+                VOTER_CARD,
+                NotificationType.APPLICATION_APPROVED,
+                NotificationChannel.EMAIL,
+                language
+            )
             verify(templatePersonalisationDtoMapper).toApplicationApprovedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -258,7 +297,12 @@ class TemplateServiceTest {
             assertThat(actual).isEqualTo(previewDto)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
             verify(notificationTemplateMapper)
-                .fromNotificationTypeForChannelInLanguage(dto.sourceType, dto.notificationType, dto.channel, dto.language)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
             verify(templatePersonalisationDtoMapper).toApplicationRejectedTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -398,6 +442,98 @@ class TemplateServiceTest {
                     dto.language
                 )
             verify(templatePersonalisationDtoMapper).toNinoNotMatchedTemplatePersonalisationMap(dto.personalisation)
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateParentGuardianRequiredTemplatePreview {
+        @ParameterizedTest
+        @CsvSource(
+            "206e2ea4-c2d4-412c-8abb-59bc9d57445b, EMAIL, ENGLISH",
+            "450f8f7a-5821-4b71-a6ab-372e48b086e2, EMAIL, WELSH",
+            "273febb3-fe97-4ae5-a4d6-dfd57cc8c6d8, LETTER, ENGLISH",
+            "20f8f805-fac0-453c-871e-41f1d9e0eb29, LETTER, WELSH",
+        )
+        fun `should return parent guardian required template preview`(
+            templateId: String,
+            notificationChannel: NotificationChannel,
+            language: LanguageDto
+        ) {
+            // Given
+            val dto =
+                buildParentGauardianRequiredTemplatePreviewDto(
+                    language = language,
+                    channel = notificationChannel
+                )
+            val personalisationMap = buildParentGuardianRequiredPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toParentGuardianRequiredTemplatePersonalisationMap(any()))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateParentGuardianRequiredTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
+            verify(templatePersonalisationDtoMapper).toParentGuardianRequiredTemplatePersonalisationMap(dto.personalisation)
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateQualifyingAddressRequiredTemplatePreview {
+        @ParameterizedTest
+        @CsvSource(
+            "00dd5dc0-9573-41ae-a3ac-2bd678f1c84a, EMAIL, ENGLISH",
+            "9b6d00f8-d0f9-4921-9523-f69681f2b70b, EMAIL, WELSH",
+            "8110954f-72d3-49ce-bbd1-fdfc22e7bde7, LETTER, ENGLISH",
+            "9a207ce7-150c-425d-beac-89c39c2bd689, LETTER, WELSH",
+        )
+        fun `should return qualifying address required template preview`(
+            templateId: String,
+            notificationChannel: NotificationChannel,
+            language: LanguageDto
+        ) {
+            // Given
+            val dto =
+                buildQualifyingAddressRequiredTemplateDto(
+                    language = language,
+                    channel = notificationChannel
+                )
+            val personalisationMap = buildQualifyingAddressRequiredPersonlisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toQualifyingAddressRequiredTemplatePersonalisationMap(any()))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateQualifyingAddressRequiredTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
+            verify(templatePersonalisationDtoMapper).toQualifyingAddressRequiredTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
     }

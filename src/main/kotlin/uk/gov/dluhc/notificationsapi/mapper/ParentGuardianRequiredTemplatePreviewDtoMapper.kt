@@ -8,5 +8,4 @@ import uk.gov.dluhc.notificationsapi.models.GenerateParentGuardianRequiredTempla
 interface ParentGuardianRequiredTemplatePreviewDtoMapper {
 
     fun toParentGuardianRequiredTemplatePreviewDto(request: GenerateParentGuardianRequiredTemplatePreviewRequest): GenerateParentGuardianRequiredTemplatePreviewDto
-
 }

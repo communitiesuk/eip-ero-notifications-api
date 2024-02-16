@@ -137,3 +137,14 @@ class ParentGuardianPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
 )
+
+class QualifyingAddressPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val freeText: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)

@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionTemplate
 import uk.gov.dluhc.notificationsapi.mapper.NinoNotMatchedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.ParentGuardianRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.QualifyingAddressRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RequestedSignatureTemplatePreviewDtoMapper
@@ -23,6 +24,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTempla
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateParentGuardianRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateQualifyingAddressRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
@@ -44,7 +46,8 @@ class TemplateController(
     private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper,
     private val requestedSignatureTemplatePreviewDtoMapper: RequestedSignatureTemplatePreviewDtoMapper,
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
-    private val parentGuardianRequiredTemplateDtoMapper: ParentGuardianRequiredTemplatePreviewDtoMapper
+    private val parentGuardianRequiredTemplateDtoMapper: ParentGuardianRequiredTemplatePreviewDtoMapper,
+    private val qualifyingAddressRequiredTemplatePreviewDtoMapper: QualifyingAddressRequiredTemplatePreviewDtoMapper
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -180,6 +183,19 @@ class TemplateController(
         return with(
             templateService.generateParentGuardianRequiredTemplatePreview(
                 parentGuardianRequiredTemplateDtoMapper.toParentGuardianRequiredTemplatePreviewDto(
+                    request
+                )
+            )
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
+    }
+
+    @PostMapping("/templates/qualifying-address-required/preview")
+    fun generateQualifyingAddressDocumentRequiredTemplate(@Valid @RequestBody request: GenerateQualifyingAddressRequiredTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generateQualifyingAddressRequiredTemplatePreview(
+                qualifyingAddressRequiredTemplatePreviewDtoMapper.toQualifyingAddressRequiredTemplatePreviewDto(
                     request
                 )
             )

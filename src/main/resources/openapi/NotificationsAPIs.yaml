@@ -922,7 +922,7 @@ paths:
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Generate ID Document Required Template Preview
+        - Generate Parent Guardian Document Required Template Preview
       responses:
         200:
           description: Default response for CORS method
@@ -981,6 +981,74 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Qualifying Address Document Required Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/qualifying-address-required/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Qualifying Address Document Required Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text and html preview for a qualifying address document required template type and personalisation data
+      description: Generates a text and html preview for a qualifying address document required template type and personalisation data
+      operationId: generate-qualifying-address-document-required-template-preview
+      tags:
+        - Generate Qualifying Address Document Required Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateQualifyingAddressRequiredTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/id-document-required/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
 
 components:
   #
@@ -1033,6 +1101,7 @@ components:
         - requested-signature
         - nino-not-matched
         - parent-guardian-required
+        - qualifying-address-required
     Language:
       title: Language
       description: The language to view the template
@@ -1205,7 +1274,7 @@ components:
         - personalisation
         - sourceType
     GenerateParentGuardianRequiredTemplatePreviewRequest:
-      title: GenerateIdDocumentRequiredTemplatePreviewRequest
+      title: GenerateParentGuardianRequiredTemplatePreviewRequest
       description: An object containing request attributes required for generating the parent guardian required template preview
       type: object
       properties:
@@ -1215,6 +1284,23 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/ParentGuardianRequiredPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
+    GenerateQualifyingAddressRequiredTemplatePreviewRequest:
+      title: GenerateQualifyingAddressRequiredTemplatePreviewRequest
+      description: An object containing request attributes required for generating the qualifying address required template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/QualifyingAddressRequiredPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -1324,6 +1410,17 @@ components:
           type: string
           description: Free text message to provided further information
           example: Please provide a valid parent or guardian
+    QualifyingAddressRequiredPersonalisation:
+      title: QualifyingAddressRequiredPersonalisation
+      type: object
+      description: Personalisation details for qualifying address required template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        freeText:
+          type: string
+          description: Free text message to provided further information
+          example: Please provide a valid qualifying address
     BasePersonalisation:
       title: BasePersonalisation
       type: object
@@ -1963,6 +2060,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateParentGuardianRequiredTemplatePreviewRequest'
+    GenerateQualifyingAddressRequiredTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateQualifyingAddressRequiredTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:
