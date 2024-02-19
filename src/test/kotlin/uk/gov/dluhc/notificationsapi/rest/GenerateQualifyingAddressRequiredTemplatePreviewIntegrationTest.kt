@@ -11,7 +11,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
-import uk.gov.dluhc.notificationsapi.models.GenerateParentGuardianRequiredTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateQualifyingAddressRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
@@ -23,19 +23,19 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TO
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildParentGuardianRequiredPersonlisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildParentGuardianTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildQualifyingAddressRequiredPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildQualifyingAddressRequiredTemplateRequest
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
-internal class GenerateParentGuardianRequiredTemplatePreviewIntegrationTest : IntegrationTest() {
+internal class GenerateQualifyingAddressRequiredTemplatePreviewIntegrationTest : IntegrationTest() {
 
     companion object {
-        private const val PARENT_GUARDIAN_REQUIRED_EMAIL_EN_TEMPLATE_ID = "206e2ea4-c2d4-412c-8abb-59bc9d57445b"
-        private const val PARENT_GUARDIAN_REQUIRED_EMAIL_CY_TEMPLATE_ID = "450f8f7a-5821-4b71-a6ab-372e48b086e2"
-        private const val PARENT_GUARDIAN_REQUIRED_LETTER_EN_TEMPLATE_ID = "273febb3-fe97-4ae5-a4d6-dfd57cc8c6d8"
-        private const val PARENT_GUARDIAN_REQUIRED_LETTER_CY_TEMPLATE_ID = "20f8f805-fac0-453c-871e-41f1d9e0eb29"
-        private const val URI_TEMPLATE = "/templates/parent-guardian-required/preview"
+        private const val QUALIFYING_ADDRESS_REQUIRED_EMAIL_EN_TEMPLATE_ID = "00dd5dc0-9573-41ae-a3ac-2bd678f1c84a"
+        private const val QUALIFYING_ADDRESS_REQUIRED_EMAIL_CY_TEMPLATE_ID = "9b6d00f8-d0f9-4921-9523-f69681f2b70b"
+        private const val QUALIFYING_ADDRESS_REQUIRED_LETTER_EN_TEMPLATE_ID = "8110954f-72d3-49ce-bbd1-fdfc22e7bde7"
+        private const val QUALIFYING_ADDRESS_REQUIRED_LETTER_CY_TEMPLATE_ID = "9a207ce7-150c-425d-beac-89c39c2bd689"
+        private const val URI_TEMPLATE = "/templates/qualifying-address-required/preview"
     }
 
     @BeforeEach
@@ -67,7 +67,7 @@ internal class GenerateParentGuardianRequiredTemplatePreviewIntegrationTest : In
     fun `should return not found given non existing template`() {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(
-            PARENT_GUARDIAN_REQUIRED_EMAIL_EN_TEMPLATE_ID
+            QUALIFYING_ADDRESS_REQUIRED_EMAIL_EN_TEMPLATE_ID
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
 
@@ -95,10 +95,10 @@ internal class GenerateParentGuardianRequiredTemplatePreviewIntegrationTest : In
     @ParameterizedTest
     @CsvSource(
         value = [
-            "$PARENT_GUARDIAN_REQUIRED_EMAIL_EN_TEMPLATE_ID, EMAIL, EN",
-            "$PARENT_GUARDIAN_REQUIRED_LETTER_EN_TEMPLATE_ID, LETTER, EN",
-            "$PARENT_GUARDIAN_REQUIRED_EMAIL_CY_TEMPLATE_ID, EMAIL, CY",
-            "$PARENT_GUARDIAN_REQUIRED_LETTER_CY_TEMPLATE_ID, LETTER, CY"
+            "$QUALIFYING_ADDRESS_REQUIRED_EMAIL_EN_TEMPLATE_ID, EMAIL, EN",
+            "$QUALIFYING_ADDRESS_REQUIRED_EMAIL_CY_TEMPLATE_ID, EMAIL, CY",
+            "$QUALIFYING_ADDRESS_REQUIRED_LETTER_EN_TEMPLATE_ID, LETTER, EN",
+            "$QUALIFYING_ADDRESS_REQUIRED_LETTER_CY_TEMPLATE_ID, LETTER, CY"
         ]
     )
     fun `should return template preview given valid json request`(
@@ -111,10 +111,10 @@ internal class GenerateParentGuardianRequiredTemplatePreviewIntegrationTest : In
             NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildParentGuardianTemplatePreviewRequest(
+        val requestBody = buildQualifyingAddressRequiredTemplateRequest(
             channel = channel,
             language = language,
-            personalisation = buildParentGuardianRequiredPersonlisation(
+            personalisation = buildQualifyingAddressRequiredPersonalisation(
                 applicationReference = "applicationReference",
                 freeText = "free text",
                 eroContactDetails = buildEroContactDetails(
@@ -168,6 +168,6 @@ internal class GenerateParentGuardianRequiredTemplatePreviewIntegrationTest : In
 
 private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
     body(
-        Mono.just(buildParentGuardianTemplatePreviewRequest(sourceType = SourceType.OVERSEAS)),
-        GenerateParentGuardianRequiredTemplatePreviewRequest::class.java
+        Mono.just(buildQualifyingAddressRequiredTemplateRequest(sourceType = SourceType.OVERSEAS)),
+        GenerateQualifyingAddressRequiredTemplatePreviewRequest::class.java
     ) as WebTestClient.RequestBodySpec

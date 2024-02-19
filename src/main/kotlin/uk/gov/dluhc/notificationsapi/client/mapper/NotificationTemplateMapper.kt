@@ -158,7 +158,7 @@ class NotificationTemplateMapper(
             NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListWelsh
             PARENT_GUARDIAN_REQUIRED -> config.parentGuardianRequiredWelsh
-            QUALIFYING_ADDRESS_REQUIRED -> config.qualifyingAddressRequiredEnglish
+            QUALIFYING_ADDRESS_REQUIRED -> config.qualifyingAddressRequiredWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
