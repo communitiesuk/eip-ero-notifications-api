@@ -51,6 +51,7 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "NINO_NOT_MATCHED", target = "NINO_MINUS_NOT_MINUS_MATCHED")
     @ValueMapping(source = "PARENT_GUARDIAN_REQUIRED", target = "PARENT_MINUS_GUARDIAN_MINUS_REQUIRED")
     @ValueMapping(source = "QUALIFYING_ADDRESS_REQUIRED", target = "QUALIFYING_MINUS_ADDRESS_MINUS_REQUIRED")
+    @ValueMapping(source = "REJECTED_PARENT_GUARDIAN", target = "REJECTED_MINUS_PARENT_MINUS_GUARDIAN")
     // Mappings
     // - NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
     // - NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS

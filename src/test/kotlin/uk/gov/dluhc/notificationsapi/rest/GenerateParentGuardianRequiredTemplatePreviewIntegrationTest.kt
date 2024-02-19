@@ -23,7 +23,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TO
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildParentGuardianRequiredPersonlisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildParentGuardianRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildParentGuardianTemplatePreviewRequest
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
@@ -114,7 +114,7 @@ internal class GenerateParentGuardianRequiredTemplatePreviewIntegrationTest : In
         val requestBody = buildParentGuardianTemplatePreviewRequest(
             channel = channel,
             language = language,
-            personalisation = buildParentGuardianRequiredPersonlisation(
+            personalisation = buildParentGuardianRequiredPersonalisation(
                 applicationReference = "applicationReference",
                 freeText = "free text",
                 eroContactDetails = buildEroContactDetails(

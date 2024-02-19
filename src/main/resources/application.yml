@@ -114,8 +114,8 @@ api:
           id-document-required-welsh: ${TEMPLATE_OVERSEAS_ID_DOCUMENT_REQUIRED_EMAIL_WELSH}
           qualifying-address-required-english: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_EMAIL_ENGLISH}
           qualifying-address-required-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_EMAIL_WELSH}
-
-        
+          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_EMAIL_ENGLISH}
+          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_EMAIL_WELSH}
         letter:
           parent-guardian-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_LETTER_ENGLISH}
           parent-guardian-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_REQUIRED_LETTER_WELSH}
@@ -123,6 +123,8 @@ api:
           id-document-required-welsh: ${TEMPLATE_OVERSEAS_ID_DOCUMENT_REQUIRED_LETTER_WELSH}
           qualifying-address-required-english: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_LETTER_ENGLISH}
           qualifying-address-required-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_LETTER_WELSH}
+          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_LETTER_ENGLISH}
+          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_LETTER_WELSH}
 
 
 sqs:

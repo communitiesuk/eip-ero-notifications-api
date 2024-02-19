@@ -11,7 +11,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetailsRequest
 
 fun buildParentGuardianTemplatePreviewRequest(
-    personalisation: ParentGuardianRequiredPersonalisation = buildParentGuardianRequiredPersonlisation(),
+    personalisation: ParentGuardianRequiredPersonalisation = buildParentGuardianRequiredPersonalisation(),
     language: Language = Language.EN,
     sourceType: SourceType = SourceType.OVERSEAS,
     channel: NotificationChannel = NotificationChannel.EMAIL
@@ -23,7 +23,7 @@ fun buildParentGuardianTemplatePreviewRequest(
         channel = channel
     )
 
-fun buildParentGuardianRequiredPersonlisation(
+fun buildParentGuardianRequiredPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsRequest(localAuthorityName = "Barcelona"),
