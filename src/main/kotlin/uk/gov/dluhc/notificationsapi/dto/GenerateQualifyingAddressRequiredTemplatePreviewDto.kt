@@ -1,4 +1,4 @@
-package uk.gov.dluhc.notificationsapi.dto.api
+package uk.gov.dluhc.notificationsapi.dto
 
 import uk.gov.dluhc.notificationsapi.dto.BaseGenerateTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
