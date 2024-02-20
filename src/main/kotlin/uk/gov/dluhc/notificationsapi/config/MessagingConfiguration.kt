@@ -13,7 +13,8 @@ import org.springframework.messaging.handler.annotation.support.HeadersMethodArg
 import org.springframework.messaging.handler.annotation.support.PayloadMethodArgumentResolver
 import org.springframework.validation.Validator
 import uk.gov.dluhc.messagingsupport.MessageQueue
-import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage
+import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
+import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
 
 @Configuration
 class MessagingConfiguration {
@@ -21,9 +22,16 @@ class MessagingConfiguration {
     @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}")
     private lateinit var triggerVoterCardStatisticsUpdateQueueName: String
 
+    @Value("\${sqs.trigger-postal-application-statistics-update-queue-name}")
+    private lateinit var triggerPostalApplicationStatisticsUpdateQueueName: String
+
     @Bean
     fun triggerVoterCardStatisticsUpdateQueue(queueMessagingTemplate: QueueMessagingTemplate) =
-        MessageQueue<UpdateStatisticsMessage>(triggerVoterCardStatisticsUpdateQueueName, queueMessagingTemplate)
+        MessageQueue<VoterCardUpdateStatisticsMessage>(triggerVoterCardStatisticsUpdateQueueName, queueMessagingTemplate)
+
+    @Bean
+    fun triggerPostalApplicationStatisticsUpdateQueue(queueMessagingTemplate: QueueMessagingTemplate) =
+        MessageQueue<PostalUpdateStatisticsMessage>(triggerPostalApplicationStatisticsUpdateQueueName, queueMessagingTemplate)
 
     @Bean
     fun queueMessageHandlerFactory(

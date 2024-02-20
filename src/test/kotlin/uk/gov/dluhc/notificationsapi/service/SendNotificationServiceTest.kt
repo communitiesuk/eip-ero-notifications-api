@@ -209,11 +209,10 @@ internal class SendNotificationServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(NotificationType::class, names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"])
+    @EnumSource(NotificationType::class, names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "REQUESTED_SIGNATURE"])
     fun `should send statistics update for relevant notification types`(notificationType: NotificationType) {
 
         // Given
-        val channel = NotificationChannel.EMAIL
         val request = buildSendNotificationRequestDto(notificationType = notificationType)
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val response = buildSendNotificationDto()
@@ -228,16 +227,58 @@ internal class SendNotificationServiceTest {
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(statisticsUpdateService).triggerVoterCardStatisticsUpdate(notification.sourceReference!!)
+        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!, SourceType.VOTER_CARD)
     }
 
     @ParameterizedTest
-    @EnumSource(NotificationType::class, names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"], mode = EnumSource.Mode.EXCLUDE)
+    @EnumSource(NotificationType::class, names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "REQUESTED_SIGNATURE"], mode = EnumSource.Mode.EXCLUDE)
     fun `should not send statistics update for irrelevant notification types`(notificationType: NotificationType) {
 
         // Given
-        val channel = NotificationChannel.EMAIL
         val request = buildSendNotificationRequestDto(notificationType = notificationType)
+        val personalisation = buildPhotoPersonalisationMapFromDto()
+        val response = buildSendNotificationDto()
+        val notification = aNotification()
+        val templateId = aTemplateId().toString()
+
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(response)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
+
+        // When
+        sendNotificationService.sendNotification(request, personalisation)
+
+        // Then
+        verifyNoInteractions(statisticsUpdateService)
+    }
+
+    @ParameterizedTest
+    @EnumSource(SourceType::class, names = ["VOTER_CARD", "POSTAL"]) // TODO: EIP1-8742 Add proxy
+    fun `should send statistics update for Postal and Voter Card applications`(sourceType: SourceType) {
+        // Given
+        val request = buildSendNotificationRequestDto(sourceType = sourceType, notificationType = NotificationType.ID_DOCUMENT_REQUIRED)
+        val personalisation = buildPhotoPersonalisationMapFromDto()
+        val response = buildSendNotificationDto()
+        val notification = aNotification()
+        val templateId = aTemplateId().toString()
+
+        given(notifyApiClient.sendEmail(any(), any(), any(), any())).willReturn(response)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
+        given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
+
+        // When
+        sendNotificationService.sendNotification(request, personalisation)
+
+        // Then
+        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!, sourceType)
+    }
+
+    @ParameterizedTest
+    @EnumSource(SourceType::class, names = ["VOTER_CARD", "POSTAL"], mode = EnumSource.Mode.EXCLUDE) // TODO: EIP1-8742 Add proxy
+    fun `should not send statistics update for irrelevant source types`(sourceType: SourceType) {
+
+        // Given
+        val request = buildSendNotificationRequestDto(sourceType = sourceType, notificationType = NotificationType.ID_DOCUMENT_REQUIRED)
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val response = buildSendNotificationDto()
         val notification = aNotification()

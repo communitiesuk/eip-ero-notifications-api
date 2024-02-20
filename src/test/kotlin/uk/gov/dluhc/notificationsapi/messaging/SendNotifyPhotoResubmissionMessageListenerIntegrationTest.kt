@@ -49,7 +49,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
             wireMockService.verifyNotifySendEmailCalled()
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
-            assertUpdateStatisticsMessageSent(sourceReference)
+            assertVoterCardUpdateStatisticsMessageSent(sourceReference)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")
         }
@@ -82,7 +82,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
             wireMockService.verifyNotifySendLetterCalled()
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
-            assertUpdateStatisticsMessageSent(sourceReference)
+            assertVoterCardUpdateStatisticsMessageSent(sourceReference)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")
         }

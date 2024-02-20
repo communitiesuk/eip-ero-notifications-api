@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.service
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
@@ -12,10 +13,13 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.capture
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.messagingsupport.MessageQueue
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
-import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage
+import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
+import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
 
 @ExtendWith(MockitoExtension::class)
 class StatisticsUpdateServiceTest {
@@ -23,27 +27,81 @@ class StatisticsUpdateServiceTest {
     @InjectMocks
     private lateinit var statisticsUpdateService: StatisticsUpdateService
 
-    @Mock
-    private lateinit var triggerUpdateStatisticsMessageQueue: MessageQueue<UpdateStatisticsMessage>
-
     @Captor
     private lateinit var headersArgumentCaptor: ArgumentCaptor<Map<String, Any>>
 
+    @Mock
+    private lateinit var triggerVoterCardStatisticsUpdateQueue: MessageQueue<VoterCardUpdateStatisticsMessage>
+
+    @Mock
+    private lateinit var triggerPostalApplicationStatisticsUpdateQueue: MessageQueue<PostalUpdateStatisticsMessage>
+
+    @BeforeEach
+    fun setUp() {
+        statisticsUpdateService = StatisticsUpdateService(
+            triggerVoterCardStatisticsUpdateQueue,
+            triggerPostalApplicationStatisticsUpdateQueue
+        )
+    }
+
     @Test
-    fun `should send a message containing the application ID to the queue`() {
+    fun `should send a message containing the application ID to the voter card queue for voter card applications`() {
 
         // Given
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerVoterCardStatisticsUpdate(applicationId)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
 
         // Then
-        verify(triggerUpdateStatisticsMessageQueue).submit(
-            eq(UpdateStatisticsMessage(applicationId)),
+        verify(triggerVoterCardStatisticsUpdateQueue).submit(
+            eq(VoterCardUpdateStatisticsMessage(applicationId)),
             any()
         )
-        verifyNoMoreInteractions(triggerUpdateStatisticsMessageQueue)
+        verifyNoMoreInteractions(triggerVoterCardStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should not send a message to the voter card queue for non voter card applications`() {
+
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
+
+        // Then
+        verifyNoInteractions(triggerVoterCardStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should send a message containing the application ID to the postal queue for postal applications`() {
+
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
+
+        // Then
+        verify(triggerPostalApplicationStatisticsUpdateQueue).submit(
+            eq(PostalUpdateStatisticsMessage(applicationId)),
+            any()
+        )
+        verifyNoMoreInteractions(triggerPostalApplicationStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should not send a message to the postal queue for non postal applications`() {
+
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
+
+        // Then
+        verifyNoInteractions(triggerPostalApplicationStatisticsUpdateQueue)
     }
 
     @Test
@@ -53,15 +111,15 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerVoterCardStatisticsUpdate(applicationId)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
 
         // Then
-        verify(triggerUpdateStatisticsMessageQueue).submit(
+        verify(triggerVoterCardStatisticsUpdateQueue).submit(
             any(),
             capture(headersArgumentCaptor)
         )
         assertThat(headersArgumentCaptor.value.get("message-group-id")).isEqualTo(applicationId)
         assertThat(headersArgumentCaptor.value.get("message-deduplication-id")).isNotNull
-        verifyNoMoreInteractions(triggerUpdateStatisticsMessageQueue)
+        verifyNoMoreInteractions(triggerVoterCardStatisticsUpdateQueue)
     }
 }
