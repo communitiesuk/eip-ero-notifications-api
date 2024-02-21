@@ -10,11 +10,12 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePrevi
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateParentGuardianRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateQualifyingAddressRequiredTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedParentGuardianTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.api.GenerateQualifyingAddressRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 
@@ -189,6 +190,20 @@ class TemplateService(
                     language
                 ),
                 templatePersonalisationDtoMapper.toQualifyingAddressRequiredTemplatePersonalisationMap(personalisation)
+            )
+        }
+    }
+
+    fun generateRejectedParentGuardianTemplatePreview(dto: GenerateRejectedParentGuardianTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(dto) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language
+                ),
+                templatePersonalisationDtoMapper.toRejectedParentGuardianTemplatePersonalisationMap(personalisation)
             )
         }
     }

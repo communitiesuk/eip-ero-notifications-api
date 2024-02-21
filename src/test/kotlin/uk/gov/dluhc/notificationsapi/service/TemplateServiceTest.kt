@@ -39,11 +39,13 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatche
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildParentGauardianRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildParentGuardianRequiredPersonalisationMapFromDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildQualifyingAddressRequiredPersonlisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildQualifyingAddressRequiredPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildQualifyingAddressRequiredTemplateDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildQualifyingAddressRequiredTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedParentGuardianPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedParentGuardianTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedParentGuardianTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
 import java.util.UUID
@@ -512,7 +514,7 @@ class TemplateServiceTest {
                     language = language,
                     channel = notificationChannel
                 )
-            val personalisationMap = buildQualifyingAddressRequiredPersonlisationMapFromDto(dto.personalisation)
+            val personalisationMap = buildQualifyingAddressRequiredPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
                 .willReturn(templateId)
@@ -534,6 +536,52 @@ class TemplateServiceTest {
                     dto.language
                 )
             verify(templatePersonalisationDtoMapper).toQualifyingAddressRequiredTemplatePersonalisationMap(dto.personalisation)
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateRejectedParentGuardianTemplatePreview {
+        @ParameterizedTest
+        @CsvSource(
+            "90d605be-36bb-4cea-b453-aaf16ca249b3, EMAIL, ENGLISH",
+            "63b51e19-fdcb-470d-b62a-f96b076bc9ba, EMAIL, WELSH",
+            "1d4330c0-d636-4357-8cfe-5317aef17ebb, LETTER, ENGLISH",
+            "071cda09-08eb-48ff-8fcc-911b7e9ffc03, LETTER, WELSH",
+        )
+        fun `should return rejected parent guardian template preview`(
+            templateId: String,
+            notificationChannel: NotificationChannel,
+            language: LanguageDto
+        ) {
+            // Given
+            val dto =
+                buildRejectedParentGuardianTemplatePreviewDto(
+                    language = language,
+                    channel = notificationChannel
+                )
+            val personalisationMap = buildRejectedParentGuardianPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toRejectedParentGuardianTemplatePersonalisationMap(any()))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateRejectedParentGuardianTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
+            verify(templatePersonalisationDtoMapper).toRejectedParentGuardianTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
     }

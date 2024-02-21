@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.ParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.QualifyingAddressPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
@@ -350,10 +351,22 @@ fun buildParentGuardianRequiredPersonalisationMapFromDto(personalisationDto: Par
     return personalisationMap
 }
 
-fun buildQualifyingAddressRequiredPersonlisationMapFromDto(personalisationDto: QualifyingAddressPersonalisationDto = buildQualifyingAddressRequiredTemplatePreviewPersonalisation()): Map<String, Any> {
+fun buildQualifyingAddressRequiredPersonalisationMapFromDto(personalisationDto: QualifyingAddressPersonalisationDto = buildQualifyingAddressRequiredTemplatePreviewPersonalisation()): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["freeText"] = freeText ?: ""
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+    return personalisationMap
+}
+
+fun buildRejectedParentGuardianPersonalisationMapFromDto(
+    personalisationDto: RejectedParentGuardianPersonalisationDto = buildRejectedParentGuardianTemplatePreviewPersonalisation()
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+    with(personalisationDto) {
+        personalisationMap["rejectedDocuments"] = documents
+        personalisationMap["rejectionMessage"] = rejectedDocumentFreeText ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap

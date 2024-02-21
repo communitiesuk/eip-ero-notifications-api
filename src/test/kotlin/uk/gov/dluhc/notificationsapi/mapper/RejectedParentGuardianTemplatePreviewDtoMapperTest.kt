@@ -11,22 +11,25 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.GenerateParentGuardianRequiredTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedParentGuardianTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.ParentGuardianPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildParentGuardianTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedParentGuardianTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 
 @ExtendWith(MockitoExtension::class)
-class ParentGuardianRequiredTemplatePreviewDtoMapperTest {
+class RejectedParentGuardianTemplatePreviewDtoMapperTest {
 
     @InjectMocks
-    private lateinit var mapper: ParentGuardianRequiredTemplatePreviewDtoMapperImpl
+    private lateinit var mapper: RejectedParentGuardianTemplatePreviewDtoMapper
 
     @Mock
     private lateinit var languageMapper: LanguageMapper
@@ -37,21 +40,28 @@ class ParentGuardianRequiredTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
+    @Mock
+    private lateinit var rejectedDocumentsMapper: RejectedDocumentsMapper
+
+    @Mock
+    private lateinit var eroDtoMapper: EroDtoMapper
+
     @Test
-    fun `should map parent guardian required template request to dto`() {
+    fun `should map rejected parent guardian template request to dto`() {
         // Given
-        val request = buildParentGuardianTemplatePreviewRequest(
+        val request = buildRejectedParentGuardianTemplatePreviewRequest(
             language = Language.EN,
             channel = NotificationChannel.EMAIL,
         )
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL)
-        given(sourceTypeMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS)
+        given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.OVERSEAS)
+        given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(any(), any())).willReturn()
 
-        val expected = GenerateParentGuardianRequiredTemplatePreviewDto(
+        val expected = GenerateRejectedParentGuardianTemplatePreviewDto(
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
-                ParentGuardianPersonalisationDto(
+                RejectedParentGuardianPersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
                     eroContactDetails = with(eroContactDetails) {
@@ -73,7 +83,8 @@ class ParentGuardianRequiredTemplatePreviewDtoMapperTest {
 
                             )
                     },
-                    freeText = null,
+                    documents = listOf("Doc1", "Doc2"),
+                    rejectedDocumentFreeText = null,
                 )
             },
             sourceType = SourceTypeDto.OVERSEAS,
@@ -81,7 +92,7 @@ class ParentGuardianRequiredTemplatePreviewDtoMapperTest {
         )
 
         // When
-        val actual = mapper.toParentGuardianRequiredTemplatePreviewDto(request)
+        val actual = mapper.toRejectedParentGuardianTemplatePreviewDto(request)
 
         // Then
         Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
