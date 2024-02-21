@@ -1,19 +1,10 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.springframework.beans.factory.annotation.Autowired
-import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedParentGuardianTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedParentGuardianPersonalisationDto
-import uk.gov.dluhc.notificationsapi.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedParentGuardianTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.models.RejectedParentGuardianPersonalisation
-import uk.gov.dluhc.notificationsapi.models.SourceType
 
 class RejectedParentGuardianTemplatePreviewDtoMapper(
     private val languageMapper: LanguageMapper,

@@ -20,12 +20,12 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_RESTR
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PARENT_GUARDIAN_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.QUALIFYING_ADDRESS_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PARENT_GUARDIAN
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.QUALIFYING_ADDRESS_REQUIRED
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PARENT_GUARDIAN
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL

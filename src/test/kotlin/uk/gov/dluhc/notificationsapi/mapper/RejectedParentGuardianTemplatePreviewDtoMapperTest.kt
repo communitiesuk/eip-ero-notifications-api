@@ -10,17 +10,14 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
-import uk.gov.dluhc.notificationsapi.dto.GenerateParentGuardianRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedParentGuardianTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.ParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildParentGuardianTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedParentGuardianTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
@@ -81,7 +78,7 @@ class RejectedParentGuardianTemplatePreviewDtoMapperTest {
                                 )
                             },
 
-                            )
+                        )
                     },
                     documents = listOf("Doc1", "Doc2"),
                     rejectedDocumentFreeText = null,

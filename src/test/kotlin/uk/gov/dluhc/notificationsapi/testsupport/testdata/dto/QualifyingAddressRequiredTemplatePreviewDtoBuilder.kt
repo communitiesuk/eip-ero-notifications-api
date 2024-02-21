@@ -1,11 +1,11 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateQualifyingAddressRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.QualifyingAddressPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
-import uk.gov.dluhc.notificationsapi.dto.GenerateQualifyingAddressRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
