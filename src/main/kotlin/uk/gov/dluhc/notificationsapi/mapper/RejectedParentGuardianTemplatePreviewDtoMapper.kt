@@ -1,11 +1,13 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
+import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedParentGuardianTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedParentGuardianTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.RejectedParentGuardianPersonalisation
 
+@Component
 class RejectedParentGuardianTemplatePreviewDtoMapper(
     private val languageMapper: LanguageMapper,
     private val notificationChannelMapper: NotificationChannelMapper,

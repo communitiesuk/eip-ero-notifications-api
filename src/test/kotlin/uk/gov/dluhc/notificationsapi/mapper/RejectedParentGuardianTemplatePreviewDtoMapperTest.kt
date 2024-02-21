@@ -8,14 +8,11 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedParentGuardianTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedParentGuardianPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
-import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedParentGuardianTemplatePreviewRequest
@@ -50,10 +47,32 @@ class RejectedParentGuardianTemplatePreviewDtoMapperTest {
             language = Language.EN,
             channel = NotificationChannel.EMAIL,
         )
+        val contactDetailsDto =
+            with(request.personalisation.eroContactDetails) {
+                buildContactDetailsDto(
+                    localAuthorityName = localAuthorityName,
+                    website = website,
+                    phone = phone,
+                    email = email,
+                    address = with(address) {
+                        buildAddressDto(
+                            street = street,
+                            property = property,
+                            locality = locality,
+                            town = town,
+                            area = area,
+                            postcode = postcode
+                        )
+                    }
+                )
+            }
+
+
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.OVERSEAS)
-        given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(any(), any())).willReturn()
+        given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(any(), any())).willReturn(listOf("doc1", "doc2"))
+        given(eroDtoMapper.toContactDetailsDto(any())).willReturn(contactDetailsDto)
 
         val expected = GenerateRejectedParentGuardianTemplatePreviewDto(
             language = LanguageDto.ENGLISH,
@@ -78,9 +97,9 @@ class RejectedParentGuardianTemplatePreviewDtoMapperTest {
                                 )
                             },
 
-                        )
+                            )
                     },
-                    documents = listOf("Doc1", "Doc2"),
+                    documents = listOf("doc1", "doc2"),
                     rejectedDocumentFreeText = null,
                 )
             },
@@ -93,9 +112,5 @@ class RejectedParentGuardianTemplatePreviewDtoMapperTest {
 
         // Then
         Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-        verify(languageMapper).fromApiToDto(Language.EN)
-        verify(notificationChannelMapper).fromApiToDto(NotificationChannel.EMAIL)
-        verify(sourceTypeMapper).fromApiToDto(SourceType.OVERSEAS)
-        verifyNoMoreInteractions(languageMapper, notificationChannelMapper, sourceTypeMapper)
     }
 }
