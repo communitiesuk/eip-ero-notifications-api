@@ -14,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.mapper.ParentGuardianRequiredTemplatePrevie
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.QualifyingAddressRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.RejectedOverseasDocumentTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedParentGuardianTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RequestedSignatureTemplatePreviewDtoMapper
@@ -27,6 +28,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateParentGuardianRequiredTempla
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateQualifyingAddressRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedParentGuardianTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
@@ -50,7 +52,8 @@ class TemplateController(
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
     private val parentGuardianRequiredTemplateDtoMapper: ParentGuardianRequiredTemplatePreviewDtoMapper,
     private val qualifyingAddressRequiredTemplatePreviewDtoMapper: QualifyingAddressRequiredTemplatePreviewDtoMapper,
-    private val rejectedParentGuardianTemplatePreviewDtoMapper: RejectedParentGuardianTemplatePreviewDtoMapper
+    private val rejectedParentGuardianTemplatePreviewDtoMapper: RejectedParentGuardianTemplatePreviewDtoMapper,
+    private val rejectedOverseasDocumentTemplatePreviewDtoMapper: RejectedOverseasDocumentTemplatePreviewDtoMapper
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -214,6 +217,17 @@ class TemplateController(
                 rejectedParentGuardianTemplatePreviewDtoMapper.toRejectedParentGuardianTemplatePreviewDto(
                     request
                 )
+            )
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
+    }
+
+    @PostMapping("/templates/rejected-overseas-document/preview")
+    fun generateRejectedOverseasDocumentTemplatePreview(@Valid @RequestBody request: GenerateRejectedOverseasDocumentTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generateOverseasRejectedOverseasDocumentTemplatePreview(
+                rejectedOverseasDocumentTemplatePreviewDtoMapper.toRejectedOverseasDocumentTemplatePreviewDto(request)
             )
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)

@@ -1119,6 +1119,76 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Rejected Overseas Document Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/rejected-overseas-document/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Rejected Overseas Document Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text and html preview for a rejected overseas document template type
+      description: Generates a text and html preview for a rejected overseas document template type
+      operationId: generate-rejected-overseas-document-template-preview
+      tags:
+        - Generate Rejected Overseas Document Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateRejectedOverseasDocumentTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/id-document-required/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
+
 components:
   #
   # Schema and Enum Definitions
@@ -1196,6 +1266,14 @@ components:
         - postal
         - proxy
         - overseas
+    OverseasDocumentType:
+      title: OverseasDocumentType
+      description: The type of the overseas document
+      type: string
+      enum:
+        - identity
+        - parent-guardian
+        - qualifying-address
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview
@@ -1394,7 +1472,24 @@ components:
         - channel
         - personalisation
         - sourceType
-
+    GenerateRejectedOverseasDocumentTemplatePreviewRequest:
+      title: GenerateRejectedOverseasDocumentTemplatePreviewRequest
+      description: An object containing request attributes required for generating the relevant rejected document template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/NotificationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/RejectedOverseasDocumentPersonalisation'
+        overseasDocumentType:
+          $ref: '#/components/schemas/OverseasDocumentType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
+        - overseasDocumentType
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
       type: object
@@ -1513,6 +1608,24 @@ components:
       title: RejectedParentGuardianPersonalisation
       type: object
       description: Personalisation details for rejected parent guardian template
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/RejectedDocument'
+          minItems: 1
+        rejectedDocumentFreeText:
+          type: string
+          description: Free text message to provided further information regarding the document rejection
+          example: Please provide a valid document within 28 days
+      required:
+        - documents
+    RejectedOverseasDocumentPersonalisation:
+      title: RejectedOverseasDocumentPersonalisation
+      type: object
+      description: Personalisation details for rejected overseas document template
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
@@ -2176,6 +2289,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateRejectedParentGuardianTemplatePreviewRequest'
+    GenerateRejectedOverseasDocumentTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateRejectedOverseasDocumentTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:
