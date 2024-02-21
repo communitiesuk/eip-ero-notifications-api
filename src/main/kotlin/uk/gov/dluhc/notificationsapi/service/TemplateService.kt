@@ -9,10 +9,12 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePrev
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 
@@ -129,6 +131,20 @@ class TemplateService(
                     language
                 ),
                 templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisation)
+            )
+        }
+    }
+
+    fun generateOverseasRejectedOverseasDocumentTemplatePreview(dto: GenerateRejectedOverseasDocumentTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(dto) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType = SourceType.OVERSEAS,
+                    notificationType = overseasDocumentType,
+                    channel,
+                    language
+                ),
+                templatePersonalisationDtoMapper.toRejectedParentGuardianTemplatePersonalisationMap(personalisation)
             )
         }
     }
