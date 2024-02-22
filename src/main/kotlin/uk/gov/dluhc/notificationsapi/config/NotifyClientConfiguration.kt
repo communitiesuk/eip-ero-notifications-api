@@ -185,7 +185,9 @@ class OverseasNotifyEmailTemplateConfiguration(
     rejectedParentGuardianEnglish: String?,
     rejectedParentGuardianWelsh: String?,
     rejectedQualifyingAddressEnglish: String?,
-    rejectedQualifyingAddressWelsh: String?
+    rejectedQualifyingAddressWelsh: String?,
+    rejectedDocumentEnglish: String?,
+    rejectedDocumentWelsh: String?
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -202,8 +204,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     idDocumentResubmissionWithReasonsWelsh = null,
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
-    rejectedDocumentEnglish = null,
-    rejectedDocumentWelsh = null,
+    rejectedDocumentEnglish = rejectedDocumentEnglish,
+    rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = null,
     rejectedSignatureWelsh = null,
     rejectedSignatureWithReasonsEnglish = null,
@@ -471,7 +473,9 @@ class OverseasNotifyLetterTemplateConfiguration(
     rejectedParentGuardianEnglish: String?,
     rejectedParentGuardianWelsh: String?,
     rejectedQualifyingAddressEnglish: String?,
-    rejectedQualifyingAddressWelsh: String?
+    rejectedQualifyingAddressWelsh: String?,
+    rejectedDocumentEnglish: String?,
+    rejectedDocumentWelsh: String?
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -488,8 +492,8 @@ class OverseasNotifyLetterTemplateConfiguration(
     idDocumentResubmissionWithReasonsWelsh = null,
     idDocumentRequiredEnglish = null,
     idDocumentRequiredWelsh = null,
-    rejectedDocumentEnglish = null,
-    rejectedDocumentWelsh = null,
+    rejectedDocumentEnglish = rejectedDocumentEnglish,
+    rejectedDocumentWelsh = rejectedDocumentWelsh,
     rejectedSignatureEnglish = null,
     rejectedSignatureWelsh = null,
     rejectedSignatureWithReasonsEnglish = null,

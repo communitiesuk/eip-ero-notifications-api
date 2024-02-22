@@ -106,11 +106,15 @@ api:
           rejected-parent-guardian-welsh: 63b51e19-fdcb-470d-b62a-f96b076bc9ba
           rejected-qualifying-address-english: b6406aa6-c762-49a6-912f-7e0437800cec
           rejected-qualifying-address-welsh: 10752429-44ee-429f-85bb-57ade4f62e5f
+          rejected-document-english: 4c4e0daa-fc8c-49fd-be74-10dccd5de80e
+          rejected-document-welsh: 664ed443-f1a6-48d4-b066-b6c0f1e0953a
         letter:
           rejected-parent-guardian-english: 1d4330c0-d636-4357-8cfe-5317aef17ebb
           rejected-parent-guardian-welsh: 071cda09-08eb-48ff-8fcc-911b7e9ffc03
           rejected-qualifying-address-english: 8975fe83-7e55-422c-b041-84607336b19e
           rejected-qualifying-address-welsh: 23827953-f350-425b-b563-2a7e2835b469
+          rejected-document-english: ee06830e-25d1-4e54-adbc-aa79d5aef1fc
+          rejected-document-welsh: 664ed443-f1a6-48d4-b066-b6c0f1e0953a
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission

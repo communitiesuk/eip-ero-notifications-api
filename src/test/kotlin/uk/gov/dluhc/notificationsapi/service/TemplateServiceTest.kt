@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -20,9 +21,12 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.OverseasDocumentTypeDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.mapper.OverseasDocumentTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedTemplatePreviewDto
@@ -38,6 +42,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatche
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedOverseasDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
 import java.util.UUID
@@ -55,6 +61,9 @@ class TemplateServiceTest {
 
     @Mock
     private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
+
+    @Mock
+    private lateinit var overseasDocumentTypeMapper: OverseasDocumentTypeMapper
 
     @Nested
     inner class GeneratePhotoResubmissionTemplatePreview {
@@ -399,6 +408,73 @@ class TemplateServiceTest {
                 )
             verify(templatePersonalisationDtoMapper).toNinoNotMatchedTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateRejectedOverseasDocumentTemplatePreview {
+        @ParameterizedTest
+        @CsvSource(
+            "PARENT_GUARDIAN, REJECTED_PARENT_GUARDIAN, 90d605be-36bb-4cea-b453-aaf16ca249b3, EMAIL, ENGLISH",
+            "PARENT_GUARDIAN, REJECTED_PARENT_GUARDIAN, 63b51e19-fdcb-470d-b62a-f96b076bc9ba, EMAIL, WELSH",
+            "PARENT_GUARDIAN, REJECTED_PARENT_GUARDIAN, 1d4330c0-d636-4357-8cfe-5317aef17ebb, LETTER, ENGLISH",
+            "PARENT_GUARDIAN, REJECTED_PARENT_GUARDIAN, 071cda09-08eb-48ff-8fcc-911b7e9ffc03, LETTER, WELSH",
+            "QUALIFYING_ADDRESS, REJECTED_QUALIFYING_ADDRESS, b6406aa6-c762-49a6-912f-7e0437800cec, EMAIL, ENGLISH",
+            "QUALIFYING_ADDRESS, REJECTED_QUALIFYING_ADDRESS, 10752429-44ee-429f-85bb-57ade4f62e5f, EMAIL, WELSH",
+            "QUALIFYING_ADDRESS, REJECTED_QUALIFYING_ADDRESS, 8975fe83-7e55-422c-b041-84607336b19e, LETTER, ENGLISH",
+            "QUALIFYING_ADDRESS, REJECTED_QUALIFYING_ADDRESS, 23827953-f350-425b-b563-2a7e2835b469, LETTER, WELSH",
+            "IDENTITY, REJECTED_DOCUMENT, 4c4e0daa-fc8c-49fd-be74-10dccd5de80e, EMAIL, ENGLISH",
+            "IDENTITY, REJECTED_DOCUMENT, 664ed443-f1a6-48d4-b066-b6c0f1e0953a, EMAIL, WELSH",
+            "IDENTITY, REJECTED_DOCUMENT, ee06830e-25d1-4e54-adbc-aa79d5aef1fc, LETTER, ENGLISH",
+            "IDENTITY, REJECTED_DOCUMENT, 664ed443-f1a6-48d4-b066-b6c0f1e0953a, LETTER, WELSH",
+
+            )
+        fun `should return rejected overseas document template preview`(
+            overseasDocumentType: OverseasDocumentTypeDto,
+            notificationType: NotificationType,
+            templateId: String,
+            notificationChannel: NotificationChannel,
+            language: LanguageDto,
+        ) {
+            // Given
+            val dto =
+                buildRejectedOverseasDocumentTemplatePreviewDto(
+                    language = language,
+                    channel = notificationChannel,
+                    overseasDocumentType = overseasDocumentType
+                )
+            val personalisationMap = buildRejectedOverseasDocumentPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(any()))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+            given(overseasDocumentTypeMapper.fromOverseasDocumentTypeDtoToNotificationTypeDto(any())).willReturn(
+                notificationType
+            )
+
+            // When
+            val actual = templateService.generateOverseasRejectedOverseasDocumentTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(
+                    OVERSEAS,
+                    notificationType,
+                    dto.channel,
+                    dto.language
+                )
+            verify(templatePersonalisationDtoMapper).toRejectedOverseasDocumentTemplatePersonalisationMap(dto.personalisation)
+            verifyNoMoreInteractions(
+                govNotifyApiClient,
+                notificationTemplateMapper,
+                templatePersonalisationDtoMapper,
+                overseasDocumentTypeMapper
+            )
         }
     }
 }
