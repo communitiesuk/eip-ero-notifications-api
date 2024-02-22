@@ -16,13 +16,15 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.mapper.OverseasDocumentTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 
 @Service
 class TemplateService(
     private val govNotifyApiClient: GovNotifyApiClient,
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
-    private val notificationTemplateMapper: NotificationTemplateMapper
+    private val notificationTemplateMapper: NotificationTemplateMapper,
+    private val overseasDocumentTypeMapper: OverseasDocumentTypeMapper
 ) {
 
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
@@ -140,11 +142,13 @@ class TemplateService(
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     sourceType = SourceType.OVERSEAS,
-                    notificationType = overseasDocumentType,
+                    notificationType = overseasDocumentTypeMapper.fromOverseasDocumentTypeDtoToNotificationTypeDto(
+                        overseasDocumentType
+                    ),
                     channel,
                     language
                 ),
-                templatePersonalisationDtoMapper.toRejectedParentGuardianTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisation)
             )
         }
     }

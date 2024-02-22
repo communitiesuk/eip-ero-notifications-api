@@ -11,6 +11,7 @@ import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 
@@ -157,6 +158,22 @@ class TemplatePersonalisationDtoMapper {
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = sourceType
+        }
+        return personalisation
+    }
+
+    fun toRejectedOverseasDocumentTemplatePersonalisationMap(dto: RejectedOverseasDocumentPersonalisationDto): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["rejectedDocuments"] = documents
+            personalisation["rejectionMessage"] = getSafeValue(rejectedDocumentFreeText)
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
         }
         return personalisation
     }

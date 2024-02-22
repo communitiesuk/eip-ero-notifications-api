@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.EnumSource
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.OverseasNotifyEmailTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.config.OverseasNotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.PostalNotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.PostalNotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.ProxyNotifyEmailTemplateConfiguration
@@ -77,6 +78,10 @@ internal class NotificationTemplateMapperTest {
             overseas = OverseasNotifyEmailTemplateConfiguration(
                 receivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
                 receivedWelsh = "OVERSEAS-RECEIVED-ID-EMAIL-WELSH",
+                rejectedParentGuardianEnglish = "OVERSEAS-REJECTED-PARENT-GUARDIAN-EMAIL-ENGLISH",
+                rejectedParentGuardianWelsh = "OVERSEAS-REJECTED-PARENT-GUARDIAN-EMAIL-WELSH",
+                rejectedQualifyingAddressEnglish = "OVERSEAS-REJECTED-QUALIFYING-ADDRESS-EMAIL-ENGLISH",
+                rejectedQualifyingAddressWelsh = "OVERSEAS-REJECTED-QUALIFYING-ADDRESS-EMAIL-WELSH"
             ),
         ),
         NotifyLetterTemplateConfiguration(
@@ -121,7 +126,13 @@ internal class NotificationTemplateMapperTest {
                 ninoNotMatchedRestrictedDocumentsListWelsh = "PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-LETTER-WELSH",
                 requestedSignatureEnglish = "PROXY-REQUESTED-SIGNATURE-LETTER-ENGLISH",
                 requestedSignatureWelsh = "PROXY-REQUESTED-SIGNATURE-LETTER-WELSH",
-            )
+            ),
+            overseas = OverseasNotifyLetterTemplateConfiguration(
+                rejectedParentGuardianEnglish = "OVERSEAS-REJECTED-PARENT-GUARDIAN-LETTER-ENGLISH",
+                rejectedParentGuardianWelsh = "OVERSEAS-REJECTED-PARENT-GUARDIAN-LETTER-WELSH",
+                rejectedQualifyingAddressEnglish = "OVERSEAS-REJECTED-QUALIFYING-ADDRESS-LETTER-ENGLISH",
+                rejectedQualifyingAddressWelsh = "OVERSEAS-REJECTED-QUALIFYING-ADDRESS-LETTER-WELSH"
+            ),
         )
     )
 
@@ -146,6 +157,8 @@ internal class NotificationTemplateMapperTest {
             "PROXY,,REQUESTED_SIGNATURE, PROXY-REQUESTED-SIGNATURE-LETTER-ENGLISH",
             "PROXY,,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-LETTER-ENGLISH",
             "PROXY,,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-LETTER-ENGLISH",
+            "OVERSEAS,,REJECTED_PARENT_GUARDIAN,OVERSEAS-REJECTED-PARENT-GUARDIAN-LETTER-ENGLISH",
+            "OVERSEAS,,REJECTED_QUALIFYING_ADDRESS,OVERSEAS-REJECTED-QUALIFYING-ADDRESS-LETTER-ENGLISH",
 
             "VOTER_CARD,ENGLISH,APPLICATION_REJECTED, REJECTED-ID-LETTER-ENGLISH",
             "VOTER_CARD,ENGLISH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-LETTER-ENGLISH",
@@ -165,6 +178,8 @@ internal class NotificationTemplateMapperTest {
             "PROXY,ENGLISH,REQUESTED_SIGNATURE, PROXY-REQUESTED-SIGNATURE-LETTER-ENGLISH",
             "PROXY,ENGLISH,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-LETTER-ENGLISH",
             "PROXY,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-LETTER-ENGLISH",
+            "OVERSEAS,ENGLISH,REJECTED_PARENT_GUARDIAN,OVERSEAS-REJECTED-PARENT-GUARDIAN-LETTER-ENGLISH",
+            "OVERSEAS,ENGLISH,REJECTED_QUALIFYING_ADDRESS,OVERSEAS-REJECTED-QUALIFYING-ADDRESS-LETTER-ENGLISH",
 
             "VOTER_CARD,WELSH,APPLICATION_REJECTED, REJECTED-ID-LETTER-WELSH",
             "VOTER_CARD,WELSH,PHOTO_RESUBMISSION, PHOTO-RESUBMISSION-LETTER-WELSH",
@@ -184,6 +199,8 @@ internal class NotificationTemplateMapperTest {
             "PROXY,WELSH,REQUESTED_SIGNATURE, PROXY-REQUESTED-SIGNATURE-LETTER-WELSH",
             "PROXY,WELSH,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-LETTER-WELSH",
             "PROXY,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-LETTER-WELSH",
+            "OVERSEAS,WELSH,REJECTED_PARENT_GUARDIAN, OVERSEAS-REJECTED-PARENT-GUARDIAN-LETTER-WELSH",
+            "OVERSEAS,WELSH,REJECTED_QUALIFYING_ADDRESS,OVERSEAS-REJECTED-QUALIFYING-ADDRESS-LETTER-WELSH",
         ]
     )
     fun `should map Notification Type in language for letter channel to Notify Template ID`(
@@ -195,7 +212,8 @@ internal class NotificationTemplateMapperTest {
         // Given
 
         // When
-        val notifyTemplateId = mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, LETTER, language)
+        val notifyTemplateId =
+            mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, LETTER, language)
 
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)
@@ -226,6 +244,8 @@ internal class NotificationTemplateMapperTest {
             "PROXY,,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-EMAIL-ENGLISH",
             "PROXY,,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-EMAIL-ENGLISH",
             "OVERSEAS,,APPLICATION_RECEIVED, OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
+            "OVERSEAS,,REJECTED_PARENT_GUARDIAN,OVERSEAS-REJECTED-PARENT-GUARDIAN-EMAIL-ENGLISH",
+            "OVERSEAS,,REJECTED_QUALIFYING_ADDRESS,OVERSEAS-REJECTED-QUALIFYING-ADDRESS-EMAIL-ENGLISH",
 
             "VOTER_CARD,ENGLISH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-ENGLISH",
             "VOTER_CARD,ENGLISH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-ENGLISH",
@@ -249,6 +269,8 @@ internal class NotificationTemplateMapperTest {
             "PROXY,ENGLISH,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-EMAIL-ENGLISH",
             "PROXY,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-EMAIL-ENGLISH",
             "OVERSEAS,ENGLISH,APPLICATION_RECEIVED, OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
+            "OVERSEAS,ENGLISH,REJECTED_PARENT_GUARDIAN,OVERSEAS-REJECTED-PARENT-GUARDIAN-EMAIL-ENGLISH",
+            "OVERSEAS,ENGLISH,REJECTED_QUALIFYING_ADDRESS,OVERSEAS-REJECTED-QUALIFYING-ADDRESS-EMAIL-ENGLISH",
 
             "VOTER_CARD,WELSH,APPLICATION_RECEIVED, RECEIVED-ID-EMAIL-WELSH",
             "VOTER_CARD,WELSH,APPLICATION_APPROVED, APPROVED-ID-EMAIL-WELSH",
@@ -268,7 +290,9 @@ internal class NotificationTemplateMapperTest {
             "PROXY,WELSH,REJECTED_SIGNATURE_WITH_REASONS, PROXY-REJECTED-SIGNATURE-WITH-REASONS-EMAIL-WELSH",
             "PROXY,WELSH,NINO_NOT_MATCHED, PROXY-NINO-NOT-MATCHED-EMAIL-WELSH",
             "PROXY,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, PROXY-NINO-NOT-MATCHED-RESTRICTED-DOCUMENTS-LIST-EMAIL-WELSH",
-            "OVERSEAS,WELSH,APPLICATION_RECEIVED, OVERSEAS-RECEIVED-ID-EMAIL-WELSH"
+            "OVERSEAS,WELSH,APPLICATION_RECEIVED, OVERSEAS-RECEIVED-ID-EMAIL-WELSH",
+            "OVERSEAS,WELSH,REJECTED_PARENT_GUARDIAN,OVERSEAS-REJECTED-PARENT-GUARDIAN-EMAIL-WELSH",
+            "OVERSEAS,WELSH,REJECTED_QUALIFYING_ADDRESS,OVERSEAS-REJECTED-QUALIFYING-ADDRESS-EMAIL-WELSH",
         ]
     )
     fun `should map Notification Type in language for email channel to Notify Template ID`(
@@ -280,7 +304,8 @@ internal class NotificationTemplateMapperTest {
         // Given
 
         // When
-        val notifyTemplateId = mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language)
+        val notifyTemplateId =
+            mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language)
 
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)
@@ -303,7 +328,14 @@ internal class NotificationTemplateMapperTest {
 
         // When
         val error =
-            catchException { mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, LETTER, language) }
+            catchException {
+                mapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    LETTER,
+                    language
+                )
+            }
 
         // Then
         assertThat(error)
@@ -329,7 +361,14 @@ internal class NotificationTemplateMapperTest {
         // Given
 
         // When
-        val error = catchException { mapper.fromNotificationTypeForChannelInLanguage(sourceType, templateType, channel, language) }
+        val error = catchException {
+            mapper.fromNotificationTypeForChannelInLanguage(
+                sourceType,
+                templateType,
+                channel,
+                language
+            )
+        }
 
         // Then
         assertThat(error)
@@ -355,7 +394,14 @@ internal class NotificationTemplateMapperTest {
         // Given
 
         // When
-        val error = catchException { mapper.fromNotificationTypeForChannelInLanguage(sourceType, templateType, channel, language) }
+        val error = catchException {
+            mapper.fromNotificationTypeForChannelInLanguage(
+                sourceType,
+                templateType,
+                channel,
+                language
+            )
+        }
 
         // Then
         assertThat(error)
@@ -373,7 +419,14 @@ internal class NotificationTemplateMapperTest {
         val notificationType: NotificationType = NotificationType.APPLICATION_RECEIVED
 
         // When
-        val error = catchException { mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language) }
+        val error = catchException {
+            mapper.fromNotificationTypeForChannelInLanguage(
+                sourceType,
+                notificationType,
+                EMAIL,
+                language
+            )
+        }
 
         // Then
         assertThat(error)

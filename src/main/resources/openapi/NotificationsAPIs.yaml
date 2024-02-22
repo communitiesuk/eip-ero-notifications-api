@@ -1111,6 +1111,8 @@ components:
         - rejected-signature
         - requested-signature
         - nino-not-matched
+        - rejected-parent-guardian
+        - rejected-qualifying-address
     Language:
       title: Language
       description: The language to view the template

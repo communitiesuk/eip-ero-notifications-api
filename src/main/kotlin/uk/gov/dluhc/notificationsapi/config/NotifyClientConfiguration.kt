@@ -26,8 +26,9 @@ class NotifyClientConfiguration {
     fun notifyLetterTemplateConfiguration(
         voterCard: VoterCardNotifyLetterTemplateConfiguration,
         postal: PostalNotifyLetterTemplateConfiguration,
-        proxy: ProxyNotifyLetterTemplateConfiguration
-    ) = NotifyLetterTemplateConfiguration(voterCard, postal, proxy)
+        proxy: ProxyNotifyLetterTemplateConfiguration,
+        overseas: OverseasNotifyLetterTemplateConfiguration
+    ) = NotifyLetterTemplateConfiguration(voterCard, postal, proxy, overseas)
 }
 
 data class NotifyEmailTemplateConfiguration(
@@ -35,6 +36,40 @@ data class NotifyEmailTemplateConfiguration(
     val postal: PostalNotifyEmailTemplateConfiguration,
     val proxy: ProxyNotifyEmailTemplateConfiguration,
     val overseas: OverseasNotifyEmailTemplateConfiguration,
+)
+
+abstract class AbstractNotifyEmailTemplateConfiguration(
+    val sourceType: SourceType,
+    val receivedEnglish: String?,
+    val receivedWelsh: String?,
+    val approvedEnglish: String?,
+    val approvedWelsh: String?,
+    val photoResubmissionEnglish: String?,
+    val photoResubmissionWelsh: String?,
+    val photoResubmissionWithReasonsEnglish: String?,
+    val photoResubmissionWithReasonsWelsh: String?,
+    val idDocumentResubmissionEnglish: String?,
+    val idDocumentResubmissionWelsh: String?,
+    val idDocumentResubmissionWithReasonsEnglish: String?,
+    val idDocumentResubmissionWithReasonsWelsh: String?,
+    val idDocumentRequiredEnglish: String?,
+    val idDocumentRequiredWelsh: String?,
+    val rejectedDocumentEnglish: String?,
+    val rejectedDocumentWelsh: String?,
+    val rejectedSignatureEnglish: String?,
+    val rejectedSignatureWelsh: String?,
+    val rejectedSignatureWithReasonsEnglish: String?,
+    val rejectedSignatureWithReasonsWelsh: String?,
+    val requestedSignatureEnglish: String?,
+    val requestedSignatureWelsh: String?,
+    val ninoNotMatchedEnglish: String?,
+    val ninoNotMatchedWelsh: String?,
+    val ninoNotMatchedRestrictedDocumentsListEnglish: String?,
+    val ninoNotMatchedRestrictedDocumentsListWelsh: String?,
+    val rejectedParentGuardianEnglish: String?,
+    val rejectedParentGuardianWelsh: String?,
+    val rejectedQualifyingAddressEnglish: String?,
+    val rejectedQualifyingAddressWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.email", ignoreUnknownFields = false)
@@ -83,6 +118,10 @@ class PostalNotifyEmailTemplateConfiguration(
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
+    rejectedParentGuardianEnglish = null,
+    rejectedParentGuardianWelsh = null,
+    rejectedQualifyingAddressEnglish = null,
+    rejectedQualifyingAddressWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -131,6 +170,10 @@ class ProxyNotifyEmailTemplateConfiguration(
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
+    rejectedParentGuardianEnglish = null,
+    rejectedParentGuardianWelsh = null,
+    rejectedQualifyingAddressEnglish = null,
+    rejectedQualifyingAddressWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -139,6 +182,10 @@ class OverseasNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.OVERSEAS,
     receivedEnglish: String,
     receivedWelsh: String,
+    rejectedParentGuardianEnglish: String?,
+    rejectedParentGuardianWelsh: String?,
+    rejectedQualifyingAddressEnglish: String?,
+    rejectedQualifyingAddressWelsh: String?
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -167,6 +214,11 @@ class OverseasNotifyEmailTemplateConfiguration(
     ninoNotMatchedEnglish = null,
     ninoNotMatchedRestrictedDocumentsListEnglish = null,
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
+    rejectedParentGuardianEnglish = rejectedParentGuardianEnglish,
+    rejectedParentGuardianWelsh = rejectedParentGuardianWelsh,
+    rejectedQualifyingAddressEnglish = rejectedQualifyingAddressEnglish,
+    rejectedQualifyingAddressWelsh = rejectedQualifyingAddressWelsh
+
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -215,14 +267,25 @@ class VoterCardNotifyEmailTemplateConfiguration(
     ninoNotMatchedWelsh = null,
     ninoNotMatchedRestrictedDocumentsListEnglish = null,
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
+    rejectedParentGuardianEnglish = null,
+    rejectedParentGuardianWelsh = null,
+    rejectedQualifyingAddressEnglish = null,
+    rejectedQualifyingAddressWelsh = null
 )
 
-abstract class AbstractNotifyEmailTemplateConfiguration(
+data class NotifyLetterTemplateConfiguration(
+    val voterCard: VoterCardNotifyLetterTemplateConfiguration,
+    val postal: PostalNotifyLetterTemplateConfiguration,
+    val proxy: ProxyNotifyLetterTemplateConfiguration,
+    val overseas: OverseasNotifyLetterTemplateConfiguration
+)
+
+abstract class AbstractNotifyLetterTemplateConfiguration(
     val sourceType: SourceType,
     val receivedEnglish: String?,
     val receivedWelsh: String?,
-    val approvedEnglish: String?,
-    val approvedWelsh: String?,
+    val rejectedEnglish: String?,
+    val rejectedWelsh: String?,
     val photoResubmissionEnglish: String?,
     val photoResubmissionWelsh: String?,
     val photoResubmissionWithReasonsEnglish: String?,
@@ -245,12 +308,10 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val ninoNotMatchedWelsh: String?,
     val ninoNotMatchedRestrictedDocumentsListEnglish: String?,
     val ninoNotMatchedRestrictedDocumentsListWelsh: String?,
-)
-
-data class NotifyLetterTemplateConfiguration(
-    val voterCard: VoterCardNotifyLetterTemplateConfiguration,
-    val postal: PostalNotifyLetterTemplateConfiguration,
-    val proxy: ProxyNotifyLetterTemplateConfiguration
+    val rejectedParentGuardianEnglish: String?,
+    val rejectedParentGuardianWelsh: String?,
+    val rejectedQualifyingAddressEnglish: String?,
+    val rejectedQualifyingAddressWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.letter", ignoreUnknownFields = false)
@@ -297,6 +358,10 @@ class VoterCardNotifyLetterTemplateConfiguration(
     ninoNotMatchedEnglish = null,
     ninoNotMatchedRestrictedDocumentsListEnglish = null,
     ninoNotMatchedRestrictedDocumentsListWelsh = null,
+    rejectedParentGuardianEnglish = null,
+    rejectedParentGuardianWelsh = null,
+    rejectedQualifyingAddressEnglish = null,
+    rejectedQualifyingAddressWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -343,36 +408,10 @@ class PostalNotifyLetterTemplateConfiguration(
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
-)
-
-abstract class AbstractNotifyLetterTemplateConfiguration(
-    val sourceType: SourceType,
-    val receivedEnglish: String?,
-    val receivedWelsh: String?,
-    val rejectedEnglish: String?,
-    val rejectedWelsh: String?,
-    val photoResubmissionEnglish: String?,
-    val photoResubmissionWelsh: String?,
-    val photoResubmissionWithReasonsEnglish: String?,
-    val photoResubmissionWithReasonsWelsh: String?,
-    val idDocumentResubmissionEnglish: String?,
-    val idDocumentResubmissionWelsh: String?,
-    val idDocumentResubmissionWithReasonsEnglish: String?,
-    val idDocumentResubmissionWithReasonsWelsh: String?,
-    val idDocumentRequiredEnglish: String?,
-    val idDocumentRequiredWelsh: String?,
-    val rejectedDocumentEnglish: String?,
-    val rejectedDocumentWelsh: String?,
-    val rejectedSignatureEnglish: String?,
-    val rejectedSignatureWelsh: String?,
-    val rejectedSignatureWithReasonsEnglish: String?,
-    val rejectedSignatureWithReasonsWelsh: String?,
-    val requestedSignatureEnglish: String?,
-    val requestedSignatureWelsh: String?,
-    val ninoNotMatchedEnglish: String?,
-    val ninoNotMatchedWelsh: String?,
-    val ninoNotMatchedRestrictedDocumentsListEnglish: String?,
-    val ninoNotMatchedRestrictedDocumentsListWelsh: String?,
+    rejectedParentGuardianEnglish = null,
+    rejectedParentGuardianWelsh = null,
+    rejectedQualifyingAddressEnglish = null,
+    rejectedQualifyingAddressWelsh = null
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
@@ -419,4 +458,51 @@ class ProxyNotifyLetterTemplateConfiguration(
     ninoNotMatchedWelsh = ninoNotMatchedWelsh,
     ninoNotMatchedRestrictedDocumentsListEnglish = ninoNotMatchedRestrictedDocumentsListEnglish,
     ninoNotMatchedRestrictedDocumentsListWelsh = ninoNotMatchedRestrictedDocumentsListWelsh,
+    rejectedParentGuardianEnglish = null,
+    rejectedParentGuardianWelsh = null,
+    rejectedQualifyingAddressEnglish = null,
+    rejectedQualifyingAddressWelsh = null
+)
+
+@ConfigurationProperties(prefix = "api.notify.template.overseas.letter", ignoreUnknownFields = false)
+@ConstructorBinding
+class OverseasNotifyLetterTemplateConfiguration(
+    sourceType: SourceType = SourceType.OVERSEAS,
+    rejectedParentGuardianEnglish: String?,
+    rejectedParentGuardianWelsh: String?,
+    rejectedQualifyingAddressEnglish: String?,
+    rejectedQualifyingAddressWelsh: String?
+) : AbstractNotifyLetterTemplateConfiguration(
+    sourceType = sourceType,
+    receivedEnglish = null,
+    receivedWelsh = null,
+    rejectedEnglish = null,
+    rejectedWelsh = null,
+    photoResubmissionEnglish = null,
+    photoResubmissionWelsh = null,
+    photoResubmissionWithReasonsEnglish = null,
+    photoResubmissionWithReasonsWelsh = null,
+    idDocumentResubmissionEnglish = null,
+    idDocumentResubmissionWelsh = null,
+    idDocumentResubmissionWithReasonsEnglish = null,
+    idDocumentResubmissionWithReasonsWelsh = null,
+    idDocumentRequiredEnglish = null,
+    idDocumentRequiredWelsh = null,
+    rejectedDocumentEnglish = null,
+    rejectedDocumentWelsh = null,
+    rejectedSignatureEnglish = null,
+    rejectedSignatureWelsh = null,
+    rejectedSignatureWithReasonsEnglish = null,
+    rejectedSignatureWithReasonsWelsh = null,
+    requestedSignatureEnglish = null,
+    requestedSignatureWelsh = null,
+    ninoNotMatchedWelsh = null,
+    ninoNotMatchedEnglish = null,
+    ninoNotMatchedRestrictedDocumentsListEnglish = null,
+    ninoNotMatchedRestrictedDocumentsListWelsh = null,
+    rejectedParentGuardianEnglish = rejectedParentGuardianEnglish,
+    rejectedParentGuardianWelsh = rejectedParentGuardianWelsh,
+    rejectedQualifyingAddressEnglish = rejectedQualifyingAddressEnglish,
+    rejectedQualifyingAddressWelsh = rejectedQualifyingAddressWelsh
+
 )
