@@ -31,6 +31,7 @@ class EroDtoMapperTest {
                                 locality = locality,
                                 town = town,
                                 area = area,
+                                country = null
                             )
                         }
                     )
@@ -68,6 +69,7 @@ class EroDtoMapperTest {
                                 locality = locality,
                                 town = town,
                                 area = area,
+                                country = null
                             )
                         }
                     )
@@ -86,6 +88,7 @@ class EroDtoMapperTest {
                                 locality = locality,
                                 town = town,
                                 area = area,
+                                country = null
                             )
                         }
                     )

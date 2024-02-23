@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiBadRequestException
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.config.ApiRequestErrorAttributes
+import uk.gov.dluhc.notificationsapi.exception.CountryNotFoundException
 import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
 import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
@@ -78,6 +79,7 @@ class GlobalExceptionHandler(
             GovNotifyApiBadRequestException::class,
             GssCodeMismatchException::class,
             NotificationTemplateNotFoundException::class,
+            CountryNotFoundException::class
         ]
     )
     protected fun handleExceptionReturnBadRequestErrorResponse(

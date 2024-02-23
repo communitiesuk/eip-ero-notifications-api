@@ -24,7 +24,7 @@ fun buildRejectedOverseasDocumentTemplatePreviewDto(
 fun buildRejectedOverseasDocumentTemplatePreviewPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
-    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(address = buildAddressDto(country = "Spain")),
     rejectedDocumentFreeText: String? = DataFaker.faker.harryPotter().spell(),
     documents: List<String> = listOf(DataFaker.faker.lordOfTheRings().location()),
 ) = RejectedOverseasDocumentPersonalisationDto(

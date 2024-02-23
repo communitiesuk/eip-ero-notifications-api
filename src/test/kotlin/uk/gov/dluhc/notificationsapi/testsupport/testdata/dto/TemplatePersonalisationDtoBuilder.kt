@@ -374,6 +374,7 @@ fun buildAddressDto(
     town: String? = faker.address().city(),
     area: String? = faker.address().state(),
     postcode: String = faker.address().postcode(),
+    country: String? = null
 ): AddressDto = AddressDto(
     street = street,
     property = property,
@@ -381,6 +382,7 @@ fun buildAddressDto(
     town = town,
     area = area,
     postcode = postcode,
+    country = country
 )
 
 fun buildAddressDtoWithOptionalFieldsNull(): AddressDto = buildAddressDto(
@@ -435,6 +437,7 @@ private fun getCommonDetailsMap(
             contactDetailsMap["eroAddressLine4"] = area ?: ""
             contactDetailsMap["eroAddressLine5"] = locality ?: ""
             contactDetailsMap["eroPostcode"] = postcode
+            if (address.country != null) contactDetailsMap["eroCountry"] = country ?: ""
         }
         contactDetailsMap
     }

@@ -86,13 +86,14 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(
             templateId
         )
+
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
 
         // When
         val response = webTestClient.post()
             .uri(URI_TEMPLATE)
             .bearerToken(getBearerToken())
-            .contentType(MediaType.APPLICATION_JSON)
+            .contentType(APPLICATION_JSON)
             .withAValidBody(overseasDocumentType)
             .exchange()
             .expectStatus()
@@ -106,6 +107,56 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
             .hasStatus(404)
             .hasError("Not Found")
             .hasMessage("Notification template not found for the given template type")
+            .hasNoValidationErrors()
+    }
+
+    @Test
+    fun `should return error is there is no country in address template`() {
+        // Given
+        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(
+            REJECTED_DOCUMENT_EMAIL_EN_TEMPLATE_ID
+        )
+
+        val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
+
+        val requestBody = buildRejectedOverseasDocumentTemplatePreviewRequest(
+            channel = NotificationChannel.EMAIL,
+            language = Language.EN,
+            overseasDocumentType = OverseasDocumentType.IDENTITY,
+            personalisation = buildRejectedOverseasDocumentPersonalisation(
+                documents = listOf(buildRejectedDocument(rejectionReasons = emptyList(), rejectionNotes = null)),
+                applicationReference = "applicationReference",
+                eroContactDetails = buildEroContactDetails(
+                    localAuthorityName = "Barcelona",
+                    address = buildAddress(
+                        street = "some street",
+                        postcode = "postcode",
+                        country = null
+                    ),
+                ),
+            )
+        )
+
+        // When
+        val response = webTestClient.post()
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(APPLICATION_JSON)
+            .body(
+                Mono.just(requestBody),
+                GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java
+            )
+            .exchange()
+            .expectStatus()
+            .isBadRequest
+            .returnResult(ErrorResponse::class.java)
+
+        // Then
+        val actual = response.responseBody.blockFirst()
+        ErrorResponseAssert.Companion.assertThat(actual)
+            .hasTimestampNotBefore(earliestExpectedTimeStamp)
+            .hasStatus(400)
+            .hasMessage("Country is required to process a template for overseas")
             .hasNoValidationErrors()
     }
 
@@ -148,7 +199,8 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
                     localAuthorityName = "Barcelona",
                     address = buildAddress(
                         street = "some street",
-                        postcode = "postcode"
+                        postcode = "postcode",
+                        country = "Spain"
                     ),
                 ),
             )
@@ -172,6 +224,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
                 "eroPostcode" to eroContactDetails.address.postcode,
+                "eroCountry" to eroContactDetails.address.country!!
             )
         }
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }

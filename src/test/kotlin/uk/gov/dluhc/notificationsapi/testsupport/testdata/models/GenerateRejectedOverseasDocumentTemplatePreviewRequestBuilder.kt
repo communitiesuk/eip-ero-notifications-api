@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.models.RejectedDocument
 import uk.gov.dluhc.notificationsapi.models.RejectedOverseasDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildAddressRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetailsRequest
 
 fun buildRejectedOverseasDocumentTemplatePreviewRequest(
@@ -27,7 +28,10 @@ fun buildRejectedOverseasDocumentTemplatePreviewRequest(
 fun buildRejectedOverseasDocumentPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
-    eroContactDetails: ContactDetails = buildContactDetailsRequest(localAuthorityName = "Barcelona"),
+    eroContactDetails: ContactDetails = buildContactDetailsRequest(
+        localAuthorityName = "Barcelona",
+        address = buildAddressRequest(country = "Spain")
+    ),
     documents: List<RejectedDocument> = listOf(buildRejectedDocument()),
     rejectedDocumentFreeText: String? = null
 ): RejectedOverseasDocumentPersonalisation =

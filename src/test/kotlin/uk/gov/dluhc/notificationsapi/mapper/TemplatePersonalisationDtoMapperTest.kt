@@ -1,8 +1,11 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import uk.gov.dluhc.notificationsapi.exception.CountryNotFoundException
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationMapFromDto
@@ -18,6 +21,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonal
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedOverseasDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedOverseasDocumentTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationDto
@@ -389,6 +394,45 @@ class TemplatePersonalisationDtoMapperTest {
             assertThat(actual["eroAddressLine4"] as String).isBlank
             assertThat(actual["eroAddressLine5"] as String).isBlank
             assertThat(actual["eroPostcode"] as String).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
+    }
+
+    @Nested
+    inner class ToRejectedOverseasDocumentTemplatePersonalisationMap {
+
+        private val countryNotFoundException = "Country is required to process a template for overseas"
+
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation()
+            val expected = buildRejectedOverseasDocumentPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should throw an error if country is not present`() {
+            // Given
+            val personalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation(
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDto(country = null)
+                )
+            )
+
+            // When
+            val exception = Assertions.catchThrowableOfType(
+                { mapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisationDto) },
+                CountryNotFoundException::class.java
+            )
+
+            // Then
+            assertThat(exception).isNotNull()
+            assertThat(exception.message).isEqualTo(countryNotFoundException)
         }
     }
 }
