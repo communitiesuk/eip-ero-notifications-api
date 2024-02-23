@@ -51,11 +51,18 @@ class StatisticsController(
             sourceType = if (oavaService == "postal") SourceType.POSTAL else SourceType.PROXY
         )
 
-        val signatureRequested = notifications.any { it.type == NotificationType.REQUESTED_SIGNATURE }
+        val signatureRequested = notifications.any {
+            it.type in listOf(
+                NotificationType.REJECTED_SIGNATURE,
+                NotificationType.REQUESTED_SIGNATURE,
+                NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+            )
+        }
         val identityDocumentsRequested = notifications.any {
             it.type in listOf(
                 NotificationType.ID_DOCUMENT_REQUIRED,
-                NotificationType.ID_DOCUMENT_RESUBMISSION
+                NotificationType.ID_DOCUMENT_RESUBMISSION,
+                NotificationType.NINO_NOT_MATCHED
             )
         }
 
