@@ -109,19 +109,19 @@ api:
         email:
           received-english: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH}
           received-welsh: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH}
-          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_EMAIL_ENGLISH}
-          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_EMAIL_WELSH}
-          rejected-qualifying-address-english: ${TEMPLATE_OVERSEAS_REJECTED_QUALIFYING_ADDRESS_EMAIL_ENGLISH}
-          rejected-qualifying-address-welsh: ${TEMPLATE_OVERSEAS_REJECTED_QUALIFYING_ADDRESS_EMAIL_WELSH}
-          rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_EMAIL_ENGLISH}
-          rejected-document-welsh: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_EMAIL_WELSH}
+          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_EMAIL_ENGLISH}
+          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_EMAIL_WELSH}
+          rejected-qualifying-address-english: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REJECTED_EMAIL_ENGLISH}
+          rejected-qualifying-address-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REJECTED_EMAIL_WELSH}
+          rejected-document-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_EMAIL_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_EMAIL_WELSH}
         letter:
-          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_LETTER_ENGLISH}
-          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_REJECTED_PARENT_GUARDIAN_LETTER_WELSH}
-          rejected-qualifying-address-english: ${TEMPLATE_OVERSEAS_REJECTED_QUALIFYING_ADDRESS_LETTER_ENGLISH}
-          rejected-qualifying-address-welsh: ${TEMPLATE_OVERSEAS_REJECTED_QUALIFYING_ADDRESS_LETTER_WELSH}
-          rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_ENGLISH}
-          rejected-document-welsh: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_WELSH}
+          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_ENGLISH}
+          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_WELSH}
+          rejected-qualifying-address-english: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REJECTED_LETTER_ENGLISH}
+          rejected-qualifying-address-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REJECTED_LETTER_WELSH}
+          rejected-document-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_LETTER_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_LETTER_WELSH}
 
 
 sqs:
