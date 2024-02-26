@@ -40,14 +40,35 @@ class OverseasDocumentTypeMapperTest {
             "QUALIFYING_ADDRESS, REJECTED_QUALIFYING_ADDRESS"
         ]
     )
-    fun `should map from overseas document type DTO to notification type`(
+    fun `should map rejected overseas document to notification type`(
         overseasDocumentTypeDto: OverseasDocumentTypeDto,
         expected: NotificationType
     ) {
         // Given
 
         // When
-        val actual = mapper.fromOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentTypeDto)
+        val actual = mapper.fromRejectedOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentTypeDto)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "IDENTITY, NINO_NOT_MATCHED",
+            "PARENT_GUARDIAN, PARENT_GUARDIAN_PROOF_REQUIRED",
+            "QUALIFYING_ADDRESS, QUALIFYING_ADDRESS_DOCUMENT_REQUIRED"
+        ]
+    )
+    fun `should map required overseas document to notification type`(
+        overseasDocumentTypeDto: OverseasDocumentTypeDto,
+        expected: NotificationType
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.fromRequiredOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentTypeDto)
 
         // Then
         assertThat(actual).isEqualTo(expected)

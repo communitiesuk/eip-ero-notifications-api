@@ -138,3 +138,14 @@ class RejectedOverseasDocumentPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
 )
+
+class RequiredOverseasDocumentPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val requiredDocumentFreeText: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)

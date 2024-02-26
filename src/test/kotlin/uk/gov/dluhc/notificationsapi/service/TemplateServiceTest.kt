@@ -167,7 +167,12 @@ class TemplateServiceTest {
             assertThat(actual).isEqualTo(previewDto)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
             verify(notificationTemplateMapper)
-                .fromNotificationTypeForChannelInLanguage(dto.sourceType, dto.notificationType, dto.channel, dto.language)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
             verify(templatePersonalisationDtoMapper).toIdDocumentRequiredTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -194,8 +199,17 @@ class TemplateServiceTest {
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
-            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
-            given(templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(any())).willReturn(personalisation)
+            given(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    any(),
+                    any(),
+                    any(),
+                    any()
+                )
+            ).willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(any())).willReturn(
+                personalisation
+            )
 
             // When
 
@@ -204,7 +218,12 @@ class TemplateServiceTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(sourceType, NotificationType.APPLICATION_RECEIVED, NotificationChannel.EMAIL, language)
+            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(
+                sourceType,
+                NotificationType.APPLICATION_RECEIVED,
+                NotificationChannel.EMAIL,
+                language
+            )
             verify(templatePersonalisationDtoMapper).toApplicationReceivedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -229,8 +248,17 @@ class TemplateServiceTest {
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
-            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any())).willReturn(templateId)
-            given(templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(any())).willReturn(personalisation)
+            given(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    any(),
+                    any(),
+                    any(),
+                    any()
+                )
+            ).willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(any())).willReturn(
+                personalisation
+            )
 
             // When
 
@@ -239,7 +267,12 @@ class TemplateServiceTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisation)
-            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(VOTER_CARD, NotificationType.APPLICATION_APPROVED, NotificationChannel.EMAIL, language)
+            verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(
+                VOTER_CARD,
+                NotificationType.APPLICATION_APPROVED,
+                NotificationChannel.EMAIL,
+                language
+            )
             verify(templatePersonalisationDtoMapper).toApplicationApprovedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -267,7 +300,12 @@ class TemplateServiceTest {
             assertThat(actual).isEqualTo(previewDto)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
             verify(notificationTemplateMapper)
-                .fromNotificationTypeForChannelInLanguage(dto.sourceType, dto.notificationType, dto.channel, dto.language)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language
+                )
             verify(templatePersonalisationDtoMapper).toApplicationRejectedTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -451,12 +489,12 @@ class TemplateServiceTest {
             given(templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(any()))
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
-            given(overseasDocumentTypeMapper.fromOverseasDocumentTypeDtoToNotificationTypeDto(any())).willReturn(
+            given(overseasDocumentTypeMapper.fromRejectedOverseasDocumentTypeDtoToNotificationTypeDto(any())).willReturn(
                 notificationType
             )
 
             // When
-            val actual = templateService.generateOverseasRejectedOverseasDocumentTemplatePreview(dto)
+            val actual = templateService.generateRejectedOverseasDocumentTemplatePreview(dto)
 
             // Then
             assertThat(actual).isEqualTo(previewDto)

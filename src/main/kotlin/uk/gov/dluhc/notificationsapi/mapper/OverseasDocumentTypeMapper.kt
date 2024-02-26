@@ -16,5 +16,10 @@ interface OverseasDocumentTypeMapper {
     @ValueMapping(source = "IDENTITY", target = "REJECTED_DOCUMENT")
     @ValueMapping(source = "PARENT_GUARDIAN", target = "REJECTED_PARENT_GUARDIAN")
     @ValueMapping(source = "QUALIFYING_ADDRESS", target = "REJECTED_QUALIFYING_ADDRESS")
-    fun fromOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentType: OverseasDocumentTypeDto): NotificationType
+    fun fromRejectedOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentType: OverseasDocumentTypeDto): NotificationType
+
+    @ValueMapping(source = "IDENTITY", target = "NINO_NOT_MATCHED")
+    @ValueMapping(source = "PARENT_GUARDIAN", target = "PARENT_GUARDIAN_PROOF_REQUIRED")
+    @ValueMapping(source = "QUALIFYING_ADDRESS", target = "QUALIFYING_ADDRESS_DOCUMENT_REQUIRED")
+    fun fromRequiredOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentType: OverseasDocumentTypeDto): NotificationType
 }
