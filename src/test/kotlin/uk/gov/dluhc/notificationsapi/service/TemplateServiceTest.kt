@@ -428,7 +428,7 @@ class TemplateServiceTest {
             "IDENTITY, REJECTED_DOCUMENT, ee06830e-25d1-4e54-adbc-aa79d5aef1fc, LETTER, ENGLISH",
             "IDENTITY, REJECTED_DOCUMENT, 664ed443-f1a6-48d4-b066-b6c0f1e0953a, LETTER, WELSH",
 
-            )
+        )
         fun `should return rejected overseas document template preview`(
             overseasDocumentType: OverseasDocumentTypeDto,
             notificationType: NotificationType,

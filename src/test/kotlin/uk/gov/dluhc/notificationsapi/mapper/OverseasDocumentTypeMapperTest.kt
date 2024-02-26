@@ -23,12 +23,12 @@ class OverseasDocumentTypeMapperTest {
         overseasDocumentTypeApi: OverseasDocumentType,
         expected: OverseasDocumentTypeDto
     ) {
-        //Given
+        // Given
 
-        //When
+        // When
         val actual = mapper.fromApiToDto(overseasDocumentTypeApi)
 
-        //Then
+        // Then
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -44,12 +44,12 @@ class OverseasDocumentTypeMapperTest {
         overseasDocumentTypeDto: OverseasDocumentTypeDto,
         expected: NotificationType
     ) {
-        //Given
+        // Given
 
-        //When
+        // When
         val actual = mapper.fromOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentTypeDto)
 
-        //Then
+        // Then
         assertThat(actual).isEqualTo(expected)
     }
 }

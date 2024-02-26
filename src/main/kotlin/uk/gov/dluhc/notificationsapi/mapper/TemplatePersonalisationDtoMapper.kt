@@ -198,7 +198,7 @@ class TemplatePersonalisationDtoMapper {
         if (address.country == null) {
             throw CountryNotFoundException()
         }
-        
+
         personalisation["LAName"] = localAuthorityName
         personalisation["eroPhone"] = phone
         personalisation["eroWebsite"] = website

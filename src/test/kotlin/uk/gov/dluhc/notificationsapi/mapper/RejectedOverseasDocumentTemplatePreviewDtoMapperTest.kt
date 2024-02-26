@@ -78,7 +78,6 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
                 )
             }
 
-
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL)
         given(overseasDocumentTypeMapper.fromApiToDto(any())).willReturn(overseasDocumentTypeDto)
@@ -109,7 +108,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
                                 )
                             },
 
-                            )
+                        )
                     },
                     documents = listOf("doc1", "doc2"),
                     rejectedDocumentFreeText = null,

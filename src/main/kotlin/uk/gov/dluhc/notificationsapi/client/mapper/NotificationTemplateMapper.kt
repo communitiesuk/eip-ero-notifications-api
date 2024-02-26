@@ -21,10 +21,10 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PARENT_GUARDIAN
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_QUALIFYING_ADDRESS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_QUALIFYING_ADDRESS
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
