@@ -115,6 +115,12 @@ api:
           rejected-qualifying-address-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REJECTED_EMAIL_WELSH}
           rejected-document-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_EMAIL_ENGLISH}
           rejected-document-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_EMAIL_WELSH}
+          parent-guardian-proof-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_EMAIL_ENGLISH}
+          parent-guardian-proof-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_EMAIL_WELSH}
+          nino-not-matched-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_EMAIL_ENGLISH}
+          nino-not-matched-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_EMAIL_WELSH}
+          qualifying-address-document-required-english: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_EMAIL_ENGLISH}
+          qualifying-address-document-required-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_EMAIL_WELSH}
         letter:
           rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_ENGLISH}
           rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_WELSH}
@@ -122,6 +128,12 @@ api:
           rejected-qualifying-address-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REJECTED_LETTER_WELSH}
           rejected-document-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_LETTER_ENGLISH}
           rejected-document-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_LETTER_WELSH}
+          parent-guardian-proof-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_LETTER_ENGLISH}
+          parent-guardian-proof-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_LETTER_WELSH}
+          nino-not-matched-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_LETTER_ENGLISH}
+          nino-not-matched-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_LETTER_WELSH}
+          qualifying-address-document-required-english: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_LETTER_ENGLISH}
+          qualifying-address-document-required-welsh: ${TEMPLATE_OVERSEAS_QUALIFYING_ADDRESS_REQUIRED_LETTER_WELSH}
 
 
 sqs:
