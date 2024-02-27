@@ -195,7 +195,7 @@ class TemplateService(
                     channel,
                     language
                 ),
-                templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisation)
             )
         }
     }

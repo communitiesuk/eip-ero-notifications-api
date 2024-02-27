@@ -17,8 +17,10 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.QUALIFYING_ADDRESS_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PARENT_GUARDIAN
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_QUALIFYING_ADDRESS
@@ -92,6 +94,8 @@ class NotificationTemplateMapper(
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListWelsh
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianWelsh
             REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressWelsh
+            PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
+            QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -115,6 +119,8 @@ class NotificationTemplateMapper(
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListEnglish
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianEnglish
             REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressEnglish
+            PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
+            QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -159,6 +165,8 @@ class NotificationTemplateMapper(
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListWelsh
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianWelsh
             REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressWelsh
+            PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
+            QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -184,6 +192,8 @@ class NotificationTemplateMapper(
         NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListEnglish
         REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianEnglish
         REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressEnglish
+        PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
+        QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
         }

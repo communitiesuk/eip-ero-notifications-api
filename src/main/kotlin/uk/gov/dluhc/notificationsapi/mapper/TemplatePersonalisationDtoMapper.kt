@@ -14,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.exception.CountryNotFoundException
 
 @Component
@@ -171,6 +172,21 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["rejectedDocuments"] = documents
             personalisation["rejectionMessage"] = getSafeValue(rejectedDocumentFreeText)
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapOverseasEroContactFields(this)
+                personalisation.putAll(this)
+            }
+        }
+        return personalisation
+    }
+
+    fun toRequiredOverseasDocumentTemplatePersonalisationMap(dto: RequiredOverseasDocumentPersonalisationDto): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["rejectionMessage"] = getSafeValue(requiredDocumentFreeText)
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapOverseasEroContactFields(this)
                 personalisation.putAll(this)
