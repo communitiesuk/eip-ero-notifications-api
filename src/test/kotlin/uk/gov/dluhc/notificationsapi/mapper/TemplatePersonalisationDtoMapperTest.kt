@@ -27,6 +27,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSigna
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
 
 class TemplatePersonalisationDtoMapperTest {
@@ -416,6 +418,20 @@ class TemplatePersonalisationDtoMapperTest {
         }
 
         @Test
+        fun `should map country to be the last field in the personalisation`() {
+            // Given
+            val personalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation()
+            val expectedLastValue = personalisationDto.eroContactDetails.address.country
+
+            // When
+            val actual = mapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisationDto)
+            val lastValueOfActual = actual.entries.lastOrNull()?.value
+
+            // Then
+            assertThat(lastValueOfActual).isEqualTo(expectedLastValue)
+        }
+
+        @Test
         fun `should throw an error if country is not present`() {
             // Given
             val personalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation(
@@ -427,6 +443,59 @@ class TemplatePersonalisationDtoMapperTest {
             // When
             val exception = Assertions.catchThrowableOfType(
                 { mapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisationDto) },
+                CountryNotFoundException::class.java
+            )
+
+            // Then
+            assertThat(exception).isNotNull()
+            assertThat(exception.message).isEqualTo(countryNotFoundException)
+        }
+    }
+
+    @Nested
+    inner class ToRequiredOverseasDocumentTemplatePersonalisationMap {
+
+        private val countryNotFoundException = "Country is required to process a template for overseas"
+
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation()
+            val expected = buildRequiredOverseasDocumentPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+
+        @Test
+        fun `should map country to be the last field in the personalisation`() {
+            // Given
+            val personalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation()
+            val expectedLastValue = personalisationDto.eroContactDetails.address.country
+
+            // When
+            val actual = mapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisationDto)
+            val lastValueOfActual = actual.entries.lastOrNull()?.value
+
+            // Then
+            assertThat(lastValueOfActual).isEqualTo(expectedLastValue)
+        }
+
+        @Test
+        fun `should throw an error if country is not present`() {
+            // Given
+            val personalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation(
+                eroContactDetails = buildContactDetailsDto(
+                    address = buildAddressDto(country = null)
+                )
+            )
+
+            // When
+            val exception = Assertions.catchThrowableOfType(
+                { mapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisationDto) },
                 CountryNotFoundException::class.java
             )
 

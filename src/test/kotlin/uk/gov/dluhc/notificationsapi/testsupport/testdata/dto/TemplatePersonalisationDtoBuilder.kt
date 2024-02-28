@@ -13,6 +13,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
@@ -347,6 +348,17 @@ fun buildRejectedOverseasDocumentPersonalisationMapFromDto(
     with(personalisationDto) {
         personalisationMap["rejectedDocuments"] = documents
         personalisationMap["rejectionMessage"] = rejectedDocumentFreeText ?: ""
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+    return personalisationMap
+}
+
+fun buildRequiredOverseasDocumentPersonalisationMapFromDto(
+    personalisationDto: RequiredOverseasDocumentPersonalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation()
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+    with(personalisationDto) {
+        personalisationMap["requiredDocumentFreeText"] = requiredDocumentFreeText ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap

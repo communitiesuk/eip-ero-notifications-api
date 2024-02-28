@@ -186,7 +186,7 @@ class TemplatePersonalisationDtoMapper {
         with(dto) {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
-            personalisation["rejectionMessage"] = getSafeValue(requiredDocumentFreeText)
+            personalisation["requiredDocumentFreeText"] = getSafeValue(requiredDocumentFreeText)
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapOverseasEroContactFields(this)
                 personalisation.putAll(this)
