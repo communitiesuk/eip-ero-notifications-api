@@ -1180,8 +1180,8 @@ components:
         - requested-signature
         - nino-not-matched
         - rejected-parent-guardian
-        - rejected-qualifying-address
-        - qualifying-address-document-required
+        - rejected-previous-address
+        - previous-address-document-required
         - parent-guardian-proof-required
     Language:
       title: Language
@@ -1214,7 +1214,7 @@ components:
       enum:
         - identity
         - parent-guardian
-        - qualifying-address
+        - previous-address
     GenerateIdDocumentResubmissionTemplatePreviewRequest:
       title: GenerateIdDocumentResubmissionTemplatePreviewRequest
       description: An object containing request attributes required for generating the identity document resubmission template preview

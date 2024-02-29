@@ -46,7 +46,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
     @CsvSource(
         "PARENT_MINUS_GUARDIAN, PARENT_GUARDIAN",
         "IDENTITY, IDENTITY",
-        "QUALIFYING_MINUS_ADDRESS, QUALIFYING_ADDRESS"
+        "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS"
     )
     fun `should map rejected parent guardian template request to dto`(
         overseasDocumentType: OverseasDocumentType,

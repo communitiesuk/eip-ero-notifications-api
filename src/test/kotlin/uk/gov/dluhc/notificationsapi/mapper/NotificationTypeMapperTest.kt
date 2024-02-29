@@ -113,7 +113,7 @@ class NotificationTypeMapperTest {
             "REQUESTED_SIGNATURE, REQUESTED_MINUS_SIGNATURE",
             "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED",
             "REJECTED_PARENT_GUARDIAN, REJECTED_MINUS_PARENT_MINUS_GUARDIAN",
-            "REJECTED_QUALIFYING_ADDRESS, REJECTED_MINUS_QUALIFYING_MINUS_ADDRESS"
+            "REJECTED_PREVIOUS_ADDRESS, REJECTED_MINUS_PREVIOUS_MINUS_ADDRESS"
         ]
     )
     fun `should map Notification Type to Template Type`(notificationType: NotificationType, expected: TemplateType) {

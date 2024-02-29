@@ -15,7 +15,7 @@ class OverseasDocumentTypeMapperTest {
     @CsvSource(
         value = [
             "PARENT_MINUS_GUARDIAN, PARENT_GUARDIAN",
-            "QUALIFYING_MINUS_ADDRESS, QUALIFYING_ADDRESS",
+            "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS",
             "IDENTITY, IDENTITY"
         ]
     )
@@ -37,7 +37,7 @@ class OverseasDocumentTypeMapperTest {
         value = [
             "IDENTITY, REJECTED_DOCUMENT",
             "PARENT_GUARDIAN, REJECTED_PARENT_GUARDIAN",
-            "QUALIFYING_ADDRESS, REJECTED_QUALIFYING_ADDRESS"
+            "PREVIOUS_ADDRESS, REJECTED_PREVIOUS_ADDRESS"
         ]
     )
     fun `should map rejected overseas document to notification type`(
@@ -58,7 +58,7 @@ class OverseasDocumentTypeMapperTest {
         value = [
             "IDENTITY, NINO_NOT_MATCHED",
             "PARENT_GUARDIAN, PARENT_GUARDIAN_PROOF_REQUIRED",
-            "QUALIFYING_ADDRESS, QUALIFYING_ADDRESS_DOCUMENT_REQUIRED"
+            "PREVIOUS_ADDRESS, PREVIOUS_ADDRESS_DOCUMENT_REQUIRED"
         ]
     )
     fun `should map required overseas document to notification type`(

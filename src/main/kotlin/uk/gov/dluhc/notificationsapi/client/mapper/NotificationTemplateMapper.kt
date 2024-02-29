@@ -20,10 +20,10 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_RESTR
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.QUALIFYING_ADDRESS_DOCUMENT_REQUIRED
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.PREVIOUS_ADDRESS_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PARENT_GUARDIAN
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_QUALIFYING_ADDRESS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PREVIOUS_ADDRESS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
@@ -93,9 +93,9 @@ class NotificationTemplateMapper(
             NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListWelsh
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianWelsh
-            REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressWelsh
+            REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressWelsh
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
-            QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredWelsh
+            PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -118,9 +118,9 @@ class NotificationTemplateMapper(
             NINO_NOT_MATCHED -> config.ninoNotMatchedEnglish
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListEnglish
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianEnglish
-            REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressEnglish
+            REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressEnglish
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
-            QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredEnglish
+            PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -164,9 +164,9 @@ class NotificationTemplateMapper(
             NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListWelsh
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianWelsh
-            REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressWelsh
+            REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressWelsh
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
-            QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredWelsh
+            PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -191,9 +191,9 @@ class NotificationTemplateMapper(
         NINO_NOT_MATCHED -> config.ninoNotMatchedEnglish
         NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListEnglish
         REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianEnglish
-        REJECTED_QUALIFYING_ADDRESS -> config.rejectedQualifyingAddressEnglish
+        REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressEnglish
         PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
-        QUALIFYING_ADDRESS_DOCUMENT_REQUIRED -> config.qualifyingAddressDocumentRequiredEnglish
+        PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
         }
