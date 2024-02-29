@@ -29,7 +29,7 @@ fun buildRequiredOverseasDocumentPersonalisation(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsRequest(
         localAuthorityName = "Barcelona",
-        address = buildAddressRequest(country = "Spain")
+        address = buildAddressRequest()
     ),
     requiredDocumentFreeText: String? = null
 ): RequiredOverseasDocumentPersonalisation =

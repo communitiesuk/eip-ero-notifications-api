@@ -10,7 +10,6 @@ fun buildAddress(
     area: String? = faker.address().state(),
     locality: String? = faker.address().streetName(),
     postcode: String = faker.address().postcode(),
-    country: String? = null
 ) = Address(
     property = property,
     street = street,
@@ -18,5 +17,4 @@ fun buildAddress(
     area = area,
     locality = locality,
     postcode = postcode,
-    country = country
 )

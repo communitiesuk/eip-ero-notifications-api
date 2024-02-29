@@ -15,7 +15,6 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.exception.CountryNotFoundException
 
 @Component
 class TemplatePersonalisationDtoMapper {
@@ -173,7 +172,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["rejectedDocuments"] = documents
             personalisation["rejectionMessage"] = getSafeValue(rejectedDocumentFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapOverseasEroContactFields(this)
+                eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
         }
@@ -188,7 +187,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["requiredDocumentFreeText"] = getSafeValue(requiredDocumentFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapOverseasEroContactFields(this)
+                eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
         }
@@ -207,26 +206,6 @@ class TemplatePersonalisationDtoMapper {
             personalisation["eroAddressLine4"] = getSafeValue(area)
             personalisation["eroAddressLine5"] = getSafeValue(locality)
             personalisation["eroPostcode"] = postcode
-        }
-    }
-
-    private fun ContactDetailsDto.mapOverseasEroContactFields(personalisation: MutableMap<String, String>) {
-        if (address.country == null) {
-            throw CountryNotFoundException()
-        }
-
-        personalisation["LAName"] = localAuthorityName
-        personalisation["eroPhone"] = phone
-        personalisation["eroWebsite"] = website
-        personalisation["eroEmail"] = email
-        with(address) {
-            personalisation["eroAddressLine1"] = getSafeValue(property)
-            personalisation["eroAddressLine2"] = street
-            personalisation["eroAddressLine3"] = getSafeValue(town)
-            personalisation["eroAddressLine4"] = getSafeValue(area)
-            personalisation["eroAddressLine5"] = getSafeValue(locality)
-            personalisation["eroPostcode"] = postcode
-            personalisation["eroCountry"] = getSafeValue(country)
         }
     }
 

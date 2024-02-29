@@ -67,7 +67,6 @@ fun buildAddressRequest(
     town: String? = faker.address().city(),
     area: String? = faker.address().state(),
     postcode: String = getAValidPostcode(),
-    country: String? = null
 ): Address = Address(
     street = street,
     property = property,
@@ -75,7 +74,6 @@ fun buildAddressRequest(
     town = town,
     area = area,
     postcode = postcode,
-    country = country
 )
 
 fun buildAddressRequestWithOptionalParamsNull(): Address = buildAddressRequest(

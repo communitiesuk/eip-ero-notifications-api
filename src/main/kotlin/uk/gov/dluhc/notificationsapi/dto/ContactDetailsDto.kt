@@ -15,5 +15,4 @@ data class AddressDto(
     val town: String?,
     val area: String?,
     val postcode: String,
-    val country: String?
 )

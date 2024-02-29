@@ -24,7 +24,7 @@ fun buildRequiredOverseasDocumentTemplatePreviewDto(
 fun buildRequiredOverseasDocumentTemplatePreviewPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
-    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(address = buildAddressDto(country = "Spain")),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
     requiredDocumentFreeText: String? = DataFaker.faker.harryPotter().spell(),
 ) = RequiredOverseasDocumentPersonalisationDto(
     applicationReference = applicationReference,

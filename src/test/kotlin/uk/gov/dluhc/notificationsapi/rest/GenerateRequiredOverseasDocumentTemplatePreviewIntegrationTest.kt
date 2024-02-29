@@ -113,55 +113,6 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
             .hasNoValidationErrors()
     }
 
-    @Test
-    fun `should return error is there is no country in address template`() {
-        // Given
-        wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(
-            NINO_NOT_MATCHED_EMAIL_CY_TEMPLATE_ID
-        )
-
-        val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
-
-        val requestBody = buildRequiredOverseasDocumentTemplatePreviewRequest(
-            channel = NotificationChannel.EMAIL,
-            language = Language.EN,
-            overseasDocumentType = OverseasDocumentType.IDENTITY,
-            personalisation = buildRequiredOverseasDocumentPersonalisation(
-                applicationReference = "applicationReference",
-                eroContactDetails = buildEroContactDetails(
-                    localAuthorityName = "Barcelona",
-                    address = buildAddress(
-                        street = "some street",
-                        postcode = "postcode",
-                        country = null
-                    ),
-                ),
-            )
-        )
-
-        // When
-        val response = webTestClient.post()
-            .uri(URI_TEMPLATE)
-            .bearerToken(getBearerToken())
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(
-                Mono.just(requestBody),
-                GenerateRequiredOverseasDocumentTemplatePreviewRequest::class.java
-            )
-            .exchange()
-            .expectStatus()
-            .isBadRequest
-            .returnResult(ErrorResponse::class.java)
-
-        // Then
-        val actual = response.responseBody.blockFirst()
-        ErrorResponseAssert.Companion.assertThat(actual)
-            .hasTimestampNotBefore(earliestExpectedTimeStamp)
-            .hasStatus(400)
-            .hasMessage("Country is required to process a template for overseas")
-            .hasNoValidationErrors()
-    }
-
     @ParameterizedTest
     @CsvSource(
         value = [
@@ -201,7 +152,6 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
                     address = buildAddress(
                         street = "some street",
                         postcode = "postcode",
-                        country = "Spain"
                     ),
                 ),
             )
@@ -222,7 +172,6 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
                 "eroPostcode" to eroContactDetails.address.postcode,
-                "eroCountry" to eroContactDetails.address.country!!
             )
         }
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }

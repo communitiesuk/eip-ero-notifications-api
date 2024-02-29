@@ -1650,10 +1650,6 @@ components:
           minLength: 1
           maxLength: 10
           example: PE3 6SB
-        country:
-          type: string
-          description: Country for correspondence address for overseas elector
-          maxLength: 255
       required:
         - street
         - postcode

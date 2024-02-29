@@ -30,7 +30,7 @@ fun buildRejectedOverseasDocumentPersonalisation(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsRequest(
         localAuthorityName = "Barcelona",
-        address = buildAddressRequest(country = "Spain")
+        address = buildAddressRequest()
     ),
     documents: List<RejectedDocument> = listOf(buildRejectedDocument()),
     rejectedDocumentFreeText: String? = null

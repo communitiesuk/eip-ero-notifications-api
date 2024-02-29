@@ -1,11 +1,8 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import uk.gov.dluhc.notificationsapi.exception.CountryNotFoundException
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationMapFromDto
@@ -402,8 +399,6 @@ class TemplatePersonalisationDtoMapperTest {
     @Nested
     inner class ToRejectedOverseasDocumentTemplatePersonalisationMap {
 
-        private val countryNotFoundException = "Country is required to process a template for overseas"
-
         @Test
         fun `should map dto to personalisation map when all fields present`() {
             // Given
@@ -416,46 +411,10 @@ class TemplatePersonalisationDtoMapperTest {
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         }
-
-        @Test
-        fun `should map country to be the last field in the personalisation`() {
-            // Given
-            val personalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation()
-            val expectedLastValue = personalisationDto.eroContactDetails.address.country
-
-            // When
-            val actual = mapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisationDto)
-            val lastValueOfActual = actual.entries.lastOrNull()?.value
-
-            // Then
-            assertThat(lastValueOfActual).isEqualTo(expectedLastValue)
-        }
-
-        @Test
-        fun `should throw an error if country is not present`() {
-            // Given
-            val personalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation(
-                eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDto(country = null)
-                )
-            )
-
-            // When
-            val exception = Assertions.catchThrowableOfType(
-                { mapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisationDto) },
-                CountryNotFoundException::class.java
-            )
-
-            // Then
-            assertThat(exception).isNotNull()
-            assertThat(exception.message).isEqualTo(countryNotFoundException)
-        }
     }
 
     @Nested
     inner class ToRequiredOverseasDocumentTemplatePersonalisationMap {
-
-        private val countryNotFoundException = "Country is required to process a template for overseas"
 
         @Test
         fun `should map dto to personalisation map when all fields present`() {
@@ -468,40 +427,6 @@ class TemplatePersonalisationDtoMapperTest {
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-        }
-
-        @Test
-        fun `should map country to be the last field in the personalisation`() {
-            // Given
-            val personalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation()
-            val expectedLastValue = personalisationDto.eroContactDetails.address.country
-
-            // When
-            val actual = mapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisationDto)
-            val lastValueOfActual = actual.entries.lastOrNull()?.value
-
-            // Then
-            assertThat(lastValueOfActual).isEqualTo(expectedLastValue)
-        }
-
-        @Test
-        fun `should throw an error if country is not present`() {
-            // Given
-            val personalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation(
-                eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDto(country = null)
-                )
-            )
-
-            // When
-            val exception = Assertions.catchThrowableOfType(
-                { mapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisationDto) },
-                CountryNotFoundException::class.java
-            )
-
-            // Then
-            assertThat(exception).isNotNull()
-            assertThat(exception.message).isEqualTo(countryNotFoundException)
         }
     }
 }
