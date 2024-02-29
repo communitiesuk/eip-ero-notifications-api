@@ -1521,28 +1521,6 @@ components:
           example: Please provide a valid document within 28 days
       required:
         - documents
-    BaseOverseasPersonalisation:
-      title: BaseOverseasPersonalisation
-      type: object
-      description: Base/Common personalisation details required for an overseas template
-      properties:
-        applicationReference:
-          type: string
-          description: The reference number of the Voter Card Application
-          example: A3JSZC4CRH
-        firstName:
-          type: string
-          pattern: '.*[a-zA-Z]+.*'
-          minLength: 1
-          maxLength: 255
-          description: The applicant's first name
-          example: Fred
-        eroContactDetails:
-          $ref: '#/components/schemas/ContactDetails'
-      required:
-        - applicationReference
-        - firstName
-        - eroContactDetails
     BasePersonalisation:
       title: BasePersonalisation
       type: object
