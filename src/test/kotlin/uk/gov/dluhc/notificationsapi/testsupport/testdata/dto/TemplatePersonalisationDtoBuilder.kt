@@ -358,7 +358,7 @@ fun buildRequiredOverseasDocumentPersonalisationMapFromDto(
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
-        personalisationMap["requiredDocumentFreeText"] = requiredDocumentFreeText ?: ""
+        personalisationMap["freeText"] = requiredDocumentFreeText ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap

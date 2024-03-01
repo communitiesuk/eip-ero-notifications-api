@@ -161,7 +161,7 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
             mapOf<String, Any>(
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
-                "requiredDocumentFreeText" to "",
+                "freeText" to "",
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroPhone" to eroContactDetails.phone,
                 "eroWebsite" to eroContactDetails.website,
