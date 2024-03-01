@@ -1050,7 +1050,7 @@ paths:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/templates/id-document-required/preview'
+        uri: '${base_uri}/templates/rejected-overseas-document/preview'
         requestParameters:
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
@@ -1119,7 +1119,7 @@ paths:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/templates/id-document-required/preview'
+        uri: '${base_uri}/templates/required-overseas-document/preview'
         requestParameters:
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
