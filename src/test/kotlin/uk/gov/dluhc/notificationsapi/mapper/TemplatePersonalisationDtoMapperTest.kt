@@ -18,10 +18,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonal
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedOverseasDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedOverseasDocumentTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
 
 class TemplatePersonalisationDtoMapperTest {
@@ -389,6 +393,40 @@ class TemplatePersonalisationDtoMapperTest {
             assertThat(actual["eroAddressLine4"] as String).isBlank
             assertThat(actual["eroAddressLine5"] as String).isBlank
             assertThat(actual["eroPostcode"] as String).isEqualTo(personalisationDto.eroContactDetails.address.postcode)
+        }
+    }
+
+    @Nested
+    inner class ToRejectedOverseasDocumentTemplatePersonalisationMap {
+
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation()
+            val expected = buildRejectedOverseasDocumentPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+    }
+
+    @Nested
+    inner class ToRequiredOverseasDocumentTemplatePersonalisationMap {
+
+        @Test
+        fun `should map dto to personalisation map when all fields present`() {
+            // Given
+            val personalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation()
+            val expected = buildRequiredOverseasDocumentPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         }
     }
 }

@@ -126,3 +126,26 @@ class NinoNotMatchedPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
 )
+
+class RejectedOverseasDocumentPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val documents: List<String>,
+    val rejectedDocumentFreeText: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)
+
+class RequiredOverseasDocumentPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val requiredDocumentFreeText: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)

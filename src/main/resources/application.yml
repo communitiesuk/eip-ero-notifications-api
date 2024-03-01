@@ -109,6 +109,32 @@ api:
         email:
           received-english: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_ENGLISH}
           received-welsh: ${TEMPLATE_OVERSEAS_APPLICATION_RECEIVED_EMAIL_WELSH}
+          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_EMAIL_ENGLISH}
+          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_EMAIL_WELSH}
+          rejected-previous-address-english: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REJECTED_EMAIL_ENGLISH}
+          rejected-previous-address-welsh: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REJECTED_EMAIL_WELSH}
+          rejected-document-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_EMAIL_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_EMAIL_WELSH}
+          parent-guardian-proof-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_EMAIL_ENGLISH}
+          parent-guardian-proof-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_EMAIL_WELSH}
+          nino-not-matched-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_EMAIL_ENGLISH}
+          nino-not-matched-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_EMAIL_WELSH}
+          previous-address-document-required-english: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_EMAIL_ENGLISH}
+          previous-address-document-required-welsh: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_EMAIL_WELSH}
+        letter:
+          rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_ENGLISH}
+          rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_WELSH}
+          rejected-previous-address-english: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REJECTED_LETTER_ENGLISH}
+          rejected-previous-address-welsh: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REJECTED_LETTER_WELSH}
+          rejected-document-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_LETTER_ENGLISH}
+          rejected-document-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REJECTED_LETTER_WELSH}
+          parent-guardian-proof-required-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_LETTER_ENGLISH}
+          parent-guardian-proof-required-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REQUIRED_LETTER_WELSH}
+          nino-not-matched-english: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_LETTER_ENGLISH}
+          nino-not-matched-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_LETTER_WELSH}
+          previous-address-document-required-english: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_LETTER_ENGLISH}
+          previous-address-document-required-welsh: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_LETTER_WELSH}
+
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_PHOTO_RESUBMISSION_QUEUE_NAME}
