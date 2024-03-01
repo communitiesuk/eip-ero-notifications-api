@@ -50,21 +50,32 @@ class SendNotificationService(
         }
     }
 
-    private fun shouldSendApplicationStatisticsUpdateForNotificationType(requestDto: SendNotificationRequestDto): Boolean =
+    private fun shouldSendPostalApplicationStatisticsUpdateForNotificationType(requestDto: SendNotificationRequestDto): Boolean =
+        when (requestDto.notificationType) {
+            NotificationType.ID_DOCUMENT_REQUIRED -> true
+            NotificationType.ID_DOCUMENT_RESUBMISSION -> true
+            NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> true
+            NotificationType.REQUESTED_SIGNATURE -> true
+            NotificationType.NINO_NOT_MATCHED -> true
+            NotificationType.REJECTED_SIGNATURE -> true
+            NotificationType.REJECTED_SIGNATURE_WITH_REASONS -> true
+            else -> false
+        }
+
+    private fun shouldSendVacApplicationStatisticsUpdateForNotificationType(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.notificationType) {
             NotificationType.ID_DOCUMENT_REQUIRED -> true
             NotificationType.ID_DOCUMENT_RESUBMISSION -> true
             NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> true
             NotificationType.PHOTO_RESUBMISSION -> true
             NotificationType.PHOTO_RESUBMISSION_WITH_REASONS -> true
-            NotificationType.REQUESTED_SIGNATURE -> true
             else -> false
         }
 
     private fun shouldSendApplicationStatisticsUpdate(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.sourceType) {
-            SourceType.POSTAL -> shouldSendApplicationStatisticsUpdateForNotificationType(requestDto)
-            SourceType.VOTER_CARD -> shouldSendApplicationStatisticsUpdateForNotificationType(requestDto)
+            SourceType.POSTAL -> shouldSendPostalApplicationStatisticsUpdateForNotificationType(requestDto)
+            SourceType.VOTER_CARD -> shouldSendVacApplicationStatisticsUpdateForNotificationType(requestDto)
             // TODO: EIP1-8742 Add proxy
             else -> false
         }
