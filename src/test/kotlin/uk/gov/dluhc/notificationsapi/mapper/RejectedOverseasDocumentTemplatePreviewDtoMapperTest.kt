@@ -9,13 +9,13 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
+import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.OverseasDocumentTypeDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
-import uk.gov.dluhc.notificationsapi.models.OverseasDocumentType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedOverseasDocumentTemplatePreviewRequest
@@ -34,7 +34,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
     private lateinit var notificationChannelMapper: NotificationChannelMapper
 
     @Mock
-    private lateinit var overseasDocumentTypeMapper: OverseasDocumentTypeMapper
+    private lateinit var documentCategoryMapper: DocumentCategoryMapper
 
     @Mock
     private lateinit var rejectedDocumentsMapper: RejectedDocumentsMapper
@@ -49,14 +49,14 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
         "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS"
     )
     fun `should map rejected parent guardian template request to dto`(
-        overseasDocumentType: OverseasDocumentType,
-        overseasDocumentTypeDto: OverseasDocumentTypeDto
+        documentCategory: DocumentCategory,
+        documentCategoryDto: DocumentCategoryDto
     ) {
         // Given
         val request = buildRejectedOverseasDocumentTemplatePreviewRequest(
             language = Language.EN,
             channel = NotificationChannel.EMAIL,
-            overseasDocumentType = overseasDocumentType
+            documentCategory = documentCategory
         )
         val contactDetailsDto =
             with(request.personalisation.eroContactDetails) {
@@ -80,13 +80,13 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL)
-        given(overseasDocumentTypeMapper.fromApiToDto(any())).willReturn(overseasDocumentTypeDto)
+        given(documentCategoryMapper.fromApiToDto(any())).willReturn(documentCategoryDto)
         given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(any(), any())).willReturn(listOf("doc1", "doc2"))
         given(eroDtoMapper.toContactDetailsDto(any())).willReturn(contactDetailsDto)
 
         val expected = GenerateRejectedOverseasDocumentTemplatePreviewDto(
             language = LanguageDto.ENGLISH,
-            overseasDocumentType = overseasDocumentTypeDto,
+            documentCategory = documentCategoryDto,
             personalisation = with(request.personalisation) {
                 RejectedOverseasDocumentPersonalisationDto(
                     applicationReference = applicationReference,

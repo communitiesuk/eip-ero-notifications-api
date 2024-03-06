@@ -13,7 +13,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapper(
     private val notificationChannelMapper: NotificationChannelMapper,
     private val rejectedDocumentsMapper: RejectedDocumentsMapper,
     private val eroDtoMapper: EroDtoMapper,
-    private val overseasDocumentTypeMapper: OverseasDocumentTypeMapper
+    private val documentCategoryMapper: DocumentCategoryMapper
 ) {
 
     fun toRejectedOverseasDocumentTemplatePreviewDto(request: GenerateRejectedOverseasDocumentTemplatePreviewRequest): GenerateRejectedOverseasDocumentTemplatePreviewDto {
@@ -21,7 +21,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapper(
             return GenerateRejectedOverseasDocumentTemplatePreviewDto(
                 channel = notificationChannelMapper.fromApiToDto(channel),
                 language = languageMapper.fromApiToDto(language!!),
-                overseasDocumentType = overseasDocumentTypeMapper.fromApiToDto(overseasDocumentType),
+                documentCategory = documentCategoryMapper.fromApiToDto(documentCategory),
                 personalisation = mapPersonalisation(personalisation, languageMapper.fromApiToDto(language))
             )
         }
