@@ -11,6 +11,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WIT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
@@ -32,10 +33,12 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatu
         SourceTypeMapper::class,
         NotificationChannelMapper::class,
         NotificationTypeMapper::class,
-        NotificationDestinationDtoMapper::class
+        NotificationDestinationDtoMapper::class,
     ]
 )
-abstract class SendNotifyMessageMapper {
+abstract class SendNotifyMessageMapper(
+    private val documentCategoryMapper: DocumentCategoryMapper
+) {
 
     @Mapping(target = "notificationType", expression = "java( photoResubmissionNotificationType(message) )")
     abstract fun fromPhotoMessageToSendNotificationRequestDto(
@@ -118,10 +121,13 @@ abstract class SendNotifyMessageMapper {
         }
 
     protected fun ninoNotMatchedNotificationType(message: SendNotifyNinoNotMatchedMessage): NotificationType =
-        if (message.hasRestrictedDocumentsList) {
-            NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
-        } else {
-            NotificationType.NINO_NOT_MATCHED
+        with(message) {
+            val documentCategoryDto = documentCategoryMapper.fromApiMessageToDto(documentCategory)
+            if (hasRestrictedDocumentsList) {
+                NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
+            } else {
+                documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
+            }
         }
 
     @Mapping(source = "messageType", target = "notificationType")
