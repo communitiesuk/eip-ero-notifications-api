@@ -173,7 +173,7 @@ class TemplateService(
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     sourceType = SourceType.OVERSEAS,
-                    notificationType = documentCategoryMapper.fromRejectedOverseasDocumentCategoryDtoToNotificationTypeDto(
+                    notificationType = documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(
                         documentCategory
                     ),
                     channel,
@@ -189,7 +189,7 @@ class TemplateService(
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     sourceType = SourceType.OVERSEAS,
-                    notificationType = documentCategoryMapper.fromRequiredOverseasDocumentCategoryDtoToNotificationTypeDto(
+                    notificationType = documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(
                         documentCategory
                     ),
                     channel,

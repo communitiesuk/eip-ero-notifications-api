@@ -16,10 +16,10 @@ interface DocumentCategoryMapper {
     @ValueMapping(source = "IDENTITY", target = "REJECTED_DOCUMENT")
     @ValueMapping(source = "PARENT_GUARDIAN", target = "REJECTED_PARENT_GUARDIAN")
     @ValueMapping(source = "PREVIOUS_ADDRESS", target = "REJECTED_PREVIOUS_ADDRESS")
-    fun fromRejectedOverseasDocumentCategoryDtoToNotificationTypeDto(documentCategory: DocumentCategoryDto): NotificationType
+    fun fromRejectedDocumentCategoryDtoToNotificationTypeDto(documentCategory: DocumentCategoryDto): NotificationType
 
     @ValueMapping(source = "IDENTITY", target = "NINO_NOT_MATCHED")
     @ValueMapping(source = "PARENT_GUARDIAN", target = "PARENT_GUARDIAN_PROOF_REQUIRED")
     @ValueMapping(source = "PREVIOUS_ADDRESS", target = "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED")
-    fun fromRequiredOverseasDocumentCategoryDtoToNotificationTypeDto(documentCategory: DocumentCategoryDto): NotificationType
+    fun fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategory: DocumentCategoryDto): NotificationType
 }

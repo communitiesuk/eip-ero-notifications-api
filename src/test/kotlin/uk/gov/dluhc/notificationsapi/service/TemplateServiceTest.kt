@@ -490,7 +490,7 @@ class TemplateServiceTest {
             given(templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(any()))
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
-            given(documentCategoryMapper.fromRejectedOverseasDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
+            given(documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
                 notificationType
             )
 
@@ -556,7 +556,7 @@ class TemplateServiceTest {
             given(templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(any()))
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
-            given(documentCategoryMapper.fromRequiredOverseasDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
+            given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
                 notificationType
             )
 
