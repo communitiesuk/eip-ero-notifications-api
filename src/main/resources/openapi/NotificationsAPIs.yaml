@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.15.1'
+  version: '1.15.2'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -1207,9 +1207,9 @@ components:
         - postal
         - proxy
         - overseas
-    OverseasDocumentType:
-      title: OverseasDocumentType
-      description: The type of the overseas document
+    DocumentCategory:
+      title: DocumentCategory
+      description: The category of the document
       type: string
       enum:
         - identity
@@ -1373,13 +1373,13 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/RejectedOverseasDocumentPersonalisation'
-        overseasDocumentType:
-          $ref: '#/components/schemas/OverseasDocumentType'
+        documentCategory:
+          $ref: '#/components/schemas/DocumentCategory'
       required:
         - channel
         - personalisation
         - sourceType
-        - overseasDocumentType
+        - documentCategory
     GenerateRequiredOverseasDocumentTemplatePreviewRequest:
       title: GenerateRequiredOverseasDocumentTemplatePreviewRequest
       description: An object containing request attributes required for generating the relevant required document template preview
@@ -1391,13 +1391,13 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/RequiredOverseasDocumentPersonalisation'
-        overseasDocumentType:
-          $ref: '#/components/schemas/OverseasDocumentType'
+        documentCategory:
+          $ref: '#/components/schemas/DocumentCategory'
       required:
         - channel
         - personalisation
         - sourceType
-        - overseasDocumentType
+        - documentCategory
     IdDocumentPersonalisation:
       title: IdDocumentPersonalisation
       type: object

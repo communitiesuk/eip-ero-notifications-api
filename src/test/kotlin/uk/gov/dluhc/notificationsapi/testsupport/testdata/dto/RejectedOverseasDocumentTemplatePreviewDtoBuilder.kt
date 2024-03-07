@@ -1,10 +1,10 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
+import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
-import uk.gov.dluhc.notificationsapi.dto.OverseasDocumentTypeDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
@@ -13,11 +13,11 @@ fun buildRejectedOverseasDocumentTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: RejectedOverseasDocumentPersonalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation(),
-    overseasDocumentType: OverseasDocumentTypeDto = OverseasDocumentTypeDto.PARENT_GUARDIAN
+    documentCategory: DocumentCategoryDto = DocumentCategoryDto.PARENT_GUARDIAN
 ) = GenerateRejectedOverseasDocumentTemplatePreviewDto(
     channel = channel,
     language = language,
-    overseasDocumentType = overseasDocumentType,
+    documentCategory = documentCategory,
     personalisation = personalisation,
 )
 

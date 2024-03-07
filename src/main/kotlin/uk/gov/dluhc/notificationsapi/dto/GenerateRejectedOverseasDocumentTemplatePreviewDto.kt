@@ -4,5 +4,5 @@ class GenerateRejectedOverseasDocumentTemplatePreviewDto(
     val channel: NotificationChannel,
     val language: LanguageDto,
     val personalisation: RejectedOverseasDocumentPersonalisationDto,
-    val overseasDocumentType: OverseasDocumentTypeDto
+    val documentCategory: DocumentCategoryDto
 )

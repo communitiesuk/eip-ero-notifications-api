@@ -4,5 +4,5 @@ class GenerateRequiredOverseasDocumentTemplatePreviewDto(
     val channel: NotificationChannel,
     val language: LanguageDto,
     val personalisation: RequiredOverseasDocumentPersonalisationDto,
-    val overseasDocumentType: OverseasDocumentTypeDto
+    val documentCategory: DocumentCategoryDto
 )

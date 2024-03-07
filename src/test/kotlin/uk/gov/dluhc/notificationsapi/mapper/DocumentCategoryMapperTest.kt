@@ -3,13 +3,13 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
-import uk.gov.dluhc.notificationsapi.dto.OverseasDocumentTypeDto
-import uk.gov.dluhc.notificationsapi.models.OverseasDocumentType
+import uk.gov.dluhc.notificationsapi.models.DocumentCategory
 
-class OverseasDocumentTypeMapperTest {
+class DocumentCategoryMapperTest {
 
-    private val mapper = OverseasDocumentTypeMapperImpl()
+    private val mapper = DocumentCategoryMapperImpl()
 
     @ParameterizedTest
     @CsvSource(
@@ -20,13 +20,13 @@ class OverseasDocumentTypeMapperTest {
         ]
     )
     fun `should map from overseas document type API to overseas document type DTO`(
-        overseasDocumentTypeApi: OverseasDocumentType,
-        expected: OverseasDocumentTypeDto
+        documentCategoryApi: DocumentCategory,
+        expected: DocumentCategoryDto
     ) {
         // Given
 
         // When
-        val actual = mapper.fromApiToDto(overseasDocumentTypeApi)
+        val actual = mapper.fromApiToDto(documentCategoryApi)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -41,13 +41,13 @@ class OverseasDocumentTypeMapperTest {
         ]
     )
     fun `should map rejected overseas document to notification type`(
-        overseasDocumentTypeDto: OverseasDocumentTypeDto,
+        documentCategoryDto: DocumentCategoryDto,
         expected: NotificationType
     ) {
         // Given
 
         // When
-        val actual = mapper.fromRejectedOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentTypeDto)
+        val actual = mapper.fromRejectedOverseasDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -62,13 +62,13 @@ class OverseasDocumentTypeMapperTest {
         ]
     )
     fun `should map required overseas document to notification type`(
-        overseasDocumentTypeDto: OverseasDocumentTypeDto,
+        documentCategoryDto: DocumentCategoryDto,
         expected: NotificationType
     ) {
         // Given
 
         // When
-        val actual = mapper.fromRequiredOverseasDocumentTypeDtoToNotificationTypeDto(overseasDocumentTypeDto)
+        val actual = mapper.fromRequiredOverseasDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
 
         // Then
         assertThat(actual).isEqualTo(expected)

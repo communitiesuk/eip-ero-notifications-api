@@ -1,10 +1,10 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.models
 
 import uk.gov.dluhc.notificationsapi.models.ContactDetails
+import uk.gov.dluhc.notificationsapi.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.models.GenerateRequiredOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
-import uk.gov.dluhc.notificationsapi.models.OverseasDocumentType
 import uk.gov.dluhc.notificationsapi.models.RequiredOverseasDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
@@ -14,13 +14,13 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetail
 fun buildRequiredOverseasDocumentTemplatePreviewRequest(
     personalisation: RequiredOverseasDocumentPersonalisation = buildRequiredOverseasDocumentPersonalisation(),
     language: Language = Language.EN,
-    overseasDocumentType: OverseasDocumentType = OverseasDocumentType.PARENT_MINUS_GUARDIAN,
+    documentCategory: DocumentCategory = DocumentCategory.PARENT_MINUS_GUARDIAN,
     channel: NotificationChannel = NotificationChannel.EMAIL
 ): GenerateRequiredOverseasDocumentTemplatePreviewRequest =
     GenerateRequiredOverseasDocumentTemplatePreviewRequest(
         personalisation = personalisation,
         language = language,
-        overseasDocumentType = overseasDocumentType,
+        documentCategory = documentCategory,
         channel = channel
     )
 

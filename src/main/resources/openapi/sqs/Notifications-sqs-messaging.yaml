@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.13.1'
+  version: '1.13.2'
   description: |-
     Notifications SQS Message Types
     
@@ -259,6 +259,8 @@ components:
           $ref: '#/components/schemas/NotificationChannel'
         personalisation:
           $ref: '#/components/schemas/RejectedDocumentPersonalisation'
+        documentCategory:
+          $ref: '#/components/schemas/DocumentCategory'
       required:
         - channel
         - personalisation
@@ -499,6 +501,16 @@ components:
         - email
         - letter
 
+    DocumentCategory:
+      title: DocumentCategory
+      description: The category of the document
+      type: string
+      enum:
+        - identity
+        - parent-guardian
+        - previous-address
+      default: identity
+
     SourceType:
       title: SourceType
       type: string
@@ -723,10 +735,13 @@ components:
         hasRestrictedDocumentsList:
           type: boolean
           description: Whether the applicant this message is addressed to has a restricted documents list or not
+        documentCategory:
+          $ref: '#/components/schemas/DocumentCategory'
       required:
         - personalisation
         - channel
         - hasRestrictedDocumentsList
+
   #
   # Response Body Definitions
   # --------------------------------------------------------------------------------

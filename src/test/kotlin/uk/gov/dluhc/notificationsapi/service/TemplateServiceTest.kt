@@ -16,17 +16,17 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
-import uk.gov.dluhc.notificationsapi.dto.OverseasDocumentTypeDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.mapper.OverseasDocumentTypeMapper
+import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedTemplatePreviewDto
@@ -65,7 +65,7 @@ class TemplateServiceTest {
     private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
 
     @Mock
-    private lateinit var overseasDocumentTypeMapper: OverseasDocumentTypeMapper
+    private lateinit var documentCategoryMapper: DocumentCategoryMapper
 
     @Nested
     inner class GeneratePhotoResubmissionTemplatePreview {
@@ -469,7 +469,7 @@ class TemplateServiceTest {
             "IDENTITY, REJECTED_DOCUMENT, 664ed443-f1a6-48d4-b066-b6c0f1e0953a, LETTER, WELSH",
         )
         fun `should return rejected overseas document template preview`(
-            overseasDocumentType: OverseasDocumentTypeDto,
+            documentCategory: DocumentCategoryDto,
             notificationType: NotificationType,
             templateId: String,
             notificationChannel: NotificationChannel,
@@ -480,7 +480,7 @@ class TemplateServiceTest {
                 buildRejectedOverseasDocumentTemplatePreviewDto(
                     language = language,
                     channel = notificationChannel,
-                    overseasDocumentType = overseasDocumentType
+                    documentCategory = documentCategory
                 )
             val personalisationMap = buildRejectedOverseasDocumentPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
@@ -490,7 +490,7 @@ class TemplateServiceTest {
             given(templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(any()))
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
-            given(overseasDocumentTypeMapper.fromRejectedOverseasDocumentTypeDtoToNotificationTypeDto(any())).willReturn(
+            given(documentCategoryMapper.fromRejectedOverseasDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
                 notificationType
             )
 
@@ -512,7 +512,7 @@ class TemplateServiceTest {
                 govNotifyApiClient,
                 notificationTemplateMapper,
                 templatePersonalisationDtoMapper,
-                overseasDocumentTypeMapper
+                documentCategoryMapper
             )
         }
     }
@@ -535,7 +535,7 @@ class TemplateServiceTest {
             "IDENTITY, NINO_NOT_MATCHED, abd343c5-edab-4e58-82b4-293736a464d0, LETTER, WELSH",
         )
         fun `should return rejected overseas document template preview`(
-            overseasDocumentType: OverseasDocumentTypeDto,
+            documentCategory: DocumentCategoryDto,
             notificationType: NotificationType,
             templateId: String,
             notificationChannel: NotificationChannel,
@@ -546,7 +546,7 @@ class TemplateServiceTest {
                 buildRequiredOverseasDocumentTemplatePreviewDto(
                     language = language,
                     channel = notificationChannel,
-                    overseasDocumentType = overseasDocumentType
+                    documentCategory = documentCategory
                 )
             val personalisationMap = buildRequiredOverseasDocumentPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
@@ -556,7 +556,7 @@ class TemplateServiceTest {
             given(templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(any()))
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
-            given(overseasDocumentTypeMapper.fromRequiredOverseasDocumentTypeDtoToNotificationTypeDto(any())).willReturn(
+            given(documentCategoryMapper.fromRequiredOverseasDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
                 notificationType
             )
 
@@ -578,7 +578,7 @@ class TemplateServiceTest {
                 govNotifyApiClient,
                 notificationTemplateMapper,
                 templatePersonalisationDtoMapper,
-                overseasDocumentTypeMapper
+                documentCategoryMapper
             )
         }
     }

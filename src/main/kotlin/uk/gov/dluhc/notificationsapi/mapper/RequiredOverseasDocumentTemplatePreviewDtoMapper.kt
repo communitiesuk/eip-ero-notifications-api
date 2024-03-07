@@ -11,7 +11,7 @@ class RequiredOverseasDocumentTemplatePreviewDtoMapper(
     private val languageMapper: LanguageMapper,
     private val notificationChannelMapper: NotificationChannelMapper,
     private val eroDtoMapper: EroDtoMapper,
-    private val overseasDocumentTypeMapper: OverseasDocumentTypeMapper
+    private val documentCategoryMapper: DocumentCategoryMapper
 ) {
 
     fun toRequiredOverseasDocumentTemplatePreviewDto(request: GenerateRequiredOverseasDocumentTemplatePreviewRequest): GenerateRequiredOverseasDocumentTemplatePreviewDto {
@@ -19,7 +19,7 @@ class RequiredOverseasDocumentTemplatePreviewDtoMapper(
             return GenerateRequiredOverseasDocumentTemplatePreviewDto(
                 channel = notificationChannelMapper.fromApiToDto(channel),
                 language = languageMapper.fromApiToDto(language!!),
-                overseasDocumentType = overseasDocumentTypeMapper.fromApiToDto(overseasDocumentType),
+                documentCategory = documentCategoryMapper.fromApiToDto(documentCategory),
                 personalisation = mapPersonalisation(personalisation)
             )
         }

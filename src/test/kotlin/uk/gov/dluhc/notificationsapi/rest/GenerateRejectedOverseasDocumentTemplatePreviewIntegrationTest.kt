@@ -10,12 +10,12 @@ import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NotificationChannel
-import uk.gov.dluhc.notificationsapi.models.OverseasDocumentType
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -80,7 +80,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
     )
     fun `should return not found given non existing template`(
         templateId: String,
-        overseasDocumentType: OverseasDocumentType
+        documentCategory: DocumentCategory
     ) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(
@@ -94,7 +94,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
             .uri(URI_TEMPLATE)
             .bearerToken(getBearerToken())
             .contentType(APPLICATION_JSON)
-            .withAValidBody(overseasDocumentType)
+            .withAValidBody(documentCategory)
             .exchange()
             .expectStatus()
             .isNotFound
@@ -129,7 +129,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
     )
     fun `should return template preview given valid json request`(
         templateId: String,
-        overseasDocumentType: OverseasDocumentType,
+        documentCategory: DocumentCategory,
         channel: NotificationChannel,
         language: Language
     ) {
@@ -141,7 +141,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
         val requestBody = buildRejectedOverseasDocumentTemplatePreviewRequest(
             channel = channel,
             language = language,
-            overseasDocumentType = overseasDocumentType,
+            documentCategory = documentCategory,
             personalisation = buildRejectedOverseasDocumentPersonalisation(
                 documents = listOf(buildRejectedDocument(rejectionReasons = emptyList(), rejectionNotes = null)),
                 applicationReference = "applicationReference",
@@ -200,8 +200,8 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
     }
 }
 
-private fun WebTestClient.RequestBodySpec.withAValidBody(overseasDocumentType: OverseasDocumentType): WebTestClient.RequestBodySpec =
+private fun WebTestClient.RequestBodySpec.withAValidBody(documentCategory: DocumentCategory): WebTestClient.RequestBodySpec =
     body(
-        Mono.just(buildRejectedOverseasDocumentTemplatePreviewRequest(overseasDocumentType = overseasDocumentType)),
+        Mono.just(buildRejectedOverseasDocumentTemplatePreviewRequest(documentCategory = documentCategory)),
         GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java
     ) as WebTestClient.RequestBodySpec
