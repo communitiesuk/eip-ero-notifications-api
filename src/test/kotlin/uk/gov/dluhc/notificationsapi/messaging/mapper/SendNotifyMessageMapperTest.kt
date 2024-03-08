@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
+import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
@@ -22,10 +23,12 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WIT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
@@ -79,6 +82,9 @@ internal class SendNotifyMessageMapperTest {
 
     @Mock
     private lateinit var notificationDestinationDtoMapper: NotificationDestinationDtoMapper
+
+    @Mock
+    private lateinit var documentCategoryMapper: DocumentCategoryMapper
 
     @Nested
     inner class FromPhotoMessageToSendNotificationRequestDto {
@@ -533,9 +539,13 @@ internal class SendNotifyMessageMapperTest {
             val expectedNotificationType = NotificationType.REJECTED_DOCUMENT
 
             given(languageMapper.fromMessageToDto(request.language)).willReturn(expectedLanguage)
-            given(notificationTypeMapper.mapMessageTypeToNotificationType(request.messageType)).willReturn(expectedNotificationType)
+            given(notificationTypeMapper.mapMessageTypeToNotificationType(request.messageType)).willReturn(
+                expectedNotificationType
+            )
             given(sourceTypeMapper.fromMessageToDto(request.sourceType)).willReturn(expectedSourceType)
-            given(notificationDestinationDtoMapper.toNotificationDestinationDto(request.toAddress)).willReturn(expectedToAddress)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(request.toAddress)).willReturn(
+                expectedToAddress
+            )
             given(notificationChannelMapper.fromMessagingApiToDto(SqsChannel.EMAIL)).willReturn(expectedChannel)
 
             // When
@@ -719,6 +729,10 @@ internal class SendNotifyMessageMapperTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(notificationChannel)
+            given(documentCategoryMapper.fromApiMessageToDto(any())).willReturn(DocumentCategoryDto.IDENTITY)
+            given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
+                expectedNotificationType
+            )
 
             val request = SendNotifyNinoNotMatchedMessage(
                 language = language,
@@ -733,7 +747,8 @@ internal class SendNotifyMessageMapperTest {
                 hasRestrictedDocumentsList = hasRestrictedDocumentsList,
             )
 
-            val notification = mapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(request)
+            val notification =
+                mapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(request, documentCategoryMapper)
 
             assertThat(notification.channel).isEqualTo(notificationChannel)
             assertThat(notification.sourceType).isEqualTo(SourceType.POSTAL)
@@ -746,6 +761,8 @@ internal class SendNotifyMessageMapperTest {
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(notificationChannelMapper).fromMessagingApiToDto(sqsChannel)
+            verify(documentCategoryMapper).fromApiMessageToDto(DocumentCategory.IDENTITY)
+            verify(documentCategoryMapper).fromRequiredDocumentCategoryDtoToNotificationTypeDto(DocumentCategoryDto.IDENTITY)
         }
     }
 }

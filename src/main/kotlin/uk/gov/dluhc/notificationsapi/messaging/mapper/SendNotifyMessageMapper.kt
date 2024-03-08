@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.messaging.mapper
 
+import org.mapstruct.Context
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
@@ -28,17 +29,16 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatur
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
 
 @Mapper(
+    componentModel = "spring",
     uses = [
         LanguageMapper::class,
         SourceTypeMapper::class,
         NotificationChannelMapper::class,
         NotificationTypeMapper::class,
         NotificationDestinationDtoMapper::class,
-    ]
+    ],
 )
-abstract class SendNotifyMessageMapper(
-    private val documentCategoryMapper: DocumentCategoryMapper
-) {
+abstract class SendNotifyMessageMapper {
 
     @Mapping(target = "notificationType", expression = "java( photoResubmissionNotificationType(message) )")
     abstract fun fromPhotoMessageToSendNotificationRequestDto(
@@ -86,8 +86,14 @@ abstract class SendNotifyMessageMapper(
     @Mapping(target = "notificationType", source = "messageType")
     abstract fun fromRejectedDocumentMessageToSendNotificationRequestDto(sendNotifyRejectedDocumentMessage: SendNotifyRejectedDocumentMessage): SendNotificationRequestDto
 
-    @Mapping(target = "notificationType", expression = "java( ninoNotMatchedNotificationType(message) )")
-    abstract fun fromNinoNotMatchedMessageToSendNotificationRequestDto(message: SendNotifyNinoNotMatchedMessage): SendNotificationRequestDto
+    @Mapping(
+        target = "notificationType",
+        expression = "java( ninoNotMatchedNotificationType(message, documentCategoryMapper) )"
+    )
+    abstract fun fromNinoNotMatchedMessageToSendNotificationRequestDto(
+        message: SendNotifyNinoNotMatchedMessage,
+        @Context documentCategoryMapper: DocumentCategoryMapper
+    ): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
@@ -120,7 +126,10 @@ abstract class SendNotifyMessageMapper(
                 REJECTED_SIGNATURE
         }
 
-    protected fun ninoNotMatchedNotificationType(message: SendNotifyNinoNotMatchedMessage): NotificationType =
+    protected fun ninoNotMatchedNotificationType(
+        message: SendNotifyNinoNotMatchedMessage,
+        documentCategoryMapper: DocumentCategoryMapper
+    ): NotificationType =
         with(message) {
             val documentCategoryDto = documentCategoryMapper.fromApiMessageToDto(documentCategory)
             if (hasRestrictedDocumentsList) {
