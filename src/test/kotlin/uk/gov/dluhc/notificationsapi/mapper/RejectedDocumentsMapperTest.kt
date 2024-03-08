@@ -93,6 +93,12 @@ class RejectedDocumentsMapperTest {
                 ENGLISH
             )
         ).willReturn("Adoption cert")
+        given(
+            rejectedDocumentTypeMapper.toDocumentTypeString(
+                GUARDIANSHIP_MINUS_PROOF,
+                ENGLISH
+            )
+        ).willReturn("Document proving your connection with your guardian")
 
         // When
         val actual = mapper.mapRejectionDocumentsFromApi(ENGLISH, documents)
@@ -111,7 +117,7 @@ class RejectedDocumentsMapperTest {
                 "Firearms cert\n" +
                     "  * More notes",
                 "Adoption cert",
-                "Guardianship proof\n" +
+                "Document proving your connection with your guardian\n" +
                     "  * Guardianship notes",
             )
         )
