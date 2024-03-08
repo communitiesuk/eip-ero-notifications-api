@@ -725,14 +725,19 @@ internal class SendNotifyMessageMapperTest {
             val expectedToAddress = aNotificationDestination()
             val expectedSourceType = SourceType.POSTAL
 
+            val expectedNotificationTypeMappingToRun =
+                expectedNotificationType != NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
+
             given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(notificationChannel)
             given(documentCategoryMapper.fromApiMessageToDto(any())).willReturn(DocumentCategoryDto.IDENTITY)
-            given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
-                expectedNotificationType
-            )
+            if (expectedNotificationTypeMappingToRun) {
+                given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
+                    expectedNotificationType
+                )
+            }
 
             val request = SendNotifyNinoNotMatchedMessage(
                 language = language,
@@ -748,7 +753,7 @@ internal class SendNotifyMessageMapperTest {
             )
 
             val notification =
-                mapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(request, documentCategoryMapper)
+                mapper.fromRequiredDocumentMessageToSendNotificationRequestDto(request, documentCategoryMapper)
 
             assertThat(notification.channel).isEqualTo(notificationChannel)
             assertThat(notification.sourceType).isEqualTo(SourceType.POSTAL)
@@ -762,7 +767,9 @@ internal class SendNotifyMessageMapperTest {
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(notificationChannelMapper).fromMessagingApiToDto(sqsChannel)
             verify(documentCategoryMapper).fromApiMessageToDto(DocumentCategory.IDENTITY)
-            verify(documentCategoryMapper).fromRequiredDocumentCategoryDtoToNotificationTypeDto(DocumentCategoryDto.IDENTITY)
+            if (expectedNotificationTypeMappingToRun) {
+                verify(documentCategoryMapper).fromRequiredDocumentCategoryDtoToNotificationTypeDto(DocumentCategoryDto.IDENTITY)
+            }
         }
     }
 }

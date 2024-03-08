@@ -429,7 +429,7 @@ class TemplateServiceTest {
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
                 .willReturn(templateId)
-            given(templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(any()))
+            given(templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(any(), any()))
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
 
@@ -446,7 +446,10 @@ class TemplateServiceTest {
                     dto.channel,
                     dto.language
                 )
-            verify(templatePersonalisationDtoMapper).toNinoNotMatchedTemplatePersonalisationMap(dto.personalisation)
+            verify(templatePersonalisationDtoMapper).toRequiredDocumentTemplatePersonalisationMap(
+                dto.personalisation,
+                dto.sourceType
+            )
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
     }

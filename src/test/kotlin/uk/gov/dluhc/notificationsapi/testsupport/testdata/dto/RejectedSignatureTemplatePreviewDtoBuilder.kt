@@ -39,5 +39,5 @@ fun buildRejectedSignaturePersonalisationDto(
     rejectionNotes = rejectionNotes,
     rejectionReasons = rejectionReasons,
     rejectionFreeText = rejectionFreeText,
-    sourceType = sourceType,
+    personalisationSourceTypeString = sourceType,
 )

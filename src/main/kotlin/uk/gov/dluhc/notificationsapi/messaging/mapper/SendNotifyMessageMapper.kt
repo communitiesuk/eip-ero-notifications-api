@@ -1,8 +1,8 @@
 package uk.gov.dluhc.notificationsapi.messaging.mapper
 
-import org.mapstruct.Context
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
+import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
@@ -90,9 +90,9 @@ abstract class SendNotifyMessageMapper {
         target = "notificationType",
         expression = "java( ninoNotMatchedNotificationType(message, documentCategoryMapper) )"
     )
-    abstract fun fromNinoNotMatchedMessageToSendNotificationRequestDto(
+    abstract fun fromRequiredDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyNinoNotMatchedMessage,
-        @Context documentCategoryMapper: DocumentCategoryMapper
+        documentCategoryMapper: DocumentCategoryMapper
     ): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
@@ -132,7 +132,7 @@ abstract class SendNotifyMessageMapper {
     ): NotificationType =
         with(message) {
             val documentCategoryDto = documentCategoryMapper.fromApiMessageToDto(documentCategory)
-            if (hasRestrictedDocumentsList) {
+            if (documentCategoryDto == DocumentCategoryDto.IDENTITY && hasRestrictedDocumentsList) {
                 NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
             } else {
                 documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)

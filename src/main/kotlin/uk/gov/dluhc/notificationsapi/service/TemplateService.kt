@@ -163,7 +163,10 @@ class TemplateService(
                     channel,
                     language
                 ),
-                templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
+                    personalisation,
+                    sourceType
+                )
             )
         }
     }

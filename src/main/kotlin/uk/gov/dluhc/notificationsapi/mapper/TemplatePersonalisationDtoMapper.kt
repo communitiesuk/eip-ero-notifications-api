@@ -8,13 +8,14 @@ import uk.gov.dluhc.notificationsapi.dto.BaseTemplatePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 
 @Component
 class TemplatePersonalisationDtoMapper {
@@ -71,7 +72,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
-            personalisation["sourceType"] = sourceType
+            personalisation["sourceType"] = personalisationSourceTypeString
         }
         return personalisation
     }
@@ -108,7 +109,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
-            personalisation["sourceType"] = sourceType
+            personalisation["sourceType"] = personalisationSourceTypeString
         }
         return personalisation
     }
@@ -126,7 +127,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
-            personalisation["sourceType"] = sourceType
+            personalisation["sourceType"] = personalisationSourceTypeString
         }
         return personalisation
     }
@@ -142,23 +143,30 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
-            personalisation["sourceType"] = sourceType
+            personalisation["sourceType"] = personalisationSourceTypeString
         }
         return personalisation
     }
 
-    fun toNinoNotMatchedTemplatePersonalisationMap(dto: NinoNotMatchedPersonalisationDto): Map<String, Any> {
+    fun toRequiredDocumentTemplatePersonalisationMap(
+        dto: RequiredDocumentPersonalisationDto,
+        sourceTypeDto: SourceType
+    ): Map<String, Any> {
         val personalisation = mutableMapOf<String, Any>()
 
         with(dto) {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
-            personalisation["additionalNotes"] = getSafeValue(additionalNotes)
+            if (sourceTypeDto == SourceType.OVERSEAS) {
+                personalisation["freeText"] = getSafeValue(additionalNotes)
+            } else {
+                personalisation["additionalNotes"] = getSafeValue(additionalNotes)
+            }
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
-            personalisation["sourceType"] = sourceType
+            personalisation["sourceType"] = personalisationSourceTypeString
         }
         return personalisation
     }

@@ -25,7 +25,7 @@ abstract class RequestedSignatureTemplatePreviewDtoMapper {
     ): RequestedSignatureTemplatePreviewDto
 
     @Mapping(
-        target = "sourceType",
+        target = "personalisationSourceTypeString",
         expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
     )
     protected abstract fun mapPersonalisation(

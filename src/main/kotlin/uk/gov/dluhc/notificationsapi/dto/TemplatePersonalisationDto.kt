@@ -57,7 +57,7 @@ class ApplicationReceivedPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val sourceType: String,
+    val personalisationSourceTypeString: String,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
@@ -80,7 +80,7 @@ class RejectedDocumentPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val sourceType: String,
+    val personalisationSourceTypeString: String,
     val documents: List<String>,
     val rejectedDocumentFreeText: String?,
 ) : BaseTemplatePersonalisationDto(
@@ -93,7 +93,7 @@ class RejectedSignaturePersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val sourceType: String,
+    val personalisationSourceTypeString: String,
     val rejectionNotes: String?,
     val rejectionReasons: List<String>,
     val rejectionFreeText: String?,
@@ -107,7 +107,7 @@ class RequestedSignaturePersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val sourceType: String,
+    val personalisationSourceTypeString: String,
     val freeText: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
@@ -115,11 +115,11 @@ class RequestedSignaturePersonalisationDto(
     eroContactDetails = eroContactDetails,
 )
 
-class NinoNotMatchedPersonalisationDto(
+class RequiredDocumentPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val sourceType: String,
+    val personalisationSourceTypeString: String,
     val additionalNotes: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,

@@ -118,7 +118,12 @@ internal class TemplatePersonalisationMessageMapperTest {
                 photoRejectionReasons
             )
 
-            given(photoRejectionReasonMapper.toPhotoRejectionReasonString(any<PhotoRejectionReason>(), any())).willReturn(
+            given(
+                photoRejectionReasonMapper.toPhotoRejectionReasonString(
+                    any<PhotoRejectionReason>(),
+                    any()
+                )
+            ).willReturn(
                 "Not a plain facial expression",
                 "Wearing sunglasses, or tinted glasses"
             )
@@ -158,10 +163,12 @@ internal class TemplatePersonalisationMessageMapperTest {
             given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any()))
                 .willReturn(documentRejectionText)
 
-            val expectedPersonalisationDto = buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage, documentRejectionText)
+            val expectedPersonalisationDto =
+                buildIdDocumentPersonalisationDtoFromMessage(personalisationMessage, documentRejectionText)
 
             // When
-            val actual = mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH, NotificationChannel.EMAIL)
+            val actual =
+                mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH, NotificationChannel.EMAIL)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
@@ -175,7 +182,8 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS IdDocumentRequiredPersonalisation to IdDocumentRequiredPersonalisationDto`() {
             // Given
             val personalisationMessage = buildIdDocumentRequiredPersonalisationMessage()
-            val expectedPersonalisationDto = buildIdDocumentRequiredPersonalisationDtoFromMessage(personalisationMessage)
+            val expectedPersonalisationDto =
+                buildIdDocumentRequiredPersonalisationDtoFromMessage(personalisationMessage)
 
             // When
             val actual = mapper.toIdDocumentRequiredPersonalisationDto(personalisationMessage)
@@ -216,7 +224,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                             }
                         )
                     },
-                    sourceType = "Mapped source type",
+                    personalisationSourceTypeString = "Mapped source type",
                 )
             }
 
@@ -320,7 +328,12 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS Rejected Document Personalisation to RejectedDocumentPersonalisationDto`() {
             // Given
             val personalisationMessage = buildRejectedDocumentsPersonalisation()
-            given(rejectedDocumentsMapper.mapRejectionDocumentsFromMessaging(ENGLISH, personalisationMessage.documents)).willReturn(listOf("Doc1", "Doc2"))
+            given(
+                rejectedDocumentsMapper.mapRejectionDocumentsFromMessaging(
+                    ENGLISH,
+                    personalisationMessage.documents
+                )
+            ).willReturn(listOf("Doc1", "Doc2"))
             given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
 
             val expectedPersonalisationDto = with(personalisationMessage) {
@@ -347,7 +360,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                             }
                         )
                     },
-                    sourceType = "Mapped source type",
+                    personalisationSourceTypeString = "Mapped source type",
                 )
             }
 
@@ -414,12 +427,13 @@ internal class TemplatePersonalisationMessageMapperTest {
                             }
                         )
                     },
-                    sourceType = "Mapped source type",
+                    personalisationSourceTypeString = "Mapped source type",
                 )
             }
 
             // When
-            val actual = mapper.toRejectedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
+            val actual =
+                mapper.toRejectedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
@@ -466,12 +480,13 @@ internal class TemplatePersonalisationMessageMapperTest {
                             }
                         )
                     },
-                    sourceType = "Mapped source type",
+                    personalisationSourceTypeString = "Mapped source type",
                 )
             }
 
             // When
-            val actual = mapper.toRequestedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
+            val actual =
+                mapper.toRequestedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

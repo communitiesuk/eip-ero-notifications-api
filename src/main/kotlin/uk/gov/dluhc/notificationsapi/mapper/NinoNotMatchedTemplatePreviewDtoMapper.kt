@@ -3,9 +3,9 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.NinoNotMatchedPersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
@@ -29,7 +29,7 @@ abstract class NinoNotMatchedTemplatePreviewDtoMapper {
             NotificationType.NINO_NOT_MATCHED
 
     @Mapping(
-        target = "sourceType",
+        target = "personalisationSourceTypeString",
         expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
     )
     @Mapping(
@@ -40,5 +40,5 @@ abstract class NinoNotMatchedTemplatePreviewDtoMapper {
         languageDto: LanguageDto,
         personalisation: NinoNotMatchedPersonalisation,
         sourceType: SourceType
-    ): NinoNotMatchedPersonalisationDto
+    ): RequiredDocumentPersonalisationDto
 }
