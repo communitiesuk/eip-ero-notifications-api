@@ -5,6 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils.random
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.OverseasAddress
 import uk.gov.dluhc.notificationsapi.dto.PostalAddress
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -72,4 +73,22 @@ fun aPostalAddress(
     area = area,
     locality = locality,
     postcode = postcode,
+)
+
+fun anOverseasAddress(
+    addressee: String = faker.name().firstName(),
+    addressLine1: String = faker.address().streetName(),
+    addressLine2: String? = faker.address().buildingNumber(),
+    addressLine3: String? = faker.address().streetName(),
+    addressLine4: String? = faker.address().city(),
+    addressLine5: String? = faker.address().state(),
+    country: String = faker.address().country(),
+): OverseasAddress = OverseasAddress(
+    addressee = addressee,
+    addressLine1 = addressLine1,
+    addressLine2 = addressLine2,
+    addressLine3 = addressLine3,
+    addressLine4 = addressLine4,
+    addressLine5 = addressLine5,
+    country = country,
 )

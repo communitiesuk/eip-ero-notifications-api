@@ -22,7 +22,8 @@ internal class NotificationDestinationDtoMapperTest {
 
         val expectedDestination = NotificationDestinationDto(
             emailAddress = email,
-            postalAddress = null
+            postalAddress = null,
+            overseasAddress = null
         )
 
         val request = MessageAddress(
@@ -50,6 +51,7 @@ internal class NotificationDestinationDtoMapperTest {
 
         val expectedDestination = NotificationDestinationDto(
             emailAddress = null,
+            overseasAddress = null,
             postalAddress = PostalAddress(
                 addressee = addressee,
                 property = property,

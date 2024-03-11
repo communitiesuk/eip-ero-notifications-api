@@ -138,7 +138,11 @@ internal class NotificationMapperTest {
             requestor = requestor,
             sourceType = sourceType,
             sourceReference = sourceReference,
-            toAddress = NotificationDestinationDto(emailAddress = anEmailAddress(), postalAddress = null),
+            toAddress = NotificationDestinationDto(
+                emailAddress = anEmailAddress(),
+                postalAddress = null,
+                overseasAddress = null
+            ),
             notificationType = notificationType,
         )
         val personalisationMap = buildApplicationRejectedPersonalisationMapFromDto(personalisationDto)

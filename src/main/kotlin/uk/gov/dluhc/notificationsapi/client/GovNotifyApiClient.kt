@@ -3,8 +3,9 @@ package uk.gov.dluhc.notificationsapi.client
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
-import uk.gov.dluhc.notificationsapi.dto.PostalAddress
+import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationResponseDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
@@ -40,13 +41,15 @@ class GovNotifyApiClient(
 
     fun sendLetter(
         templateId: String,
-        postalAddress: PostalAddress,
+        toAddress: NotificationDestinationDto,
         placeholders: Map<String, Any>,
-        notificationId: UUID
+        notificationId: UUID,
+        sourceType: SourceType
     ): SendNotificationResponseDto {
+
         try {
             logger.info { "Sending letter for templateId [$templateId], notificationId [$notificationId]" }
-            val personalisation = placeholders + postalAddress.toPersonalisationMap()
+            val personalisation = placeholders + getLetterAddress(toAddress, sourceType)!!
             return notificationClient.sendLetter(templateId, personalisation, notificationId.toString())
                 .run {
                     sendNotificationResponseMapper.toSendNotificationResponse(this)
@@ -65,6 +68,17 @@ class GovNotifyApiClient(
         } catch (ex: NotificationClientException) {
             throw logAndThrowGovNotifyApiException("Generating template preview", ex, templateId)
         }
+
+    private fun getLetterAddress(
+        toAddress: NotificationDestinationDto,
+        sourceType: SourceType
+    ): Map<String, String?>? {
+        return if (sourceType == SourceType.OVERSEAS) {
+            toAddress.overseasAddress?.toPersonalisationMap()
+        } else {
+            toAddress.postalAddress?.toPersonalisationMap()
+        }
+    }
 
     private fun logAndThrowGovNotifyApiException(
         callDescription: String,

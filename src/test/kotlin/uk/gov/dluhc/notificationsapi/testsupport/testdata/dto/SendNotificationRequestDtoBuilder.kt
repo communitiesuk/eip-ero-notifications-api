@@ -14,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.anOverseasAddress
 
 fun buildSendNotificationRequestDto(
     gssCode: String = aGssCode(),
@@ -21,7 +22,7 @@ fun buildSendNotificationRequestDto(
     sourceType: SourceType = aSourceType(),
     sourceReference: String = aSourceReference(),
     toAddress: NotificationDestinationDto = NotificationDestinationDto(
-        emailAddress = anEmailAddress(), postalAddress = aPostalAddress()
+        emailAddress = anEmailAddress(), postalAddress = aPostalAddress(), overseasAddress = anOverseasAddress()
     ),
     notificationType: NotificationType = aNotificationType(),
     channel: NotificationChannel = aNotificationChannel(),

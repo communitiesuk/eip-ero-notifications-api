@@ -71,6 +71,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
             toAddress = with(toAddress) {
                 NotificationDestinationDto(
                     emailAddress = emailAddress,
+                    overseasAddress = null,
                     postalAddress = with(postalAddress!!.address!!) {
                         PostalAddress(
                             addressee = payload.toAddress.postalAddress!!.addressee!!,
@@ -87,7 +88,10 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         )
     }
 
-    private fun getExpectedPersonalisationMap(payload: SendNotifyApplicationRejectedMessage, languageDto: LanguageDto): Map<String, Any> =
+    private fun getExpectedPersonalisationMap(
+        payload: SendNotifyApplicationRejectedMessage,
+        languageDto: LanguageDto
+    ): Map<String, Any> =
         with(payload.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
@@ -113,6 +117,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
             "Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
             "Eraill"
         )
+
         else -> mutableListOf(
             "Your application was incomplete",
             "You did not respond to our requests for information within the timeframe we gave you",

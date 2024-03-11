@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '1.13.2'
+  version: '1.13.3'
   description: |-
     Notifications SQS Message Types
     
@@ -444,7 +444,7 @@ components:
         - address
     Address:
       title: Address
-      description: Address format used throughout gov.uk voter services for an ERO.
+      description: Address format used throughout gov.uk voter services for an ERO and a UK elector.
       type: object
       x-examples:
         Minimum data:
@@ -484,6 +484,32 @@ components:
       required:
         - street
         - postcode
+    OverseasAddress:
+      title: OverseasAddress
+      type: object
+      description: 'Overseas Address format. (TODO:EIP1-725 confirm required fields, change to match IER)'
+      properties:
+        country:
+          type: string
+          maxLength: 255
+        addressLine1:
+          type: string
+          maxLength: 255
+        addressLine2:
+          type: string
+          maxLength: 255
+        addressLine3:
+          type: string
+          maxLength: 255
+        addressLine4:
+          type: string
+          maxLength: 255
+        addressLine5:
+          type: string
+          maxLength: 255
+      required:
+        - addressLine1
+        - country
     Language:
       title: Language
       description: The language to notify an applicant
@@ -549,6 +575,13 @@ components:
               type: string
             address:
               $ref: '#/components/schemas/Address'
+        overseasAddress:
+          type: object
+          properties:
+            addressee:
+              type: string
+            address:
+              $ref: '#/components/schemas/OverseasAddress'
         smsNumber:
           type: string
 
