@@ -59,7 +59,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRequestedSignatureMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as NotificationChannelMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
 @ExtendWith(MockitoExtension::class)
@@ -135,7 +135,7 @@ internal class SendNotifyMessageMapperTest {
             verify(languageMapper).fromMessageToDto(Language.EN)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
-            verify(notificationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
+            verify(notificationChannelMapper).fromMessagingApiToDto(uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel.EMAIL)
         }
 
         @Test
@@ -795,7 +795,7 @@ internal class SendNotifyMessageMapperTest {
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
             language: Language,
             notificationChannel: NotificationChannel,
-            notificationChannelMessage: NotificationChannelMessage,
+            notificationChannelMessage: SqsChannel,
             documentCategory: DocumentCategory,
             documentCategoryDto: DocumentCategoryDto,
             languageDto: LanguageDto,
