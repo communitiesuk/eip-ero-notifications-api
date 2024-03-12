@@ -14,6 +14,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
@@ -359,6 +360,24 @@ fun buildRequiredOverseasDocumentPersonalisationMapFromDto(
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["freeText"] = requiredDocumentFreeText ?: ""
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+    return personalisationMap
+}
+
+fun buildRequiredDocumentPersonalisationMapFromDto(
+    personalisationDto: RequiredDocumentPersonalisationDto = buildRequiredDocumentPersonalisation(),
+    sourceType: SourceType
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+
+    with(personalisationDto) {
+        if (sourceType == SourceType.OVERSEAS) {
+            personalisationMap["freeText"] = additionalNotes ?: ""
+        } else {
+            personalisationMap["additionalNotes"] = additionalNotes ?: ""
+        }
+        personalisationMap["sourceType"] = personalisationSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap

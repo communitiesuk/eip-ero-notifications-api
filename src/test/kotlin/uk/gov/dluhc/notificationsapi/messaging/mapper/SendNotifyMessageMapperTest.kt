@@ -59,7 +59,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRequestedSignatureMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as SqsChannel
+import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as NotificationChannelMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
 @ExtendWith(MockitoExtension::class)
@@ -693,7 +693,7 @@ internal class SendNotifyMessageMapperTest {
     }
 
     @Nested
-    inner class FromNinoNotMatchedMessageToSendNotificationRequestDto {
+    inner class FromRequiredDocumentMessageToSendNotificationRequestDto {
         @ParameterizedTest
         @CsvSource(
             value = [
@@ -705,9 +705,10 @@ internal class SendNotifyMessageMapperTest {
                 "EMAIL,CY,true,EMAIL,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
                 "LETTER,EN,true,LETTER,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
                 "LETTER,CY,true,LETTER,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+
             ]
         )
-        fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
+        fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto with restrictedDocuments`(
             sqsChannel: SqsChannel,
             language: Language,
             hasRestrictedDocumentsList: Boolean,
@@ -770,6 +771,84 @@ internal class SendNotifyMessageMapperTest {
             if (expectedNotificationTypeMappingToRun) {
                 verify(documentCategoryMapper).fromRequiredDocumentCategoryDtoToNotificationTypeDto(DocumentCategoryDto.IDENTITY)
             }
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "EN,EMAIL,EMAIL,IDENTITY,IDENTITY,ENGLISH,NINO_NOT_MATCHED",
+                "EN,LETTER,LETTER,IDENTITY,IDENTITY,ENGLISH,NINO_NOT_MATCHED",
+                "CY,EMAIL,EMAIL,IDENTITY,IDENTITY,WELSH,NINO_NOT_MATCHED",
+                "CY,LETTER,LETTER,IDENTITY,IDENTITY,WELSH,NINO_NOT_MATCHED",
+
+                "EN,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+                "EN,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+                "CY,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+                "CY,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+
+                "EN,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,PARENT_GUARDIAN_PROOF_REQUIRED",
+                "EN,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,PARENT_GUARDIAN_PROOF_REQUIRED",
+                "CY,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
+                "CY,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
+            ]
+        )
+        fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
+            language: Language,
+            notificationChannel: NotificationChannel,
+            notificationChannelMessage: NotificationChannelMessage,
+            documentCategory: DocumentCategory,
+            documentCategoryDto: DocumentCategoryDto,
+            languageDto: LanguageDto,
+            expectedNotificationType: NotificationType,
+        ) {
+            // Given
+            val gssCode = aGssCode()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val toAddress = aMessageAddress()
+            val personalisation = buildNinoNotMatchedPersonalisation()
+
+            val expectedToAddress = aNotificationDestination()
+
+            given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(SourceType.OVERSEAS)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(notificationChannel)
+            given(documentCategoryMapper.fromApiMessageToDto(any())).willReturn(documentCategoryDto)
+            given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
+                expectedNotificationType
+            )
+
+            val request = SendNotifyNinoNotMatchedMessage(
+                language = language,
+                sourceType = SqsSourceType.OVERSEAS,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                messageType = MessageType.NINO_MINUS_NOT_MINUS_MATCHED,
+                toAddress = toAddress,
+                personalisation = personalisation,
+                channel = notificationChannelMessage,
+                documentCategory = documentCategory,
+                hasRestrictedDocumentsList = false,
+            )
+
+            val notification =
+                mapper.fromRequiredDocumentMessageToSendNotificationRequestDto(request, documentCategoryMapper)
+
+            assertThat(notification.channel).isEqualTo(notificationChannel)
+            assertThat(notification.sourceType).isEqualTo(SourceType.OVERSEAS)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
+            assertThat(notification.gssCode).isEqualTo(gssCode)
+            assertThat(notification.requestor).isEqualTo(requestor)
+            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            verify(languageMapper).fromMessageToDto(language)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.OVERSEAS)
+            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(notificationChannelMapper).fromMessagingApiToDto(notificationChannelMessage)
+            verify(documentCategoryMapper).fromApiMessageToDto(documentCategory)
+            verify(documentCategoryMapper).fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
         }
     }
 }
