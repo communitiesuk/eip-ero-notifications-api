@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -27,11 +28,14 @@ import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.anOverseasAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotification
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationAudit
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDestination
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationRequestDto
 import java.time.Clock
@@ -201,6 +205,79 @@ internal class SendNotificationServiceTest {
         val notificationDestinationDto =
             aNotificationDestination(emailAddress = null, overseasAddress = null, postalAddress = postalAddress)
         val sourceType = SourceType.VOTER_CARD
+
+        given(notifyApiClient.sendLetter(any(), any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
+        given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
+        given(
+            notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        ).willReturn(templateId)
+        given(notificationAuditMapper.createNotificationAudit(any())).willReturn(notificationAudit)
+
+        // When
+        sendNotificationService.sendNotification(request, personalisation)
+
+        // Then
+        verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(
+            sourceType,
+            notificationType,
+            channel,
+            language
+        )
+        verify(notifyApiClient).sendLetter(
+            eq(templateId),
+            eq(notificationDestinationDto),
+            eq(personalisation),
+            any(),
+            eq(sourceType)
+        )
+        verify(notificationMapper).createNotification(
+            any(),
+            eq(request),
+            eq(personalisation),
+            eq(sendNotificationResponseDto),
+            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
+        )
+        verify(notificationRepository).saveNotification(notification)
+        verify(notificationAuditMapper).createNotificationAudit(notification)
+        verify(notificationAuditRepository).saveNotificationAudit(notificationAudit)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "PARENT_GUARDIAN_PROOF_REQUIRED",
+            "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+            "NINO_NOT_MATCHED"
+        ]
+    )
+    fun `should send letter notification for overseas address`(notificationType: NotificationType) {
+        // Given
+        val channel = NotificationChannel.LETTER
+        val language = LanguageDto.ENGLISH
+        val overseasAddress = anOverseasAddress()
+        val toAddress =
+            NotificationDestinationDto(emailAddress = null, postalAddress = null, overseasAddress = overseasAddress)
+        val sourceType = SourceType.OVERSEAS
+        val request = buildSendNotificationRequestDto(
+            sourceType = sourceType,
+            channel = channel,
+            language = language,
+            toAddress = toAddress,
+            notificationType = notificationType
+        )
+        val personalisation =
+            buildRequiredDocumentPersonalisationMapFromDto(buildRequiredDocumentPersonalisation(), sourceType)
+        val sendNotificationResponseDto = buildSendNotificationDto()
+        val notification = aNotification()
+        val notificationAudit = aNotificationAudit()
+        val templateId = aTemplateId().toString()
+        val notificationDestinationDto =
+            aNotificationDestination(emailAddress = null, overseasAddress = overseasAddress, postalAddress = null)
 
         given(notifyApiClient.sendLetter(any(), any(), any(), any(), any())).willReturn(sendNotificationResponseDto)
         given(notificationMapper.createNotification(any(), any(), any(), any(), any())).willReturn(notification)
