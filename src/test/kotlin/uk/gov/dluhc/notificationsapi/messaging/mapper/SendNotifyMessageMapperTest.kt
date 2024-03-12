@@ -111,7 +111,7 @@ internal class SendNotifyMessageMapperTest {
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(expectedChannel)
 
             val request = buildSendNotifyPhotoResubmissionMessage(
-                channel = SqsChannel.EMAIL,
+                channel = uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel.EMAIL,
                 language = Language.EN,
                 sourceType = SqsSourceType.VOTER_MINUS_CARD,
                 sourceReference = sourceReference,
