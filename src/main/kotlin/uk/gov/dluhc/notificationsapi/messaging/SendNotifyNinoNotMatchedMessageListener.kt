@@ -29,7 +29,7 @@ class SendNotifyNinoNotMatchedMessageListener(
                 "channel: ${payload.channel}, " +
                 "messageType: ${payload.messageType}, " +
                 "language: ${payload.language}, " +
-                "sourceReference: ${payload.sourceReference} " +
+                "sourceReference: ${payload.sourceReference}, " +
                 "sourceType: ${payload.sourceType}"
         }
         with(payload) {
