@@ -7,7 +7,6 @@ import org.mockito.BDDMockito.then
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
@@ -35,9 +34,6 @@ internal class SendNotifyNinoNotMatchedMessageListenerTest {
     @Mock
     private lateinit var sendNotificationService: SendNotificationService
 
-    @Mock
-    private lateinit var documentCategoryMapper: DocumentCategoryMapper
-
     @Test
     fun `should handle SQS SendNotifyNinoNotMatchedMessage`() {
         // Given
@@ -49,7 +45,6 @@ internal class SendNotifyNinoNotMatchedMessageListenerTest {
         given(
             sendNotifyMessageMapper.fromRequiredDocumentMessageToSendNotificationRequestDto(
                 sqsMessage,
-                documentCategoryMapper
             )
         ).willReturn(
             requestDto

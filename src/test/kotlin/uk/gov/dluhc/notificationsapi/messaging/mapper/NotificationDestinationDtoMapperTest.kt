@@ -3,15 +3,15 @@ package uk.gov.dluhc.notificationsapi.messaging.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
-import uk.gov.dluhc.notificationsapi.dto.OverseasAddress
+import uk.gov.dluhc.notificationsapi.dto.OverseasElectorAddress
 import uk.gov.dluhc.notificationsapi.dto.PostalAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.Address
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
-import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddressOverseasAddress
+import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddressOverseasElectorAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddressPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
-import uk.gov.dluhc.notificationsapi.messaging.models.OverseasAddress as OverseasAddressMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.OverseasElectorAddress as OverseasElectorAddressMessage
 
 internal class NotificationDestinationDtoMapperTest {
 
@@ -26,7 +26,7 @@ internal class NotificationDestinationDtoMapperTest {
         val expectedDestination = NotificationDestinationDto(
             emailAddress = email,
             postalAddress = null,
-            overseasAddress = null
+            overseasElectorAddress = null
         )
 
         val request = MessageAddress(
@@ -54,7 +54,7 @@ internal class NotificationDestinationDtoMapperTest {
 
         val expectedDestination = NotificationDestinationDto(
             emailAddress = null,
-            overseasAddress = null,
+            overseasElectorAddress = null,
             postalAddress = PostalAddress(
                 addressee = addressee,
                 property = property,
@@ -102,7 +102,7 @@ internal class NotificationDestinationDtoMapperTest {
         val expectedDestination = NotificationDestinationDto(
             emailAddress = null,
             postalAddress = null,
-            overseasAddress = OverseasAddress(
+            overseasElectorAddress = OverseasElectorAddress(
                 addressee = addressee,
                 addressLine1 = addressLine1,
                 addressLine2 = addressLine2,
@@ -115,9 +115,9 @@ internal class NotificationDestinationDtoMapperTest {
 
         val request = MessageAddress(
             emailAddress = null,
-            overseasAddress = MessageAddressOverseasAddress(
-                addressee = addressee,
-                address = OverseasAddressMessage(
+            overseasElectorAddress = MessageAddressOverseasElectorAddress(
+                address = OverseasElectorAddressMessage(
+                    addressee = addressee,
                     addressLine1 = addressLine1,
                     addressLine2 = addressLine2,
                     addressLine3 = addressLine3,

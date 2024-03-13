@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.models
 
-import uk.gov.dluhc.notificationsapi.messaging.models.OverseasAddress
+import uk.gov.dluhc.notificationsapi.messaging.models.OverseasElectorAddress
 import uk.gov.dluhc.notificationsapi.models.Address
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.messaging.models.Address as AddressMessage
@@ -38,13 +38,15 @@ fun buildMessageAddress(
 )
 
 fun buildOverseasAddressMessage(
+    addressee: String? = faker.name().firstName(),
     addressLine1: String = faker.address().streetName(),
     addressLine2: String? = faker.address().buildingNumber(),
     addressLine3: String? = faker.address().streetName(),
     addressLine4: String? = faker.address().city(),
     addressLine5: String? = faker.address().state(),
     country: String = faker.address().country(),
-) = OverseasAddress(
+) = OverseasElectorAddress(
+    addressee = addressee,
     addressLine1 = addressLine1,
     addressLine2 = addressLine2,
     addressLine3 = addressLine3,

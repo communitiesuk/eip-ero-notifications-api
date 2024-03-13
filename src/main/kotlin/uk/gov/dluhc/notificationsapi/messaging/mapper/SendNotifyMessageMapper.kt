@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.messaging.mapper
 
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
+import org.springframework.beans.factory.annotation.Autowired
 import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
@@ -39,6 +40,9 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatu
     ],
 )
 abstract class SendNotifyMessageMapper {
+
+    @Autowired
+    private lateinit var documentCategoryMapper: DocumentCategoryMapper
 
     @Mapping(target = "notificationType", expression = "java( photoResubmissionNotificationType(message) )")
     abstract fun fromPhotoMessageToSendNotificationRequestDto(
@@ -88,11 +92,10 @@ abstract class SendNotifyMessageMapper {
 
     @Mapping(
         target = "notificationType",
-        expression = "java( ninoNotMatchedNotificationType(message, documentCategoryMapper) )"
+        expression = "java( requiredDocumentNotificationType(message) )"
     )
     abstract fun fromRequiredDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyNinoNotMatchedMessage,
-        documentCategoryMapper: DocumentCategoryMapper
     ): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
@@ -126,9 +129,8 @@ abstract class SendNotifyMessageMapper {
                 REJECTED_SIGNATURE
         }
 
-    protected fun ninoNotMatchedNotificationType(
+    protected fun requiredDocumentNotificationType(
         message: SendNotifyNinoNotMatchedMessage,
-        documentCategoryMapper: DocumentCategoryMapper
     ): NotificationType =
         with(message) {
             val documentCategoryDto = documentCategoryMapper.fromApiMessageToDto(documentCategory)

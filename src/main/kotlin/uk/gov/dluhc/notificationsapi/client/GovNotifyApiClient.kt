@@ -49,7 +49,7 @@ class GovNotifyApiClient(
 
         try {
             logger.info { "Sending letter for templateId [$templateId], notificationId [$notificationId]" }
-            val personalisation = placeholders + getLetterAddress(toAddress, sourceType)!!
+            val personalisation = placeholders + getLetterAddress(toAddress, sourceType)
             return notificationClient.sendLetter(templateId, personalisation, notificationId.toString())
                 .run {
                     sendNotificationResponseMapper.toSendNotificationResponse(this)
@@ -72,11 +72,13 @@ class GovNotifyApiClient(
     private fun getLetterAddress(
         toAddress: NotificationDestinationDto,
         sourceType: SourceType
-    ): Map<String, String?>? {
+    ): Map<String, String?> {
         return if (sourceType == SourceType.OVERSEAS) {
-            toAddress.overseasAddress?.toPersonalisationMap()
+            toAddress.overseasElectorAddress?.toPersonalisationMap()
+                ?: throw IllegalArgumentException("OverseasElectorAddress is required with given sourceType: $sourceType")
         } else {
             toAddress.postalAddress?.toPersonalisationMap()
+                ?: throw IllegalArgumentException("PostalAddress is required with given sourceType: $sourceType")
         }
     }
 

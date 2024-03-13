@@ -71,7 +71,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
             toAddress = with(toAddress) {
                 NotificationDestinationDto(
                     emailAddress = emailAddress,
-                    overseasAddress = null,
+                    overseasElectorAddress = null,
                     postalAddress = with(postalAddress!!.address!!) {
                         PostalAddress(
                             addressee = payload.toAddress.postalAddress!!.addressee!!,

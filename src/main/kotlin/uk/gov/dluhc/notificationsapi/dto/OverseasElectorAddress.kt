@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.dto
 
-data class OverseasAddress(
+data class OverseasElectorAddress(
     val addressee: String,
     val addressLine1: String,
     val addressLine2: String?,

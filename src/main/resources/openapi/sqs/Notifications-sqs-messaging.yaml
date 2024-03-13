@@ -484,11 +484,13 @@ components:
       required:
         - street
         - postcode
-    OverseasAddress:
-      title: OverseasAddress
+    OverseasElectorAddress:
+      title: OverseasElectorAddress
       type: object
-      description: 'Overseas Address format. (TODO:EIP1-725 confirm required fields, change to match IER)'
+      description: 'Overseas Address format for an overseas elector. (TODO:EIP1-725 confirm required fields, change to match IER)'
       properties:
+        addressee:
+          type: string
         country:
           type: string
           maxLength: 255
@@ -575,13 +577,11 @@ components:
               type: string
             address:
               $ref: '#/components/schemas/Address'
-        overseasAddress:
+        overseasElectorAddress:
           type: object
           properties:
-            addressee:
-              type: string
             address:
-              $ref: '#/components/schemas/OverseasAddress'
+              $ref: '#/components/schemas/OverseasElectorAddress'
         smsNumber:
           type: string
 

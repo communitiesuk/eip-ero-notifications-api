@@ -22,7 +22,7 @@ fun buildSendNotificationRequestDto(
     sourceType: SourceType = aSourceType(),
     sourceReference: String = aSourceReference(),
     toAddress: NotificationDestinationDto = NotificationDestinationDto(
-        emailAddress = anEmailAddress(), postalAddress = aPostalAddress(), overseasAddress = anOverseasAddress()
+        emailAddress = anEmailAddress(), postalAddress = aPostalAddress(), overseasElectorAddress = anOverseasAddress()
     ),
     notificationType: NotificationType = aNotificationType(),
     channel: NotificationChannel = aNotificationChannel(),

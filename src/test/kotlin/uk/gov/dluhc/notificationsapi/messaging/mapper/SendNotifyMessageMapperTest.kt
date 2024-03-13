@@ -450,6 +450,7 @@ internal class SendNotifyMessageMapperTest {
 
     @Nested
     inner class FromRejectedMessageToSendNotificationRequestDto {
+
         @ParameterizedTest
         @CsvSource(
             value = [
@@ -754,7 +755,7 @@ internal class SendNotifyMessageMapperTest {
             )
 
             val notification =
-                mapper.fromRequiredDocumentMessageToSendNotificationRequestDto(request, documentCategoryMapper)
+                mapper.fromRequiredDocumentMessageToSendNotificationRequestDto(request)
 
             assertThat(notification.channel).isEqualTo(notificationChannel)
             assertThat(notification.sourceType).isEqualTo(SourceType.POSTAL)
@@ -834,7 +835,7 @@ internal class SendNotifyMessageMapperTest {
             )
 
             val notification =
-                mapper.fromRequiredDocumentMessageToSendNotificationRequestDto(request, documentCategoryMapper)
+                mapper.fromRequiredDocumentMessageToSendNotificationRequestDto(request)
 
             assertThat(notification.channel).isEqualTo(notificationChannel)
             assertThat(notification.sourceType).isEqualTo(SourceType.OVERSEAS)

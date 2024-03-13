@@ -91,7 +91,11 @@ internal class SendNotificationServiceTest {
         val channel = NotificationChannel.EMAIL
         val language = LanguageDto.ENGLISH
         val toAddress =
-            NotificationDestinationDto(emailAddress = anEmailAddress(), postalAddress = null, overseasAddress = null)
+            NotificationDestinationDto(
+                emailAddress = anEmailAddress(),
+                postalAddress = null,
+                overseasElectorAddress = null
+            )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
@@ -143,7 +147,11 @@ internal class SendNotificationServiceTest {
         val channel = NotificationChannel.EMAIL
         val language = LanguageDto.WELSH
         val toAddress =
-            NotificationDestinationDto(emailAddress = anEmailAddress(), postalAddress = null, overseasAddress = null)
+            NotificationDestinationDto(
+                emailAddress = anEmailAddress(),
+                postalAddress = null,
+                overseasElectorAddress = null
+            )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
         val emailAddress = anEmailAddress()
@@ -194,7 +202,11 @@ internal class SendNotificationServiceTest {
         val language = LanguageDto.ENGLISH
         val postalAddress = aPostalAddress()
         val toAddress =
-            NotificationDestinationDto(emailAddress = null, postalAddress = postalAddress, overseasAddress = null)
+            NotificationDestinationDto(
+                emailAddress = null,
+                postalAddress = postalAddress,
+                overseasElectorAddress = null
+            )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
         val personalisation = buildPhotoPersonalisationMapFromDto()
@@ -261,7 +273,11 @@ internal class SendNotificationServiceTest {
         val language = LanguageDto.ENGLISH
         val overseasAddress = anOverseasAddress()
         val toAddress =
-            NotificationDestinationDto(emailAddress = null, postalAddress = null, overseasAddress = overseasAddress)
+            NotificationDestinationDto(
+                emailAddress = null,
+                postalAddress = null,
+                overseasElectorAddress = overseasAddress
+            )
         val sourceType = SourceType.OVERSEAS
         val request = buildSendNotificationRequestDto(
             sourceType = sourceType,
@@ -327,7 +343,11 @@ internal class SendNotificationServiceTest {
         val language = LanguageDto.WELSH
         val postalAddress = aPostalAddress()
         val toAddress =
-            NotificationDestinationDto(emailAddress = null, postalAddress = postalAddress, overseasAddress = null)
+            NotificationDestinationDto(
+                emailAddress = null,
+                postalAddress = postalAddress,
+                overseasElectorAddress = null
+            )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
         val personalisation = buildPhotoPersonalisationMapFromDto()

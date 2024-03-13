@@ -141,7 +141,7 @@ internal class NotificationMapperTest {
             toAddress = NotificationDestinationDto(
                 emailAddress = anEmailAddress(),
                 postalAddress = null,
-                overseasAddress = null
+                overseasElectorAddress = null
             ),
             notificationType = notificationType,
         )

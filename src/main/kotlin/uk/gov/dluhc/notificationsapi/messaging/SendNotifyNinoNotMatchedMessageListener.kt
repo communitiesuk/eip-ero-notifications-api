@@ -5,7 +5,6 @@ import mu.KotlinLogging
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.messagingsupport.MessageListener
-import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
@@ -21,7 +20,6 @@ class SendNotifyNinoNotMatchedMessageListener(
     private val sendNotifyMessageMapper: SendNotifyMessageMapper,
     private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
-    private val documentCategoryMapper: DocumentCategoryMapper
 ) : MessageListener<SendNotifyNinoNotMatchedMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}"])
@@ -31,13 +29,13 @@ class SendNotifyNinoNotMatchedMessageListener(
                 "channel: ${payload.channel}, " +
                 "messageType: ${payload.messageType}, " +
                 "language: ${payload.language}, " +
-                "sourceReference: ${payload.sourceReference}"
+                "sourceReference: ${payload.sourceReference} " +
+                "sourceType: ${payload.sourceType}"
         }
         with(payload) {
             val sendNotificationRequestDto =
                 sendNotifyMessageMapper.fromRequiredDocumentMessageToSendNotificationRequestDto(
                     this,
-                    documentCategoryMapper
                 )
             val personalisationDto = templatePersonalisationMessageMapper
                 .toRequiredDocumentTemplatePersonalisationDto(

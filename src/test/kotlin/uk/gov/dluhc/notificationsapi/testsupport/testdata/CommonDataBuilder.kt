@@ -5,7 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils.random
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
-import uk.gov.dluhc.notificationsapi.dto.OverseasAddress
+import uk.gov.dluhc.notificationsapi.dto.OverseasElectorAddress
 import uk.gov.dluhc.notificationsapi.dto.PostalAddress
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -83,7 +83,7 @@ fun anOverseasAddress(
     addressLine4: String? = faker.address().city(),
     addressLine5: String? = faker.address().state(),
     country: String = faker.address().country(),
-): OverseasAddress = OverseasAddress(
+): OverseasElectorAddress = OverseasElectorAddress(
     addressee = addressee,
     addressLine1 = addressLine1,
     addressLine2 = addressLine2,
