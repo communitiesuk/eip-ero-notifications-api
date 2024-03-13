@@ -512,9 +512,35 @@ internal class SendNotifyMessageMapperTest {
 
     @Nested
     inner class FromRejectedDocumentMessageToSendNotificationRequestDto {
-        @Test
-        fun `should map SQS SendNotifyRejectedDocumentMessage to SendNotificationRequestDto`() {
-            // Given
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "EN,EMAIL,EMAIL,IDENTITY,IDENTITY,ENGLISH,REJECTED_DOCUMENT",
+                "EN,LETTER,LETTER,IDENTITY,IDENTITY,ENGLISH,REJECTED_DOCUMENT",
+                "CY,EMAIL,EMAIL,IDENTITY,IDENTITY,WELSH,REJECTED_DOCUMENT",
+                "CY,LETTER,LETTER,IDENTITY,IDENTITY,WELSH,REJECTED_DOCUMENT",
+
+                "EN,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,REJECTED_PREVIOUS_ADDRESS",
+                "EN,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,REJECTED_PREVIOUS_ADDRESS",
+                "CY,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,REJECTED_PREVIOUS_ADDRESS",
+                "CY,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,REJECTED_PREVIOUS_ADDRESS",
+
+                "EN,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,REJECTED_PARENT_GUARDIAN",
+                "EN,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,REJECTED_PARENT_GUARDIAN",
+                "CY,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
+                "CY,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
+            ]
+        )
+        fun `should map SQS SendNotifyRejectedDocumentMessage to SendNotificationRequestDto`(
+            language: Language,
+            notificationChannel: NotificationChannel,
+            notificationChannelMessage: SqsChannel,
+            documentCategory: DocumentCategory,
+            documentCategoryDto: DocumentCategoryDto,
+            languageDto: LanguageDto,
+            expectedNotificationType: NotificationType,
+        ) {
+
             val gssCode = aGssCode()
             val requestor = aRequestor()
             val sourceReference = aSourceReference()
@@ -522,15 +548,16 @@ internal class SendNotifyMessageMapperTest {
             val personalisation = buildRejectedDocumentsPersonalisation()
 
             val request = SendNotifyRejectedDocumentMessage(
-                language = Language.EN,
-                sourceType = SqsSourceType.POSTAL,
+                language = language,
+                sourceType = SqsSourceType.OVERSEAS,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
                 messageType = MessageType.REJECTED_MINUS_DOCUMENT,
                 toAddress = toAddress,
                 personalisation = personalisation,
-                channel = SqsChannel.EMAIL
+                channel = notificationChannelMessage,
+                documentCategory = documentCategory,
             )
 
             val expectedToAddress = aNotificationDestination()
@@ -549,18 +576,22 @@ internal class SendNotifyMessageMapperTest {
             )
             given(notificationChannelMapper.fromMessagingApiToDto(SqsChannel.EMAIL)).willReturn(expectedChannel)
 
-            // When
-            val notification = mapper.fromRejectedDocumentMessageToSendNotificationRequestDto(request)
+            val notification =
+                mapper.fromRejectedDocumentMessageToSendNotificationRequestDto(request)
 
-            // Then
-            assertThat(notification.channel).isEqualTo(expectedChannel)
-            assertThat(notification.language).isEqualTo(expectedLanguage)
+            assertThat(notification.channel).isEqualTo(notificationChannel)
+            assertThat(notification.sourceType).isEqualTo(SourceType.OVERSEAS)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
             assertThat(notification.gssCode).isEqualTo(gssCode)
             assertThat(notification.requestor).isEqualTo(requestor)
-            assertThat(notification.sourceType).isEqualTo(expectedSourceType)
-            assertThat(notification.sourceReference).isEqualTo(sourceReference)
-            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            verify(languageMapper).fromMessageToDto(language)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.OVERSEAS)
+            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(notificationChannelMapper).fromMessagingApiToDto(notificationChannelMessage)
+            verify(documentCategoryMapper).fromApiMessageToDto(documentCategory)
+            verify(documentCategoryMapper).fromRejectedDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
         }
     }
 
