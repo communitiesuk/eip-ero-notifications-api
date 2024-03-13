@@ -110,7 +110,7 @@ class SourceTypeMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "OVERSEAS,''",
+            "OVERSEAS,overseas",
             "POSTAL,postal",
             "PROXY,proxy",
             "VOTER_MINUS_CARD,''",
@@ -132,7 +132,7 @@ class SourceTypeMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "OVERSEAS,''",
+            "OVERSEAS,overseas",
             "POSTAL,postal",
             "PROXY,proxy",
             "VOTER_MINUS_CARD,''",

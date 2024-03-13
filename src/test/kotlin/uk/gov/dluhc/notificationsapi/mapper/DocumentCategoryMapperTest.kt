@@ -47,7 +47,7 @@ class DocumentCategoryMapperTest {
         // Given
 
         // When
-        val actual = mapper.fromRejectedOverseasDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
+        val actual = mapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -68,7 +68,7 @@ class DocumentCategoryMapperTest {
         // Given
 
         // When
-        val actual = mapper.fromRequiredOverseasDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
+        val actual = mapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
 
         // Then
         assertThat(actual).isEqualTo(expected)
