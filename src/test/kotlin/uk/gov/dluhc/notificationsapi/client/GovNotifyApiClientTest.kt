@@ -201,7 +201,6 @@ internal class GovNotifyApiClientTest {
         fun `should throw GovNotifyApiNotFoundException given client throws exception with 404 http result`() {
             // Given
             val sourceType = SourceType.POSTAL
-            val postalAddress = aPostalAddress()
             val notificationId = aNotificationId()
             val notificationDestination = aNotificationDestination()
             val personalisation = aNotificationPersonalisationMap()
@@ -234,7 +233,6 @@ internal class GovNotifyApiClientTest {
         fun `should throw GovNotifyApiBadRequestException given client throws exception with 400 http result`() {
             // Given
             val sourceType = SourceType.POSTAL
-            val postalAddress = aPostalAddress()
             val notificationId = aNotificationId()
             val notificationDestination = aNotificationDestination()
             val personalisation = aNotificationPersonalisationMap()
@@ -267,7 +265,6 @@ internal class GovNotifyApiClientTest {
         fun `should throw GovNotifyApiGeneralException given client exception not specifically handled`() {
             // Given
             val sourceType = SourceType.POSTAL
-            val postalAddress = aPostalAddress()
             val notificationId = aNotificationId()
             val notificationDestination = aNotificationDestination()
             val personalisation = aNotificationPersonalisationMap()
