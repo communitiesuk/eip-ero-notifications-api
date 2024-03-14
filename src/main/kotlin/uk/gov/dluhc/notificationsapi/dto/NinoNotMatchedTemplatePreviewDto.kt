@@ -5,7 +5,7 @@ class NinoNotMatchedTemplatePreviewDto(
     channel: NotificationChannel,
     language: LanguageDto,
     notificationType: NotificationType,
-    val personalisation: NinoNotMatchedPersonalisationDto,
+    val personalisation: RequiredDocumentPersonalisationDto,
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,

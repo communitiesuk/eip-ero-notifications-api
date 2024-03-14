@@ -34,5 +34,5 @@ fun buildRequestedSignaturePersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     freeText = freeText,
-    sourceType = sourceType,
+    personalisationSourceTypeString = sourceType,
 )

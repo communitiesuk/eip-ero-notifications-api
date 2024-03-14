@@ -3,6 +3,9 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationMapFromDto
@@ -24,6 +27,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSigna
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
@@ -424,6 +429,34 @@ class TemplatePersonalisationDtoMapperTest {
 
             // When
             val actual = mapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisationDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+    }
+
+    @Nested
+    inner class ToRequiredDocumentTemplatePersonalisationMap {
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "postal, POSTAL",
+                "proxy, PROXY",
+                "overseas, OVERSEAS"
+            ]
+        )
+        fun `should map dto to personalisation map when all fields present`(
+            personalisationSourceTypeString: String,
+            sourceTypeDto: SourceType
+        ) {
+            // Given
+            val personalisationDto =
+                buildRequiredDocumentPersonalisation(personalisationSourceTypeString = personalisationSourceTypeString)
+            val expected = buildRequiredDocumentPersonalisationMapFromDto(personalisationDto, sourceTypeDto)
+
+            // When
+            val actual = mapper.toRequiredDocumentTemplatePersonalisationMap(personalisationDto, sourceTypeDto)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

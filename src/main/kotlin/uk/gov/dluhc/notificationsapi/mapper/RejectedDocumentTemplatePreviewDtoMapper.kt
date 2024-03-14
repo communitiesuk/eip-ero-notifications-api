@@ -23,7 +23,7 @@ abstract class RejectedDocumentTemplatePreviewDtoMapper {
     abstract fun toRejectedDocumentTemplatePreviewDto(request: GenerateRejectedDocumentTemplatePreviewRequest): RejectedDocumentTemplatePreviewDto
 
     @Mapping(
-        target = "sourceType",
+        target = "personalisationSourceTypeString",
         expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
     )
     @Mapping(

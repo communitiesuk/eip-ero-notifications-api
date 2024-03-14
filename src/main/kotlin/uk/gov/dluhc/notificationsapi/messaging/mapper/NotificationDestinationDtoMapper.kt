@@ -16,5 +16,12 @@ interface NotificationDestinationDtoMapper {
     @Mapping(target = "postalAddress.area", source = "postalAddress.address.area")
     @Mapping(target = "postalAddress.locality", source = "postalAddress.address.locality")
     @Mapping(target = "postalAddress.postcode", source = "postalAddress.address.postcode")
+    @Mapping(target = "overseasElectorAddress.addressee", source = "overseasElectorAddress.address.addressee")
+    @Mapping(target = "overseasElectorAddress.addressLine1", source = "overseasElectorAddress.address.addressLine1")
+    @Mapping(target = "overseasElectorAddress.addressLine2", source = "overseasElectorAddress.address.addressLine2")
+    @Mapping(target = "overseasElectorAddress.addressLine3", source = "overseasElectorAddress.address.addressLine3")
+    @Mapping(target = "overseasElectorAddress.addressLine4", source = "overseasElectorAddress.address.addressLine4")
+    @Mapping(target = "overseasElectorAddress.addressLine5", source = "overseasElectorAddress.address.addressLine5")
+    @Mapping(target = "overseasElectorAddress.country", source = "overseasElectorAddress.address.country")
     fun toNotificationDestinationDto(toAddress: MessageAddress): NotificationDestinationDto
 }
