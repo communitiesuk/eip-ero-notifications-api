@@ -87,8 +87,8 @@ abstract class SendNotifyMessageMapper {
         message: SendNotifyApplicationRejectedMessage,
     ): SendNotificationRequestDto
 
-    @Mapping(target = "notificationType", source = "messageType")
-    abstract fun fromRejectedDocumentMessageToSendNotificationRequestDto(sendNotifyRejectedDocumentMessage: SendNotifyRejectedDocumentMessage): SendNotificationRequestDto
+    @Mapping(target = "notificationType", expression = "java( rejectedDocumentNotificationType(message) )")
+    abstract fun fromRejectedDocumentMessageToSendNotificationRequestDto(message: SendNotifyRejectedDocumentMessage): SendNotificationRequestDto
 
     @Mapping(
         target = "notificationType",
@@ -127,6 +127,14 @@ abstract class SendNotifyMessageMapper {
                 REJECTED_SIGNATURE_WITH_REASONS
             else
                 REJECTED_SIGNATURE
+        }
+
+    protected fun rejectedDocumentNotificationType(
+        message: SendNotifyRejectedDocumentMessage
+    ): NotificationType =
+        with(message) {
+            val documentCategoryDto = documentCategoryMapper.fromApiMessageToDto(documentCategory)
+            documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
         }
 
     protected fun requiredDocumentNotificationType(

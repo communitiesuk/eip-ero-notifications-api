@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -260,11 +259,15 @@ internal class SendNotificationServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource(
-        value = [
+    @EnumSource(
+        NotificationType::class,
+        names = [
+            "NINO_NOT_MATCHED",
             "PARENT_GUARDIAN_PROOF_REQUIRED",
             "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
-            "NINO_NOT_MATCHED"
+            "REJECTED_DOCUMENT",
+            "REJECTED_PARENT_GUARDIAN",
+            "REJECTED_PREVIOUS_ADDRESS"
         ]
     )
     fun `should send letter notification for overseas address`(notificationType: NotificationType) {
