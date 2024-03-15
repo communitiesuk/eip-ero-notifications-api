@@ -7,13 +7,14 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
@@ -79,7 +80,7 @@ fun buildApplicationReceivedPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
-        sourceType = sourceType,
+        personalisationSourceTypeString = sourceType,
     )
 
 fun buildApplicationApprovedPersonalisationDto(
@@ -107,7 +108,7 @@ fun buildRejectedDocumentPersonalisationDto(
         documents = documents,
         rejectedDocumentFreeText = rejectedDocumentFreeText,
         eroContactDetails = eroContactDetails,
-        sourceType = sourceType,
+        personalisationSourceTypeString = sourceType,
     )
 
 fun buildPhotoPersonalisationDtoFromMessage(
@@ -276,7 +277,7 @@ fun buildApplicationReceivedPersonalisationMapFromDto(
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, String>()
     with(personalisationDto) {
-        personalisationMap["sourceType"] = sourceType
+        personalisationMap["sourceType"] = personalisationSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
@@ -309,7 +310,7 @@ fun buildRejectedDocumentPersonalisationMapFromDto(
     with(personalisationDto) {
         personalisationMap["rejectedDocuments"] = documents
         personalisationMap["rejectionMessage"] = rejectedDocumentFreeText ?: ""
-        personalisationMap["sourceType"] = sourceType
+        personalisationMap["sourceType"] = personalisationSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
@@ -323,7 +324,7 @@ fun buildRejectedSignaturePersonalisationMapFromDto(
         personalisationMap["rejectionNotes"] = rejectionNotes ?: ""
         personalisationMap["rejectionReasons"] = rejectionReasons
         personalisationMap["rejectionFreeText"] = rejectionFreeText ?: ""
-        personalisationMap["sourceType"] = sourceType
+        personalisationMap["sourceType"] = personalisationSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
@@ -335,7 +336,7 @@ fun buildRequestedSignaturePersonalisationMapFromDto(
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["freeText"] = freeText ?: ""
-        personalisationMap["sourceType"] = sourceType
+        personalisationMap["sourceType"] = personalisationSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
@@ -359,6 +360,24 @@ fun buildRequiredOverseasDocumentPersonalisationMapFromDto(
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
         personalisationMap["freeText"] = requiredDocumentFreeText ?: ""
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+    return personalisationMap
+}
+
+fun buildRequiredDocumentPersonalisationMapFromDto(
+    personalisationDto: RequiredDocumentPersonalisationDto = buildRequiredDocumentPersonalisation(),
+    sourceType: SourceType
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+
+    with(personalisationDto) {
+        if (sourceType == SourceType.OVERSEAS) {
+            personalisationMap["freeText"] = additionalNotes ?: ""
+        } else {
+            personalisationMap["additionalNotes"] = additionalNotes ?: ""
+        }
+        personalisationMap["sourceType"] = personalisationSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
     return personalisationMap
@@ -408,16 +427,16 @@ fun buildNinoNotMatchedPersonalisationDto(
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
     additionalNotes: String? = "Additional Notes",
     sourceType: String = "postal",
-): NinoNotMatchedPersonalisationDto = NinoNotMatchedPersonalisationDto(
+): RequiredDocumentPersonalisationDto = RequiredDocumentPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     applicationReference = applicationReference,
     additionalNotes = additionalNotes,
-    sourceType = sourceType,
+    personalisationSourceTypeString = sourceType,
 )
 
 fun buildNinoNotMatchedPersonalisationMapFromDto(
-    personalisationDto: NinoNotMatchedPersonalisationDto = buildNinoNotMatchedPersonalisationDto()
+    personalisationDto: RequiredDocumentPersonalisationDto = buildNinoNotMatchedPersonalisationDto()
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {

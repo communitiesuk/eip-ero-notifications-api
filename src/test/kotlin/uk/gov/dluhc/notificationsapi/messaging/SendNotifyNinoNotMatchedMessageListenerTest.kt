@@ -42,9 +42,28 @@ internal class SendNotifyNinoNotMatchedMessageListenerTest {
         val personalisationMap = aNotificationPersonalisationMap()
         val personalisationDto = buildNinoNotMatchedPersonalisationDto()
 
-        given(sendNotifyMessageMapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(sqsMessage)).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toNinoNotMatchedPersonalisationDto(sqsMessage.personalisation, requestDto.language, sqsMessage.sourceType)).willReturn(personalisationDto)
-        given(templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisationDto)).willReturn(personalisationMap)
+        given(
+            sendNotifyMessageMapper.fromRequiredDocumentMessageToSendNotificationRequestDto(
+                sqsMessage,
+            )
+        ).willReturn(
+            requestDto
+        )
+        given(
+            templatePersonalisationMessageMapper.toRequiredDocumentTemplatePersonalisationDto(
+                sqsMessage.personalisation,
+                requestDto.language,
+                sqsMessage.sourceType
+            )
+        ).willReturn(personalisationDto)
+        given(
+            templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
+                personalisationDto,
+                requestDto.sourceType
+            )
+        ).willReturn(
+            personalisationMap
+        )
 
         // When
         listener.handleMessage(sqsMessage)

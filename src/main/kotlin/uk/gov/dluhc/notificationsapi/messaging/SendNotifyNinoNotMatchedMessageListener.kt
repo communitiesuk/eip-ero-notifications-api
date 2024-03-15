@@ -25,19 +25,29 @@ class SendNotifyNinoNotMatchedMessageListener(
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}"])
     override fun handleMessage(@Valid @Payload payload: SendNotifyNinoNotMatchedMessage) {
         logger.info {
-            "received 'send UK Gov notify NiNo not matched message' request for gssCode: ${payload.gssCode} with " +
+            "received send UK Gov notify required document message request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +
                 "messageType: ${payload.messageType}, " +
                 "language: ${payload.language}, " +
-                "sourceReference: ${payload.sourceReference}"
+                "sourceReference: ${payload.sourceReference}, " +
+                "sourceType: ${payload.sourceType}"
         }
         with(payload) {
             val sendNotificationRequestDto =
-                sendNotifyMessageMapper.fromNinoNotMatchedMessageToSendNotificationRequestDto(this)
+                sendNotifyMessageMapper.fromRequiredDocumentMessageToSendNotificationRequestDto(
+                    this,
+                )
             val personalisationDto = templatePersonalisationMessageMapper
-                .toNinoNotMatchedPersonalisationDto(personalisation, sendNotificationRequestDto.language, sourceType)
+                .toRequiredDocumentTemplatePersonalisationDto(
+                    personalisation,
+                    sendNotificationRequestDto.language,
+                    sourceType
+                )
             val personalisationMap =
-                templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisationDto)
+                templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
+                    personalisationDto,
+                    sendNotificationRequestDto.sourceType
+                )
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }
     }

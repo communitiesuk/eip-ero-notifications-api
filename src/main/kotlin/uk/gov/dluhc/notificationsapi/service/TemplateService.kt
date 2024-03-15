@@ -163,7 +163,10 @@ class TemplateService(
                     channel,
                     language
                 ),
-                templatePersonalisationDtoMapper.toNinoNotMatchedTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
+                    personalisation,
+                    sourceType
+                )
             )
         }
     }
@@ -173,7 +176,7 @@ class TemplateService(
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     sourceType = SourceType.OVERSEAS,
-                    notificationType = documentCategoryMapper.fromRejectedOverseasDocumentCategoryDtoToNotificationTypeDto(
+                    notificationType = documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(
                         documentCategory
                     ),
                     channel,
@@ -189,7 +192,7 @@ class TemplateService(
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     sourceType = SourceType.OVERSEAS,
-                    notificationType = documentCategoryMapper.fromRequiredOverseasDocumentCategoryDtoToNotificationTypeDto(
+                    notificationType = documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(
                         documentCategory
                     ),
                     channel,
