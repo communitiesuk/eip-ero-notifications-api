@@ -612,6 +612,19 @@ components:
         - biometric-identity-document
         - ni-electoral-identity-card
         - cd-issued-driving-licence
+        - guardianship-proof
+        - instrument-of-court-appointment
+        - power-of-attorney-letter
+        - letter-from-hmrc
+        - rent-book-from-local-authority
+        - educational-institution-letter
+        - student-loans-company-letter
+        - address-proof-of-title
+        - solicitor-proof-of-purchase-letter
+        - insurance-provider-letter
+        - alternative-proof-of-residency
+        - reference-or-payslip-issued-by-employer
+        - letter-confirming-state-pension
     DocumentRejectionReason:
       title: DocumentRejectionReason
       description: Enum of reasons why a document may be rejected
