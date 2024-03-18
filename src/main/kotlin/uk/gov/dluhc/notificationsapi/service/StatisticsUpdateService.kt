@@ -5,12 +5,14 @@ import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import java.util.UUID
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
+import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
 import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
 
 @Service
 class StatisticsUpdateService(
     private val triggerVoterCardStatisticsUpdateQueue: MessageQueue<VoterCardUpdateStatisticsMessage>,
-    private val triggerPostalApplicationStatisticsUpdateQueue: MessageQueue<PostalUpdateStatisticsMessage>
+    private val triggerPostalApplicationStatisticsUpdateQueue: MessageQueue<PostalUpdateStatisticsMessage>,
+    private val triggerProxyApplicationStatisticsUpdateQueue: MessageQueue<ProxyUpdateStatisticsMessage>
 ) {
     fun triggerStatisticsUpdate(applicationId: String, sourceType: SourceType) {
         val deduplicationId = UUID.randomUUID().toString()
@@ -18,7 +20,7 @@ class StatisticsUpdateService(
         when (sourceType) {
             SourceType.VOTER_CARD -> submitToTriggerVoterCardStatisticsUpdateQueue(applicationId, deduplicationId)
             SourceType.POSTAL -> submitToTriggerPostalApplicationStatisticsUpdateQueue(applicationId, deduplicationId)
-            // TODO: EIP1-8742 Add proxy update
+            SourceType.PROXY -> submitToTriggerProxyApplicationStatisticsUpdateQueue(applicationId, deduplicationId)
             else -> {}
         }
     }
@@ -26,6 +28,11 @@ class StatisticsUpdateService(
     fun submitToTriggerPostalApplicationStatisticsUpdateQueue(applicationId: String, deduplicationId: String) {
         val updateMessage = PostalUpdateStatisticsMessage(postalApplicationId = applicationId)
         triggerPostalApplicationStatisticsUpdateQueue.submit(updateMessage, createMap(applicationId, deduplicationId))
+    }
+
+    fun submitToTriggerProxyApplicationStatisticsUpdateQueue(applicationId: String, deduplicationId: String) {
+        val updateMessage = ProxyUpdateStatisticsMessage(proxyApplicationId = applicationId)
+        triggerProxyApplicationStatisticsUpdateQueue.submit(updateMessage, createMap(applicationId, deduplicationId))
     }
 
     fun submitToTriggerVoterCardStatisticsUpdateQueue(applicationId: String, deduplicationId: String) {

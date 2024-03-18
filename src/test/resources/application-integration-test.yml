@@ -142,3 +142,4 @@ sqs:
   remove-application-notifications-queue-name: test-remove-application-notifications
   trigger-voter-card-statistics-update-queue-name: test-trigger-voter-card-statistics-update.fifo
   trigger-postal-application-statistics-update-queue-name: test-trigger-postal-application-statistics-update.fifo
+  trigger-proxy-application-statistics-update-queue-name: test-trigger-proxy-application-statistics-update.fifo
