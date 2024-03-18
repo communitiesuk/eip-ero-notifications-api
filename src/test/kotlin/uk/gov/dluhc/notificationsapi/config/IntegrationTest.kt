@@ -23,6 +23,7 @@ import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
 import uk.gov.dluhc.notificationsapi.stubs.UpdatePostalStatisticsMessageListenerStub
+import uk.gov.dluhc.notificationsapi.stubs.UpdateProxyStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.stubs.UpdateVoterCardStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
@@ -132,6 +133,9 @@ internal abstract class IntegrationTest {
     protected lateinit var updatePostalStatisticsMessageListenerStub: UpdatePostalStatisticsMessageListenerStub
 
     @Autowired
+    protected lateinit var updateProxyStatisticsMessageListenerStub: UpdateProxyStatisticsMessageListenerStub
+
+    @Autowired
     protected lateinit var objectMapper: ObjectMapper
 
     @Autowired
@@ -193,6 +197,14 @@ internal abstract class IntegrationTest {
         Assertions.assertThat(messages).isNotEmpty
         Assertions.assertThat(messages).anyMatch {
             it.postalApplicationId == applicationId
+        }
+    }
+
+    protected fun assertProxyUpdateStatisticsMessageSent(applicationId: String) {
+        val messages = updateProxyStatisticsMessageListenerStub.getMessages()
+        Assertions.assertThat(messages).isNotEmpty
+        Assertions.assertThat(messages).anyMatch {
+            it.proxyApplicationId == applicationId
         }
     }
 

@@ -19,6 +19,7 @@ import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
+import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
 import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
 
 @ExtendWith(MockitoExtension::class)
@@ -36,11 +37,15 @@ class StatisticsUpdateServiceTest {
     @Mock
     private lateinit var triggerPostalApplicationStatisticsUpdateQueue: MessageQueue<PostalUpdateStatisticsMessage>
 
+    @Mock
+    private lateinit var triggerProxyApplicationStatisticsUpdateQueue: MessageQueue<ProxyUpdateStatisticsMessage>
+
     @BeforeEach
     fun setUp() {
         statisticsUpdateService = StatisticsUpdateService(
             triggerVoterCardStatisticsUpdateQueue,
-            triggerPostalApplicationStatisticsUpdateQueue
+            triggerPostalApplicationStatisticsUpdateQueue,
+            triggerProxyApplicationStatisticsUpdateQueue
         )
     }
 
@@ -69,6 +74,7 @@ class StatisticsUpdateServiceTest {
 
         // When
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
 
         // Then
         verifyNoInteractions(triggerVoterCardStatisticsUpdateQueue)
@@ -99,9 +105,41 @@ class StatisticsUpdateServiceTest {
 
         // When
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
 
         // Then
         verifyNoInteractions(triggerPostalApplicationStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should send a message containing the application ID to the proxy queue for proxy applications`() {
+
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
+
+        // Then
+        verify(triggerProxyApplicationStatisticsUpdateQueue).submit(
+            eq(ProxyUpdateStatisticsMessage(applicationId)),
+            any()
+        )
+        verifyNoMoreInteractions(triggerProxyApplicationStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should not send a message to the proxy queue for non proxy applications`() {
+
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
+
+        // Then
+        verifyNoInteractions(triggerProxyApplicationStatisticsUpdateQueue)
     }
 
     @Test
