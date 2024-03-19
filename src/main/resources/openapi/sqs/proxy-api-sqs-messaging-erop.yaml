@@ -232,12 +232,12 @@ components:
       type: object
       description: SQS Message for initiating a statistics update for a Proxy application.
       properties:
-        ProxyApplicationId:
+        proxyApplicationId:
           type: string
           description: The identifier of the Proxy Application
           example: 1f0f76a9a66f438b9bb33070
       required:
-        - ProxyApplicationId
+        - proxyApplicationId
     TriggerProxyApplicationReindexMessage:
       title: TriggerProxyApplicationReindexMessage
       type: object
