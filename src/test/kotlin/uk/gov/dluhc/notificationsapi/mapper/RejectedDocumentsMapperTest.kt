@@ -164,6 +164,8 @@ class RejectedDocumentsMapperTest {
             ),
             buildRejectedDocumentMessaging(DocumentType.FIREARMS_MINUS_CERTIFICATE, emptyList(), "More notes"),
             buildRejectedDocumentMessaging(DocumentType.ADOPTION_MINUS_CERTIFICATE, emptyList(), null),
+            buildRejectedDocumentMessaging(DocumentType.GUARDIANSHIP_MINUS_PROOF, emptyList(), null),
+            buildRejectedDocumentMessaging(DocumentType.INSURANCE_MINUS_PROVIDER_MINUS_LETTER, emptyList(), "Notes")
         )
         given(
             rejectedDocumentReasonMapper.toDocumentRejectionReasonString(
@@ -207,6 +209,18 @@ class RejectedDocumentsMapperTest {
                 ENGLISH
             )
         ).willReturn("Adoption cert")
+        given(
+            rejectedDocumentTypeMapper.toDocumentTypeString(
+                DocumentType.GUARDIANSHIP_MINUS_PROOF,
+                ENGLISH
+            )
+        ).willReturn("Document proving your connection with your guardian")
+        given(
+            rejectedDocumentTypeMapper.toDocumentTypeString(
+                DocumentType.INSURANCE_MINUS_PROVIDER_MINUS_LETTER,
+                ENGLISH
+            )
+        ).willReturn("Letter from an insurance provider")
 
         // When
         val actual = mapper.mapRejectionDocumentsFromMessaging(ENGLISH, documents)
@@ -224,7 +238,10 @@ class RejectedDocumentsMapperTest {
                     "  * Some notes",
                 "Firearms cert\n" +
                     "  * More notes",
-                "Adoption cert"
+                "Adoption cert",
+                "Document proving your connection with your guardian",
+                "Letter from an insurance provider\n" +
+                    "  * Notes",
             )
         )
 
@@ -241,6 +258,11 @@ class RejectedDocumentsMapperTest {
         verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.MORTGAGE_MINUS_STATEMENT, ENGLISH)
         verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.FIREARMS_MINUS_CERTIFICATE, ENGLISH)
         verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.ADOPTION_MINUS_CERTIFICATE, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.GUARDIANSHIP_MINUS_PROOF, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(
+            DocumentType.INSURANCE_MINUS_PROVIDER_MINUS_LETTER,
+            ENGLISH
+        )
         verifyNoMoreInteractions(rejectedDocumentReasonMapper, rejectedDocumentTypeMapper)
     }
 }

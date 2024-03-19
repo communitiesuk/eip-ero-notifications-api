@@ -186,6 +186,12 @@ tasks.create("generate-models-from-openapi-document-postal-sqs-messaging-erop.ya
     packageName.set("uk.gov.dluhc.postalapplicationsapi.messaging")
 }
 
+tasks.create("generate-models-from-openapi-document-proxy-sqs-messaging-erop.yaml", GenerateTask::class) {
+    enabled = true
+    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/proxy-api-sqs-messaging-erop.yaml")
+    packageName.set("uk.gov.dluhc.proxyapplicationsapi.messaging")
+}
+
 tasks.create("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/external/EROManagementAPIs.yaml")

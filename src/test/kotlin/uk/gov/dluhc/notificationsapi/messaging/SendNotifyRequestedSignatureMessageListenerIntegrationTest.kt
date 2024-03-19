@@ -81,8 +81,9 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
             val actualEntity = notificationRepository
                 .getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             Assertions.assertThat(actualEntity).hasSize(1)
-            when (sourceType) { // TODO: EIP1-8742 Add proxy
+            when (sourceType) {
                 SourceType.POSTAL -> assertPostalUpdateStatisticsMessageSent(sourceReference)
+                SourceType.PROXY -> assertProxyUpdateStatisticsMessageSent(sourceReference)
                 else -> {}
             }
             stopWatch.stop()

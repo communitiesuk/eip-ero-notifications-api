@@ -50,7 +50,7 @@ class SendNotificationService(
         }
     }
 
-    private fun shouldSendPostalApplicationStatisticsUpdateForNotificationType(requestDto: SendNotificationRequestDto): Boolean =
+    private fun shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.notificationType) {
             NotificationType.ID_DOCUMENT_REQUIRED -> true
             NotificationType.ID_DOCUMENT_RESUBMISSION -> true
@@ -74,9 +74,9 @@ class SendNotificationService(
 
     private fun shouldSendApplicationStatisticsUpdate(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.sourceType) {
-            SourceType.POSTAL -> shouldSendPostalApplicationStatisticsUpdateForNotificationType(requestDto)
+            SourceType.POSTAL -> shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto)
+            SourceType.PROXY -> shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto)
             SourceType.VOTER_CARD -> shouldSendVacApplicationStatisticsUpdateForNotificationType(requestDto)
-            // TODO: EIP1-8742 Add proxy
             else -> false
         }
 

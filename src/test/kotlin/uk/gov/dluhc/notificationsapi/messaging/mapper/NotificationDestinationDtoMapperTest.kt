@@ -135,4 +135,48 @@ internal class NotificationDestinationDtoMapperTest {
         // Then
         assertThat(destination).isEqualTo(expectedDestination)
     }
+
+    @Test
+    fun `should map SQS MessageAddress to NotificationDestinationDto for Overseas Address with null optional fields`() {
+        // Given
+        val addressee: String = faker.name().firstName()
+        val addressLine1: String = faker.address().streetName()
+        val country: String = faker.address().country()
+
+        val expectedDestination = NotificationDestinationDto(
+            emailAddress = null,
+            postalAddress = null,
+            overseasElectorAddress = OverseasElectorAddress(
+                addressee = addressee,
+                addressLine1 = addressLine1,
+                addressLine2 = null,
+                addressLine3 = null,
+                addressLine4 = null,
+                addressLine5 = null,
+                country = country
+            )
+        )
+
+        val request = MessageAddress(
+            emailAddress = null,
+            overseasElectorAddress = MessageAddressOverseasElectorAddress(
+                address = OverseasElectorAddressMessage(
+                    addressee = addressee,
+                    addressLine1 = addressLine1,
+                    addressLine2 = null,
+                    addressLine3 = null,
+                    addressLine4 = null,
+                    addressLine5 = null,
+                    country = country
+                ),
+            ),
+            postalAddress = null
+        )
+
+        // When
+        val destination = mapper.toNotificationDestinationDto(request)
+
+        // Then
+        assertThat(destination).isEqualTo(expectedDestination)
+    }
 }
