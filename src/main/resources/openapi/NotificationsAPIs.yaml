@@ -17,18 +17,18 @@ paths:
   #
 
   #
-  # Get a summary of all communications sent for a specified Voter Card Application
+  # Get a summary of all communications sent for a specified application
   # --------------------------------------------------------------------------------
   '/eros/{eroId}/communications/applications/{applicationId}':
     parameters:
       - name: eroId
-        description: The ID of the Electoral Registration Office responsible for the Application.
+        description: The ID of the Electoral Registration Office responsible for the application.
         schema:
           type: string
         in: path
         required: true
       - name: applicationId
-        description: The identifier of the Voter Card Application to retrieve the communications history.
+        description: The identifier of the application to retrieve the communications history.
         schema:
           type: string
         in: path
@@ -38,7 +38,7 @@ paths:
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Voter Card Application - Communications History
+        - Application - Communications History
       responses:
         200:
           description: Default response for CORS method
@@ -71,10 +71,10 @@ paths:
               application/json: |
                 {}
     get:
-      summary: Returns the communication history for a Voter Card Application
-      description: Returns the communication history for a Voter Card Application, sorted by the communication sent date in descending order (most recent first).
+      summary: Returns the communication history for an application
+      description: Returns the communication history for an application, sorted by the communication sent date in descending order (most recent first).
       tags:
-        - Voter Card Application - Communications History
+        - Application - Communications History
       responses:
         '200':
           $ref: '#/components/responses/CommunicationsHistory'

@@ -39,7 +39,7 @@ abstract class RejectedSignatureTemplatePreviewDtoMapper {
         }
 
     @Mapping(
-        target = "sourceType",
+        target = "personalisationSourceTypeString",
         expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
     )
     @Mapping(

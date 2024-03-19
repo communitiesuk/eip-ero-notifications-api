@@ -50,7 +50,7 @@ class SendNotificationService(
         }
     }
 
-    private fun shouldSendPostalApplicationStatisticsUpdateForNotificationType(requestDto: SendNotificationRequestDto): Boolean =
+    private fun shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.notificationType) {
             NotificationType.ID_DOCUMENT_REQUIRED -> true
             NotificationType.ID_DOCUMENT_RESUBMISSION -> true
@@ -74,9 +74,9 @@ class SendNotificationService(
 
     private fun shouldSendApplicationStatisticsUpdate(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.sourceType) {
-            SourceType.POSTAL -> shouldSendPostalApplicationStatisticsUpdateForNotificationType(requestDto)
+            SourceType.POSTAL -> shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto)
+            SourceType.PROXY -> shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto)
             SourceType.VOTER_CARD -> shouldSendVacApplicationStatisticsUpdateForNotificationType(requestDto)
-            // TODO: EIP1-8742 Add proxy
             else -> false
         }
 
@@ -105,7 +105,12 @@ class SendNotificationService(
     ): Notification {
         with(request) {
             val templateId =
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language)
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    EMAIL,
+                    language
+                )
             val sendNotificationGovResponseDto =
                 govNotifyApiClient.sendEmail(templateId, toAddress.emailAddress!!, personalisationMap, notificationId)
             return notificationMapper.createNotification(
@@ -126,9 +131,14 @@ class SendNotificationService(
     ): Notification {
         with(request) {
             val templateId =
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, LETTER, language)
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    LETTER,
+                    language
+                )
             val sendNotificationGovResponseDto =
-                govNotifyApiClient.sendLetter(templateId, toAddress.postalAddress!!, personalisationMap, notificationId)
+                govNotifyApiClient.sendLetter(templateId, toAddress, personalisationMap, notificationId, sourceType)
             return notificationMapper.createNotification(
                 notificationId = notificationId,
                 request = request,
@@ -142,7 +152,11 @@ class SendNotificationService(
     private fun saveSentMessageAndCreateAuditOrLogError(notification: Notification) {
         try {
             notificationRepository.saveNotification(notification)
-            notificationAuditRepository.saveNotificationAudit(notificationAuditMapper.createNotificationAudit(notification))
+            notificationAuditRepository.saveNotificationAudit(
+                notificationAuditMapper.createNotificationAudit(
+                    notification
+                )
+            )
         } catch (error: SdkClientException) {
             logger.error { "Client error attempting to save Notification: $error" }
         } catch (error: SdkServiceException) {

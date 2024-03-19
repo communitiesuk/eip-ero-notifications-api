@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DUPLICATE_MINUS_DOCUMENT
@@ -28,6 +29,7 @@ fun buildSendNotifyRejectedDocumentMessage(
     personalisation: RejectedDocumentPersonalisation = buildRejectedDocumentsPersonalisation(),
     channel: NotificationChannel = NotificationChannel.EMAIL,
     toAddress: MessageAddress = aMessageAddress(),
+    documentCategory: DocumentCategory = DocumentCategory.IDENTITY
 ): SendNotifyRejectedDocumentMessage =
     SendNotifyRejectedDocumentMessage(
         language = language,
@@ -39,6 +41,7 @@ fun buildSendNotifyRejectedDocumentMessage(
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,
+        documentCategory = documentCategory
     )
 
 fun buildRejectedDocumentsPersonalisation(

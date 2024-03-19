@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -16,6 +17,7 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.springframework.test.util.ReflectionTestUtils.setField
 import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
@@ -23,6 +25,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.anOverseasAddress
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDestination
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aTemplateId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSendNotificationDto
 import uk.gov.service.notify.NotificationClient
@@ -58,7 +62,9 @@ internal class GovNotifyApiClientTest {
             val sendNotificationDto = buildSendNotificationDto()
 
             given(notificationClient.sendEmail(any(), any(), any(), any())).willReturn(sendEmailResponse)
-            given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendEmailResponse>())).willReturn(sendNotificationDto)
+            given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendEmailResponse>())).willReturn(
+                sendNotificationDto
+            )
 
             // When
             val actual = govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId)
@@ -146,12 +152,16 @@ internal class GovNotifyApiClientTest {
 
     @Nested
     inner class SendLetter {
-        @Test
-        fun `should send letter`() {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "OVERSEAS"])
+        fun `should send letter`(sourceType: SourceType) {
             // Given
             val postalAddress = aPostalAddress()
+            val overseasAddress = anOverseasAddress()
             val notificationId = aNotificationId()
             val templateId = aTemplateId().toString()
+            val notificationDestination =
+                aNotificationDestination(postalAddress = postalAddress, overseasAddress = overseasAddress)
 
             val response = NotifySendEmailSuccessResponse()
             val objectMapper = ObjectMapper()
@@ -159,16 +169,28 @@ internal class GovNotifyApiClientTest {
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
 
+            val personalisationMapForSourceType =
+                if (sourceType == SourceType.POSTAL) postalAddress.toPersonalisationMap() else overseasAddress.toPersonalisationMap()
+
             given(notificationClient.sendLetter(any(), any(), any())).willReturn(sendLetterResponse)
-            given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendLetterResponse>())).willReturn(sendNotificationDto)
+            given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendLetterResponse>())).willReturn(
+                sendNotificationDto
+            )
 
             // When
-            val actual = govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId)
+            val actual =
+                govNotifyApiClient.sendLetter(
+                    templateId,
+                    notificationDestination,
+                    personalisation,
+                    notificationId,
+                    sourceType
+                )
 
             // Then
             verify(notificationClient).sendLetter(
                 templateId,
-                (personalisation + postalAddress.toPersonalisationMap()),
+                (personalisation + personalisationMapForSourceType),
                 notificationId.toString()
             )
             verify(sendNotificationResponseMapper).toSendNotificationResponse(sendLetterResponse)
@@ -178,8 +200,9 @@ internal class GovNotifyApiClientTest {
         @Test
         fun `should throw GovNotifyApiNotFoundException given client throws exception with 404 http result`() {
             // Given
-            val postalAddress = aPostalAddress()
+            val sourceType = SourceType.POSTAL
             val notificationId = aNotificationId()
+            val notificationDestination = aNotificationDestination()
             val personalisation = aNotificationPersonalisationMap()
             val templateId = aTemplateId().toString()
             val exceptionMessage = "No result found"
@@ -190,7 +213,15 @@ internal class GovNotifyApiClientTest {
 
             // When
             val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId) },
+                {
+                    govNotifyApiClient.sendLetter(
+                        templateId,
+                        notificationDestination,
+                        personalisation,
+                        notificationId,
+                        sourceType
+                    )
+                },
                 GovNotifyApiNotFoundException::class.java
             )
 
@@ -201,8 +232,9 @@ internal class GovNotifyApiClientTest {
         @Test
         fun `should throw GovNotifyApiBadRequestException given client throws exception with 400 http result`() {
             // Given
-            val postalAddress = aPostalAddress()
+            val sourceType = SourceType.POSTAL
             val notificationId = aNotificationId()
+            val notificationDestination = aNotificationDestination()
             val personalisation = aNotificationPersonalisationMap()
             val templateId = aTemplateId().toString()
             val exceptionMessage = "Can't send to this recipient using a team-only API key"
@@ -213,7 +245,15 @@ internal class GovNotifyApiClientTest {
 
             // When
             val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId) },
+                {
+                    govNotifyApiClient.sendLetter(
+                        templateId,
+                        notificationDestination,
+                        personalisation,
+                        notificationId,
+                        sourceType
+                    )
+                },
                 GovNotifyApiBadRequestException::class.java
             )
 
@@ -224,8 +264,9 @@ internal class GovNotifyApiClientTest {
         @Test
         fun `should throw GovNotifyApiGeneralException given client exception not specifically handled`() {
             // Given
-            val postalAddress = aPostalAddress()
+            val sourceType = SourceType.POSTAL
             val notificationId = aNotificationId()
+            val notificationDestination = aNotificationDestination()
             val personalisation = aNotificationPersonalisationMap()
             val templateId = aTemplateId().toString()
             val exceptionMessage = "Exceeded send limits (LIMIT NUMBER) for today"
@@ -236,7 +277,15 @@ internal class GovNotifyApiClientTest {
 
             // When
             val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.sendLetter(templateId, postalAddress, personalisation, notificationId) },
+                {
+                    govNotifyApiClient.sendLetter(
+                        templateId,
+                        notificationDestination,
+                        personalisation,
+                        notificationId,
+                        sourceType
+                    )
+                },
                 GovNotifyApiGeneralException::class.java
             )
 

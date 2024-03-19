@@ -1,10 +1,10 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 
 fun buildNinoNotMatchedTemplatePreviewDto(
@@ -12,7 +12,7 @@ fun buildNinoNotMatchedTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     notificationType: NotificationType = NotificationType.NINO_NOT_MATCHED,
-    personalisation: NinoNotMatchedPersonalisationDto = buildNinoNotMatchedPersonalisationDto(),
+    personalisation: RequiredDocumentPersonalisationDto = buildNinoNotMatchedPersonalisationDto(),
 ): NinoNotMatchedTemplatePreviewDto =
     NinoNotMatchedTemplatePreviewDto(
         channel = channel,
