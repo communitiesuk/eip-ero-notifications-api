@@ -92,16 +92,6 @@ paths:
         '204':
           description: No response content.
 
-  '/send-uk-gov-notify-request-document-message':
-    post:
-      tags:
-        - SQS Queues
-      requestBody:
-        $ref: '#/components/requestBodies/SendNotifyRequestDocumentMessage'
-      responses:
-        '204':
-          description: No response content.
-
   '/remove-application-notifications-message':
     post:
       tags:
@@ -275,23 +265,6 @@ components:
         - channel
         - personalisation
 
-    SendNotifyRequestDocumentMessage:
-      title: SendNotifyRequestDocumentMessage
-      type: object
-      description: SQS Message for sending GOV.UK Notify messages for a requested document
-      allOf:
-        - $ref: '#/components/schemas/SendNotifyMessage'
-      properties:
-        channel:
-          $ref: '#/components/schemas/NotificationChannel'
-        personalisation:
-          $ref: '#/components/schemas/RequestDocumentPersonalisation'
-        documentCategory:
-          $ref: '#/components/schemas/DocumentCategory'
-      required:
-        - channel
-        - personalisation
-
     RemoveApplicationNotificationsMessage:
       title: RemoveApplicationNotificationsMessage
       type: object
@@ -416,20 +389,6 @@ components:
         rejectedDocumentMessage:
           type: string
           description: Free text message to provided further information regarding the document rejection
-          example: Please provide a valid document within 28 days
-      required:
-        - documents
-
-    RequestDocumentPersonalisation:
-      title: RequestDocumentPersonalisation
-      type: object
-      description: Personalisation details for request document template
-      allOf:
-        - $ref: '#/components/schemas/BasePersonalisation'
-      properties:
-        requestDocumentMessage:
-          type: string
-          description: Free text message to provided further information regarding the document request
           example: Please provide a valid document within 28 days
       required:
         - documents
@@ -713,6 +672,7 @@ components:
         - duplicate-document
         - invalid-document-country
         - applicant-details-not-clear
+        - parent-guardian-not-clear
         - details-on-document-do-not-match
         - other
     RejectedSignature:
@@ -876,11 +836,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyRejectedDocumentMessage'
-    SendNotifyRequestDocumentMessage:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SendNotifyRequestDocumentMessage'
     RemoveApplicationNotificationsMessage:
       content:
         application/json:
