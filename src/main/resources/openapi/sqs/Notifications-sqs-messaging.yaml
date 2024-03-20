@@ -604,7 +604,6 @@ components:
         - rejected-signature
         - requested-signature
         - nino-not-matched
-        - document-required
         - parent-guardian-proof-required
         - previous-address-document-required
 
