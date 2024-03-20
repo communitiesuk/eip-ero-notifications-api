@@ -670,6 +670,7 @@ components:
         - duplicate-document
         - invalid-document-country
         - applicant-details-not-clear
+        - parent-guardian-not-clear
         - details-on-document-do-not-match
         - other
     RejectedSignature:
