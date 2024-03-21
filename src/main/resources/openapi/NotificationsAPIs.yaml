@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.15.3'
+  version: '1.15.4'
   description: Notifications APIs
   contact:
     name: Krister Bone
@@ -1833,6 +1833,7 @@ components:
         - duplicate-document
         - invalid-document-country
         - applicant-details-not-clear
+        - parent-guardian-not-clear
         - details-on-document-do-not-match
         - other
     RejectedSignature:
