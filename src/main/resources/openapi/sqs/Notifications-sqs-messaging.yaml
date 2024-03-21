@@ -563,6 +563,8 @@ components:
         - rejected-signature
         - requested-signature
         - nino-not-matched
+        - parent-guardian-proof-required
+        - previous-address-document-required
 
     MessageAddress:
       type: object
