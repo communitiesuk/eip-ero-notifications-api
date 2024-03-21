@@ -56,7 +56,7 @@ class RejectedDocumentReasonMapperTest {
                 "DUPLICATE_MINUS_DOCUMENT, Roedd hwn yn gopi dyblyg o ddogfen arall a ddarparwyd gennych",
                 "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, Ni allwn dderbyn dogfennau o'r wlad hon at ddibenion gwirio pwy ydych",
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos yn glir fanylion eich rhiant new warcheidwad",
+                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Rhaid i'r ddogfen brofi eich cysylltiad â'ch rhiant neu warcheidwad",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
                 "OTHER, Eraill"
             ]
@@ -113,7 +113,7 @@ class RejectedDocumentReasonMapperTest {
                 "DUPLICATE_MINUS_DOCUMENT, Roedd hwn yn gopi dyblyg o ddogfen arall a ddarparwyd gennych",
                 "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, Ni allwn dderbyn dogfennau o'r wlad hon at ddibenion gwirio pwy ydych",
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos yn glir fanylion eich rhiant new warcheidwad",
+                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Rhaid i'r ddogfen brofi eich cysylltiad â'ch rhiant neu warcheidwad",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
                 "OTHER, Eraill"
             ]
