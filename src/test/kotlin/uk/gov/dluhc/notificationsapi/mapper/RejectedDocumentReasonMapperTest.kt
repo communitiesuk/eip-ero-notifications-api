@@ -29,7 +29,7 @@ class RejectedDocumentReasonMapperTest {
                 "DUPLICATE_MINUS_DOCUMENT, This was a duplicate of another document that you have provided",
                 "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, We are not able to accept documents from this country for the purposes of checking your identity",
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your name",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your parent or guardian details",
+                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document must prove your connection to your parent or guardian",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Information provided on the document does not match information from your application",
                 "OTHER, Other"
             ]
@@ -86,7 +86,7 @@ class RejectedDocumentReasonMapperTest {
                 "DUPLICATE_MINUS_DOCUMENT, This was a duplicate of another document that you have provided",
                 "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, We are not able to accept documents from this country for the purposes of checking your identity",
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your name",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your parent or guardian details",
+                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document must prove your connection to your parent or guardian",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Information provided on the document does not match information from your application",
                 "OTHER, Other"
             ]
