@@ -12,7 +12,10 @@ import uk.gov.service.notify.NotificationClient
 class NotifyClientConfiguration {
 
     @Bean
-    fun notificationClient(@Value("\${api.notify.api-key}") apiKey: String) = NotificationClient(apiKey)
+    fun notificationClient(
+        @Value("\${api.notify.api-key}") apiKey: String,
+        @Value("\${api.notify.base-url}") baseUrl: String,
+    ) = NotificationClient(apiKey, baseUrl)
 
     @Bean
     fun notifyEmailTemplateConfiguration(
