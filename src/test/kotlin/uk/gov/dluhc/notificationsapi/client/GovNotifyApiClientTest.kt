@@ -312,7 +312,7 @@ internal class GovNotifyApiClientTest {
     }
 
     @Nested
-    inner class CatchWrongApiKeyErrors {
+    inner class IgnoreWrongApiKeyErrors {
         @BeforeEach
         fun setupClient() {
             govNotifyApiClient = GovNotifyApiClient(
