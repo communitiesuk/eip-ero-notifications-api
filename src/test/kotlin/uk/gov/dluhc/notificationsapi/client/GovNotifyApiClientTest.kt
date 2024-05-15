@@ -52,7 +52,7 @@ internal class GovNotifyApiClientTest {
             govNotifyApiClient = GovNotifyApiClient(
                 notificationClient = notificationClient,
                 sendNotificationResponseMapper = sendNotificationResponseMapper,
-                catchWrongApiKeyErrors = false,
+                ignoreWrongApiKeyErrors = false,
             )
         }
 
@@ -165,7 +165,7 @@ internal class GovNotifyApiClientTest {
             govNotifyApiClient = GovNotifyApiClient(
                 notificationClient = notificationClient,
                 sendNotificationResponseMapper = sendNotificationResponseMapper,
-                catchWrongApiKeyErrors = false,
+                ignoreWrongApiKeyErrors = false,
             )
         }
 
@@ -318,7 +318,7 @@ internal class GovNotifyApiClientTest {
             govNotifyApiClient = GovNotifyApiClient(
                 notificationClient = notificationClient,
                 sendNotificationResponseMapper = sendNotificationResponseMapper,
-                catchWrongApiKeyErrors = true,
+                ignoreWrongApiKeyErrors = true,
             )
         }
 
@@ -389,7 +389,7 @@ internal class GovNotifyApiClientTest {
             govNotifyApiClient = GovNotifyApiClient(
                 notificationClient = notificationClient,
                 sendNotificationResponseMapper = sendNotificationResponseMapper,
-                catchWrongApiKeyErrors = false,
+                ignoreWrongApiKeyErrors = false,
             )
         }
 

@@ -21,7 +21,7 @@ private val logger = KotlinLogging.logger {}
 class GovNotifyApiClient(
     private val notificationClient: NotificationClient,
     private val sendNotificationResponseMapper: SendNotificationResponseMapper,
-    @Value("\${api.notify.catch-wrong-api-key-errors}") private val catchWrongApiKeyErrors: Boolean,
+    @Value("\${api.notify.ignore-wrong-api-key-errors}") private val ignoreWrongApiKeyErrors: Boolean,
 ) {
 
     fun sendEmail(
@@ -37,7 +37,7 @@ class GovNotifyApiClient(
                     sendNotificationResponseMapper.toSendNotificationResponse(this)
                 }
         } catch (ex: NotificationClientException) {
-            if (catchWrongApiKeyErrors && ex.isWrongApiKeyError()) {
+            if (ignoreWrongApiKeyErrors && ex.isWrongApiKeyError()) {
                 logger.info(
                     "This environment's API key does not support sending emails to the specified email address " +
                         "as it is not on the team members list. GOV Notify returned an error, but this notification " +
@@ -65,7 +65,7 @@ class GovNotifyApiClient(
                     sendNotificationResponseMapper.toSendNotificationResponse(this)
                 }
         } catch (ex: NotificationClientException) {
-            if (catchWrongApiKeyErrors && ex.isWrongApiKeyError()) {
+            if (ignoreWrongApiKeyErrors && ex.isWrongApiKeyError()) {
                 logger.info(
                     "This environment's API key does not support sending letters. GOV Notify returned an error, " +
                         "but this notification will be treated as being successfully sent."
