@@ -3,13 +3,13 @@ package uk.gov.dluhc.notificationsapi.client
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
-import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
@@ -37,7 +37,6 @@ import uk.gov.service.notify.TemplatePreview
 
 @ExtendWith(MockitoExtension::class)
 internal class GovNotifyApiClientTest {
-    @InjectMocks
     private lateinit var govNotifyApiClient: GovNotifyApiClient
 
     @Mock
@@ -48,6 +47,15 @@ internal class GovNotifyApiClientTest {
 
     @Nested
     inner class SendEmail {
+        @BeforeEach
+        fun setupClient() {
+            govNotifyApiClient = GovNotifyApiClient(
+                notificationClient = notificationClient,
+                sendNotificationResponseMapper = sendNotificationResponseMapper,
+                ignoreWrongApiKeyErrors = false,
+            )
+        }
+
         @Test
         fun `should send email`() {
             // Given
@@ -104,7 +112,7 @@ internal class GovNotifyApiClientTest {
         }
 
         @Test
-        fun `should throw GovNotifyApiBadRequestException given client throws exception with 400 http result`() {
+        fun `should throw GovNotifyApiBadRequestException given client throws wrong API key error`() {
             // Given
             val emailAddress = anEmailAddress()
             val notificationId = aNotificationId()
@@ -152,6 +160,15 @@ internal class GovNotifyApiClientTest {
 
     @Nested
     inner class SendLetter {
+        @BeforeEach
+        fun setupClient() {
+            govNotifyApiClient = GovNotifyApiClient(
+                notificationClient = notificationClient,
+                sendNotificationResponseMapper = sendNotificationResponseMapper,
+                ignoreWrongApiKeyErrors = false,
+            )
+        }
+
         @ParameterizedTest
         @EnumSource(value = SourceType::class, names = ["POSTAL", "OVERSEAS"])
         fun `should send letter`(sourceType: SourceType) {
@@ -230,7 +247,7 @@ internal class GovNotifyApiClientTest {
         }
 
         @Test
-        fun `should throw GovNotifyApiBadRequestException given client throws exception with 400 http result`() {
+        fun `should throw GovNotifyApiBadRequestException given client throws wrong API key error`() {
             // Given
             val sourceType = SourceType.POSTAL
             val notificationId = aNotificationId()
@@ -295,7 +312,87 @@ internal class GovNotifyApiClientTest {
     }
 
     @Nested
+    inner class IgnoreWrongApiKeyErrors {
+        @BeforeEach
+        fun setupClient() {
+            govNotifyApiClient = GovNotifyApiClient(
+                notificationClient = notificationClient,
+                sendNotificationResponseMapper = sendNotificationResponseMapper,
+                ignoreWrongApiKeyErrors = true,
+            )
+        }
+
+        @Test
+        fun `should return null given client throws wrong API key error when sending email`() {
+            // Given
+            val emailAddress = anEmailAddress()
+            val notificationId = aNotificationId()
+            val personalisation = aNotificationPersonalisationMap()
+            val templateId = aTemplateId().toString()
+            val exceptionMessage = "Can't send to this recipient using a team-only API key"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 400)
+
+            given(notificationClient.sendEmail(any(), any(), any(), any())).willThrow(exception)
+
+            // When
+            val actual = govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId)
+
+            // Then
+            verify(notificationClient).sendEmail(
+                templateId,
+                emailAddress,
+                personalisation,
+                notificationId.toString()
+            )
+            assertThat(actual).isNull()
+        }
+
+        @Test
+        fun `should return null given client throws wrong API key error when sending letter`() {
+            // Given
+            val sourceType = SourceType.POSTAL
+            val postalAddress = aPostalAddress()
+            val notificationId = aNotificationId()
+            val notificationDestination = aNotificationDestination(postalAddress = postalAddress)
+            val personalisation = aNotificationPersonalisationMap()
+            val templateId = aTemplateId().toString()
+            val exceptionMessage = "Can't send to this recipient using a team-only API key"
+            val exception = NotificationClientException(exceptionMessage)
+            setField(exception, "httpResult", 400)
+
+            given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
+
+            // When
+            val actual = govNotifyApiClient.sendLetter(
+                templateId,
+                notificationDestination,
+                personalisation,
+                notificationId,
+                sourceType,
+            )
+
+            // Then
+            verify(notificationClient).sendLetter(
+                templateId,
+                (personalisation + postalAddress.toPersonalisationMap()),
+                notificationId.toString()
+            )
+            assertThat(actual).isNull()
+        }
+    }
+
+    @Nested
     inner class GenerateTemplatePreview {
+        @BeforeEach
+        fun setupClient() {
+            govNotifyApiClient = GovNotifyApiClient(
+                notificationClient = notificationClient,
+                sendNotificationResponseMapper = sendNotificationResponseMapper,
+                ignoreWrongApiKeyErrors = false,
+            )
+        }
+
         @ParameterizedTest
         @CsvSource(
             value = [

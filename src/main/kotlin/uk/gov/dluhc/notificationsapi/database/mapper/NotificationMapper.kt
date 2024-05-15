@@ -31,7 +31,7 @@ abstract class NotificationMapper {
         notificationId: UUID,
         request: SendNotificationRequestDto,
         personalisation: Map<String, Any>?,
-        sendNotificationResponse: SendNotificationResponseDto,
+        sendNotificationResponse: SendNotificationResponseDto?,
         sentAt: LocalDateTime
     ): Notification
 

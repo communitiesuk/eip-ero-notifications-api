@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.client
 
 import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
@@ -19,7 +20,8 @@ private val logger = KotlinLogging.logger {}
 @Component
 class GovNotifyApiClient(
     private val notificationClient: NotificationClient,
-    private val sendNotificationResponseMapper: SendNotificationResponseMapper
+    private val sendNotificationResponseMapper: SendNotificationResponseMapper,
+    @Value("\${api.notify.ignore-wrong-api-key-errors}") private val ignoreWrongApiKeyErrors: Boolean,
 ) {
 
     fun sendEmail(
@@ -27,7 +29,7 @@ class GovNotifyApiClient(
         emailAddress: String,
         personalisation: Map<String, Any>,
         notificationId: UUID
-    ): SendNotificationResponseDto {
+    ): SendNotificationResponseDto? {
         try {
             logger.info { "Sending email for templateId [$templateId], notificationId [$notificationId]" }
             return notificationClient.sendEmail(templateId, emailAddress, personalisation, notificationId.toString())
@@ -35,6 +37,14 @@ class GovNotifyApiClient(
                     sendNotificationResponseMapper.toSendNotificationResponse(this)
                 }
         } catch (ex: NotificationClientException) {
+            if (ignoreWrongApiKeyErrors && ex.isWrongApiKeyError()) {
+                logger.info(
+                    "This environment's API key does not support sending emails to the specified email address " +
+                        "as it is not on the team members list. GOV Notify returned an error, but this notification " +
+                        "will be treated as being successfully sent."
+                )
+                return null
+            }
             throw logAndThrowGovNotifyApiException("Send email", ex, templateId)
         }
     }
@@ -45,7 +55,7 @@ class GovNotifyApiClient(
         placeholders: Map<String, Any>,
         notificationId: UUID,
         sourceType: SourceType
-    ): SendNotificationResponseDto {
+    ): SendNotificationResponseDto? {
 
         try {
             logger.info { "Sending letter for templateId [$templateId], notificationId [$notificationId]" }
@@ -55,6 +65,13 @@ class GovNotifyApiClient(
                     sendNotificationResponseMapper.toSendNotificationResponse(this)
                 }
         } catch (ex: NotificationClientException) {
+            if (ignoreWrongApiKeyErrors && ex.isWrongApiKeyError()) {
+                logger.info(
+                    "This environment's API key does not support sending letters. GOV Notify returned an error, " +
+                        "but this notification will be treated as being successfully sent."
+                )
+                return null
+            }
             throw logAndThrowGovNotifyApiException("Send letter", ex, templateId)
         }
     }
@@ -102,4 +119,7 @@ class GovNotifyApiClient(
             else -> throw GovNotifyApiGeneralException(message)
         }
     }
+
+    fun NotificationClientException.isWrongApiKeyError() =
+        this.httpResult == 400 && this.message == "Can't send to this recipient using a team-only API key"
 }
