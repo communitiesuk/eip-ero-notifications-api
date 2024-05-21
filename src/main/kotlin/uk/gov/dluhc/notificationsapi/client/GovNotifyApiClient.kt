@@ -121,5 +121,7 @@ class GovNotifyApiClient(
     }
 
     fun NotificationClientException.isWrongApiKeyError() =
-        this.httpResult == 400 && this.message == "Can't send to this recipient using a team-only API key"
+        this.message != null &&
+            (this.httpResult == 400 && this.message!!.contains("send to this recipient using a team-only API key")) ||
+            (this.httpResult == 403 && this.message!!.contains("Cannot send letters with a team api key"))
 }
