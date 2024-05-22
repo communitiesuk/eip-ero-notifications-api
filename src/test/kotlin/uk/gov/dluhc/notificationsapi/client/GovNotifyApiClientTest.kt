@@ -329,7 +329,7 @@ internal class GovNotifyApiClientTest {
             val notificationId = aNotificationId()
             val personalisation = aNotificationPersonalisationMap()
             val templateId = aTemplateId().toString()
-            val exceptionMessage = "Can't send to this recipient using a team-only API key"
+            val exceptionMessage = "BadRequestError message: Can`t send to this recipient using a team-only API key"
             val exception = NotificationClientException(exceptionMessage)
             setField(exception, "httpResult", 400)
 
@@ -357,9 +357,9 @@ internal class GovNotifyApiClientTest {
             val notificationDestination = aNotificationDestination(postalAddress = postalAddress)
             val personalisation = aNotificationPersonalisationMap()
             val templateId = aTemplateId().toString()
-            val exceptionMessage = "Can't send to this recipient using a team-only API key"
+            val exceptionMessage = "BadRequest message: Cannot send letters with a team api key"
             val exception = NotificationClientException(exceptionMessage)
-            setField(exception, "httpResult", 400)
+            setField(exception, "httpResult", 403)
 
             given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
 

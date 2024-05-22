@@ -79,7 +79,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government
-    implementation("uk.gov.service.notify:notifications-java-client:3.18.0-RELEASE")
+    implementation("uk.gov.service.notify:notifications-java-client:5.1.0-RELEASE")
 
     // Logging
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:7.3")
