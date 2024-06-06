@@ -1642,6 +1642,18 @@ components:
             $ref: '#/components/schemas/CommunicationsSummary'
       required:
         - communications
+    SentCommunicationResponse:
+      title: SentCommunicationResponse
+      description: Response containing the subject and body of a sent communication
+      type: object
+      properties:
+        subject:
+          type: string
+        body:
+          type: string
+      required:
+        - subject
+        - body
     CommunicationsSummary:
       title: CommunicationsSummary
       description: The summary data for an individual communication sent as part of an application.
@@ -2083,6 +2095,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CommunicationsHistoryResponse'
+    SentCommunication:
+      description: Response containing the subject and body of a sent communication
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SentCommunicationResponse'
     CommunicationConfirmationHistory:
       description: Response containing the offline communication confirmation history for an application
       headers:

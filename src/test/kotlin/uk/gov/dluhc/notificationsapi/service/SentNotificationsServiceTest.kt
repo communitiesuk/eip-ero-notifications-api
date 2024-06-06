@@ -11,6 +11,7 @@ import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
+import uk.gov.dluhc.notificationsapi.mapper.NotificationApiMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationSummaryMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -39,6 +40,9 @@ class SentNotificationsServiceTest {
 
     @Mock
     private lateinit var notificationSummaryMapper: NotificationSummaryMapper
+
+    @Mock
+    private lateinit var notificationApiMapper: NotificationApiMapper
 
     @Test
     fun `should get Notification Summaries for application`() {
