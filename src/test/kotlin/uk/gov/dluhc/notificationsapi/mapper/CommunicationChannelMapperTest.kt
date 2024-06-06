@@ -4,13 +4,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.database.entity.Channel as ChannelEntity
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel as NotificationChannelMessagingApi
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel as NotificationChannelApi
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel as CommunicationChannelMessagingApi
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel as CommunicationChannelApi
 
-class NotificationChannelMapperTest {
+class CommunicationChannelMapperTest {
 
-    private val mapper = NotificationChannelMapperImpl()
+    private val mapper = CommunicationChannelMapperImpl()
 
     @ParameterizedTest
     @CsvSource(
@@ -20,13 +20,13 @@ class NotificationChannelMapperTest {
         ],
     )
     fun `should map API notification channel to DTO notification channel`(
-        apiNotificationChannel: NotificationChannelApi,
-        expected: NotificationChannelDto,
+        apiCommunicationChannel: CommunicationChannelApi,
+        expected: CommunicationChannelDto,
     ) {
         // Given
 
         // When
-        val actual = mapper.fromApiToDto(apiNotificationChannel)
+        val actual = mapper.fromApiToDto(apiCommunicationChannel)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -40,13 +40,13 @@ class NotificationChannelMapperTest {
         ],
     )
     fun `should map DTO notification channel to API notification channel`(
-        notificationChannelDto: NotificationChannelDto,
-        expected: NotificationChannelApi,
+        communicationChannelDto: CommunicationChannelDto,
+        expected: CommunicationChannelApi,
     ) {
         // Given
 
         // When
-        val actual = mapper.fromDtoToApi(notificationChannelDto)
+        val actual = mapper.fromDtoToApi(communicationChannelDto)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -60,13 +60,13 @@ class NotificationChannelMapperTest {
         ],
     )
     fun `should map Entity notification channel to DTO notification channel`(
-        entityNotificationChannel: ChannelEntity,
-        expected: NotificationChannelDto,
+        entityCommunicationChannel: ChannelEntity,
+        expected: CommunicationChannelDto,
     ) {
         // Given
 
         // When
-        val actual = mapper.fromEntityToDto(entityNotificationChannel)
+        val actual = mapper.fromEntityToDto(entityCommunicationChannel)
 
         // Then
         assertThat(actual).isEqualTo(expected)
@@ -80,13 +80,13 @@ class NotificationChannelMapperTest {
         ],
     )
     fun `should messaging map API notification channel to DTO notification channel`(
-        messagingApiNotificationChannel: NotificationChannelMessagingApi,
-        expected: NotificationChannelDto,
+        messagingApiCommunicationChannel: CommunicationChannelMessagingApi,
+        expected: CommunicationChannelDto,
     ) {
         // Given
 
         // When
-        val actual = mapper.fromMessagingApiToDto(messagingApiNotificationChannel)
+        val actual = mapper.fromMessagingApiToDto(messagingApiCommunicationChannel)
 
         // Then
         assertThat(actual).isEqualTo(expected)

@@ -1,15 +1,15 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.api
 
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
 
 fun buildGeneratePhotoResubmissionTemplatePreviewRequest(
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language = Language.EN,
     personalisation: PhotoPersonalisation = buildPhotoResubmissionPersonalisationRequest(),
     sourceType: SourceType,
@@ -22,7 +22,7 @@ fun buildGeneratePhotoResubmissionTemplatePreviewRequest(
     )
 
 fun buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language = Language.EN,
     personalisation: IdDocumentPersonalisation = buildIdDocumentResubmissionPersonalisationRequest(),
     sourceType: SourceType,

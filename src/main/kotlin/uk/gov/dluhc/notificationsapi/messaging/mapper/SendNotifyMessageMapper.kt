@@ -13,9 +13,9 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WIT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.mapper.CommunicationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
-import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationApprovedMessage
@@ -34,7 +34,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatu
     uses = [
         LanguageMapper::class,
         SourceTypeMapper::class,
-        NotificationChannelMapper::class,
+        CommunicationChannelMapper::class,
         NotificationTypeMapper::class,
         NotificationDestinationDtoMapper::class,
     ],

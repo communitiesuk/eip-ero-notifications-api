@@ -9,8 +9,8 @@ import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.entity.NotifyDetails
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.PostalAddress
@@ -61,7 +61,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         languageDto: LanguageDto,
     ) = with(payload) {
         SendNotificationRequestDto(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             notificationType = NotificationType.APPLICATION_REJECTED,
             language = languageDto,
             gssCode = gssCode,

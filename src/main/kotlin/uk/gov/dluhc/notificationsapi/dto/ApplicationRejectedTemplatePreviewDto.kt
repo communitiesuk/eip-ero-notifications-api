@@ -6,7 +6,7 @@ class ApplicationRejectedTemplatePreviewDto(
     val personalisation: ApplicationRejectedPersonalisationDto,
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
-    channel = NotificationChannel.LETTER,
+    channel = CommunicationChannel.LETTER,
     language = language,
     notificationType = NotificationType.APPLICATION_REJECTED,
 )

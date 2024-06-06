@@ -11,8 +11,8 @@ import uk.gov.dluhc.notificationsapi.database.entity.Channel.EMAIL
 import uk.gov.dluhc.notificationsapi.database.entity.Channel.LETTER
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
@@ -35,7 +35,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
         val sourceType = SourceType.VOTER_MINUS_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentRequiredMessage(
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,
@@ -74,7 +74,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
         val sourceType = SourceType.VOTER_MINUS_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentRequiredMessage(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,

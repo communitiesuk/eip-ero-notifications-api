@@ -1,13 +1,13 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
@@ -27,7 +27,7 @@ fun buildSendNotificationRequestDto(
         overseasElectorAddress = anOverseasAddress(),
     ),
     notificationType: NotificationType = aNotificationType(),
-    channel: NotificationChannel = aNotificationChannel(),
+    channel: CommunicationChannel = aCommunicationChannel(),
     language: LanguageDto = LanguageDto.ENGLISH,
 ): SendNotificationRequestDto =
     SendNotificationRequestDto(

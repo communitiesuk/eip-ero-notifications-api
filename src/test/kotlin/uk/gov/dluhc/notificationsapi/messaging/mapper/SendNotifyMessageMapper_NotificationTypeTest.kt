@@ -19,8 +19,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.mapper.CommunicationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
-import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
@@ -40,7 +40,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationChannel
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDestination
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
@@ -60,7 +60,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var notificationTypeMapper: NotificationTypeMapper
@@ -250,7 +250,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val notification = mapper.fromPhotoMessageToSendNotificationRequestDto(request)
@@ -283,7 +283,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val notification = mapper.fromPhotoMessageToSendNotificationRequestDto(request)
@@ -318,7 +318,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -355,7 +355,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -386,7 +386,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -421,7 +421,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -456,7 +456,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)

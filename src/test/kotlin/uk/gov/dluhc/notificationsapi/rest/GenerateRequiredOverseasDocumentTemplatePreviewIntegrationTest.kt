@@ -9,13 +9,13 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequiredOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -133,7 +133,7 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
     fun `should return template preview given valid json request`(
         templateId: String,
         documentCategory: DocumentCategory,
-        channel: NotificationChannel,
+        channel: CommunicationChannel,
         language: Language,
     ) {
         // Given

@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
@@ -25,7 +26,6 @@ import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.INVALID_MINU
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildIdDocumentResubmissionPersonalisationRequest
@@ -42,7 +42,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
-    private lateinit var channelMapper: NotificationChannelMapper
+    private lateinit var channelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
@@ -119,7 +119,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     ) {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = Language.EN,
             sourceType = SourceType.VOTER_MINUS_CARD,
             personalisation = buildIdDocumentResubmissionPersonalisationRequest(
@@ -133,7 +133,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER)
+        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD)
 
         // When
@@ -157,7 +157,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     ) {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = Language.EN,
             sourceType = SourceType.VOTER_MINUS_CARD,
             personalisation = buildIdDocumentResubmissionPersonalisationRequest(
@@ -171,7 +171,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER)
+        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD)
 
         // When
@@ -185,7 +185,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     fun `should map ID document template request to dto with correct NotificationType mapping given all documents have rejection reasons or rejection notes`() {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = Language.EN,
             sourceType = SourceType.VOTER_MINUS_CARD,
             personalisation = buildIdDocumentResubmissionPersonalisationRequest(
@@ -203,7 +203,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER)
+        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD)
 
         // When
@@ -217,7 +217,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     fun `should map ID document template request to dto with correct NotificationType mapping given not all documents have rejection reasons or rejection notes`() {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = Language.EN,
             sourceType = SourceType.VOTER_MINUS_CARD,
             personalisation = buildIdDocumentResubmissionPersonalisationRequest(
@@ -239,7 +239,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER)
+        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD)
 
         // When
@@ -253,7 +253,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
     fun `should map ID document template request to dto with correct NotificationType mapping given no documents have rejection reasons or rejection notes`() {
         // Given
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = Language.EN,
             sourceType = SourceType.VOTER_MINUS_CARD,
             personalisation = buildIdDocumentResubmissionPersonalisationRequest(
@@ -275,7 +275,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER)
+        given(channelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD)
 
         // When

@@ -9,7 +9,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePr
 import uk.gov.dluhc.notificationsapi.models.RequestedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
 
-@Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
+@Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
 abstract class RequestedSignatureTemplatePreviewDtoMapper {
 
     @Mapping(

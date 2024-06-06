@@ -12,11 +12,11 @@ import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
@@ -212,7 +212,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         templateId: String,
         language: Language,
         expectedPersonalisationSourceType: String,
@@ -222,7 +222,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateRequestedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = communicationChannel,
             language = language,
             personalisation = buildRequestedSignaturePersonalisation(
                 freeText = "Free Text",
@@ -275,7 +275,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
     )
     fun `should return template preview given valid request when optional values are not populated`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         templateId: String,
         expectedPersonalisationSourceType: String,
     ) {
@@ -285,7 +285,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
 
         val requestBody = buildGenerateRequestedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = communicationChannel,
             personalisation = buildRequestedSignaturePersonalisation(
                 freeText = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
@@ -338,13 +338,13 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
         ],
     )
     fun `should return bad request if a template is not configured`(
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         language: Language?,
         sourceType: SourceType,
     ) {
         // Given
         val requestBody = buildGenerateRequestedSignatureTemplatePreviewRequest(
-            channel = notificationChannel,
+            channel = communicationChannel,
             language = language,
             sourceType = sourceType,
         )
@@ -363,7 +363,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
         val actual = response.responseBody.blockFirst()
         val sourceTypeValue = sourceTypeMapper.fromApiToDto(sourceType)
         val expectedErrorMessage =
-            "No ${notificationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REQUESTED_SIGNATURE} and sourceType $sourceTypeValue"
+            "No ${communicationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REQUESTED_SIGNATURE} and sourceType $sourceTypeValue"
         ErrorResponseAssert.assertThat(actual)
             .hasStatus(400)
             .hasError("Bad Request")

@@ -2,7 +2,7 @@ package uk.gov.dluhc.notificationsapi.dto
 
 class GenerateIdDocumentResubmissionTemplatePreviewDto(
     sourceType: SourceType,
-    channel: NotificationChannel,
+    channel: CommunicationChannel,
     language: LanguageDto,
     val personalisation: IdDocumentPersonalisationDto,
     notificationType: NotificationType,
@@ -15,7 +15,7 @@ class GenerateIdDocumentResubmissionTemplatePreviewDto(
 
 class GeneratePhotoResubmissionTemplatePreviewDto(
     sourceType: SourceType,
-    channel: NotificationChannel,
+    channel: CommunicationChannel,
     language: LanguageDto,
     val personalisation: PhotoPersonalisationDto,
     notificationType: NotificationType,

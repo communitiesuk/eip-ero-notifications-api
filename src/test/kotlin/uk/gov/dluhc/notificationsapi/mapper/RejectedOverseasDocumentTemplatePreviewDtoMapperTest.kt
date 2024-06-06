@@ -13,13 +13,13 @@ import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedOverseasDocumentTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 
 @ExtendWith(MockitoExtension::class)
 class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
@@ -31,7 +31,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var documentCategoryMapper: DocumentCategoryMapper
@@ -55,7 +55,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
         // Given
         val request = buildRejectedOverseasDocumentTemplatePreviewRequest(
             language = Language.EN,
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             documentCategory = documentCategory,
         )
         val contactDetailsDto =
@@ -79,7 +79,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
             }
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(notificationChannelMapper.fromApiToDto(any())).willReturn(uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL)
+        given(communicationChannelMapper.fromApiToDto(any())).willReturn(CommunicationChannelDto.EMAIL)
         given(documentCategoryMapper.fromApiToDto(any())).willReturn(documentCategoryDto)
         given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(any(), any())).willReturn(listOf("doc1", "doc2"))
         given(eroDtoMapper.toContactDetailsDto(any())).willReturn(contactDetailsDto)
@@ -115,7 +115,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
                 )
             },
 
-            channel = NotificationChannelDto.EMAIL,
+            channel = CommunicationChannelDto.EMAIL,
         )
 
         // When

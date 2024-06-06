@@ -12,7 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.PhotoPersonalisation
 
-@Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
+@Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
 abstract class PhotoResubmissionTemplatePreviewDtoMapper {
 
     @Autowired

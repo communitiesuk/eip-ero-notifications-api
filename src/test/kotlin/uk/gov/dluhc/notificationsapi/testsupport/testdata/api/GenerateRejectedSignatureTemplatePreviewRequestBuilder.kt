@@ -1,9 +1,9 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.api
 
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.RejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
@@ -13,7 +13,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContact
 
 fun buildGenerateRejectedSignatureTemplatePreviewRequest(
     sourceType: SourceType = SourceType.PROXY,
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     personalisation: RejectedSignaturePersonalisation = buildRejectedSignaturePersonalisation(),
     language: Language? = Language.EN,
 ) = GenerateRejectedSignatureTemplatePreviewRequest(

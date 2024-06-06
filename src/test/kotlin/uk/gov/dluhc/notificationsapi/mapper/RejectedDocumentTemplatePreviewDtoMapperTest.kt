@@ -9,8 +9,8 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.Language
@@ -81,7 +81,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
 
         // Then
         val expected = RejectedDocumentTemplatePreviewDto(
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             sourceType = sourceTypeDto,
             language = ENGLISH,
             personalisation = with(request.personalisation) {
@@ -143,7 +143,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
 
         // Then
         val expected = RejectedDocumentTemplatePreviewDto(
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             sourceType = sourceTypeDto,
             language = ENGLISH,
             personalisation = with(request.personalisation) {

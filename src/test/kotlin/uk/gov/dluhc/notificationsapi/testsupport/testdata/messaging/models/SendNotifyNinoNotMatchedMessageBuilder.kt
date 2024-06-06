@@ -1,12 +1,12 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -22,7 +22,7 @@ fun buildSendNotifyNinoNotMatchedMessage(
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
     personalisation: NinoNotMatchedPersonalisation = buildNinoNotMatchedPersonalisation(),
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     toAddress: MessageAddress = aMessageAddress(),
     hasRestrictedDocumentsList: Boolean = false,
     documentCategory: DocumentCategory = DocumentCategory.IDENTITY,

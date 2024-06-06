@@ -9,11 +9,11 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.IdDocumentPersonalisation
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 
-@Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
+@Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
 abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
 
     @Autowired
@@ -48,6 +48,6 @@ abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
     protected abstract fun mapPersonalisation(
         languageDto: LanguageDto,
         personalisation: IdDocumentPersonalisation,
-        channel: NotificationChannel,
+        channel: CommunicationChannel,
     ): IdDocumentPersonalisationDto
 }

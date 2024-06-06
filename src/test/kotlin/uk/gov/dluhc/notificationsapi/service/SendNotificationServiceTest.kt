@@ -19,8 +19,8 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationAuditMapper
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationAuditRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -87,7 +87,7 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send email notification`() {
         // Given
-        val channel = NotificationChannel.EMAIL
+        val channel = CommunicationChannel.EMAIL
         val language = LanguageDto.ENGLISH
         val toAddress =
             NotificationDestinationDto(
@@ -143,7 +143,7 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send email notification and handle non-retryable Notify client error`() {
         // Given
-        val channel = NotificationChannel.EMAIL
+        val channel = CommunicationChannel.EMAIL
         val language = LanguageDto.WELSH
         val toAddress =
             NotificationDestinationDto(
@@ -197,7 +197,7 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send letter notification`() {
         // Given
-        val channel = NotificationChannel.LETTER
+        val channel = CommunicationChannel.LETTER
         val language = LanguageDto.ENGLISH
         val postalAddress = aPostalAddress()
         val toAddress =
@@ -272,7 +272,7 @@ internal class SendNotificationServiceTest {
     )
     fun `should send letter notification for overseas address`(notificationType: NotificationType) {
         // Given
-        val channel = NotificationChannel.LETTER
+        val channel = CommunicationChannel.LETTER
         val language = LanguageDto.ENGLISH
         val overseasAddress = anOverseasAddress()
         val toAddress =
@@ -342,7 +342,7 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send letter notification and handle non-retryable Notify client error`() {
         // Given
-        val channel = NotificationChannel.LETTER
+        val channel = CommunicationChannel.LETTER
         val language = LanguageDto.WELSH
         val postalAddress = aPostalAddress()
         val toAddress =

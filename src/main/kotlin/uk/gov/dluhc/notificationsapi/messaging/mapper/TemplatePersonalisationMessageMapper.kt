@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
@@ -93,7 +93,7 @@ abstract class TemplatePersonalisationMessageMapper {
     abstract fun toIdDocumentPersonalisationDto(
         personalisationMessage: IdDocumentPersonalisation,
         languageDto: LanguageDto,
-        channel: NotificationChannel,
+        channel: CommunicationChannel,
     ): IdDocumentPersonalisationDto
 
     abstract fun toIdDocumentRequiredPersonalisationDto(personalisationMessage: IdDocumentRequiredPersonalisation): IdDocumentRequiredPersonalisationDto
@@ -189,7 +189,7 @@ abstract class TemplatePersonalisationMessageMapper {
     protected fun mapDocumentRejectionText(
         languageDto: LanguageDto,
         personalisation: IdDocumentPersonalisation,
-        channel: NotificationChannel,
+        channel: CommunicationChannel,
     ): String? {
         return documentRejectionTextMapper.toDocumentRejectionText(
             language = languageDto,

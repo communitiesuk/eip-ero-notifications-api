@@ -1,10 +1,10 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.api
 
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.NinoNotMatchedPersonalisation
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
@@ -12,7 +12,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContact
 
 fun buildGenerateNinoNotMatchedTemplatePreviewRequest(
     sourceType: SourceType = SourceType.POSTAL,
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     personalisation: NinoNotMatchedPersonalisation = buildNinoNotMatchedPersonalisation(),
     language: Language? = Language.EN,
     hasRestrictedDocumentsList: Boolean = false,

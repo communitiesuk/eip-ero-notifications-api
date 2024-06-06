@@ -2,7 +2,7 @@ package uk.gov.dluhc.notificationsapi.dto
 
 class RejectedDocumentTemplatePreviewDto(
     sourceType: SourceType,
-    channel: NotificationChannel,
+    channel: CommunicationChannel,
     language: LanguageDto,
     val personalisation: RejectedDocumentPersonalisationDto,
 ) : BaseGenerateTemplatePreviewDto(
