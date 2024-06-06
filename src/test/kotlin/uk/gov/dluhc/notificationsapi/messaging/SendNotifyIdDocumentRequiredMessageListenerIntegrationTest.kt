@@ -28,7 +28,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
     @ParameterizedTest
     @EnumSource(Language::class)
     fun `should process ID document required message to send Email for given language and save notification`(
-        language: Language
+        language: Language,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -39,7 +39,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,
-            sourceReference = sourceReference
+            sourceReference = sourceReference,
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
@@ -53,7 +53,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
                 VOTER_CARD,
-                listOf(gssCode)
+                listOf(gssCode),
             )
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
@@ -67,7 +67,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
     @ParameterizedTest
     @EnumSource(Language::class)
     fun `should process ID document required message to send Letter for given language and save notification`(
-        language: Language
+        language: Language,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -78,7 +78,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,
-            sourceReference = sourceReference
+            sourceReference = sourceReference,
         )
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
@@ -92,7 +92,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
                 VOTER_CARD,
-                listOf(gssCode)
+                listOf(gssCode),
             )
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")

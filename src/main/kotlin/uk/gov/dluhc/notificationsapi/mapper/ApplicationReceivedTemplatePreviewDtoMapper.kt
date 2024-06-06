@@ -14,10 +14,10 @@ abstract class ApplicationReceivedTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )",
     )
     abstract fun toApplicationReceivedTemplatePreviewDto(
-        request: GenerateApplicationReceivedTemplatePreviewRequest
+        request: GenerateApplicationReceivedTemplatePreviewRequest,
     ): ApplicationReceivedTemplatePreviewDto
 
     @Mapping(
@@ -27,6 +27,6 @@ abstract class ApplicationReceivedTemplatePreviewDtoMapper {
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
         personalisation: BasePersonalisation,
-        sourceType: SourceType
+        sourceType: SourceType,
     ): ApplicationReceivedPersonalisationDto
 }

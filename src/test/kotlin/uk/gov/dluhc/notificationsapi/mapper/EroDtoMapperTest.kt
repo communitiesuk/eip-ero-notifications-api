@@ -32,10 +32,10 @@ class EroDtoMapperTest {
                                 town = town,
                                 area = area,
                             )
-                        }
+                        },
                     )
                 },
-                welshContactDetails = null
+                welshContactDetails = null,
             )
         }
 
@@ -50,7 +50,7 @@ class EroDtoMapperTest {
     fun `should map ERO response with Welsh to ERO dto`() {
         // Given
         val localAuthority = buildLocalAuthorityResponse(
-            contactDetailsWelsh = buildContactDetails()
+            contactDetailsWelsh = buildContactDetails(),
         )
         val expected = with(localAuthority) {
             EroDto(
@@ -69,7 +69,7 @@ class EroDtoMapperTest {
                                 town = town,
                                 area = area,
                             )
-                        }
+                        },
                     )
                 },
                 welshContactDetails = with(localAuthority.contactDetailsWelsh!!) {
@@ -87,9 +87,9 @@ class EroDtoMapperTest {
                                 town = town,
                                 area = area,
                             )
-                        }
+                        },
                     )
-                }
+                },
             )
         }
 

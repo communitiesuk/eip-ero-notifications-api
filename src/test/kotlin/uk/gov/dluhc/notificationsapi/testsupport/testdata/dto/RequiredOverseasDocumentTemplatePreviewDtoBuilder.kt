@@ -13,7 +13,7 @@ fun buildRequiredOverseasDocumentTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: RequiredOverseasDocumentPersonalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation(),
-    documentCategory: DocumentCategoryDto = DocumentCategoryDto.PARENT_GUARDIAN
+    documentCategory: DocumentCategoryDto = DocumentCategoryDto.PARENT_GUARDIAN,
 ) = GenerateRequiredOverseasDocumentTemplatePreviewDto(
     channel = channel,
     language = language,

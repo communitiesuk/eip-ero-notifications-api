@@ -55,11 +55,11 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "REJECTED_PREVIOUS_ADDRESS", target = "REJECTED_MINUS_PREVIOUS_MINUS_ADDRESS")
     @ValueMapping(
         source = "PARENT_GUARDIAN_PROOF_REQUIRED",
-        target = "PARENT_MINUS_GUARDIAN_MINUS_PROOF_MINUS_REQUIRED"
+        target = "PARENT_MINUS_GUARDIAN_MINUS_PROOF_MINUS_REQUIRED",
     )
     @ValueMapping(
         source = "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
-        target = "PREVIOUS_MINUS_ADDRESS_MINUS_DOCUMENT_MINUS_REQUIRED"
+        target = "PREVIOUS_MINUS_ADDRESS_MINUS_DOCUMENT_MINUS_REQUIRED",
     )
     // Mappings
     // - NotificationType.PHOTO_RESUBMISSION_WITH_REASONS

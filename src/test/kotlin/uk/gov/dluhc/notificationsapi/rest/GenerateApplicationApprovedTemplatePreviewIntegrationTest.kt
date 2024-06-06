@@ -234,7 +234,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
             "eroAddressLine3" to "London",
             "eroAddressLine4" to "Charles Area",
             "eroAddressLine5" to "Some locality",
-            "eroPostcode" to "PE3 6SB"
+            "eroPostcode" to "PE3 6SB",
         )
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
@@ -253,7 +253,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         Assertions.assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(
             APPLICATION_APPROVED_EN_TEMPLATE_ID,
-            expectedPersonalisationDataMap
+            expectedPersonalisationDataMap,
         )
     }
 
@@ -279,7 +279,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
@@ -291,7 +291,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateApplicationApprovedTemplatePreviewRequest::class.java
+                GenerateApplicationApprovedTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -302,7 +302,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         Assertions.assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(
             APPLICATION_APPROVED_EN_TEMPLATE_ID,
-            expectedPersonalisationDataMap
+            expectedPersonalisationDataMap,
         )
     }
 
@@ -315,7 +315,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
 
         val requestBody = buildGenerateApplicationApprovedTemplatePreviewRequest(
             personalisation = buildBasePersonalisation(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
-            sourceType = SourceType.VOTER_MINUS_CARD
+            sourceType = SourceType.VOTER_MINUS_CARD,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -330,7 +330,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
                 "eroAddressLine3" to "",
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
 
@@ -343,7 +343,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateApplicationApprovedTemplatePreviewRequest::class.java
+                GenerateApplicationApprovedTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -354,13 +354,13 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         Assertions.assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(
             APPLICATION_APPROVED_EN_TEMPLATE_ID,
-            expectedPersonalisationDataMap
+            expectedPersonalisationDataMap,
         )
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
             Mono.just(buildGenerateApplicationApprovedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
-            GenerateApplicationApprovedTemplatePreviewRequest::class.java
+            GenerateApplicationApprovedTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

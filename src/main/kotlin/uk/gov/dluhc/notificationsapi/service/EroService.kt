@@ -30,7 +30,7 @@ class EroService(private val electoralRegistrationOfficeManagementApiClient: Ele
             logger.warn { "ero '$eroId' is associated with gssCodes: $erosGssCodes but not [$gssCode]" }
             throw GssCodeMismatchException(
                 eroId = eroId,
-                requestGssCode = gssCode
+                requestGssCode = gssCode,
             )
         }
     }

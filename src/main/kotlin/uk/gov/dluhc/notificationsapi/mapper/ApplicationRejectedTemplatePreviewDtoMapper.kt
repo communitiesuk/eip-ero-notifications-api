@@ -17,27 +17,27 @@ abstract class ApplicationRejectedTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, applicationRejectedTemplatePreviewRequest.getPersonalisation() ) )"
+        expression = "java( mapPersonalisation( language, applicationRejectedTemplatePreviewRequest.getPersonalisation() ) )",
     )
     abstract fun toApplicationRejectedTemplatePreviewDto(applicationRejectedTemplatePreviewRequest: GenerateApplicationRejectedTemplatePreviewRequest): ApplicationRejectedTemplatePreviewDto
 
     @Mapping(
         target = "rejectionReasonList",
-        expression = "java( mapApplicationRejectionReasons( languageDto, personalisation ) )"
+        expression = "java( mapApplicationRejectionReasons( languageDto, personalisation ) )",
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
-        personalisation: ApplicationRejectedPersonalisation
+        personalisation: ApplicationRejectedPersonalisation,
     ): ApplicationRejectedPersonalisationDto
 
     fun mapApplicationRejectionReasons(
         languageDto: LanguageDto,
-        personalisation: ApplicationRejectedPersonalisation
+        personalisation: ApplicationRejectedPersonalisation,
     ): List<String> {
         return personalisation.rejectionReasonList.map { reason ->
             applicationRejectionReasonMapper.toApplicationRejectionReasonString(
                 reason,
-                languageDto
+                languageDto,
             )
         }
     }

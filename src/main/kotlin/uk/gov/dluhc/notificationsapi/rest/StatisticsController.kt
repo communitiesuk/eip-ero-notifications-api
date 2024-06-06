@@ -24,14 +24,14 @@ class StatisticsController(
     ): CommunicationsStatisticsResponseVAC {
         val notifications = sentNotificationsService.getNotificationsForApplication(
             sourceReference = applicationId,
-            sourceType = SourceType.VOTER_CARD
+            sourceType = SourceType.VOTER_CARD,
         )
 
         val photoRequested = notifications.any { it.type == NotificationType.PHOTO_RESUBMISSION }
         val identityDocumentsRequested = notifications.any {
             it.type in listOf(
                 NotificationType.ID_DOCUMENT_REQUIRED,
-                NotificationType.ID_DOCUMENT_RESUBMISSION
+                NotificationType.ID_DOCUMENT_RESUBMISSION,
             )
         }
 
@@ -48,21 +48,21 @@ class StatisticsController(
     ): CommunicationsStatisticsResponseOAVA {
         val notifications = sentNotificationsService.getNotificationsForApplication(
             sourceReference = applicationId,
-            sourceType = if (oavaService == "postal") SourceType.POSTAL else SourceType.PROXY
+            sourceType = if (oavaService == "postal") SourceType.POSTAL else SourceType.PROXY,
         )
 
         val signatureRequested = notifications.any {
             it.type in listOf(
                 NotificationType.REJECTED_SIGNATURE,
                 NotificationType.REQUESTED_SIGNATURE,
-                NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+                NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
             )
         }
         val identityDocumentsRequested = notifications.any {
             it.type in listOf(
                 NotificationType.ID_DOCUMENT_REQUIRED,
                 NotificationType.ID_DOCUMENT_RESUBMISSION,
-                NotificationType.NINO_NOT_MATCHED
+                NotificationType.NINO_NOT_MATCHED,
             )
         }
 

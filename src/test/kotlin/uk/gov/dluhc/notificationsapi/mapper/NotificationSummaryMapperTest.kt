@@ -116,7 +116,7 @@ class NotificationSummaryMapperTest {
             requestor = requestor,
             channel = NotificationChannel.EMAIL,
             templateType = TemplateType.APPLICATION_MINUS_APPROVED,
-            timestamp = OffsetDateTime.of(sentAt, ZoneOffset.UTC)
+            timestamp = OffsetDateTime.of(sentAt, ZoneOffset.UTC),
         )
 
         // When

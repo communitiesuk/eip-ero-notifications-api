@@ -11,23 +11,23 @@ class RejectedDocumentTypeMapper(private val messageSource: MessageSource) {
 
     fun toDocumentTypeString(
         documentType: DocumentTypeApiEnum,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.document-rejection.document-types.${documentType.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 
     fun toDocumentTypeString(
         documentType: DocumentTypeMessagingEnum,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.document-rejection.document-types.${documentType.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 }

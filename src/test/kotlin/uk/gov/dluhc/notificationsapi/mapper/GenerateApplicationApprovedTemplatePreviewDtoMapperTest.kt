@@ -36,7 +36,7 @@ class GenerateApplicationApprovedTemplatePreviewDtoMapperTest {
         // Given
         val request = buildGenerateApplicationApprovedTemplatePreviewRequest(
             language = Language.EN,
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -62,13 +62,13 @@ class GenerateApplicationApprovedTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
 
         // When

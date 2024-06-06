@@ -18,7 +18,7 @@ abstract class RejectedDocumentTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )",
     )
     abstract fun toRejectedDocumentTemplatePreviewDto(request: GenerateRejectedDocumentTemplatePreviewRequest): RejectedDocumentTemplatePreviewDto
 
@@ -28,11 +28,11 @@ abstract class RejectedDocumentTemplatePreviewDtoMapper {
     )
     @Mapping(
         target = "documents",
-        expression = "java( rejectedDocumentsMapper.mapRejectionDocumentsFromApi( languageDto, personalisation.getDocuments() ) )"
+        expression = "java( rejectedDocumentsMapper.mapRejectionDocumentsFromApi( languageDto, personalisation.getDocuments() ) )",
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
         personalisation: RejectedDocumentPersonalisation,
-        sourceType: SourceType
+        sourceType: SourceType,
     ): RejectedDocumentPersonalisationDto
 }

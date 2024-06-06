@@ -13,11 +13,11 @@ fun buildGenerateRejectedDocumentTemplatePreviewRequest(
     personalisation: RejectedDocumentPersonalisation = buildRejectedDocumentPersonalisation(),
     language: Language = EN,
     sourceType: SourceType = POSTAL,
-    channel: NotificationChannel = EMAIL
+    channel: NotificationChannel = EMAIL,
 ): GenerateRejectedDocumentTemplatePreviewRequest =
     GenerateRejectedDocumentTemplatePreviewRequest(
         personalisation = personalisation,
         language = language,
         sourceType = sourceType,
-        channel = channel
+        channel = channel,
     )

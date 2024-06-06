@@ -21,7 +21,7 @@ fun buildGenerateRejectedSignatureTemplatePreviewDto(
     sourceType = sourceType,
     language = language,
     personalisation = personalisation,
-    notificationType = notificationType
+    notificationType = notificationType,
 )
 
 fun buildRejectedSignaturePersonalisationDto(

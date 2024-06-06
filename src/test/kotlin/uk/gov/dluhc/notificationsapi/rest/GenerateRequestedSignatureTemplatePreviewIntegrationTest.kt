@@ -165,10 +165,10 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
                 eroContactDetails = buildEroContactDetails(
                     address = buildAddress(
                         street = "",
-                        postcode = "AB11111111111"
-                    )
-                )
-            )
+                        postcode = "AB11111111111",
+                    ),
+                ),
+            ),
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
         val expectedValidationErrorsCount = 4
@@ -208,7 +208,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
             "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,proxy",
             "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
             "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
-        ]
+        ],
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
@@ -225,8 +225,8 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
             channel = notificationChannel,
             language = language,
             personalisation = buildRequestedSignaturePersonalisation(
-                freeText = "Free Text"
-            )
+                freeText = "Free Text",
+            ),
         )
 
         // When
@@ -271,7 +271,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
             "POSTAL,LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,postal",
             "PROXY,EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,proxy",
             "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,proxy",
-        ]
+        ],
     )
     fun `should return template preview given valid request when optional values are not populated`(
         sourceType: SourceType,
@@ -335,14 +335,13 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
             "EMAIL,CY,VOTER_MINUS_CARD",
             "LETTER,EN,VOTER_MINUS_CARD",
             "LETTER,CY,VOTER_MINUS_CARD",
-        ]
+        ],
     )
     fun `should return bad request if a template is not configured`(
         notificationChannel: NotificationChannel,
         language: Language?,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
-
         // Given
         val requestBody = buildGenerateRequestedSignatureTemplatePreviewRequest(
             channel = notificationChannel,
@@ -378,7 +377,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateRequestedSignatureTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateRequestedSignatureTemplatePreviewRequest::class.java
+            GenerateRequestedSignatureTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

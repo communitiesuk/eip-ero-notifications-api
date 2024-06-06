@@ -3,5 +3,5 @@ package uk.gov.dluhc.notificationsapi.dto
 data class NotificationDestinationDto(
     val emailAddress: String?,
     val postalAddress: PostalAddress?,
-    val overseasElectorAddress: OverseasElectorAddress?
+    val overseasElectorAddress: OverseasElectorAddress?,
 )

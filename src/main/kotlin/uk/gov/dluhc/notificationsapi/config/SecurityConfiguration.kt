@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableMethodSecurity
 class SecurityConfiguration(
     private val environment: Environment,
-    private val cognitoJwtAuthenticationConverter: CognitoJwtAuthenticationConverter
+    private val cognitoJwtAuthenticationConverter: CognitoJwtAuthenticationConverter,
 ) {
 
     @Bean

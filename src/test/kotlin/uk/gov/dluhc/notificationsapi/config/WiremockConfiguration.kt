@@ -17,13 +17,13 @@ class WiremockConfiguration {
         WireMockServer(
             WireMockConfiguration.options()
                 .dynamicPort()
-                .dynamicHttpsPort()
+                .dynamicHttpsPort(),
         ).apply {
             start()
             baseUrl = "http://localhost:${this.port()}"
             TestPropertyValues.of(
                 "spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:${this.port()}/cognito/.well-known/jwks.json",
-                "api.ero-management.url=http://localhost:${this.port()}/ero-management-api"
+                "api.ero-management.url=http://localhost:${this.port()}/ero-management-api",
             ).applyTo(applicationContext)
         }
 }

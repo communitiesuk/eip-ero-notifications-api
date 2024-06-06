@@ -250,7 +250,7 @@ class CommunicationConfirmationMapperTest {
                 channel = CommunicationConfirmationChannelDto.LETTER,
                 requestor = requestor,
                 sentAt = sentAt,
-            )
+            ),
         )
 
         given(sourceTypeMapper.fromEntityToDto(any()))

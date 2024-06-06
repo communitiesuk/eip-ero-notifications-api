@@ -5,10 +5,10 @@ class RequestedSignatureTemplatePreviewDto(
     channel: NotificationChannel,
     language: LanguageDto,
     val personalisation: RequestedSignaturePersonalisationDto,
-    notificationType: NotificationType
+    notificationType: NotificationType,
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,
     language = language,
-    notificationType = notificationType
+    notificationType = notificationType,
 )

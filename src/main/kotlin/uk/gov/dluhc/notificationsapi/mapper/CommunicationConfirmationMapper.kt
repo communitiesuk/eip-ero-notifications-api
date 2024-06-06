@@ -32,7 +32,7 @@ abstract class CommunicationConfirmationMapper {
         eroId: String,
         sourceReference: String,
         requestor: String,
-        request: CreateOfflineCommunicationConfirmationRequest
+        request: CreateOfflineCommunicationConfirmationRequest,
     ): CommunicationConfirmationDto
 
     @Mapping(target = "timestamp", source = "sentAt")

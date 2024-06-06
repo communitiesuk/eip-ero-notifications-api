@@ -11,23 +11,23 @@ class PhotoRejectionReasonMapper(private val messageSource: MessageSource) {
 
     fun toPhotoRejectionReasonString(
         photoRejectionReason: PhotoRejectionReasonApiEnum,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.photo-rejection.rejection-reasons.${photoRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 
     fun toPhotoRejectionReasonString(
         photoRejectionReason: PhotoRejectionReasonMessageEnum,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.photo-rejection.rejection-reasons.${photoRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 }

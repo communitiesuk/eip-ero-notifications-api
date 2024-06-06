@@ -30,7 +30,7 @@ class NotifyClientConfiguration {
         voterCard: VoterCardNotifyLetterTemplateConfiguration,
         postal: PostalNotifyLetterTemplateConfiguration,
         proxy: ProxyNotifyLetterTemplateConfiguration,
-        overseas: OverseasNotifyLetterTemplateConfiguration
+        overseas: OverseasNotifyLetterTemplateConfiguration,
     ) = NotifyLetterTemplateConfiguration(voterCard, postal, proxy, overseas)
 }
 
@@ -133,7 +133,7 @@ class PostalNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredEnglish = null,
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
-    previousAddressDocumentRequiredWelsh = null
+    previousAddressDocumentRequiredWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -189,7 +189,7 @@ class ProxyNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredEnglish = null,
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
-    previousAddressDocumentRequiredWelsh = null
+    previousAddressDocumentRequiredWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -245,7 +245,7 @@ class OverseasNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredEnglish = parentGuardianProofRequiredEnglish,
     parentGuardianProofRequiredWelsh = parentGuardianProofRequiredWelsh,
     previousAddressDocumentRequiredEnglish = previousAddressDocumentRequiredEnglish,
-    previousAddressDocumentRequiredWelsh = previousAddressDocumentRequiredWelsh
+    previousAddressDocumentRequiredWelsh = previousAddressDocumentRequiredWelsh,
 
 )
 
@@ -266,7 +266,7 @@ class VoterCardNotifyEmailTemplateConfiguration(
     idDocumentResubmissionWithReasonsEnglish: String,
     idDocumentResubmissionWithReasonsWelsh: String,
     idDocumentRequiredEnglish: String,
-    idDocumentRequiredWelsh: String
+    idDocumentRequiredWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -302,14 +302,14 @@ class VoterCardNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredEnglish = null,
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
-    previousAddressDocumentRequiredWelsh = null
+    previousAddressDocumentRequiredWelsh = null,
 )
 
 data class NotifyLetterTemplateConfiguration(
     val voterCard: VoterCardNotifyLetterTemplateConfiguration,
     val postal: PostalNotifyLetterTemplateConfiguration,
     val proxy: ProxyNotifyLetterTemplateConfiguration,
-    val overseas: OverseasNotifyLetterTemplateConfiguration
+    val overseas: OverseasNotifyLetterTemplateConfiguration,
 )
 
 abstract class AbstractNotifyLetterTemplateConfiguration(
@@ -365,7 +365,7 @@ class VoterCardNotifyLetterTemplateConfiguration(
     idDocumentResubmissionWithReasonsEnglish: String,
     idDocumentResubmissionWithReasonsWelsh: String,
     idDocumentRequiredEnglish: String,
-    idDocumentRequiredWelsh: String
+    idDocumentRequiredWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -401,7 +401,7 @@ class VoterCardNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredEnglish = null,
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
-    previousAddressDocumentRequiredWelsh = null
+    previousAddressDocumentRequiredWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -455,7 +455,7 @@ class PostalNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredEnglish = null,
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
-    previousAddressDocumentRequiredWelsh = null
+    previousAddressDocumentRequiredWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
@@ -509,7 +509,7 @@ class ProxyNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredEnglish = null,
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
-    previousAddressDocumentRequiredWelsh = null
+    previousAddressDocumentRequiredWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.letter", ignoreUnknownFields = false)
@@ -563,6 +563,6 @@ class OverseasNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredEnglish = parentGuardianProofRequiredEnglish,
     parentGuardianProofRequiredWelsh = parentGuardianProofRequiredWelsh,
     previousAddressDocumentRequiredEnglish = previousAddressDocumentRequiredEnglish,
-    previousAddressDocumentRequiredWelsh = previousAddressDocumentRequiredWelsh
+    previousAddressDocumentRequiredWelsh = previousAddressDocumentRequiredWelsh,
 
 )

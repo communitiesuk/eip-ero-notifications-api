@@ -41,17 +41,17 @@ fun buildApplicationRejectedPersonalisation(
     rejectionReasonList: List<ApplicationRejectionReason> = listOf(
         INCOMPLETE_MINUS_APPLICATION,
         NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
-        OTHER
+        OTHER,
     ),
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
-    rejectionReasonMessage: String = "Application rejected for incomplete information and no response from the applicant"
+    rejectionReasonMessage: String = "Application rejected for incomplete information and no response from the applicant",
 ): ApplicationRejectedPersonalisation =
     ApplicationRejectedPersonalisation(
         rejectionReasonList = rejectionReasonList,
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
-        rejectionReasonMessage = rejectionReasonMessage
+        rejectionReasonMessage = rejectionReasonMessage,
     )

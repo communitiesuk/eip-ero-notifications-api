@@ -44,5 +44,5 @@ fun buildRequestedSignaturePersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
-    freeText = freeText
+    freeText = freeText,
 )

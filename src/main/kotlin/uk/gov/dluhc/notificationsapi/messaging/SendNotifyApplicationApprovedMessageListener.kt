@@ -23,7 +23,10 @@ class SendNotifyApplicationApprovedMessageListener(
 ) : MessageListener<SendNotifyApplicationApprovedMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-application-approved-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyApplicationApprovedMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyApplicationApprovedMessage,
+    ) {
         logger.info {
             "received 'send UK Gov notify application approved message' request for gssCode: ${payload.gssCode} with " +
                 "messageType: ${payload.messageType}, " +

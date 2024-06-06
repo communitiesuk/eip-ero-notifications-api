@@ -23,7 +23,10 @@ class SendNotifyApplicationRejectedMessageListener(
 ) : MessageListener<SendNotifyApplicationRejectedMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-application-rejected-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyApplicationRejectedMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyApplicationRejectedMessage,
+    ) {
         logger.info {
             "received 'send UK Gov notify application rejected message' request for gssCode: ${payload.gssCode} with " +
                 "messageType: ${payload.messageType}, " +

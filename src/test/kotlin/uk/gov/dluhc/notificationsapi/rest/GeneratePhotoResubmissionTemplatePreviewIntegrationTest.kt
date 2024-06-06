@@ -245,7 +245,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             "eroAddressLine3" to "London",
             "eroAddressLine4" to "Charles Area",
             "eroAddressLine5" to "Some locality",
-            "eroPostcode" to "PE3 6SB"
+            "eroPostcode" to "PE3 6SB",
         )
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
@@ -289,7 +289,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
@@ -301,7 +301,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+                GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -321,7 +321,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
 
         val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(
             personalisation = buildPhotoResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
-            sourceType = SourceType.VOTER_MINUS_CARD
+            sourceType = SourceType.VOTER_MINUS_CARD,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -340,7 +340,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
                 "eroAddressLine3" to "",
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
 
@@ -353,7 +353,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+                GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -368,6 +368,6 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
             Mono.just(buildGeneratePhotoResubmissionTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
-            GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+            GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

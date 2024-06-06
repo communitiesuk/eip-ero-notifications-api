@@ -84,7 +84,7 @@ class TemplateServiceTest {
             val request = buildGeneratePhotoResubmissionTemplatePreviewDto(
                 language = language,
                 channel = channel,
-                sourceType = sourceType
+                sourceType = sourceType,
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
@@ -124,7 +124,7 @@ class TemplateServiceTest {
             val request = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
                 language = language,
                 channel = channel,
-                sourceType = sourceType
+                sourceType = sourceType,
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
@@ -173,7 +173,7 @@ class TemplateServiceTest {
                     dto.sourceType,
                     dto.notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toIdDocumentRequiredTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
@@ -185,7 +185,7 @@ class TemplateServiceTest {
         @ParameterizedTest
         @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY"])
         fun `should return application received template preview`(
-            sourceType: SourceType
+            sourceType: SourceType,
         ) {
             // Given
             val templateId = "6d0490ee-e004-402e-808f-5791e8336ddb"
@@ -197,7 +197,7 @@ class TemplateServiceTest {
             val language = LanguageDto.ENGLISH
             val request = buildGenerateApplicationReceivedTemplatePreviewDto(
                 language = language,
-                sourceType = sourceType
+                sourceType = sourceType,
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
@@ -206,11 +206,11 @@ class TemplateServiceTest {
                     any(),
                     any(),
                     any(),
-                    any()
-                )
+                    any(),
+                ),
             ).willReturn(templateId)
             given(templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(any())).willReturn(
-                personalisation
+                personalisation,
             )
 
             // When
@@ -224,7 +224,7 @@ class TemplateServiceTest {
                 sourceType,
                 NotificationType.APPLICATION_RECEIVED,
                 NotificationChannel.EMAIL,
-                language
+                language,
             )
             verify(templatePersonalisationDtoMapper).toApplicationReceivedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
@@ -246,7 +246,7 @@ class TemplateServiceTest {
             val sourceType = VOTER_CARD
             val request = buildGenerateApplicationApprovedTemplatePreviewDto(
                 language = language,
-                sourceType = sourceType
+                sourceType = sourceType,
             )
             val expected = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(expected)
@@ -255,11 +255,11 @@ class TemplateServiceTest {
                     any(),
                     any(),
                     any(),
-                    any()
-                )
+                    any(),
+                ),
             ).willReturn(templateId)
             given(templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(any())).willReturn(
-                personalisation
+                personalisation,
             )
 
             // When
@@ -273,7 +273,7 @@ class TemplateServiceTest {
                 VOTER_CARD,
                 NotificationType.APPLICATION_APPROVED,
                 NotificationChannel.EMAIL,
-                language
+                language,
             )
             verify(templatePersonalisationDtoMapper).toApplicationApprovedTemplatePersonalisationMap(request.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
@@ -306,7 +306,7 @@ class TemplateServiceTest {
                     dto.sourceType,
                     dto.notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toApplicationRejectedTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
@@ -318,7 +318,7 @@ class TemplateServiceTest {
         @ParameterizedTest
         @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY"])
         fun `should return rejected document template preview`(
-            sourceType: SourceType
+            sourceType: SourceType,
         ) {
             // Given
             val dto = buildRejectedDocumentTemplatePreviewDto(sourceType)
@@ -342,7 +342,7 @@ class TemplateServiceTest {
                     dto.sourceType,
                     dto.notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toRejectedDocumentTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
@@ -375,7 +375,7 @@ class TemplateServiceTest {
                     dto.sourceType,
                     dto.notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toRejectedSignatureTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
@@ -408,7 +408,7 @@ class TemplateServiceTest {
                     dto.sourceType,
                     dto.notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toRequestedSignatureTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
@@ -420,7 +420,7 @@ class TemplateServiceTest {
         @ParameterizedTest
         @EnumSource(value = SourceType::class, names = ["POSTAL"])
         fun `should return nino not matched template preview`(
-            sourceType: SourceType
+            sourceType: SourceType,
         ) {
             // Given
             val dto = buildNinoNotMatchedTemplatePreviewDto(sourceType)
@@ -444,11 +444,11 @@ class TemplateServiceTest {
                     dto.sourceType,
                     dto.notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toRequiredDocumentTemplatePersonalisationMap(
                 dto.personalisation,
-                dto.sourceType
+                dto.sourceType,
             )
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
@@ -483,7 +483,7 @@ class TemplateServiceTest {
                 buildRejectedOverseasDocumentTemplatePreviewDto(
                     language = language,
                     channel = notificationChannel,
-                    documentCategory = documentCategory
+                    documentCategory = documentCategory,
                 )
             val personalisationMap = buildRejectedOverseasDocumentPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
@@ -494,7 +494,7 @@ class TemplateServiceTest {
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
             given(documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
-                notificationType
+                notificationType,
             )
 
             // When
@@ -508,14 +508,14 @@ class TemplateServiceTest {
                     OVERSEAS,
                     notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toRejectedOverseasDocumentTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(
                 govNotifyApiClient,
                 notificationTemplateMapper,
                 templatePersonalisationDtoMapper,
-                documentCategoryMapper
+                documentCategoryMapper,
             )
         }
     }
@@ -549,7 +549,7 @@ class TemplateServiceTest {
                 buildRequiredOverseasDocumentTemplatePreviewDto(
                     language = language,
                     channel = notificationChannel,
-                    documentCategory = documentCategory
+                    documentCategory = documentCategory,
                 )
             val personalisationMap = buildRequiredOverseasDocumentPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
@@ -560,7 +560,7 @@ class TemplateServiceTest {
                 .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
             given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
-                notificationType
+                notificationType,
             )
 
             // When
@@ -574,14 +574,14 @@ class TemplateServiceTest {
                     OVERSEAS,
                     notificationType,
                     dto.channel,
-                    dto.language
+                    dto.language,
                 )
             verify(templatePersonalisationDtoMapper).toRequiredOverseasDocumentTemplatePersonalisationMap(dto.personalisation)
             verifyNoMoreInteractions(
                 govNotifyApiClient,
                 notificationTemplateMapper,
                 templatePersonalisationDtoMapper,
-                documentCategoryMapper
+                documentCategoryMapper,
             )
         }
     }

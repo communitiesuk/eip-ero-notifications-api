@@ -41,7 +41,7 @@ internal class NotificationTemplateMapperTest {
                 idDocumentResubmissionWithReasonsEnglish = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-EMAIL-ENGLISH",
                 idDocumentResubmissionWithReasonsWelsh = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-EMAIL-WELSH",
                 idDocumentRequiredEnglish = "ID-DOCUMENT-REQUIRED-EMAIL-ENGLISH",
-                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-EMAIL-WELSH"
+                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-EMAIL-WELSH",
             ),
             postal = PostalNotifyEmailTemplateConfiguration(
                 receivedEnglish = "POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
@@ -105,7 +105,7 @@ internal class NotificationTemplateMapperTest {
                 idDocumentResubmissionWithReasonsEnglish = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-LETTER-ENGLISH",
                 idDocumentResubmissionWithReasonsWelsh = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-LETTER-WELSH",
                 idDocumentRequiredEnglish = "ID-DOCUMENT-REQUIRED-LETTER-ENGLISH",
-                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-LETTER-WELSH"
+                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-LETTER-WELSH",
             ),
             postal = PostalNotifyLetterTemplateConfiguration(
                 rejectedDocumentEnglish = "POSTAL-REJECTED-DOCUMENT-LETTER-ENGLISH",
@@ -149,7 +149,7 @@ internal class NotificationTemplateMapperTest {
                 ninoNotMatchedEnglish = "OVERSEAS-NINO-NOT-MATCHED-LETTER-ENGLISH",
                 ninoNotMatchedWelsh = "OVERSEAS-NINO-NOT-MATCHED-LETTER-WELSH",
             ),
-        )
+        ),
     )
 
     @ParameterizedTest
@@ -230,13 +230,13 @@ internal class NotificationTemplateMapperTest {
             "OVERSEAS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED, OVERSEAS-PREVIOUS-ADDRESS-DOCUMENT-REQUIRED-LETTER-WELSH",
             "OVERSEAS,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED, OVERSEAS-PARENT-GUARDIAN-PROOF-REQUIRED-LETTER-WELSH",
 
-        ]
+        ],
     )
     fun `should map Notification Type in language for letter channel to Notify Template ID`(
         sourceType: SourceType,
         language: LanguageDto?,
         notificationType: NotificationType,
-        expected: String
+        expected: String,
     ) {
         // Given
 
@@ -334,13 +334,13 @@ internal class NotificationTemplateMapperTest {
             "OVERSEAS,WELSH,NINO_NOT_MATCHED, OVERSEAS-NINO-NOT-MATCHED-EMAIL-WELSH",
             "OVERSEAS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED, OVERSEAS-PREVIOUS-ADDRESS-DOCUMENT-REQUIRED-EMAIL-WELSH",
             "OVERSEAS,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED, OVERSEAS-PARENT-GUARDIAN-PROOF-REQUIRED-EMAIL-WELSH",
-        ]
+        ],
     )
     fun `should map Notification Type in language for email channel to Notify Template ID`(
         sourceType: SourceType,
         language: LanguageDto?,
         notificationType: NotificationType,
-        expected: String
+        expected: String,
     ) {
         // Given
 
@@ -358,7 +358,7 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,APPLICATION_APPROVED",
             "VOTER_CARD,ENGLISH,APPLICATION_APPROVED",
             "VOTER_CARD,WELSH,APPLICATION_APPROVED",
-        ]
+        ],
     )
     fun `should fail to map Notification Type in language for letter channel for unsupported combination`(
         sourceType: SourceType,
@@ -374,7 +374,7 @@ internal class NotificationTemplateMapperTest {
                     sourceType,
                     notificationType,
                     LETTER,
-                    language
+                    language,
                 )
             }
 
@@ -390,14 +390,14 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,ENGLISH,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,WELSH,LETTER,APPLICATION_APPROVED, letter",
-        ]
+        ],
     )
     fun `should fail to map letter Template Type in language for unsupported combination`(
         sourceType: SourceType,
         language: LanguageDto?,
         channel: NotificationChannel,
         templateType: NotificationType,
-        channelString: String
+        channelString: String,
     ) {
         // Given
 
@@ -407,7 +407,7 @@ internal class NotificationTemplateMapperTest {
                 sourceType,
                 templateType,
                 channel,
-                language
+                language,
             )
         }
 
@@ -423,14 +423,14 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,ENGLISH,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,WELSH,EMAIL,APPLICATION_REJECTED, email",
-        ]
+        ],
     )
     fun `should fail to map email Template Type in language for unsupported combination`(
         sourceType: SourceType,
         language: LanguageDto?,
         channel: NotificationChannel,
         templateType: NotificationType,
-        channelString: String
+        channelString: String,
     ) {
         // Given
 
@@ -440,7 +440,7 @@ internal class NotificationTemplateMapperTest {
                 sourceType,
                 templateType,
                 channel,
-                language
+                language,
             )
         }
 
@@ -465,7 +465,7 @@ internal class NotificationTemplateMapperTest {
                 sourceType,
                 notificationType,
                 EMAIL,
-                language
+                language,
             )
         }
 

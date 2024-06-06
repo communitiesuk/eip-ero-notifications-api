@@ -77,5 +77,5 @@ internal class ApiRequestErrorAttributesTest {
 
 data class TestBean(
     @Size(min = 2)
-    val aField: String
+    val aField: String,
 )

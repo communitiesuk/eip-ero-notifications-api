@@ -9,10 +9,10 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicatio
 fun buildApplicationRejectedTemplatePreviewDto(
     sourceType: SourceType,
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: ApplicationRejectedPersonalisationDto = buildApplicationRejectedPersonalisationDto()
+    personalisation: ApplicationRejectedPersonalisationDto = buildApplicationRejectedPersonalisationDto(),
 ): ApplicationRejectedTemplatePreviewDto =
     ApplicationRejectedTemplatePreviewDto(
         language = language,
         personalisation = personalisation,
-        sourceType = sourceType
+        sourceType = sourceType,
     )

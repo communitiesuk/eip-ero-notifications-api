@@ -23,7 +23,10 @@ class SendNotifyRejectedDocumentMessageListener(
 ) : MessageListener<SendNotifyRejectedDocumentMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-rejected-document-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyRejectedDocumentMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyRejectedDocumentMessage,
+    ) {
         logger.info {
             "received 'send UK Gov notify new rejected document message' request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +

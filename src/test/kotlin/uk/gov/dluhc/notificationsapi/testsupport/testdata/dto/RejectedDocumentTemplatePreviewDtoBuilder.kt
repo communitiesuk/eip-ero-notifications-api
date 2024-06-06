@@ -10,11 +10,11 @@ fun buildRejectedDocumentTemplatePreviewDto(
     sourceType: SourceType,
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: RejectedDocumentPersonalisationDto = buildRejectedDocumentPersonalisationDto()
+    personalisation: RejectedDocumentPersonalisationDto = buildRejectedDocumentPersonalisationDto(),
 ): RejectedDocumentTemplatePreviewDto =
     RejectedDocumentTemplatePreviewDto(
         channel = channel,
         language = language,
         personalisation = personalisation,
-        sourceType = sourceType
+        sourceType = sourceType,
     )

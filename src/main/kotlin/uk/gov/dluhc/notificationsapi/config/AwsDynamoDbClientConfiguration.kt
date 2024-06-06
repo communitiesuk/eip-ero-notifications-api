@@ -36,5 +36,5 @@ data class DynamoDbConfiguration(
     val notificationsTableName: String,
     val communicationConfirmationsTableName: String,
     val notificationAuditsTableName: String,
-    val endpoint: URI?
+    val endpoint: URI?,
 )

@@ -44,12 +44,12 @@ fun buildRejectedSignaturePersonalisation(
     rejectionReasons: List<SignatureRejectionReason> = listOf(
         SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
         SignatureRejectionReason.TOO_MINUS_DARK,
-        SignatureRejectionReason.OTHER
-    )
+        SignatureRejectionReason.OTHER,
+    ),
 ) = RejectedSignaturePersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     rejectionNotes = rejectionNotes,
-    rejectionReasons = rejectionReasons
+    rejectionReasons = rejectionReasons,
 )

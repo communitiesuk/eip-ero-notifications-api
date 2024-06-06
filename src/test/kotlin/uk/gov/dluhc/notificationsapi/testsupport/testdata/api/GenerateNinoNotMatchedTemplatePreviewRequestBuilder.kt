@@ -28,10 +28,10 @@ fun buildNinoNotMatchedPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildEroContactDetails(),
-    additionalNotes: String? = null
+    additionalNotes: String? = null,
 ) = NinoNotMatchedPersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
-    additionalNotes = additionalNotes
+    additionalNotes = additionalNotes,
 )

@@ -70,7 +70,7 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
     private fun String.replaceApiDocumentType(documentType: DocumentTypeApi, language: LanguageDto): String =
         replace(
             "<document-type>",
-            rejectedDocumentTypeMapper.toDocumentTypeString(documentType, language)
+            rejectedDocumentTypeMapper.toDocumentTypeString(documentType, language),
         )
 
     private fun String.replaceListOfApiReasons(
@@ -85,7 +85,7 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
                 }.plus("\n\n")
             } else {
                 ""
-            }
+            },
         )
 
     private fun String.replaceRejectionReasonNotes(rejectionNotes: String?): String =
@@ -96,13 +96,13 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
                     .plus("\n\n")
             } else {
                 ""
-            }
+            },
         )
 
     private fun String.replaceMessagingDocumentType(documentType: DocumentTypeMessaging, language: LanguageDto): String =
         replace(
             "<document-type>",
-            rejectedDocumentTypeMapper.toDocumentTypeString(documentType, language)
+            rejectedDocumentTypeMapper.toDocumentTypeString(documentType, language),
         )
 
     private fun String.replaceListOfMessagingReasons(
@@ -117,6 +117,6 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
                 }.plus("\n\n")
             } else {
                 ""
-            }
+            },
         )
 }

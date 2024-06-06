@@ -45,20 +45,19 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
             "LETTER,false,NINO_NOT_MATCHED",
             "EMAIL,true,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
             "LETTER,true,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
-        ]
+        ],
     )
     fun `should map nino not matched template preview request to dto`(
         channel: NotificationChannel,
         hasRestrictedDocumentsList: Boolean,
         expectedNotificationType: NotificationType,
     ) {
-
         // Given
         val additionalNotes = "Invalid"
         val request = buildGenerateNinoNotMatchedTemplatePreviewRequest(
             channel = channel,
             personalisation = buildNinoNotMatchedPersonalisation(
-                additionalNotes = additionalNotes
+                additionalNotes = additionalNotes,
             ),
             hasRestrictedDocumentsList = hasRestrictedDocumentsList,
         )
@@ -89,9 +88,9 @@ class NinoNotMatchedTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     additionalNotes = "Invalid",

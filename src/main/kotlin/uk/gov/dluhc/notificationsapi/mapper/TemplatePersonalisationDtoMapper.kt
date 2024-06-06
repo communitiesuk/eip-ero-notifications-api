@@ -29,7 +29,7 @@ class TemplatePersonalisationDtoMapper {
                         "photoRejectionNotes" to getSafeValue(photoRejectionNotes),
                         "photoRequestFreeText" to photoRequestFreeText,
                         "uploadPhotoLink" to uploadPhotoLink,
-                    )
+                    ),
                 )
         }
     }
@@ -150,7 +150,7 @@ class TemplatePersonalisationDtoMapper {
 
     fun toRequiredDocumentTemplatePersonalisationMap(
         dto: RequiredDocumentPersonalisationDto,
-        sourceTypeDto: SourceType
+        sourceTypeDto: SourceType,
     ): Map<String, Any> {
         val personalisation = mutableMapOf<String, Any>()
 

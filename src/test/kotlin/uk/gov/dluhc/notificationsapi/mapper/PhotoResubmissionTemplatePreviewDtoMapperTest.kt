@@ -55,8 +55,8 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
             sourceType = SourceTypeModel.VOTER_MINUS_CARD,
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = emptyList(),
-                photoRejectionNotes = null
-            )
+                photoRejectionNotes = null,
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -89,13 +89,13 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
 
         // When
@@ -119,10 +119,10 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
                 photoRejectionReasons = listOf(
                     NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
                     WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
-                    OTHER // OTHER is deliberately excluded from the photo rejection reason mapping
+                    OTHER, // OTHER is deliberately excluded from the photo rejection reason mapping
                 ),
-                photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable."
-            )
+                photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable.",
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -161,13 +161,13 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
 
         // When
@@ -179,11 +179,11 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
         verify(channelMapper).fromApiToDto(NotificationChannelApi.EMAIL)
         verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
             NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
-            LanguageDto.ENGLISH
+            LanguageDto.ENGLISH,
         )
         verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
             WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
-            LanguageDto.ENGLISH
+            LanguageDto.ENGLISH,
         )
     }
 }

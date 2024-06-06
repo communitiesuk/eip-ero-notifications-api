@@ -40,7 +40,7 @@ class NotificationPersonalisationMapConverterTest {
             val name = "Fred"
             val input = mapOf(
                 "name" to name,
-                "rejectionReasons" to rejectionReasons
+                "rejectionReasons" to rejectionReasons,
             )
             given(objectMapper.writeValueAsString(any())).willReturn(serializedRejectionReasons)
 
@@ -68,8 +68,8 @@ class NotificationPersonalisationMapConverterTest {
             val input = AttributeValue.builder().m(
                 mapOf(
                     "name" to AttributeValue.builder().s(name).build(),
-                    "rejectionReasonList" to AttributeValue.builder().s(serializedRejectionReasons).build()
-                )
+                    "rejectionReasonList" to AttributeValue.builder().s(serializedRejectionReasons).build(),
+                ),
             ).build()
             given(objectMapper.readValue(anyString(), any<Class<Any>>())).willReturn(rejectionReasons)
 

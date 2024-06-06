@@ -149,7 +149,7 @@ tasks.withType<GenerateTask> {
             "apis" to "false",
             "invokers" to "false",
             "models" to "",
-        )
+        ),
     )
     configOptions.set(
         mapOf(
@@ -157,7 +157,7 @@ tasks.withType<GenerateTask> {
             "serializationLibrary" to "jackson",
             "enumPropertyNaming" to "UPPERCASE",
             "useBeanValidation" to "true",
-        )
+        ),
     )
 }
 

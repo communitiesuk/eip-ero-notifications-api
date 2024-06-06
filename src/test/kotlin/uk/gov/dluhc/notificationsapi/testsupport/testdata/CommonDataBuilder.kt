@@ -42,7 +42,7 @@ fun aNotificationPersonalisationMap(): Map<String, String> = mapOf(
     "subject_param" to "test subject",
     "name_param" to "John",
     "custom_title" to "Resubmitting photo",
-    "date" to "15/Oct/2022"
+    "date" to "15/Oct/2022",
 )
 
 fun aCommunicationConfirmationId(): UUID = UUID.fromString("fa7d3cc2-2983-4d7e-b675-57d882003ecf")

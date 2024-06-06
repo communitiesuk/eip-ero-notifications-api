@@ -8,5 +8,5 @@ class GssCodeMismatchException(
     eroId: String,
     requestGssCode: String,
 ) : RuntimeException(
-    "Request gssCode:[$requestGssCode] does not belong to eroId:[$eroId]"
+    "Request gssCode:[$requestGssCode] does not belong to eroId:[$eroId]",
 )

@@ -43,7 +43,7 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
         val request = buildGenerateIdDocumentRequiredTemplatePreviewRequest(
             language = Language.EN,
             channel = NotificationChannel.EMAIL,
-            sourceType = SourceType.VOTER_MINUS_CARD
+            sourceType = SourceType.VOTER_MINUS_CARD,
         )
         given(languageMapper.fromApiToDto(any())).willReturn(ENGLISH)
         given(notificationChannelMapper.fromApiToDto(any())).willReturn(EMAIL)
@@ -68,12 +68,12 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
-                    idDocumentRequiredFreeText = idDocumentRequiredFreeText
+                    idDocumentRequiredFreeText = idDocumentRequiredFreeText,
                 )
             },
             channel = EMAIL,

@@ -48,7 +48,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
         sourceType: SourceType,
         sourceTypeEntity: SourceTypeEntity,
         documentCategory: DocumentCategory,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -59,7 +59,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference,
-            documentCategory = documentCategory
+            documentCategory = documentCategory,
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
@@ -74,7 +74,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
                 notificationRepository.getBySourceReferenceAndGssCode(
                     sourceReference,
                     sourceTypeEntity,
-                    listOf(gssCode)
+                    listOf(gssCode),
                 )
             Assertions.assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
@@ -98,7 +98,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
         sourceType: SourceType,
         sourceTypeEntity: SourceTypeEntity,
         documentCategory: DocumentCategory,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -109,7 +109,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference,
-            documentCategory = documentCategory
+            documentCategory = documentCategory,
         )
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
@@ -124,7 +124,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
                 notificationRepository.getBySourceReferenceAndGssCode(
                     sourceReference,
                     sourceTypeEntity,
-                    listOf(gssCode)
+                    listOf(gssCode),
                 )
             Assertions.assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")

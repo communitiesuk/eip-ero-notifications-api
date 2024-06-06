@@ -58,7 +58,7 @@ internal class EroServiceTest {
             // When
             val ex = catchThrowableOfType(
                 { eroService.lookupGssCodesForEro(eroId) },
-                ElectoralRegistrationOfficeNotFoundException::class.java
+                ElectoralRegistrationOfficeNotFoundException::class.java,
             )
 
             // Then
@@ -76,7 +76,7 @@ internal class EroServiceTest {
             // When
             val ex = catchThrowableOfType(
                 { eroService.lookupGssCodesForEro(eroId) },
-                ElectoralRegistrationOfficeGeneralException::class.java
+                ElectoralRegistrationOfficeGeneralException::class.java,
             )
 
             // Then
@@ -116,7 +116,7 @@ internal class EroServiceTest {
             // When
             val ex = catchThrowableOfType(
                 { eroService.validateGssCodeAssociatedWithEro(eroId, gssCode) },
-                GssCodeMismatchException::class.java
+                GssCodeMismatchException::class.java,
             )
 
             // Then

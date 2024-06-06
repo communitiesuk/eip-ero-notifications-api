@@ -5,12 +5,12 @@ class GenerateIdDocumentResubmissionTemplatePreviewDto(
     channel: NotificationChannel,
     language: LanguageDto,
     val personalisation: IdDocumentPersonalisationDto,
-    notificationType: NotificationType
+    notificationType: NotificationType,
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,
     language = language,
-    notificationType = notificationType
+    notificationType = notificationType,
 )
 
 class GeneratePhotoResubmissionTemplatePreviewDto(
@@ -18,10 +18,10 @@ class GeneratePhotoResubmissionTemplatePreviewDto(
     channel: NotificationChannel,
     language: LanguageDto,
     val personalisation: PhotoPersonalisationDto,
-    notificationType: NotificationType
+    notificationType: NotificationType,
 ) : BaseGenerateTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,
     language = language,
-    notificationType = notificationType
+    notificationType = notificationType,
 )

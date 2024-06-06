@@ -22,7 +22,7 @@ abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
     @Mapping(target = "notificationType", expression = "java( idDocumentResubmissionNotificationType(request) )")
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getChannel() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getChannel() ) )",
     )
     abstract fun toIdDocumentResubmissionTemplatePreviewDto(
         request: GenerateIdDocumentResubmissionTemplatePreviewRequest,
@@ -34,19 +34,20 @@ abstract class IdentityDocumentResubmissionTemplatePreviewDtoMapper {
         with(request.personalisation) {
             if (!rejectedDocuments.isNullOrEmpty() &&
                 rejectedDocuments.any { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
-            )
+            ) {
                 ID_DOCUMENT_RESUBMISSION_WITH_REASONS
-            else
+            } else {
                 ID_DOCUMENT_RESUBMISSION
+            }
         }
 
     @Mapping(
         target = "documentRejectionText",
-        expression = "java( documentRejectionTextMapper.toDocumentRejectionText( languageDto, personalisation, channel ) )"
+        expression = "java( documentRejectionTextMapper.toDocumentRejectionText( languageDto, personalisation, channel ) )",
     )
     protected abstract fun mapPersonalisation(
         languageDto: LanguageDto,
         personalisation: IdDocumentPersonalisation,
-        channel: NotificationChannel
+        channel: NotificationChannel,
     ): IdDocumentPersonalisationDto
 }

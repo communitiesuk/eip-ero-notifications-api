@@ -65,10 +65,10 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                 localAuthorities = mutableListOf(
                     buildLocalAuthorityResponse(gssCode = gssCode1),
                     buildLocalAuthorityResponse(gssCode = gssCode2),
-                )
+                ),
             )
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficeResponse::class.java)).willReturn(
-                Mono.just(eroResponse)
+                Mono.just(eroResponse),
             )
             val expected = mutableListOf(gssCode1, gssCode2)
 
@@ -87,7 +87,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
 
             val http404Error = NOT_FOUND.toWebClientResponseException()
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficeResponse::class.java)).willReturn(
-                Mono.error(http404Error)
+                Mono.error(http404Error),
             )
 
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("eroId" to eroId))
@@ -95,7 +95,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             // When
             val ex = catchThrowableOfType(
                 { apiClient.getElectoralRegistrationOfficeGssCodes(eroId) },
-                ElectoralRegistrationOfficeNotFoundException::class.java
+                ElectoralRegistrationOfficeNotFoundException::class.java,
             )
 
             // Then
@@ -110,7 +110,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
 
             val http500Error = INTERNAL_SERVER_ERROR.toWebClientResponseException()
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficeResponse::class.java)).willReturn(
-                Mono.error(http500Error)
+                Mono.error(http500Error),
             )
 
             val expectedException =
@@ -119,7 +119,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             // When
             val ex = catchThrowableOfType(
                 { apiClient.getElectoralRegistrationOfficeGssCodes(eroId) },
-                ElectoralRegistrationOfficeGeneralException::class.java
+                ElectoralRegistrationOfficeGeneralException::class.java,
             )
 
             // Then
@@ -134,7 +134,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
 
             val exception = object : WebClientException("general exception") {}
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficeResponse::class.java)).willReturn(
-                Mono.error(exception)
+                Mono.error(exception),
             )
 
             val expectedException =
@@ -143,7 +143,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             // When
             val ex = catchThrowableOfType(
                 { apiClient.getElectoralRegistrationOfficeGssCodes(eroId) },
-                ElectoralRegistrationOfficeGeneralException::class.java
+                ElectoralRegistrationOfficeGeneralException::class.java,
             )
 
             // Then
@@ -161,13 +161,13 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             val eroResponse = buildElectoralRegistrationOfficeResponse(
                 localAuthorities = listOf(
                     buildLocalAuthorityResponse(gssCode = gssCode),
-                    buildLocalAuthorityResponse()
-                )
+                    buildLocalAuthorityResponse(),
+                ),
             )
 
             val erosResponse = ElectoralRegistrationOfficesResponse(listOf(eroResponse))
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficesResponse::class.java)).willReturn(
-                Mono.just(erosResponse)
+                Mono.just(erosResponse),
             )
             val expected = buildEroDto()
             given(eroMapper.toEroDto(any())).willReturn(expected)
@@ -187,14 +187,14 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             val gssCode = getRandomGssCode()
             val emptyResponse = ElectoralRegistrationOfficesResponse(emptyList())
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficesResponse::class.java)).willReturn(
-                Mono.just(emptyResponse)
+                Mono.just(emptyResponse),
             )
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("gssCode" to gssCode))
 
             // When
             val ex = catchThrowableOfType(
                 { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeNotFoundException::class.java
+                ElectoralRegistrationOfficeNotFoundException::class.java,
             )
 
             // Then
@@ -210,7 +210,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
 
             val http404Error = NOT_FOUND.toWebClientResponseException()
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficesResponse::class.java)).willReturn(
-                Mono.error(http404Error)
+                Mono.error(http404Error),
             )
 
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("gssCode" to gssCode))
@@ -218,7 +218,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             // When
             val ex = catchThrowableOfType(
                 { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeNotFoundException::class.java
+                ElectoralRegistrationOfficeNotFoundException::class.java,
             )
 
             // Then
@@ -234,7 +234,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
 
             val http500Error = INTERNAL_SERVER_ERROR.toWebClientResponseException()
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficesResponse::class.java)).willReturn(
-                Mono.error(http500Error)
+                Mono.error(http500Error),
             )
 
             val expectedException =
@@ -243,7 +243,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             // When
             val ex = catchThrowableOfType(
                 { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeGeneralException::class.java
+                ElectoralRegistrationOfficeGeneralException::class.java,
             )
 
             // Then
@@ -259,7 +259,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
 
             val exception = object : WebClientException("general exception") {}
             given(clientResponse.bodyToMono(ElectoralRegistrationOfficesResponse::class.java)).willReturn(
-                Mono.error(exception)
+                Mono.error(exception),
             )
 
             val expectedException =
@@ -268,7 +268,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             // When
             val ex = catchThrowableOfType(
                 { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeGeneralException::class.java
+                ElectoralRegistrationOfficeGeneralException::class.java,
             )
 
             // Then

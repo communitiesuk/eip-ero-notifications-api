@@ -101,7 +101,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedNotificationType = PHOTO_RESUBMISSION
             val personalisationMessage = buildPhotoPersonalisationMessage(
                 photoRejectionReasons = emptyList(),
-                photoRejectionNotes = null
+                photoRejectionNotes = null,
             )
             val expectedLanguage = LanguageDto.ENGLISH
 
@@ -150,7 +150,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedSourceType = SourceType.VOTER_CARD
             val expectedNotificationType = PHOTO_RESUBMISSION_WITH_REASONS
             val personalisationMessage = buildPhotoPersonalisationMessage(
-                photoRejectionReasons = listOf(PhotoRejectionReason.OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO)
+                photoRejectionReasons = listOf(PhotoRejectionReason.OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
             )
             val expectedLanguage = LanguageDto.ENGLISH
 
@@ -202,7 +202,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedSourceType = SourceType.VOTER_CARD
             val expectedNotificationType = ID_DOCUMENT_RESUBMISSION
             val personalisationMessage = buildIdDocumentPersonalisationMessage(
-                rejectedDocuments = emptyList()
+                rejectedDocuments = emptyList(),
             )
             val expectedLanguage = LanguageDto.ENGLISH
 
@@ -254,9 +254,9 @@ internal class SendNotifyMessageMapperTest {
             val personalisationMessage = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD)
-                    )
-                )
+                        rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                    ),
+                ),
             )
             val expectedLanguage = LanguageDto.ENGLISH
 
@@ -456,11 +456,11 @@ internal class SendNotifyMessageMapperTest {
             value = [
                 "CY, WELSH",
                 "EN, ENGLISH",
-            ]
+            ],
         )
         fun `should map SQS SendNotifyApplicationRejectedMessage to SendNotificationRequestDto`(
             language: Language,
-            expectedLanguage: LanguageDto
+            expectedLanguage: LanguageDto,
         ) {
             // Given
             val gssCode = aGssCode()
@@ -542,12 +542,12 @@ internal class SendNotifyMessageMapperTest {
             given(languageMapper.fromMessageToDto(request.language)).willReturn(expectedLanguage)
             given(sourceTypeMapper.fromMessageToDto(request.sourceType)).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(request.toAddress)).willReturn(
-                expectedToAddress
+                expectedToAddress,
             )
             given(notificationChannelMapper.fromMessagingApiToDto(SqsChannel.EMAIL)).willReturn(expectedChannel)
             given(documentCategoryMapper.fromApiMessageToDto(any())).willReturn(DocumentCategoryDto.IDENTITY)
             given(documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
-                expectedNotificationType
+                expectedNotificationType,
             )
 
             // When
@@ -581,7 +581,7 @@ internal class SendNotifyMessageMapperTest {
                 "EN,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,REJECTED_PARENT_GUARDIAN",
                 "CY,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
                 "CY,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
-            ]
+            ],
         )
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
             language: Language,
@@ -607,7 +607,7 @@ internal class SendNotifyMessageMapperTest {
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(notificationChannel)
             given(documentCategoryMapper.fromApiMessageToDto(any())).willReturn(documentCategoryDto)
             given(documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
-                expectedNotificationType
+                expectedNotificationType,
             )
 
             val request = SendNotifyRejectedDocumentMessage(
@@ -651,13 +651,13 @@ internal class SendNotifyMessageMapperTest {
                 "EMAIL,CY,EMAIL,WELSH",
                 "LETTER,EN,LETTER,ENGLISH",
                 "LETTER,CY,LETTER,WELSH",
-            ]
+            ],
         )
         fun `should map SQS SendNotifyRejectedSignatureMessage to SendNotificationRequestDto with rejection reasons and notes`(
             sqsChannel: SqsChannel,
             language: Language,
             notificationChannel: NotificationChannel,
-            languageDto: LanguageDto
+            languageDto: LanguageDto,
         ) {
             // Given
             val gssCode = aGssCode()
@@ -671,7 +671,7 @@ internal class SendNotifyMessageMapperTest {
             val personalisationMessage = buildRejectedSignaturePersonalisation()
 
             given(notificationTypeMapper.mapMessageTypeToNotificationType(MessageType.REJECTED_MINUS_SIGNATURE)).willReturn(
-                REJECTED_SIGNATURE
+                REJECTED_SIGNATURE,
             )
             given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
@@ -716,13 +716,13 @@ internal class SendNotifyMessageMapperTest {
                 "EMAIL,CY,EMAIL,WELSH",
                 "LETTER,EN,LETTER,ENGLISH",
                 "LETTER,CY,LETTER,WELSH",
-            ]
+            ],
         )
         fun `should map SQS SendNotifyRequestedSignatureMessage to SendNotificationRequestDto`(
             sqsChannel: SqsChannel,
             language: Language,
             notificationChannel: NotificationChannel,
-            languageDto: LanguageDto
+            languageDto: LanguageDto,
         ) {
             // Given
             val gssCode = aGssCode()
@@ -785,7 +785,7 @@ internal class SendNotifyMessageMapperTest {
                 "LETTER,EN,true,LETTER,ENGLISH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
                 "LETTER,CY,true,LETTER,WELSH,NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
 
-            ]
+            ],
         )
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto with restrictedDocuments`(
             sqsChannel: SqsChannel,
@@ -815,7 +815,7 @@ internal class SendNotifyMessageMapperTest {
             given(documentCategoryMapper.fromApiMessageToDto(any())).willReturn(DocumentCategoryDto.IDENTITY)
             if (expectedNotificationTypeMappingToRun) {
                 given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
-                    expectedNotificationType
+                    expectedNotificationType,
                 )
             }
 
@@ -869,7 +869,7 @@ internal class SendNotifyMessageMapperTest {
                 "EN,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,PARENT_GUARDIAN_PROOF_REQUIRED",
                 "CY,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
                 "CY,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
-            ]
+            ],
         )
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
             language: Language,
@@ -895,7 +895,7 @@ internal class SendNotifyMessageMapperTest {
             given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(notificationChannel)
             given(documentCategoryMapper.fromApiMessageToDto(any())).willReturn(documentCategoryDto)
             given(documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(any())).willReturn(
-                expectedNotificationType
+                expectedNotificationType,
             )
 
             val request = SendNotifyNinoNotMatchedMessage(

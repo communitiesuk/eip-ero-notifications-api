@@ -4,5 +4,5 @@ abstract class BaseGenerateTemplatePreviewDto(
     val channel: NotificationChannel,
     val language: LanguageDto,
     val notificationType: NotificationType,
-    val sourceType: SourceType
+    val sourceType: SourceType,
 )

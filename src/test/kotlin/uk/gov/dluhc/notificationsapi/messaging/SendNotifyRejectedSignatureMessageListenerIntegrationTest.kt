@@ -42,13 +42,13 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
             "EMAIL,CY,POSTAL,POSTAL",
             "LETTER,EN,POSTAL,POSTAL",
             "LETTER,CY,POSTAL,POSTAL",
-        ]
+        ],
     )
     fun `should process rejected signature notification message from relevant service`(
         sqsChannel: NotificationChannel,
         language: Language,
         sourceType: SourceTypeMessaging,
-        expectedSourceType: SourceTypeEntity
+        expectedSourceType: SourceTypeEntity,
     ) {
         val personalisationMessage = buildRejectedSignaturePersonalisation()
 
@@ -63,10 +63,11 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
             personalisation = personalisationMessage,
         )
 
-        if (sqsChannel == NotificationChannel.EMAIL)
+        if (sqsChannel == NotificationChannel.EMAIL) {
             wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
-        else
+        } else {
             wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
+        }
 
         // When
         sqsMessagingTemplate.convertAndSend(sendUkGovNotifyRejectedSignatureQueueName, payload)
@@ -74,10 +75,11 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(5, TimeUnit.SECONDS).untilAsserted {
-            if (sqsChannel == NotificationChannel.EMAIL)
+            if (sqsChannel == NotificationChannel.EMAIL) {
                 wireMockService.verifyNotifySendEmailCalled()
-            else
+            } else {
                 wireMockService.verifyNotifySendLetterCalled()
+            }
             val actualEntity =
                 notificationRepository.getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             assertThat(actualEntity).hasSize(1)
@@ -91,12 +93,12 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         value = [
             "LETTER,EN,OVERSEAS",
             "LETTER,CY,OVERSEAS",
-        ]
+        ],
     )
     fun `should not process rejected signature notification message from non enabled services`(
         sqsChannel: NotificationChannel,
         language: Language,
-        sourceType: SourceTypeMessaging
+        sourceType: SourceTypeMessaging,
     ) {
         val personalisationMessage = buildRejectedSignaturePersonalisation()
 
@@ -117,15 +119,16 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
-            if (sqsChannel == NotificationChannel.EMAIL)
+            if (sqsChannel == NotificationChannel.EMAIL) {
                 wireMockService.verifyNotifySendEmailNeverCalled()
-            else
+            } else {
                 wireMockService.verifyNotifySendLetterNeverCalled()
+            }
             val actualEntity =
                 notificationRepository.getBySourceReferenceAndGssCode(
                     sourceReference,
                     SourceTypeEntity.valueOf(sourceType.name),
-                    listOf(gssCode)
+                    listOf(gssCode),
                 )
             assertThat(actualEntity).hasSize(0)
             stopWatch.stop()

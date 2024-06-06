@@ -14,19 +14,20 @@ import uk.gov.dluhc.notificationsapi.models.SourceType
 abstract class NinoNotMatchedTemplatePreviewDtoMapper {
     @Mapping(
         target = "notificationType",
-        expression = "java( ninoNotMatchedNotificationType(request) )"
+        expression = "java( ninoNotMatchedNotificationType(request) )",
     )
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )",
     )
     abstract fun toDto(request: GenerateNinoNotMatchedTemplatePreviewRequest): NinoNotMatchedTemplatePreviewDto
 
     protected fun ninoNotMatchedNotificationType(request: GenerateNinoNotMatchedTemplatePreviewRequest): NotificationType =
-        if (request.hasRestrictedDocumentsList)
+        if (request.hasRestrictedDocumentsList) {
             NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
-        else
+        } else {
             NotificationType.NINO_NOT_MATCHED
+        }
 
     @Mapping(
         target = "personalisationSourceTypeString",
@@ -34,11 +35,11 @@ abstract class NinoNotMatchedTemplatePreviewDtoMapper {
     )
     @Mapping(
         source = "personalisation.additionalNotes",
-        target = "additionalNotes"
+        target = "additionalNotes",
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
         personalisation: NinoNotMatchedPersonalisation,
-        sourceType: SourceType
+        sourceType: SourceType,
     ): RequiredDocumentPersonalisationDto
 }

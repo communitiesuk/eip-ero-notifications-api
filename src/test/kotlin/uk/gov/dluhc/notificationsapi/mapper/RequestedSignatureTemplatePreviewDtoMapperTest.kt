@@ -39,7 +39,7 @@ class RequestedSignatureTemplatePreviewDtoMapperTest {
         value = [
             "EMAIL",
             "LETTER",
-        ]
+        ],
     )
     fun `should map rejected signature template preview request to dto`(channel: NotificationChannel) {
         val request = buildGenerateRequestedSignatureTemplatePreviewRequest(
@@ -73,15 +73,15 @@ class RequestedSignatureTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     freeText = freeText,
                     sourceType = "Mapped source type",
                 )
-            }
+            },
         )
 
         val actual = mapper.toRequestedSignatureTemplatePreviewDto(request)

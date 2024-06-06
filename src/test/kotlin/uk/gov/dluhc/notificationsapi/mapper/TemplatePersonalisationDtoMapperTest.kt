@@ -58,8 +58,8 @@ class TemplatePersonalisationDtoMapperTest {
             // Given
             val personalisationDto = buildPhotoPersonalisationDto(
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildPhotoPersonalisationMapFromDto(personalisationDto)
 
@@ -98,8 +98,8 @@ class TemplatePersonalisationDtoMapperTest {
             // Given
             val personalisationDto = buildIdDocumentPersonalisationDto(
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildIdDocumentPersonalisationMapFromDto(personalisationDto)
 
@@ -137,8 +137,8 @@ class TemplatePersonalisationDtoMapperTest {
             // Given
             val personalisationDto = buildIdDocumentRequiredPersonalisationDto(
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildIdDocumentRequiredPersonalisationMapFromDto(personalisationDto)
 
@@ -176,8 +176,8 @@ class TemplatePersonalisationDtoMapperTest {
             // Given
             val personalisationDto = buildApplicationReceivedPersonalisationDto(
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildApplicationReceivedPersonalisationMapFromDto(personalisationDto)
 
@@ -215,8 +215,8 @@ class TemplatePersonalisationDtoMapperTest {
             // Given
             val personalisationDto = buildApplicationApprovedPersonalisationDto(
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildApplicationApprovedPersonalisationMapFromDto(personalisationDto)
 
@@ -255,8 +255,8 @@ class TemplatePersonalisationDtoMapperTest {
             val personalisationDto = buildApplicationRejectedPersonalisationDto(
                 rejectionReasonMessage = null,
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildApplicationRejectedPersonalisationMapFromDto(personalisationDto)
 
@@ -296,8 +296,8 @@ class TemplatePersonalisationDtoMapperTest {
                 rejectedDocumentFreeText = null,
                 documents = emptyList(),
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildRejectedDocumentPersonalisationMapFromDto(personalisationDto)
 
@@ -338,8 +338,8 @@ class TemplatePersonalisationDtoMapperTest {
             val personalisationDto = buildRejectedSignaturePersonalisationDto(
                 rejectionNotes = null,
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildRejectedSignaturePersonalisationMapFromDto(personalisationDto)
 
@@ -381,8 +381,8 @@ class TemplatePersonalisationDtoMapperTest {
             val personalisationDto = buildRequestedSignaturePersonalisationDto(
                 freeText = null,
                 eroContactDetails = buildContactDetailsDto(
-                    address = buildAddressDtoWithOptionalFieldsNull()
-                )
+                    address = buildAddressDtoWithOptionalFieldsNull(),
+                ),
             )
             val expected = buildRequestedSignaturePersonalisationMapFromDto(personalisationDto)
 
@@ -443,12 +443,12 @@ class TemplatePersonalisationDtoMapperTest {
             value = [
                 "postal, POSTAL",
                 "proxy, PROXY",
-                "overseas, OVERSEAS"
-            ]
+                "overseas, OVERSEAS",
+            ],
         )
         fun `should map dto to personalisation map when all fields present`(
             personalisationSourceTypeString: String,
-            sourceTypeDto: SourceType
+            sourceTypeDto: SourceType,
         ) {
             // Given
             val personalisationDto =

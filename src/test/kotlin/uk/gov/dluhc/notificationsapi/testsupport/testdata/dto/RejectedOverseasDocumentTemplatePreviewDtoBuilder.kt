@@ -13,7 +13,7 @@ fun buildRejectedOverseasDocumentTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: RejectedOverseasDocumentPersonalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation(),
-    documentCategory: DocumentCategoryDto = DocumentCategoryDto.PARENT_GUARDIAN
+    documentCategory: DocumentCategoryDto = DocumentCategoryDto.PARENT_GUARDIAN,
 ) = GenerateRejectedOverseasDocumentTemplatePreviewDto(
     channel = channel,
     language = language,

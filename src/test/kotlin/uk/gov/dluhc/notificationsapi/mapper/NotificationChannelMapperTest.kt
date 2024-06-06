@@ -17,11 +17,11 @@ class NotificationChannelMapperTest {
         value = [
             "EMAIL, EMAIL",
             "LETTER, LETTER",
-        ]
+        ],
     )
     fun `should map API notification channel to DTO notification channel`(
         apiNotificationChannel: NotificationChannelApi,
-        expected: NotificationChannelDto
+        expected: NotificationChannelDto,
     ) {
         // Given
 
@@ -37,11 +37,11 @@ class NotificationChannelMapperTest {
         value = [
             "EMAIL, EMAIL",
             "LETTER, LETTER",
-        ]
+        ],
     )
     fun `should map DTO notification channel to API notification channel`(
         notificationChannelDto: NotificationChannelDto,
-        expected: NotificationChannelApi
+        expected: NotificationChannelApi,
     ) {
         // Given
 
@@ -57,11 +57,11 @@ class NotificationChannelMapperTest {
         value = [
             "EMAIL, EMAIL",
             "LETTER, LETTER",
-        ]
+        ],
     )
     fun `should map Entity notification channel to DTO notification channel`(
         entityNotificationChannel: ChannelEntity,
-        expected: NotificationChannelDto
+        expected: NotificationChannelDto,
     ) {
         // Given
 
@@ -77,11 +77,11 @@ class NotificationChannelMapperTest {
         value = [
             "EMAIL, EMAIL",
             "LETTER, LETTER",
-        ]
+        ],
     )
     fun `should messaging map API notification channel to DTO notification channel`(
         messagingApiNotificationChannel: NotificationChannelMessagingApi,
-        expected: NotificationChannelDto
+        expected: NotificationChannelDto,
     ) {
         // Given
 
