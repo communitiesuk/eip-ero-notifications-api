@@ -10,7 +10,10 @@ import javax.validation.Valid
 class UpdateVoterCardStatisticsMessageListenerStub : MessageListenerStub<UpdateStatisticsMessage>() {
 
     @SqsListener("\${sqs.trigger-voter-card-statistics-update-queue-name}")
-    override fun handleMessage(@Valid @Payload payload: UpdateStatisticsMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: UpdateStatisticsMessage,
+    ) {
         super.handleMessage(payload)
     }
 }

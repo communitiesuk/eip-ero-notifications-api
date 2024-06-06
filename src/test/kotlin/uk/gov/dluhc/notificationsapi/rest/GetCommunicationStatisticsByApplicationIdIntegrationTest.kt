@@ -20,7 +20,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -42,15 +42,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.VOTER_CARD,
-            type = NotificationType.APPLICATION_APPROVED
+            type = NotificationType.APPLICATION_APPROVED,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -72,15 +72,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.VOTER_CARD,
-            type = NotificationType.PHOTO_RESUBMISSION
+            type = NotificationType.PHOTO_RESUBMISSION,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = true,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -102,15 +102,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.VOTER_CARD,
-            type = NotificationType.ID_DOCUMENT_RESUBMISSION
+            type = NotificationType.ID_DOCUMENT_RESUBMISSION,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
-            identityDocumentsRequested = true
+            identityDocumentsRequested = true,
         )
 
         // When
@@ -132,15 +132,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.VOTER_CARD,
-            type = NotificationType.ID_DOCUMENT_REQUIRED
+            type = NotificationType.ID_DOCUMENT_REQUIRED,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
-            identityDocumentsRequested = true
+            identityDocumentsRequested = true,
         )
 
         // When
@@ -161,7 +161,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -183,15 +183,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.POSTAL,
-            type = NotificationType.APPLICATION_APPROVED
+            type = NotificationType.APPLICATION_APPROVED,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -213,16 +213,16 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.POSTAL,
-            type = NotificationType.REQUESTED_SIGNATURE
+            type = NotificationType.REQUESTED_SIGNATURE,
         )
 
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = true,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -244,15 +244,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.POSTAL,
-            type = NotificationType.ID_DOCUMENT_RESUBMISSION
+            type = NotificationType.ID_DOCUMENT_RESUBMISSION,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = true
+            identityDocumentsRequested = true,
         )
 
         // When
@@ -274,15 +274,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.POSTAL,
-            type = NotificationType.ID_DOCUMENT_REQUIRED
+            type = NotificationType.ID_DOCUMENT_REQUIRED,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = true
+            identityDocumentsRequested = true,
         )
 
         // When
@@ -303,7 +303,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -325,15 +325,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.PROXY,
-            type = NotificationType.APPLICATION_APPROVED
+            type = NotificationType.APPLICATION_APPROVED,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -355,16 +355,16 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.PROXY,
-            type = NotificationType.REQUESTED_SIGNATURE
+            type = NotificationType.REQUESTED_SIGNATURE,
         )
 
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = true,
-            identityDocumentsRequested = false
+            identityDocumentsRequested = false,
         )
 
         // When
@@ -386,15 +386,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.PROXY,
-            type = NotificationType.ID_DOCUMENT_RESUBMISSION
+            type = NotificationType.ID_DOCUMENT_RESUBMISSION,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = true
+            identityDocumentsRequested = true,
         )
 
         // When
@@ -416,15 +416,15 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.PROXY,
-            type = NotificationType.ID_DOCUMENT_REQUIRED
+            type = NotificationType.ID_DOCUMENT_REQUIRED,
         )
         notificationRepository.saveNotification(
-            sentNotification
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
-            identityDocumentsRequested = true
+            identityDocumentsRequested = true,
         )
 
         // When

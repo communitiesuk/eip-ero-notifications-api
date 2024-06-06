@@ -22,7 +22,7 @@ internal class SendNotifyApplicationApprovedMessageListenerIntegrationTest : Int
     @ParameterizedTest
     @EnumSource(Language::class)
     fun `should process application approved message to send Email for given language and save notification`(
-        language: Language
+        language: Language,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -32,7 +32,7 @@ internal class SendNotifyApplicationApprovedMessageListenerIntegrationTest : Int
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,
-            sourceReference = sourceReference
+            sourceReference = sourceReference,
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
@@ -45,7 +45,8 @@ internal class SendNotifyApplicationApprovedMessageListenerIntegrationTest : Int
             wireMockService.verifyNotifySendEmailCalled()
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
-                uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD, listOf(gssCode)
+                uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD,
+                listOf(gssCode),
             )
             Assertions.assertThat(actualEntity).hasSize(1)
             stopWatch.stop()

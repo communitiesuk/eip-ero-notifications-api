@@ -12,7 +12,7 @@ fun queryRequest(sourceReference: String, sourceType: SourceType, gssCodes: List
         .queryConditional(QueryConditional.keyEqualTo(key(sourceReference)))
         .filterExpression(
             sourceTypeFilterExpression(sourceType)
-                .and(gssCodesFilterExpression(gssCodes))
+                .and(gssCodesFilterExpression(gssCodes)),
         )
 
 fun queryRequestWithoutGssCodes(sourceReference: String, sourceType: SourceType): QueryEnhancedRequest.Builder =

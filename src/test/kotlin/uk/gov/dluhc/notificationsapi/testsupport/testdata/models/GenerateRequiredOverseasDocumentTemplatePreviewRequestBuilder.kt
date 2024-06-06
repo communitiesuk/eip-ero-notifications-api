@@ -15,13 +15,13 @@ fun buildRequiredOverseasDocumentTemplatePreviewRequest(
     personalisation: RequiredOverseasDocumentPersonalisation = buildRequiredOverseasDocumentPersonalisation(),
     language: Language = Language.EN,
     documentCategory: DocumentCategory = DocumentCategory.PARENT_MINUS_GUARDIAN,
-    channel: NotificationChannel = NotificationChannel.EMAIL
+    channel: NotificationChannel = NotificationChannel.EMAIL,
 ): GenerateRequiredOverseasDocumentTemplatePreviewRequest =
     GenerateRequiredOverseasDocumentTemplatePreviewRequest(
         personalisation = personalisation,
         language = language,
         documentCategory = documentCategory,
-        channel = channel
+        channel = channel,
     )
 
 fun buildRequiredOverseasDocumentPersonalisation(
@@ -29,13 +29,13 @@ fun buildRequiredOverseasDocumentPersonalisation(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsRequest(
         localAuthorityName = "Barcelona",
-        address = buildAddressRequest()
+        address = buildAddressRequest(),
     ),
-    requiredDocumentFreeText: String? = null
+    requiredDocumentFreeText: String? = null,
 ): RequiredOverseasDocumentPersonalisation =
     RequiredOverseasDocumentPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
-        requiredDocumentFreeText = requiredDocumentFreeText
+        requiredDocumentFreeText = requiredDocumentFreeText,
     )

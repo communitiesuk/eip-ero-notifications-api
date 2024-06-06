@@ -44,7 +44,7 @@ fun buildPhotoPersonalisationMessage(
     photoRejectionNotes: String? = faker.harryPotter().spell(),
     photoRequestFreeText: String = faker.harryPotter().spell(),
     uploadPhotoLink: String = "http://localhost:8080/eros/photo/398c1be2-7950-48a2-aca8-14cb9276a673",
-    eroContactDetails: ContactDetails = buildContactDetailsMessage()
+    eroContactDetails: ContactDetails = buildContactDetailsMessage(),
 ): PhotoPersonalisation =
     PhotoPersonalisation(
         applicationReference = applicationReference,
@@ -53,7 +53,7 @@ fun buildPhotoPersonalisationMessage(
         photoRejectionNotes = photoRejectionNotes,
         photoRequestFreeText = photoRequestFreeText,
         uploadPhotoLink = uploadPhotoLink,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
     )
 
 fun aSendNotifyPhotoResubmissionMessage() = buildSendNotifyPhotoResubmissionMessage()

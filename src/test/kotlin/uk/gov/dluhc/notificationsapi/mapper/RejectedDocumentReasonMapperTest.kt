@@ -31,12 +31,12 @@ class RejectedDocumentReasonMapperTest {
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your name",
                 "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document must prove your connection to your parent or guardian",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Information provided on the document does not match information from your application",
-                "OTHER, Other"
-            ]
+                "OTHER, Other",
+            ],
         )
         fun `should map enums to human readable messages in English`(
             rejectionReason: DocumentRejectionReasonApi,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -58,12 +58,12 @@ class RejectedDocumentReasonMapperTest {
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
                 "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Rhaid i'r ddogfen brofi'ch cysylltiad â'ch rhiant neu warcheidwad",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
-                "OTHER, Eraill"
-            ]
+                "OTHER, Eraill",
+            ],
         )
         fun `should map enums to human readable messages in Welsh`(
             rejectionReason: DocumentRejectionReasonApi,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -88,12 +88,12 @@ class RejectedDocumentReasonMapperTest {
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your name",
                 "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document must prove your connection to your parent or guardian",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Information provided on the document does not match information from your application",
-                "OTHER, Other"
-            ]
+                "OTHER, Other",
+            ],
         )
         fun `should map enums to human readable messages in English`(
             rejectionReason: DocumentRejectionReasonMessaging,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -115,12 +115,12 @@ class RejectedDocumentReasonMapperTest {
                 "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
                 "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Rhaid i'r ddogfen brofi'ch cysylltiad â'ch rhiant neu warcheidwad",
                 "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
-                "OTHER, Eraill"
-            ]
+                "OTHER, Eraill",
+            ],
         )
         fun `should map enums to human readable messages in Welsh`(
             rejectionReason: DocumentRejectionReasonMessaging,
-            expected: String
+            expected: String,
         ) {
             // Given
 

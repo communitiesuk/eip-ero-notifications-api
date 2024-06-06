@@ -25,7 +25,7 @@ class TemplateService(
     private val govNotifyApiClient: GovNotifyApiClient,
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
     private val notificationTemplateMapper: NotificationTemplateMapper,
-    private val documentCategoryMapper: DocumentCategoryMapper
+    private val documentCategoryMapper: DocumentCategoryMapper,
 ) {
 
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
@@ -35,9 +35,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toPhotoResubmissionTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -49,9 +49,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -63,9 +63,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toIdDocumentRequiredTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toIdDocumentRequiredTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -77,9 +77,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toApplicationReceivedTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -91,9 +91,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toApplicationApprovedTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -105,9 +105,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toApplicationRejectedTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toApplicationRejectedTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -119,9 +119,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toRejectedDocumentTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRejectedDocumentTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -133,9 +133,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toRejectedSignatureTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRejectedSignatureTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -147,9 +147,9 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toRequestedSignatureTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRequestedSignatureTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -161,12 +161,12 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
                 templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
                     personalisation,
-                    sourceType
-                )
+                    sourceType,
+                ),
             )
         }
     }
@@ -177,12 +177,12 @@ class TemplateService(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     sourceType = SourceType.OVERSEAS,
                     notificationType = documentCategoryMapper.fromRejectedDocumentCategoryDtoToNotificationTypeDto(
-                        documentCategory
+                        documentCategory,
                     ),
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRejectedOverseasDocumentTemplatePersonalisationMap(personalisation),
             )
         }
     }
@@ -193,12 +193,12 @@ class TemplateService(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                     sourceType = SourceType.OVERSEAS,
                     notificationType = documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(
-                        documentCategory
+                        documentCategory,
                     ),
                     channel,
-                    language
+                    language,
                 ),
-                templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisation)
+                templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisation),
             )
         }
     }

@@ -9,7 +9,7 @@ data class NotifySendLetterSuccessResponse(
     var reference: String? = "Our reference",
     var postage: String? = "second",
     val content: LetterContent = LetterContent(),
-    val template: LetterTemplate = LetterTemplate()
+    val template: LetterTemplate = LetterTemplate(),
 )
 
 data class LetterContent(
@@ -20,5 +20,5 @@ data class LetterContent(
 data class LetterTemplate(
     val id: String = "e6de9bf4-3757-4e5f-a9a4-a449616ec6d2",
     val version: String = "1",
-    val uri: String = "https://www.notifications.service.gov.uk/services/137e13d7-6acd-4449-815e-de0eb0c083ba/templates/e6de9bf4-3757-4e5f-a9a4-a449616ec6d2/1"
+    val uri: String = "https://www.notifications.service.gov.uk/services/137e13d7-6acd-4449-815e-de0eb0c083ba/templates/e6de9bf4-3757-4e5f-a9a4-a449616ec6d2/1",
 )

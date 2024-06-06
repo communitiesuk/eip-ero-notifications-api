@@ -16,7 +16,7 @@ class CommunicationConfirmationReasonMapperTest {
             "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
             "PHOTO_MINUS_REJECTED, PHOTO_REJECTED",
             "DOCUMENT_MINUS_REJECTED, DOCUMENT_REJECTED",
-        ]
+        ],
     )
     fun `from api to dto`(apiEnum: OfflineCommunicationReasonApi, dtoEnum: CommunicationConfirmationReasonDto) {
         // Given
@@ -34,7 +34,7 @@ class CommunicationConfirmationReasonMapperTest {
             "APPLICATION_REJECTED, APPLICATION_MINUS_REJECTED",
             "PHOTO_REJECTED, PHOTO_MINUS_REJECTED",
             "DOCUMENT_REJECTED, DOCUMENT_MINUS_REJECTED",
-        ]
+        ],
     )
     fun `from dto to api`(dtoEnum: CommunicationConfirmationReasonDto, apiEnum: OfflineCommunicationReasonApi) {
         // Given
@@ -52,7 +52,7 @@ class CommunicationConfirmationReasonMapperTest {
             "APPLICATION_REJECTED, APPLICATION_REJECTED",
             "PHOTO_REJECTED, PHOTO_REJECTED",
             "DOCUMENT_REJECTED, DOCUMENT_REJECTED",
-        ]
+        ],
     )
     fun `from entity to dto`(entityEnum: OfflineCommunicationReasonEntity, dtoEnum: CommunicationConfirmationReasonDto) {
         // Given
@@ -70,7 +70,7 @@ class CommunicationConfirmationReasonMapperTest {
             "APPLICATION_REJECTED, APPLICATION_REJECTED",
             "PHOTO_REJECTED, PHOTO_REJECTED",
             "DOCUMENT_REJECTED, DOCUMENT_REJECTED",
-        ]
+        ],
     )
     fun `from dto to entity`(dtoEnum: CommunicationConfirmationReasonDto, entityEnum: OfflineCommunicationReasonEntity) {
         // Given

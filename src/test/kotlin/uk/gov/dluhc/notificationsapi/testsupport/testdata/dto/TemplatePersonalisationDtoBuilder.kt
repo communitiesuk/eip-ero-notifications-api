@@ -30,7 +30,7 @@ fun buildPhotoPersonalisationDto(
     photoRejectionNotes: String? = "Please ensure you frame only your head and shoulders in the photo",
     photoRequestFreeText: String = faker.harryPotter().spell(),
     uploadPhotoLink: String = "http://localhost:8080/eros/photo/398c1be2-7950-48a2-aca8-14cb9276a673",
-    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
 ): PhotoPersonalisationDto =
     PhotoPersonalisationDto(
         applicationReference = applicationReference,
@@ -39,7 +39,7 @@ fun buildPhotoPersonalisationDto(
         photoRejectionNotes = photoRejectionNotes,
         photoRequestFreeText = photoRequestFreeText,
         uploadPhotoLink = uploadPhotoLink,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
     )
 
 fun buildIdDocumentPersonalisationDto(
@@ -61,13 +61,13 @@ fun buildIdDocumentRequiredPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
-    idDocumentRequiredFreeText: String = faker.harryPotter().spell()
+    idDocumentRequiredFreeText: String = faker.harryPotter().spell(),
 ): IdDocumentRequiredPersonalisationDto =
     IdDocumentRequiredPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
-        idDocumentRequiredFreeText = idDocumentRequiredFreeText
+        idDocumentRequiredFreeText = idDocumentRequiredFreeText,
     )
 
 fun buildApplicationReceivedPersonalisationDto(
@@ -86,12 +86,12 @@ fun buildApplicationReceivedPersonalisationDto(
 fun buildApplicationApprovedPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
-    eroContactDetails: ContactDetailsDto = buildContactDetailsDto()
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
 ): ApplicationApprovedPersonalisationDto =
     ApplicationApprovedPersonalisationDto(
         applicationReference = applicationReference,
         firstName = firstName,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
     )
 
 fun buildRejectedDocumentPersonalisationDto(
@@ -113,7 +113,7 @@ fun buildRejectedDocumentPersonalisationDto(
 
 fun buildPhotoPersonalisationDtoFromMessage(
     personalisationMessage: PhotoPersonalisation,
-    photoRejectionReasons: List<String>
+    photoRejectionReasons: List<String>,
 ): PhotoPersonalisationDto {
     return with(personalisationMessage) {
         PhotoPersonalisationDto(
@@ -138,9 +138,9 @@ fun buildPhotoPersonalisationDtoFromMessage(
                             area = area,
                             postcode = postcode,
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 }
@@ -170,15 +170,15 @@ fun buildIdDocumentPersonalisationDtoFromMessage(
                             area = area,
                             postcode = postcode,
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 }
 
 fun buildIdDocumentRequiredPersonalisationDtoFromMessage(
-    personalisationMessage: IdDocumentRequiredPersonalisation
+    personalisationMessage: IdDocumentRequiredPersonalisation,
 ): IdDocumentRequiredPersonalisationDto {
     return with(personalisationMessage) {
         IdDocumentRequiredPersonalisationDto(
@@ -200,15 +200,15 @@ fun buildIdDocumentRequiredPersonalisationDtoFromMessage(
                             area = area,
                             postcode = postcode,
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 }
 
 fun buildApplicationApprovedPersonalisationDtoFromMessage(
-    personalisationMessage: BasePersonalisation
+    personalisationMessage: BasePersonalisation,
 ): ApplicationApprovedPersonalisationDto {
     return with(personalisationMessage) {
         ApplicationApprovedPersonalisationDto(
@@ -229,15 +229,15 @@ fun buildApplicationApprovedPersonalisationDtoFromMessage(
                             area = area,
                             postcode = postcode,
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 }
 
 fun buildPhotoPersonalisationMapFromDto(
-    personalisationDto: PhotoPersonalisationDto = buildPhotoPersonalisationDto()
+    personalisationDto: PhotoPersonalisationDto = buildPhotoPersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
@@ -288,11 +288,11 @@ fun buildApplicationApprovedPersonalisationMapFromDto(
 ) = getCommonDetailsMap(
     personalisationDto.firstName,
     personalisationDto.applicationReference,
-    personalisationDto.eroContactDetails
+    personalisationDto.eroContactDetails,
 )
 
 fun buildApplicationRejectedPersonalisationMapFromDto(
-    personalisationDto: ApplicationRejectedPersonalisationDto = buildApplicationRejectedPersonalisationDto()
+    personalisationDto: ApplicationRejectedPersonalisationDto = buildApplicationRejectedPersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
@@ -304,7 +304,7 @@ fun buildApplicationRejectedPersonalisationMapFromDto(
 }
 
 fun buildRejectedDocumentPersonalisationMapFromDto(
-    personalisationDto: RejectedDocumentPersonalisationDto = buildRejectedDocumentPersonalisationDto()
+    personalisationDto: RejectedDocumentPersonalisationDto = buildRejectedDocumentPersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
@@ -317,7 +317,7 @@ fun buildRejectedDocumentPersonalisationMapFromDto(
 }
 
 fun buildRejectedSignaturePersonalisationMapFromDto(
-    personalisationDto: RejectedSignaturePersonalisationDto = buildRejectedSignaturePersonalisationDto()
+    personalisationDto: RejectedSignaturePersonalisationDto = buildRejectedSignaturePersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
@@ -331,7 +331,7 @@ fun buildRejectedSignaturePersonalisationMapFromDto(
 }
 
 fun buildRequestedSignaturePersonalisationMapFromDto(
-    personalisationDto: RequestedSignaturePersonalisationDto = buildRequestedSignaturePersonalisationDto()
+    personalisationDto: RequestedSignaturePersonalisationDto = buildRequestedSignaturePersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
@@ -343,7 +343,7 @@ fun buildRequestedSignaturePersonalisationMapFromDto(
 }
 
 fun buildRejectedOverseasDocumentPersonalisationMapFromDto(
-    personalisationDto: RejectedOverseasDocumentPersonalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation()
+    personalisationDto: RejectedOverseasDocumentPersonalisationDto = buildRejectedOverseasDocumentTemplatePreviewPersonalisation(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
@@ -355,7 +355,7 @@ fun buildRejectedOverseasDocumentPersonalisationMapFromDto(
 }
 
 fun buildRequiredOverseasDocumentPersonalisationMapFromDto(
-    personalisationDto: RequiredOverseasDocumentPersonalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation()
+    personalisationDto: RequiredOverseasDocumentPersonalisationDto = buildRequiredOverseasDocumentTemplatePreviewPersonalisation(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {
@@ -367,7 +367,7 @@ fun buildRequiredOverseasDocumentPersonalisationMapFromDto(
 
 fun buildRequiredDocumentPersonalisationMapFromDto(
     personalisationDto: RequiredDocumentPersonalisationDto = buildRequiredDocumentPersonalisation(),
-    sourceType: SourceType
+    sourceType: SourceType,
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
 
@@ -395,7 +395,7 @@ fun buildContactDetailsDto(
         website = website,
         phone = phone,
         email = email,
-        address = address
+        address = address,
     )
 
 fun buildAddressDto(
@@ -436,7 +436,7 @@ fun buildNinoNotMatchedPersonalisationDto(
 )
 
 fun buildNinoNotMatchedPersonalisationMapFromDto(
-    personalisationDto: RequiredDocumentPersonalisationDto = buildNinoNotMatchedPersonalisationDto()
+    personalisationDto: RequiredDocumentPersonalisationDto = buildNinoNotMatchedPersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
     with(personalisationDto) {

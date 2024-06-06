@@ -42,7 +42,7 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
             "EMAIL,CY,POSTAL,POSTAL",
             "LETTER,EN,POSTAL,POSTAL",
             "LETTER,CY,POSTAL,POSTAL",
-        ]
+        ],
     )
     fun `should process requested signature notification message from relevant service`(
         sqsChannel: NotificationChannel,
@@ -63,10 +63,11 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
             personalisation = personalisationMessage,
         )
 
-        if (sqsChannel == NotificationChannel.EMAIL)
+        if (sqsChannel == NotificationChannel.EMAIL) {
             wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
-        else
+        } else {
             wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
+        }
 
         // When
         sqsMessagingTemplate.convertAndSend(sendUkGovNotifyRequestedSignatureQueueName, payload)
@@ -74,10 +75,11 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(5, TimeUnit.SECONDS).untilAsserted {
-            if (sqsChannel == NotificationChannel.EMAIL)
+            if (sqsChannel == NotificationChannel.EMAIL) {
                 wireMockService.verifyNotifySendEmailCalled()
-            else
+            } else {
                 wireMockService.verifyNotifySendLetterCalled()
+            }
             val actualEntity = notificationRepository
                 .getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             Assertions.assertThat(actualEntity).hasSize(1)
@@ -96,7 +98,7 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
         value = [
             "LETTER,EN,OVERSEAS",
             "LETTER,CY,OVERSEAS",
-        ]
+        ],
     )
     fun `should not process requested signature notification message from non enabled services`(
         sqsChannel: NotificationChannel,
@@ -119,10 +121,11 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
-            if (sqsChannel == NotificationChannel.EMAIL)
+            if (sqsChannel == NotificationChannel.EMAIL) {
                 wireMockService.verifyNotifySendEmailNeverCalled()
-            else
+            } else {
                 wireMockService.verifyNotifySendLetterNeverCalled()
+            }
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
                 SourceTypeEntityEnum.valueOf(sourceType.name),

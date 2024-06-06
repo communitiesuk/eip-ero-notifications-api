@@ -57,35 +57,36 @@ class RejectedSignatureTemplatePreviewDtoMapper_NotificationTypeTest {
                             Arguments.of(
                                 listOf(rejectionReason),
                                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
-                                sourceType
-                            )
+                                sourceType,
+                            ),
                         )
                         parameters.add(
                             Arguments.of(
                                 listOf(rejectionReason, SignatureRejectionReason.OTHER),
                                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
-                                sourceType
-                            )
+                                sourceType,
+                            ),
                         )
                     }
             }
             return parameters.build()
         }
     }
+
     @ParameterizedTest
     @MethodSource("rejectionReasons_to_NotificationType")
     fun `should map rejected signature template request to dto with correct NotificationType mapping given rejection reasons and no rejection notes`(
         rejectionReasons: List<SignatureRejectionReason>,
         expectedNotificationType: NotificationType,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = rejectionReasons,
-                rejectionNotes = null
-            )
+                rejectionNotes = null,
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -109,20 +110,20 @@ class RejectedSignatureTemplatePreviewDtoMapper_NotificationTypeTest {
             ", REJECTED_SIGNATURE,PROXY",
             "'', REJECTED_SIGNATURE,PROXY",
             "'Some rejection reason notes', REJECTED_SIGNATURE_WITH_REASONS,PROXY",
-        ]
+        ],
     )
     fun `should map rejected signature template request to dto with correct NotificationType mapping given no rejection reasons and rejection notes`(
         rejectionNotes: String?,
         expectedNotificationType: NotificationType,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = emptyList(),
-                rejectionNotes = rejectionNotes
-            )
+                rejectionNotes = rejectionNotes,
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)

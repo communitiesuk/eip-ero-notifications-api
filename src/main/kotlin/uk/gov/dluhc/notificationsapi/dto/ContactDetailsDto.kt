@@ -5,7 +5,7 @@ data class ContactDetailsDto(
     val website: String,
     val phone: String,
     val email: String,
-    val address: AddressDto
+    val address: AddressDto,
 )
 
 data class AddressDto(

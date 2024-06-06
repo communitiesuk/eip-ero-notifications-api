@@ -11,21 +11,21 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 fun buildGenerateApplicationApprovedTemplatePreviewRequest(
     language: Language = Language.EN,
     personalisation: BasePersonalisation = buildBasePersonalisation(),
-    sourceType: SourceType
+    sourceType: SourceType,
 ): GenerateApplicationApprovedTemplatePreviewRequest =
     GenerateApplicationApprovedTemplatePreviewRequest(
         language = language,
         personalisation = personalisation,
-        sourceType = sourceType
+        sourceType = sourceType,
     )
 
 fun buildBasePersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
-    eroContactDetails: ContactDetails = buildContactDetailsRequest()
+    eroContactDetails: ContactDetails = buildContactDetailsRequest(),
 ): BasePersonalisation =
     BasePersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
     )

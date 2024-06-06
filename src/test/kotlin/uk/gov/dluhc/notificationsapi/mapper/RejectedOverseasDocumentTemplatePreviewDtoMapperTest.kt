@@ -46,17 +46,17 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
     @CsvSource(
         "PARENT_MINUS_GUARDIAN, PARENT_GUARDIAN",
         "IDENTITY, IDENTITY",
-        "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS"
+        "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS",
     )
     fun `should map rejected parent guardian template request to dto`(
         documentCategory: DocumentCategory,
-        documentCategoryDto: DocumentCategoryDto
+        documentCategoryDto: DocumentCategoryDto,
     ) {
         // Given
         val request = buildRejectedOverseasDocumentTemplatePreviewRequest(
             language = Language.EN,
             channel = NotificationChannel.EMAIL,
-            documentCategory = documentCategory
+            documentCategory = documentCategory,
         )
         val contactDetailsDto =
             with(request.personalisation.eroContactDetails) {
@@ -72,9 +72,9 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
                             locality = locality,
                             town = town,
                             area = area,
-                            postcode = postcode
+                            postcode = postcode,
                         )
-                    }
+                    },
                 )
             }
 
@@ -104,7 +104,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
                             },
 

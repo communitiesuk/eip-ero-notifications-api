@@ -76,15 +76,15 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
     @CsvSource(
         "$REJECTED_PARENT_GUARDIAN_EMAIL_EN_TEMPLATE_ID, PARENT_MINUS_GUARDIAN",
         "$REJECTED_PREVIOUS_ADDRESS_EMAIL_EN_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS",
-        "$REJECTED_DOCUMENT_EMAIL_EN_TEMPLATE_ID, IDENTITY"
+        "$REJECTED_DOCUMENT_EMAIL_EN_TEMPLATE_ID, IDENTITY",
     )
     fun `should return not found given non existing template`(
         templateId: String,
-        documentCategory: DocumentCategory
+        documentCategory: DocumentCategory,
     ) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(
-            templateId
+            templateId,
         )
 
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
@@ -125,13 +125,13 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
             "$REJECTED_PREVIOUS_ADDRESS_EMAIL_CY_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS, EMAIL, CY",
             "$REJECTED_PREVIOUS_ADDRESS_LETTER_EN_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS, LETTER, EN",
             "$REJECTED_PREVIOUS_ADDRESS_LETTER_CY_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS, LETTER, CY",
-        ]
+        ],
     )
     fun `should return template preview given valid json request`(
         templateId: String,
         documentCategory: DocumentCategory,
         channel: NotificationChannel,
-        language: Language
+        language: Language,
     ) {
         // Given
         val notifyClientResponse =
@@ -152,7 +152,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
                         postcode = "postcode",
                     ),
                 ),
-            )
+            ),
         )
 
         val expectedDocument = if (language == Language.EN) "Utility bill" else "Bil cyfleustodau"
@@ -184,7 +184,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java
+                GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -195,7 +195,7 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
         Assertions.assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(
             templateId,
-            expectedPersonalisationDataMap
+            expectedPersonalisationDataMap,
         )
     }
 }
@@ -203,5 +203,5 @@ internal class GenerateRejectedOverseasDocumentTemplatePreviewIntegrationTest : 
 private fun WebTestClient.RequestBodySpec.withAValidBody(documentCategory: DocumentCategory): WebTestClient.RequestBodySpec =
     body(
         Mono.just(buildRejectedOverseasDocumentTemplatePreviewRequest(documentCategory = documentCategory)),
-        GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java
+        GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java,
     ) as WebTestClient.RequestBodySpec

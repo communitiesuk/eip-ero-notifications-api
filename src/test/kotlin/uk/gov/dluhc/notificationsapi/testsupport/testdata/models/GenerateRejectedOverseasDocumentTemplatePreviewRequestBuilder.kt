@@ -16,13 +16,13 @@ fun buildRejectedOverseasDocumentTemplatePreviewRequest(
     personalisation: RejectedOverseasDocumentPersonalisation = buildRejectedOverseasDocumentPersonalisation(),
     language: Language = Language.EN,
     documentCategory: DocumentCategory = DocumentCategory.PARENT_MINUS_GUARDIAN,
-    channel: NotificationChannel = NotificationChannel.EMAIL
+    channel: NotificationChannel = NotificationChannel.EMAIL,
 ): GenerateRejectedOverseasDocumentTemplatePreviewRequest =
     GenerateRejectedOverseasDocumentTemplatePreviewRequest(
         personalisation = personalisation,
         language = language,
         documentCategory = documentCategory,
-        channel = channel
+        channel = channel,
     )
 
 fun buildRejectedOverseasDocumentPersonalisation(
@@ -30,15 +30,15 @@ fun buildRejectedOverseasDocumentPersonalisation(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsRequest(
         localAuthorityName = "Barcelona",
-        address = buildAddressRequest()
+        address = buildAddressRequest(),
     ),
     documents: List<RejectedDocument> = listOf(buildRejectedDocument()),
-    rejectedDocumentFreeText: String? = null
+    rejectedDocumentFreeText: String? = null,
 ): RejectedOverseasDocumentPersonalisation =
     RejectedOverseasDocumentPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
         documents = documents,
-        rejectedDocumentFreeText = rejectedDocumentFreeText
+        rejectedDocumentFreeText = rejectedDocumentFreeText,
     )

@@ -58,8 +58,8 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         wireMockServer.stubFor(
             post(urlPathMatching(NOTIFY_SEND_EMAIL_URL)).willReturn(
                 ResponseDefinitionBuilder.responseDefinition().withStatus(201)
-                    .withBody(objectMapper.writeValueAsString(response))
-            )
+                    .withBody(objectMapper.writeValueAsString(response)),
+            ),
         )
     }
 
@@ -70,9 +70,9 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                     """
                     [{"error": "BadRequestError",
                     "message": "Can't send to this recipient using a team-only API key"
-                    }]"""
-                )
-            )
+                    }]""",
+                ),
+            ),
         )
     }
 
@@ -83,9 +83,9 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                     """
                     [{"error": "Exception",
                     "message": "Internal server error"
-                    }]"""
-                )
-            )
+                    }]""",
+                ),
+            ),
         )
     }
 
@@ -93,8 +93,8 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         wireMockServer.stubFor(
             post(urlPathMatching(NOTIFY_SEND_LETTER_URL)).willReturn(
                 ResponseDefinitionBuilder.responseDefinition().withStatus(201)
-                    .withBody(objectMapper.writeValueAsString(response))
-            )
+                    .withBody(objectMapper.writeValueAsString(response)),
+            ),
         )
     }
 
@@ -105,9 +105,9 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                     """
                     [{"error": "BadRequestError",
                     "message": "Can't send to this recipient using a team-only API key"
-                    }]"""
-                )
-            )
+                    }]""",
+                ),
+            ),
         )
     }
 
@@ -118,9 +118,9 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                     """
                     [{"error": "Exception",
                     "message": "Internal server error"
-                    }]"""
-                )
-            )
+                    }]""",
+                ),
+            ),
         )
     }
 
@@ -128,8 +128,8 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         val url = GENERATE_TEMPLATE_PREVIEW_URL.replace("{templateId}", response.id)
         wireMockServer.stubFor(
             post(urlPathEqualTo(url)).willReturn(
-                ok().withBody(objectMapper.writeValueAsString(response))
-            )
+                ok().withBody(objectMapper.writeValueAsString(response)),
+            ),
         )
     }
 
@@ -147,7 +147,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
             }
         """.trimIndent()
         wireMockServer.stubFor(
-            post(urlPathEqualTo(url)).willReturn(notFound().withBody(response))
+            post(urlPathEqualTo(url)).willReturn(notFound().withBody(response)),
         )
     }
 
@@ -165,7 +165,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
             }
         """.trimIndent()
         wireMockServer.stubFor(
-            post(urlPathEqualTo(url)).willReturn(badRequest().withBody(response))
+            post(urlPathEqualTo(url)).willReturn(badRequest().withBody(response)),
         )
     }
 
@@ -179,7 +179,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         wireMockServer.verify(
             1,
             postRequestedFor(urlPathEqualTo(url))
-                .withRequestBody(equalToJson(body.toString()))
+                .withRequestBody(equalToJson(body.toString())),
         )
     }
 
@@ -202,13 +202,13 @@ class WiremockService(private val wireMockServer: WireMockServer) {
     fun verifyNotifySendLetter(
         templateId: String,
         request: SendNotificationRequestDto,
-        personalisation: Map<String, Any>?
+        personalisation: Map<String, Any>?,
     ) {
         val body = getRequestBodyForNotifySendLetter(templateId, request, personalisation)
 
         val url = NOTIFY_SEND_LETTER_URL.replace("{templateId}", templateId)
         wireMockServer.verify(
-            postRequestedFor(urlPathEqualTo(url)).withRequestBody(equalToJson(body.toString(), true, true))
+            postRequestedFor(urlPathEqualTo(url)).withRequestBody(equalToJson(body.toString(), true, true)),
         )
     }
 
@@ -250,9 +250,9 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                                     ${RsaKeyPair.jwk.toJSONString()}
                                ]
                             }
-                    """.trimIndent()
-                )
-            )
+                    """.trimIndent(),
+                ),
+            ),
         )
     }
 
@@ -264,8 +264,8 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                     ResponseDefinitionBuilder.responseDefinition()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody(responseBody)
-                )
+                        .withBody(responseBody),
+                ),
         )
     }
 

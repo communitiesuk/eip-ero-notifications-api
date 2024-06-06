@@ -46,24 +46,24 @@ fun buildIdDocumentPersonalisationMessage(
     firstName: String = faker.name().firstName(),
     idDocumentRequestFreeText: String = faker.harryPotter().spell(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
-    rejectedDocuments: List<RejectedDocument> = listOf(buildRejectedDocument())
+    rejectedDocuments: List<RejectedDocument> = listOf(buildRejectedDocument()),
 ): IdDocumentPersonalisation =
     IdDocumentPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         idDocumentRequestFreeText = idDocumentRequestFreeText,
         eroContactDetails = eroContactDetails,
-        rejectedDocuments = rejectedDocuments
+        rejectedDocuments = rejectedDocuments,
     )
 
 fun buildRejectedDocument(
     documentType: DocumentType = UTILITY_MINUS_BILL,
     rejectionReasons: List<DocumentRejectionReason> = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
-    rejectionNotes: String? = faker.harryPotter().spell()
+    rejectionNotes: String? = faker.harryPotter().spell(),
 ) = RejectedDocument(
     documentType = documentType,
     rejectionReasons = rejectionReasons,
-    rejectionNotes = rejectionNotes
+    rejectionNotes = rejectionNotes,
 )
 
 fun aSendNotifyIdDocumentResubmissionMessage() = buildSendNotifyIdDocumentResubmissionMessage()

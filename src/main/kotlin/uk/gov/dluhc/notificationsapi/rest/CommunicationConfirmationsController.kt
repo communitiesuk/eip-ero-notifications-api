@@ -35,7 +35,8 @@ class CommunicationConfirmationsController(
     fun createOfflineCommunicationConfirmation(
         @PathVariable eroId: String,
         @PathVariable applicationId: String,
-        @Valid @RequestBody request: CreateOfflineCommunicationConfirmationRequest,
+        @Valid @RequestBody
+        request: CreateOfflineCommunicationConfirmationRequest,
         authentication: Authentication,
     ) {
         val dto = communicationConfirmationMapper.fromApiToDto(
@@ -59,7 +60,7 @@ class CommunicationConfirmationsController(
             SourceType.ANONYMOUS_ELECTOR_DOCUMENT,
         ).let { dtos ->
             CommunicationConfirmationHistoryResponse(
-                communicationConfirmations = communicationConfirmationMapper.fromDtosToApis(dtos)
+                communicationConfirmations = communicationConfirmationMapper.fromDtosToApis(dtos),
             )
         }
 }

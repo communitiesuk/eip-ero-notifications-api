@@ -90,7 +90,7 @@ internal class TemplatePersonalisationMessageMapperTest {
             val photoRejectionReasons: List<String> = emptyList()
             val expectedPersonalisationDto = buildPhotoPersonalisationDtoFromMessage(
                 personalisationMessage,
-                photoRejectionReasons
+                photoRejectionReasons,
             )
 
             // When
@@ -108,9 +108,9 @@ internal class TemplatePersonalisationMessageMapperTest {
                 photoRejectionReasons = listOf(
                     NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
                     WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
-                    PhotoRejectionReason.OTHER // OTHER is deliberately excluded from the photo rejection reason mapping
+                    PhotoRejectionReason.OTHER, // OTHER is deliberately excluded from the photo rejection reason mapping
                 ),
-                photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable."
+                photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable.",
             )
             val photoRejectionReasons: List<String> = listOf(
                 "Not a plain facial expression",
@@ -119,17 +119,17 @@ internal class TemplatePersonalisationMessageMapperTest {
             )
             val expectedPersonalisationDto = buildPhotoPersonalisationDtoFromMessage(
                 personalisationMessage,
-                photoRejectionReasons
+                photoRejectionReasons,
             )
 
             given(
                 photoRejectionReasonMapper.toPhotoRejectionReasonString(
                     any<PhotoRejectionReason>(),
-                    any()
-                )
+                    any(),
+                ),
             ).willReturn(
                 "Not a plain facial expression",
-                "Wearing sunglasses, or tinted glasses"
+                "Wearing sunglasses, or tinted glasses",
             )
 
             // When
@@ -139,11 +139,11 @@ internal class TemplatePersonalisationMessageMapperTest {
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
                 NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
-                ENGLISH
+                ENGLISH,
             )
             verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
                 WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
-                ENGLISH
+                ENGLISH,
             )
         }
     }
@@ -225,7 +225,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                                     area = area,
                                     postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     personalisationSourceTypeString = "Mapped source type",
@@ -270,15 +270,15 @@ internal class TemplatePersonalisationMessageMapperTest {
             given(
                 applicationRejectionReasonMapper.toApplicationRejectionReasonString(
                     INCOMPLETE_MINUS_APPLICATION,
-                    ENGLISH
-                )
+                    ENGLISH,
+                ),
             )
                 .willReturn(incompleteApplication)
             given(
                 applicationRejectionReasonMapper.toApplicationRejectionReasonString(
                     NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
-                    ENGLISH
-                )
+                    ENGLISH,
+                ),
             )
                 .willReturn(applicantHasNotResponded)
             given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER, ENGLISH)).willReturn(other)
@@ -302,9 +302,9 @@ internal class TemplatePersonalisationMessageMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                 )
@@ -317,7 +317,7 @@ internal class TemplatePersonalisationMessageMapperTest {
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
                 INCOMPLETE_MINUS_APPLICATION,
-                ENGLISH
+                ENGLISH,
             )
             verify(applicationRejectionReasonMapper)
                 .toApplicationRejectionReasonString(NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH)
@@ -335,8 +335,8 @@ internal class TemplatePersonalisationMessageMapperTest {
             given(
                 rejectedDocumentsMapper.mapRejectionDocumentsFromMessaging(
                     ENGLISH,
-                    personalisationMessage.documents
-                )
+                    personalisationMessage.documents,
+                ),
             ).willReturn(listOf("Doc1", "Doc2"))
             given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
 
@@ -359,9 +359,9 @@ internal class TemplatePersonalisationMessageMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     personalisationSourceTypeString = "Mapped source type",
@@ -387,21 +387,21 @@ internal class TemplatePersonalisationMessageMapperTest {
             given(
                 signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                     SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
-                    ENGLISH
-                )
+                    ENGLISH,
+                ),
             )
                 .willReturn(partiallyCutOff)
             given(
                 signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                     SignatureRejectionReason.TOO_MINUS_DARK,
-                    ENGLISH
-                )
+                    ENGLISH,
+                ),
             )
                 .willReturn(tooDark)
 
             val expectedRejectionReasons = listOf(
                 partiallyCutOff,
-                tooDark
+                tooDark,
                 // a mapping from OTHER is not expected - this is by design
             )
             given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
@@ -426,9 +426,9 @@ internal class TemplatePersonalisationMessageMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     personalisationSourceTypeString = "Mapped source type",
@@ -442,11 +442,11 @@ internal class TemplatePersonalisationMessageMapperTest {
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
                 SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
-                ENGLISH
+                ENGLISH,
             )
             verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
                 SignatureRejectionReason.TOO_MINUS_DARK,
-                ENGLISH
+                ENGLISH,
             )
             verifyNoMoreInteractions(signatureRejectionReasonMapper)
         }
@@ -479,9 +479,9 @@ internal class TemplatePersonalisationMessageMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     personalisationSourceTypeString = "Mapped source type",
@@ -501,7 +501,7 @@ internal class TemplatePersonalisationMessageMapperTest {
         @ParameterizedTest
         @EnumSource(SourceType::class)
         fun `should map SQS RequiredDocumentTemplatePersonalisation to RequiredDocumentTemplatePersonalisationDto`(
-            sourceType: SourceType
+            sourceType: SourceType,
         ) {
             // Given
             val personalisationMessage = buildRequiredDocumentPersonalisation()
@@ -526,9 +526,9 @@ internal class TemplatePersonalisationMessageMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     personalisationSourceTypeString = "Mapped source type",

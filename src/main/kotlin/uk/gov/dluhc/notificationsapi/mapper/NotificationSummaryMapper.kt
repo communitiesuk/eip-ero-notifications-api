@@ -10,7 +10,7 @@ import uk.gov.dluhc.notificationsapi.models.CommunicationsSummary as Communicati
 
 @Mapper(
     uses = [NotificationTypeMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class],
-    imports = [OffsetDateTime::class, ZoneOffset::class]
+    imports = [OffsetDateTime::class, ZoneOffset::class],
 )
 interface NotificationSummaryMapper {
 

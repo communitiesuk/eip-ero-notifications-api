@@ -60,52 +60,52 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
 
                 Arguments.of(
                     listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(UNREADABLE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(INVALID_MINUS_DOCUMENT_MINUS_TYPE),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(DUPLICATE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(INVALID_MINUS_DOCUMENT_MINUS_COUNTRY),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
 
                 Arguments.of(
                     listOf(OTHER, DOCUMENT_MINUS_TOO_MINUS_OLD),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, UNREADABLE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, INVALID_MINUS_DOCUMENT_MINUS_TYPE),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, DUPLICATE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, INVALID_MINUS_DOCUMENT_MINUS_COUNTRY),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
             )
         }
@@ -126,10 +126,10 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
                         rejectionReasons = documentRejectionReasons,
-                        rejectionNotes = null
-                    )
-                )
-            )
+                        rejectionNotes = null,
+                    ),
+                ),
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -149,7 +149,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
             ", ID_DOCUMENT_RESUBMISSION",
             "'', ID_DOCUMENT_RESUBMISSION",
             "'Some rejection reason notes', ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
-        ]
+        ],
     )
     fun `should map ID document template request to dto with correct NotificationType mapping given document with no rejection reasons and rejection notes`(
         documentRejectionNotes: String?,
@@ -164,10 +164,10 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
                         rejectionReasons = emptyList(),
-                        rejectionNotes = documentRejectionNotes
-                    )
-                )
-            )
+                        rejectionNotes = documentRejectionNotes,
+                    ),
+                ),
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -192,14 +192,14 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
                         rejectionReasons = emptyList(),
-                        rejectionNotes = "a reason for rejecting the document"
+                        rejectionNotes = "a reason for rejecting the document",
                     ),
                     buildRejectedDocument(
                         rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
-                        rejectionNotes = null
-                    )
-                )
-            )
+                        rejectionNotes = null,
+                    ),
+                ),
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -224,18 +224,18 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
                         rejectionReasons = emptyList(),
-                        rejectionNotes = "a reason for rejecting the document"
+                        rejectionNotes = "a reason for rejecting the document",
                     ),
                     buildRejectedDocument(
                         rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
-                        rejectionNotes = null
+                        rejectionNotes = null,
                     ),
                     buildRejectedDocument(
                         rejectionReasons = emptyList(),
-                        rejectionNotes = null
-                    )
-                )
-            )
+                        rejectionNotes = null,
+                    ),
+                ),
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -260,18 +260,18 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest 
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
                         rejectionReasons = emptyList(),
-                        rejectionNotes = null
+                        rejectionNotes = null,
                     ),
                     buildRejectedDocument(
                         rejectionReasons = emptyList(),
-                        rejectionNotes = null
+                        rejectionNotes = null,
                     ),
                     buildRejectedDocument(
                         rejectionReasons = emptyList(),
-                        rejectionNotes = null
-                    )
-                )
-            )
+                        rejectionNotes = null,
+                    ),
+                ),
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)

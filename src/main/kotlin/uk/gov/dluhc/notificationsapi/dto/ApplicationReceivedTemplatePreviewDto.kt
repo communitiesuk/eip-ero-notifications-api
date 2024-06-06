@@ -8,5 +8,5 @@ class ApplicationReceivedTemplatePreviewDto(
     channel = NotificationChannel.EMAIL,
     language = language,
     notificationType = NotificationType.APPLICATION_RECEIVED,
-    sourceType = sourceType
+    sourceType = sourceType,
 )

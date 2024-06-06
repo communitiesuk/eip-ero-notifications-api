@@ -47,14 +47,14 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         value = [
             "EMAIL",
             "LETTER",
-        ]
+        ],
     )
     fun `should map rejected signature template preview request to dto`(channel: NotificationChannel) {
         val rejectionReasonToExpectedRejectReason = mapOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF to "The image has some of it cut off")
         validate(
             channel,
             rejectionNotes = "Invalid signature",
-            rejectionReasonToExpectedRejectReason = rejectionReasonToExpectedRejectReason
+            rejectionReasonToExpectedRejectReason = rejectionReasonToExpectedRejectReason,
         )
     }
 
@@ -63,7 +63,7 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         value = [
             "EMAIL",
             "LETTER",
-        ]
+        ],
     )
     fun `should map rejected signature template preview request with optional fields to dto `(channel: NotificationChannel) {
         val mappedDto = validate(channel)
@@ -78,8 +78,9 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             channel = channel,
             personalisation = buildRejectedSignaturePersonalisation(
-                rejectionNotes = rejectionNotes, rejectionReasons = rejectionReasonToExpectedRejectReason.keys.toList()
-            )
+                rejectionNotes = rejectionNotes,
+                rejectionReasons = rejectionReasonToExpectedRejectReason.keys.toList(),
+            ),
         )
         val expectedChannel = NotificationChannelDto.valueOf(channel.name)
         given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
@@ -90,13 +91,16 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
             given(
                 signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                     reason,
-                    LanguageDto.ENGLISH
-                )
+                    LanguageDto.ENGLISH,
+                ),
             ).willReturn(expected)
         }
         val expectedNotificationType =
-            if (rejectionReasonToExpectedRejectReason.isEmpty()) NotificationType.REJECTED_SIGNATURE
-            else NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+            if (rejectionReasonToExpectedRejectReason.isEmpty()) {
+                NotificationType.REJECTED_SIGNATURE
+            } else {
+                NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+            }
 
         val expected = buildGenerateRejectedSignatureTemplatePreviewDto(
             sourceType = SourceTypeDto.PROXY,
@@ -120,9 +124,9 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     rejectionReasons = rejectionReasonToExpectedRejectReason.values.toList(),
@@ -130,7 +134,7 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
                     rejectionFreeText = rejectionFreeText,
                     sourceType = "Mapped source type",
                 )
-            }
+            },
         )
 
         val actual = mapper.toRejectedSignatureTemplatePreviewDto(request)

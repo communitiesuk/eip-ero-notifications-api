@@ -29,7 +29,7 @@ fun buildSendNotifyRejectedDocumentMessage(
     personalisation: RejectedDocumentPersonalisation = buildRejectedDocumentsPersonalisation(),
     channel: NotificationChannel = NotificationChannel.EMAIL,
     toAddress: MessageAddress = aMessageAddress(),
-    documentCategory: DocumentCategory = DocumentCategory.IDENTITY
+    documentCategory: DocumentCategory = DocumentCategory.IDENTITY,
 ): SendNotifyRejectedDocumentMessage =
     SendNotifyRejectedDocumentMessage(
         language = language,
@@ -41,7 +41,7 @@ fun buildSendNotifyRejectedDocumentMessage(
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,
-        documentCategory = documentCategory
+        documentCategory = documentCategory,
     )
 
 fun buildRejectedDocumentsPersonalisation(
@@ -49,22 +49,22 @@ fun buildRejectedDocumentsPersonalisation(
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
     rejectedDocumentMessage: String = "Documents rejected due to being out of date",
-    documents: List<RejectedDocument> = listOf(buildRejectedDocumentForPersonalisation())
+    documents: List<RejectedDocument> = listOf(buildRejectedDocumentForPersonalisation()),
 ): RejectedDocumentPersonalisation =
     RejectedDocumentPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
         documents = documents,
-        rejectedDocumentMessage = rejectedDocumentMessage
+        rejectedDocumentMessage = rejectedDocumentMessage,
     )
 
 fun buildRejectedDocumentForPersonalisation(
     documentType: DocumentType = DocumentType.UTILITY_MINUS_BILL,
     rejectionReasons: List<DocumentRejectionReason> = listOf(DUPLICATE_MINUS_DOCUMENT, DOCUMENT_MINUS_TOO_MINUS_OLD),
-    rejectionNotes: String? = "Document rejected due to multiple reasons"
+    rejectionNotes: String? = "Document rejected due to multiple reasons",
 ): RejectedDocument = RejectedDocument(
     documentType = documentType,
     rejectionReasons = rejectionReasons,
-    rejectionNotes = rejectionNotes
+    rejectionNotes = rejectionNotes,
 )

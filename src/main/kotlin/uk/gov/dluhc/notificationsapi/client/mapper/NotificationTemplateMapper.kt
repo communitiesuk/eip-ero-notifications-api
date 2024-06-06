@@ -46,7 +46,7 @@ class NotificationTemplateMapper(
         sourceType: SourceType,
         notificationType: NotificationType,
         channel: NotificationChannel,
-        language: LanguageDto?
+        language: LanguageDto?,
     ): String {
         return when (channel) {
             NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(sourceType, notificationType, language)
@@ -57,11 +57,14 @@ class NotificationTemplateMapper(
     private fun fromEmailNotificationTypeInLanguage(
         sourceType: SourceType,
         notificationType: NotificationType,
-        language: LanguageDto?
+        language: LanguageDto?,
     ): String {
         val config = getSourceTemplateEmailTemplateConfiguration(sourceType)
-        return if (useEnglishTemplate(language)) englishEmail(config, notificationType)
-        else welshEmail(config, notificationType)
+        return if (useEnglishTemplate(language)) {
+            englishEmail(config, notificationType)
+        } else {
+            welshEmail(config, notificationType)
+        }
     }
 
     private fun getSourceTemplateEmailTemplateConfiguration(sourceType: SourceType): AbstractNotifyEmailTemplateConfiguration =
@@ -130,11 +133,14 @@ class NotificationTemplateMapper(
     private fun fromLetterNotificationTypeInLanguage(
         sourceType: SourceType,
         notificationType: NotificationType,
-        language: LanguageDto?
+        language: LanguageDto?,
     ): String {
         val config = getSourceTemplateLetterTemplateConfiguration(sourceType)
-        return if (useEnglishTemplate(language)) englishLetter(config, notificationType)
-        else welshLetter(config, notificationType)
+        return if (useEnglishTemplate(language)) {
+            englishLetter(config, notificationType)
+        } else {
+            welshLetter(config, notificationType)
+        }
     }
 
     private fun getSourceTemplateLetterTemplateConfiguration(sourceType: SourceType): AbstractNotifyLetterTemplateConfiguration =
@@ -175,7 +181,7 @@ class NotificationTemplateMapper(
 
     private fun englishLetter(
         config: AbstractNotifyLetterTemplateConfiguration,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ): String = when (notificationType) {
         APPLICATION_RECEIVED -> config.receivedEnglish
         APPLICATION_REJECTED -> config.rejectedEnglish

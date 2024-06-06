@@ -19,23 +19,24 @@ abstract class RejectedSignatureTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "notificationType",
-        expression = "java( rejectedSignatureNotificationType(request) )"
+        expression = "java( rejectedSignatureNotificationType(request) )",
     )
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )",
     )
     abstract fun toRejectedSignatureTemplatePreviewDto(
-        request: GenerateRejectedSignatureTemplatePreviewRequest
+        request: GenerateRejectedSignatureTemplatePreviewRequest,
     ): RejectedSignatureTemplatePreviewDto
 
     protected fun rejectedSignatureNotificationType(request: GenerateRejectedSignatureTemplatePreviewRequest): NotificationType =
         // REJECTED_SIGNATURE_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
         with(request.personalisation) {
-            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank())
+            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank()) {
                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS
-            else
+            } else {
                 NotificationType.REJECTED_SIGNATURE
+            }
         }
 
     @Mapping(
@@ -44,7 +45,7 @@ abstract class RejectedSignatureTemplatePreviewDtoMapper {
     )
     @Mapping(
         target = "rejectionReasons",
-        expression = "java( mapSignatureRejectionReasons( languageDto, personalisation ) )"
+        expression = "java( mapSignatureRejectionReasons( languageDto, personalisation ) )",
     )
     protected abstract fun mapPersonalisation(
         languageDto: LanguageDto,
@@ -54,12 +55,12 @@ abstract class RejectedSignatureTemplatePreviewDtoMapper {
 
     protected fun mapSignatureRejectionReasons(
         languageDto: LanguageDto,
-        personalisation: RejectedSignaturePersonalisation
+        personalisation: RejectedSignaturePersonalisation,
     ): List<String> {
         return personalisation.rejectionReasonsExcludingOther.map { reason ->
             signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                 reason,
-                languageDto
+                languageDto,
             )
         }
     }

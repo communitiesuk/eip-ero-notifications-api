@@ -45,13 +45,13 @@ class SendNotificationResponseDtoMapperTestDto {
                 template = Template(
                     id = expectedTemplateId.toString(),
                     version = expectedTemplateVersion.toString(),
-                    uri = expectedTemplateUri
+                    uri = expectedTemplateUri,
                 ),
                 content = Content(
                     body = expectedBody,
                     from_email = expectedFromEmail,
-                    subject = expectedSubject
-                )
+                    subject = expectedSubject,
+                ),
             )
         val objectMapper = ObjectMapper()
         val sendEmailResponse = SendEmailResponse(objectMapper.writeValueAsString(response))
@@ -90,12 +90,12 @@ class SendNotificationResponseDtoMapperTestDto {
                 template = LetterTemplate(
                     id = expectedTemplateId.toString(),
                     version = expectedTemplateVersion.toString(),
-                    uri = expectedTemplateUri
+                    uri = expectedTemplateUri,
                 ),
                 content = LetterContent(
                     body = expectedBody,
-                    subject = expectedSubject
-                )
+                    subject = expectedSubject,
+                ),
             )
         val objectMapper = ObjectMapper()
         val sendLetterResponse = SendLetterResponse(objectMapper.writeValueAsString(response))

@@ -27,12 +27,12 @@ internal class SendNotifyApplicationReceivedMessageListenerIntegrationTest : Int
         "CY, OVERSEAS, OVERSEAS",
         "EN, POSTAL, POSTAL",
         "EN, PROXY, PROXY",
-        "EN, OVERSEAS, OVERSEAS"
+        "EN, OVERSEAS, OVERSEAS",
     )
     fun `should process application received message to send Email for given language and save notification`(
         language: Language,
         sourceType: SourceType,
-        sourceTypeEntity: SourceTypeEntity
+        sourceTypeEntity: SourceTypeEntity,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -41,7 +41,7 @@ internal class SendNotifyApplicationReceivedMessageListenerIntegrationTest : Int
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,
-            sourceReference = sourceReference
+            sourceReference = sourceReference,
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
@@ -54,7 +54,8 @@ internal class SendNotifyApplicationReceivedMessageListenerIntegrationTest : Int
             wireMockService.verifyNotifySendEmailCalled()
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
-                sourceTypeEntity, listOf(gssCode)
+                sourceTypeEntity,
+                listOf(gssCode),
             )
             Assertions.assertThat(actualEntity).hasSize(1)
             stopWatch.stop()

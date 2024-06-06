@@ -15,5 +15,5 @@ fun buildRequiredDocumentPersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
-    additionalNotes = additionalNotes
+    additionalNotes = additionalNotes,
 )

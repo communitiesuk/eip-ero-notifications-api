@@ -39,7 +39,7 @@ class ApiRequestErrorAttributes : DefaultErrorAttributes() {
                 status = it.getStatus(),
                 error = it.getError(),
                 message = it.getMessage(),
-                validationErrors = it.getErrors()
+                validationErrors = it.getErrors(),
             )
         }
 

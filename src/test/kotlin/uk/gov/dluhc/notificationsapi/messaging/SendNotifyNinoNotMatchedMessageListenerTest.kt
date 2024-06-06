@@ -45,24 +45,24 @@ internal class SendNotifyNinoNotMatchedMessageListenerTest {
         given(
             sendNotifyMessageMapper.fromRequiredDocumentMessageToSendNotificationRequestDto(
                 sqsMessage,
-            )
+            ),
         ).willReturn(
-            requestDto
+            requestDto,
         )
         given(
             templatePersonalisationMessageMapper.toRequiredDocumentTemplatePersonalisationDto(
                 sqsMessage.personalisation,
                 requestDto.language,
-                sqsMessage.sourceType
-            )
+                sqsMessage.sourceType,
+            ),
         ).willReturn(personalisationDto)
         given(
             templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
                 personalisationDto,
-                requestDto.sourceType
-            )
+                requestDto.sourceType,
+            ),
         ).willReturn(
-            personalisationMap
+            personalisationMap,
         )
 
         // When

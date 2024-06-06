@@ -20,7 +20,7 @@ fun buildGenerateRejectedSignatureTemplatePreviewRequest(
     channel = channel,
     sourceType = sourceType,
     language = language,
-    personalisation = personalisation
+    personalisation = personalisation,
 )
 
 fun buildRejectedSignaturePersonalisation(
@@ -31,7 +31,7 @@ fun buildRejectedSignaturePersonalisation(
     rejectionReasons: List<SignatureRejectionReason> = listOf(
         SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
         SignatureRejectionReason.TOO_MINUS_DARK,
-        SignatureRejectionReason.OTHER
+        SignatureRejectionReason.OTHER,
     ),
     rejectionFreeText: String? = null,
 ) = RejectedSignaturePersonalisation(
@@ -40,5 +40,5 @@ fun buildRejectedSignaturePersonalisation(
     eroContactDetails = eroContactDetails,
     rejectionNotes = rejectionNotes,
     rejectionReasons = rejectionReasons,
-    rejectionFreeText = rejectionFreeText
+    rejectionFreeText = rejectionFreeText,
 )

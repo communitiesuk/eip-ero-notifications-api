@@ -32,7 +32,7 @@ fun buildContactDetails(
         website = websiteAddress,
         phone = phoneNumber,
         email = emailAddress,
-        address = address
+        address = address,
     )
 
 fun buildEroManagementAddress(
@@ -51,5 +51,5 @@ fun buildEroManagementAddress(
         area = area,
         town = town,
         locality = locality,
-        uprn = uprn
+        uprn = uprn,
     )

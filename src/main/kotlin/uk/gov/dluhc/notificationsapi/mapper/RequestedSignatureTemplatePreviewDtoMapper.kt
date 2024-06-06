@@ -14,14 +14,14 @@ abstract class RequestedSignatureTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "notificationType",
-        constant = "REQUESTED_SIGNATURE"
+        constant = "REQUESTED_SIGNATURE",
     )
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )",
     )
     abstract fun toRequestedSignatureTemplatePreviewDto(
-        request: GenerateRequestedSignatureTemplatePreviewRequest
+        request: GenerateRequestedSignatureTemplatePreviewRequest,
     ): RequestedSignatureTemplatePreviewDto
 
     @Mapping(

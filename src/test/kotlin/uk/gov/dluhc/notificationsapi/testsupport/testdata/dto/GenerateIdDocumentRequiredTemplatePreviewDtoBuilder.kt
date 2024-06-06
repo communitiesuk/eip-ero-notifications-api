@@ -10,7 +10,7 @@ fun buildGenerateIdDocumentRequiredTemplatePreviewDto(
     sourceType: SourceType = SourceType.VOTER_CARD,
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: IdDocumentRequiredPersonalisationDto = buildIdDocumentRequiredPersonalisationDto()
+    personalisation: IdDocumentRequiredPersonalisationDto = buildIdDocumentRequiredPersonalisationDto(),
 ) = GenerateIdDocumentRequiredTemplatePreviewDto(
     sourceType = sourceType,
     channel = channel,

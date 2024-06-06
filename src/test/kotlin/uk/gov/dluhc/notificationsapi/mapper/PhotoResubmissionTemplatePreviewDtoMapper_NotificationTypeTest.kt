@@ -60,104 +60,105 @@ class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
 
                 Arguments.of(
                     listOf(
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA
+                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE
+                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL
+                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
+                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
 
                 Arguments.of(
                     listOf(
                         OTHER,
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA
+                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK
+                        PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO
+                        OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
+                        NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE
+                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
+                        WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL
+                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
+                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
             )
         }
     }
+
     @ParameterizedTest
     @MethodSource("photoRejectionReasons_to_NotificationType")
     fun `should map photo template request to dto with correct NotificationType mapping given rejection reasons and no rejection notes`(
@@ -169,8 +170,8 @@ class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
             sourceType = VOTER_MINUS_CARD,
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = photoRejectionReasons,
-                photoRejectionNotes = null
-            )
+                photoRejectionNotes = null,
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -190,7 +191,7 @@ class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
             ", PHOTO_RESUBMISSION",
             "'', PHOTO_RESUBMISSION",
             "'Some rejection reason notes', PHOTO_RESUBMISSION_WITH_REASONS",
-        ]
+        ],
     )
     fun `should map photo template request to dto with correct NotificationType mapping given no rejection reasons and rejection notes`(
         photoRejectionNotes: String?,
@@ -201,8 +202,8 @@ class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
             sourceType = VOTER_MINUS_CARD,
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = emptyList(),
-                photoRejectionNotes = photoRejectionNotes
-            )
+                photoRejectionNotes = photoRejectionNotes,
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)

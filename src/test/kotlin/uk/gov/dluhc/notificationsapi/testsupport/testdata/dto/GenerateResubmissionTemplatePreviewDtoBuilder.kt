@@ -14,14 +14,14 @@ fun buildGeneratePhotoResubmissionTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: PhotoPersonalisationDto = buildPhotoPersonalisationDto(),
-    notificationType: NotificationType = NotificationType.PHOTO_RESUBMISSION
+    notificationType: NotificationType = NotificationType.PHOTO_RESUBMISSION,
 ): GeneratePhotoResubmissionTemplatePreviewDto =
     GeneratePhotoResubmissionTemplatePreviewDto(
         channel = channel,
         language = language,
         personalisation = personalisation,
         sourceType = sourceType,
-        notificationType = notificationType
+        notificationType = notificationType,
     )
 
 fun buildGenerateIdDocumentResubmissionTemplatePreviewDto(
@@ -29,12 +29,12 @@ fun buildGenerateIdDocumentResubmissionTemplatePreviewDto(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     personalisation: IdDocumentPersonalisationDto = buildIdDocumentPersonalisationDto(),
-    notificationType: NotificationType = NotificationType.ID_DOCUMENT_RESUBMISSION
+    notificationType: NotificationType = NotificationType.ID_DOCUMENT_RESUBMISSION,
 ): GenerateIdDocumentResubmissionTemplatePreviewDto =
     GenerateIdDocumentResubmissionTemplatePreviewDto(
         channel = channel,
         language = language,
         personalisation = personalisation,
         sourceType = sourceType,
-        notificationType = notificationType
+        notificationType = notificationType,
     )

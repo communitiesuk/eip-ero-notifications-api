@@ -71,7 +71,7 @@ internal class GovNotifyApiClientTest {
 
             given(notificationClient.sendEmail(any(), any(), any(), any())).willReturn(sendEmailResponse)
             given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendEmailResponse>())).willReturn(
-                sendNotificationDto
+                sendNotificationDto,
             )
 
             // When
@@ -82,7 +82,7 @@ internal class GovNotifyApiClientTest {
                 templateId,
                 emailAddress,
                 personalisation,
-                notificationId.toString()
+                notificationId.toString(),
             )
             verify(sendNotificationResponseMapper).toSendNotificationResponse(sendEmailResponse)
             assertThat(actual).isSameAs(sendNotificationDto)
@@ -104,7 +104,7 @@ internal class GovNotifyApiClientTest {
             // When
             val ex = Assertions.catchThrowableOfType(
                 { govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId) },
-                GovNotifyApiNotFoundException::class.java
+                GovNotifyApiNotFoundException::class.java,
             )
 
             // Then
@@ -127,7 +127,7 @@ internal class GovNotifyApiClientTest {
             // When
             val ex = Assertions.catchThrowableOfType(
                 { govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId) },
-                GovNotifyApiBadRequestException::class.java
+                GovNotifyApiBadRequestException::class.java,
             )
 
             // Then
@@ -150,7 +150,7 @@ internal class GovNotifyApiClientTest {
             // When
             val ex = Assertions.catchThrowableOfType(
                 { govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId) },
-                GovNotifyApiGeneralException::class.java
+                GovNotifyApiGeneralException::class.java,
             )
 
             // Then
@@ -191,7 +191,7 @@ internal class GovNotifyApiClientTest {
 
             given(notificationClient.sendLetter(any(), any(), any())).willReturn(sendLetterResponse)
             given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendLetterResponse>())).willReturn(
-                sendNotificationDto
+                sendNotificationDto,
             )
 
             // When
@@ -201,14 +201,14 @@ internal class GovNotifyApiClientTest {
                     notificationDestination,
                     personalisation,
                     notificationId,
-                    sourceType
+                    sourceType,
                 )
 
             // Then
             verify(notificationClient).sendLetter(
                 templateId,
                 (personalisation + personalisationMapForSourceType),
-                notificationId.toString()
+                notificationId.toString(),
             )
             verify(sendNotificationResponseMapper).toSendNotificationResponse(sendLetterResponse)
             assertThat(actual).isSameAs(sendNotificationDto)
@@ -236,10 +236,10 @@ internal class GovNotifyApiClientTest {
                         notificationDestination,
                         personalisation,
                         notificationId,
-                        sourceType
+                        sourceType,
                     )
                 },
-                GovNotifyApiNotFoundException::class.java
+                GovNotifyApiNotFoundException::class.java,
             )
 
             // Then
@@ -268,10 +268,10 @@ internal class GovNotifyApiClientTest {
                         notificationDestination,
                         personalisation,
                         notificationId,
-                        sourceType
+                        sourceType,
                     )
                 },
-                GovNotifyApiBadRequestException::class.java
+                GovNotifyApiBadRequestException::class.java,
             )
 
             // Then
@@ -300,10 +300,10 @@ internal class GovNotifyApiClientTest {
                         notificationDestination,
                         personalisation,
                         notificationId,
-                        sourceType
+                        sourceType,
                     )
                 },
-                GovNotifyApiGeneralException::class.java
+                GovNotifyApiGeneralException::class.java,
             )
 
             // Then
@@ -343,7 +343,7 @@ internal class GovNotifyApiClientTest {
                 templateId,
                 emailAddress,
                 personalisation,
-                notificationId.toString()
+                notificationId.toString(),
             )
             assertThat(actual).isNull()
         }
@@ -376,7 +376,7 @@ internal class GovNotifyApiClientTest {
             verify(notificationClient).sendLetter(
                 templateId,
                 (personalisation + postalAddress.toPersonalisationMap()),
-                notificationId.toString()
+                notificationId.toString(),
             )
             assertThat(actual).isNull()
         }
@@ -400,7 +400,7 @@ internal class GovNotifyApiClientTest {
                 ",html body",
                 "subject,",
                 "subject, html body",
-            ]
+            ],
         )
         fun `should generate template preview given existing html`(subject: String?, html: String?) {
             // Given
@@ -441,7 +441,7 @@ internal class GovNotifyApiClientTest {
             // When
             val ex = Assertions.catchThrowableOfType(
                 { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
-                GovNotifyApiNotFoundException::class.java
+                GovNotifyApiNotFoundException::class.java,
             )
 
             // Then
@@ -465,7 +465,7 @@ internal class GovNotifyApiClientTest {
             // When
             val ex = Assertions.catchThrowableOfType(
                 { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
-                GovNotifyApiBadRequestException::class.java
+                GovNotifyApiBadRequestException::class.java,
             )
 
             // Then
@@ -489,7 +489,7 @@ internal class GovNotifyApiClientTest {
             // When
             val ex = Assertions.catchThrowableOfType(
                 { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
-                GovNotifyApiGeneralException::class.java
+                GovNotifyApiGeneralException::class.java,
             )
 
             // Then

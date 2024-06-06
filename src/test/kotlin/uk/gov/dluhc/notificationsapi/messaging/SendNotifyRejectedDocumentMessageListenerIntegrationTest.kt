@@ -48,7 +48,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
         sourceType: SourceType,
         sourceTypeEntity: SourceTypeEntity,
         documentCategory: DocumentCategory,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -59,7 +59,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference,
-            documentCategory = documentCategory
+            documentCategory = documentCategory,
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
@@ -73,7 +73,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
                 sourceTypeEntity,
-                listOf(gssCode)
+                listOf(gssCode),
             )
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
@@ -97,7 +97,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
         sourceType: SourceType,
         sourceTypeEntity: SourceTypeEntity,
         documentCategory: DocumentCategory,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ) {
         // Given
         val gssCode = aGssCode()
@@ -108,7 +108,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference,
-            documentCategory = documentCategory
+            documentCategory = documentCategory,
         )
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
@@ -122,7 +122,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
                 sourceTypeEntity,
-                listOf(gssCode)
+                listOf(gssCode),
             )
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")

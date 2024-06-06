@@ -50,20 +50,20 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
     fun `should map ID document template request to dto given no rejected documents`() {
         // Given
         val personalisation = buildIdDocumentResubmissionPersonalisationRequest(
-            rejectedDocuments = emptyList()
+            rejectedDocuments = emptyList(),
         )
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
             channel = NotificationChannelApi.LETTER,
             language = Language.EN,
             sourceType = SourceTypeModel.VOTER_MINUS_CARD,
-            personalisation = personalisation
+            personalisation = personalisation,
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(channelMapper.fromApiToDto(any())).willReturn(NotificationChannelDto.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
         given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any())).willReturn(
-            null
+            null,
         )
 
         val expected = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
@@ -90,13 +90,13 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
 
         // When
@@ -117,15 +117,15 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
             rejectedDocuments = listOf(
                 buildRejectedDocument(
                     documentType = DocumentType.UTILITY_MINUS_BILL,
-                    rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD)
-                )
-            )
+                    rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                ),
+            ),
         )
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
             channel = NotificationChannelApi.LETTER,
             language = Language.EN,
             sourceType = SourceTypeModel.VOTER_MINUS_CARD,
-            personalisation = personalisation
+            personalisation = personalisation,
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
@@ -164,13 +164,13 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
 
         // When

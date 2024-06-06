@@ -11,11 +11,11 @@ fun buildIdDocumentPersonalisation(
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetails = buildEroContactDetails(),
     idDocumentRequestFreeText: String = faker.harryPotter().spell(),
-    rejectedDocuments: List<RejectedDocument>? = listOf(buildRejectedDocument())
+    rejectedDocuments: List<RejectedDocument>? = listOf(buildRejectedDocument()),
 ) = IdDocumentPersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     idDocumentRequestFreeText = idDocumentRequestFreeText,
-    rejectedDocuments = rejectedDocuments
+    rejectedDocuments = rejectedDocuments,
 )

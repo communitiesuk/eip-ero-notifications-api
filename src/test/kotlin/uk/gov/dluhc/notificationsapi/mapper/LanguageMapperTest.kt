@@ -16,11 +16,11 @@ class LanguageMapperTest {
         value = [
             "CY, WELSH",
             "EN, ENGLISH",
-        ]
+        ],
     )
     fun `should map api language to language dto`(
         apiLanguageEnum: Language,
-        expected: LanguageDto
+        expected: LanguageDto,
     ) {
         // Given
 
@@ -36,11 +36,11 @@ class LanguageMapperTest {
         value = [
             "CY, WELSH",
             "EN, ENGLISH",
-        ]
+        ],
     )
     fun `should map message language to language dto`(
         messageLanguageEnum: MessageLanguageEnum,
-        expected: LanguageDto
+        expected: LanguageDto,
     ) {
         // Given
 

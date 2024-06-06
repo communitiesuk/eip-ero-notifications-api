@@ -37,12 +37,12 @@ fun buildSendNotifyApplicationReceivedMessage(
 fun buildApplicationReceivedPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
-    eroContactDetails: ContactDetails = buildContactDetailsMessage()
+    eroContactDetails: ContactDetails = buildContactDetailsMessage(),
 ): BasePersonalisation =
     BasePersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
     )
 
 fun aSendNotifyApplicationReceivedMessage() = buildSendNotifyApplicationReceivedMessage()

@@ -40,13 +40,13 @@ fun buildIdDocumentRequiredPersonalisationMessage(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     idDocumentRequiredFreeText: String = faker.harryPotter().spell(),
-    eroContactDetails: ContactDetails = buildContactDetailsMessage()
+    eroContactDetails: ContactDetails = buildContactDetailsMessage(),
 ): IdDocumentRequiredPersonalisation =
     IdDocumentRequiredPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         idDocumentRequiredFreeText = idDocumentRequiredFreeText,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
     )
 
 fun aSendNotifyIdDocumentRequiredMessage() = buildSendNotifyIdDocumentRequiredMessage()

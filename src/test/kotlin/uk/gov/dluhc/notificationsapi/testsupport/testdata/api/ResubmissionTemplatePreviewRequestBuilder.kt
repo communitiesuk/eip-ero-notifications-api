@@ -12,24 +12,24 @@ fun buildGeneratePhotoResubmissionTemplatePreviewRequest(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: Language = Language.EN,
     personalisation: PhotoPersonalisation = buildPhotoResubmissionPersonalisationRequest(),
-    sourceType: SourceType
+    sourceType: SourceType,
 ): GeneratePhotoResubmissionTemplatePreviewRequest =
     GeneratePhotoResubmissionTemplatePreviewRequest(
         channel = channel,
         language = language,
         personalisation = personalisation,
-        sourceType = sourceType
+        sourceType = sourceType,
     )
 
 fun buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
     channel: NotificationChannel = NotificationChannel.EMAIL,
     language: Language = Language.EN,
     personalisation: IdDocumentPersonalisation = buildIdDocumentResubmissionPersonalisationRequest(),
-    sourceType: SourceType
+    sourceType: SourceType,
 ): GenerateIdDocumentResubmissionTemplatePreviewRequest =
     GenerateIdDocumentResubmissionTemplatePreviewRequest(
         channel = channel,
         language = language,
         personalisation = personalisation,
-        sourceType = sourceType
+        sourceType = sourceType,
     )

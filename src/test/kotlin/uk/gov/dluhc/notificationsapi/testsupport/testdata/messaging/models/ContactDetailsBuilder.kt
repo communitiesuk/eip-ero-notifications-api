@@ -17,7 +17,7 @@ fun buildContactDetailsMessage(
         website = website,
         phone = phone,
         email = email,
-        address = address
+        address = address,
     )
 
 fun buildAddressMessage(

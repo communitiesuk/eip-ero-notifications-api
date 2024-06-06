@@ -24,7 +24,7 @@ class SqsSenderConfiguration {
     @DependsOn("localStackContainerSqsSettings")
     fun sqsMessagingTemplate(
         amazonSQSAsync: AmazonSQSAsync,
-        objectMapper: ObjectMapper
+        objectMapper: ObjectMapper,
     ): QueueMessagingTemplate =
         QueueMessagingTemplate(amazonSQSAsync, null, objectMapper)
 }

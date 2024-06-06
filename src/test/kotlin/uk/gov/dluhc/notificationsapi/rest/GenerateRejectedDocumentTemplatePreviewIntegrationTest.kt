@@ -64,7 +64,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
 
     @AllowedSourceTypesTest
     fun `should return not found given non existing template`(
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(EMAIL_DOCUMENT_TEMPLATE_ID)
@@ -118,7 +118,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
 
     @AllowedSourceTypesTest
     fun `should return bad request given valid missing request body parameters to gov notify`(
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_DOCUMENT_TEMPLATE_ID)
@@ -147,7 +147,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
 
     @AllowedSourceTypesTest
     fun `should return bad request given invalid request with invalid fields`(
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
@@ -158,8 +158,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 applicationReference = "",
                 firstName = "",
                 documents = emptyList(),
-                eroContactDetails = buildEroContactDetails(address = buildAddress(street = "", postcode = "PE11111111111"))
-            )
+                eroContactDetails = buildEroContactDetails(address = buildAddress(street = "", postcode = "PE11111111111")),
+            ),
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
         val expectedValidationErrorsCount = 5
@@ -191,7 +191,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
 
     @AllowedSourceTypesTest
     fun `should return template preview given valid json request for email`(
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = EMAIL_DOCUMENT_TEMPLATE_ID)
@@ -199,8 +199,8 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
         val requestBody = buildGenerateRejectedDocumentTemplatePreviewRequest(
             sourceType = sourceType,
             personalisation = buildRejectedDocumentPersonalisation(
-                documents = listOf(buildRejectedDocument(rejectionNotes = "Some notes here"))
-            )
+                documents = listOf(buildRejectedDocument(rejectionNotes = "Some notes here")),
+            ),
         )
 
         // When
@@ -224,7 +224,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "rejectedDocuments" to listOf(
                     "Utility bill\n" +
                         "  * The document is too old\n" +
-                        "  * Some notes here"
+                        "  * Some notes here",
                 ),
                 "rejectionMessage" to rejectedDocumentFreeText!!,
                 "LAName" to eroContactDetails.localAuthorityName,
@@ -245,7 +245,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
 
     @AllowedSourceTypesTest
     fun `should return template preview given valid request for letter`(
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = LETTER_DOCUMENT_TEMPLATE_ID)
@@ -256,9 +256,9 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             channel = LETTER,
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = listOf(
-                    buildRejectedDocument(rejectionNotes = "Notes for letter")
-                )
-            )
+                    buildRejectedDocument(rejectionNotes = "Notes for letter"),
+                ),
+            ),
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -267,7 +267,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
                 "rejectedDocuments" to listOf(
                     "Utility bill\n" +
                         "  * The document is too old\n" +
-                        "  * Notes for letter"
+                        "  * Notes for letter",
                 ),
                 "rejectionMessage" to rejectedDocumentFreeText!!,
                 "LAName" to eroContactDetails.localAuthorityName,
@@ -292,7 +292,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java
+                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -306,7 +306,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
 
     @AllowedSourceTypesTest
     fun `should return template preview given valid request when optional values not populated`(
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = EMAIL_DOCUMENT_TEMPLATE_ID)
@@ -316,9 +316,9 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = listOf(buildRejectedDocument(rejectionReasons = emptyList(), rejectionNotes = null)),
                 rejectedDocumentFreeText = null,
-                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
+                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
             ),
-            sourceType = sourceType
+            sourceType = sourceType,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -349,7 +349,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java
+                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -367,7 +367,7 @@ internal class GenerateRejectedDocumentTemplatePreviewIntegrationTest : Integrat
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateRejectedDocumentTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateRejectedDocumentTemplatePreviewRequest::class.java
+            GenerateRejectedDocumentTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

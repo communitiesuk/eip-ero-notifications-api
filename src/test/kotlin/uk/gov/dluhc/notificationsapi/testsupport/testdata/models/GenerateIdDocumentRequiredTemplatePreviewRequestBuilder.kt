@@ -13,11 +13,11 @@ fun buildGenerateIdDocumentRequiredTemplatePreviewRequest(
     personalisation: IdDocumentRequiredPersonalisation = buildIdDocumentRequiredPersonalisation(),
     language: Language = EN,
     sourceType: SourceType = VOTER_MINUS_CARD,
-    channel: NotificationChannel = EMAIL
+    channel: NotificationChannel = EMAIL,
 ): GenerateIdDocumentRequiredTemplatePreviewRequest =
     GenerateIdDocumentRequiredTemplatePreviewRequest(
         personalisation = personalisation,
         language = language,
         sourceType = sourceType,
-        channel = channel
+        channel = channel,
     )

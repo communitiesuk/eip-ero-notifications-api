@@ -45,9 +45,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     buildRejectedDocument(
                         documentType = DocumentTypeApi.BIRTH_MINUS_CERTIFICATE,
                         rejectionReasons = listOf(DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT),
-                        rejectionNotes = null
-                    )
-                )
+                        rejectionNotes = null,
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonApi>(), any()))
@@ -82,9 +82,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     buildRejectedDocument(
                         documentType = DocumentTypeApi.BIRTH_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = "This birth certificate is not yours and is someone else's name. You must provide your own documents only."
-                    )
-                )
+                        rejectionNotes = "This birth certificate is not yours and is someone else's name. You must provide your own documents only.",
+                    ),
+                ),
             )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Birth certificate")
@@ -119,15 +119,15 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                             DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT,
                             DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT,
                         ),
-                        rejectionNotes = null
-                    )
-                )
+                        rejectionNotes = null,
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonApi>(), any()))
                 .willReturn(
                     "We were unable to read the document provided because it was not clear or not showing the information we needed",
-                    "This was a duplicate of another document that you have provided"
+                    "This was a duplicate of another document that you have provided",
                 )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Birth certificate")
@@ -152,6 +152,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT, ENGLISH)
             verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_MINUS_CERTIFICATE, ENGLISH)
         }
+
         @Test
         fun `should map to document rejection text given 1 rejected document with 2 reasons and some notes`() {
             // Given
@@ -163,15 +164,15 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                             DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT,
                             DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT,
                         ),
-                        rejectionNotes = "You have already provided your birth certificate as part of this application. Please provide a different form of ID"
-                    )
-                )
+                        rejectionNotes = "You have already provided your birth certificate as part of this application. Please provide a different form of ID",
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonApi>(), any()))
                 .willReturn(
                     "We were unable to read the document provided because it was not clear or not showing the information we needed",
-                    "This was a duplicate of another document that you have provided"
+                    "This was a duplicate of another document that you have provided",
                 )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Birth certificate")
@@ -207,9 +208,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     buildRejectedDocument(
                         documentType = DocumentTypeApi.ADOPTION_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = ""
-                    )
-                )
+                        rejectionNotes = "",
+                    ),
+                ),
             )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Adoption certificate")
@@ -242,30 +243,30 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                             DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT,
                             DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT,
                         ),
-                        rejectionNotes = null
+                        rejectionNotes = null,
                     ),
                     buildRejectedDocument(
                         documentType = DocumentTypeApi.FIREARMS_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = "Your firearms certificate is from your Scouts groups for your air rifle. It is not a formal certificate and is not an acceptable form of ID"
+                        rejectionNotes = "Your firearms certificate is from your Scouts groups for your air rifle. It is not a formal certificate and is not an acceptable form of ID",
                     ),
                     buildRejectedDocument(
                         documentType = DocumentTypeApi.UTILITY_MINUS_BILL,
                         rejectionReasons = listOf(DocumentRejectionReasonApi.APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
-                        rejectionNotes = "Your name and address are not clear on the Gas Bill that you provided. Please scan and upload it again ensuring your name and address is clearly visible."
+                        rejectionNotes = "Your name and address are not clear on the Gas Bill that you provided. Please scan and upload it again ensuring your name and address is clearly visible.",
                     ),
                     buildRejectedDocument(
                         documentType = DocumentTypeApi.ADOPTION_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = null
-                    )
-                )
+                        rejectionNotes = null,
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonApi>(), any()))
                 .willReturn(
                     "We were unable to read the document provided because it was not clear or not showing the information we needed",
-                    "This was a duplicate of another document that you have provided"
+                    "This was a duplicate of another document that you have provided",
                 )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any()))
@@ -273,7 +274,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     "Birth certificate",
                     "Firearms certificate",
                     "Utility bill",
-                    "Adoption certificate"
+                    "Adoption certificate",
                 )
 
             val expected = """
@@ -323,9 +324,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     buildRejectedDocumentMessage(
                         documentType = DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE,
                         rejectionReasons = listOf(DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT),
-                        rejectionNotes = null
-                    )
-                )
+                        rejectionNotes = null,
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonMessaging>(), any()))
@@ -360,9 +361,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     buildRejectedDocumentMessage(
                         documentType = DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = "This birth certificate is not yours and is someone else's name. You must provide your own documents only."
-                    )
-                )
+                        rejectionNotes = "This birth certificate is not yours and is someone else's name. You must provide your own documents only.",
+                    ),
+                ),
             )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Birth certificate")
@@ -397,15 +398,15 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                             DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT,
                             DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT,
                         ),
-                        rejectionNotes = null
-                    )
-                )
+                        rejectionNotes = null,
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonMessaging>(), any()))
                 .willReturn(
                     "We were unable to read the document provided because it was not clear or not showing the information we needed",
-                    "This was a duplicate of another document that you have provided"
+                    "This was a duplicate of another document that you have provided",
                 )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Birth certificate")
@@ -430,6 +431,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT, ENGLISH)
             verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE, ENGLISH)
         }
+
         @Test
         fun `should map to document rejection text given 1 rejected document with 2 reasons and some notes`() {
             // Given
@@ -441,15 +443,15 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                             DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT,
                             DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT,
                         ),
-                        rejectionNotes = "You have already provided your birth certificate as part of this application. Please provide a different form of ID"
-                    )
-                )
+                        rejectionNotes = "You have already provided your birth certificate as part of this application. Please provide a different form of ID",
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonMessaging>(), any()))
                 .willReturn(
                     "We were unable to read the document provided because it was not clear or not showing the information we needed",
-                    "This was a duplicate of another document that you have provided"
+                    "This was a duplicate of another document that you have provided",
                 )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Birth certificate")
@@ -485,9 +487,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     buildRejectedDocumentMessage(
                         documentType = DocumentTypeMessaging.ADOPTION_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = ""
-                    )
-                )
+                        rejectionNotes = "",
+                    ),
+                ),
             )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Adoption certificate")
@@ -520,30 +522,30 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                             DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT,
                             DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT,
                         ),
-                        rejectionNotes = null
+                        rejectionNotes = null,
                     ),
                     buildRejectedDocumentMessage(
                         documentType = DocumentTypeMessaging.FIREARMS_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = "Your firearms certificate is from your Scouts groups for your air rifle. It is not a formal certificate and is not an acceptable form of ID"
+                        rejectionNotes = "Your firearms certificate is from your Scouts groups for your air rifle. It is not a formal certificate and is not an acceptable form of ID",
                     ),
                     buildRejectedDocumentMessage(
                         documentType = DocumentTypeMessaging.UTILITY_MINUS_BILL,
                         rejectionReasons = listOf(DocumentRejectionReasonMessaging.APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
-                        rejectionNotes = "Your name and address are not clear on the Gas Bill that you provided. Please scan and upload it again ensuring your name and address is clearly visible."
+                        rejectionNotes = "Your name and address are not clear on the Gas Bill that you provided. Please scan and upload it again ensuring your name and address is clearly visible.",
                     ),
                     buildRejectedDocumentMessage(
                         documentType = DocumentTypeMessaging.ADOPTION_MINUS_CERTIFICATE,
                         rejectionReasons = emptyList(),
-                        rejectionNotes = null
-                    )
-                )
+                        rejectionNotes = null,
+                    ),
+                ),
             )
 
             given(rejectedDocumentReasonMapper.toDocumentRejectionReasonString(any<DocumentRejectionReasonMessaging>(), any()))
                 .willReturn(
                     "We were unable to read the document provided because it was not clear or not showing the information we needed",
-                    "This was a duplicate of another document that you have provided"
+                    "This was a duplicate of another document that you have provided",
                 )
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any()))
@@ -551,7 +553,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     "Birth certificate",
                     "Firearms certificate",
                     "Utility bill",
-                    "Adoption certificate"
+                    "Adoption certificate",
                 )
 
             val expected = """

@@ -8,6 +8,6 @@ import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplateP
 interface GenerateApplicationApprovedTemplatePreviewDtoMapper {
 
     fun toApplicationApprovedTemplatePreviewDto(
-        request: GenerateApplicationApprovedTemplatePreviewRequest
+        request: GenerateApplicationApprovedTemplatePreviewRequest,
     ): GenerateApplicationApprovedTemplatePreviewDto
 }

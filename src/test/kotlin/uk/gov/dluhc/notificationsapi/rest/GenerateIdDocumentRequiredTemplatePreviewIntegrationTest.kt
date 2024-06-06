@@ -216,7 +216,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+                GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -249,7 +249,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+                GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -276,13 +276,13 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
                 "eroAddressLine3" to (eroContactDetails.address.town ?: ""),
                 "eroAddressLine4" to (eroContactDetails.address.area ?: ""),
                 "eroAddressLine5" to (eroContactDetails.address.locality ?: ""),
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
             Mono.just(buildGenerateIdDocumentRequiredTemplatePreviewRequest()),
-            GenerateIdDocumentRequiredTemplatePreviewRequest::class.java
+            GenerateIdDocumentRequiredTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

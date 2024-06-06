@@ -174,10 +174,10 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
                 eroContactDetails = buildEroContactDetails(
                     address = buildAddress(
                         street = "",
-                        postcode = "AB11111111111"
-                    )
-                )
-            )
+                        postcode = "AB11111111111",
+                    ),
+                ),
+            ),
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
         val expectedValidationErrorsCount = 4
@@ -224,8 +224,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,proxy",
             "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,proxy",
             "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy"
-        ]
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy",
+        ],
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
@@ -245,8 +245,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = if (withReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
                 rejectionNotes = if (withReasons) "Invalid" else null,
-                rejectionFreeText = "Free Text"
-            )
+                rejectionFreeText = "Free Text",
+            ),
         )
 
         // When
@@ -297,8 +297,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             "POSTAL,EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,postal",
             "POSTAL,LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,postal",
             "PROXY,EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,proxy",
-            "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,proxy"
-        ]
+            "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,proxy",
+        ],
     )
     fun `should return template preview given valid request when optional values are not populated`(
         sourceType: SourceType,
@@ -318,8 +318,8 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = if (populateRejectionReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
                 rejectionNotes = if (populateRejectionNotes) "Rejection note" else null,
-                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
-            )
+                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
+            ),
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -367,14 +367,13 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             "EMAIL,CY,VOTER_MINUS_CARD",
             "LETTER,EN,VOTER_MINUS_CARD",
             "LETTER,CY,VOTER_MINUS_CARD",
-        ]
+        ],
     )
     fun `should return bad request if a template is not configured`(
         notificationChannel: NotificationChannel,
         language: Language?,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
-
         // Given
         val requestBody = buildGenerateRejectedSignatureTemplatePreviewRequest(
             channel = notificationChannel,
@@ -410,7 +409,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateRejectedSignatureTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateRejectedSignatureTemplatePreviewRequest::class.java
+            GenerateRejectedSignatureTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }
