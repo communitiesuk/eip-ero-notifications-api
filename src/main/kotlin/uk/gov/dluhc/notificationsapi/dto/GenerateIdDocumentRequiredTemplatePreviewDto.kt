@@ -2,7 +2,7 @@ package uk.gov.dluhc.notificationsapi.dto
 
 class GenerateIdDocumentRequiredTemplatePreviewDto(
     sourceType: SourceType,
-    channel: NotificationChannel,
+    channel: CommunicationChannel,
     language: LanguageDto,
     val personalisation: IdDocumentRequiredPersonalisationDto,
 ) : BaseGenerateTemplatePreviewDto(

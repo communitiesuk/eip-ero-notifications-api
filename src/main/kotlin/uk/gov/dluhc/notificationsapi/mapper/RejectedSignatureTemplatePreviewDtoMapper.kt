@@ -11,7 +11,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePre
 import uk.gov.dluhc.notificationsapi.models.RejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
 
-@Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
+@Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
 abstract class RejectedSignatureTemplatePreviewDtoMapper {
 
     @Autowired

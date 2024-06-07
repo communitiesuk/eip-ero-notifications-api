@@ -9,8 +9,8 @@ import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.CommunicationsHistoryResponse
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
@@ -216,14 +216,14 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
                 aCommunicationsSummaryBuilder(
                     id = sentNotification2.id!!,
                     requestor = aRequestor(),
-                    channel = NotificationChannel.EMAIL,
+                    channel = CommunicationChannel.EMAIL,
                     templateType = TemplateType.APPLICATION_MINUS_APPROVED,
                     timestamp = OffsetDateTime.of(sentNotification2.sentAt, ZoneOffset.UTC),
                 ),
                 aCommunicationsSummaryBuilder(
                     id = sentNotification1.id!!,
                     requestor = aRequestor(),
-                    channel = NotificationChannel.EMAIL,
+                    channel = CommunicationChannel.EMAIL,
                     templateType = TemplateType.PHOTO_MINUS_RESUBMISSION,
                     timestamp = OffsetDateTime.of(sentNotification1.sentAt, ZoneOffset.UTC),
                 ),

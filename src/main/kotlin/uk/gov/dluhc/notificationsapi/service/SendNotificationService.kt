@@ -12,8 +12,8 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationAuditMapper
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationAuditRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.EMAIL
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType

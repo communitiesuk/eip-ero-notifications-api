@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
@@ -9,7 +10,6 @@ import uk.gov.dluhc.notificationsapi.messaging.models.DocumentType
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocument
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
@@ -27,7 +27,7 @@ fun buildSendNotifyRejectedDocumentMessage(
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
     personalisation: RejectedDocumentPersonalisation = buildRejectedDocumentsPersonalisation(),
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     toAddress: MessageAddress = aMessageAddress(),
     documentCategory: DocumentCategory = DocumentCategory.IDENTITY,
 ): SendNotifyRejectedDocumentMessage =

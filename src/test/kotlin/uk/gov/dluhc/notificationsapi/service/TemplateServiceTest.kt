@@ -16,9 +16,9 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
@@ -79,7 +79,7 @@ class TemplateServiceTest {
                 "custom_title" to "Resubmitting photo",
             )
             val language = LanguageDto.ENGLISH
-            val channel = NotificationChannel.EMAIL
+            val channel = CommunicationChannel.EMAIL
             val sourceType = VOTER_CARD
             val request = buildGeneratePhotoResubmissionTemplatePreviewDto(
                 language = language,
@@ -119,7 +119,7 @@ class TemplateServiceTest {
                 "custom_title" to "Resubmitting photo",
             )
             val language = LanguageDto.ENGLISH
-            val channel = NotificationChannel.EMAIL
+            val channel = CommunicationChannel.EMAIL
             val sourceType = VOTER_CARD
             val request = buildGenerateIdDocumentResubmissionTemplatePreviewDto(
                 language = language,
@@ -223,7 +223,7 @@ class TemplateServiceTest {
             verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(
                 sourceType,
                 NotificationType.APPLICATION_RECEIVED,
-                NotificationChannel.EMAIL,
+                CommunicationChannel.EMAIL,
                 language,
             )
             verify(templatePersonalisationDtoMapper).toApplicationReceivedTemplatePersonalisationMap(request.personalisation)
@@ -272,7 +272,7 @@ class TemplateServiceTest {
             verify(notificationTemplateMapper).fromNotificationTypeForChannelInLanguage(
                 VOTER_CARD,
                 NotificationType.APPLICATION_APPROVED,
-                NotificationChannel.EMAIL,
+                CommunicationChannel.EMAIL,
                 language,
             )
             verify(templatePersonalisationDtoMapper).toApplicationApprovedTemplatePersonalisationMap(request.personalisation)
@@ -475,14 +475,14 @@ class TemplateServiceTest {
             documentCategory: DocumentCategoryDto,
             notificationType: NotificationType,
             templateId: String,
-            notificationChannel: NotificationChannel,
+            communicationChannel: CommunicationChannel,
             language: LanguageDto,
         ) {
             // Given
             val dto =
                 buildRejectedOverseasDocumentTemplatePreviewDto(
                     language = language,
-                    channel = notificationChannel,
+                    channel = communicationChannel,
                     documentCategory = documentCategory,
                 )
             val personalisationMap = buildRejectedOverseasDocumentPersonalisationMapFromDto(dto.personalisation)
@@ -541,14 +541,14 @@ class TemplateServiceTest {
             documentCategory: DocumentCategoryDto,
             notificationType: NotificationType,
             templateId: String,
-            notificationChannel: NotificationChannel,
+            communicationChannel: CommunicationChannel,
             language: LanguageDto,
         ) {
             // Given
             val dto =
                 buildRequiredOverseasDocumentTemplatePreviewDto(
                     language = language,
-                    channel = notificationChannel,
+                    channel = communicationChannel,
                     documentCategory = documentCategory,
                 )
             val personalisationMap = buildRequiredOverseasDocumentPersonalisationMapFromDto(dto.personalisation)

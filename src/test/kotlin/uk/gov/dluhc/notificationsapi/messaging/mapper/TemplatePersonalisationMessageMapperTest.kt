@@ -16,8 +16,8 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
@@ -154,7 +154,7 @@ internal class TemplatePersonalisationMessageMapperTest {
         fun `should map SQS IdDocumentPersonalisation to IdDocumentPersonalisationDto`() {
             // Given
             val personalisationMessage = buildIdDocumentPersonalisationMessage()
-            val channel = NotificationChannel.EMAIL
+            val channel = CommunicationChannel.EMAIL
 
             val documentRejectionText = """
                 Utility Bill
@@ -172,7 +172,7 @@ internal class TemplatePersonalisationMessageMapperTest {
 
             // When
             val actual =
-                mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH, NotificationChannel.EMAIL)
+                mapper.toIdDocumentPersonalisationDto(personalisationMessage, ENGLISH, CommunicationChannel.EMAIL)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)

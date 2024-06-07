@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
@@ -45,7 +45,7 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
         ],
     )
     fun `should process requested signature notification message from relevant service`(
-        sqsChannel: NotificationChannel,
+        sqsChannel: CommunicationChannel,
         language: Language,
         sourceType: SourceType,
         expectedSourceType: SourceTypeEntityEnum,
@@ -63,7 +63,7 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
             personalisation = personalisationMessage,
         )
 
-        if (sqsChannel == NotificationChannel.EMAIL) {
+        if (sqsChannel == CommunicationChannel.EMAIL) {
             wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
         } else {
             wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
@@ -75,7 +75,7 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(5, TimeUnit.SECONDS).untilAsserted {
-            if (sqsChannel == NotificationChannel.EMAIL) {
+            if (sqsChannel == CommunicationChannel.EMAIL) {
                 wireMockService.verifyNotifySendEmailCalled()
             } else {
                 wireMockService.verifyNotifySendLetterCalled()
@@ -101,7 +101,7 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
         ],
     )
     fun `should not process requested signature notification message from non enabled services`(
-        sqsChannel: NotificationChannel,
+        sqsChannel: CommunicationChannel,
         language: Language,
         sourceType: SourceType,
     ) {
@@ -121,7 +121,7 @@ internal class SendNotifyRequestedSignatureMessageListenerIntegrationTest : Inte
         // Then
         val stopWatch = StopWatch.createStarted()
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
-            if (sqsChannel == NotificationChannel.EMAIL) {
+            if (sqsChannel == CommunicationChannel.EMAIL) {
                 wireMockService.verifyNotifySendEmailNeverCalled()
             } else {
                 wireMockService.verifyNotifySendLetterNeverCalled()

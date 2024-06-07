@@ -15,12 +15,12 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildIdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedDocument
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason as DocumentRejectionReasonMessaging
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentType as DocumentTypeMessaging
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel as CommunicationChannelApi
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason as DocumentRejectionReasonApi
 import uk.gov.dluhc.notificationsapi.models.DocumentType as DocumentTypeApi
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel as NotificationChannelApi
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument as buildRejectedDocumentMessage
 
 @ExtendWith(MockitoExtension::class)
@@ -65,7 +65,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelApi.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -98,7 +98,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelApi.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -141,7 +141,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelApi.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -187,7 +187,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelApi.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -219,7 +219,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelApi.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -298,7 +298,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelApi.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -335,7 +335,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelDto.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -368,7 +368,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelDto.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -411,7 +411,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelDto.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -457,7 +457,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelDto.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -489,7 +489,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelDto.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)
@@ -568,7 +568,7 @@ class IdentityDocumentResubmissionDocumentRejectionLetterTextMapperTest {
             """.trimIndent()
 
             // When
-            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, NotificationChannelDto.LETTER)
+            val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.LETTER)
 
             // Then
             assertThat(actual).isEqualTo(expected)

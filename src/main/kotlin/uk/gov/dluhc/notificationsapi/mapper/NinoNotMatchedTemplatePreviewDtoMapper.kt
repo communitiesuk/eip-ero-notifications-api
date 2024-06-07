@@ -10,7 +10,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePrevie
 import uk.gov.dluhc.notificationsapi.models.NinoNotMatchedPersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
 
-@Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
+@Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
 abstract class NinoNotMatchedTemplatePreviewDtoMapper {
     @Mapping(
         target = "notificationType",

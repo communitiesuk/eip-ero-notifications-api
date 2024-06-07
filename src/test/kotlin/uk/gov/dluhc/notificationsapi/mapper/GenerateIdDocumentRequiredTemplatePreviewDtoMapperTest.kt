@@ -10,13 +10,13 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
@@ -32,7 +32,7 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
@@ -42,11 +42,11 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
         // Given
         val request = buildGenerateIdDocumentRequiredTemplatePreviewRequest(
             language = Language.EN,
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             sourceType = SourceType.VOTER_MINUS_CARD,
         )
         given(languageMapper.fromApiToDto(any())).willReturn(ENGLISH)
-        given(notificationChannelMapper.fromApiToDto(any())).willReturn(EMAIL)
+        given(communicationChannelMapper.fromApiToDto(any())).willReturn(EMAIL)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(VOTER_CARD)
 
         val expected = GenerateIdDocumentRequiredTemplatePreviewDto(
@@ -86,8 +86,8 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
-        verify(notificationChannelMapper).fromApiToDto(NotificationChannel.EMAIL)
+        verify(communicationChannelMapper).fromApiToDto(CommunicationChannel.EMAIL)
         verify(sourceTypeMapper).fromApiToDto(SourceType.VOTER_MINUS_CARD)
-        verifyNoMoreInteractions(languageMapper, notificationChannelMapper, sourceTypeMapper)
+        verifyNoMoreInteractions(languageMapper, communicationChannelMapper, sourceTypeMapper)
     }
 }

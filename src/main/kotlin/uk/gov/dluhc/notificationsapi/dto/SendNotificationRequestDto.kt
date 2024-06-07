@@ -1,7 +1,7 @@
 package uk.gov.dluhc.notificationsapi.dto
 
 data class SendNotificationRequestDto(
-    val channel: NotificationChannel,
+    val channel: CommunicationChannel,
     val language: LanguageDto,
     val gssCode: String,
     val requestor: String,

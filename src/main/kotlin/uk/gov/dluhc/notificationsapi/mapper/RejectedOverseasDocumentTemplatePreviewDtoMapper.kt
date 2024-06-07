@@ -10,7 +10,7 @@ import uk.gov.dluhc.notificationsapi.models.RejectedOverseasDocumentPersonalisat
 @Component
 class RejectedOverseasDocumentTemplatePreviewDtoMapper(
     private val languageMapper: LanguageMapper,
-    private val notificationChannelMapper: NotificationChannelMapper,
+    private val communicationChannelMapper: CommunicationChannelMapper,
     private val rejectedDocumentsMapper: RejectedDocumentsMapper,
     private val eroDtoMapper: EroDtoMapper,
     private val documentCategoryMapper: DocumentCategoryMapper,
@@ -19,7 +19,7 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapper(
     fun toRejectedOverseasDocumentTemplatePreviewDto(request: GenerateRejectedOverseasDocumentTemplatePreviewRequest): GenerateRejectedOverseasDocumentTemplatePreviewDto {
         with(request) {
             return GenerateRejectedOverseasDocumentTemplatePreviewDto(
-                channel = notificationChannelMapper.fromApiToDto(channel),
+                channel = communicationChannelMapper.fromApiToDto(channel),
                 language = languageMapper.fromApiToDto(language!!),
                 documentCategory = documentCategoryMapper.fromApiToDto(documentCategory),
                 personalisation = mapPersonalisation(personalisation, languageMapper.fromApiToDto(language)),

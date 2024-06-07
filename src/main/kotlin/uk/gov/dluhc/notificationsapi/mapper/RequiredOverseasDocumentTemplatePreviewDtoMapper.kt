@@ -9,7 +9,7 @@ import uk.gov.dluhc.notificationsapi.models.RequiredOverseasDocumentPersonalisat
 @Component
 class RequiredOverseasDocumentTemplatePreviewDtoMapper(
     private val languageMapper: LanguageMapper,
-    private val notificationChannelMapper: NotificationChannelMapper,
+    private val communicationChannelMapper: CommunicationChannelMapper,
     private val eroDtoMapper: EroDtoMapper,
     private val documentCategoryMapper: DocumentCategoryMapper,
 ) {
@@ -17,7 +17,7 @@ class RequiredOverseasDocumentTemplatePreviewDtoMapper(
     fun toRequiredOverseasDocumentTemplatePreviewDto(request: GenerateRequiredOverseasDocumentTemplatePreviewRequest): GenerateRequiredOverseasDocumentTemplatePreviewDto {
         with(request) {
             return GenerateRequiredOverseasDocumentTemplatePreviewDto(
-                channel = notificationChannelMapper.fromApiToDto(channel),
+                channel = communicationChannelMapper.fromApiToDto(channel),
                 language = languageMapper.fromApiToDto(language!!),
                 documentCategory = documentCategoryMapper.fromApiToDto(documentCategory),
                 personalisation = mapPersonalisation(personalisation),

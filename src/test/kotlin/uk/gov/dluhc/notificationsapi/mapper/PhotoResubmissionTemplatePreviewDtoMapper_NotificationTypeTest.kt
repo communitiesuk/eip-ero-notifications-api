@@ -26,7 +26,7 @@ import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_MINUS_HAS
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
 import uk.gov.dluhc.notificationsapi.models.SourceType.VOTER_MINUS_CARD
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationChannel
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildPhotoResubmissionPersonalisationRequest
@@ -42,7 +42,7 @@ class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
-    private lateinit var channelMapper: NotificationChannelMapper
+    private lateinit var channelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
@@ -175,7 +175,7 @@ class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(channelMapper.fromApiToDto(any())).willReturn(aNotificationChannel())
+        given(channelMapper.fromApiToDto(any())).willReturn(aCommunicationChannel())
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(aSourceType())
 
         // When
@@ -207,7 +207,7 @@ class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(channelMapper.fromApiToDto(any())).willReturn(aNotificationChannel())
+        given(channelMapper.fromApiToDto(any())).willReturn(aCommunicationChannel())
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(aSourceType())
 
         // When

@@ -1,11 +1,8 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.15.4'
+  version: '1.15.5'
   description: Notifications APIs
-  contact:
-    name: Krister Bone
-    email: krister.bone@valtech.com
 #
 # --------------------------------------------------------------------------------
 #
@@ -1191,9 +1188,9 @@ components:
         - cy
         - en
       default: en
-    NotificationChannel:
-      title: NotificationChannel
-      description: The channel to notify an applicant
+    CommunicationChannel:
+      title: CommunicationChannel
+      description: The channel to send communication to an applicant
       type: string
       enum:
         - email
@@ -1221,7 +1218,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1238,7 +1235,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1255,7 +1252,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1351,7 +1348,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1368,7 +1365,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1386,7 +1383,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1655,7 +1652,7 @@ components:
           description: The ID of the communication
           example: '7dcf22b7-cf2f-47e6-b548-0afab1a359fd'
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         templateType:
           $ref: '#/components/schemas/TemplateType'
       required:
@@ -1905,7 +1902,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1922,7 +1919,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
@@ -1939,7 +1936,7 @@ components:
       type: object
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         language:
           $ref: '#/components/schemas/Language'
         personalisation:

@@ -2,7 +2,7 @@ package uk.gov.dluhc.notificationsapi.dto
 
 class RejectedSignatureTemplatePreviewDto(
     sourceType: SourceType,
-    channel: NotificationChannel,
+    channel: CommunicationChannel,
     language: LanguageDto,
     val personalisation: RejectedSignaturePersonalisationDto,
     notificationType: NotificationType,

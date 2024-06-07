@@ -11,11 +11,11 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.annotations.AllowedSourceTypesTest
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
@@ -221,7 +221,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        CommunicationChannel: CommunicationChannel,
         hasRestrictedDocumentsList: Boolean,
         templateId: String,
         language: Language,
@@ -232,7 +232,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateNinoNotMatchedTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = CommunicationChannel,
             language = language,
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = "Invalid",
@@ -285,7 +285,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         ],
     )
     fun `should return template preview given valid request when optional values are not populated`(
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         hasRestrictedDocumentsList: Boolean,
         templateId: String,
     ) {
@@ -294,7 +294,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateNinoNotMatchedTemplatePreviewRequest(
-            channel = notificationChannel,
+            channel = communicationChannel,
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),

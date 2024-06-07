@@ -5,7 +5,7 @@ class ApplicationReceivedTemplatePreviewDto(
     language: LanguageDto,
     sourceType: SourceType,
 ) : BaseGenerateTemplatePreviewDto(
-    channel = NotificationChannel.EMAIL,
+    channel = CommunicationChannel.EMAIL,
     language = language,
     notificationType = NotificationType.APPLICATION_RECEIVED,
     sourceType = sourceType,
