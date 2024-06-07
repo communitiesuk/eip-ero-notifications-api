@@ -20,7 +20,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidKnownEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anotherGssCode
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationSummaryBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDtoBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationSummaryDtoBuilder
 
 @ExtendWith(MockitoExtension::class)
@@ -93,5 +95,44 @@ class SentNotificationsServiceTest {
         verify(notificationRepository).getNotificationSummariesBySourceReference(sourceReference, SourceType.VOTER_CARD, gssCodes)
         verify(notificationSummaryMapper).toNotificationSummaryDto(notificationSummaryEntity1)
         verify(notificationSummaryMapper).toNotificationSummaryDto(notificationSummaryEntity2)
+    }
+
+    @Test
+    fun `should get Notification by id`() {
+        // Given
+        val notificationId = aRandomNotificationId()
+        val eroId = aValidKnownEroId()
+        val sourceType = aSourceType()
+
+        val gssCodes = listOf(aGssCode(), anotherGssCode())
+        given(eroService.lookupGssCodesForEro(any())).willReturn(gssCodes)
+        given(sourceTypeMapper.fromDtoToEntity(any())).willReturn(SourceType.VOTER_CARD)
+
+        val notificationEntity = aNotificationBuilder(
+            id = notificationId,
+            gssCode = gssCodes[0],
+            requestor = "vc-admin-1@some-ero.gov.uk"
+        )
+        given(notificationRepository.getNotificationById(any(), any(), any())).willReturn(
+            notificationEntity
+        )
+
+        val notificationDto = aNotificationDtoBuilder(
+            gssCode = gssCodes[0],
+            requestor = "vc-admin-1@some-ero.gov.uk"
+        )
+        given(notificationApiMapper.toNotificationDto(any())).willReturn(
+            notificationDto
+        )
+
+        // When
+        val actual = service.getNotificationByIdEroAndType(notificationId, eroId, sourceType)
+
+        // Then
+        assertThat(actual).isEqualTo(notificationDto)
+        verify(eroService).lookupGssCodesForEro(eroId)
+        verify(sourceTypeMapper).fromDtoToEntity(sourceType)
+        verify(notificationRepository).getNotificationById(notificationId, SourceType.VOTER_CARD, gssCodes)
+        verify(notificationApiMapper).toNotificationDto(notificationEntity)
     }
 }

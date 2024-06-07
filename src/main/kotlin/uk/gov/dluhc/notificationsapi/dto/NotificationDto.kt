@@ -15,5 +15,5 @@ data class NotificationDto(
     var requestor: String,
     var sentAt: LocalDateTime,
     var personalisation: Map<String, Any>,
-    var notifyDetails: NotifyDetails,
+    var notifyDetailsDto: NotifyDetailsDto,
 )

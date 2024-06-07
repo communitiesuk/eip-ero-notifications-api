@@ -16,7 +16,7 @@ interface NotificationApiMapper {
 
     fun toNotificationDto(notificationSummary: NotificationEntity): NotificationDto
 
-    @Mapping(target = "subject", source = "notifyDetails.subject")
-    @Mapping(target = "body", source = "notifyDetails.body")
+    @Mapping(target = "subject", source = "notifyDetailsDto.subject")
+    @Mapping(target = "body", source = "notifyDetailsDto.body")
     fun toSentCommunicationsApi(notificationDto: NotificationDto): SentCommunicationResponse
 }
