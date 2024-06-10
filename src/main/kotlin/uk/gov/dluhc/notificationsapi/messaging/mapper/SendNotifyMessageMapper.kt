@@ -13,9 +13,9 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WIT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
+import uk.gov.dluhc.notificationsapi.mapper.CommunicationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
-import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationApprovedMessage
@@ -34,7 +34,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatu
     uses = [
         LanguageMapper::class,
         SourceTypeMapper::class,
-        NotificationChannelMapper::class,
+        CommunicationChannelMapper::class,
         NotificationTypeMapper::class,
         NotificationDestinationDtoMapper::class,
     ],
@@ -92,7 +92,7 @@ abstract class SendNotifyMessageMapper {
 
     @Mapping(
         target = "notificationType",
-        expression = "java( requiredDocumentNotificationType(message) )"
+        expression = "java( requiredDocumentNotificationType(message) )",
     )
     abstract fun fromRequiredDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyNinoNotMatchedMessage,
@@ -101,10 +101,11 @@ abstract class SendNotifyMessageMapper {
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
         with(message.personalisation) {
-            if (photoRejectionReasonsExcludingOther.isNotEmpty() || !photoRejectionNotes.isNullOrBlank())
+            if (photoRejectionReasonsExcludingOther.isNotEmpty() || !photoRejectionNotes.isNullOrBlank()) {
                 PHOTO_RESUBMISSION_WITH_REASONS
-            else
+            } else {
                 PHOTO_RESUBMISSION
+            }
         }
 
     // ID_DOCUMENT_RESUBMISSION_WITH_REASONS should be used if any rejected documents have either any rejection reasons (excluding OTHER)
@@ -113,24 +114,26 @@ abstract class SendNotifyMessageMapper {
         with(message.personalisation) {
             if (rejectedDocuments.isNotEmpty() &&
                 rejectedDocuments.any { it.rejectionReasonsExcludingOther.isNotEmpty() || !it.rejectionNotes.isNullOrBlank() }
-            )
+            ) {
                 ID_DOCUMENT_RESUBMISSION_WITH_REASONS
-            else
+            } else {
                 ID_DOCUMENT_RESUBMISSION
+            }
         }
 
     // REJECTED_SIGNATURE_WITH_REASONS should be used if any there are either any rejection reasons (excluding OTHER)
     // or any rejection notes
     protected fun rejectedSignatureNotificationType(message: SendNotifyRejectedSignatureMessage): NotificationType =
         with(message.personalisation) {
-            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank())
+            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank()) {
                 REJECTED_SIGNATURE_WITH_REASONS
-            else
+            } else {
                 REJECTED_SIGNATURE
+            }
         }
 
     protected fun rejectedDocumentNotificationType(
-        message: SendNotifyRejectedDocumentMessage
+        message: SendNotifyRejectedDocumentMessage,
     ): NotificationType =
         with(message) {
             val documentCategoryDto = documentCategoryMapper.fromApiMessageToDto(documentCategory)

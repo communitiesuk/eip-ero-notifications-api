@@ -9,9 +9,9 @@ import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
@@ -48,18 +48,18 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
         sourceType: SourceType,
         sourceTypeEntity: SourceTypeEntity,
         documentCategory: DocumentCategory,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ) {
         // Given
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyRejectedDocumentMessage(
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             language = Language.EN,
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference,
-            documentCategory = documentCategory
+            documentCategory = documentCategory,
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
@@ -73,7 +73,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
                 sourceTypeEntity,
-                listOf(gssCode)
+                listOf(gssCode),
             )
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
@@ -97,18 +97,18 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
         sourceType: SourceType,
         sourceTypeEntity: SourceTypeEntity,
         documentCategory: DocumentCategory,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ) {
         // Given
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyRejectedDocumentMessage(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = Language.EN,
             gssCode = gssCode,
             sourceType = sourceType,
             sourceReference = sourceReference,
-            documentCategory = documentCategory
+            documentCategory = documentCategory,
         )
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
@@ -122,7 +122,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
             val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
                 sourceReference,
                 sourceTypeEntity,
-                listOf(gssCode)
+                listOf(gssCode),
             )
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")

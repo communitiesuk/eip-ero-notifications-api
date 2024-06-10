@@ -11,11 +11,11 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 fun aMessageAddress(
     emailAddress: String? = anEmailAddress(),
     postalAddress: MessageAddressPostalAddress? = aMessageAddressPostalAddress(),
-    overseasElectorAddress: MessageAddressOverseasElectorAddress? = aMessageAddressOverseasElectorAddress()
+    overseasElectorAddress: MessageAddressOverseasElectorAddress? = aMessageAddressOverseasElectorAddress(),
 ) = MessageAddress(
     emailAddress = emailAddress,
     postalAddress = postalAddress,
-    overseasElectorAddress = overseasElectorAddress
+    overseasElectorAddress = overseasElectorAddress,
 )
 
 fun aMessageAddressPostalAddress(
@@ -35,7 +35,7 @@ fun aMessageAddressPostalAddress(
             town = town,
             area = area,
             locality = locality,
-            postcode = postcode
+            postcode = postcode,
         ),
     )
 
@@ -56,5 +56,5 @@ fun aMessageAddressOverseasElectorAddress(
         addressLine4 = addressLine4,
         addressLine5 = addressLine5,
         country = country,
-    )
+    ),
 )

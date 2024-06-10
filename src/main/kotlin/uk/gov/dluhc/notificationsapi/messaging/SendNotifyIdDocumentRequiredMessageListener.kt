@@ -23,7 +23,10 @@ class SendNotifyIdDocumentRequiredMessageListener(
 ) : MessageListener<SendNotifyIdDocumentRequiredMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-id-document-required-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyIdDocumentRequiredMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyIdDocumentRequiredMessage,
+    ) {
         logger.info {
             "received 'send UK Gov notify new ID document required message' request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +

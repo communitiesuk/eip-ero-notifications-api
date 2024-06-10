@@ -23,7 +23,10 @@ class SendNotifyNinoNotMatchedMessageListener(
 ) : MessageListener<SendNotifyNinoNotMatchedMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyNinoNotMatchedMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyNinoNotMatchedMessage,
+    ) {
         logger.info {
             "received send UK Gov notify required document message request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +
@@ -41,12 +44,12 @@ class SendNotifyNinoNotMatchedMessageListener(
                 .toRequiredDocumentTemplatePersonalisationDto(
                     personalisation,
                     sendNotificationRequestDto.language,
-                    sourceType
+                    sourceType,
                 )
             val personalisationMap =
                 templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
                     personalisationDto,
-                    sendNotificationRequestDto.sourceType
+                    sendNotificationRequestDto.sourceType,
                 )
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

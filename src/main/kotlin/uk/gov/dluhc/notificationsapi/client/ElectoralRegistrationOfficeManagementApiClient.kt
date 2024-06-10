@@ -19,7 +19,7 @@ private val logger = KotlinLogging.logger {}
 @Component
 class ElectoralRegistrationOfficeManagementApiClient(
     private val eroManagementWebClient: WebClient,
-    private val eroMapper: EroDtoMapper
+    private val eroMapper: EroDtoMapper,
 ) {
 
     /**
@@ -76,10 +76,11 @@ class ElectoralRegistrationOfficeManagementApiClient(
 
     private fun <T> handleWebClientResponseException(
         ex: WebClientResponseException,
-        searchCriteria: Map<String, String>
+        searchCriteria: Map<String, String>,
     ): Mono<T> =
-        if (ex.statusCode == NOT_FOUND)
+        if (ex.statusCode == NOT_FOUND) {
             Mono.error(ElectoralRegistrationOfficeNotFoundException(searchCriteria))
-        else
+        } else {
             Mono.error(ElectoralRegistrationOfficeGeneralException(ex.message, searchCriteria))
+        }
 }

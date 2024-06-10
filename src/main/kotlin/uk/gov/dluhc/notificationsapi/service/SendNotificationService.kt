@@ -12,8 +12,8 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationAuditMapper
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationAuditRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.EMAIL
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -84,7 +84,7 @@ class SendNotificationService(
         request: SendNotificationRequestDto,
         personalisationMap: Map<String, Any>,
         notificationId: UUID,
-        sentAt: LocalDateTime
+        sentAt: LocalDateTime,
     ): Notification {
         return when (request.channel) {
             EMAIL -> {
@@ -101,7 +101,7 @@ class SendNotificationService(
         request: SendNotificationRequestDto,
         personalisationMap: Map<String, Any>,
         notificationId: UUID,
-        sentAt: LocalDateTime
+        sentAt: LocalDateTime,
     ): Notification {
         with(request) {
             val templateId =
@@ -109,7 +109,7 @@ class SendNotificationService(
                     sourceType,
                     notificationType,
                     EMAIL,
-                    language
+                    language,
                 )
             val sendNotificationGovResponseDto =
                 govNotifyApiClient.sendEmail(templateId, toAddress.emailAddress!!, personalisationMap, notificationId)
@@ -118,7 +118,7 @@ class SendNotificationService(
                 request = request,
                 personalisation = personalisationMap,
                 sendNotificationResponse = sendNotificationGovResponseDto,
-                sentAt = sentAt
+                sentAt = sentAt,
             )
         }
     }
@@ -127,7 +127,7 @@ class SendNotificationService(
         request: SendNotificationRequestDto,
         personalisationMap: Map<String, Any>,
         notificationId: UUID,
-        sentAt: LocalDateTime
+        sentAt: LocalDateTime,
     ): Notification {
         with(request) {
             val templateId =
@@ -135,7 +135,7 @@ class SendNotificationService(
                     sourceType,
                     notificationType,
                     LETTER,
-                    language
+                    language,
                 )
             val sendNotificationGovResponseDto =
                 govNotifyApiClient.sendLetter(templateId, toAddress, personalisationMap, notificationId, sourceType)
@@ -144,7 +144,7 @@ class SendNotificationService(
                 request = request,
                 personalisation = personalisationMap,
                 sendNotificationResponse = sendNotificationGovResponseDto,
-                sentAt = sentAt
+                sentAt = sentAt,
             )
         }
     }
@@ -154,8 +154,8 @@ class SendNotificationService(
             notificationRepository.saveNotification(notification)
             notificationAuditRepository.saveNotificationAudit(
                 notificationAuditMapper.createNotificationAudit(
-                    notification
-                )
+                    notification,
+                ),
             )
         } catch (error: SdkClientException) {
             logger.error { "Client error attempting to save Notification: $error" }

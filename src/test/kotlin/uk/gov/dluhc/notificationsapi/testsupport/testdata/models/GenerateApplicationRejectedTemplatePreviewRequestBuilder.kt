@@ -9,10 +9,10 @@ import uk.gov.dluhc.notificationsapi.models.SourceType
 fun buildGenerateApplicationRejectedTemplatePreviewRequest(
     personalisation: ApplicationRejectedPersonalisation = buildApplicationRejectedPersonalisation(),
     language: Language = EN,
-    sourceType: SourceType
+    sourceType: SourceType,
 ): GenerateApplicationRejectedTemplatePreviewRequest =
     GenerateApplicationRejectedTemplatePreviewRequest(
         personalisation = personalisation,
         language = language,
-        sourceType = sourceType
+        sourceType = sourceType,
     )

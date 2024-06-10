@@ -44,7 +44,7 @@ import javax.servlet.RequestDispatcher.ERROR_STATUS_CODE
  */
 @ControllerAdvice
 class GlobalExceptionHandler(
-    private var errorAttributes: ApiRequestErrorAttributes
+    private var errorAttributes: ApiRequestErrorAttributes,
 ) : ResponseEntityExceptionHandler() {
 
     /**
@@ -58,7 +58,7 @@ class GlobalExceptionHandler(
     @ExceptionHandler(
         value = [
             GovNotifyApiNotFoundException::class,
-        ]
+        ],
     )
     protected fun handleGovNotifyApiNotFoundException(
         e: GovNotifyApiNotFoundException,
@@ -67,7 +67,7 @@ class GlobalExceptionHandler(
         request.setAttribute(
             ERROR_MESSAGE,
             "Notification template not found for the given template type",
-            SCOPE_REQUEST
+            SCOPE_REQUEST,
         )
         return populateErrorResponseAndHandleExceptionInternal(e, NOT_FOUND, request)
     }
@@ -93,11 +93,11 @@ class GlobalExceptionHandler(
             GssCodeMismatchException::class,
             NotificationTemplateNotFoundException::class,
             InvalidUuidFormatException::class,
-        ]
+        ],
     )
     protected fun handleExceptionReturnBadRequestErrorResponse(
         e: Exception,
-        request: WebRequest
+        request: WebRequest,
     ): ResponseEntity<Any> {
         return populateErrorResponseAndHandleExceptionInternal(e, BAD_REQUEST, request)
     }
@@ -133,7 +133,7 @@ class GlobalExceptionHandler(
         ex: TypeMismatchException,
         headers: HttpHeaders,
         status: HttpStatus,
-        request: WebRequest
+        request: WebRequest,
     ): ResponseEntity<Any> {
         request.setAttribute(ERROR_MESSAGE, ex.cause?.message ?: "", SCOPE_REQUEST)
         return populateErrorResponseAndHandleExceptionInternal(ex, BAD_REQUEST, request)

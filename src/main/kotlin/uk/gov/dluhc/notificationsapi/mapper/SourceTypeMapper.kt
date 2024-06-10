@@ -49,7 +49,7 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
         return messageSource.getMessage(
             "templates.vote-type.${sourceType.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 
@@ -60,7 +60,7 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
         return messageSource.getMessage(
             "templates.vote-type.${sourceType.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 }

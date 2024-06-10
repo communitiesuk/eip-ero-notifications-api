@@ -25,12 +25,12 @@ class SourceTypeMapperTest {
             "VOTER_MINUS_CARD, VOTER_CARD",
             "POSTAL, POSTAL",
             "PROXY, PROXY",
-            "OVERSEAS, OVERSEAS"
-        ]
+            "OVERSEAS, OVERSEAS",
+        ],
     )
     fun `should map Message Source Type enum to DTO Source Type`(
         sourceType: SourceTypeMessageEnum,
-        expected: SourceTypeDto
+        expected: SourceTypeDto,
     ) {
         // Given
 
@@ -47,12 +47,12 @@ class SourceTypeMapperTest {
             "VOTER_CARD, VOTER_CARD",
             "POSTAL, POSTAL",
             "PROXY, PROXY",
-            "OVERSEAS, OVERSEAS"
-        ]
+            "OVERSEAS, OVERSEAS",
+        ],
     )
     fun `should map DTO Source Type to Entity Source Type`(
         dtoType: SourceTypeDto,
-        expected: SourceTypeEntityEnum
+        expected: SourceTypeEntityEnum,
     ) {
         // Given
 
@@ -69,12 +69,12 @@ class SourceTypeMapperTest {
             "VOTER_CARD, VOTER_CARD",
             "POSTAL, POSTAL",
             "PROXY, PROXY",
-            "OVERSEAS, OVERSEAS"
-        ]
+            "OVERSEAS, OVERSEAS",
+        ],
     )
     fun `should map Entity Source Type to DTO Source Type`(
         entityType: SourceTypeEntityEnum,
-        expected: SourceTypeDto
+        expected: SourceTypeDto,
     ) {
         // Given
 
@@ -91,12 +91,12 @@ class SourceTypeMapperTest {
             "POSTAL, POSTAL",
             "VOTER_MINUS_CARD, VOTER_CARD",
             "PROXY, PROXY",
-            "OVERSEAS, OVERSEAS"
-        ]
+            "OVERSEAS, OVERSEAS",
+        ],
     )
     fun `should map api sourceType to sourceType dto`(
         apiSourceTypeEnum: SourceTypeModel,
-        expected: SourceTypeDto
+        expected: SourceTypeDto,
     ) {
         // Given
 

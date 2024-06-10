@@ -36,7 +36,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 buildBody(),
-                CreateOfflineCommunicationConfirmationRequest::class.java
+                CreateOfflineCommunicationConfirmationRequest::class.java,
             )
             .exchange()
             .expectStatus()
@@ -51,7 +51,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 buildBody(),
-                CreateOfflineCommunicationConfirmationRequest::class.java
+                CreateOfflineCommunicationConfirmationRequest::class.java,
             )
             .exchange()
             .expectStatus()
@@ -66,12 +66,12 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             .uri(URI_TEMPLATE, ERO_ID, APPLICATION_ID)
             // the group ero-vc-anonymous-admin-$ERO_ID is required to be successful
             .bearerToken(
-                getBearerTokenWithAllRolesExcept(eroId = ERO_ID, excludedRoles = listOf("ero-vc-anonymous-admin"))
+                getBearerTokenWithAllRolesExcept(eroId = ERO_ID, excludedRoles = listOf("ero-vc-anonymous-admin")),
             )
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 buildBody(),
-                CreateOfflineCommunicationConfirmationRequest::class.java
+                CreateOfflineCommunicationConfirmationRequest::class.java,
             )
             .exchange()
             .expectStatus()
@@ -89,7 +89,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 buildBody(),
-                CreateOfflineCommunicationConfirmationRequest::class.java
+                CreateOfflineCommunicationConfirmationRequest::class.java,
             )
             .exchange()
             .expectStatus()
@@ -117,7 +117,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 buildBody(gssCode = gssCode, reason = reason, channel = channel),
-                CreateOfflineCommunicationConfirmationRequest::class.java
+                CreateOfflineCommunicationConfirmationRequest::class.java,
             )
             .exchange()
             .expectStatus()
@@ -127,7 +127,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
         val actualEntity = communicationConfirmationRepository.getBySourceReferenceAndTypeAndGssCodes(
             sourceReference = sourceReference,
             sourceType = SourceType.ANONYMOUS_ELECTOR_DOCUMENT,
-            gssCodes = listOf(gssCode)
+            gssCodes = listOf(gssCode),
         )
         assertThat(actualEntity).hasSize(1)
         assertThat(actualEntity.first())
@@ -150,6 +150,6 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
                 gssCode = gssCode,
                 reason = reason,
                 channel = channel,
-            )
+            ),
         )
 }

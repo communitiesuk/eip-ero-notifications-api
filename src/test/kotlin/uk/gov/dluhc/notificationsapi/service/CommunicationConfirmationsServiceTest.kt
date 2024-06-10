@@ -64,7 +64,7 @@ class CommunicationConfirmationsServiceTest {
             reason = reason,
             channel = channel,
             requestor = requestor,
-            sentAt = sentAt
+            sentAt = sentAt,
         )
 
         val expectedEntity: CommunicationConfirmation = aCommunicationConfirmationBuilder()
@@ -102,7 +102,7 @@ class CommunicationConfirmationsServiceTest {
             communicationConfirmationsService.getCommunicationConfirmationsForApplication(
                 sourceReference,
                 eroId,
-                sourceType
+                sourceType,
             )
 
         // Then

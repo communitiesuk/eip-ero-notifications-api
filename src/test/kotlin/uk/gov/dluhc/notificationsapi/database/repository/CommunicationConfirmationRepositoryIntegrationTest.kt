@@ -53,7 +53,7 @@ internal class CommunicationConfirmationRepositoryIntegrationTest : IntegrationT
                 communicationConfirmationRepository.getBySourceReferenceAndTypeAndGssCodes(
                     sourceReference,
                     sourceType,
-                    listOf(gssCode)
+                    listOf(gssCode),
                 )
 
             // Then
@@ -90,7 +90,7 @@ internal class CommunicationConfirmationRepositoryIntegrationTest : IntegrationT
                 communicationConfirmationRepository.getBySourceReferenceAndTypeAndGssCodes(
                     otherSourceReference,
                     sourceType,
-                    listOf(gssCode)
+                    listOf(gssCode),
                 )
 
             // Then

@@ -10,10 +10,10 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.anOverseasAddress
 fun aNotificationDestination(
     emailAddress: String? = anEmailAddress(),
     postalAddress: PostalAddress? = aPostalAddress(),
-    overseasAddress: OverseasElectorAddress? = anOverseasAddress()
+    overseasAddress: OverseasElectorAddress? = anOverseasAddress(),
 ): NotificationDestinationDto =
     NotificationDestinationDto(
         emailAddress = emailAddress,
         postalAddress = postalAddress,
-        overseasElectorAddress = overseasAddress
+        overseasElectorAddress = overseasAddress,
     )

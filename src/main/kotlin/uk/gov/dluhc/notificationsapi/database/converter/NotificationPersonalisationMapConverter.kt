@@ -34,16 +34,18 @@ class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, A
                 } else {
                     toAttributeValue(objectMapper.writeValueAsString(it.value))
                 }
-            }
+            },
         ).build()
     }
 
     override fun transformTo(input: AttributeValue?): Map<String, Any>? {
         return input?.m()?.entries?.associate {
             it.key to (
-                if (nonStringFieldTypes.contains(it.key))
+                if (nonStringFieldTypes.contains(it.key)) {
                     objectMapper.readValue(it.value.s(), nonStringFieldTypes[it.key])
-                else it.value.s()
+                } else {
+                    it.value.s()
+                }
                 )
         }
     }

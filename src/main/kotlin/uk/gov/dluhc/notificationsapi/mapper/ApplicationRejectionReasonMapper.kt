@@ -11,23 +11,23 @@ class ApplicationRejectionReasonMapper(private val messageSource: MessageSource)
 
     fun toApplicationRejectionReasonString(
         applicationRejectionReason: ApplicationRejectionReasonApiEnum,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.application-rejection.rejection-reasons.${applicationRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 
     fun toApplicationRejectionReasonString(
         applicationRejectionReason: ApplicationRejectionReasonMessageEnum,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.application-rejection.rejection-reasons.${applicationRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 }

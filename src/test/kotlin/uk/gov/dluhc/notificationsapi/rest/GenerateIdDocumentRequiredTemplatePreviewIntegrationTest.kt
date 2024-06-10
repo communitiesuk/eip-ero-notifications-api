@@ -9,6 +9,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel.EMAIL
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
@@ -16,8 +18,6 @@ import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.Language.CY
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel.EMAIL
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -216,7 +216,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+                GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -249,7 +249,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+                GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -276,13 +276,13 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
                 "eroAddressLine3" to (eroContactDetails.address.town ?: ""),
                 "eroAddressLine4" to (eroContactDetails.address.area ?: ""),
                 "eroAddressLine5" to (eroContactDetails.address.locality ?: ""),
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
             Mono.just(buildGenerateIdDocumentRequiredTemplatePreviewRequest()),
-            GenerateIdDocumentRequiredTemplatePreviewRequest::class.java
+            GenerateIdDocumentRequiredTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

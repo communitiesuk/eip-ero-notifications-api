@@ -13,8 +13,8 @@ plugins {
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
     kotlin("plugin.allopen") version "1.8.22"
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
-    id("org.jlleitschuh.gradle.ktlint-idea") version "11.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "11.3.1"
     id("org.openapi.generator") version "6.2.1"
     id("org.owasp.dependencycheck") version "8.2.1"
 }
@@ -149,7 +149,7 @@ tasks.withType<GenerateTask> {
             "apis" to "false",
             "invokers" to "false",
             "models" to "",
-        )
+        ),
     )
     configOptions.set(
         mapOf(
@@ -157,7 +157,7 @@ tasks.withType<GenerateTask> {
             "serializationLibrary" to "jackson",
             "enumPropertyNaming" to "UPPERCASE",
             "useBeanValidation" to "true",
-        )
+        ),
     )
 }
 

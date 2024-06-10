@@ -16,14 +16,14 @@ const val UNAUTHORIZED_BEARER_TOKEN: String =
 fun getBearerToken(
     eroId: String = aValidRandomEroId(),
     email: String = "an-ero-user@$eroId.gov.uk",
-    groups: List<String> = listOf("ero-$eroId", "ero-vc-admin-$eroId")
+    groups: List<String> = listOf("ero-$eroId", "ero-vc-admin-$eroId"),
 ): String =
     "Bearer ${buildAccessToken(eroId, email, groups)}"
 
 fun getBearerTokenWithAllRolesExcept(
     eroId: String = aValidRandomEroId(),
     email: String = "an-ero-user@$eroId.gov.uk",
-    excludedRoles: List<String> = listOf("ero-vc-admin")
+    excludedRoles: List<String> = listOf("ero-vc-admin"),
 ): String {
     val excludedGroups = excludedRoles.map { "$it-$eroId" }.toSet()
     val allGroupEroNames = EroGroup.values().map { it.value }.map { "ero-$it-$eroId" }.toSet()
@@ -40,15 +40,15 @@ fun getVCAdminBearerToken(eroId: String = ERO_ID, userName: String = "an-ero-use
 fun buildAccessToken(
     eroId: String = aValidRandomEroId(),
     email: String = "an-ero-user@$eroId.gov.uk",
-    groups: List<String> = listOf("ero-$eroId", "ero-vc-admin-$eroId")
+    groups: List<String> = listOf("ero-$eroId", "ero-vc-admin-$eroId"),
 ): String =
     Jwts.builder()
         .setSubject(UUID.randomUUID().toString())
         .setClaims(
             mapOf(
                 "cognito:groups" to groups,
-                "email" to email
-            )
+                "email" to email,
+            ),
         )
         .setIssuedAt(Date.from(Instant.now()))
         .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))

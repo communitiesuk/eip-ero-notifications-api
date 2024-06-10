@@ -23,8 +23,10 @@ class SendNotifyRejectedSignatureMessageListener(
 ) : MessageListener<SendNotifyRejectedSignatureMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-rejected-signature-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyRejectedSignatureMessage) {
-
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyRejectedSignatureMessage,
+    ) {
         with(payload) {
             logger.info {
                 "received send rejected signature message with gssCode: $gssCode," +
@@ -38,7 +40,8 @@ class SendNotifyRejectedSignatureMessageListener(
             val personalisationMap =
                 templatePersonalisationDtoMapper.toRejectedSignatureTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(
-                sendNotificationRequestDto, personalisationMap
+                sendNotificationRequestDto,
+                personalisationMap,
             )
         }
     }

@@ -28,7 +28,7 @@ class GovNotifyApiClient(
         templateId: String,
         emailAddress: String,
         personalisation: Map<String, Any>,
-        notificationId: UUID
+        notificationId: UUID,
     ): SendNotificationResponseDto? {
         try {
             logger.info { "Sending email for templateId [$templateId], notificationId [$notificationId]" }
@@ -41,7 +41,7 @@ class GovNotifyApiClient(
                 logger.info(
                     "This environment's API key does not support sending emails to the specified email address " +
                         "as it is not on the team members list. GOV Notify returned an error, but this notification " +
-                        "will be treated as being successfully sent."
+                        "will be treated as being successfully sent.",
                 )
                 return null
             }
@@ -54,9 +54,8 @@ class GovNotifyApiClient(
         toAddress: NotificationDestinationDto,
         placeholders: Map<String, Any>,
         notificationId: UUID,
-        sourceType: SourceType
+        sourceType: SourceType,
     ): SendNotificationResponseDto? {
-
         try {
             logger.info { "Sending letter for templateId [$templateId], notificationId [$notificationId]" }
             val personalisation = placeholders + getLetterAddress(toAddress, sourceType)
@@ -68,7 +67,7 @@ class GovNotifyApiClient(
             if (ignoreWrongApiKeyErrors && ex.isWrongApiKeyError()) {
                 logger.info(
                     "This environment's API key does not support sending letters. GOV Notify returned an error, " +
-                        "but this notification will be treated as being successfully sent."
+                        "but this notification will be treated as being successfully sent.",
                 )
                 return null
             }
@@ -88,7 +87,7 @@ class GovNotifyApiClient(
 
     private fun getLetterAddress(
         toAddress: NotificationDestinationDto,
-        sourceType: SourceType
+        sourceType: SourceType,
     ): Map<String, String?> {
         return if (sourceType == SourceType.OVERSEAS) {
             toAddress.overseasElectorAddress?.toPersonalisationMap()
@@ -102,7 +101,7 @@ class GovNotifyApiClient(
     private fun logAndThrowGovNotifyApiException(
         callDescription: String,
         ex: NotificationClientException,
-        templateId: String
+        templateId: String,
     ): GovNotifyApiException {
         val message = ex.message ?: ""
         when (ex.httpResult) {

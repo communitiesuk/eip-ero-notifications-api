@@ -60,27 +60,28 @@ class SentNotificationsServiceTest {
         val notificationSummaryEntity1 = aNotificationSummaryBuilder(
             id = aRandomNotificationId(),
             gssCode = gssCodes[0],
-            requestor = "vc-admin-1@some-ero.gov.uk"
+            requestor = "vc-admin-1@some-ero.gov.uk",
         )
         val notificationSummaryEntity2 = aNotificationSummaryBuilder(
             id = aRandomNotificationId(),
             gssCode = gssCodes[0],
-            requestor = "vc-admin-2@some-ero.gov.uk"
+            requestor = "vc-admin-2@some-ero.gov.uk",
         )
         given(notificationRepository.getNotificationSummariesBySourceReference(any(), any(), any())).willReturn(
-            listOf(notificationSummaryEntity1, notificationSummaryEntity2)
+            listOf(notificationSummaryEntity1, notificationSummaryEntity2),
         )
 
         val notificationSummaryDto1 = aNotificationSummaryDtoBuilder(
             gssCode = gssCodes[0],
-            requestor = "vc-admin-1@some-ero.gov.uk"
+            requestor = "vc-admin-1@some-ero.gov.uk",
         )
         val notificationSummaryDto2 = aNotificationSummaryDtoBuilder(
             gssCode = gssCodes[0],
-            requestor = "vc-admin-2@some-ero.gov.uk"
+            requestor = "vc-admin-2@some-ero.gov.uk",
         )
         given(notificationSummaryMapper.toNotificationSummaryDto(any())).willReturn(
-            notificationSummaryDto1, notificationSummaryDto2
+            notificationSummaryDto1,
+            notificationSummaryDto2,
         )
 
         val expected = listOf(notificationSummaryDto1, notificationSummaryDto2)

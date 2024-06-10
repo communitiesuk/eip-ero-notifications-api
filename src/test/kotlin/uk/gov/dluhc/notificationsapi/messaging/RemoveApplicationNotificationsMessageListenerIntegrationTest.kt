@@ -28,11 +28,11 @@ internal class RemoveApplicationNotificationsMessageListenerIntegrationTest : In
                     gssCode = gssCode,
                     sourceReference = sourceReference,
                     sourceType = VOTER_CARD,
-                )
+                ),
             )
         }
         val sqsMessage = buildRemoveApplicationNotificationsMessage(
-            sourceReference = sourceReference
+            sourceReference = sourceReference,
         )
 
         // When

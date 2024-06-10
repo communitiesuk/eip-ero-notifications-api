@@ -27,7 +27,7 @@ class SentCommunicationsController(
     private val sentNotificationsService: SentNotificationsService,
     private val notificationSummaryMapper: NotificationSummaryMapper,
     private val notificationApiMapper: NotificationApiMapper,
-    private val sourceTypeMapper: SourceTypeMapper
+    private val sourceTypeMapper: SourceTypeMapper,
 ) {
 
     @GetMapping("applications/{applicationId}")
@@ -35,12 +35,12 @@ class SentCommunicationsController(
     fun getCommunicationHistoryByApplicationId(
         @PathVariable eroId: String,
         @PathVariable applicationId: String,
-        @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi
+        @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi,
     ): CommunicationsHistoryResponse =
         sentNotificationsService.getNotificationSummariesForApplication(
             sourceReference = applicationId,
             eroId = eroId,
-            sourceType = sourceTypeMapper.fromApiToDto(sourceType)
+            sourceType = sourceTypeMapper.fromApiToDto(sourceType),
         ).map {
             notificationSummaryMapper.toCommunicationsSummaryApi(it)
         }.let {

@@ -7,11 +7,11 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 
 fun buildRemoveNotificationsDto(
     sourceType: SourceType = aSourceType(),
-    sourceReference: String = aSourceReference()
+    sourceReference: String = aSourceReference(),
 ): RemoveNotificationsDto =
     RemoveNotificationsDto(
         sourceType = sourceType,
-        sourceReference = sourceReference
+        sourceReference = sourceReference,
     )
 
 fun aRemoveNotificationsDto() = buildRemoveNotificationsDto()

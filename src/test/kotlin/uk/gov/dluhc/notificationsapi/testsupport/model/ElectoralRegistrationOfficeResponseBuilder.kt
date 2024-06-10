@@ -10,7 +10,7 @@ fun buildElectoralRegistrationOfficeResponse(
     name: String = aValidEroName(),
     localAuthorities: List<LocalAuthorityResponse> = listOf(
         buildLocalAuthorityResponse(),
-        buildLocalAuthorityResponse()
+        buildLocalAuthorityResponse(),
     ),
-    roles: List<String>? = null
+    roles: List<String>? = null,
 ) = ElectoralRegistrationOfficeResponse(id = id, name = name, localAuthorities = localAuthorities, roles = roles)

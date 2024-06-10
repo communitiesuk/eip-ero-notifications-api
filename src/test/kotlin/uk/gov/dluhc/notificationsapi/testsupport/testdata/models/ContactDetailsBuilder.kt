@@ -12,12 +12,12 @@ fun buildEroContactDetails(
     website: String = aValidWebsite(),
     email: String = aValidEmailAddress(),
     address: Address = buildAddress(),
-    phone: String = aValidPhoneNumber()
+    phone: String = aValidPhoneNumber(),
 ): ContactDetails =
     ContactDetails(
         localAuthorityName = localAuthorityName,
         website = website,
         email = email,
         address = address,
-        phone = phone
+        phone = phone,
     )

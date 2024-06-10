@@ -9,10 +9,10 @@ fun buildIdDocumentRequiredPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetails = buildEroContactDetails(),
-    idDocumentRequiredFreeText: String = faker.harryPotter().spell()
+    idDocumentRequiredFreeText: String = faker.harryPotter().spell(),
 ) = IdDocumentRequiredPersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
-    idDocumentRequiredFreeText = idDocumentRequiredFreeText
+    idDocumentRequiredFreeText = idDocumentRequiredFreeText,
 )

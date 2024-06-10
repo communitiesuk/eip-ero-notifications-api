@@ -26,7 +26,7 @@ class NotificationTypeMapperTest {
             "REJECTED_MINUS_SIGNATURE, REJECTED_SIGNATURE",
             "REQUESTED_MINUS_SIGNATURE, REQUESTED_SIGNATURE",
             "NINO_MINUS_NOT_MINUS_MATCHED, NINO_NOT_MATCHED",
-        ]
+        ],
     )
     fun `should map Message Type to NotificationType`(messageType: MessageType, expected: NotificationType) {
         // Given
@@ -55,11 +55,11 @@ class NotificationTypeMapperTest {
             "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
             "NINO_NOT_MATCHED, NINO_NOT_MATCHED",
             "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, NINO_NOT_MATCHED",
-        ]
+        ],
     )
     fun `should map DTO Notification Type to Entity Notification Type`(
         dtoType: NotificationType,
-        expected: NotificationTypeEntity
+        expected: NotificationTypeEntity,
     ) {
         // Given
 
@@ -83,11 +83,11 @@ class NotificationTypeMapperTest {
             "REJECTED_SIGNATURE, REJECTED_SIGNATURE",
             "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
             "NINO_NOT_MATCHED, NINO_NOT_MATCHED",
-        ]
+        ],
     )
     fun `should map Entity Notification Type to Dto Notification Type`(
         entityType: NotificationTypeEntity,
-        expected: NotificationType
+        expected: NotificationType,
     ) {
         // Given
 
@@ -113,8 +113,8 @@ class NotificationTypeMapperTest {
             "REQUESTED_SIGNATURE, REQUESTED_MINUS_SIGNATURE",
             "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED",
             "REJECTED_PARENT_GUARDIAN, REJECTED_MINUS_PARENT_MINUS_GUARDIAN",
-            "REJECTED_PREVIOUS_ADDRESS, REJECTED_MINUS_PREVIOUS_MINUS_ADDRESS"
-        ]
+            "REJECTED_PREVIOUS_ADDRESS, REJECTED_MINUS_PREVIOUS_MINUS_ADDRESS",
+        ],
     )
     fun `should map Notification Type to Template Type`(notificationType: NotificationType, expected: TemplateType) {
         // Given
@@ -134,7 +134,7 @@ class NotificationTypeMapperTest {
             "ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
             "REJECTED_SIGNATURE_WITH_REASONS",
             "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
-        ]
+        ],
     )
     fun `should not map Notification Type to Template Type given unsupported value`(unSupportedNotificationType: NotificationType) {
         // Given
@@ -142,7 +142,7 @@ class NotificationTypeMapperTest {
         // When
         val exception = catchThrowableOfType(
             { mapper.fromNotificationTypeDtoToTemplateTypeApi(unSupportedNotificationType) },
-            IllegalArgumentException::class.java
+            IllegalArgumentException::class.java,
         )
 
         // Then

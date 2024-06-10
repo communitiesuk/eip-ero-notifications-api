@@ -50,12 +50,12 @@ class LocalStackContainerConfiguration {
         fun getInstance(): GenericContainer<*> {
             if (container == null) {
                 container = GenericContainer(
-                    DockerImageName.parse("localstack/localstack:1.1.0")
+                    DockerImageName.parse("localstack/localstack:1.1.0"),
                 ).withEnv(
                     mapOf(
                         "SERVICES" to "dynamodb, sqs",
                         "AWS_DEFAULT_REGION" to DEFAULT_REGION,
-                    )
+                    ),
                 )
                     .withReuse(true)
                     .withExposedPorts(DEFAULT_PORT)
@@ -135,10 +135,19 @@ class LocalStackContainerConfiguration {
     private fun GenericContainer<*>.createSqsQueue(queueName: String): String {
         val isFifo = queueName.endsWith(".fifo")
         val attributes =
-            if (isFifo) "VisibilityTimeout=1,MessageRetentionPeriod=5,FifoQueue=true"
-            else "VisibilityTimeout=1,MessageRetentionPeriod=5"
+            if (isFifo) {
+                "VisibilityTimeout=1,MessageRetentionPeriod=5,FifoQueue=true"
+            } else {
+                "VisibilityTimeout=1,MessageRetentionPeriod=5"
+            }
         val execInContainer = execInContainer(
-            "awslocal", "sqs", "create-queue", "--queue-name", queueName, "--attributes", attributes
+            "awslocal",
+            "sqs",
+            "create-queue",
+            "--queue-name",
+            queueName,
+            "--attributes",
+            attributes,
         )
         return execInContainer.stdout.let {
             objectMapper.readValue(it, Map::class.java)
@@ -151,7 +160,7 @@ class LocalStackContainerConfiguration {
     @Bean
     fun testDynamoDbClient(
         testAwsCredentialsProvider: AwsCredentialsProvider,
-        dbConfiguration: DynamoDbConfiguration
+        dbConfiguration: DynamoDbConfiguration,
     ): DynamoDbClient {
         val dynamoDbClient = DynamoDbClient.builder()
             .credentialsProvider(testAwsCredentialsProvider)
@@ -280,7 +289,7 @@ data class LocalStackContainerSettings(
             apiUrl.port,
             rawUrl.path,
             rawUrl.query,
-            rawUrl.fragment
+            rawUrl.fragment,
         ).toASCIIString()
     }
 }

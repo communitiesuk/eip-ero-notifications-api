@@ -15,7 +15,7 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationChannel
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildRejectedSignaturePersonalisation
@@ -31,7 +31,7 @@ class RejectedSignatureTemplatePreviewDtoMapper_NotificationTypeTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
@@ -57,39 +57,40 @@ class RejectedSignatureTemplatePreviewDtoMapper_NotificationTypeTest {
                             Arguments.of(
                                 listOf(rejectionReason),
                                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
-                                sourceType
-                            )
+                                sourceType,
+                            ),
                         )
                         parameters.add(
                             Arguments.of(
                                 listOf(rejectionReason, SignatureRejectionReason.OTHER),
                                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
-                                sourceType
-                            )
+                                sourceType,
+                            ),
                         )
                     }
             }
             return parameters.build()
         }
     }
+
     @ParameterizedTest
     @MethodSource("rejectionReasons_to_NotificationType")
     fun `should map rejected signature template request to dto with correct NotificationType mapping given rejection reasons and no rejection notes`(
         rejectionReasons: List<SignatureRejectionReason>,
         expectedNotificationType: NotificationType,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = rejectionReasons,
-                rejectionNotes = null
-            )
+                rejectionNotes = null,
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(notificationChannelMapper.fromApiToDto(any())).willReturn(aNotificationChannel())
+        given(communicationChannelMapper.fromApiToDto(any())).willReturn(aCommunicationChannel())
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(aSourceType())
         given(sourceTypeMapper.toSourceTypeString(sourceType, LanguageDto.ENGLISH)).willReturn("Mapped source type")
 
@@ -109,24 +110,24 @@ class RejectedSignatureTemplatePreviewDtoMapper_NotificationTypeTest {
             ", REJECTED_SIGNATURE,PROXY",
             "'', REJECTED_SIGNATURE,PROXY",
             "'Some rejection reason notes', REJECTED_SIGNATURE_WITH_REASONS,PROXY",
-        ]
+        ],
     )
     fun `should map rejected signature template request to dto with correct NotificationType mapping given no rejection reasons and rejection notes`(
         rejectionNotes: String?,
         expectedNotificationType: NotificationType,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
         // Given
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = emptyList(),
-                rejectionNotes = rejectionNotes
-            )
+                rejectionNotes = rejectionNotes,
+            ),
         )
 
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
-        given(notificationChannelMapper.fromApiToDto(any())).willReturn(aNotificationChannel())
+        given(communicationChannelMapper.fromApiToDto(any())).willReturn(aCommunicationChannel())
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(aSourceType())
         given(sourceTypeMapper.toSourceTypeString(sourceType, LanguageDto.ENGLISH)).willReturn("Mapped source type")
 

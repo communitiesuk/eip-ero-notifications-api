@@ -15,11 +15,14 @@ private val logger = KotlinLogging.logger {}
 @Component
 class RemoveApplicationNotificationsMessageListener(
     private val removeNotificationsService: RemoveNotificationsService,
-    private val removeNotificationsMapper: RemoveNotificationsMapper
+    private val removeNotificationsMapper: RemoveNotificationsMapper,
 ) : MessageListener<RemoveApplicationNotificationsMessage> {
 
     @SqsListener(value = ["\${sqs.remove-application-notifications-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: RemoveApplicationNotificationsMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: RemoveApplicationNotificationsMessage,
+    ) {
         with(payload) {
             logger.info {
                 "RemoveApplicationNotificationsMessage received with " +

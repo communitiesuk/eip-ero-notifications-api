@@ -16,7 +16,7 @@ fun anEnglishEroContactDetails(): EroContactDetailsDto =
             town = "Caernarfon",
             area = "Gwynedd",
             postcode = "LL55 1SH",
-        )
+        ),
     )
 
 fun aWelshEroContactDetails(): EroContactDetailsDto =
@@ -32,5 +32,5 @@ fun aWelshEroContactDetails(): EroContactDetailsDto =
             town = "Caernarfon",
             area = "Gwynedd",
             postcode = "LL55 1SH",
-        )
+        ),
     )

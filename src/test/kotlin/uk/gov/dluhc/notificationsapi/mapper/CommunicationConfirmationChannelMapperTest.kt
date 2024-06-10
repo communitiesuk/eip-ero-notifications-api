@@ -16,7 +16,7 @@ class CommunicationConfirmationChannelMapperTest {
             "EMAIL, EMAIL",
             "LETTER, LETTER",
             "TELEPHONE, TELEPHONE",
-        ]
+        ],
     )
     fun `from api to dto`(apiEnum: OfflineCommunicationChannelApi, dtoEnum: CommunicationConfirmationChannelDto) {
         // Given
@@ -34,7 +34,7 @@ class CommunicationConfirmationChannelMapperTest {
             "EMAIL, EMAIL",
             "LETTER, LETTER",
             "TELEPHONE, TELEPHONE",
-        ]
+        ],
     )
     fun `from dto to api`(dtoEnum: CommunicationConfirmationChannelDto, apiEnum: OfflineCommunicationChannelApi) {
         // Given
@@ -52,7 +52,7 @@ class CommunicationConfirmationChannelMapperTest {
             "EMAIL, EMAIL",
             "LETTER, LETTER",
             "TELEPHONE, TELEPHONE",
-        ]
+        ],
     )
     fun `from entity to dto`(entityEnum: OfflineCommunicationChannelEntity, dtoEnum: CommunicationConfirmationChannelDto) {
         // Given
@@ -70,7 +70,7 @@ class CommunicationConfirmationChannelMapperTest {
             "EMAIL, EMAIL",
             "LETTER, LETTER",
             "TELEPHONE, TELEPHONE",
-        ]
+        ],
     )
     fun `from dto to entity`(dtoEnum: CommunicationConfirmationChannelDto, entityEnum: OfflineCommunicationChannelEntity) {
         // Given

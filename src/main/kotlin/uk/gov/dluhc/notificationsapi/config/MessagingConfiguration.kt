@@ -44,7 +44,7 @@ class MessagingConfiguration {
     @Bean
     fun queueMessageHandlerFactory(
         jacksonMessageConverter: MappingJackson2MessageConverter,
-        hibernateValidator: Validator
+        hibernateValidator: Validator,
     ): QueueMessageHandlerFactory =
         QueueMessageHandlerFactory().apply {
             setArgumentResolvers(
@@ -53,8 +53,8 @@ class MessagingConfiguration {
                     NotificationSubjectArgumentResolver(),
                     AcknowledgmentHandlerMethodArgumentResolver("Acknowledgment"),
                     VisibilityHandlerMethodArgumentResolver("Visibility"),
-                    PayloadMethodArgumentResolver(jacksonMessageConverter, hibernateValidator)
-                )
+                    PayloadMethodArgumentResolver(jacksonMessageConverter, hibernateValidator),
+                ),
             )
         }
 }

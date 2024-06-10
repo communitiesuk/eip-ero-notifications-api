@@ -12,11 +12,11 @@ import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
@@ -165,10 +165,10 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
                 eroContactDetails = buildEroContactDetails(
                     address = buildAddress(
                         street = "",
-                        postcode = "AB11111111111"
-                    )
-                )
-            )
+                        postcode = "AB11111111111",
+                    ),
+                ),
+            ),
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
         val expectedValidationErrorsCount = 4
@@ -208,11 +208,11 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
             "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,proxy",
             "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
             "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
-        ]
+        ],
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         templateId: String,
         language: Language,
         expectedPersonalisationSourceType: String,
@@ -222,11 +222,11 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateRequestedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = communicationChannel,
             language = language,
             personalisation = buildRequestedSignaturePersonalisation(
-                freeText = "Free Text"
-            )
+                freeText = "Free Text",
+            ),
         )
 
         // When
@@ -271,11 +271,11 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
             "POSTAL,LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,postal",
             "PROXY,EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,proxy",
             "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,proxy",
-        ]
+        ],
     )
     fun `should return template preview given valid request when optional values are not populated`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         templateId: String,
         expectedPersonalisationSourceType: String,
     ) {
@@ -285,7 +285,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
 
         val requestBody = buildGenerateRequestedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = communicationChannel,
             personalisation = buildRequestedSignaturePersonalisation(
                 freeText = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
@@ -335,17 +335,16 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
             "EMAIL,CY,VOTER_MINUS_CARD",
             "LETTER,EN,VOTER_MINUS_CARD",
             "LETTER,CY,VOTER_MINUS_CARD",
-        ]
+        ],
     )
     fun `should return bad request if a template is not configured`(
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         language: Language?,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
-
         // Given
         val requestBody = buildGenerateRequestedSignatureTemplatePreviewRequest(
-            channel = notificationChannel,
+            channel = communicationChannel,
             language = language,
             sourceType = sourceType,
         )
@@ -364,7 +363,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
         val actual = response.responseBody.blockFirst()
         val sourceTypeValue = sourceTypeMapper.fromApiToDto(sourceType)
         val expectedErrorMessage =
-            "No ${notificationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REQUESTED_SIGNATURE} and sourceType $sourceTypeValue"
+            "No ${communicationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REQUESTED_SIGNATURE} and sourceType $sourceTypeValue"
         ErrorResponseAssert.assertThat(actual)
             .hasStatus(400)
             .hasError("Bad Request")
@@ -378,7 +377,7 @@ internal class GenerateRequestedSignatureTemplatePreviewIntegrationTest : Integr
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateRequestedSignatureTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateRequestedSignatureTemplatePreviewRequest::class.java
+            GenerateRequestedSignatureTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

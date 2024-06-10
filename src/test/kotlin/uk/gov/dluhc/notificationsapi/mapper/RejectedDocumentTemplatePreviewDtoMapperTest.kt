@@ -9,8 +9,8 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.Language
@@ -57,14 +57,14 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
     fun `should map rejected document template request to dto`(
         sourceTypeModel: SourceTypeModel,
         sourceTypeDto: SourceTypeDto,
-        language: Language
+        language: Language,
     ) {
         // Given
         val documents = listOf(buildRejectedDocument())
         val request = buildGenerateRejectedDocumentTemplatePreviewRequest(
             language = language,
             sourceType = sourceTypeModel,
-            personalisation = buildRejectedDocumentPersonalisation(documents = documents)
+            personalisation = buildRejectedDocumentPersonalisation(documents = documents),
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
@@ -72,8 +72,8 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
         given(rejectedDocumentsMapper.mapRejectionDocumentsFromApi(ENGLISH, documents)).willReturn(
             listOf(
                 "Doc1",
-                "Doc2"
-            )
+                "Doc2",
+            ),
         )
 
         // When
@@ -81,7 +81,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
 
         // Then
         val expected = RejectedDocumentTemplatePreviewDto(
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             sourceType = sourceTypeDto,
             language = ENGLISH,
             personalisation = with(request.personalisation) {
@@ -103,14 +103,14 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     personalisationSourceTypeString = "Mapped source type",
                 )
-            }
+            },
         )
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
     }
@@ -120,7 +120,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
     fun `should map rejected document template request to dto when optional fields null`(
         sourceTypeModel: SourceTypeModel,
         sourceTypeDto: SourceTypeDto,
-        language: Language
+        language: Language,
     ) {
         // Given
         val documents = listOf(buildRejectedDocument())
@@ -130,8 +130,8 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
             personalisation = buildRejectedDocumentPersonalisation(
                 documents = documents,
                 rejectedDocumentFreeText = null,
-                eroContactDetails = buildEroContactDetails(address = buildAddressRequestWithOptionalParamsNull())
-            )
+                eroContactDetails = buildEroContactDetails(address = buildAddressRequestWithOptionalParamsNull()),
+            ),
         )
         given(languageMapper.fromApiToDto(language)).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(sourceTypeModel)).willReturn(sourceTypeDto)
@@ -143,7 +143,7 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
 
         // Then
         val expected = RejectedDocumentTemplatePreviewDto(
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             sourceType = sourceTypeDto,
             language = ENGLISH,
             personalisation = with(request.personalisation) {
@@ -165,14 +165,14 @@ class RejectedDocumentTemplatePreviewDtoMapperTest {
                                     locality = null,
                                     town = null,
                                     area = null,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     personalisationSourceTypeString = "Mapped source type",
                 )
-            }
+            },
         )
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
     }

@@ -11,8 +11,8 @@ import uk.gov.dluhc.notificationsapi.database.entity.Channel.EMAIL
 import uk.gov.dluhc.notificationsapi.database.entity.Channel.LETTER
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
@@ -28,18 +28,18 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
     @ParameterizedTest
     @EnumSource(Language::class)
     fun `should process ID document message to send Email for given language and save notification`(
-        language: Language
+        language: Language,
     ) {
         // Given
         val gssCode = aGssCode()
         val sourceType = SourceType.VOTER_MINUS_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentResubmissionMessage(
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,
-            sourceReference = sourceReference
+            sourceReference = sourceReference,
         )
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
@@ -63,18 +63,18 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
     @ParameterizedTest
     @EnumSource(Language::class)
     fun `should process ID document message to send Letter for given language and save notification`(
-        language: Language
+        language: Language,
     ) {
         // Given
         val gssCode = aGssCode()
         val sourceType = SourceType.VOTER_MINUS_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentResubmissionMessage(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             language = language,
             gssCode = gssCode,
             sourceType = sourceType,
-            sourceReference = sourceReference
+            sourceReference = sourceReference,
         )
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 

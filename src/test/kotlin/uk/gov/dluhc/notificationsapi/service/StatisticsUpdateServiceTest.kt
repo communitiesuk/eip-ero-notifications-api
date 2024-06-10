@@ -45,13 +45,12 @@ class StatisticsUpdateServiceTest {
         statisticsUpdateService = StatisticsUpdateService(
             triggerVoterCardStatisticsUpdateQueue,
             triggerPostalApplicationStatisticsUpdateQueue,
-            triggerProxyApplicationStatisticsUpdateQueue
+            triggerProxyApplicationStatisticsUpdateQueue,
         )
     }
 
     @Test
     fun `should send a message containing the application ID to the voter card queue for voter card applications`() {
-
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -61,14 +60,13 @@ class StatisticsUpdateServiceTest {
         // Then
         verify(triggerVoterCardStatisticsUpdateQueue).submit(
             eq(VoterCardUpdateStatisticsMessage(applicationId)),
-            any()
+            any(),
         )
         verifyNoMoreInteractions(triggerVoterCardStatisticsUpdateQueue)
     }
 
     @Test
     fun `should not send a message to the voter card queue for non voter card applications`() {
-
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -82,7 +80,6 @@ class StatisticsUpdateServiceTest {
 
     @Test
     fun `should send a message containing the application ID to the postal queue for postal applications`() {
-
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -92,14 +89,13 @@ class StatisticsUpdateServiceTest {
         // Then
         verify(triggerPostalApplicationStatisticsUpdateQueue).submit(
             eq(PostalUpdateStatisticsMessage(applicationId)),
-            any()
+            any(),
         )
         verifyNoMoreInteractions(triggerPostalApplicationStatisticsUpdateQueue)
     }
 
     @Test
     fun `should not send a message to the postal queue for non postal applications`() {
-
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -113,7 +109,6 @@ class StatisticsUpdateServiceTest {
 
     @Test
     fun `should send a message containing the application ID to the proxy queue for proxy applications`() {
-
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -123,14 +118,13 @@ class StatisticsUpdateServiceTest {
         // Then
         verify(triggerProxyApplicationStatisticsUpdateQueue).submit(
             eq(ProxyUpdateStatisticsMessage(applicationId)),
-            any()
+            any(),
         )
         verifyNoMoreInteractions(triggerProxyApplicationStatisticsUpdateQueue)
     }
 
     @Test
     fun `should not send a message to the proxy queue for non proxy applications`() {
-
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -144,7 +138,6 @@ class StatisticsUpdateServiceTest {
 
     @Test
     fun `should include message-group-id and message-deduplication-id headers on the message`() {
-
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -154,7 +147,7 @@ class StatisticsUpdateServiceTest {
         // Then
         verify(triggerVoterCardStatisticsUpdateQueue).submit(
             any(),
-            capture(headersArgumentCaptor)
+            capture(headersArgumentCaptor),
         )
         assertThat(headersArgumentCaptor.value.get("message-group-id")).isEqualTo(applicationId)
         assertThat(headersArgumentCaptor.value.get("message-deduplication-id")).isNotNull

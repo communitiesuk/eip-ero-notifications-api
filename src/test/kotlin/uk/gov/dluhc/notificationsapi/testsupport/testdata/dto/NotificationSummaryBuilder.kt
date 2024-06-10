@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationSummaryDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -19,7 +19,7 @@ fun aNotificationSummaryDtoBuilder(
     sourceType: SourceType = SourceType.VOTER_CARD,
     sourceReference: String = aSourceReference(),
     type: NotificationType = NotificationType.APPLICATION_APPROVED,
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     sentAt: LocalDateTime = aLocalDateTime(),
 ): NotificationSummaryDto =
     NotificationSummaryDto(

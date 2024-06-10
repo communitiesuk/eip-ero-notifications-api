@@ -16,12 +16,12 @@ class DocumentCategoryMapperTest {
         value = [
             "PARENT_MINUS_GUARDIAN, PARENT_GUARDIAN",
             "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS",
-            "IDENTITY, IDENTITY"
-        ]
+            "IDENTITY, IDENTITY",
+        ],
     )
     fun `should map from overseas document type API to overseas document type DTO`(
         documentCategoryApi: DocumentCategory,
-        expected: DocumentCategoryDto
+        expected: DocumentCategoryDto,
     ) {
         // Given
 
@@ -37,12 +37,12 @@ class DocumentCategoryMapperTest {
         value = [
             "IDENTITY, REJECTED_DOCUMENT",
             "PARENT_GUARDIAN, REJECTED_PARENT_GUARDIAN",
-            "PREVIOUS_ADDRESS, REJECTED_PREVIOUS_ADDRESS"
-        ]
+            "PREVIOUS_ADDRESS, REJECTED_PREVIOUS_ADDRESS",
+        ],
     )
     fun `should map rejected overseas document to notification type`(
         documentCategoryDto: DocumentCategoryDto,
-        expected: NotificationType
+        expected: NotificationType,
     ) {
         // Given
 
@@ -58,12 +58,12 @@ class DocumentCategoryMapperTest {
         value = [
             "IDENTITY, NINO_NOT_MATCHED",
             "PARENT_GUARDIAN, PARENT_GUARDIAN_PROOF_REQUIRED",
-            "PREVIOUS_ADDRESS, PREVIOUS_ADDRESS_DOCUMENT_REQUIRED"
-        ]
+            "PREVIOUS_ADDRESS, PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+        ],
     )
     fun `should map required overseas document to notification type`(
         documentCategoryDto: DocumentCategoryDto,
-        expected: NotificationType
+        expected: NotificationType,
     ) {
         // Given
 

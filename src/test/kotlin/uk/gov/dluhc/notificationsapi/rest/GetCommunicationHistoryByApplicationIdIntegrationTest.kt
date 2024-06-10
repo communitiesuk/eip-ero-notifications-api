@@ -9,8 +9,8 @@ import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.CommunicationsHistoryResponse
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
@@ -101,12 +101,12 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
             "proxy,ero-oe-admin",
             "overseas,ero-vc-admin",
             "overseas,ero-postal-admin",
-            "overseas,ero-proxy-admin"
-        ]
+            "overseas,ero-proxy-admin",
+        ],
     )
     fun `should return forbidden given user with valid bearer token belonging to a different admin group than the application type specified`(
         requestedSourceType: String?,
-        authGroupPrefix: String
+        authGroupPrefix: String,
     ) {
         wireMockService.stubCognitoJwtIssuerResponse()
 
@@ -144,7 +144,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         val applicationId = aRandomSourceReference()
 
         val expected = CommunicationsHistoryResponse(
-            communications = emptyList()
+            communications = emptyList(),
         )
 
         // When
@@ -167,13 +167,13 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
             "voter-card,VOTER_CARD,ero-vc-admin",
             "postal,POSTAL,ero-postal-admin",
             "proxy,PROXY,ero-proxy-admin",
-            "overseas,OVERSEAS,ero-oe-admin"
-        ]
+            "overseas,OVERSEAS,ero-oe-admin",
+        ],
     )
     fun `should return Communication Summaries for application`(
         requestedSourceType: String?,
         sourceType: SourceType,
-        authGroupPrefix: String
+        authGroupPrefix: String,
     ) {
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
@@ -194,7 +194,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
             sentAt = LocalDateTime.of(2022, 10, 4, 13, 22, 18),
         )
         notificationRepository.saveNotification(
-            sentNotification1
+            sentNotification1,
         )
 
         val sentNotification2 = aNotificationBuilder(
@@ -208,7 +208,7 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
             sentAt = LocalDateTime.of(2022, 10, 6, 9, 58, 24),
         )
         notificationRepository.saveNotification(
-            sentNotification2
+            sentNotification2,
         )
 
         val expected = CommunicationsHistoryResponse(
@@ -216,18 +216,18 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
                 aCommunicationsSummaryBuilder(
                     id = sentNotification2.id!!,
                     requestor = aRequestor(),
-                    channel = NotificationChannel.EMAIL,
+                    channel = CommunicationChannel.EMAIL,
                     templateType = TemplateType.APPLICATION_MINUS_APPROVED,
                     timestamp = OffsetDateTime.of(sentNotification2.sentAt, ZoneOffset.UTC),
                 ),
                 aCommunicationsSummaryBuilder(
                     id = sentNotification1.id!!,
                     requestor = aRequestor(),
-                    channel = NotificationChannel.EMAIL,
+                    channel = CommunicationChannel.EMAIL,
                     templateType = TemplateType.PHOTO_MINUS_RESUBMISSION,
                     timestamp = OffsetDateTime.of(sentNotification1.sentAt, ZoneOffset.UTC),
-                )
-            )
+                ),
+            ),
         )
 
         // When

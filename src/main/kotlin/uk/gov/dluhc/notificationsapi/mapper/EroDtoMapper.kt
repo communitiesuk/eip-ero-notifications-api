@@ -14,11 +14,11 @@ abstract class EroDtoMapper {
 
     @Mapping(
         target = "englishContactDetails",
-        expression = "java(toEroContactDetailsDto( localAuthority.getName(), localAuthority.getContactDetailsEnglish() ))"
+        expression = "java(toEroContactDetailsDto( localAuthority.getName(), localAuthority.getContactDetailsEnglish() ))",
     )
     @Mapping(
         target = "welshContactDetails",
-        expression = "java(toNullEroContactDetailsDto( localAuthority.getName(), localAuthority.getContactDetailsWelsh() ))"
+        expression = "java(toNullEroContactDetailsDto( localAuthority.getName(), localAuthority.getContactDetailsWelsh() ))",
     )
     abstract fun toEroDto(localAuthority: LocalAuthorityResponse): EroDto
 

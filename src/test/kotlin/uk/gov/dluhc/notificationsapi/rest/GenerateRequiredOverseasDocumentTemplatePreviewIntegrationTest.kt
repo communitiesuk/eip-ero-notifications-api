@@ -9,13 +9,13 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequiredOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -79,15 +79,15 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
     @CsvSource(
         "$PARENT_GUARDIAN_PROOF_REQUIRED_EMAIL_EN_TEMPLATE_ID, PARENT_MINUS_GUARDIAN",
         "$PREVIOUS_ADDRESS_DOCUMENT_REQUIRED_EMAIL_EN_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS",
-        "$NINO_NOT_MATCHED_EMAIL_EN_TEMPLATE_ID, IDENTITY"
+        "$NINO_NOT_MATCHED_EMAIL_EN_TEMPLATE_ID, IDENTITY",
     )
     fun `should return not found given non existing template`(
         templateId: String,
-        documentCategory: DocumentCategory
+        documentCategory: DocumentCategory,
     ) {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewNotFoundResponse(
-            templateId
+            templateId,
         )
 
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
@@ -128,13 +128,13 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
             "$PREVIOUS_ADDRESS_DOCUMENT_REQUIRED_EMAIL_CY_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS, EMAIL, CY",
             "$PREVIOUS_ADDRESS_DOCUMENT_REQUIRED_LETTER_EN_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS, LETTER, EN",
             "$PREVIOUS_ADDRESS_DOCUMENT_REQUIRED_LETTER_CY_TEMPLATE_ID, PREVIOUS_MINUS_ADDRESS, LETTER, CY",
-        ]
+        ],
     )
     fun `should return template preview given valid json request`(
         templateId: String,
         documentCategory: DocumentCategory,
-        channel: NotificationChannel,
-        language: Language
+        channel: CommunicationChannel,
+        language: Language,
     ) {
         // Given
         val notifyClientResponse =
@@ -154,7 +154,7 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
                         postcode = "postcode",
                     ),
                 ),
-            )
+            ),
         )
 
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
@@ -183,7 +183,7 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateRequiredOverseasDocumentTemplatePreviewRequest::class.java
+                GenerateRequiredOverseasDocumentTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -194,7 +194,7 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
         Assertions.assertThat(actual).isEqualTo(expected)
         wireMockService.verifyNotifyGenerateTemplatePreview(
             templateId,
-            expectedPersonalisationDataMap
+            expectedPersonalisationDataMap,
         )
     }
 }
@@ -202,5 +202,5 @@ internal class GenerateRequiredOverseasDocumentTemplatePreviewIntegrationTest : 
 private fun WebTestClient.RequestBodySpec.withAValidBody(documentCategory: DocumentCategory): WebTestClient.RequestBodySpec =
     body(
         Mono.just(buildRequiredOverseasDocumentTemplatePreviewRequest(documentCategory = documentCategory)),
-        GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java
+        GenerateRejectedOverseasDocumentTemplatePreviewRequest::class.java,
     ) as WebTestClient.RequestBodySpec

@@ -248,7 +248,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
             "eroAddressLine3" to "London",
             "eroAddressLine4" to "Charles Area",
             "eroAddressLine5" to "Some locality",
-            "eroPostcode" to "PE3 6SB"
+            "eroPostcode" to "PE3 6SB",
         )
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
@@ -281,10 +281,10 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                     buildRejectedDocument(
                         documentType = DocumentType.BIRTH_MINUS_CERTIFICATE,
                         rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT),
-                        rejectionNotes = "I can't read it"
-                    )
-                )
-            )
+                        rejectionNotes = "I can't read it",
+                    ),
+                ),
+            ),
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -301,7 +301,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                 "eroAddressLine3" to eroContactDetails.address.town!!,
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
@@ -313,7 +313,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java
+                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -338,11 +338,11 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                     buildRejectedDocument(
                         documentType = DocumentType.BIRTH_MINUS_CERTIFICATE,
                         rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT),
-                        rejectionNotes = null
-                    )
-                )
+                        rejectionNotes = null,
+                    ),
+                ),
             ),
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -359,7 +359,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                 "eroAddressLine3" to "",
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
 
@@ -372,7 +372,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
             .contentType(APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java
+                GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -387,6 +387,6 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
             Mono.just(buildGenerateIdDocumentResubmissionTemplatePreviewRequest(sourceType = SourceTypeModel.VOTER_MINUS_CARD)),
-            GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java
+            GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

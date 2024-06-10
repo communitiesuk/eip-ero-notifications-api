@@ -1,10 +1,10 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
@@ -16,7 +16,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
 fun buildSendNotifyRejectedSignatureMessage(
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language = Language.EN,
     sourceType: SourceType = SourceType.PROXY,
     sourceReference: String = aSourceReference(),
@@ -44,12 +44,12 @@ fun buildRejectedSignaturePersonalisation(
     rejectionReasons: List<SignatureRejectionReason> = listOf(
         SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
         SignatureRejectionReason.TOO_MINUS_DARK,
-        SignatureRejectionReason.OTHER
-    )
+        SignatureRejectionReason.OTHER,
+    ),
 ) = RejectedSignaturePersonalisation(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     rejectionNotes = rejectionNotes,
-    rejectionReasons = rejectionReasons
+    rejectionReasons = rejectionReasons,
 )

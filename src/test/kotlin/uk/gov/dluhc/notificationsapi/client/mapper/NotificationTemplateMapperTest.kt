@@ -15,10 +15,8 @@ import uk.gov.dluhc.notificationsapi.config.ProxyNotifyEmailTemplateConfiguratio
 import uk.gov.dluhc.notificationsapi.config.ProxyNotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.VoterCardNotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.VoterCardNotifyLetterTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.EMAIL
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel.LETTER
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
@@ -41,7 +39,7 @@ internal class NotificationTemplateMapperTest {
                 idDocumentResubmissionWithReasonsEnglish = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-EMAIL-ENGLISH",
                 idDocumentResubmissionWithReasonsWelsh = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-EMAIL-WELSH",
                 idDocumentRequiredEnglish = "ID-DOCUMENT-REQUIRED-EMAIL-ENGLISH",
-                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-EMAIL-WELSH"
+                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-EMAIL-WELSH",
             ),
             postal = PostalNotifyEmailTemplateConfiguration(
                 receivedEnglish = "POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
@@ -105,7 +103,7 @@ internal class NotificationTemplateMapperTest {
                 idDocumentResubmissionWithReasonsEnglish = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-LETTER-ENGLISH",
                 idDocumentResubmissionWithReasonsWelsh = "ID-DOCUMENT-RESUBMISSION-WITH-REASONS-LETTER-WELSH",
                 idDocumentRequiredEnglish = "ID-DOCUMENT-REQUIRED-LETTER-ENGLISH",
-                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-LETTER-WELSH"
+                idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-LETTER-WELSH",
             ),
             postal = PostalNotifyLetterTemplateConfiguration(
                 rejectedDocumentEnglish = "POSTAL-REJECTED-DOCUMENT-LETTER-ENGLISH",
@@ -149,7 +147,7 @@ internal class NotificationTemplateMapperTest {
                 ninoNotMatchedEnglish = "OVERSEAS-NINO-NOT-MATCHED-LETTER-ENGLISH",
                 ninoNotMatchedWelsh = "OVERSEAS-NINO-NOT-MATCHED-LETTER-WELSH",
             ),
-        )
+        ),
     )
 
     @ParameterizedTest
@@ -230,19 +228,19 @@ internal class NotificationTemplateMapperTest {
             "OVERSEAS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED, OVERSEAS-PREVIOUS-ADDRESS-DOCUMENT-REQUIRED-LETTER-WELSH",
             "OVERSEAS,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED, OVERSEAS-PARENT-GUARDIAN-PROOF-REQUIRED-LETTER-WELSH",
 
-        ]
+        ],
     )
     fun `should map Notification Type in language for letter channel to Notify Template ID`(
         sourceType: SourceType,
         language: LanguageDto?,
         notificationType: NotificationType,
-        expected: String
+        expected: String,
     ) {
         // Given
 
         // When
         val notifyTemplateId =
-            mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, LETTER, language)
+            mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, CommunicationChannel.LETTER, language)
 
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)
@@ -334,19 +332,19 @@ internal class NotificationTemplateMapperTest {
             "OVERSEAS,WELSH,NINO_NOT_MATCHED, OVERSEAS-NINO-NOT-MATCHED-EMAIL-WELSH",
             "OVERSEAS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED, OVERSEAS-PREVIOUS-ADDRESS-DOCUMENT-REQUIRED-EMAIL-WELSH",
             "OVERSEAS,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED, OVERSEAS-PARENT-GUARDIAN-PROOF-REQUIRED-EMAIL-WELSH",
-        ]
+        ],
     )
     fun `should map Notification Type in language for email channel to Notify Template ID`(
         sourceType: SourceType,
         language: LanguageDto?,
         notificationType: NotificationType,
-        expected: String
+        expected: String,
     ) {
         // Given
 
         // When
         val notifyTemplateId =
-            mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, EMAIL, language)
+            mapper.fromNotificationTypeForChannelInLanguage(sourceType, notificationType, CommunicationChannel.EMAIL, language)
 
         // Then
         assertThat(notifyTemplateId).isEqualTo(expected)
@@ -358,7 +356,7 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,APPLICATION_APPROVED",
             "VOTER_CARD,ENGLISH,APPLICATION_APPROVED",
             "VOTER_CARD,WELSH,APPLICATION_APPROVED",
-        ]
+        ],
     )
     fun `should fail to map Notification Type in language for letter channel for unsupported combination`(
         sourceType: SourceType,
@@ -373,8 +371,8 @@ internal class NotificationTemplateMapperTest {
                 mapper.fromNotificationTypeForChannelInLanguage(
                     sourceType,
                     notificationType,
-                    LETTER,
-                    language
+                    CommunicationChannel.LETTER,
+                    language,
                 )
             }
 
@@ -390,14 +388,14 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,ENGLISH,LETTER,APPLICATION_APPROVED, letter",
             "VOTER_CARD,WELSH,LETTER,APPLICATION_APPROVED, letter",
-        ]
+        ],
     )
     fun `should fail to map letter Template Type in language for unsupported combination`(
         sourceType: SourceType,
         language: LanguageDto?,
-        channel: NotificationChannel,
+        channel: CommunicationChannel,
         templateType: NotificationType,
-        channelString: String
+        channelString: String,
     ) {
         // Given
 
@@ -407,7 +405,7 @@ internal class NotificationTemplateMapperTest {
                 sourceType,
                 templateType,
                 channel,
-                language
+                language,
             )
         }
 
@@ -423,14 +421,14 @@ internal class NotificationTemplateMapperTest {
             "VOTER_CARD,,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,ENGLISH,EMAIL,APPLICATION_REJECTED, email",
             "VOTER_CARD,WELSH,EMAIL,APPLICATION_REJECTED, email",
-        ]
+        ],
     )
     fun `should fail to map email Template Type in language for unsupported combination`(
         sourceType: SourceType,
         language: LanguageDto?,
-        channel: NotificationChannel,
+        channel: CommunicationChannel,
         templateType: NotificationType,
-        channelString: String
+        channelString: String,
     ) {
         // Given
 
@@ -440,7 +438,7 @@ internal class NotificationTemplateMapperTest {
                 sourceType,
                 templateType,
                 channel,
-                language
+                language,
             )
         }
 
@@ -464,8 +462,8 @@ internal class NotificationTemplateMapperTest {
             mapper.fromNotificationTypeForChannelInLanguage(
                 sourceType,
                 notificationType,
-                EMAIL,
-                language
+                CommunicationChannel.EMAIL,
+                language,
             )
         }
 

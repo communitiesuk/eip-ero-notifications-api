@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '2.0.1'
+  version: '2.0.2'
   description: |-
     Notifications SQS Message Types
     
@@ -175,7 +175,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/PhotoPersonalisation'
       required:
@@ -190,7 +190,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/IdDocumentPersonalisation'
       required:
@@ -205,7 +205,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/IdDocumentRequiredPersonalisation'
       required:
@@ -256,7 +256,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/RejectedDocumentPersonalisation'
         documentCategory:
@@ -522,8 +522,8 @@ components:
         - en
       default: en
 
-    NotificationChannel:
-      title: NotificationChannel
+    CommunicationChannel:
+      title: CommunicationChannel
       description: The channel to notify an applicant
       type: string
       enum:
@@ -720,7 +720,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/RejectedSignaturePersonalisation'
       required:
@@ -750,7 +750,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/RequestedSignaturePersonalisation'
       required:
@@ -779,7 +779,7 @@ components:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
-          $ref: '#/components/schemas/NotificationChannel'
+          $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/NinoNotMatchedPersonalisation'
         hasRestrictedDocumentsList:

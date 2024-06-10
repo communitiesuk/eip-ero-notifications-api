@@ -23,8 +23,10 @@ class SendNotifyRequestedSignatureMessageListener(
 ) : MessageListener<SendNotifyRequestedSignatureMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-requested-signature-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyRequestedSignatureMessage) {
-
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyRequestedSignatureMessage,
+    ) {
         with(payload) {
             logger.info {
                 "received send requested signature message with gssCode: $gssCode," +
@@ -38,7 +40,8 @@ class SendNotifyRequestedSignatureMessageListener(
             val personalisationMap =
                 templatePersonalisationDtoMapper.toRequestedSignatureTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(
-                sendNotificationRequestDto, personalisationMap
+                sendNotificationRequestDto,
+                personalisationMap,
             )
         }
     }

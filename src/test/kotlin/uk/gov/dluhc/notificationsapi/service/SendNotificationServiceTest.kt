@@ -19,8 +19,8 @@ import uk.gov.dluhc.notificationsapi.database.mapper.NotificationAuditMapper
 import uk.gov.dluhc.notificationsapi.database.mapper.NotificationMapper
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationAuditRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -80,20 +80,20 @@ internal class SendNotificationServiceTest {
             notificationAuditRepository,
             notificationAuditMapper,
             statisticsUpdateService,
-            fixedClock
+            fixedClock,
         )
     }
 
     @Test
     fun `should send email notification`() {
         // Given
-        val channel = NotificationChannel.EMAIL
+        val channel = CommunicationChannel.EMAIL
         val language = LanguageDto.ENGLISH
         val toAddress =
             NotificationDestinationDto(
                 emailAddress = anEmailAddress(),
                 postalAddress = null,
-                overseasElectorAddress = null
+                overseasElectorAddress = null,
             )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
@@ -112,8 +112,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
         given(notificationAuditMapper.createNotificationAudit(any())).willReturn(notificationAudit)
 
@@ -125,7 +125,7 @@ internal class SendNotificationServiceTest {
             sourceType,
             notificationType,
             channel,
-            language
+            language,
         )
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verify(notificationMapper).createNotification(
@@ -133,7 +133,7 @@ internal class SendNotificationServiceTest {
             eq(request),
             eq(personalisation),
             eq(sendNotificationResponseDto),
-            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
+            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault())),
         )
         verify(notificationRepository).saveNotification(notification)
         verify(notificationAuditMapper).createNotificationAudit(notification)
@@ -143,13 +143,13 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send email notification and handle non-retryable Notify client error`() {
         // Given
-        val channel = NotificationChannel.EMAIL
+        val channel = CommunicationChannel.EMAIL
         val language = LanguageDto.WELSH
         val toAddress =
             NotificationDestinationDto(
                 emailAddress = anEmailAddress(),
                 postalAddress = null,
-                overseasElectorAddress = null
+                overseasElectorAddress = null,
             )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
@@ -163,16 +163,16 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willThrow(GovNotifyApiNotFoundException::class.java)
         given(
             notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
@@ -183,28 +183,28 @@ internal class SendNotificationServiceTest {
             sourceType,
             notificationType,
             channel,
-            language
+            language,
         )
         verify(notifyApiClient).sendEmail(eq(templateId), eq(emailAddress), eq(personalisation), any())
         verifyNoInteractions(
             notificationMapper,
             notificationRepository,
             notificationAuditMapper,
-            notificationAuditRepository
+            notificationAuditRepository,
         )
     }
 
     @Test
     fun `should send letter notification`() {
         // Given
-        val channel = NotificationChannel.LETTER
+        val channel = CommunicationChannel.LETTER
         val language = LanguageDto.ENGLISH
         val postalAddress = aPostalAddress()
         val toAddress =
             NotificationDestinationDto(
                 emailAddress = null,
                 postalAddress = postalAddress,
-                overseasElectorAddress = null
+                overseasElectorAddress = null,
             )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
@@ -224,8 +224,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
         given(notificationAuditMapper.createNotificationAudit(any())).willReturn(notificationAudit)
 
@@ -237,21 +237,21 @@ internal class SendNotificationServiceTest {
             sourceType,
             notificationType,
             channel,
-            language
+            language,
         )
         verify(notifyApiClient).sendLetter(
             eq(templateId),
             eq(notificationDestinationDto),
             eq(personalisation),
             any(),
-            eq(sourceType)
+            eq(sourceType),
         )
         verify(notificationMapper).createNotification(
             any(),
             eq(request),
             eq(personalisation),
             eq(sendNotificationResponseDto),
-            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
+            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault())),
         )
         verify(notificationRepository).saveNotification(notification)
         verify(notificationAuditMapper).createNotificationAudit(notification)
@@ -267,19 +267,19 @@ internal class SendNotificationServiceTest {
             "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
             "REJECTED_DOCUMENT",
             "REJECTED_PARENT_GUARDIAN",
-            "REJECTED_PREVIOUS_ADDRESS"
-        ]
+            "REJECTED_PREVIOUS_ADDRESS",
+        ],
     )
     fun `should send letter notification for overseas address`(notificationType: NotificationType) {
         // Given
-        val channel = NotificationChannel.LETTER
+        val channel = CommunicationChannel.LETTER
         val language = LanguageDto.ENGLISH
         val overseasAddress = anOverseasAddress()
         val toAddress =
             NotificationDestinationDto(
                 emailAddress = null,
                 postalAddress = null,
-                overseasElectorAddress = overseasAddress
+                overseasElectorAddress = overseasAddress,
             )
         val sourceType = SourceType.OVERSEAS
         val request = buildSendNotificationRequestDto(
@@ -287,7 +287,7 @@ internal class SendNotificationServiceTest {
             channel = channel,
             language = language,
             toAddress = toAddress,
-            notificationType = notificationType
+            notificationType = notificationType,
         )
         val personalisation =
             buildRequiredDocumentPersonalisationMapFromDto(buildRequiredDocumentPersonalisation(), sourceType)
@@ -305,8 +305,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
         given(notificationAuditMapper.createNotificationAudit(any())).willReturn(notificationAudit)
 
@@ -318,21 +318,21 @@ internal class SendNotificationServiceTest {
             sourceType,
             notificationType,
             channel,
-            language
+            language,
         )
         verify(notifyApiClient).sendLetter(
             eq(templateId),
             eq(notificationDestinationDto),
             eq(personalisation),
             any(),
-            eq(sourceType)
+            eq(sourceType),
         )
         verify(notificationMapper).createNotification(
             any(),
             eq(request),
             eq(personalisation),
             eq(sendNotificationResponseDto),
-            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault()))
+            eq(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault())),
         )
         verify(notificationRepository).saveNotification(notification)
         verify(notificationAuditMapper).createNotificationAudit(notification)
@@ -342,14 +342,14 @@ internal class SendNotificationServiceTest {
     @Test
     fun `should send letter notification and handle non-retryable Notify client error`() {
         // Given
-        val channel = NotificationChannel.LETTER
+        val channel = CommunicationChannel.LETTER
         val language = LanguageDto.WELSH
         val postalAddress = aPostalAddress()
         val toAddress =
             NotificationDestinationDto(
                 emailAddress = null,
                 postalAddress = postalAddress,
-                overseasElectorAddress = null
+                overseasElectorAddress = null,
             )
         val request = buildSendNotificationRequestDto(channel = channel, language = language, toAddress = toAddress)
         val notificationType = aNotificationType()
@@ -365,16 +365,16 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willThrow(GovNotifyApiNotFoundException::class.java)
         given(
             notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
@@ -385,30 +385,29 @@ internal class SendNotificationServiceTest {
             sourceType,
             notificationType,
             channel,
-            language
+            language,
         )
         verify(notifyApiClient).sendLetter(
             eq(templateId),
             eq(notificationDestinationDto),
             eq(personalisation),
             any(),
-            eq(sourceType)
+            eq(sourceType),
         )
         verifyNoInteractions(
             notificationMapper,
             notificationRepository,
             notificationAuditMapper,
-            notificationAuditRepository
+            notificationAuditRepository,
         )
     }
 
     @ParameterizedTest
     @EnumSource(
         NotificationType::class,
-        names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"]
+        names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"],
     )
     fun `should send votercard statistics update for relevant notification types`(notificationType: NotificationType) {
-
         // Given
         val request = buildSendNotificationRequestDto(notificationType = notificationType)
         val personalisation = buildPhotoPersonalisationMapFromDto()
@@ -423,8 +422,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
@@ -438,10 +437,9 @@ internal class SendNotificationServiceTest {
     @EnumSource(
         NotificationType::class,
         names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"],
-        mode = EnumSource.Mode.EXCLUDE
+        mode = EnumSource.Mode.EXCLUDE,
     )
     fun `should not send votercard statistics update for irrelevant notification types`(notificationType: NotificationType) {
-
         // Given
         val request = buildSendNotificationRequestDto(notificationType = notificationType)
         val personalisation = buildPhotoPersonalisationMapFromDto()
@@ -456,8 +454,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
@@ -470,10 +468,9 @@ internal class SendNotificationServiceTest {
     @ParameterizedTest
     @EnumSource(
         NotificationType::class,
-        names = ["ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "REQUESTED_SIGNATURE", "REJECTED_SIGNATURE", "NINO_NOT_MATCHED", "REJECTED_SIGNATURE_WITH_REASONS"]
+        names = ["ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "REQUESTED_SIGNATURE", "REJECTED_SIGNATURE", "NINO_NOT_MATCHED", "REJECTED_SIGNATURE_WITH_REASONS"],
     )
     fun `should send postal statistics update for relevant notification types`(notificationType: NotificationType) {
-
         // Given
         val request =
             buildSendNotificationRequestDto(notificationType = notificationType, sourceType = SourceType.POSTAL)
@@ -489,8 +486,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
@@ -504,10 +501,9 @@ internal class SendNotificationServiceTest {
     @EnumSource(
         NotificationType::class,
         names = ["ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "REQUESTED_SIGNATURE", "REJECTED_SIGNATURE", "NINO_NOT_MATCHED", "REJECTED_SIGNATURE_WITH_REASONS"],
-        mode = EnumSource.Mode.EXCLUDE
+        mode = EnumSource.Mode.EXCLUDE,
     )
     fun `should not send postal statistics update for irrelevant notification types`(notificationType: NotificationType) {
-
         // Given
         val request =
             buildSendNotificationRequestDto(notificationType = notificationType, sourceType = SourceType.POSTAL)
@@ -523,8 +519,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
@@ -540,7 +536,7 @@ internal class SendNotificationServiceTest {
         // Given
         val request = buildSendNotificationRequestDto(
             sourceType = sourceType,
-            notificationType = NotificationType.ID_DOCUMENT_REQUIRED
+            notificationType = NotificationType.ID_DOCUMENT_REQUIRED,
         )
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val response = buildSendNotificationDto()
@@ -554,8 +550,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
@@ -569,14 +565,13 @@ internal class SendNotificationServiceTest {
     @EnumSource(
         SourceType::class,
         names = ["VOTER_CARD", "POSTAL", "PROXY"],
-        mode = EnumSource.Mode.EXCLUDE
+        mode = EnumSource.Mode.EXCLUDE,
     )
     fun `should not send statistics update for irrelevant source types`(sourceType: SourceType) {
-
         // Given
         val request = buildSendNotificationRequestDto(
             sourceType = sourceType,
-            notificationType = NotificationType.ID_DOCUMENT_REQUIRED
+            notificationType = NotificationType.ID_DOCUMENT_REQUIRED,
         )
         val personalisation = buildPhotoPersonalisationMapFromDto()
         val response = buildSendNotificationDto()
@@ -590,8 +585,8 @@ internal class SendNotificationServiceTest {
                 any(),
                 any(),
                 any(),
-                any()
-            )
+                any(),
+            ),
         ).willReturn(templateId)
 
         // When
