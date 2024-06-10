@@ -6,5 +6,5 @@ package uk.gov.dluhc.notificationsapi.exception
 class InvalidUuidFormatException(
     id: String,
 ) : RuntimeException(
-    "Id:[$id] is not a valid UUID"
+    "Id:[$id] is not a valid UUID",
 )

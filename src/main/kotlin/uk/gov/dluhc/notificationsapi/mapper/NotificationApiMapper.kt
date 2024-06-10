@@ -10,7 +10,7 @@ import uk.gov.dluhc.notificationsapi.database.entity.Notification as Notificatio
 
 @Mapper(
     uses = [NotificationTypeMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class, NotifyDetailsMapper::class],
-    imports = [OffsetDateTime::class, ZoneOffset::class]
+    imports = [OffsetDateTime::class, ZoneOffset::class],
 )
 interface NotificationApiMapper {
 

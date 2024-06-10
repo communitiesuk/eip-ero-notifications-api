@@ -75,7 +75,7 @@ class GlobalExceptionHandler(
     @ExceptionHandler(
         value = [
             NotificationNotFoundException::class,
-        ]
+        ],
     )
     protected fun handleNotificationNotFoundException(
         e: NotificationNotFoundException,

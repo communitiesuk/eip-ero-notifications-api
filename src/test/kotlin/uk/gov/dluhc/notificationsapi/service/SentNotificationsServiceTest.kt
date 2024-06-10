@@ -112,18 +112,18 @@ class SentNotificationsServiceTest {
         val notificationEntity = aNotificationBuilder(
             id = notificationId,
             gssCode = gssCodes[0],
-            requestor = "vc-admin-1@some-ero.gov.uk"
+            requestor = "vc-admin-1@some-ero.gov.uk",
         )
         given(notificationRepository.getNotificationById(any(), any(), any())).willReturn(
-            notificationEntity
+            notificationEntity,
         )
 
         val notificationDto = aNotificationDtoBuilder(
             gssCode = gssCodes[0],
-            requestor = "vc-admin-1@some-ero.gov.uk"
+            requestor = "vc-admin-1@some-ero.gov.uk",
         )
         given(notificationApiMapper.toNotificationDto(any())).willReturn(
-            notificationDto
+            notificationDto,
         )
 
         // When

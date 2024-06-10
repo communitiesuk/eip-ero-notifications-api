@@ -52,19 +52,18 @@ class SentCommunicationsController(
     fun getSentCommunication(
         @PathVariable eroId: String,
         @PathVariable communicationId: String,
-        @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi
+        @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi,
     ): SentCommunicationResponse {
         try {
             return sentNotificationsService.getNotificationByIdEroAndType(
                 notificationId = UUID.fromString(communicationId),
                 eroId = eroId,
-                sourceType = sourceTypeMapper.fromApiToDto(sourceType)
+                sourceType = sourceTypeMapper.fromApiToDto(sourceType),
             ).let {
                 notificationApiMapper.toSentCommunicationsApi(it)
             }
-        } catch (e: IllegalArgumentException){
+        } catch (e: IllegalArgumentException) {
             throw InvalidUuidFormatException(communicationId)
         }
     }
-
 }
