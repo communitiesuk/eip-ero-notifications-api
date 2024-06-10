@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import uk.gov.dluhc.notificationsapi.exception.InvalidUuidFormatException
 import uk.gov.dluhc.notificationsapi.mapper.NotificationApiMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationSummaryMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
@@ -52,12 +53,18 @@ class SentCommunicationsController(
         @PathVariable eroId: String,
         @PathVariable communicationId: String,
         @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi
-    ): SentCommunicationResponse =
-        sentNotificationsService.getNotificationByIdEroAndType(
-            notificationId = UUID.fromString(communicationId),
-            eroId = eroId,
-            sourceType = sourceTypeMapper.fromApiToDto(sourceType)
-        ).let {
-            notificationApiMapper.toSentCommunicationsApi(it)
+    ): SentCommunicationResponse {
+        try {
+            return sentNotificationsService.getNotificationByIdEroAndType(
+                notificationId = UUID.fromString(communicationId),
+                eroId = eroId,
+                sourceType = sourceTypeMapper.fromApiToDto(sourceType)
+            ).let {
+                notificationApiMapper.toSentCommunicationsApi(it)
+            }
+        } catch (e: IllegalArgumentException){
+            throw InvalidUuidFormatException(communicationId)
         }
+    }
+
 }
