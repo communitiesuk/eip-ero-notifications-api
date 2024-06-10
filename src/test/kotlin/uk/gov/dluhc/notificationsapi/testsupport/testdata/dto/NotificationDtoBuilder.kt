@@ -9,7 +9,6 @@ import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
@@ -24,14 +23,13 @@ fun aNotificationDtoBuilder(
     type: NotificationType = NotificationType.APPLICATION_APPROVED,
     channel: NotificationChannel = NotificationChannel.EMAIL,
     toEmail: String = anEmailAddress(),
-    toPostalAddress: PostalAddress = aPostalAddress(),
+    toPostalAddress: PostalAddress? = null,
     requestor: String = aRequestor(),
     sentAt: LocalDateTime = aLocalDateTime(),
     personalisation: Map<String, Any> = emptyMap(),
     notifyDetailsDto: NotifyDetailsDto = aNotifyDetailsDto(),
 ): NotificationDto =
     NotificationDto(
-
         id = id,
         sourceReference = sourceReference,
         gssCode = gssCode,
@@ -43,7 +41,7 @@ fun aNotificationDtoBuilder(
         requestor = requestor,
         sentAt = sentAt,
         personalisation = personalisation,
-        notifyDetailsDto = notifyDetailsDto,
+        notifyDetails = notifyDetailsDto,
     )
 
 fun aNotificationDto(): NotificationDto = aNotificationDtoBuilder()

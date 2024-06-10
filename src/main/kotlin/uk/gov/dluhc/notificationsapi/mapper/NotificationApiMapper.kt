@@ -9,14 +9,14 @@ import java.time.ZoneOffset
 import uk.gov.dluhc.notificationsapi.database.entity.Notification as NotificationEntity
 
 @Mapper(
-    uses = [NotificationTypeMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class],
+    uses = [NotificationTypeMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class, NotifyDetailsMapper::class],
     imports = [OffsetDateTime::class, ZoneOffset::class]
 )
 interface NotificationApiMapper {
 
     fun toNotificationDto(notificationSummary: NotificationEntity): NotificationDto
 
-    @Mapping(target = "subject", source = "notifyDetailsDto.subject")
-    @Mapping(target = "body", source = "notifyDetailsDto.body")
+    @Mapping(target = "subject", source = "notifyDetails.subject")
+    @Mapping(target = "body", source = "notifyDetails.body")
     fun toSentCommunicationsApi(notificationDto: NotificationDto): SentCommunicationResponse
 }

@@ -10,10 +10,10 @@ data class NotificationDto(
     var sourceType: SourceType,
     var type: NotificationType,
     var channel: NotificationChannel,
-    var toEmail: String,
-    var toPostalAddress: PostalAddress,
+    var toEmail: String?,
+    var toPostalAddress: PostalAddress?,
     var requestor: String,
     var sentAt: LocalDateTime,
     var personalisation: Map<String, Any>,
-    var notifyDetailsDto: NotifyDetailsDto,
+    var notifyDetails: NotifyDetailsDto,
 )
