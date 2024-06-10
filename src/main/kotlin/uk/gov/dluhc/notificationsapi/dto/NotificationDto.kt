@@ -9,7 +9,7 @@ data class NotificationDto(
     var gssCode: String,
     var sourceType: SourceType,
     var type: NotificationType,
-    var channel: NotificationChannel,
+    var channel: CommunicationChannel,
     var toEmail: String?,
     var toPostalAddress: PostalAddress?,
     var requestor: String,

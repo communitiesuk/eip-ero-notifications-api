@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotifyDetailsDto
@@ -21,7 +21,7 @@ fun aNotificationDtoBuilder(
     gssCode: String = aGssCode(),
     sourceType: SourceType = SourceType.VOTER_CARD,
     type: NotificationType = NotificationType.APPLICATION_APPROVED,
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     toEmail: String = anEmailAddress(),
     toPostalAddress: PostalAddress? = null,
     requestor: String = aRequestor(),

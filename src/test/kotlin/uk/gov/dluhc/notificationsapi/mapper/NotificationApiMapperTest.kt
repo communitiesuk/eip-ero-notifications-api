@@ -9,9 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SentCommunicationResponse
-import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
@@ -24,13 +22,10 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotif
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDtoBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifyDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifyDetailsDtoBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.aCommunicationsSummaryBuilder
-import java.time.OffsetDateTime
-import java.time.ZoneOffset
 import uk.gov.dluhc.notificationsapi.database.entity.Channel as NotificationChannelEntity
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType as NotificationTypeDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 
@@ -44,7 +39,7 @@ class NotificationApiMapperTest {
     private lateinit var notificationTypeMapper: NotificationTypeMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var notificationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var notifyDetailsMapper: NotifyDetailsMapper
@@ -82,7 +77,7 @@ class NotificationApiMapperTest {
 
         given(sourceTypeMapper.fromEntityToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
         given(notificationTypeMapper.toNotificationTypeDto(any())).willReturn(NotificationTypeDto.APPLICATION_APPROVED)
-        given(notificationChannelMapper.fromEntityToDto(any())).willReturn(NotificationChannelDto.EMAIL)
+        given(notificationChannelMapper.fromEntityToDto(any())).willReturn(CommunicationChannelDto.EMAIL)
         given(notifyDetailsMapper.fromEntityToDto(any())).willReturn(notifyDetailsDto)
 
         val expected = aNotificationDtoBuilder(
@@ -91,7 +86,7 @@ class NotificationApiMapperTest {
             gssCode = gssCode,
             sourceType = SourceTypeDto.VOTER_CARD,
             type = NotificationTypeDto.APPLICATION_APPROVED,
-            channel = NotificationChannelDto.EMAIL,
+            channel = CommunicationChannelDto.EMAIL,
             toEmail = toEmail,
             toPostalAddress = null,
             requestor = requestor,
