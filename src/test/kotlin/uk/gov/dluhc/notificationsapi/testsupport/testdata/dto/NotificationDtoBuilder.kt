@@ -15,7 +15,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import java.time.LocalDateTime
 import java.util.UUID
 
-fun aNotificationDtoBuilder(
+fun buildNotificationDto(
     id: UUID = aNotificationId(),
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
@@ -43,5 +43,3 @@ fun aNotificationDtoBuilder(
         personalisation = personalisation,
         notifyDetails = notifyDetailsDto,
     )
-
-fun aNotificationDto(): NotificationDto = aNotificationDtoBuilder()

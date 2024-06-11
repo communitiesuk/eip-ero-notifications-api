@@ -22,8 +22,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidKnownEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anotherGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationSummaryBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDtoBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationSummaryDtoBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationSummaryDto
 
 @ExtendWith(MockitoExtension::class)
 class SentNotificationsServiceTest {
@@ -71,11 +71,11 @@ class SentNotificationsServiceTest {
             listOf(notificationSummaryEntity1, notificationSummaryEntity2),
         )
 
-        val notificationSummaryDto1 = aNotificationSummaryDtoBuilder(
+        val notificationSummaryDto1 = buildNotificationSummaryDto(
             gssCode = gssCodes[0],
             requestor = "vc-admin-1@some-ero.gov.uk",
         )
-        val notificationSummaryDto2 = aNotificationSummaryDtoBuilder(
+        val notificationSummaryDto2 = buildNotificationSummaryDto(
             gssCode = gssCodes[0],
             requestor = "vc-admin-2@some-ero.gov.uk",
         )
@@ -118,7 +118,7 @@ class SentNotificationsServiceTest {
             notificationEntity,
         )
 
-        val notificationDto = aNotificationDtoBuilder(
+        val notificationDto = buildNotificationDto(
             gssCode = gssCodes[0],
             requestor = "vc-admin-1@some-ero.gov.uk",
         )

@@ -19,9 +19,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anEmailAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDtoBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifyDetailsDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotifyDetailsDtoBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotifyDetailsDto
 import uk.gov.dluhc.notificationsapi.database.entity.Channel as NotificationChannelEntity
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
@@ -80,7 +80,7 @@ class NotificationApiMapperTest {
         given(notificationChannelMapper.fromEntityToDto(any())).willReturn(CommunicationChannelDto.EMAIL)
         given(notifyDetailsMapper.fromEntityToDto(any())).willReturn(notifyDetailsDto)
 
-        val expected = aNotificationDtoBuilder(
+        val expected = buildNotificationDto(
             id = id,
             sourceReference = sourceReference,
             gssCode = gssCode,
@@ -112,12 +112,12 @@ class NotificationApiMapperTest {
         val subject = "subject"
         val body = "body"
 
-        val notifyDetailsDto = aNotifyDetailsDtoBuilder(
+        val notifyDetailsDto = buildNotifyDetailsDto(
             subject = subject,
             body = body,
         )
 
-        val dto = aNotificationDtoBuilder(
+        val dto = buildNotificationDto(
             notifyDetailsDto = notifyDetailsDto,
         )
 

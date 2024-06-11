@@ -4,7 +4,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotifyDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import java.util.UUID
 
-fun aNotifyDetailsDtoBuilder(
+fun buildNotifyDetailsDto(
     notificationId: UUID = aNotificationId(),
     reference: String = aNotifySendSuccessResponseReference(),
     templateId: UUID = aTemplateId(),
@@ -25,4 +25,4 @@ fun aNotifyDetailsDtoBuilder(
         fromEmail = fromEmail,
     )
 
-fun aNotifyDetailsDto(): NotifyDetailsDto = aNotifyDetailsDtoBuilder()
+fun aNotifyDetailsDto(): NotifyDetailsDto = buildNotifyDetailsDto()
