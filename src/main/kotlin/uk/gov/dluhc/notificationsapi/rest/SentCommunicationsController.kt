@@ -52,7 +52,7 @@ class SentCommunicationsController(
     fun getSentCommunication(
         @PathVariable eroId: String,
         @PathVariable communicationId: String,
-        @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi,
+        @RequestParam(required = true) sourceType: SourceTypeApi,
     ): SentCommunicationResponse {
         try {
             return sentNotificationsService.getNotificationByIdEroAndType(
