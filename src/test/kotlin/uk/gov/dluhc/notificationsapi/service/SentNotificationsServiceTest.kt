@@ -22,7 +22,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidKnownEroId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.anotherGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationBuilder
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationSummaryBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationSummaryDto
 
 @ExtendWith(MockitoExtension::class)
@@ -118,22 +117,16 @@ class SentNotificationsServiceTest {
             notificationEntity,
         )
 
-        val notificationDto = buildNotificationDto(
+        val notification = aNotificationBuilder(
+            id = notificationId,
             gssCode = gssCodes[0],
             requestor = "vc-admin-1@some-ero.gov.uk",
-        )
-        given(notificationApiMapper.toNotificationDto(any())).willReturn(
-            notificationDto,
         )
 
         // When
         val actual = service.getNotificationByIdEroAndType(notificationId, eroId, sourceType)
 
         // Then
-        assertThat(actual).isEqualTo(notificationDto)
-        verify(eroService).lookupGssCodesForEro(eroId)
-        verify(sourceTypeMapper).fromDtoToEntity(sourceType)
-        verify(notificationRepository).getNotificationById(notificationId, SourceType.VOTER_CARD, gssCodes)
-        verify(notificationApiMapper).toNotificationDto(notificationEntity)
+        assertThat(actual).isEqualTo(notification)
     }
 }

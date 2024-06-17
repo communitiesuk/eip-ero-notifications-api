@@ -2,8 +2,8 @@ package uk.gov.dluhc.notificationsapi.service
 
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
+import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
-import uk.gov.dluhc.notificationsapi.dto.NotificationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationSummaryDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.NotificationApiMapper
@@ -67,15 +67,13 @@ class SentNotificationsService(
         notificationId: UUID,
         eroId: String,
         sourceType: SourceType,
-    ): NotificationDto =
+    ): Notification =
         eroService.lookupGssCodesForEro(eroId).let { gssCodes ->
             notificationRepository.getNotificationById(
                 notificationId = notificationId,
                 sourceType = sourceTypeMapper.fromDtoToEntity(sourceType),
                 gssCodes = gssCodes,
             )
-        }.let {
-            notificationMapper.toNotificationDto(it)
         }.also {
             logger.info { "Returning Notification with id $notificationId for $sourceType" }
         }
