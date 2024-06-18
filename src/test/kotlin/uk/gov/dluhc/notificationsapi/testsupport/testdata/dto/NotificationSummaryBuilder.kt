@@ -12,7 +12,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import java.time.LocalDateTime
 import java.util.UUID
 
-fun aNotificationSummaryDtoBuilder(
+fun buildNotificationSummaryDto(
     id: UUID = aNotificationId(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
@@ -33,4 +33,4 @@ fun aNotificationSummaryDtoBuilder(
         sentAt = sentAt,
     )
 
-fun aNotificationSummaryDto(): NotificationSummaryDto = aNotificationSummaryDtoBuilder()
+fun aNotificationSummaryDto(): NotificationSummaryDto = buildNotificationSummaryDto()

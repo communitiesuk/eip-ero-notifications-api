@@ -17,7 +17,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationSummaryBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationSummaryDtoBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationSummaryDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.aCommunicationsSummaryBuilder
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
@@ -67,7 +67,7 @@ class NotificationSummaryMapperTest {
         given(notificationTypeMapper.toNotificationTypeDto(any())).willReturn(NotificationTypeDto.APPLICATION_APPROVED)
         given(communicationChannelMapper.fromEntityToDto(any())).willReturn(CommunicationChannelDto.EMAIL)
 
-        val expected = aNotificationSummaryDtoBuilder(
+        val expected = buildNotificationSummaryDto(
             id = id,
             gssCode = gssCode,
             requestor = requestor,
@@ -97,7 +97,7 @@ class NotificationSummaryMapperTest {
         val sentAt = aLocalDateTime()
         val sourceReference = aSourceReference()
 
-        val dto = aNotificationSummaryDtoBuilder(
+        val dto = buildNotificationSummaryDto(
             id = id,
             gssCode = gssCode,
             requestor = requestor,

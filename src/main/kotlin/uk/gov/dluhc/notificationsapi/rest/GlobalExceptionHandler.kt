@@ -16,7 +16,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiBadRequestException
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.config.ApiRequestErrorAttributes
+import uk.gov.dluhc.notificationsapi.database.NotificationNotFoundException
 import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
+import uk.gov.dluhc.notificationsapi.exception.InvalidUuidFormatException
 import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import javax.servlet.RequestDispatcher.ERROR_MESSAGE
@@ -70,6 +72,18 @@ class GlobalExceptionHandler(
         return populateErrorResponseAndHandleExceptionInternal(e, NOT_FOUND, request)
     }
 
+    @ExceptionHandler(
+        value = [
+            NotificationNotFoundException::class,
+        ],
+    )
+    protected fun handleNotificationNotFoundException(
+        e: NotificationNotFoundException,
+        request: WebRequest,
+    ): ResponseEntity<Any> {
+        return populateErrorResponseAndHandleExceptionInternal(e, NOT_FOUND, request)
+    }
+
     /**
      * Exception handler to return a 400 Bad Request ErrorResponse
      */
@@ -78,6 +92,7 @@ class GlobalExceptionHandler(
             GovNotifyApiBadRequestException::class,
             GssCodeMismatchException::class,
             NotificationTemplateNotFoundException::class,
+            InvalidUuidFormatException::class,
         ],
     )
     protected fun handleExceptionReturnBadRequestErrorResponse(

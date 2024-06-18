@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.15.5'
+  version: '1.16.0'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -92,6 +92,93 @@ paths:
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
           integration.request.path.applicationId: method.request.path.applicationId
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: GET
+
+  #
+  # Get the subject and body of a specified notification
+  # --------------------------------------------------------------------------------
+  '/eros/{eroId}/communications/{communicationId}':
+    parameters:
+      - name: eroId
+        description: The ID of the Electoral Registration Office responsible for the application.
+        schema:
+          type: string
+        in: path
+        required: true
+      - name: communicationId
+        description: The identifier of the communication to retrieve.
+        schema:
+          type: string
+        in: path
+        required: true
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Application - Communication
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    get:
+      summary: Returns the subject and body of a communication
+      description: Returns the subject and body of the specified communication
+      tags:
+        - Application - Communication
+      responses:
+        '200':
+          $ref: '#/components/responses/SentCommunication'
+      operationId: get-communication-by-id
+      parameters:
+        - name: sourceType
+          description: The source type of the applications to retrieve communication for.
+          schema:
+            $ref: '#/components/schemas/SourceType'
+          example: voter-card
+          in: query
+          required: true
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/eros/{eroId}/communications/{communicationId}'
+        requestParameters:
+          integration.request.path.eroId: method.request.path.eroId
+          integration.request.path.communicationId: method.request.path.communicationId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -1639,6 +1726,18 @@ components:
             $ref: '#/components/schemas/CommunicationsSummary'
       required:
         - communications
+    SentCommunicationResponse:
+      title: SentCommunicationResponse
+      description: Response containing the subject and body of a sent communication
+      type: object
+      properties:
+        subject:
+          type: string
+        body:
+          type: string
+      required:
+        - subject
+        - body
     CommunicationsSummary:
       title: CommunicationsSummary
       description: The summary data for an individual communication sent as part of an application.
@@ -2080,6 +2179,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CommunicationsHistoryResponse'
+    SentCommunication:
+      description: Response containing the subject and body of a sent communication
+      headers:
+        Access-Control-Allow-Origin:
+          schema:
+            type: string
+        Access-Control-Allow-Methods:
+          schema:
+            type: string
+        Access-Control-Allow-Headers:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SentCommunicationResponse'
     CommunicationConfirmationHistory:
       description: Response containing the offline communication confirmation history for an application
       headers:
