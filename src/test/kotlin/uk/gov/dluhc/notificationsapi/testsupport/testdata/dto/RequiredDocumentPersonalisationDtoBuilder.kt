@@ -10,11 +10,11 @@ fun buildRequiredDocumentPersonalisation(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
     personalisationSourceTypeString: String = DataFaker.faker.harryPotter().spell(),
-    additionalNotes: String? = null
+    additionalNotes: String? = null,
 ) = RequiredDocumentPersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     personalisationSourceTypeString = personalisationSourceTypeString,
-    additionalNotes = additionalNotes
+    additionalNotes = additionalNotes,
 )

@@ -69,7 +69,7 @@ internal class NotificationMapperTest {
             templateUri,
             body,
             subject,
-            fromEmail
+            fromEmail,
         )
 
         // When
@@ -141,7 +141,7 @@ internal class NotificationMapperTest {
             toAddress = NotificationDestinationDto(
                 emailAddress = anEmailAddress(),
                 postalAddress = null,
-                overseasElectorAddress = null
+                overseasElectorAddress = null,
             ),
             notificationType = notificationType,
         )

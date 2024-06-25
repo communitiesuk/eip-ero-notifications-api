@@ -52,14 +52,15 @@ class TemplateController(
 
     @PostMapping("/templates/photo-resubmission/preview")
     fun generatePhotoResubmissionTemplatePreview(
-        @Valid @RequestBody request: GeneratePhotoResubmissionTemplatePreviewRequest
+        @Valid @RequestBody
+        request: GeneratePhotoResubmissionTemplatePreviewRequest,
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generatePhotoResubmissionTemplatePreview(
                 photoResubmissionTemplatePreviewDtoMapper.toPhotoResubmissionTemplatePreviewDto(
-                    request
-                )
-            )
+                    request,
+                ),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
@@ -67,14 +68,15 @@ class TemplateController(
 
     @PostMapping("/templates/id-document-resubmission/preview")
     fun generateIdDocumentResubmissionTemplatePreview(
-        @Valid @RequestBody request: GenerateIdDocumentResubmissionTemplatePreviewRequest
+        @Valid @RequestBody
+        request: GenerateIdDocumentResubmissionTemplatePreviewRequest,
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateIdDocumentResubmissionTemplatePreview(
                 identityDocumentResubmissionTemplatePreviewDtoMapper.toIdDocumentResubmissionTemplatePreviewDto(
-                    request
-                )
-            )
+                    request,
+                ),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
@@ -82,28 +84,30 @@ class TemplateController(
 
     @PostMapping("/templates/id-document-required/preview")
     fun generateIdDocumentRequiredTemplatePreview(
-        @Valid @RequestBody request: GenerateIdDocumentRequiredTemplatePreviewRequest
+        @Valid @RequestBody
+        request: GenerateIdDocumentRequiredTemplatePreviewRequest,
     ): GenerateTemplatePreviewResponse =
         with(
             templateService.generateIdDocumentRequiredTemplatePreview(
                 generateIdDocumentRequiredTemplatePreviewDtoMapper.toGenerateIdDocumentRequiredTemplatePreviewDto(
-                    request
-                )
-            )
+                    request,
+                ),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
 
     @PostMapping("/templates/application-received/preview")
     fun generateApplicationReceivedTemplatePreview(
-        @Valid @RequestBody request: GenerateApplicationReceivedTemplatePreviewRequest
+        @Valid @RequestBody
+        request: GenerateApplicationReceivedTemplatePreviewRequest,
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateApplicationReceivedTemplatePreview(
                 applicationReceivedTemplatePreviewDtoMapper.toApplicationReceivedTemplatePreviewDto(
-                    request
-                )
-            )
+                    request,
+                ),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
@@ -111,90 +115,112 @@ class TemplateController(
 
     @PostMapping("/templates/application-approved/preview")
     fun generateApplicationApprovedTemplatePreview(
-        @Valid @RequestBody request: GenerateApplicationApprovedTemplatePreviewRequest
+        @Valid @RequestBody
+        request: GenerateApplicationApprovedTemplatePreviewRequest,
     ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateApplicationApprovedTemplatePreview(
                 applicationApprovedTemplatePreviewDtoMapper.toApplicationApprovedTemplatePreviewDto(
-                    request
-                )
-            )
+                    request,
+                ),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
     }
 
     @PostMapping("/templates/application-rejected/preview")
-    fun generateApplicationRejectedTemplatePreview(@Valid @RequestBody request: GenerateApplicationRejectedTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+    fun generateApplicationRejectedTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateApplicationRejectedTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateApplicationRejectedTemplatePreview(
-                applicationRejectedTemplatePreviewDtoMapper.toApplicationRejectedTemplatePreviewDto(request)
-            )
+                applicationRejectedTemplatePreviewDtoMapper.toApplicationRejectedTemplatePreviewDto(request),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
     }
 
     @PostMapping("/templates/rejected-document/preview")
-    fun generateRejectedDocumentTemplatePreview(@Valid @RequestBody request: GenerateRejectedDocumentTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+    fun generateRejectedDocumentTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateRejectedDocumentTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateRejectedDocumentTemplatePreview(
-                rejectedDocumentTemplatePreviewDtoMapper.toRejectedDocumentTemplatePreviewDto(request)
-            )
+                rejectedDocumentTemplatePreviewDtoMapper.toRejectedDocumentTemplatePreviewDto(request),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
     }
 
     @PostMapping("/templates/rejected-signature/preview")
-    fun generateRejectedSignatureTemplatePreview(@Valid @RequestBody request: GenerateRejectedSignatureTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+    fun generateRejectedSignatureTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateRejectedSignatureTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateRejectedSignatureTemplatePreview(
-                rejectedSignatureTemplatePreviewDtoMapper.toRejectedSignatureTemplatePreviewDto(request)
-            )
+                rejectedSignatureTemplatePreviewDtoMapper.toRejectedSignatureTemplatePreviewDto(request),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
     }
 
     @PostMapping("/templates/requested-signature/preview")
-    fun generateRequestedSignatureTemplatePreview(@Valid @RequestBody request: GenerateRequestedSignatureTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+    fun generateRequestedSignatureTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateRequestedSignatureTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateRequestedSignatureTemplatePreview(
-                requestedSignatureTemplatePreviewDtoMapper.toRequestedSignatureTemplatePreviewDto(request)
-            )
+                requestedSignatureTemplatePreviewDtoMapper.toRequestedSignatureTemplatePreviewDto(request),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
     }
 
     @PostMapping("/templates/nino-not-matched/preview")
-    fun generateNinoNotMatchedTemplatePreview(@Valid @RequestBody request: GenerateNinoNotMatchedTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+    fun generateNinoNotMatchedTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateNinoNotMatchedTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
         return templateService.generateNinoNotMatchedTemplatePreview(
             ninoNotMatchedTemplatePreviewDtoMapper.toDto(
-                request
-            )
+                request,
+            ),
         )
             .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
     }
 
     @PostMapping("/templates/rejected-overseas-document/preview")
-    fun generateRejectedOverseasDocumentTemplatePreview(@Valid @RequestBody request: GenerateRejectedOverseasDocumentTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+    fun generateRejectedOverseasDocumentTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateRejectedOverseasDocumentTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateRejectedOverseasDocumentTemplatePreview(
-                rejectedOverseasDocumentTemplatePreviewDtoMapper.toRejectedOverseasDocumentTemplatePreviewDto(request)
-            )
+                rejectedOverseasDocumentTemplatePreviewDtoMapper.toRejectedOverseasDocumentTemplatePreviewDto(request),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
     }
 
     @PostMapping("/templates/required-overseas-document/preview")
-    fun generateRequiredOverseasDocumentTemplatePreview(@Valid @RequestBody request: GenerateRequiredOverseasDocumentTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+    fun generateRequiredOverseasDocumentTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateRequiredOverseasDocumentTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
         return with(
             templateService.generateRequiredOverseasDocumentTemplatePreview(
-                requiredOverseasDocumentTemplatePreviewDtoMapper.toRequiredOverseasDocumentTemplatePreviewDto(request)
-            )
+                requiredOverseasDocumentTemplatePreviewDtoMapper.toRequiredOverseasDocumentTemplatePreviewDto(request),
+            ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }

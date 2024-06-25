@@ -9,13 +9,13 @@ import uk.gov.dluhc.notificationsapi.models.RejectedDocument as RejectedDocument
 @Component
 class RejectedDocumentsMapper(
     private val rejectedDocumentReasonMapper: RejectedDocumentReasonMapper,
-    private val rejectedDocumentTypeMapper: RejectedDocumentTypeMapper
+    private val rejectedDocumentTypeMapper: RejectedDocumentTypeMapper,
 ) {
     private val subItemSeparator = "\n  * "
 
     fun mapRejectionDocumentsFromApi(
         languageDto: LanguageDto,
-        documents: List<RejectedDocumentApi>
+        documents: List<RejectedDocumentApi>,
     ): List<String> {
         return documents.map { document ->
             val docType = rejectedDocumentTypeMapper.toDocumentTypeString(document.documentType, languageDto)
@@ -29,7 +29,7 @@ class RejectedDocumentsMapper(
 
     fun mapRejectionDocumentsFromMessaging(
         languageDto: LanguageDto,
-        documents: List<RejectedDocumentMessaging>
+        documents: List<RejectedDocumentMessaging>,
     ): List<String> {
         return documents.map { document ->
             val docType = rejectedDocumentTypeMapper.toDocumentTypeString(document.documentType, languageDto)

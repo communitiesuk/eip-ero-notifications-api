@@ -13,8 +13,8 @@ plugins {
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
     kotlin("plugin.allopen") version "1.8.22"
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
-    id("org.jlleitschuh.gradle.ktlint-idea") version "11.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "11.3.1"
     id("org.openapi.generator") version "6.2.1"
     id("org.owasp.dependencycheck") version "8.2.1"
 }
@@ -79,7 +79,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government
-    implementation("uk.gov.service.notify:notifications-java-client:3.18.0-RELEASE")
+    implementation("uk.gov.service.notify:notifications-java-client:5.1.0-RELEASE")
 
     // Logging
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:7.3")
@@ -149,7 +149,7 @@ tasks.withType<GenerateTask> {
             "apis" to "false",
             "invokers" to "false",
             "models" to "",
-        )
+        ),
     )
     configOptions.set(
         mapOf(
@@ -157,7 +157,7 @@ tasks.withType<GenerateTask> {
             "serializationLibrary" to "jackson",
             "enumPropertyNaming" to "UPPERCASE",
             "useBeanValidation" to "true",
-        )
+        ),
     )
 }
 

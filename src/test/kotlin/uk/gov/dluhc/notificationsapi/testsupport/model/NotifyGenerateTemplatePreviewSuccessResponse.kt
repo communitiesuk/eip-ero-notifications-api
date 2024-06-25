@@ -11,5 +11,5 @@ data class NotifyGenerateTemplatePreviewSuccessResponse(
     val version: Int = 3,
     val body: String = "Hi John",
     val subject: String? = "Photo resubmission",
-    val html: String? = "<p style=\"Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;\">Hi John</p>"
+    val html: String? = "<p style=\"Margin: 0 0 20px 0; font-size: 19px; line-height: 25px; color: #0B0C0C;\">Hi John</p>",
 )

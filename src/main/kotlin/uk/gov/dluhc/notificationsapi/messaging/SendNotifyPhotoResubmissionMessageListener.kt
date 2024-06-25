@@ -23,7 +23,10 @@ class SendNotifyPhotoResubmissionMessageListener(
 ) : MessageListener<SendNotifyPhotoResubmissionMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyPhotoResubmissionMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyPhotoResubmissionMessage,
+    ) {
         logger.info {
             "received 'send UK Gov notify photo message' request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +

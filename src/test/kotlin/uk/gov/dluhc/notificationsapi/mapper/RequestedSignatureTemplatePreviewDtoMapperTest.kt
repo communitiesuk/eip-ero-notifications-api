@@ -9,15 +9,15 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateRequestedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDtoEnum
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDtoEnum
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDtoEnum
 
 @ExtendWith(MockitoExtension::class)
@@ -29,7 +29,7 @@ class RequestedSignatureTemplatePreviewDtoMapperTest {
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @InjectMocks
     private lateinit var mapper: RequestedSignatureTemplatePreviewDtoMapperImpl
@@ -39,15 +39,15 @@ class RequestedSignatureTemplatePreviewDtoMapperTest {
         value = [
             "EMAIL",
             "LETTER",
-        ]
+        ],
     )
-    fun `should map rejected signature template preview request to dto`(channel: NotificationChannel) {
+    fun `should map rejected signature template preview request to dto`(channel: CommunicationChannel) {
         val request = buildGenerateRequestedSignatureTemplatePreviewRequest(
             channel = channel,
         )
 
-        val expectedChannel = NotificationChannelDtoEnum.valueOf(channel.name)
-        given(notificationChannelMapper.fromApiToDto(request.channel)).willReturn(expectedChannel)
+        val expectedChannel = CommunicationChannelDtoEnum.valueOf(channel.name)
+        given(communicationChannelMapper.fromApiToDto(request.channel)).willReturn(expectedChannel)
         given(sourceTypeMapper.fromApiToDto(SourceType.PROXY)).willReturn(SourceTypeDtoEnum.PROXY)
         given(languageMapper.fromApiToDto(Language.EN)).willReturn(LanguageDto.ENGLISH)
         given(sourceTypeMapper.toSourceTypeString(SourceType.PROXY, LanguageDto.ENGLISH)).willReturn("Mapped source type")
@@ -73,15 +73,15 @@ class RequestedSignatureTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     freeText = freeText,
                     sourceType = "Mapped source type",
                 )
-            }
+            },
         )
 
         val actual = mapper.toRequestedSignatureTemplatePreviewDto(request)

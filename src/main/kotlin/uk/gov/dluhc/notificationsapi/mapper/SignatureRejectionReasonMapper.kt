@@ -10,23 +10,23 @@ class SignatureRejectionReasonMapper(private val messageSource: MessageSource) {
 
     fun toSignatureRejectionReasonString(
         signatureRejectionReason: SignatureRejectionReason,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.signature-rejection.signature-reasons.${signatureRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 
     fun toSignatureRejectionReasonString(
         signatureRejectionReason: uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.signature-rejection.signature-reasons.${signatureRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 }

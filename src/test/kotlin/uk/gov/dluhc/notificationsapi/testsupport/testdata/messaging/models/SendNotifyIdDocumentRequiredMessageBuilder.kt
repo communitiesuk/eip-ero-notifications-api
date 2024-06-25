@@ -1,11 +1,11 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
-import uk.gov.dluhc.notificationsapi.messaging.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -15,7 +15,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
 fun buildSendNotifyIdDocumentRequiredMessage(
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language = Language.EN,
     sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
     sourceReference: String = aSourceReference(),
@@ -40,13 +40,13 @@ fun buildIdDocumentRequiredPersonalisationMessage(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     idDocumentRequiredFreeText: String = faker.harryPotter().spell(),
-    eroContactDetails: ContactDetails = buildContactDetailsMessage()
+    eroContactDetails: ContactDetails = buildContactDetailsMessage(),
 ): IdDocumentRequiredPersonalisation =
     IdDocumentRequiredPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         idDocumentRequiredFreeText = idDocumentRequiredFreeText,
-        eroContactDetails = eroContactDetails
+        eroContactDetails = eroContactDetails,
     )
 
 fun aSendNotifyIdDocumentRequiredMessage() = buildSendNotifyIdDocumentRequiredMessage()

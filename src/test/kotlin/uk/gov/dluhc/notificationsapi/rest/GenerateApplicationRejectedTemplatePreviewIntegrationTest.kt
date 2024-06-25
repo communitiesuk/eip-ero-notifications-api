@@ -218,7 +218,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
             .contentType(MediaType.APPLICATION_JSON)
             .body(
                 Mono.just(requestBody),
-                GeneratePhotoResubmissionTemplatePreviewRequest::class.java
+                GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
             )
             .exchange()
             .expectStatus().isOk
@@ -246,7 +246,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
                 "eroAddressLine3" to (eroContactDetails.address.town ?: ""),
                 "eroAddressLine4" to (eroContactDetails.address.area ?: ""),
                 "eroAddressLine5" to (eroContactDetails.address.locality ?: ""),
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
 
@@ -254,18 +254,18 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         CY -> mutableListOf(
             "Mae'r cais yn anghyflawn",
             "Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
-            "Eraill"
+            "Eraill",
         )
         else -> mutableListOf(
             "Your application was incomplete",
             "You did not respond to our requests for information within the timeframe we gave you",
-            "Other"
+            "Other",
         )
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
             Mono.just(buildGenerateApplicationRejectedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
-            GenerateApplicationRejectedTemplatePreviewRequest::class.java
+            GenerateApplicationRejectedTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

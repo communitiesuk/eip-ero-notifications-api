@@ -31,8 +31,8 @@ abstract class NotificationMapper {
         notificationId: UUID,
         request: SendNotificationRequestDto,
         personalisation: Map<String, Any>?,
-        sendNotificationResponse: SendNotificationResponseDto,
-        sentAt: LocalDateTime
+        sendNotificationResponse: SendNotificationResponseDto?,
+        sentAt: LocalDateTime,
     ): Notification
 
     abstract fun toPostalAddress(postalAddress: DtoPostalAddress): EntityPostalAddress

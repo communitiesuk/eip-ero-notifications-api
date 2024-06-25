@@ -58,7 +58,7 @@ internal class GetCommunicationConfirmationHistoryByApplicationIdIntegrationTest
             .uri(URI_TEMPLATE, ERO_ID, APPLICATION_ID)
             // the group ero-vc-anonymous-admin-$ERO_ID is required to be successful
             .bearerToken(
-                getBearerTokenWithAllRolesExcept(eroId = ERO_ID, excludedRoles = listOf("ero-vc-anonymous-admin"))
+                getBearerTokenWithAllRolesExcept(eroId = ERO_ID, excludedRoles = listOf("ero-vc-anonymous-admin")),
             )
             .contentType(MediaType.APPLICATION_JSON)
             .exchange()
@@ -129,8 +129,8 @@ internal class GetCommunicationConfirmationHistoryByApplicationIdIntegrationTest
                     channel = OfflineCommunicationChannel.LETTER,
                     requestor = requestor,
                     timestamp = OffsetDateTime.of(sentConfirmation1.sentAt, ZoneOffset.UTC),
-                )
-            )
+                ),
+            ),
         )
 
         // When

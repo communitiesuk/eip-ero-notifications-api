@@ -11,23 +11,23 @@ class RejectedDocumentReasonMapper(private val messageSource: MessageSource) {
 
     fun toDocumentRejectionReasonString(
         documentRejectionReason: DocumentRejectionReasonApi,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.document-rejection.rejection-reasons.${documentRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 
     fun toDocumentRejectionReasonString(
         documentRejectionReason: DocumentRejectionReasonMessaging,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): String {
         return messageSource.getMessage(
             "templates.document-rejection.rejection-reasons.${documentRejectionReason.value}",
             null,
-            languageDto.locale
+            languageDto.locale,
         )
     }
 }

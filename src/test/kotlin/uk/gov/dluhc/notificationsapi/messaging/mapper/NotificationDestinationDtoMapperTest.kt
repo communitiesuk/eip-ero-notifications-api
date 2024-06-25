@@ -26,7 +26,7 @@ internal class NotificationDestinationDtoMapperTest {
         val expectedDestination = NotificationDestinationDto(
             emailAddress = email,
             postalAddress = null,
-            overseasElectorAddress = null
+            overseasElectorAddress = null,
         )
 
         val request = MessageAddress(
@@ -63,7 +63,7 @@ internal class NotificationDestinationDtoMapperTest {
                 area = area,
                 locality = locality,
                 postcode = postcode,
-            )
+            ),
         )
 
         val request = MessageAddress(
@@ -76,9 +76,9 @@ internal class NotificationDestinationDtoMapperTest {
                     town = town,
                     area = area,
                     locality = locality,
-                    postcode = postcode
+                    postcode = postcode,
                 ),
-            )
+            ),
         )
 
         // When
@@ -109,8 +109,8 @@ internal class NotificationDestinationDtoMapperTest {
                 addressLine3 = addressLine3,
                 addressLine4 = addressLine4,
                 addressLine5 = addressLine5,
-                country = country
-            )
+                country = country,
+            ),
         )
 
         val request = MessageAddress(
@@ -123,10 +123,10 @@ internal class NotificationDestinationDtoMapperTest {
                     addressLine3 = addressLine3,
                     addressLine4 = addressLine4,
                     addressLine5 = addressLine5,
-                    country = country
+                    country = country,
                 ),
             ),
-            postalAddress = null
+            postalAddress = null,
         )
 
         // When
@@ -153,8 +153,8 @@ internal class NotificationDestinationDtoMapperTest {
                 addressLine3 = null,
                 addressLine4 = null,
                 addressLine5 = null,
-                country = country
-            )
+                country = country,
+            ),
         )
 
         val request = MessageAddress(
@@ -167,10 +167,10 @@ internal class NotificationDestinationDtoMapperTest {
                     addressLine3 = null,
                     addressLine4 = null,
                     addressLine5 = null,
-                    country = country
+                    country = country,
                 ),
             ),
-            postalAddress = null
+            postalAddress = null,
         )
 
         // When

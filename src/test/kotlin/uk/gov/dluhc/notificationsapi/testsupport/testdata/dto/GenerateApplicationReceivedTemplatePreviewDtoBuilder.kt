@@ -8,10 +8,10 @@ import uk.gov.dluhc.notificationsapi.dto.SourceType
 fun buildGenerateApplicationReceivedTemplatePreviewDto(
     sourceType: SourceType,
     language: LanguageDto = LanguageDto.ENGLISH,
-    personalisation: ApplicationReceivedPersonalisationDto = buildApplicationReceivedPersonalisationDto()
+    personalisation: ApplicationReceivedPersonalisationDto = buildApplicationReceivedPersonalisationDto(),
 ): ApplicationReceivedTemplatePreviewDto =
     ApplicationReceivedTemplatePreviewDto(
         language = language,
         personalisation = personalisation,
-        sourceType = sourceType
+        sourceType = sourceType,
     )

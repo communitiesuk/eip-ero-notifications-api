@@ -12,11 +12,11 @@ import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert.Companion.assertThat
@@ -174,10 +174,10 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
                 eroContactDetails = buildEroContactDetails(
                     address = buildAddress(
                         street = "",
-                        postcode = "AB11111111111"
-                    )
-                )
-            )
+                        postcode = "AB11111111111",
+                    ),
+                ),
+            ),
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
         val expectedValidationErrorsCount = 4
@@ -224,12 +224,12 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,proxy",
             "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,proxy",
             "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy"
-        ]
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy",
+        ],
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         templateId: String,
         language: Language,
         withReasons: Boolean,
@@ -240,13 +240,13 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateRejectedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = communicationChannel,
             language = language,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = if (withReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
                 rejectionNotes = if (withReasons) "Invalid" else null,
-                rejectionFreeText = "Free Text"
-            )
+                rejectionFreeText = "Free Text",
+            ),
         )
 
         // When
@@ -297,12 +297,12 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             "POSTAL,EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,postal",
             "POSTAL,LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,postal",
             "PROXY,EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,proxy",
-            "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,proxy"
-        ]
+            "PROXY,LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,false,true,proxy",
+        ],
     )
     fun `should return template preview given valid request when optional values are not populated`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         templateId: String,
         populateRejectionReasons: Boolean,
         populateRejectionNotes: Boolean,
@@ -314,12 +314,12 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
 
         val requestBody = buildGenerateRejectedSignatureTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = communicationChannel,
             personalisation = buildRejectedSignaturePersonalisation(
                 rejectionReasons = if (populateRejectionReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
                 rejectionNotes = if (populateRejectionNotes) "Rejection note" else null,
-                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
-            )
+                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
+            ),
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -367,17 +367,16 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
             "EMAIL,CY,VOTER_MINUS_CARD",
             "LETTER,EN,VOTER_MINUS_CARD",
             "LETTER,CY,VOTER_MINUS_CARD",
-        ]
+        ],
     )
     fun `should return bad request if a template is not configured`(
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         language: Language?,
-        sourceType: SourceType
+        sourceType: SourceType,
     ) {
-
         // Given
         val requestBody = buildGenerateRejectedSignatureTemplatePreviewRequest(
-            channel = notificationChannel,
+            channel = communicationChannel,
             language = language,
             sourceType = sourceType,
         )
@@ -396,7 +395,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
         val actual = response.responseBody.blockFirst()
         val sourceTypeValue = sourceTypeMapper.fromApiToDto(sourceType)
         val expectedErrorMessage =
-            "No ${notificationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REJECTED_SIGNATURE_WITH_REASONS} and sourceType $sourceTypeValue"
+            "No ${communicationChannel.name.lowercase()} template defined in ${language.toMessage()} for notification type ${NotificationType.REJECTED_SIGNATURE_WITH_REASONS} and sourceType $sourceTypeValue"
         assertThat(actual)
             .hasStatus(400)
             .hasError("Bad Request")
@@ -410,7 +409,7 @@ internal class GenerateRejectedSignatureTemplatePreviewIntegrationTest : Integra
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateRejectedSignatureTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateRejectedSignatureTemplatePreviewRequest::class.java
+            GenerateRejectedSignatureTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

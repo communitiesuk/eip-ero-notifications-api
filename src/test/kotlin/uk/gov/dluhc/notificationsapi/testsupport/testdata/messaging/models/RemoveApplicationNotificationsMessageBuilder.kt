@@ -6,9 +6,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 
 fun buildRemoveApplicationNotificationsMessage(
     sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
-    sourceReference: String = aSourceReference()
+    sourceReference: String = aSourceReference(),
 ): RemoveApplicationNotificationsMessage =
     RemoveApplicationNotificationsMessage(
         sourceType = sourceType,
-        sourceReference = sourceReference
+        sourceReference = sourceReference,
     )

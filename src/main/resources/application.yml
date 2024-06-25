@@ -10,6 +10,7 @@ api:
   notify:
     api-key: ${API_NOTIFY_API_KEY}
     base-url: ${API_NOTIFY_BASE_URL}
+    ignore-wrong-api-key-errors: ${IGNORE_WRONG_API_KEY_ERRORS}
     template:
       voter-card:
         email:

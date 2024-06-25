@@ -9,19 +9,19 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePr
 import uk.gov.dluhc.notificationsapi.models.RequestedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
 
-@Mapper(uses = [LanguageMapper::class, NotificationChannelMapper::class, SourceTypeMapper::class])
+@Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
 abstract class RequestedSignatureTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "notificationType",
-        constant = "REQUESTED_SIGNATURE"
+        constant = "REQUESTED_SIGNATURE",
     )
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )",
     )
     abstract fun toRequestedSignatureTemplatePreviewDto(
-        request: GenerateRequestedSignatureTemplatePreviewRequest
+        request: GenerateRequestedSignatureTemplatePreviewRequest,
     ): RequestedSignatureTemplatePreviewDto
 
     @Mapping(

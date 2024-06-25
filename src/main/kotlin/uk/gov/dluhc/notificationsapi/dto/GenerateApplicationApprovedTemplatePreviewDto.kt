@@ -5,6 +5,6 @@ class GenerateApplicationApprovedTemplatePreviewDto(
     val personalisation: ApplicationApprovedPersonalisationDto,
     val sourceType: SourceType,
 ) {
-    val channel: NotificationChannel = NotificationChannel.EMAIL
+    val channel: CommunicationChannel = CommunicationChannel.EMAIL
     val notificationType: NotificationType = NotificationType.APPLICATION_APPROVED
 }

@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationSummaryDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -12,14 +12,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import java.time.LocalDateTime
 import java.util.UUID
 
-fun aNotificationSummaryDtoBuilder(
+fun buildNotificationSummaryDto(
     id: UUID = aNotificationId(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
     sourceType: SourceType = SourceType.VOTER_CARD,
     sourceReference: String = aSourceReference(),
     type: NotificationType = NotificationType.APPLICATION_APPROVED,
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     sentAt: LocalDateTime = aLocalDateTime(),
 ): NotificationSummaryDto =
     NotificationSummaryDto(
@@ -33,4 +33,4 @@ fun aNotificationSummaryDtoBuilder(
         sentAt = sentAt,
     )
 
-fun aNotificationSummaryDto(): NotificationSummaryDto = aNotificationSummaryDtoBuilder()
+fun aNotificationSummaryDto(): NotificationSummaryDto = buildNotificationSummaryDto()

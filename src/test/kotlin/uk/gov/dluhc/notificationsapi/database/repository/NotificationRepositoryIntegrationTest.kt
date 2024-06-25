@@ -57,7 +57,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                 channel = channel,
                 personalisation = personalisation,
                 notifyDetails = notifyDetails,
-                sentAt = sentAt
+                sentAt = sentAt,
             )
 
             // When
@@ -88,7 +88,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             // When
             val ex = catchThrowableOfType(
                 { notificationRepository.getNotification(id) },
-                NotificationNotFoundException::class.java
+                NotificationNotFoundException::class.java,
             )
 
             // Then
@@ -124,7 +124,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                 channel = channel,
                 personalisation = personalisation,
                 notifyDetails = notifyDetails,
-                sentAt = sentAt
+                sentAt = sentAt,
             )
             notificationRepository.saveNotification(notification)
 
@@ -159,7 +159,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                     sourceReference = sourceReference,
                     sourceType = sourceType,
                     gssCode = gssCode,
-                )
+                ),
             )
 
             val otherSourceReference = aRandomSourceReference()
@@ -187,14 +187,14 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                     gssCode = gssCode1,
                     sourceReference = sourceReference,
                     sourceType = sourceType,
-                )
+                ),
             )
             notificationRepository.saveNotification(
                 aNotificationBuilder(
                     gssCode = gssCode2,
                     sourceReference = sourceReference,
                     sourceType = sourceType,
-                )
+                ),
             )
 
             // When
@@ -234,7 +234,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                 channel = channel,
                 personalisation = personalisation,
                 notifyDetails = notifyDetails,
-                sentAt = sentAt
+                sentAt = sentAt,
             )
             notificationRepository.saveNotification(notification)
 
@@ -242,7 +242,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
                 sourceReference,
                 VOTER_CARD,
-                listOf(gssCode)
+                listOf(gssCode),
             )
 
             // Then
@@ -267,7 +267,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                     sourceReference = sourceReference,
                     sourceType = VOTER_CARD,
                     gssCode = gssCode,
-                )
+                ),
             )
 
             val otherSourceReference = aRandomSourceReference()
@@ -276,7 +276,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
                 otherSourceReference,
                 VOTER_CARD,
-                listOf(gssCode)
+                listOf(gssCode),
             )
 
             // Then
@@ -293,7 +293,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                     sourceReference = sourceReference,
                     sourceType = VOTER_CARD,
                     gssCode = gssCode,
-                )
+                ),
             )
 
             val otherGssCodes = listOf("W99999999", "E88888888")
@@ -302,7 +302,7 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
                 sourceReference,
                 VOTER_CARD,
-                otherGssCodes
+                otherGssCodes,
             )
 
             // Then
@@ -319,14 +319,14 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
                     sourceReference = sourceReference,
                     sourceType = VOTER_CARD,
                     gssCode = gssCode,
-                )
+                ),
             )
 
             // When
             val fetchedNotificationList = notificationRepository.getNotificationSummariesBySourceReference(
                 sourceReference,
                 POSTAL,
-                listOf(gssCode)
+                listOf(gssCode),
             )
 
             // Then

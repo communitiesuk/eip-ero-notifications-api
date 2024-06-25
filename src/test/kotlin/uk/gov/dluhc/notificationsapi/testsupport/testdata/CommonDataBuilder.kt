@@ -3,7 +3,7 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata
 import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomStringUtils.random
 import org.apache.commons.lang3.RandomStringUtils.randomNumeric
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.OverseasElectorAddress
 import uk.gov.dluhc.notificationsapi.dto.PostalAddress
@@ -36,13 +36,13 @@ fun aRandomNotificationId(): UUID = UUID.randomUUID()
 
 fun aNotificationType() = NotificationType.APPLICATION_APPROVED
 
-fun aNotificationChannel() = NotificationChannel.EMAIL
+fun aCommunicationChannel() = CommunicationChannel.EMAIL
 
 fun aNotificationPersonalisationMap(): Map<String, String> = mapOf(
     "subject_param" to "test subject",
     "name_param" to "John",
     "custom_title" to "Resubmitting photo",
-    "date" to "15/Oct/2022"
+    "date" to "15/Oct/2022",
 )
 
 fun aCommunicationConfirmationId(): UUID = UUID.fromString("fa7d3cc2-2983-4d7e-b675-57d882003ecf")

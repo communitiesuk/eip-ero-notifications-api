@@ -45,11 +45,11 @@ class RejectedDocumentTypeMapperTest {
                 "BIOMETRIC_MINUS_IDENTITY_MINUS_DOCUMENT, Biometric identity document",
                 "NI_MINUS_ELECTORAL_MINUS_IDENTITY_MINUS_CARD, NI electoral identity card",
                 "CD_MINUS_ISSUED_MINUS_DRIVING_MINUS_LICENCE, Driving licence granted by a Crown Dependency",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in English`(
             documentType: DocumentTypeApiEnum,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -85,11 +85,11 @@ class RejectedDocumentTypeMapperTest {
                 "BIOMETRIC_MINUS_IDENTITY_MINUS_DOCUMENT, Dogfen hunaniaeth fiometrig",
                 "NI_MINUS_ELECTORAL_MINUS_IDENTITY_MINUS_CARD, Cerdyn adnabod etholiadol YG",
                 "CD_MINUS_ISSUED_MINUS_DRIVING_MINUS_LICENCE, Trwydded yrru a roddwyd gan Dibyniaeth y Goron",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in Welsh`(
             documentType: DocumentTypeApiEnum,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -128,11 +128,11 @@ class RejectedDocumentTypeMapperTest {
                 "BIOMETRIC_MINUS_IDENTITY_MINUS_DOCUMENT, Biometric identity document",
                 "NI_MINUS_ELECTORAL_MINUS_IDENTITY_MINUS_CARD, NI electoral identity card",
                 "CD_MINUS_ISSUED_MINUS_DRIVING_MINUS_LICENCE, Driving licence granted by a Crown Dependency",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in English`(
             documentType: DocumentTypeMessagingEnum,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -168,11 +168,11 @@ class RejectedDocumentTypeMapperTest {
                 "BIOMETRIC_MINUS_IDENTITY_MINUS_DOCUMENT, Dogfen hunaniaeth fiometrig",
                 "NI_MINUS_ELECTORAL_MINUS_IDENTITY_MINUS_CARD, Cerdyn adnabod etholiadol YG",
                 "CD_MINUS_ISSUED_MINUS_DRIVING_MINUS_LICENCE, Trwydded yrru a roddwyd gan Dibyniaeth y Goron",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in Welsh`(
             documentType: DocumentTypeMessagingEnum,
-            expected: String
+            expected: String,
         ) {
             // Given
 

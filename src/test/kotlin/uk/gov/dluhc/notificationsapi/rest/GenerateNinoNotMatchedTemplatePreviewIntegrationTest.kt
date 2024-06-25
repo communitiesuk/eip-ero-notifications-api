@@ -11,11 +11,11 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.annotations.AllowedSourceTypesTest
 import uk.gov.dluhc.notificationsapi.testsupport.assertj.assertions.models.ErrorResponseAssert
@@ -166,10 +166,10 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
                 eroContactDetails = buildEroContactDetails(
                     address = buildAddress(
                         street = "",
-                        postcode = "AB11111111111"
-                    )
-                )
-            )
+                        postcode = "AB11111111111",
+                    ),
+                ),
+            ),
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
         val expectedValidationErrorsCount = 4
@@ -217,11 +217,11 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             "PROXY, LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH_TEMPLATE_ID,EN,proxy",
             "PROXY, EMAIL, true, $RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
             "PROXY, LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
-        ]
+        ],
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
-        notificationChannel: NotificationChannel,
+        CommunicationChannel: CommunicationChannel,
         hasRestrictedDocumentsList: Boolean,
         templateId: String,
         language: Language,
@@ -232,10 +232,10 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateNinoNotMatchedTemplatePreviewRequest(
             sourceType = sourceType,
-            channel = notificationChannel,
+            channel = CommunicationChannel,
             language = language,
             personalisation = buildNinoNotMatchedPersonalisation(
-                additionalNotes = "Invalid"
+                additionalNotes = "Invalid",
             ),
             hasRestrictedDocumentsList = hasRestrictedDocumentsList,
         )
@@ -282,10 +282,10 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
             "LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID",
             "EMAIL, true, $RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH_TEMPLATE_ID",
             "LETTER, true, $RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH_TEMPLATE_ID",
-        ]
+        ],
     )
     fun `should return template preview given valid request when optional values are not populated`(
-        notificationChannel: NotificationChannel,
+        communicationChannel: CommunicationChannel,
         hasRestrictedDocumentsList: Boolean,
         templateId: String,
     ) {
@@ -294,10 +294,10 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateNinoNotMatchedTemplatePreviewRequest(
-            channel = notificationChannel,
+            channel = communicationChannel,
             personalisation = buildNinoNotMatchedPersonalisation(
                 additionalNotes = null,
-                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())
+                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
             ),
             hasRestrictedDocumentsList = hasRestrictedDocumentsList,
         )
@@ -344,7 +344,7 @@ internal class GenerateNinoNotMatchedTemplatePreviewIntegrationTest : Integratio
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateNinoNotMatchedTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateNinoNotMatchedTemplatePreviewRequest::class.java
+            GenerateNinoNotMatchedTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aLocalDateTime
@@ -17,14 +17,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotificationSummaryBuilder
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationSummaryDtoBuilder
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationSummaryDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.aCommunicationsSummaryBuilder
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
-import uk.gov.dluhc.notificationsapi.database.entity.Channel as NotificationChannelEntity
+import uk.gov.dluhc.notificationsapi.database.entity.Channel as CommunicationChannelEntity
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType as NotificationTypeDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 
@@ -38,7 +38,7 @@ class NotificationSummaryMapperTest {
     private lateinit var notificationTypeMapper: NotificationTypeMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
@@ -59,22 +59,22 @@ class NotificationSummaryMapperTest {
             sourceReference = sourceReference,
             sourceType = SourceTypeEntity.VOTER_CARD,
             type = NotificationTypeEntity.APPLICATION_APPROVED,
-            channel = NotificationChannelEntity.EMAIL,
+            channel = CommunicationChannelEntity.EMAIL,
             sentAt = sentAt,
         )
 
         given(sourceTypeMapper.fromEntityToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
         given(notificationTypeMapper.toNotificationTypeDto(any())).willReturn(NotificationTypeDto.APPLICATION_APPROVED)
-        given(notificationChannelMapper.fromEntityToDto(any())).willReturn(NotificationChannelDto.EMAIL)
+        given(communicationChannelMapper.fromEntityToDto(any())).willReturn(CommunicationChannelDto.EMAIL)
 
-        val expected = aNotificationSummaryDtoBuilder(
+        val expected = buildNotificationSummaryDto(
             id = id,
             gssCode = gssCode,
             requestor = requestor,
             sourceReference = sourceReference,
             sourceType = SourceTypeDto.VOTER_CARD,
             type = NotificationTypeDto.APPLICATION_APPROVED,
-            channel = NotificationChannelDto.EMAIL,
+            channel = CommunicationChannelDto.EMAIL,
             sentAt = sentAt,
         )
 
@@ -84,7 +84,7 @@ class NotificationSummaryMapperTest {
         // Then
         verify(sourceTypeMapper).fromEntityToDto(SourceTypeEntity.VOTER_CARD)
         verify(notificationTypeMapper).toNotificationTypeDto(NotificationTypeEntity.APPLICATION_APPROVED)
-        verify(notificationChannelMapper).fromEntityToDto(NotificationChannelEntity.EMAIL)
+        verify(communicationChannelMapper).fromEntityToDto(CommunicationChannelEntity.EMAIL)
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -97,33 +97,33 @@ class NotificationSummaryMapperTest {
         val sentAt = aLocalDateTime()
         val sourceReference = aSourceReference()
 
-        val dto = aNotificationSummaryDtoBuilder(
+        val dto = buildNotificationSummaryDto(
             id = id,
             gssCode = gssCode,
             requestor = requestor,
             sourceReference = sourceReference,
             sourceType = SourceTypeDto.VOTER_CARD,
             type = NotificationTypeDto.APPLICATION_APPROVED,
-            channel = NotificationChannelDto.EMAIL,
+            channel = CommunicationChannelDto.EMAIL,
             sentAt = sentAt,
         )
 
-        given(notificationChannelMapper.fromDtoToApi(any())).willReturn(NotificationChannel.EMAIL)
+        given(communicationChannelMapper.fromDtoToApi(any())).willReturn(CommunicationChannel.EMAIL)
         given(notificationTypeMapper.fromNotificationTypeDtoToTemplateTypeApi(any())).willReturn(TemplateType.APPLICATION_MINUS_APPROVED)
 
         val expected = aCommunicationsSummaryBuilder(
             id = id,
             requestor = requestor,
-            channel = NotificationChannel.EMAIL,
+            channel = CommunicationChannel.EMAIL,
             templateType = TemplateType.APPLICATION_MINUS_APPROVED,
-            timestamp = OffsetDateTime.of(sentAt, ZoneOffset.UTC)
+            timestamp = OffsetDateTime.of(sentAt, ZoneOffset.UTC),
         )
 
         // When
         val actual = mapper.toCommunicationsSummaryApi(dto)
 
         // Then
-        verify(notificationChannelMapper).fromDtoToApi(NotificationChannelDto.EMAIL)
+        verify(communicationChannelMapper).fromDtoToApi(CommunicationChannelDto.EMAIL)
         verify(notificationTypeMapper).fromNotificationTypeDtoToTemplateTypeApi(NotificationTypeDto.APPLICATION_APPROVED)
         assertThat(actual).isEqualTo(expected)
     }

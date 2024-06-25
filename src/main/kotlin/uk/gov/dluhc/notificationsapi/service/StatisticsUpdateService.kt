@@ -12,7 +12,7 @@ import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMe
 class StatisticsUpdateService(
     private val triggerVoterCardStatisticsUpdateQueue: MessageQueue<VoterCardUpdateStatisticsMessage>,
     private val triggerPostalApplicationStatisticsUpdateQueue: MessageQueue<PostalUpdateStatisticsMessage>,
-    private val triggerProxyApplicationStatisticsUpdateQueue: MessageQueue<ProxyUpdateStatisticsMessage>
+    private val triggerProxyApplicationStatisticsUpdateQueue: MessageQueue<ProxyUpdateStatisticsMessage>,
 ) {
     fun triggerStatisticsUpdate(applicationId: String, sourceType: SourceType) {
         val deduplicationId = UUID.randomUUID().toString()
@@ -43,7 +43,7 @@ class StatisticsUpdateService(
     fun createMap(applicationId: String, deduplicationId: String): Map<String, Any> {
         return mapOf(
             "message-group-id" to applicationId,
-            "message-deduplication-id" to deduplicationId
+            "message-deduplication-id" to deduplicationId,
         )
     }
 }

@@ -5,9 +5,9 @@ import uk.gov.dluhc.notificationsapi.config.AbstractNotifyEmailTemplateConfigura
 import uk.gov.dluhc.notificationsapi.config.AbstractNotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_APPROVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
@@ -34,9 +34,6 @@ import uk.gov.dluhc.notificationsapi.dto.SourceType.PROXY
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 
-/**
- * Gets the Notification Template ID configured for each message type.
- */
 @Component
 class NotificationTemplateMapper(
     private val notifyEmailTemplateConfiguration: NotifyEmailTemplateConfiguration,
@@ -45,23 +42,26 @@ class NotificationTemplateMapper(
     fun fromNotificationTypeForChannelInLanguage(
         sourceType: SourceType,
         notificationType: NotificationType,
-        channel: NotificationChannel,
-        language: LanguageDto?
+        channel: CommunicationChannel,
+        language: LanguageDto?,
     ): String {
         return when (channel) {
-            NotificationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(sourceType, notificationType, language)
-            NotificationChannel.LETTER -> fromLetterNotificationTypeInLanguage(sourceType, notificationType, language)
+            CommunicationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(sourceType, notificationType, language)
+            CommunicationChannel.LETTER -> fromLetterNotificationTypeInLanguage(sourceType, notificationType, language)
         }
     }
 
     private fun fromEmailNotificationTypeInLanguage(
         sourceType: SourceType,
         notificationType: NotificationType,
-        language: LanguageDto?
+        language: LanguageDto?,
     ): String {
         val config = getSourceTemplateEmailTemplateConfiguration(sourceType)
-        return if (useEnglishTemplate(language)) englishEmail(config, notificationType)
-        else welshEmail(config, notificationType)
+        return if (useEnglishTemplate(language)) {
+            englishEmail(config, notificationType)
+        } else {
+            welshEmail(config, notificationType)
+        }
     }
 
     private fun getSourceTemplateEmailTemplateConfiguration(sourceType: SourceType): AbstractNotifyEmailTemplateConfiguration =
@@ -130,11 +130,14 @@ class NotificationTemplateMapper(
     private fun fromLetterNotificationTypeInLanguage(
         sourceType: SourceType,
         notificationType: NotificationType,
-        language: LanguageDto?
+        language: LanguageDto?,
     ): String {
         val config = getSourceTemplateLetterTemplateConfiguration(sourceType)
-        return if (useEnglishTemplate(language)) englishLetter(config, notificationType)
-        else welshLetter(config, notificationType)
+        return if (useEnglishTemplate(language)) {
+            englishLetter(config, notificationType)
+        } else {
+            welshLetter(config, notificationType)
+        }
     }
 
     private fun getSourceTemplateLetterTemplateConfiguration(sourceType: SourceType): AbstractNotifyLetterTemplateConfiguration =
@@ -175,7 +178,7 @@ class NotificationTemplateMapper(
 
     private fun englishLetter(
         config: AbstractNotifyLetterTemplateConfiguration,
-        notificationType: NotificationType
+        notificationType: NotificationType,
     ): String = when (notificationType) {
         APPLICATION_RECEIVED -> config.receivedEnglish
         APPLICATION_REJECTED -> config.rejectedEnglish

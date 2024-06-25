@@ -9,7 +9,7 @@ data class NotificationSummaryDto(
     val sourceType: SourceType,
     val gssCode: String,
     var type: NotificationType,
-    var channel: NotificationChannel,
+    var channel: CommunicationChannel,
     var requestor: String,
     var sentAt: LocalDateTime,
 )

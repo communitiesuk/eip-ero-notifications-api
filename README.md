@@ -1,6 +1,7 @@
 # eip-ero-notifications-api
 Spring Boot microservice that :
 - Provides an API for sending notifications using the [Government Notify](https://www.notifications.service.gov.uk/documentation) service.
+- This is referred to as both Notifications and Communications
 
 _**See section on [GOV.UK Notify Templates](templates/README.md) for details on creating and editing
 templates.**_
@@ -8,11 +9,17 @@ templates.**_
 ## Developer Setup
 ### Kotlin API Developers
 
+#### Linting IDE configuration
+
 Configure your IDE with the code formatter (ktlint):
 ```
 $ ./gradlew ktlintApplyToIdea
 ```
-This only needs doing once to setup your IDE with the code styles.
+This only needs doing once to set up your IDE with the code styles.
+
+Press `ctrl-alt-l` to reformat your current file to match the styles, or set them to [apply automatically when you save a file](https://www.jetbrains.com/help/idea/reformat-and-rearrange-code.html#reformat-on-save).
+
+If you prefer, you can run `./gradlew addKtlintFormatPreCommitHook` to add a pre-commit hook to format your code on commit.
 
 #### AWS CodeArtifact Access Set Up
 

@@ -9,8 +9,8 @@ import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.Notification
 import uk.gov.dluhc.notificationsapi.database.entity.NotifyDetails
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType.VOTER_CARD
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationDestinationDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.PostalAddress
@@ -31,8 +31,8 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
     @CsvSource(
         value = [
             "CY, WELSH",
-            "EN, ENGLISH"
-        ]
+            "EN, ENGLISH",
+        ],
     )
     fun `should process rejected message`(language: Language, languageDto: LanguageDto) {
         // Given
@@ -58,10 +58,10 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
 
     private fun getExpectedRequest(
         payload: SendNotifyApplicationRejectedMessage,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ) = with(payload) {
         SendNotificationRequestDto(
-            channel = NotificationChannel.LETTER,
+            channel = CommunicationChannel.LETTER,
             notificationType = NotificationType.APPLICATION_REJECTED,
             language = languageDto,
             gssCode = gssCode,
@@ -80,17 +80,17 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
                             town = town,
                             area = area,
                             locality = locality,
-                            postcode = postcode
+                            postcode = postcode,
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 
     private fun getExpectedPersonalisationMap(
         payload: SendNotifyApplicationRejectedMessage,
-        languageDto: LanguageDto
+        languageDto: LanguageDto,
     ): Map<String, Any> =
         with(payload.personalisation) {
             mapOf(
@@ -107,7 +107,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
                 "eroAddressLine3" to (eroContactDetails.address.town ?: ""),
                 "eroAddressLine4" to (eroContactDetails.address.area ?: ""),
                 "eroAddressLine5" to (eroContactDetails.address.locality ?: ""),
-                "eroPostcode" to eroContactDetails.address.postcode
+                "eroPostcode" to eroContactDetails.address.postcode,
             )
         }
 
@@ -115,25 +115,25 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         LanguageDto.WELSH -> mutableListOf(
             "Mae'r cais yn anghyflawn",
             "Nid yw'r ymgeisydd wedi ymateb i geisiadau am wybodaeth",
-            "Eraill"
+            "Eraill",
         )
 
         else -> mutableListOf(
             "Your application was incomplete",
             "You did not respond to our requests for information within the timeframe we gave you",
-            "Other"
+            "Other",
         )
     }
 
     private fun assertNotificationPersisted(
         payload: SendNotifyApplicationRejectedMessage,
         expectedPersonalisation: Map<String, Any>,
-        notifyResponse: NotifySendLetterSuccessResponse
+        notifyResponse: NotifySendLetterSuccessResponse,
     ) {
         val actualEntity = notificationRepository.getBySourceReferenceAndGssCode(
             payload.sourceReference,
             VOTER_CARD,
-            listOf(payload.gssCode)
+            listOf(payload.gssCode),
         )
 
         assertThat(actualEntity).hasSize(1)
@@ -144,7 +144,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         actual: Notification,
         payload: SendNotifyApplicationRejectedMessage,
         expectedPersonalisation: Map<String, Any>,
-        notifyResponse: NotifySendLetterSuccessResponse
+        notifyResponse: NotifySendLetterSuccessResponse,
     ) {
         assertThat(actual.id).isNotNull
         assertThat(actual.sourceReference).isEqualTo(payload.sourceReference)
@@ -160,7 +160,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
 
     private fun assertPostalAddress(
         actualEntity: Notification,
-        payload: SendNotifyApplicationRejectedMessage
+        payload: SendNotifyApplicationRejectedMessage,
     ) {
         assertThat(actualEntity.toPostalAddress).usingRecursiveComparison().ignoringFields("addressee")
             .isEqualTo(payload.toAddress.postalAddress!!.address)
@@ -169,7 +169,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
 
     private fun assertPersonalisation(
         actualEntity: Notification,
-        expectedPersonalisation: Map<String, Any>
+        expectedPersonalisation: Map<String, Any>,
     ) {
         assertThat(actualEntity.personalisation)
             .usingRecursiveComparison().ignoringCollectionOrder().isEqualTo(expectedPersonalisation)

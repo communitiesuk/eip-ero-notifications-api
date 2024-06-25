@@ -27,11 +27,11 @@ class RejectedSignatureReasonMapperTest {
                 "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
                 "HAS_MINUS_SHADOWS,The signature has shadows over it",
                 "WRONG_MINUS_SIZE,The image is either too big or too small",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in English`(
             rejectionReason: SignatureRejectionReason,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -50,11 +50,11 @@ class RejectedSignatureReasonMapperTest {
                 "NOT_MINUS_IN_MINUS_FOCUS,Nid yw'r llofnod mewn ffocws",
                 "HAS_MINUS_SHADOWS,Mae cysgodion dros y llofnod",
                 "WRONG_MINUS_SIZE,Mae'r llun naill ai'n rhy fawr neu'n rhy fach",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in Welsh`(
             rejectionReason: SignatureRejectionReason,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -76,11 +76,11 @@ class RejectedSignatureReasonMapperTest {
                 "NOT_MINUS_IN_MINUS_FOCUS,The signature is not in focus",
                 "HAS_MINUS_SHADOWS,The signature has shadows over it",
                 "WRONG_MINUS_SIZE,The image is either too big or too small",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in English`(
             rejectionReason: uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason,
-            expected: String
+            expected: String,
         ) {
             // Given
 
@@ -99,11 +99,11 @@ class RejectedSignatureReasonMapperTest {
                 "NOT_MINUS_IN_MINUS_FOCUS,Nid yw'r llofnod mewn ffocws",
                 "HAS_MINUS_SHADOWS,Mae cysgodion dros y llofnod",
                 "WRONG_MINUS_SIZE,Mae'r llun naill ai'n rhy fawr neu'n rhy fach",
-            ]
+            ],
         )
         fun `should map enums to human readable messages in Welsh`(
             rejectionReason: uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason,
-            expected: String
+            expected: String,
         ) {
             // Given
 

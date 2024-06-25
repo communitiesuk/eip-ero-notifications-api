@@ -5,7 +5,7 @@ import uk.gov.dluhc.notificationsapi.dto.EroDto
 
 fun buildEroDto(
     englishContactDetails: EroContactDetailsDto = anEnglishEroContactDetails(),
-    welshContactDetails: EroContactDetailsDto? = aWelshEroContactDetails()
+    welshContactDetails: EroContactDetailsDto? = aWelshEroContactDetails(),
 ) = EroDto(
     englishContactDetails = englishContactDetails,
     welshContactDetails = welshContactDetails,

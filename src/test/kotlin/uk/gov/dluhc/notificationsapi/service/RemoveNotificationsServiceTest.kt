@@ -54,7 +54,7 @@ internal class RemoveNotificationsServiceTest {
         // When
         val ex = catchThrowableOfType(
             { removeNotificationsService.remove(removeNotificationsDto) },
-            SdkClientException::class.java
+            SdkClientException::class.java,
         )
 
         // Then

@@ -2,7 +2,7 @@ package uk.gov.dluhc.notificationsapi.dto
 
 class NinoNotMatchedTemplatePreviewDto(
     sourceType: SourceType,
-    channel: NotificationChannel,
+    channel: CommunicationChannel,
     language: LanguageDto,
     notificationType: NotificationType,
     val personalisation: RequiredDocumentPersonalisationDto,

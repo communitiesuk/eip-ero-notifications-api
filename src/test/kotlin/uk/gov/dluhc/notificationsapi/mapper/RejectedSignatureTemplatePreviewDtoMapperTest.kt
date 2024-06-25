@@ -11,8 +11,8 @@ import org.mockito.kotlin.given
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateRejectedSignatureTemplatePreviewRequest
@@ -21,7 +21,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationChannel as NotificationChannelDto
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 
 @ExtendWith(MockitoExtension::class)
@@ -34,7 +34,7 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var signatureRejectionReasonMapper: SignatureRejectionReasonMapper
@@ -47,14 +47,14 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         value = [
             "EMAIL",
             "LETTER",
-        ]
+        ],
     )
-    fun `should map rejected signature template preview request to dto`(channel: NotificationChannel) {
+    fun `should map rejected signature template preview request to dto`(channel: CommunicationChannel) {
         val rejectionReasonToExpectedRejectReason = mapOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF to "The image has some of it cut off")
         validate(
             channel,
             rejectionNotes = "Invalid signature",
-            rejectionReasonToExpectedRejectReason = rejectionReasonToExpectedRejectReason
+            rejectionReasonToExpectedRejectReason = rejectionReasonToExpectedRejectReason,
         )
     }
 
@@ -63,26 +63,27 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
         value = [
             "EMAIL",
             "LETTER",
-        ]
+        ],
     )
-    fun `should map rejected signature template preview request with optional fields to dto `(channel: NotificationChannel) {
+    fun `should map rejected signature template preview request with optional fields to dto `(channel: CommunicationChannel) {
         val mappedDto = validate(channel)
         assertThat(mappedDto.personalisation.rejectionReasons).isEmpty()
     }
 
     private fun validate(
-        channel: NotificationChannel,
+        channel: CommunicationChannel,
         rejectionNotes: String? = null,
         rejectionReasonToExpectedRejectReason: Map<SignatureRejectionReason, String> = emptyMap(),
     ): RejectedSignatureTemplatePreviewDto {
         val request = buildGenerateRejectedSignatureTemplatePreviewRequest(
             channel = channel,
             personalisation = buildRejectedSignaturePersonalisation(
-                rejectionNotes = rejectionNotes, rejectionReasons = rejectionReasonToExpectedRejectReason.keys.toList()
-            )
+                rejectionNotes = rejectionNotes,
+                rejectionReasons = rejectionReasonToExpectedRejectReason.keys.toList(),
+            ),
         )
-        val expectedChannel = NotificationChannelDto.valueOf(channel.name)
-        given { notificationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
+        val expectedChannel = CommunicationChannelDto.valueOf(channel.name)
+        given { communicationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
         given { sourceTypeMapper.fromApiToDto(SourceType.PROXY) }.willReturn(SourceTypeDto.PROXY)
         given { languageMapper.fromApiToDto(Language.EN) }.willReturn(LanguageDto.ENGLISH)
         given(sourceTypeMapper.toSourceTypeString(SourceType.PROXY, LanguageDto.ENGLISH)).willReturn("Mapped source type")
@@ -90,13 +91,16 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
             given(
                 signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                     reason,
-                    LanguageDto.ENGLISH
-                )
+                    LanguageDto.ENGLISH,
+                ),
             ).willReturn(expected)
         }
         val expectedNotificationType =
-            if (rejectionReasonToExpectedRejectReason.isEmpty()) NotificationType.REJECTED_SIGNATURE
-            else NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+            if (rejectionReasonToExpectedRejectReason.isEmpty()) {
+                NotificationType.REJECTED_SIGNATURE
+            } else {
+                NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+            }
 
         val expected = buildGenerateRejectedSignatureTemplatePreviewDto(
             sourceType = SourceTypeDto.PROXY,
@@ -120,9 +124,9 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
                     },
                     rejectionReasons = rejectionReasonToExpectedRejectReason.values.toList(),
@@ -130,7 +134,7 @@ class RejectedSignatureTemplatePreviewDtoMapperTest {
                     rejectionFreeText = rejectionFreeText,
                     sourceType = "Mapped source type",
                 )
-            }
+            },
         )
 
         val actual = mapper.toRejectedSignatureTemplatePreviewDto(request)

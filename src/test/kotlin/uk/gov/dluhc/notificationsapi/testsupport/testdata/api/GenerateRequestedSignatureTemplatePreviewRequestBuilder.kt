@@ -1,9 +1,9 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.api
 
+import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.Language
-import uk.gov.dluhc.notificationsapi.models.NotificationChannel
 import uk.gov.dluhc.notificationsapi.models.RequestedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
@@ -12,7 +12,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContact
 
 fun buildGenerateRequestedSignatureTemplatePreviewRequest(
     sourceType: SourceType = SourceType.PROXY,
-    channel: NotificationChannel = NotificationChannel.EMAIL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language? = Language.EN,
     personalisation: RequestedSignaturePersonalisation = buildRequestedSignaturePersonalisation(),
 ) = GenerateRequestedSignatureTemplatePreviewRequest(

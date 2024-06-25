@@ -19,8 +19,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.mapper.CommunicationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
-import uk.gov.dluhc.notificationsapi.mapper.NotificationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
@@ -40,7 +40,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationChannel
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDestination
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
@@ -60,7 +60,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
     private lateinit var languageMapper: LanguageMapper
 
     @Mock
-    private lateinit var notificationChannelMapper: NotificationChannelMapper
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Mock
     private lateinit var notificationTypeMapper: NotificationTypeMapper
@@ -81,91 +81,91 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
 
                 Arguments.of(
                     listOf(
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA
+                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE
+                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL
+                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
+                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
 
                 Arguments.of(
                     listOf(
                         OTHER,
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA
+                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK
+                        PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE
+                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(OTHER, WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL
+                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
+                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
                     ),
-                    PHOTO_RESUBMISSION_WITH_REASONS
+                    PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
             )
         }
@@ -179,52 +179,52 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
 
                 Arguments.of(
                     listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(UNREADABLE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(INVALID_MINUS_DOCUMENT_MINUS_TYPE),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(DUPLICATE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(INVALID_MINUS_DOCUMENT_MINUS_COUNTRY),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
 
                 Arguments.of(
                     listOf(DocumentRejectionReason.OTHER, DOCUMENT_MINUS_TOO_MINUS_OLD),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(DocumentRejectionReason.OTHER, UNREADABLE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(DocumentRejectionReason.OTHER, INVALID_MINUS_DOCUMENT_MINUS_TYPE),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(DocumentRejectionReason.OTHER, DUPLICATE_MINUS_DOCUMENT),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(DocumentRejectionReason.OTHER, INVALID_MINUS_DOCUMENT_MINUS_COUNTRY),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(DocumentRejectionReason.OTHER, APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
-                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+                    ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
             )
         }
@@ -242,15 +242,15 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             val request = buildSendNotifyPhotoResubmissionMessage(
                 personalisation = buildPhotoPersonalisationMessage(
                     photoRejectionReasons = photoRejectionReasons,
-                    photoRejectionNotes = null
-                )
+                    photoRejectionNotes = null,
+                ),
             )
 
             given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val notification = mapper.fromPhotoMessageToSendNotificationRequestDto(request)
@@ -265,7 +265,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
                 ", PHOTO_RESUBMISSION",
                 "'', PHOTO_RESUBMISSION",
                 "'Some rejection reason notes', PHOTO_RESUBMISSION_WITH_REASONS",
-            ]
+            ],
         )
         fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationRequestDto with correct NotificationType mapping given no rejection reasons and rejection notes`(
             photoRejectionNotes: String?,
@@ -275,15 +275,15 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
             val request = buildSendNotifyPhotoResubmissionMessage(
                 personalisation = buildPhotoPersonalisationMessage(
                     photoRejectionReasons = emptyList(),
-                    photoRejectionNotes = photoRejectionNotes
-                )
+                    photoRejectionNotes = photoRejectionNotes,
+                ),
             )
 
             given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val notification = mapper.fromPhotoMessageToSendNotificationRequestDto(request)
@@ -308,17 +308,17 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
                     rejectedDocuments = listOf(
                         buildRejectedDocument(
                             rejectionReasons = documentRejectionReasons,
-                            rejectionNotes = null
-                        )
-                    )
-                )
+                            rejectionNotes = null,
+                        ),
+                    ),
+                ),
             )
 
             given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -333,7 +333,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
                 ", ID_DOCUMENT_RESUBMISSION",
                 "'', ID_DOCUMENT_RESUBMISSION",
                 "'Some rejection reason notes', ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
-            ]
+            ],
         )
         fun `should map ID document template request to dto with correct NotificationType mapping given document with no rejection reasons and rejection notes`(
             documentRejectionNotes: String?,
@@ -345,17 +345,17 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
                     rejectedDocuments = listOf(
                         buildRejectedDocument(
                             rejectionReasons = emptyList(),
-                            rejectionNotes = documentRejectionNotes
-                        )
-                    )
-                )
+                            rejectionNotes = documentRejectionNotes,
+                        ),
+                    ),
+                ),
             )
 
             given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -372,21 +372,21 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
                     rejectedDocuments = listOf(
                         buildRejectedDocument(
                             rejectionReasons = emptyList(),
-                            rejectionNotes = "a reason for rejecting the document"
+                            rejectionNotes = "a reason for rejecting the document",
                         ),
                         buildRejectedDocument(
                             rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
-                            rejectionNotes = null
-                        )
-                    )
-                )
+                            rejectionNotes = null,
+                        ),
+                    ),
+                ),
             )
 
             given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -403,25 +403,25 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
                     rejectedDocuments = listOf(
                         buildRejectedDocument(
                             rejectionReasons = emptyList(),
-                            rejectionNotes = "a reason for rejecting the document"
+                            rejectionNotes = "a reason for rejecting the document",
                         ),
                         buildRejectedDocument(
                             rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
-                            rejectionNotes = null
+                            rejectionNotes = null,
                         ),
                         buildRejectedDocument(
                             rejectionReasons = emptyList(),
-                            rejectionNotes = null
-                        )
-                    )
-                )
+                            rejectionNotes = null,
+                        ),
+                    ),
+                ),
             )
 
             given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)
@@ -438,25 +438,25 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
                     rejectedDocuments = listOf(
                         buildRejectedDocument(
                             rejectionReasons = emptyList(),
-                            rejectionNotes = null
+                            rejectionNotes = null,
                         ),
                         buildRejectedDocument(
                             rejectionReasons = emptyList(),
-                            rejectionNotes = null
+                            rejectionNotes = null,
                         ),
                         buildRejectedDocument(
                             rejectionReasons = emptyList(),
-                            rejectionNotes = null
-                        )
-                    )
-                )
+                            rejectionNotes = null,
+                        ),
+                    ),
+                ),
             )
 
             given(languageMapper.fromMessageToDto(any())).willReturn(ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(aSourceType())
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any()))
                 .willReturn(aNotificationDestination())
-            given(notificationChannelMapper.fromMessagingApiToDto(any())).willReturn(aNotificationChannel())
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(aCommunicationChannel())
 
             // When
             val actual = mapper.fromIdDocumentMessageToSendNotificationRequestDto(request)

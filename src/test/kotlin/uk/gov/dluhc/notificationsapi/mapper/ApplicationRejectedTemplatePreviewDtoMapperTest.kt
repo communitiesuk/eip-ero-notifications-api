@@ -45,7 +45,7 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         // Given
         val request = buildGenerateApplicationRejectedTemplatePreviewRequest(
             language = language,
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD
+            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
         )
         given(languageMapper.fromApiToDto(any())).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
@@ -55,14 +55,15 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         given(
             applicationRejectionReasonMapper.toApplicationRejectionReasonString(
                 INCOMPLETE_MINUS_APPLICATION,
-                ENGLISH
-            )
+                ENGLISH,
+            ),
         )
             .willReturn(incompleteApplication)
         given(
             applicationRejectionReasonMapper.toApplicationRejectionReasonString(
-                NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH
-            )
+                NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
+                ENGLISH,
+            ),
         ).willReturn(applicantHasNotResponded)
         given(applicationRejectionReasonMapper.toApplicationRejectionReasonString(OTHER, ENGLISH)).willReturn(other)
 
@@ -88,13 +89,13 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
                                     locality = locality,
                                     town = town,
                                     area = area,
-                                    postcode = postcode
+                                    postcode = postcode,
                                 )
-                            }
+                            },
                         )
-                    }
+                    },
                 )
-            }
+            },
         )
 
         // When
@@ -106,10 +107,11 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
             INCOMPLETE_MINUS_APPLICATION,
-            ENGLISH
+            ENGLISH,
         )
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
-            NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH
+            NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
+            ENGLISH,
         )
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER, ENGLISH)
         verifyNoMoreInteractions(applicationRejectionReasonMapper)

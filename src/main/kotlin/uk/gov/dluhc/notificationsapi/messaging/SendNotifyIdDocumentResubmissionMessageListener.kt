@@ -23,7 +23,10 @@ class SendNotifyIdDocumentResubmissionMessageListener(
 ) : MessageListener<SendNotifyIdDocumentResubmissionMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-id-document-resubmission-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyIdDocumentResubmissionMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyIdDocumentResubmissionMessage,
+    ) {
         logger.info {
             "received 'send UK Gov notify ID document message' request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +
@@ -35,7 +38,7 @@ class SendNotifyIdDocumentResubmissionMessageListener(
             val personalisationDto = templatePersonalisationMessageMapper.toIdDocumentPersonalisationDto(
                 personalisationMessage = personalisation,
                 languageDto = sendNotificationRequestDto.language,
-                channel = sendNotificationRequestDto.channel
+                channel = sendNotificationRequestDto.channel,
             )
             val personalisationMap = templatePersonalisationDtoMapper.toIdDocumentResubmissionTemplatePersonalisationMap(personalisationDto)
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
