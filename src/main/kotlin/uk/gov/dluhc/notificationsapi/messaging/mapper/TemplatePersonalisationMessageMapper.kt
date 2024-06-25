@@ -3,34 +3,12 @@ package uk.gov.dluhc.notificationsapi.messaging.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.springframework.beans.factory.annotation.Autowired
-import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.*
 import uk.gov.dluhc.notificationsapi.dto.NotificationChannel
-import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
-import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
-import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
-import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
-import uk.gov.dluhc.notificationsapi.mapper.SignatureRejectionReasonMapper
-import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
-import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectedPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.RequestedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.mapper.*
+import uk.gov.dluhc.notificationsapi.messaging.models.*
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
+import java.time.LocalDate
 
 @Mapper
 abstract class TemplatePersonalisationMessageMapper {
@@ -52,6 +30,9 @@ abstract class TemplatePersonalisationMessageMapper {
 
     @Autowired
     protected lateinit var sourceTypeMapper: SourceTypeMapper
+
+    @Autowired
+    protected lateinit var deadlineMapper: DeadlineMapper
 
     @Mapping(
         target = "photoRejectionReasons",
@@ -147,20 +128,55 @@ abstract class TemplatePersonalisationMessageMapper {
     ): RejectedDocumentPersonalisationDto
 
     @Mapping(
-        target = "personalisationSourceTypeString",
-        expression = "java( mapSourceType( languageDto, sourceType ) )",
+            target = "personalisationSourceTypeString",
+            expression = "java( mapSourceType( languageDto, sourceType ) )",
     )
     @Mapping(target = "additionalNotes", source = "personalisation.additionalNotes")
     abstract fun toRequiredDocumentTemplatePersonalisationDto(
-        personalisation: NinoNotMatchedPersonalisation,
-        languageDto: LanguageDto,
-        sourceType: SourceType,
+            personalisation: NinoNotMatchedPersonalisation,
+            languageDto: LanguageDto,
+            sourceType: SourceType,
     ): RequiredDocumentPersonalisationDto
+
+    @Mapping(
+            target = "personalisationSourceTypeString",
+            expression = "java( mapFullSourceType( languageDto, sourceType ) )",
+    )
+    @Mapping(target = "subjectHeader", source = "personalisation.subjectHeader")
+    @Mapping(target = "details", source = "personalisation.details")
+    @Mapping(target = "whatToDo", source = "personalisation.whatToDo")
+    @Mapping(
+            target = "deadline",
+            expression = "java( mapDeadline( personalisation.getDeadlineDate(), personalisation.getDeadlineTime(), languageDto, sourceType ) )"
+    )
+    abstract fun toBespokeCommTemplatePersonalisationDto(
+            personalisation: BespokeCommPersonalisation,
+            languageDto: LanguageDto,
+            sourceType: SourceType,
+    ): BespokeCommunicationPersonalisationDto
 
     protected fun mapSourceType(
         languageDto: LanguageDto,
         sourceType: SourceType,
     ): String = sourceTypeMapper.toSourceTypeString(sourceType, languageDto)
+
+    protected fun mapFullSourceType(
+            languageDto: LanguageDto,
+            sourceType: SourceType
+    ): String = sourceTypeMapper.toFullSourceTypeString(sourceType, languageDto)
+
+    protected fun mapDeadline(
+            deadlineDate: LocalDate?,
+            deadlineTime: String?,
+            languageDto: LanguageDto,
+            sourceType: SourceType,
+    ): String? {
+        return if (deadlineDate != null) {
+            deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, languageDto, mapFullSourceType(languageDto, sourceType))
+        } else {
+            null
+        }
+    }
 
     protected fun mapPhotoRejectionReasons(
         languageDto: LanguageDto,

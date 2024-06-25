@@ -148,6 +148,7 @@ sqs:
   send-uk-gov-notify-rejected-signature-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_REJECTED_SIGNATURE_QUEUE_NAME}
   send-uk-gov-notify-requested-signature-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_REQUESTED_SIGNATURE_QUEUE_NAME}
   send-uk-gov-notify-nino-not-matched-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_NINO_NOT_MATCHED_QUEUE_NAME}
+  send-uk-gov-notify-bespoke-comm-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_BESPOKE_COMM_QUEUE_NAME}
   remove-application-notifications-queue-name: ${SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME}
   trigger-voter-card-statistics-update-queue-name: ${SQS_TRIGGER_VOTER_CARD_STATISTICS_UPDATE_QUEUE_NAME}
   trigger-postal-application-statistics-update-queue-name: ${SQS_TRIGGER_POSTAL_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
