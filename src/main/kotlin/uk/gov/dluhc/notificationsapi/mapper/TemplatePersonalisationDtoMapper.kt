@@ -2,7 +2,6 @@ package uk.gov.dluhc.notificationsapi.mapper
 
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.*
-import java.time.LocalDate
 
 @Component
 class TemplatePersonalisationDtoMapper {
@@ -159,8 +158,8 @@ class TemplatePersonalisationDtoMapper {
     }
 
     fun toBespokeCommunicationTemplatePersonalisationMap(
-            dto: BespokeCommunicationPersonalisationDto,
-            language: LanguageDto
+        dto: BespokeCommunicationPersonalisationDto,
+        language: LanguageDto,
     ): Map<String, Any> {
         val personalisation = mutableMapOf<String, Any>()
 

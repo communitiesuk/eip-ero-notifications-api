@@ -10,24 +10,24 @@ import java.time.format.DateTimeFormatter
 class DeadlineMapper(private val messageSource: MessageSource) {
 
     fun toDeadlineString(
-            deadlineDate: LocalDate,
-            deadlineTime: String?,
-            languageDto: LanguageDto,
-            sourceTypeString: String,
+        deadlineDate: LocalDate,
+        deadlineTime: String?,
+        languageDto: LanguageDto,
+        sourceTypeString: String,
     ): String {
         val formattedDeadlineDate: String = deadlineDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
         if (deadlineTime != null) {
             return messageSource.getMessage(
-                    "templates.deadline.deadlineWithTime",
-                    arrayOf(deadlineTime, formattedDeadlineDate, sourceTypeString),
-                    languageDto.locale
+                "templates.deadline.deadlineWithTime",
+                arrayOf(deadlineTime, formattedDeadlineDate, sourceTypeString),
+                languageDto.locale,
             )
         }
 
         return messageSource.getMessage(
-                "templates.deadline.deadlineWithoutTime",
-                arrayOf(formattedDeadlineDate, sourceTypeString),
-                languageDto.locale
+            "templates.deadline.deadlineWithoutTime",
+            arrayOf(formattedDeadlineDate, sourceTypeString),
+            languageDto.locale,
         )
     }
 }

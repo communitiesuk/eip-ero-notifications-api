@@ -18,16 +18,7 @@ import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationApprovedMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationReceivedMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejectedMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.*
 
 @Mapper(
     componentModel = "spring",
@@ -99,11 +90,11 @@ abstract class SendNotifyMessageMapper {
     ): SendNotificationRequestDto
 
     @Mapping(
-            target = "notificationType",
-            source = "messageType"
+        target = "notificationType",
+        source = "messageType",
     )
     abstract fun fromBespokeCommunicationMessageToSendNotificationRequestDto(
-            message: SendNotifyBespokeCommMessage,
+        message: SendNotifyBespokeCommMessage,
     ): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =

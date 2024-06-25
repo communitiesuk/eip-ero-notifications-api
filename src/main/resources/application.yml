@@ -24,6 +24,8 @@ api:
           id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_EMAIL_WELSH}
           id-document-required-english: ${TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_ENGLISH}
           id-document-required-welsh: ${TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
 
           # Rejection reasons have not yet been fully implemented for VAC.
           # Until the full journey for selecting rejection reasons has been implemented we shouldn't send them in emails.
@@ -41,6 +43,8 @@ api:
           id-document-resubmission-welsh: ${TEMPLATE_ID_DOCUMENT_RESUBMISSION_LETTER_WELSH}
           id-document-required-english: ${TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_ENGLISH}
           id-document-required-welsh: ${TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
 
           # Rejection reasons have not yet been fully implemented for VAC.
           # Until the full journey for selecting rejection reasons has been implemented we shouldn't send them in emails.
@@ -63,6 +67,9 @@ api:
           nino-not-matched-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_EMAIL_WELSH}
           nino-not-matched-restricted-documents-list-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH}
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
+
         letter:
           rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_ENGLISH}
           rejected-document-welsh: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_WELSH}
@@ -76,6 +83,8 @@ api:
           nino-not-matched-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_LETTER_WELSH}
           nino-not-matched-restricted-documents-list-english: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH}
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
       proxy:
         email:
           received-english: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH}
@@ -92,6 +101,8 @@ api:
           nino-not-matched-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_EMAIL_WELSH}
           nino-not-matched-restricted-documents-list-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_ENGLISH}
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
 
         letter:
           rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_ENGLISH}
@@ -106,6 +117,8 @@ api:
           nino-not-matched-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_LETTER_WELSH}
           nino-not-matched-restricted-documents-list-english: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_ENGLISH}
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
 
       overseas:
         email:
@@ -123,6 +136,8 @@ api:
           nino-not-matched-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_EMAIL_WELSH}
           previous-address-document-required-english: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_EMAIL_ENGLISH}
           previous-address-document-required-welsh: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_EMAIL_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
         letter:
           rejected-parent-guardian-english: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_ENGLISH}
           rejected-parent-guardian-welsh: ${TEMPLATE_OVERSEAS_PARENT_GUARDIAN_PROOF_REJECTED_LETTER_WELSH}
@@ -136,6 +151,8 @@ api:
           nino-not-matched-welsh: ${TEMPLATE_OVERSEAS_DOCUMENT_REQUIRED_LETTER_WELSH}
           previous-address-document-required-english: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_LETTER_ENGLISH}
           previous-address-document-required-welsh: ${TEMPLATE_OVERSEAS_PREVIOUS_ADDRESS_REQUIRED_LETTER_WELSH}
+          bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_ENGLISH}
+          bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
 
 
 sqs:

@@ -23,29 +23,32 @@ class SendNotifyBespokeCommunicationMessageListener(
 ) : MessageListener<SendNotifyBespokeCommMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-bespoke-comm-queue-name}"])
-    override fun handleMessage(@Valid @Payload payload: SendNotifyBespokeCommMessage) {
+    override fun handleMessage(
+        @Valid @Payload
+        payload: SendNotifyBespokeCommMessage,
+    ) {
         logger.info {
             "received send UK Gov notify bespoke communication message request for gssCode: ${payload.gssCode} with " +
-                    "channel: ${payload.channel}, " +
-                    "messageType: ${payload.messageType}, " +
-                    "language: ${payload.language}, " +
-                    "sourceReference: ${payload.sourceReference}, " +
-                    "sourceType: ${payload.sourceType}"
+                "channel: ${payload.channel}, " +
+                "messageType: ${payload.messageType}, " +
+                "language: ${payload.language}, " +
+                "sourceReference: ${payload.sourceReference}, " +
+                "sourceType: ${payload.sourceType}"
         }
         with(payload) {
             val sendNotificationRequestDto =
-                    sendNotifyMessageMapper.fromBespokeCommunicationMessageToSendNotificationRequestDto(
-                            this,
-                    )
+                sendNotifyMessageMapper.fromBespokeCommunicationMessageToSendNotificationRequestDto(
+                    this,
+                )
             val personalisationDto = templatePersonalisationMessageMapper
-                    .toBespokeCommTemplatePersonalisationDto(
-                        personalisation,
-                        sendNotificationRequestDto.language,
-                        sourceType
-                    )
+                .toBespokeCommTemplatePersonalisationDto(
+                    personalisation,
+                    sendNotificationRequestDto.language,
+                    sourceType,
+                )
             val personalisationMap = templatePersonalisationDtoMapper.toBespokeCommunicationTemplatePersonalisationMap(
-                    personalisationDto,
-                    sendNotificationRequestDto.language
+                personalisationDto,
+                sendNotificationRequestDto.language,
             )
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

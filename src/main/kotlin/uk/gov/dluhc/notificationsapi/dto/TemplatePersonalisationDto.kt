@@ -1,7 +1,5 @@
 package uk.gov.dluhc.notificationsapi.dto
 
-import java.time.LocalDate
-
 abstract class BaseTemplatePersonalisationDto(
     val applicationReference: String,
     val firstName: String,
@@ -137,7 +135,7 @@ class BespokeCommunicationPersonalisationDto(
     val subjectHeader: String,
     val details: String,
     val whatToDo: String?,
-    val deadline: String?
+    val deadline: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
