@@ -78,7 +78,7 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val previousAddressDocumentRequiredEnglish: String?,
     val previousAddressDocumentRequiredWelsh: String?,
     val bespokeCommEnglish: String?,
-    val bespokeCommWelsh: String?
+    val bespokeCommWelsh: String?,
 
 )
 
@@ -101,7 +101,7 @@ class PostalNotifyEmailTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -161,7 +161,7 @@ class ProxyNotifyEmailTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -221,7 +221,7 @@ class OverseasNotifyEmailTemplateConfiguration(
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -281,7 +281,7 @@ class VoterCardNotifyEmailTemplateConfiguration(
     idDocumentRequiredEnglish: String,
     idDocumentRequiredWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -366,7 +366,7 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val previousAddressDocumentRequiredEnglish: String?,
     val previousAddressDocumentRequiredWelsh: String?,
     val bespokeCommEnglish: String?,
-    val bespokeCommWelsh: String?
+    val bespokeCommWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.letter", ignoreUnknownFields = false)
@@ -386,7 +386,7 @@ class VoterCardNotifyLetterTemplateConfiguration(
     idDocumentRequiredEnglish: String,
     idDocumentRequiredWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -444,7 +444,7 @@ class PostalNotifyLetterTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -502,7 +502,7 @@ class ProxyNotifyLetterTemplateConfiguration(
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -560,7 +560,7 @@ class OverseasNotifyLetterTemplateConfiguration(
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
     bespokeCommEnglish: String,
-    bespokeCommWelsh: String
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,

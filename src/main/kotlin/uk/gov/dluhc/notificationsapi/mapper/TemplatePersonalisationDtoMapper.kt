@@ -158,8 +158,8 @@ class TemplatePersonalisationDtoMapper {
     }
 
     fun toBespokeCommTemplatePersonalisationMap(
-            dto: BespokeCommPersonalisationDto,
-            language: LanguageDto,
+        dto: BespokeCommPersonalisationDto,
+        language: LanguageDto,
     ): Map<String, Any> {
         val personalisation = mutableMapOf<String, Any>()
 

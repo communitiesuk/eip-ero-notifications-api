@@ -13,7 +13,7 @@ fun buildSendNotifyBespokeCommMessage(
     requestor: String = aRequestor(),
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
     toAddress: MessageAddress = aMessageAddress(),
-    personalisation: BespokeCommPersonalisation = buildBespokeCommPersonalisation()
+    personalisation: BespokeCommPersonalisation = buildBespokeCommPersonalisation(),
 ): SendNotifyBespokeCommMessage =
     SendNotifyBespokeCommMessage(
         language = language,
@@ -35,7 +35,7 @@ fun buildBespokeCommPersonalisation(
     details: String = faker.yoda().quote(),
     whatToDo: String? = faker.yoda().quote(),
     deadlineDate: LocalDate? = LocalDate.now().plusMonths(3),
-    deadlineTime: String? = "17:00"
+    deadlineTime: String? = "17:00",
 ): BespokeCommPersonalisation =
     BespokeCommPersonalisation(
         applicationReference = applicationReference,
@@ -45,5 +45,5 @@ fun buildBespokeCommPersonalisation(
         details = details,
         whatToDo = whatToDo,
         deadlineDate = deadlineDate,
-        deadlineTime = deadlineTime
+        deadlineTime = deadlineTime,
     )

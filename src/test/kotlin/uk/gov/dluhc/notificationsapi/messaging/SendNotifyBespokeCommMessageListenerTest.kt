@@ -43,7 +43,7 @@ internal class SendNotifyBespokeCommMessageListenerTest {
         val personalisationDto = buildBespokeCommPersonalisationDto()
 
         given(sendNotifyMessageMapper.fromBespokeCommMessageToSendNotificationRequestDto(sqsMessage)).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toBespokeCommTemplatePersonalisationDto(sqsMessage.personalisation, requestDto.language, sqsMessage.sourceType, )).willReturn(personalisationDto)
+        given(templatePersonalisationMessageMapper.toBespokeCommTemplatePersonalisationDto(sqsMessage.personalisation, requestDto.language, sqsMessage.sourceType)).willReturn(personalisationDto)
         given(templatePersonalisationDtoMapper.toBespokeCommTemplatePersonalisationMap(personalisationDto, requestDto.language)).willReturn(personalisationMap)
 
         // When

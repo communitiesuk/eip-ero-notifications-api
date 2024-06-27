@@ -532,47 +532,47 @@ internal class TemplatePersonalisationMessageMapperTest {
         @ParameterizedTest
         @EnumSource(SourceType::class)
         fun `should map SQS BespokeCommTemplatePersonalisation to BespokeCommTemplatePersonalisationDto`(
-                sourceType: SourceType
+            sourceType: SourceType,
         ) {
             // Given
             val personalisationMessage = buildBespokeCommPersonalisation()
 
             given(sourceTypeMapper.toFullSourceTypeString(sourceType, ENGLISH)).willReturn("Full mapped source type")
-            given(deadlineMapper.toDeadlineString(any(), any(), any(),any())).willReturn("Mapped deadline")
+            given(deadlineMapper.toDeadlineString(any(), any(), any(), any())).willReturn("Mapped deadline")
 
             val expectedPersonalisationDto = with(personalisationMessage) {
                 BespokeCommPersonalisationDto(
-                        applicationReference = applicationReference,
-                        firstName = firstName,
-                        eroContactDetails = with(eroContactDetails) {
-                            buildContactDetailsDto(
-                                    localAuthorityName = localAuthorityName,
-                                    website = website,
-                                    phone = phone,
-                                    email = email,
-                                    address = with(address) {
-                                        buildAddressDto(
-                                                street = street,
-                                                property = property,
-                                                locality = locality,
-                                                town = town,
-                                                area = area,
-                                                postcode = postcode,
-                                        )
-                                    },
-                            )
-                        },
-                        personalisationSourceTypeString = "Full mapped source type",
-                        subjectHeader = subjectHeader,
-                        details = details,
-                        whatToDo = whatToDo,
-                        deadline = "Mapped deadline"
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode,
+                                )
+                            },
+                        )
+                    },
+                    personalisationSourceTypeString = "Full mapped source type",
+                    subjectHeader = subjectHeader,
+                    details = details,
+                    whatToDo = whatToDo,
+                    deadline = "Mapped deadline",
                 )
             }
 
             // When
             val actual =
-                    mapper.toBespokeCommTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
+                mapper.toBespokeCommTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

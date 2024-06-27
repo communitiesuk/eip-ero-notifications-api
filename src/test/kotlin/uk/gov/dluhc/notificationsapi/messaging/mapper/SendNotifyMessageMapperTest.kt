@@ -911,19 +911,19 @@ internal class SendNotifyMessageMapperTest {
     inner class FromBespokeCommMessageToSendNotificationRequestDto {
         @ParameterizedTest
         @CsvSource(
-                value = [
-                    "EMAIL,EN,EMAIL,ENGLISH,BESPOKE_COMM",
-                    "EMAIL,CY,EMAIL,WELSH,BESPOKE_COMM",
-                    "LETTER,EN,LETTER,ENGLISH,BESPOKE_COMM",
-                    "LETTER,CY,LETTER,WELSH,BESPOKE_COMM",
-                ],
+            value = [
+                "EMAIL,EN,EMAIL,ENGLISH,BESPOKE_COMM",
+                "EMAIL,CY,EMAIL,WELSH,BESPOKE_COMM",
+                "LETTER,EN,LETTER,ENGLISH,BESPOKE_COMM",
+                "LETTER,CY,LETTER,WELSH,BESPOKE_COMM",
+            ],
         )
         fun `should map SQS SendNotifyBespokeCommMessage to SendNotificationRequestDto`(
-                sqsChannel: SqsChannel,
-                language: Language,
-                communicationChannel: CommunicationChannel,
-                languageDto: LanguageDto,
-                expectedNotificationType: NotificationType,
+            sqsChannel: SqsChannel,
+            language: Language,
+            communicationChannel: CommunicationChannel,
+            languageDto: LanguageDto,
+            expectedNotificationType: NotificationType,
         ) {
             // Given
             val gssCode = aGssCode()
@@ -942,15 +942,15 @@ internal class SendNotifyMessageMapperTest {
             given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)
 
             val request = SendNotifyBespokeCommMessage(
-                    channel = sqsChannel,
-                    personalisation = personalisation,
-                    language = language,
-                    sourceType = SqsSourceType.POSTAL,
-                    sourceReference = sourceReference,
-                    gssCode = gssCode,
-                    requestor = requestor,
-                    toAddress = toAddress,
-                    messageType = MessageType.BESPOKE_MINUS_COMM
+                channel = sqsChannel,
+                personalisation = personalisation,
+                language = language,
+                sourceType = SqsSourceType.POSTAL,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                toAddress = toAddress,
+                messageType = MessageType.BESPOKE_MINUS_COMM,
             )
 
             val notification = mapper.fromBespokeCommMessageToSendNotificationRequestDto(request)

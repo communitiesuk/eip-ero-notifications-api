@@ -41,7 +41,7 @@ internal class NotificationTemplateMapperTest {
                 idDocumentRequiredEnglish = "ID-DOCUMENT-REQUIRED-EMAIL-ENGLISH",
                 idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-EMAIL-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-EMAIL-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH",
             ),
             postal = PostalNotifyEmailTemplateConfiguration(
                 receivedEnglish = "POSTAL-RECEIVED-ID-EMAIL-ENGLISH",
@@ -59,7 +59,7 @@ internal class NotificationTemplateMapperTest {
                 requestedSignatureEnglish = "POSTAL-REQUESTED-SIGNATURE-EMAIL-ENGLISH",
                 requestedSignatureWelsh = "POSTAL-REQUESTED-SIGNATURE-EMAIL-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-EMAIL-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH",
             ),
             proxy = ProxyNotifyEmailTemplateConfiguration(
                 receivedEnglish = "PROXY-RECEIVED-ID-EMAIL-ENGLISH",
@@ -77,7 +77,7 @@ internal class NotificationTemplateMapperTest {
                 requestedSignatureEnglish = "PROXY-REQUESTED-SIGNATURE-EMAIL-ENGLISH",
                 requestedSignatureWelsh = "PROXY-REQUESTED-SIGNATURE-EMAIL-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-EMAIL-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH",
             ),
             overseas = OverseasNotifyEmailTemplateConfiguration(
                 receivedEnglish = "OVERSEAS-RECEIVED-ID-EMAIL-ENGLISH",
@@ -95,7 +95,7 @@ internal class NotificationTemplateMapperTest {
                 ninoNotMatchedEnglish = "OVERSEAS-NINO-NOT-MATCHED-EMAIL-ENGLISH",
                 ninoNotMatchedWelsh = "OVERSEAS-NINO-NOT-MATCHED-EMAIL-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-EMAIL-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-EMAIL-WELSH",
             ),
         ),
         NotifyLetterTemplateConfiguration(
@@ -113,7 +113,7 @@ internal class NotificationTemplateMapperTest {
                 idDocumentRequiredEnglish = "ID-DOCUMENT-REQUIRED-LETTER-ENGLISH",
                 idDocumentRequiredWelsh = "ID-DOCUMENT-REQUIRED-LETTER-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-LETTER-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH",
             ),
             postal = PostalNotifyLetterTemplateConfiguration(
                 rejectedDocumentEnglish = "POSTAL-REJECTED-DOCUMENT-LETTER-ENGLISH",
@@ -129,7 +129,7 @@ internal class NotificationTemplateMapperTest {
                 requestedSignatureEnglish = "POSTAL-REQUESTED-SIGNATURE-LETTER-ENGLISH",
                 requestedSignatureWelsh = "POSTAL-REQUESTED-SIGNATURE-LETTER-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-LETTER-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH",
             ),
             proxy = ProxyNotifyLetterTemplateConfiguration(
                 rejectedDocumentEnglish = "PROXY-REJECTED-DOCUMENT-LETTER-ENGLISH",
@@ -145,7 +145,7 @@ internal class NotificationTemplateMapperTest {
                 requestedSignatureEnglish = "PROXY-REQUESTED-SIGNATURE-LETTER-ENGLISH",
                 requestedSignatureWelsh = "PROXY-REQUESTED-SIGNATURE-LETTER-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-LETTER-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH",
             ),
             overseas = OverseasNotifyLetterTemplateConfiguration(
                 rejectedParentGuardianEnglish = "OVERSEAS-REJECTED-PARENT-GUARDIAN-LETTER-ENGLISH",
@@ -161,7 +161,7 @@ internal class NotificationTemplateMapperTest {
                 ninoNotMatchedEnglish = "OVERSEAS-NINO-NOT-MATCHED-LETTER-ENGLISH",
                 ninoNotMatchedWelsh = "OVERSEAS-NINO-NOT-MATCHED-LETTER-WELSH",
                 bespokeCommEnglish = "BESPOKE-COMM-LETTER-ENGLISH",
-                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH"
+                bespokeCommWelsh = "BESPOKE-COMM-LETTER-WELSH",
             ),
         ),
     )
