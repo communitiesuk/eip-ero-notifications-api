@@ -194,4 +194,48 @@ class SourceTypeMapperTest {
         // Then
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = [
+                "OVERSEAS,overseas vote",
+                "POSTAL,postal vote",
+                "PROXY,proxy vote",
+                "VOTER_MINUS_CARD,Voter Authority Certificate",
+            ],
+    )
+    fun `should map message sourceType to human readable full source in English`(
+            sourceType: SourceTypeMessageEnum,
+            expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toFullSourceTypeString(sourceType, LanguageDto.ENGLISH)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = [
+                "OVERSEAS,bleidlais dramor",
+                "POSTAL,bleidlais bost",
+                "PROXY,bleidlais drwy ddirprwy",
+                "VOTER_MINUS_CARD,Dystysgrif Awdurdod Pleidleisiwr",
+            ],
+    )
+    fun `should map message sourceType to human readable full source in Welsh`(
+            sourceType: SourceTypeMessageEnum,
+            expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toFullSourceTypeString(sourceType, LanguageDto.WELSH)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
 }

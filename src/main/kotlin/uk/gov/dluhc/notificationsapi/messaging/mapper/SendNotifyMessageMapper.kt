@@ -93,7 +93,7 @@ abstract class SendNotifyMessageMapper {
         target = "notificationType",
         source = "messageType",
     )
-    abstract fun fromBespokeCommunicationMessageToSendNotificationRequestDto(
+    abstract fun fromBespokeCommMessageToSendNotificationRequestDto(
         message: SendNotifyBespokeCommMessage,
     ): SendNotificationRequestDto
 

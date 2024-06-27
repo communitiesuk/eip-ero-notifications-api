@@ -179,7 +179,7 @@ abstract class TemplatePersonalisationMessageMapper {
         personalisation: BespokeCommPersonalisation,
         languageDto: LanguageDto,
         sourceType: SourceType,
-    ): BespokeCommunicationPersonalisationDto
+    ): BespokeCommPersonalisationDto
 
     protected fun mapSourceType(
         languageDto: LanguageDto,

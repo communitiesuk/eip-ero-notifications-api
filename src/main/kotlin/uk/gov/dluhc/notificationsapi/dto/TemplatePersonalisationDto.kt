@@ -127,7 +127,7 @@ class RequiredDocumentPersonalisationDto(
     eroContactDetails = eroContactDetails,
 )
 
-class BespokeCommunicationPersonalisationDto(
+class BespokeCommPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,

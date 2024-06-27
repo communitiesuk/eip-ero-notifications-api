@@ -157,9 +157,9 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    fun toBespokeCommunicationTemplatePersonalisationMap(
-        dto: BespokeCommunicationPersonalisationDto,
-        language: LanguageDto,
+    fun toBespokeCommTemplatePersonalisationMap(
+            dto: BespokeCommPersonalisationDto,
+            language: LanguageDto,
     ): Map<String, Any> {
         val personalisation = mutableMapOf<String, Any>()
 

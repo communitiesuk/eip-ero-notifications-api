@@ -15,7 +15,7 @@ import javax.validation.Valid
 private val logger = KotlinLogging.logger { }
 
 @Component
-class SendNotifyBespokeCommunicationMessageListener(
+class SendNotifyBespokeCommMessageListener(
     private val sendNotificationService: SendNotificationService,
     private val sendNotifyMessageMapper: SendNotifyMessageMapper,
     private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
@@ -37,7 +37,7 @@ class SendNotifyBespokeCommunicationMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto =
-                sendNotifyMessageMapper.fromBespokeCommunicationMessageToSendNotificationRequestDto(
+                sendNotifyMessageMapper.fromBespokeCommMessageToSendNotificationRequestDto(
                     this,
                 )
             val personalisationDto = templatePersonalisationMessageMapper
@@ -46,7 +46,7 @@ class SendNotifyBespokeCommunicationMessageListener(
                     sendNotificationRequestDto.language,
                     sourceType,
                 )
-            val personalisationMap = templatePersonalisationDtoMapper.toBespokeCommunicationTemplatePersonalisationMap(
+            val personalisationMap = templatePersonalisationDtoMapper.toBespokeCommTemplatePersonalisationMap(
                 personalisationDto,
                 sendNotificationRequestDto.language,
             )

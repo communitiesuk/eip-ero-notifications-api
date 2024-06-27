@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Component
 class DeadlineMapper(private val messageSource: MessageSource) {
@@ -15,7 +16,7 @@ class DeadlineMapper(private val messageSource: MessageSource) {
         languageDto: LanguageDto,
         sourceTypeString: String,
     ): String {
-        val formattedDeadlineDate: String = deadlineDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
+        val formattedDeadlineDate: String = deadlineDate.format(DateTimeFormatter.ofPattern("d MMMM yyyy", languageDto.locale))
         if (deadlineTime != null) {
             return messageSource.getMessage(
                 "templates.deadline.deadlineWithTime",

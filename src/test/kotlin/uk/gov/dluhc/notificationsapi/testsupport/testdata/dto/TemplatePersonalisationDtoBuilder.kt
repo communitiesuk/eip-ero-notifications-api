@@ -1,26 +1,13 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
-import uk.gov.dluhc.notificationsapi.dto.AddressDto
-import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
-import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.dto.*
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
 
 fun buildPhotoPersonalisationDto(
@@ -443,6 +430,44 @@ fun buildNinoNotMatchedPersonalisationMapFromDto(
         personalisationMap["additionalNotes"] = additionalNotes ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
+    return personalisationMap
+}
+
+fun buildBespokeCommPersonalisationDto(
+        applicationReference: String = aValidApplicationReference(),
+        firstName: String = faker.name().firstName(),
+        eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+        sourceType: String = "postal vote",
+        subjectHeader: String = faker.yoda().quote(),
+        details: String = faker.yoda().quote(),
+        whatToDo: String? = faker.yoda().quote(),
+        deadline: String? = "You must do this by 17:00 on 07 July 2024 or your postal vote application may be rejected"
+): BespokeCommPersonalisationDto = BespokeCommPersonalisationDto(
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+        applicationReference = applicationReference,
+        personalisationSourceTypeString = sourceType,
+        subjectHeader = subjectHeader,
+        details = details,
+        whatToDo = whatToDo,
+        deadline = deadline
+)
+
+fun buildBespokeCommPersonalisationMapFromDto(
+        personalisationDto: BespokeCommPersonalisationDto = buildBespokeCommPersonalisationDto(),
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+
+    with(personalisationDto) {
+        personalisationMap["subjectHeader"] = subjectHeader
+        personalisationMap["giveDetailsFreeText"] = details
+        personalisationMap["explainFreeText"] = whatToDo ?: ""
+        personalisationMap["whatYouNeedToDo"] = whatToDo != null || deadline != null
+        personalisationMap["deadline"] = deadline ?: ""
+        personalisationMap["sourceType"] = personalisationSourceTypeString
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+
     return personalisationMap
 }
 
