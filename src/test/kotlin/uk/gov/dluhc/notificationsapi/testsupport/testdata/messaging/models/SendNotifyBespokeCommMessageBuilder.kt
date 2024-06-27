@@ -1,8 +1,18 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
-import uk.gov.dluhc.notificationsapi.messaging.models.*
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.*
+import uk.gov.dluhc.notificationsapi.messaging.models.BespokeCommPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
+import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
+import uk.gov.dluhc.notificationsapi.messaging.models.Language
+import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
+import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyBespokeCommMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 import java.time.LocalDate
 
 fun buildSendNotifyBespokeCommMessage(
