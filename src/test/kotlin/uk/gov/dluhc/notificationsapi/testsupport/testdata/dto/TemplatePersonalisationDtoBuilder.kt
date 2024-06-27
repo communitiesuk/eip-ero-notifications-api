@@ -1,6 +1,21 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 
-import uk.gov.dluhc.notificationsapi.dto.*
+import uk.gov.dluhc.notificationsapi.dto.AddressDto
+import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
