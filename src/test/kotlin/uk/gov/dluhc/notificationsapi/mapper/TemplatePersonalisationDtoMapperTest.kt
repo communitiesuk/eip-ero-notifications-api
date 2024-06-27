@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDtoWithOptionalFieldsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDto
@@ -12,6 +13,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationAp
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationReceivedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildBespokeCommPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildBespokeCommPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
@@ -457,6 +460,34 @@ class TemplatePersonalisationDtoMapperTest {
 
             // When
             val actual = mapper.toRequiredDocumentTemplatePersonalisationMap(personalisationDto, sourceTypeDto)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+    }
+
+    @Nested
+    inner class ToBespokeCommTemplatePersonalisationMap {
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "postal vote, POSTAL",
+                "proxy vote, PROXY",
+                "overseas vote, OVERSEAS",
+                "Voter Authority Certificate, VOTER_CARD",
+            ],
+        )
+        fun `should map dto to personalisation map when all fields present`(
+            personalisationSourceTypeString: String,
+            sourceTypeDto: SourceType,
+        ) {
+            // Given
+            val personalisationDto = buildBespokeCommPersonalisationDto()
+            val expected = buildBespokeCommPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toBespokeCommTemplatePersonalisationMap(personalisationDto, LanguageDto.ENGLISH)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

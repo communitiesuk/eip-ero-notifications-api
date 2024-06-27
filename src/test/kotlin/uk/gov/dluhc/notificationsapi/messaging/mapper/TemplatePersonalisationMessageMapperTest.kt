@@ -16,6 +16,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
@@ -23,6 +24,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
+import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
@@ -46,6 +48,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonal
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationApprovedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationReceivedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationRejectedPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
@@ -77,6 +80,9 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Mock
     private lateinit var sourceTypeMapper: SourceTypeMapper
+
+    @Mock
+    private lateinit var deadlineMapper: DeadlineMapper
 
     @Nested
     inner class ToPhotoPersonalisationDto {
@@ -538,6 +544,57 @@ internal class TemplatePersonalisationMessageMapperTest {
             // When
             val actual =
                 mapper.toRequiredDocumentTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+        }
+    }
+
+    @Nested
+    inner class ToBespokeCommTemplatePersonalisationDto {
+        @ParameterizedTest
+        @EnumSource(SourceType::class)
+        fun `should map SQS BespokeCommTemplatePersonalisation to BespokeCommTemplatePersonalisationDto`(
+            sourceType: SourceType,
+        ) {
+            // Given
+            val personalisationMessage = buildBespokeCommPersonalisation()
+
+            given(sourceTypeMapper.toFullSourceTypeString(sourceType, ENGLISH)).willReturn("Full mapped source type")
+            given(deadlineMapper.toDeadlineString(any(), any(), any(), any())).willReturn("Mapped deadline")
+
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                BespokeCommPersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode,
+                                )
+                            },
+                        )
+                    },
+                    personalisationSourceTypeString = "Full mapped source type",
+                    subjectHeader = subjectHeader,
+                    details = details,
+                    whatToDo = whatToDo,
+                    deadline = "Mapped deadline",
+                )
+            }
+
+            // When
+            val actual =
+                mapper.toBespokeCommTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

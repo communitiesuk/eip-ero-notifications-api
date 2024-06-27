@@ -1267,6 +1267,7 @@ components:
         - rejected-previous-address
         - previous-address-document-required
         - parent-guardian-proof-required
+        - bespoke-comm
     Language:
       title: Language
       description: The language to view the template

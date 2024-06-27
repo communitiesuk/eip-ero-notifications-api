@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_APPROVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.APPLICATION_REJECTED
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.BESPOKE_COMM
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
@@ -96,6 +97,7 @@ class NotificationTemplateMapper(
             REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressWelsh
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
+            BESPOKE_COMM -> config.bespokeCommWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -121,6 +123,7 @@ class NotificationTemplateMapper(
             REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressEnglish
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
+            BESPOKE_COMM -> config.bespokeCommEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -170,6 +173,7 @@ class NotificationTemplateMapper(
             REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressWelsh
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
+            BESPOKE_COMM -> config.bespokeCommWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -197,6 +201,7 @@ class NotificationTemplateMapper(
         REJECTED_PREVIOUS_ADDRESS -> config.rejectedPreviousAddressEnglish
         PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
         PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
+        BESPOKE_COMM -> config.bespokeCommEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
         }

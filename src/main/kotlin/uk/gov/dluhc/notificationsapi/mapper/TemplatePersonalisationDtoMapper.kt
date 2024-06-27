@@ -5,9 +5,11 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BaseTemplatePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
@@ -168,6 +170,30 @@ class TemplatePersonalisationDtoMapper {
             }
             personalisation["sourceType"] = personalisationSourceTypeString
         }
+        return personalisation
+    }
+
+    fun toBespokeCommTemplatePersonalisationMap(
+        dto: BespokeCommPersonalisationDto,
+        language: LanguageDto,
+    ): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["subjectHeader"] = subjectHeader
+            personalisation["giveDetailsFreeText"] = details
+            personalisation["explainFreeText"] = getSafeValue(whatToDo)
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
+            personalisation["sourceType"] = personalisationSourceTypeString
+            personalisation["deadline"] = getSafeValue(deadline)
+            personalisation["whatYouNeedToDo"] = deadline != null || whatToDo != null
+        }
+
         return personalisation
     }
 
