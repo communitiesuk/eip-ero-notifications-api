@@ -19,10 +19,10 @@ class DeadlineMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "ENGLISH, 17:00, You must do this by 17:00 on 26 June 2024 or your source application may be rejected",
-            "ENGLISH, null, You must do this by 26 June 2024 or your source application may be rejected",
-            "WELSH, 17:00, Rhaid i chi wneud hyn erbyn 17:00 amser y DU ar 26 Mehefin 2024 neu gall eich cais am source gael ei wrthod",
-            "WELSH, null, Rhaid i chi wneud hyn erbyn 26 Mehefin 2024 neu gall eich cais am source gael ei wrthod",
+            "ENGLISH, 17:00, You must do this by 17:00 on 26 June 2024 or your source application may be rejected.",
+            "ENGLISH, null, You must do this by 26 June 2024 or your source application may be rejected.",
+            "WELSH, 17:00, Rhaid i chi wneud hyn erbyn 17:00 amser y DU ar 26 Mehefin 2024 neu gall eich cais am source gael ei wrthod.",
+            "WELSH, null, Rhaid i chi wneud hyn erbyn 26 Mehefin 2024 neu gall eich cais am source gael ei wrthod.",
         ],
     )
     fun `should map deadline string`(
