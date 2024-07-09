@@ -47,7 +47,7 @@ class SentCommunicationsController(
             CommunicationsHistoryResponse(communications = it)
         }
 
-    @GetMapping("{communicationId}/")
+    @GetMapping("{communicationId}")
     @PreAuthorize(HAS_APPLICATION_SPECIFIC_ERO_ADMIN_AUTHORITY)
     fun getSentCommunication(
         @PathVariable eroId: String,
