@@ -84,6 +84,9 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}")
     protected lateinit var sendUkGovNotifyNinoNotMatchedQueueName: String
 
+    @Value("\${sqs.send-uk-gov-notify-bespoke-comm-queue-name}")
+    protected lateinit var sendUkGovNotifyBespokeCommQueueName: String
+
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
 
@@ -228,6 +231,7 @@ internal abstract class IntegrationTest {
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName)
             clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName)
         }
     }
 
