@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
@@ -136,6 +137,19 @@ class GlobalExceptionHandler(
         request: WebRequest,
     ): ResponseEntity<Any> {
         request.setAttribute(ERROR_MESSAGE, ex.cause?.message ?: "", SCOPE_REQUEST)
+        return populateErrorResponseAndHandleExceptionInternal(ex, BAD_REQUEST, request)
+    }
+
+    /**
+     * Overrides the MissingServletRequestParameterException exception handler to return a 400 Bad Request ErrorResponse
+     */
+    override fun handleMissingServletRequestParameter(
+        ex: MissingServletRequestParameterException,
+        headers: HttpHeaders,
+        status: HttpStatus,
+        request: WebRequest,
+    ): ResponseEntity<Any> {
+        request.setAttribute(ERROR_MESSAGE, "Missing required parameter:  ${ex.parameterName}", SCOPE_REQUEST)
         return populateErrorResponseAndHandleExceptionInternal(ex, BAD_REQUEST, request)
     }
 
