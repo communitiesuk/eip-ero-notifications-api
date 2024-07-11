@@ -77,6 +77,8 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val parentGuardianProofRequiredWelsh: String?,
     val previousAddressDocumentRequiredEnglish: String?,
     val previousAddressDocumentRequiredWelsh: String?,
+    val bespokeCommEnglish: String?,
+    val bespokeCommWelsh: String?,
 
 )
 
@@ -98,6 +100,8 @@ class PostalNotifyEmailTemplateConfiguration(
     ninoNotMatchedWelsh: String,
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -134,6 +138,8 @@ class PostalNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
     previousAddressDocumentRequiredWelsh = null,
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -154,6 +160,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     ninoNotMatchedWelsh: String,
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -190,6 +198,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
     previousAddressDocumentRequiredWelsh = null,
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -210,6 +220,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     previousAddressDocumentRequiredWelsh: String?,
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -246,7 +258,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredWelsh = parentGuardianProofRequiredWelsh,
     previousAddressDocumentRequiredEnglish = previousAddressDocumentRequiredEnglish,
     previousAddressDocumentRequiredWelsh = previousAddressDocumentRequiredWelsh,
-
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -267,6 +280,8 @@ class VoterCardNotifyEmailTemplateConfiguration(
     idDocumentResubmissionWithReasonsWelsh: String,
     idDocumentRequiredEnglish: String,
     idDocumentRequiredWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -303,6 +318,8 @@ class VoterCardNotifyEmailTemplateConfiguration(
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
     previousAddressDocumentRequiredWelsh = null,
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )
 
 data class NotifyLetterTemplateConfiguration(
@@ -348,6 +365,8 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val parentGuardianProofRequiredWelsh: String?,
     val previousAddressDocumentRequiredEnglish: String?,
     val previousAddressDocumentRequiredWelsh: String?,
+    val bespokeCommEnglish: String?,
+    val bespokeCommWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.letter", ignoreUnknownFields = false)
@@ -366,6 +385,8 @@ class VoterCardNotifyLetterTemplateConfiguration(
     idDocumentResubmissionWithReasonsWelsh: String,
     idDocumentRequiredEnglish: String,
     idDocumentRequiredWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -402,6 +423,8 @@ class VoterCardNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
     previousAddressDocumentRequiredWelsh = null,
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -420,6 +443,8 @@ class PostalNotifyLetterTemplateConfiguration(
     ninoNotMatchedWelsh: String?,
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -456,6 +481,8 @@ class PostalNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
     previousAddressDocumentRequiredWelsh = null,
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
@@ -474,6 +501,8 @@ class ProxyNotifyLetterTemplateConfiguration(
     ninoNotMatchedEnglish: String?,
     ninoNotMatchedRestrictedDocumentsListEnglish: String,
     ninoNotMatchedRestrictedDocumentsListWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -510,6 +539,8 @@ class ProxyNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredWelsh = null,
     previousAddressDocumentRequiredEnglish = null,
     previousAddressDocumentRequiredWelsh = null,
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.letter", ignoreUnknownFields = false)
@@ -528,6 +559,8 @@ class OverseasNotifyLetterTemplateConfiguration(
     previousAddressDocumentRequiredWelsh: String?,
     ninoNotMatchedEnglish: String,
     ninoNotMatchedWelsh: String,
+    bespokeCommEnglish: String,
+    bespokeCommWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -564,5 +597,6 @@ class OverseasNotifyLetterTemplateConfiguration(
     parentGuardianProofRequiredWelsh = parentGuardianProofRequiredWelsh,
     previousAddressDocumentRequiredEnglish = previousAddressDocumentRequiredEnglish,
     previousAddressDocumentRequiredWelsh = previousAddressDocumentRequiredWelsh,
-
+    bespokeCommEnglish = bespokeCommEnglish,
+    bespokeCommWelsh = bespokeCommWelsh,
 )

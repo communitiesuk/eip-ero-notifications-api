@@ -268,6 +268,7 @@ internal class SendNotificationServiceTest {
             "REJECTED_DOCUMENT",
             "REJECTED_PARENT_GUARDIAN",
             "REJECTED_PREVIOUS_ADDRESS",
+            "BESPOKE_COMM",
         ],
     )
     fun `should send letter notification for overseas address`(notificationType: NotificationType) {

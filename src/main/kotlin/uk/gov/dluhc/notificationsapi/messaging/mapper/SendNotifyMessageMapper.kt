@@ -21,6 +21,7 @@ import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationApprovedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationReceivedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejectedMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyBespokeCommMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
@@ -96,6 +97,14 @@ abstract class SendNotifyMessageMapper {
     )
     abstract fun fromRequiredDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyNinoNotMatchedMessage,
+    ): SendNotificationRequestDto
+
+    @Mapping(
+        target = "notificationType",
+        source = "messageType",
+    )
+    abstract fun fromBespokeCommMessageToSendNotificationRequestDto(
+        message: SendNotifyBespokeCommMessage,
     ): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =

@@ -4,6 +4,7 @@ import uk.gov.dluhc.notificationsapi.dto.AddressDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationApprovedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
@@ -443,6 +444,44 @@ fun buildNinoNotMatchedPersonalisationMapFromDto(
         personalisationMap["additionalNotes"] = additionalNotes ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
+    return personalisationMap
+}
+
+fun buildBespokeCommPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    sourceType: String = "postal vote",
+    subjectHeader: String = faker.yoda().quote(),
+    details: String = faker.yoda().quote(),
+    whatToDo: String? = faker.yoda().quote(),
+    deadline: String? = "You must do this by 17:00 on 07 July 2024 or your postal vote application may be rejected",
+): BespokeCommPersonalisationDto = BespokeCommPersonalisationDto(
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+    applicationReference = applicationReference,
+    personalisationSourceTypeString = sourceType,
+    subjectHeader = subjectHeader,
+    details = details,
+    whatToDo = whatToDo,
+    deadline = deadline,
+)
+
+fun buildBespokeCommPersonalisationMapFromDto(
+    personalisationDto: BespokeCommPersonalisationDto = buildBespokeCommPersonalisationDto(),
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+
+    with(personalisationDto) {
+        personalisationMap["subjectHeader"] = subjectHeader
+        personalisationMap["giveDetailsFreeText"] = details
+        personalisationMap["explainFreeText"] = whatToDo ?: ""
+        personalisationMap["whatYouNeedToDo"] = whatToDo != null || deadline != null
+        personalisationMap["deadline"] = deadline ?: ""
+        personalisationMap["sourceType"] = personalisationSourceTypeString
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+
     return personalisationMap
 }
 

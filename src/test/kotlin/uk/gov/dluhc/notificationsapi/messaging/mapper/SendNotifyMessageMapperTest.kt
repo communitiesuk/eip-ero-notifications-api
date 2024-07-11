@@ -36,6 +36,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationApprovedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationReceivedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejectedMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyBespokeCommMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
@@ -48,6 +49,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aMess
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationApprovedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationReceivedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationRejectedPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNinoNotMatchedPersonalisation
@@ -928,6 +930,69 @@ internal class SendNotifyMessageMapperTest {
             verify(communicationChannelMapper).fromMessagingApiToDto(communicationChannelMessage)
             verify(documentCategoryMapper).fromApiMessageToDto(documentCategory)
             verify(documentCategoryMapper).fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
+        }
+    }
+
+    @Nested
+    inner class FromBespokeCommMessageToSendNotificationRequestDto {
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "EMAIL,EN,EMAIL,ENGLISH,BESPOKE_COMM",
+                "EMAIL,CY,EMAIL,WELSH,BESPOKE_COMM",
+                "LETTER,EN,LETTER,ENGLISH,BESPOKE_COMM",
+                "LETTER,CY,LETTER,WELSH,BESPOKE_COMM",
+            ],
+        )
+        fun `should map SQS SendNotifyBespokeCommMessage to SendNotificationRequestDto`(
+            sqsChannel: SqsChannel,
+            language: Language,
+            communicationChannel: CommunicationChannel,
+            languageDto: LanguageDto,
+            expectedNotificationType: NotificationType,
+        ) {
+            // Given
+            val gssCode = aGssCode()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val toAddress = aMessageAddress()
+            val personalisation = buildBespokeCommPersonalisation()
+
+            val expectedToAddress = aNotificationDestination()
+            val expectedSourceType = SourceType.POSTAL
+
+            given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
+            given(notificationTypeMapper.mapMessageTypeToNotificationType(any())).willReturn(expectedNotificationType)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)
+
+            val request = SendNotifyBespokeCommMessage(
+                channel = sqsChannel,
+                personalisation = personalisation,
+                language = language,
+                sourceType = SqsSourceType.POSTAL,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                toAddress = toAddress,
+                messageType = MessageType.BESPOKE_MINUS_COMM,
+            )
+
+            val notification = mapper.fromBespokeCommMessageToSendNotificationRequestDto(request)
+
+            assertThat(notification.channel).isEqualTo(communicationChannel)
+            assertThat(notification.sourceType).isEqualTo(SourceType.POSTAL)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
+            assertThat(notification.gssCode).isEqualTo(gssCode)
+            assertThat(notification.requestor).isEqualTo(requestor)
+            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            verify(languageMapper).fromMessageToDto(language)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
+            verify(notificationTypeMapper).mapMessageTypeToNotificationType(request.messageType)
+            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(communicationChannelMapper).fromMessagingApiToDto(sqsChannel)
         }
     }
 }

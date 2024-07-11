@@ -127,6 +127,21 @@ class RequiredDocumentPersonalisationDto(
     eroContactDetails = eroContactDetails,
 )
 
+class BespokeCommPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val personalisationSourceTypeString: String,
+    val subjectHeader: String,
+    val details: String,
+    val whatToDo: String?,
+    val deadline: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)
+
 class RejectedOverseasDocumentPersonalisationDto(
     applicationReference: String,
     firstName: String,

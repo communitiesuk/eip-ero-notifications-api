@@ -23,6 +23,7 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "NINO_MINUS_NOT_MINUS_MATCHED", target = "NINO_NOT_MATCHED")
     @ValueMapping(source = "PARENT_MINUS_GUARDIAN_MINUS_PROOF_MINUS_REQUIRED", target = "PARENT_GUARDIAN_PROOF_REQUIRED")
     @ValueMapping(source = "PREVIOUS_MINUS_ADDRESS_MINUS_DOCUMENT_MINUS_REQUIRED", target = "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED")
+    @ValueMapping(source = "BESPOKE_MINUS_COMM", target = "BESPOKE_COMM")
     fun mapMessageTypeToNotificationType(messageType: MessageType): NotificationType
 
     // PHOTO_RESUBMISSION_WITH_REASONS is an implementation detail and not a "business" notification type
@@ -61,6 +62,7 @@ interface NotificationTypeMapper {
         source = "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
         target = "PREVIOUS_MINUS_ADDRESS_MINUS_DOCUMENT_MINUS_REQUIRED",
     )
+    @ValueMapping(source = "BESPOKE_COMM", target = "BESPOKE_MINUS_COMM")
     // Mappings
     // - NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
     // - NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS

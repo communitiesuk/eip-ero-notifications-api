@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '2.0.2'
+  version: '2.0.3'
   description: |-
     Notifications SQS Message Types
     
@@ -128,6 +128,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyNinoNotMatchedMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-bespoke-comm-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyBespokeCommMessage'
       responses:
         '204':
           description: No response content.
@@ -565,6 +575,7 @@ components:
         - nino-not-matched
         - parent-guardian-proof-required
         - previous-address-document-required
+        - bespoke-comm
 
     MessageAddress:
       type: object
@@ -791,6 +802,51 @@ components:
         - personalisation
         - channel
         - hasRestrictedDocumentsList
+    BespokeComm:
+      title: BespokeComm
+      description: The data for the bespoke communication
+      type: object
+      properties:
+        subjectHeader:
+          type: string
+          description: The email subject line or letter header for the communication
+        details:
+          type: string
+          description: The free text for the details section of the communication
+        whatToDo:
+          type: string
+          description: The free text for the what you need to do section of the communication
+        deadlineDate:
+          type: string
+          format: date
+          description: The deadline date for the 'what you need to do' section of the communication
+        deadlineTime:
+          type: string
+          description: The deadline time for the 'what you need to do' section
+      required:
+        - subjectHeader
+        - details
+    BespokeCommPersonalisation:
+      title: BespokeCommPersonalisation
+      type: object
+      description: Personalisation details for bespoke communication
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/BespokeComm'
+    SendNotifyBespokeCommMessage:
+      title: SendNotifyBespokeCommMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify besoke messages
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        personalisation:
+          $ref: '#/components/schemas/BespokeCommPersonalisation'
+      required:
+        - personalisation
+        - channel
 
   #
   # Response Body Definitions
@@ -856,3 +912,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyNinoNotMatchedMessage'
+    SendNotifyBespokeCommMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyBespokeCommMessage'
