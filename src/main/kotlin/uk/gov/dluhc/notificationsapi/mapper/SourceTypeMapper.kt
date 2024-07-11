@@ -65,6 +65,17 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
     }
 
     fun toFullSourceTypeString(
+            sourceType: SourceTypeApiEnum,
+            languageDto: LanguageDto,
+    ): String {
+        return messageSource.getMessage(
+                "templates.full-vote-type.${sourceType.value}",
+                null,
+                languageDto.locale,
+        )
+    }
+
+    fun toFullSourceTypeString(
         sourceType: SourceTypeMessageEnum,
         languageDto: LanguageDto,
     ): String {

@@ -31,6 +31,8 @@ api:
           approved-welsh: 354399fe-a6b3-48ac-be60-4b208b324ea7
           id-document-required-english: fdd31588-c982-11ed-afa1-0242ac120002
           id-document-required-welsh: add31fb0-c982-11ed-afa1-0242ac120002
+          bespoke-comm-english: d611c268-d512-4dc8-afa3-c3a833fd21c9
+          bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
         letter:
           photo-resubmission-english: 20ff73fd-ae85-447e-8199-c28f7328722d
           photo-resubmission-welsh: 2d017d11-ccca-4bb4-9e3c-af2f3447578b
@@ -44,6 +46,8 @@ api:
           rejected-welsh: c6524808-9d8c-11ed-a8fc-0242ac120002
           id-document-required-english: bdd326c2-c982-11ed-afa1-0242ac120002
           id-document-required-welsh: cdd32cd0-c982-11ed-afa1-0242ac120002
+          bespoke-comm-english: a09fca4a-dfc6-47ba-9ecc-ca5f1d580a34
+          bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
       postal:
         email:
           received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
@@ -60,6 +64,8 @@ api:
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-restricted-documents-list-english: 6884a755-9e83-4d5b-8a21-ed547269ccbe
           nino-not-matched-restricted-documents-list-welsh: caf616da-c989-4cfb-9392-3f5e78f424e2
+          bespoke-comm-english: d611c268-d512-4dc8-afa3-c3a833fd21c9
+          bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -73,6 +79,8 @@ api:
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-restricted-documents-list-english: 3178650d-460f-47fd-aeee-14a2c8e6a985
           nino-not-matched-restricted-documents-list-welsh: bcd3467e-5bc7-4689-9c9b-25a020ca1bca
+          bespoke-comm-english: a09fca4a-dfc6-47ba-9ecc-ca5f1d580a34
+          bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
       proxy:
         email:
           received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
@@ -89,6 +97,8 @@ api:
           nino-not-matched-welsh: 8fa64777-222f-45e9-937b-6236359b79df
           nino-not-matched-restricted-documents-list-english: 6884a755-9e83-4d5b-8a21-ed547269ccbe
           nino-not-matched-restricted-documents-list-welsh: caf616da-c989-4cfb-9392-3f5e78f424e2
+          bespoke-comm-english: d611c268-d512-4dc8-afa3-c3a833fd21c9
+          bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -102,6 +112,8 @@ api:
           nino-not-matched-welsh: b934fb1a-a199-41cc-829d-bf025ad1b740
           nino-not-matched-restricted-documents-list-english: 3178650d-460f-47fd-aeee-14a2c8e6a985
           nino-not-matched-restricted-documents-list-welsh: bcd3467e-5bc7-4689-9c9b-25a020ca1bca
+          bespoke-comm-english: a09fca4a-dfc6-47ba-9ecc-ca5f1d580a34
+          bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
       overseas:
         email:
           rejected-parent-guardian-english: 90d605be-36bb-4cea-b453-aaf16ca249b3
@@ -116,6 +128,8 @@ api:
           nino-not-matched-welsh: 1f922de4-1e70-4aaf-9b76-7ab789fe7d1a
           previous-address-document-required-english: 00dd5dc0-9573-41ae-a3ac-2bd678f1c84a
           previous-address-document-required-welsh: 9b6d00f8-d0f9-4921-9523-f69681f2b70b
+          bespoke-comm-english: d611c268-d512-4dc8-afa3-c3a833fd21c9
+          bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
         letter:
           rejected-parent-guardian-english: 1d4330c0-d636-4357-8cfe-5317aef17ebb
           rejected-parent-guardian-welsh: 071cda09-08eb-48ff-8fcc-911b7e9ffc03
@@ -129,6 +143,8 @@ api:
           nino-not-matched-welsh: abd343c5-edab-4e58-82b4-293736a464d0
           previous-address-document-required-english: 8110954f-72d3-49ce-bbd1-fdfc22e7bde7
           previous-address-document-required-welsh: 9a207ce7-150c-425d-beac-89c39c2bd689
+          bespoke-comm-english: a09fca4a-dfc6-47ba-9ecc-ca5f1d580a34
+          bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
 
 sqs:
   send-uk-gov-notify-photo-resubmission-queue-name: test-send-uk-gov-notify-photo-resubmission
