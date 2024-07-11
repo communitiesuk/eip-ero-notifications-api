@@ -50,7 +50,7 @@ class TemplateController(
     private val rejectedOverseasDocumentTemplatePreviewDtoMapper: RejectedOverseasDocumentTemplatePreviewDtoMapper,
     private val requiredOverseasDocumentTemplatePreviewDtoMapper: RequiredOverseasDocumentTemplatePreviewDtoMapper,
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
-    private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper
+    private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -208,10 +208,10 @@ class TemplateController(
     ): GenerateTemplatePreviewResponse {
         return templateService.generateBespokeCommTemplatePreview(
             bespokeCommPreviewDtoMapper.toDto(
-                    request,
+                request,
             ),
         )
-                .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
+            .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
     }
 
     @PostMapping("/templates/rejected-overseas-document/preview")

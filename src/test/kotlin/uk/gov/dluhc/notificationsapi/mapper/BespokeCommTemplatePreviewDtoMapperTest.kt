@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
@@ -57,7 +56,7 @@ class BespokeCommTemplatePreviewDtoMapperTest {
                 whatToDo = whatToDo,
                 deadlineDate = deadlineDate,
                 deadlineTime = deadlineTime,
-            )
+            ),
         )
         val expectedChannel = uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.valueOf(channel.name)
         given { communicationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
@@ -100,7 +99,7 @@ class BespokeCommTemplatePreviewDtoMapperTest {
                     sourceType = "Mapped source type",
                 )
             },
-            notificationType = NotificationType.BESPOKE_COMM
+            notificationType = NotificationType.BESPOKE_COMM,
         )
 
         // When

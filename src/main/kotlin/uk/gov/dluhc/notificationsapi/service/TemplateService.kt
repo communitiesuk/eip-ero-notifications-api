@@ -179,12 +179,12 @@ class TemplateService(
                     sourceType,
                     notificationType,
                     channel,
-                    language
+                    language,
                 ),
                 templatePersonalisationDtoMapper.toBespokeCommTemplatePersonalisationMap(
                     personalisation,
-                    language
-                )
+                    language,
+                ),
             )
         }
     }

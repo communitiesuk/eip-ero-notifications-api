@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.BespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.models.GenerateBespokeCommTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.SourceType
@@ -23,11 +22,11 @@ abstract class BespokeCommTemplatePreviewDtoMapper {
 
     @Mapping(
         target = "personalisation",
-        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )"
+        expression = "java( mapPersonalisation( language, request.getPersonalisation(), request.getSourceType() ) )",
     )
     @Mapping(
         target = "notificationType",
-        constant = "BESPOKE_COMM"
+        constant = "BESPOKE_COMM",
     )
     abstract fun toDto(request: GenerateBespokeCommTemplatePreviewRequest): BespokeCommTemplatePreviewDto
 
@@ -49,19 +48,19 @@ abstract class BespokeCommTemplatePreviewDtoMapper {
     )
     @Mapping(
         target = "deadline",
-            expression = "java( mapDeadline( personalisation.getDeadlineDate(), personalisation.getDeadlineTime(), languageDto, sourceTypeMapper.toFullSourceTypeString( sourceType, languageDto ) ) )"
+        expression = "java( mapDeadline( personalisation.getDeadlineDate(), personalisation.getDeadlineTime(), languageDto, sourceTypeMapper.toFullSourceTypeString( sourceType, languageDto ) ) )",
     )
     abstract fun mapPersonalisation(
-            languageDto: LanguageDto,
-            personalisation: BespokeCommPersonalisation,
-            sourceType: SourceType
+        languageDto: LanguageDto,
+        personalisation: BespokeCommPersonalisation,
+        sourceType: SourceType,
     ): BespokeCommPersonalisationDto
 
     protected fun mapDeadline(
-            deadlineDate: LocalDate?,
-            deadlineTime: String?,
-            languageDto: LanguageDto,
-            sourceTypeString: String,
+        deadlineDate: LocalDate?,
+        deadlineTime: String?,
+        languageDto: LanguageDto,
+        sourceTypeString: String,
     ): String? {
         return if (deadlineDate != null) {
             deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, languageDto, sourceTypeString)
