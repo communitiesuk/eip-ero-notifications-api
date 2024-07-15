@@ -5,6 +5,7 @@ import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.BespokeCommTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
@@ -166,6 +167,23 @@ class TemplateService(
                 templatePersonalisationDtoMapper.toRequiredDocumentTemplatePersonalisationMap(
                     personalisation,
                     sourceType,
+                ),
+            )
+        }
+    }
+
+    fun generateBespokeCommTemplatePreview(dto: BespokeCommTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(dto) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language,
+                ),
+                templatePersonalisationDtoMapper.toBespokeCommTemplatePersonalisationMap(
+                    personalisation,
+                    language,
                 ),
             )
         }

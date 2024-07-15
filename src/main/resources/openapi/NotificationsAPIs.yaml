@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.16.1'
+  version: '1.16.2'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -508,6 +508,8 @@ paths:
           $ref: '#/components/responses/GenerateTemplatePreview'
         '400':
           $ref: '#/components/responses/400ErrorResponse'
+        '404':
+          $ref: '#/components/responses/404ErrorResponse'
       security:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
@@ -1066,6 +1068,75 @@ paths:
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/nino-not-matched/preview'
+        requestParameters:
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
+  #
+  # Generate bespoke comm Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/bespoke-comm/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate bespoke comm matched Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for bespoke comm template type and personalisation data
+      description: Generates a text preview for bespoke comm template type and personalisation data
+      operationId: generate-bespoke-comm-template-preview
+      tags:
+        - Generate Bespoke Comm Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateBespokeCommTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/bespoke-comm/preview'
         requestParameters:
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
@@ -1996,6 +2067,27 @@ components:
         additionalNotes:
           type: string
           description: Any notes recorded by an Electoral Registration Officer in connection with this applicant's nino check
+    BespokeCommPersonalisation:
+      title: BespokeCommPersonalisation
+      type: object
+      description: Personalisation details for a bespoke comm
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        subjectHeader:
+          type: string
+        details:
+          type: string
+        whatToDo:
+          type: string
+        deadlineDate:
+          type: string
+          format: date
+        deadlineTime:
+          type: string
+      required:
+        - subjectHeader
+        - details
     GenerateRejectedSignatureTemplatePreviewRequest:
       title: GenerateRejectedSignatureTemplatePreviewRequest
       description: An object containing request attributes required for generating the rejected signature template preview
@@ -2051,6 +2143,23 @@ components:
         - personalisation
         - sourceType
         - hasRestrictedDocumentsList
+    GenerateBespokeCommTemplatePreviewRequest:
+      title: GenerateBespokeCommTemplatePreviewRequest
+      description: An object containing request attributes required for generating the bespoke comm template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/BespokeCommPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
     CommunicationsStatisticsResponseVAC:
       title: CommunicationsStatisticsResponseVAC
       description: response containing anonymised statistics about communications related to an application
@@ -2320,6 +2429,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateRequiredOverseasDocumentTemplatePreviewRequest'
+    GenerateBespokeCommTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateBespokeCommTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:

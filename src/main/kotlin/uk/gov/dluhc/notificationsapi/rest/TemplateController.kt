@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationReceivedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectedTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.BespokeCommTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateApplicationApprovedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateIdDocumentRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionTemplatePreviewDtoMapper
@@ -19,6 +20,7 @@ import uk.gov.dluhc.notificationsapi.mapper.RequiredOverseasDocumentTemplatePrev
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateBespokeCommTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
@@ -48,6 +50,7 @@ class TemplateController(
     private val rejectedOverseasDocumentTemplatePreviewDtoMapper: RejectedOverseasDocumentTemplatePreviewDtoMapper,
     private val requiredOverseasDocumentTemplatePreviewDtoMapper: RequiredOverseasDocumentTemplatePreviewDtoMapper,
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
+    private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -192,6 +195,19 @@ class TemplateController(
     ): GenerateTemplatePreviewResponse {
         return templateService.generateNinoNotMatchedTemplatePreview(
             ninoNotMatchedTemplatePreviewDtoMapper.toDto(
+                request,
+            ),
+        )
+            .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
+    }
+
+    @PostMapping("/templates/bespoke-comm/preview")
+    fun generateBespokeCommTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateBespokeCommTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
+        return templateService.generateBespokeCommTemplatePreview(
+            bespokeCommPreviewDtoMapper.toDto(
                 request,
             ),
         )

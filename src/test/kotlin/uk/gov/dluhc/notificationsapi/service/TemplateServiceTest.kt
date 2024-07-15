@@ -30,6 +30,8 @@ import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildBespokeCommPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildBespokeCommTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateApplicationApprovedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateApplicationReceivedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDocumentRequiredTemplatePreviewDto
@@ -449,6 +451,45 @@ class TemplateServiceTest {
             verify(templatePersonalisationDtoMapper).toRequiredDocumentTemplatePersonalisationMap(
                 dto.personalisation,
                 dto.sourceType,
+            )
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateBespokeCommTemplatePreview {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY", "OVERSEAS", "VOTER_CARD"])
+        fun `should return bespoke comm template preview`(
+            sourceType: SourceType,
+        ) {
+            // Given
+            val dto = buildBespokeCommTemplatePreviewDto(sourceType)
+            val templateId = "80210eee-4592-11ed-b878-0242ac120005"
+            val personalisationMap = buildBespokeCommPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toBespokeCommTemplatePersonalisationMap(any(), any()))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateBespokeCommTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language,
+                )
+            verify(templatePersonalisationDtoMapper).toBespokeCommTemplatePersonalisationMap(
+                dto.personalisation,
+                dto.language,
             )
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
