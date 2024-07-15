@@ -20,6 +20,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildBespokeCommPe
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildBespokeCommTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import java.time.LocalDate
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 
 @ExtendWith(MockitoExtension::class)
 class BespokeCommTemplatePreviewDtoMapperTest {
@@ -58,7 +59,7 @@ class BespokeCommTemplatePreviewDtoMapperTest {
                 deadlineTime = deadlineTime,
             ),
         )
-        val expectedChannel = uk.gov.dluhc.notificationsapi.dto.CommunicationChannel.valueOf(channel.name)
+        val expectedChannel = CommunicationChannelDto.valueOf(channel.name)
         given { communicationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
         given { sourceTypeMapper.fromApiToDto(SourceType.POSTAL) }.willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL)
         given { sourceTypeMapper.toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH) }.willReturn("postal vote")

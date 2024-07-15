@@ -61,11 +61,7 @@ abstract class BespokeCommTemplatePreviewDtoMapper {
         deadlineTime: String?,
         languageDto: LanguageDto,
         sourceTypeString: String,
-    ): String? {
-        return if (deadlineDate != null) {
-            deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, languageDto, sourceTypeString)
-        } else {
-            null
-        }
+    ): String? = deadlineDate?.let {
+        deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, languageDto, sourceTypeString)
     }
 }
