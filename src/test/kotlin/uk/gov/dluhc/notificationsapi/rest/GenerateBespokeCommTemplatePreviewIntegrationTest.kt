@@ -224,12 +224,12 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
         ],
     )
     fun `should return template preview given valid request`(
-            sourceType: SourceType,
-            communicationChannel: CommunicationChannel,
-            hasRestrictedDocumentsList: Boolean,
-            templateId: String,
-            language: Language,
-            expectedPersonalisationFullSourceType: String,
+        sourceType: SourceType,
+        communicationChannel: CommunicationChannel,
+        hasRestrictedDocumentsList: Boolean,
+        templateId: String,
+        language: Language,
+        expectedPersonalisationFullSourceType: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)

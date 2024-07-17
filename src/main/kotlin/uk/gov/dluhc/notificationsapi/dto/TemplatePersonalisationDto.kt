@@ -128,14 +128,14 @@ class RequiredDocumentPersonalisationDto(
 )
 
 class BespokeCommPersonalisationDto(
-        applicationReference: String,
-        firstName: String,
-        eroContactDetails: ContactDetailsDto,
-        val personalisationFullSourceTypeString: String,
-        val subjectHeader: String,
-        val details: String,
-        val whatToDo: String?,
-        val deadline: String?,
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val personalisationFullSourceTypeString: String,
+    val subjectHeader: String,
+    val details: String,
+    val whatToDo: String?,
+    val deadline: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,
