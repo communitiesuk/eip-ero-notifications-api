@@ -6,8 +6,8 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
-import org.mockito.kotlin.verify
 import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
