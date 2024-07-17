@@ -189,6 +189,7 @@ class TemplatePersonalisationDtoMapper {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)
             }
+            personalisation["an"] = personalisationSourceTypeString == "overseas vote"
             personalisation["sourceType"] = personalisationSourceTypeString
             personalisation["deadline"] = getSafeValue(deadline)
             personalisation["whatYouNeedToDo"] = deadline != null || whatToDo != null
