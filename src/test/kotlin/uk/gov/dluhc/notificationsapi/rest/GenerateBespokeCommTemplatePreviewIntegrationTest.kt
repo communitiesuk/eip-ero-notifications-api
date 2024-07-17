@@ -264,6 +264,7 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
         val languageDto = languageMapper.fromApiToDto(language)
         val expectedWhatYouNeedToDo = requestBody.personalisation.whatToDo != null
         val expectedDeadline = deadlineMapper.toDeadlineString(requestBody.personalisation.deadlineDate!!, requestBody.personalisation.deadlineTime!!, languageDto, sourceTypeMapper.toFullSourceTypeString(sourceType, languageDto))
+        val expectedAn = expectedPersonalisationFullSourceType == "overseas vote"
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf<String, Any>(
                 "applicationReference" to applicationReference,
@@ -283,6 +284,7 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
                 "eroPostcode" to eroContactDetails.address.postcode,
+                "an" to expectedAn,
                 "sourceType" to expectedPersonalisationFullSourceType,
             )
         }

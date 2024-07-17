@@ -478,6 +478,7 @@ fun buildBespokeCommPersonalisationMapFromDto(
         personalisationMap["explainFreeText"] = whatToDo ?: ""
         personalisationMap["whatYouNeedToDo"] = whatToDo != null || deadline != null
         personalisationMap["deadline"] = deadline ?: ""
+        personalisationMap["an"] = personalisationFullSourceTypeString == "overseas vote"
         personalisationMap["sourceType"] = personalisationFullSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
