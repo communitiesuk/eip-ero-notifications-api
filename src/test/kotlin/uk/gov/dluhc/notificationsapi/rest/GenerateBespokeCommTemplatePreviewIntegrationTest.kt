@@ -224,12 +224,12 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
         ],
     )
     fun `should return template preview given valid request`(
-        sourceType: SourceType,
-        communicationChannel: CommunicationChannel,
-        hasRestrictedDocumentsList: Boolean,
-        templateId: String,
-        language: Language,
-        expectedPersonalisationSourceType: String,
+            sourceType: SourceType,
+            communicationChannel: CommunicationChannel,
+            hasRestrictedDocumentsList: Boolean,
+            templateId: String,
+            language: Language,
+            expectedPersonalisationFullSourceType: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -283,7 +283,7 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
                 "eroPostcode" to eroContactDetails.address.postcode,
-                "sourceType" to expectedPersonalisationSourceType,
+                "sourceType" to expectedPersonalisationFullSourceType,
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
