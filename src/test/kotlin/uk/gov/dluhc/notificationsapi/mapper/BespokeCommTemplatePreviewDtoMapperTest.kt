@@ -7,6 +7,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.times
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
@@ -64,7 +65,6 @@ class BespokeCommTemplatePreviewDtoMapperTest {
         given { sourceTypeMapper.fromApiToDto(SourceType.POSTAL) }.willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL)
         given { sourceTypeMapper.toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH) }.willReturn("postal vote")
         given { languageMapper.fromApiToDto(Language.EN) }.willReturn(LanguageDto.ENGLISH)
-        given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)).willReturn("Mapped source type")
         given(deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, LanguageDto.ENGLISH, "postal vote")).willReturn("Deadline string")
 
         val expected = buildBespokeCommTemplatePreviewDto(
@@ -97,7 +97,7 @@ class BespokeCommTemplatePreviewDtoMapperTest {
                     details = details,
                     whatToDo = whatToDo,
                     deadline = "Deadline string",
-                    sourceType = "Mapped source type",
+                    sourceType = "postal vote",
                 )
             },
             notificationType = NotificationType.BESPOKE_COMM,
@@ -112,7 +112,7 @@ class BespokeCommTemplatePreviewDtoMapperTest {
             .isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(sourceTypeMapper).fromApiToDto(SourceType.POSTAL)
-        verify(sourceTypeMapper).toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
+        verify(sourceTypeMapper, times(2)).toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
         verify(deadlineMapper).toDeadlineString(deadlineDate, deadlineTime, LanguageDto.ENGLISH, "postal vote")
     }
 }
