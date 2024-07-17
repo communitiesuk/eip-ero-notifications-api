@@ -335,7 +335,8 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
                 "eroPostcode" to eroContactDetails.address.postcode,
-                "sourceType" to "postal",
+                "an" to false,
+                "sourceType" to "postal vote",
             )
         }
 
