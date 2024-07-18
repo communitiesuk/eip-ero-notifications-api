@@ -205,31 +205,31 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
     @ParameterizedTest
     @CsvSource(
         value = [
-            "POSTAL, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,postal vote",
-            "POSTAL, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,postal vote",
-            "POSTAL, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais bost",
-            "POSTAL, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais bost",
-            "PROXY, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy vote",
-            "PROXY, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,proxy vote",
-            "PROXY, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy",
-            "PROXY, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy",
-            "OVERSEAS, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,overseas vote",
-            "OVERSEAS, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,overseas vote",
-            "OVERSEAS, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais dramor",
-            "OVERSEAS, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais dramor",
-            "VOTER_MINUS_CARD, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
-            "VOTER_MINUS_CARD, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
-            "VOTER_MINUS_CARD, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
-            "VOTER_MINUS_CARD, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
+            "POSTAL, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,postal vote, false",
+            "POSTAL, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,postal vote, false",
+            "POSTAL, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais bost, false",
+            "POSTAL, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais bost, false",
+            "PROXY, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy vote, false",
+            "PROXY, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,proxy vote, false",
+            "PROXY, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy, false",
+            "PROXY, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy, false",
+            "OVERSEAS, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,overseas vote, true",
+            "OVERSEAS, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,overseas vote, true",
+            "OVERSEAS, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais dramor, false",
+            "OVERSEAS, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais dramor, false",
+            "VOTER_MINUS_CARD, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
+            "VOTER_MINUS_CARD, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
+            "VOTER_MINUS_CARD, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
+            "VOTER_MINUS_CARD, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
         ],
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
         communicationChannel: CommunicationChannel,
-        hasRestrictedDocumentsList: Boolean,
         templateId: String,
         language: Language,
         expectedPersonalisationFullSourceType: String,
+        sourceTypeRequiresAn: Boolean,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -264,7 +264,6 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
         val languageDto = languageMapper.fromApiToDto(language)
         val expectedWhatYouNeedToDo = requestBody.personalisation.whatToDo != null
         val expectedDeadline = deadlineMapper.toDeadlineString(requestBody.personalisation.deadlineDate!!, requestBody.personalisation.deadlineTime!!, languageDto, sourceTypeMapper.toFullSourceTypeString(sourceType, languageDto))
-        val expectedAn = expectedPersonalisationFullSourceType == "overseas vote"
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf<String, Any>(
                 "applicationReference" to applicationReference,
@@ -284,7 +283,7 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
                 "eroPostcode" to eroContactDetails.address.postcode,
-                "an" to expectedAn,
+                "an" to sourceTypeRequiresAn,
                 "sourceType" to expectedPersonalisationFullSourceType,
             )
         }
