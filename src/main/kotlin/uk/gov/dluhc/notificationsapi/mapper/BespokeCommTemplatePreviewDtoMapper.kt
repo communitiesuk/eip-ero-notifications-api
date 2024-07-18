@@ -31,8 +31,8 @@ abstract class BespokeCommTemplatePreviewDtoMapper {
     abstract fun toDto(request: GenerateBespokeCommTemplatePreviewRequest): BespokeCommTemplatePreviewDto
 
     @Mapping(
-        target = "personalisationSourceTypeString",
-        expression = "java( sourceTypeMapper.toSourceTypeString( sourceType, languageDto ) )",
+        target = "personalisationFullSourceTypeString",
+        expression = "java( sourceTypeMapper.toFullSourceTypeString( sourceType, languageDto ) )",
     )
     @Mapping(
         source = "personalisation.subjectHeader",

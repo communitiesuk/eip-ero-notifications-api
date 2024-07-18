@@ -165,7 +165,7 @@ abstract class TemplatePersonalisationMessageMapper {
     ): RequiredDocumentPersonalisationDto
 
     @Mapping(
-        target = "personalisationSourceTypeString",
+        target = "personalisationFullSourceTypeString",
         expression = "java( mapFullSourceType( languageDto, sourceType ) )",
     )
     @Mapping(target = "subjectHeader", source = "personalisation.subjectHeader")

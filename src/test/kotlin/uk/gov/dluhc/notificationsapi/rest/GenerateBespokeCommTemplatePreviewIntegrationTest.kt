@@ -205,31 +205,31 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
     @ParameterizedTest
     @CsvSource(
         value = [
-            "POSTAL, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,postal",
-            "POSTAL, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,postal",
-            "POSTAL, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,drwy'r post",
-            "POSTAL, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,drwy'r post",
-            "PROXY, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy",
-            "PROXY, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,proxy",
-            "PROXY, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
-            "PROXY, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,drwy ddirprwy",
-            "OVERSEAS, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,overseas",
-            "OVERSEAS, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,overseas",
-            "OVERSEAS, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,''",
-            "OVERSEAS, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,''",
-            "VOTER_MINUS_CARD, EMAIL, false, $EMAIL_ENGLISH_TEMPLATE_ID,EN,''",
-            "VOTER_MINUS_CARD, LETTER, false, $LETTER_ENGLISH_TEMPLATE_ID,EN,''",
-            "VOTER_MINUS_CARD, EMAIL, false, $EMAIL_WELSH_TEMPLATE_ID,CY,''",
-            "VOTER_MINUS_CARD, LETTER, false, $LETTER_WELSH_TEMPLATE_ID,CY,''",
+            "POSTAL, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,postal vote, false",
+            "POSTAL, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,postal vote, false",
+            "POSTAL, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais bost, false",
+            "POSTAL, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais bost, false",
+            "PROXY, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy vote, false",
+            "PROXY, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,proxy vote, false",
+            "PROXY, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy, false",
+            "PROXY, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy, false",
+            "OVERSEAS, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,overseas vote, true",
+            "OVERSEAS, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,overseas vote, true",
+            "OVERSEAS, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais dramor, false",
+            "OVERSEAS, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais dramor, false",
+            "VOTER_MINUS_CARD, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
+            "VOTER_MINUS_CARD, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
+            "VOTER_MINUS_CARD, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
+            "VOTER_MINUS_CARD, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
         ],
     )
     fun `should return template preview given valid request`(
         sourceType: SourceType,
         communicationChannel: CommunicationChannel,
-        hasRestrictedDocumentsList: Boolean,
         templateId: String,
         language: Language,
-        expectedPersonalisationSourceType: String,
+        expectedPersonalisationFullSourceType: String,
+        sourceTypeRequiresAn: Boolean,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -283,7 +283,8 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
                 "eroPostcode" to eroContactDetails.address.postcode,
-                "sourceType" to expectedPersonalisationSourceType,
+                "an" to sourceTypeRequiresAn,
+                "sourceType" to expectedPersonalisationFullSourceType,
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
@@ -333,7 +334,8 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
                 "eroAddressLine4" to "",
                 "eroAddressLine5" to "",
                 "eroPostcode" to eroContactDetails.address.postcode,
-                "sourceType" to "postal",
+                "an" to false,
+                "sourceType" to "postal vote",
             )
         }
 

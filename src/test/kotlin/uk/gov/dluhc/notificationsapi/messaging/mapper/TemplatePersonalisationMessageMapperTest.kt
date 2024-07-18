@@ -584,7 +584,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                             },
                         )
                     },
-                    personalisationSourceTypeString = "Full mapped source type",
+                    personalisationFullSourceTypeString = "Full mapped source type",
                     subjectHeader = subjectHeader,
                     details = details,
                     whatToDo = whatToDo,

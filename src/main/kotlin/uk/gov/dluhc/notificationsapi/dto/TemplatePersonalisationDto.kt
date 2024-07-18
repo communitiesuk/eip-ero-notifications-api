@@ -131,7 +131,7 @@ class BespokeCommPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
-    val personalisationSourceTypeString: String,
+    val personalisationFullSourceTypeString: String,
     val subjectHeader: String,
     val details: String,
     val whatToDo: String?,
