@@ -92,6 +92,7 @@ paths:
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
           integration.request.path.applicationId: method.request.path.applicationId
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -179,6 +180,7 @@ paths:
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
           integration.request.path.communicationId: method.request.path.communicationId
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -266,6 +268,7 @@ paths:
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
           integration.request.path.applicationId: method.request.path.applicationId
+          integration.request.header.x-request-id: context.requestId
         connectionType: VPC_LINK
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
@@ -288,6 +291,7 @@ paths:
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
           integration.request.path.applicationId: method.request.path.applicationId
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -360,6 +364,8 @@ paths:
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
         uri: '${base_uri}/voter-authority-certificates/communications/statistics/vac'
+        requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -439,6 +445,8 @@ paths:
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
         uri: '${base_uri}/communications/statistics/oava/{oavaService}'
+        requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -516,6 +524,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/photo-resubmission/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -585,6 +594,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/id-document-resubmission/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -654,6 +664,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/id-document-required/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -723,6 +734,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/application-rejected/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -792,6 +804,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/application-approved/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -862,6 +875,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/rejected-document/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -931,6 +945,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/rejected-signature/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -1000,6 +1015,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/requested-signature/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -1069,6 +1085,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/nino-not-matched/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -1138,6 +1155,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/bespoke-comm/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -1207,6 +1225,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/rejected-overseas-document/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
@@ -1276,6 +1295,7 @@ paths:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/required-overseas-document/preview'
         requestParameters:
+          integration.request.header.x-request-id: context.requestId
         responseParameters:
           method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
           method.response.header.Access-Control-Allow-Methods: '''*'''
