@@ -2,6 +2,8 @@ package uk.gov.dluhc.notificationsapi.rest
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType
@@ -14,13 +16,14 @@ import java.util.UUID
 internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : IntegrationTest() {
 
     @Test
-    fun `should return photo not requested and documents not requested for VAC application with no communications sent`() {
+    fun `should return photo not requested, documents not requested and 0 bespoke communications sent for VAC application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -35,7 +38,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return photo not requested and documents not requested for VAC application with no relevant communications sent`() {
+    fun `should return photo not requested, documents not requested and 0 bespoke communications sent for VAC application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -51,6 +54,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -81,6 +85,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = true,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -111,6 +116,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
             identityDocumentsRequested = true,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -141,6 +147,50 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
             identityDocumentsRequested = true,
+            bespokeCommunicationsSent = 0,
+        )
+
+        // When
+        val response = webTestClient.get()
+            .uri(buildVacUri(applicationId = applicationId))
+            .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponseVAC::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return correct number for bespoke communications sent for VAC application that has sent bespoke communications`(
+        numberOfNotifications: Int,
+    ) {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.VOTER_CARD,
+                type = NotificationType.BESPOKE_COMM,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
+
+        val expected = CommunicationsStatisticsResponseVAC(
+            photoRequested = false,
+            identityDocumentsRequested = false,
+            bespokeCommunicationsSent = numberOfNotifications,
         )
 
         // When
@@ -155,13 +205,14 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested and documents not requested for Postal application with no communications sent`() {
+    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Postal application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -176,7 +227,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested and documents not requested for Postal application with no relevant communications sent`() {
+    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Postal application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -192,6 +243,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -223,6 +275,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = true,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -253,6 +306,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -283,6 +337,50 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
+            bespokeCommunicationsSent = 0,
+        )
+
+        // When
+        val response = webTestClient.get()
+            .uri(buildOavaUri(applicationId = applicationId, "postal"))
+            .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponseOAVA::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return correct number for bespoke communications sent for Postal application that has sent bespoke communications`(
+        numberOfNotifications: Int,
+    ) {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.POSTAL,
+                type = NotificationType.BESPOKE_COMM,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
+
+        val expected = CommunicationsStatisticsResponseOAVA(
+            signatureRequested = false,
+            identityDocumentsRequested = false,
+            bespokeCommunicationsSent = numberOfNotifications,
         )
 
         // When
@@ -297,13 +395,14 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested and documents not requested for Proxy application with no communications sent`() {
+    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Proxy application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -318,7 +417,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested and documents not requested for Proxy application with no relevant communications sent`() {
+    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Proxy application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -334,6 +433,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -365,6 +465,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = true,
             identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -395,6 +496,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
+            bespokeCommunicationsSent = 0,
         )
 
         // When
@@ -425,6 +527,50 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
+            bespokeCommunicationsSent = 0,
+        )
+
+        // When
+        val response = webTestClient.get()
+            .uri(buildOavaUri(applicationId = applicationId, "proxy"))
+            .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponseOAVA::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return correct number for bespoke communications sent for Proxy application that has sent bespoke communications`(
+        numberOfNotifications: Int,
+    ) {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.PROXY,
+                type = NotificationType.BESPOKE_COMM,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
+
+        val expected = CommunicationsStatisticsResponseOAVA(
+            signatureRequested = false,
+            identityDocumentsRequested = false,
+            bespokeCommunicationsSent = numberOfNotifications,
         )
 
         // When

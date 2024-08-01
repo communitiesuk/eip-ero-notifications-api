@@ -35,9 +35,12 @@ class StatisticsController(
             )
         }
 
+        val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
+
         return CommunicationsStatisticsResponseVAC(
             photoRequested = photoRequested,
             identityDocumentsRequested = identityDocumentsRequested,
+            bespokeCommunicationsSent = bespokeCommunications,
         )
     }
 
@@ -66,9 +69,12 @@ class StatisticsController(
             )
         }
 
+        val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
+
         return CommunicationsStatisticsResponseOAVA(
             signatureRequested = signatureRequested,
             identityDocumentsRequested = identityDocumentsRequested,
+            bespokeCommunicationsSent = bespokeCommunications,
         )
     }
 }

@@ -437,7 +437,7 @@ internal class SendNotificationServiceTest {
     @ParameterizedTest
     @EnumSource(
         NotificationType::class,
-        names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED"],
+        names = ["PHOTO_RESUBMISSION", "PHOTO_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "BESPOKE_COMM"],
         mode = EnumSource.Mode.EXCLUDE,
     )
     fun `should not send votercard statistics update for irrelevant notification types`(notificationType: NotificationType) {
@@ -501,7 +501,7 @@ internal class SendNotificationServiceTest {
     @ParameterizedTest
     @EnumSource(
         NotificationType::class,
-        names = ["ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "REQUESTED_SIGNATURE", "REJECTED_SIGNATURE", "NINO_NOT_MATCHED", "REJECTED_SIGNATURE_WITH_REASONS"],
+        names = ["ID_DOCUMENT_RESUBMISSION", "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", "ID_DOCUMENT_REQUIRED", "REQUESTED_SIGNATURE", "REJECTED_SIGNATURE", "NINO_NOT_MATCHED", "REJECTED_SIGNATURE_WITH_REASONS", "BESPOKE_COMM"],
         mode = EnumSource.Mode.EXCLUDE,
     )
     fun `should not send postal statistics update for irrelevant notification types`(notificationType: NotificationType) {
