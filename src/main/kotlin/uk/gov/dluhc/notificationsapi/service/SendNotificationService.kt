@@ -59,6 +59,7 @@ class SendNotificationService(
             NotificationType.NINO_NOT_MATCHED -> true
             NotificationType.REJECTED_SIGNATURE -> true
             NotificationType.REJECTED_SIGNATURE_WITH_REASONS -> true
+            NotificationType.BESPOKE_COMM -> true
             else -> false
         }
 
@@ -69,6 +70,7 @@ class SendNotificationService(
             NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> true
             NotificationType.PHOTO_RESUBMISSION -> true
             NotificationType.PHOTO_RESUBMISSION_WITH_REASONS -> true
+            NotificationType.BESPOKE_COMM -> true
             else -> false
         }
 
