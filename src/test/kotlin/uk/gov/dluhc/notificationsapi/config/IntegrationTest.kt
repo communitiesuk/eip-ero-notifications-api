@@ -87,6 +87,9 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.send-uk-gov-notify-bespoke-comm-queue-name}")
     protected lateinit var sendUkGovNotifyBespokeCommQueueName: String
 
+    @Value("\${sqs.send-uk-gov-notify-invite-to-register-queue-name}")
+    protected lateinit var sendUkGovNotifyInviteToRegisterQueueName: String
+
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
 
@@ -232,6 +235,7 @@ internal abstract class IntegrationTest {
             clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName)
             clearSqsQueue(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName)
+            clearSqsQueue(mappedQueueUrlSendUkGovNotifyInviteToRegisterMessageQueueName)
         }
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -18,6 +19,7 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
+import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
@@ -51,6 +53,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildInviteToRegisterPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
@@ -595,6 +598,59 @@ internal class TemplatePersonalisationMessageMapperTest {
             // When
             val actual =
                 mapper.toBespokeCommTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+        }
+    }
+
+    @Nested
+    inner class ToInviteToRegisterTemplatePersonalisationDto {
+        @ParameterizedTest
+        @CsvSource(
+                value = [
+                    "VOTER_MINUS_CARD",
+                    "PROXY",
+                    "POSTAL",
+                ],
+        )
+        fun `should map SQS InviteToRegisterTemplatePersonalisation to InviteToRegisterTemplatePersonalisationDto`(
+                sourceType: SourceType,
+        ) {
+            // Given
+            val personalisationMessage = buildInviteToRegisterPersonalisation()
+
+            given(sourceTypeMapper.toFullSourceTypeString(sourceType, ENGLISH)).willReturn("Full mapped source type")
+
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                InviteToRegisterPersonalisationDto(
+                        applicationReference = applicationReference,
+                        firstName = firstName,
+                        eroContactDetails = with(eroContactDetails) {
+                            buildContactDetailsDto(
+                                    localAuthorityName = localAuthorityName,
+                                    website = website,
+                                    phone = phone,
+                                    email = email,
+                                    address = with(address) {
+                                        buildAddressDto(
+                                                street = street,
+                                                property = property,
+                                                locality = locality,
+                                                town = town,
+                                                area = area,
+                                                postcode = postcode,
+                                        )
+                                    },
+                            )
+                        },
+                        personalisationFullSourceTypeString = "Full mapped source type",
+                        freeText = freeText,
+                )
+            }
+
+            // When
+            val actual =
+                    mapper.toInviteToRegisterTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

@@ -141,6 +141,16 @@ paths:
       responses:
         '204':
           description: No response content.
+
+  '/send-uk-gov-notify-invite-to-register-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifyInviteToRegisterMessage'
+      responses:
+        '204':
+          description: No response content.
 components:
   #
   # Schema and Enum Definitions
@@ -576,6 +586,7 @@ components:
         - parent-guardian-proof-required
         - previous-address-document-required
         - bespoke-comm
+        - invite-to-register
 
     MessageAddress:
       type: object
@@ -836,7 +847,7 @@ components:
     SendNotifyBespokeCommMessage:
       title: SendNotifyBespokeCommMessage
       type: object
-      description: SQS Message for sending GOV.UK Notify besoke messages
+      description: SQS Message for sending GOV.UK Notify bespoke messages
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
@@ -844,6 +855,34 @@ components:
           $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/BespokeCommPersonalisation'
+      required:
+        - personalisation
+        - channel
+    InviteToRegister:
+      title: InviteTORegister
+      description: The data an invite to register
+      type: object
+      properties:
+        freeText:
+          type: string
+    InviteToRegisterPersonalisation:
+      title: InviteToRegisterPersonalisation
+      type: object
+      description: Personalisation details for an invite to register
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/InviteToRegister'
+    SendNotifyInviteToRegisterMessage:
+      title: SendNotifyInviteToRegisterMessage
+      type: object
+      description: SQS Mesage for sending GOV.UK Notify invite to register messages
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        personalisation:
+          $ref: '#/components/schemas/InviteToRegisterPersonalisation'
       required:
         - personalisation
         - channel
@@ -917,3 +956,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyBespokeCommMessage'
+    SendNotifyInviteToRegisterMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifyInviteToRegisterMessage'

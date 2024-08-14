@@ -1359,6 +1359,7 @@ components:
         - previous-address-document-required
         - parent-guardian-proof-required
         - bespoke-comm
+        - invite-to-register
     Language:
       title: Language
       description: The language to view the template

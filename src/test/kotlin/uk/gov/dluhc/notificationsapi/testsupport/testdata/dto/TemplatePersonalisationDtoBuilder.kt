@@ -8,6 +8,7 @@ import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
@@ -479,6 +480,34 @@ fun buildBespokeCommPersonalisationMapFromDto(
         personalisationMap["whatYouNeedToDo"] = whatToDo != null || deadline != null
         personalisationMap["deadline"] = deadline ?: ""
         personalisationMap["an"] = personalisationFullSourceTypeString == "overseas vote"
+        personalisationMap["sourceType"] = personalisationFullSourceTypeString
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+
+    return personalisationMap
+}
+
+fun buildInviteToRegisterPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    sourceType: String = "postal vote",
+    freeText: String? = faker.yoda().quote(),
+): InviteToRegisterPersonalisationDto = InviteToRegisterPersonalisationDto(
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+    applicationReference = applicationReference,
+    personalisationFullSourceTypeString = sourceType,
+    freeText = freeText
+)
+
+fun buildInviteToRegisterPersonalisationMapFromDto(
+    personalisationDto: InviteToRegisterPersonalisationDto = buildInviteToRegisterPersonalisationDto(),
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+
+    with(personalisationDto) {
+        personalisationMap["freeText"] = freeText ?: ""
         personalisationMap["sourceType"] = personalisationFullSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }

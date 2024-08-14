@@ -158,6 +158,7 @@ sqs:
   send-uk-gov-notify-requested-signature-queue-name: test-send-uk-gov-notify-requested-signature
   send-uk-gov-notify-nino-not-matched-queue-name: test-send-uk-gov-notify-nino-not-matched
   send-uk-gov-notify-bespoke-comm-queue-name: test-send-uk-gov-notify-bespoke-comm
+  send-uk-gov-notify-invite-to-register-queue-name: test-send-uk-gov-notify-invite-to-register
   remove-application-notifications-queue-name: test-remove-application-notifications
   trigger-voter-card-statistics-update-queue-name: test-trigger-voter-card-statistics-update.fifo
   trigger-postal-application-statistics-update-queue-name: test-trigger-postal-application-statistics-update.fifo

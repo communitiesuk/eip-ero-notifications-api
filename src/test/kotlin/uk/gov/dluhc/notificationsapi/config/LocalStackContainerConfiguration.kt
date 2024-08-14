@@ -93,6 +93,7 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.send-uk-gov-notify-requested-signature-queue-name}") sendUkGovNotifyRequestedSignatureQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}") sendUkGovNotifyNinoNotMatchedQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-bespoke-comm-queue-name}") sendUkGovNotifyBespokeCommQueueName: String,
+        @Value("\${sqs.send-uk-gov-notify-invite-to-register-queue-name}") sendUkGovNotifyInviteToRegisterQueueName: String,
         @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}") triggerVoterCardStatisticsUpdateQueueName: String,
         @Value("\${sqs.trigger-postal-application-statistics-update-queue-name}") triggerPostalApplicationStatisticsUpdateQueueName: String,
         @Value("\${sqs.trigger-proxy-application-statistics-update-queue-name}") triggerProxyApplicationStatisticsUpdateQueueName: String,
@@ -106,6 +107,7 @@ class LocalStackContainerConfiguration {
         val sendUkGovNotifyRejectedDocumentMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRejectedDocumentQueueName)
         val sendUkGovNotifyNinoNotMatchedMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyNinoNotMatchedQueueName)
         val sendUkGovNotifyBespokeCommMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyBespokeCommQueueName)
+        val sendUkGovNotifyInviteToRegisterMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyInviteToRegisterQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
         val triggerVoterCardStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerVoterCardStatisticsUpdateQueueName)
         val triggerPostalApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerPostalApplicationStatisticsUpdateQueueName)
@@ -129,6 +131,7 @@ class LocalStackContainerConfiguration {
             removeApplicationNotificationsQueueName = removeApplicationNotificationsMessageQueueName,
             sendUkGovNotifyNinoNotMatchedMessageQueueName = sendUkGovNotifyNinoNotMatchedMessageQueueName,
             sendUkGovNotifyBespokeCommMessageQueueName = sendUkGovNotifyBespokeCommMessageQueueName,
+            sendUkGovNotifyInviteToRegisterMessageQueueName = sendUkGovNotifyInviteToRegisterMessageQueueName,
             triggerVoterCardStatisticsUpdateQueueName = triggerVoterCardStatisticsMessageQueueName,
             triggerPostalApplicationStatisticsUpdateQueueName = triggerPostalApplicationStatisticsMessageQueueName,
             triggerProxyApplicationStatisticsUpdateQueueName = triggerProxyApplicationStatisticsMessageQueueName,
@@ -266,6 +269,7 @@ data class LocalStackContainerSettings(
     val sendUkGovNotifyRejectedDocumentMessageQueueName: String,
     val sendUkGovNotifyNinoNotMatchedMessageQueueName: String,
     val sendUkGovNotifyBespokeCommMessageQueueName: String,
+    val sendUkGovNotifyInviteToRegisterMessageQueueName: String,
     val removeApplicationNotificationsQueueName: String,
     val triggerVoterCardStatisticsUpdateQueueName: String,
     val triggerPostalApplicationStatisticsUpdateQueueName: String,
@@ -281,6 +285,7 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlRemoveApplicationNotificationsQueueName: String = toMappedUrl(removeApplicationNotificationsQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName: String = toMappedUrl(sendUkGovNotifyNinoNotMatchedMessageQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName: String = toMappedUrl(sendUkGovNotifyBespokeCommMessageQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyInviteToRegisterMessageQueueName: String = toMappedUrl(sendUkGovNotifyInviteToRegisterMessageQueueName, apiUrl)
     val mappedQueueUrlTriggerVoterCardStatisticsUpdateQueueName: String = toMappedUrl(triggerVoterCardStatisticsUpdateQueueName, apiUrl)
     val mappedQueueUrlTriggerPostalApplicationStatisticsUpdateQueueName: String = toMappedUrl(triggerPostalApplicationStatisticsUpdateQueueName, apiUrl)
 
