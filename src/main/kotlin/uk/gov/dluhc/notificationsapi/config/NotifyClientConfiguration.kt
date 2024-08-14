@@ -295,7 +295,7 @@ class VoterCardNotifyEmailTemplateConfiguration(
     bespokeCommEnglish: String,
     bespokeCommWelsh: String,
     inviteToRegisterEnglish: String,
-    inviteToRegisterWelsh: String
+    inviteToRegisterWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -335,7 +335,7 @@ class VoterCardNotifyEmailTemplateConfiguration(
     bespokeCommEnglish = bespokeCommEnglish,
     bespokeCommWelsh = bespokeCommWelsh,
     inviteToRegisterEnglish = inviteToRegisterEnglish,
-    inviteToRegisterWelsh = inviteToRegisterWelsh
+    inviteToRegisterWelsh = inviteToRegisterWelsh,
 )
 
 data class NotifyLetterTemplateConfiguration(

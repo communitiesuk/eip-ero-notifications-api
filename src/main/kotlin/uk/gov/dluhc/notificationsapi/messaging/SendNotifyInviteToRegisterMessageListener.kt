@@ -16,24 +16,24 @@ private val logger = KotlinLogging.logger { }
 
 @Component
 class SendNotifyInviteToRegisterMessageListener(
-        private val sendNotificationService: SendNotificationService,
-        private val sendNotifyMessageMapper: SendNotifyMessageMapper,
-        private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
-        private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
+    private val sendNotificationService: SendNotificationService,
+    private val sendNotifyMessageMapper: SendNotifyMessageMapper,
+    private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
+    private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
 ) : MessageListener<SendNotifyInviteToRegisterMessage> {
 
     @SqsListener(value = ["\${sqs.send-uk-gov-notify-invite-to-register-queue-name}"])
     override fun handleMessage(
         @Valid @Payload
-        payload: SendNotifyInviteToRegisterMessage
+        payload: SendNotifyInviteToRegisterMessage,
     ) {
         logger.info {
             "received send UK Gov notify invite to register message request for gssCode: ${payload.gssCode} with " +
-                    "channel: ${payload.channel}, " +
-                    "messageType: ${payload.messageType}, " +
-                    "language: ${payload.language}, " +
-                    "sourceReference: ${payload.sourceReference}, " +
-                    "sourceType: ${payload.sourceType}"
+                "channel: ${payload.channel}, " +
+                "messageType: ${payload.messageType}, " +
+                "language: ${payload.language}, " +
+                "sourceReference: ${payload.sourceReference}, " +
+                "sourceType: ${payload.sourceType}"
         }
         with(payload) {
             val sendNotificationRequestDto =
@@ -41,14 +41,14 @@ class SendNotifyInviteToRegisterMessageListener(
                     this,
                 )
             val personalisationDto = templatePersonalisationMessageMapper
-                    .toInviteToRegisterTemplatePersonalisationDto(
-                        personalisation,
-                        sendNotificationRequestDto.language,
-                        sourceType,
-                    )
+                .toInviteToRegisterTemplatePersonalisationDto(
+                    personalisation,
+                    sendNotificationRequestDto.language,
+                    sourceType,
+                )
             val personalisationMap = templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(
-                    personalisationDto,
-                    sendNotificationRequestDto.language
+                personalisationDto,
+                sendNotificationRequestDto.language,
             )
             sendNotificationService.sendNotification(sendNotificationRequestDto, personalisationMap)
         }

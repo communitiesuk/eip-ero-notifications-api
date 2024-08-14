@@ -498,7 +498,7 @@ fun buildInviteToRegisterPersonalisationDto(
     eroContactDetails = eroContactDetails,
     applicationReference = applicationReference,
     personalisationFullSourceTypeString = sourceType,
-    freeText = freeText
+    freeText = freeText,
 )
 
 fun buildInviteToRegisterPersonalisationMapFromDto(

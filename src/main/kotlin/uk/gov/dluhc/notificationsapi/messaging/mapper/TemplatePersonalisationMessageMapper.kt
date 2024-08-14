@@ -184,8 +184,8 @@ abstract class TemplatePersonalisationMessageMapper {
     ): BespokeCommPersonalisationDto
 
     @Mapping(
-            target = "personalisationFullSourceTypeString",
-            expression = "java( mapFullSourceType( languageDto, sourceType ) )",
+        target = "personalisationFullSourceTypeString",
+        expression = "java( mapFullSourceType( languageDto, sourceType ) )",
     )
     @Mapping(target = "freeText", source = "personalisation.freeText")
     abstract fun toInviteToRegisterTemplatePersonalisationDto(

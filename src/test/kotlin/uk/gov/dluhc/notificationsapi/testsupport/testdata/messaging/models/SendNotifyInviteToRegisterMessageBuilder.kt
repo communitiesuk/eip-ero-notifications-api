@@ -15,14 +15,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
 fun buildSendNotifyInviteToRegisterMessage(
-        language: Language = Language.EN,
-        sourceType: SourceType = SourceType.POSTAL,
-        sourceReference: String = aSourceReference(),
-        gssCode: String = aGssCode(),
-        requestor: String = aRequestor(),
-        channel: CommunicationChannel = CommunicationChannel.EMAIL,
-        toAddress: MessageAddress = aMessageAddress(),
-        personalisation: InviteToRegisterPersonalisation = buildInviteToRegisterPersonalisation()
+    language: Language = Language.EN,
+    sourceType: SourceType = SourceType.POSTAL,
+    sourceReference: String = aSourceReference(),
+    gssCode: String = aGssCode(),
+    requestor: String = aRequestor(),
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
+    toAddress: MessageAddress = aMessageAddress(),
+    personalisation: InviteToRegisterPersonalisation = buildInviteToRegisterPersonalisation(),
 ): SendNotifyInviteToRegisterMessage =
     SendNotifyInviteToRegisterMessage(
         language = language,
@@ -46,5 +46,5 @@ fun buildInviteToRegisterPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
-        freeText = freeText
+        freeText = freeText,
     )

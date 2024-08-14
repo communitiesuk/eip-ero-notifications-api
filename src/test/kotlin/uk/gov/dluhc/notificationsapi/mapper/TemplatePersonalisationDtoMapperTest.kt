@@ -501,15 +501,15 @@ class TemplatePersonalisationDtoMapperTest {
 
         @ParameterizedTest
         @CsvSource(
-                value = [
-                    "postal vote, POSTAL",
-                    "proxy vote, PROXY",
-                    "Voter Authority Certificate, VOTER_CARD",
-                ],
+            value = [
+                "postal vote, POSTAL",
+                "proxy vote, PROXY",
+                "Voter Authority Certificate, VOTER_CARD",
+            ],
         )
         fun `should map dto to personalisation map when all fields present`(
-                personalisationSourceTypeString: String,
-                sourceTypeDto: SourceType,
+            personalisationSourceTypeString: String,
+            sourceTypeDto: SourceType,
         ) {
             // Given
             val personalisationDto = buildInviteToRegisterPersonalisationDto()

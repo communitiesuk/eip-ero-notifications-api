@@ -510,9 +510,9 @@ class TemplateServiceTest {
             val personalisationMap = buildInviteToRegisterPersonalisationMapFromDto(dto.personalisation)
             val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
             given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
-                    .willReturn(templateId)
+                .willReturn(templateId)
             given(templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(any(), any()))
-                    .willReturn(personalisationMap)
+                .willReturn(personalisationMap)
             given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
 
             // When
@@ -522,15 +522,15 @@ class TemplateServiceTest {
             assertThat(actual).isEqualTo(previewDto)
             verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
             verify(notificationTemplateMapper)
-                    .fromNotificationTypeForChannelInLanguage(
-                            dto.sourceType,
-                            dto.notificationType,
-                            dto.channel,
-                            dto.language,
-                    )
-            verify(templatePersonalisationDtoMapper).toInviteToRegisterTemplatePersonalisationMap(
-                    dto.personalisation,
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
                     dto.language,
+                )
+            verify(templatePersonalisationDtoMapper).toInviteToRegisterTemplatePersonalisationMap(
+                dto.personalisation,
+                dto.language,
             )
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }

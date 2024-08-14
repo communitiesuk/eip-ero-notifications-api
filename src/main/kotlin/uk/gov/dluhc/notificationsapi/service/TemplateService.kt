@@ -193,16 +193,16 @@ class TemplateService(
     fun generateInviteToRegisterTemplatePreview(dto: InviteToRegisterTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(dto) {
             govNotifyApiClient.generateTemplatePreview(
-                    notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
-                            sourceType,
-                            notificationType,
-                            channel,
-                            language,
-                    ),
-                    templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(
-                            personalisation,
-                            language,
-                    ),
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language,
+                ),
+                templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(
+                    personalisation,
+                    language,
+                ),
             )
         }
     }

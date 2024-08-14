@@ -25,9 +25,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildAddressRequestWithOptionalParamsNull
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildInviteToRegisterPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetailsRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateInviteToRegisterTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildInviteToRegisterPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
@@ -60,21 +60,21 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
     @Test
     fun `should return unauthorized given user with invalid bearer token`() {
         webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .bearerToken(UNAUTHORIZED_BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus()
-                .isUnauthorized
+            .uri(URI_TEMPLATE)
+            .bearerToken(UNAUTHORIZED_BEARER_TOKEN)
+            .contentType(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus()
+            .isUnauthorized
     }
 
     @Test
     fun `should return forbidden given no bearer token`() {
         webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .exchange()
-                .expectStatus()
-                .isForbidden
+            .uri(URI_TEMPLATE)
+            .exchange()
+            .expectStatus()
+            .isForbidden
     }
 
     @Test
@@ -85,23 +85,23 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
 
         // When
         val response = webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .bearerToken(getBearerToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .withAValidBody(SourceType.POSTAL)
-                .exchange()
-                .expectStatus()
-                .isNotFound
-                .returnResult(ErrorResponse::class.java)
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .withAValidBody(SourceType.POSTAL)
+            .exchange()
+            .expectStatus()
+            .isNotFound
+            .returnResult(ErrorResponse::class.java)
 
         // Then
         val actual = response.responseBody.blockFirst()
         ErrorResponseAssert.assertThat(actual)
-                .hasTimestampNotBefore(earliestExpectedTimeStamp)
-                .hasStatus(404)
-                .hasError("Not Found")
-                .hasMessage("Notification template not found for the given template type")
-                .hasNoValidationErrors()
+            .hasTimestampNotBefore(earliestExpectedTimeStamp)
+            .hasStatus(404)
+            .hasError("Not Found")
+            .hasMessage("Notification template not found for the given template type")
+            .hasNoValidationErrors()
     }
 
     @Test
@@ -111,22 +111,22 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
 
         // When
         val response = webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .bearerToken(getBearerToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus()
-                .isBadRequest
-                .returnResult(ErrorResponse::class.java)
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus()
+            .isBadRequest
+            .returnResult(ErrorResponse::class.java)
 
         // Then
         val actual = response.responseBody.blockFirst()
         ErrorResponseAssert.assertThat(actual)
-                .hasTimestampNotBefore(earliestExpectedTimeStamp)
-                .hasStatus(400)
-                .hasError("Bad Request")
-                .hasMessageContaining("Required request body is missing")
-                .hasNoValidationErrors()
+            .hasTimestampNotBefore(earliestExpectedTimeStamp)
+            .hasStatus(400)
+            .hasError("Bad Request")
+            .hasMessageContaining("Required request body is missing")
+            .hasNoValidationErrors()
     }
 
     @Test
@@ -137,23 +137,23 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
 
         // When
         val response = webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .bearerToken(getBearerToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .withAValidBody(SourceType.POSTAL)
-                .exchange()
-                .expectStatus()
-                .isBadRequest
-                .returnResult(ErrorResponse::class.java)
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .withAValidBody(SourceType.POSTAL)
+            .exchange()
+            .expectStatus()
+            .isBadRequest
+            .returnResult(ErrorResponse::class.java)
 
         // Then
         val actual = response.responseBody.blockFirst()
         ErrorResponseAssert.assertThat(actual)
-                .hasTimestampNotBefore(earliestExpectedTimeStamp)
-                .hasStatus(400)
-                .hasError("Bad Request")
-                .hasMessageContaining("Missing personalisation: applicationReference, firstName")
-                .hasNoValidationErrors()
+            .hasTimestampNotBefore(earliestExpectedTimeStamp)
+            .hasStatus(400)
+            .hasError("Bad Request")
+            .hasMessageContaining("Missing personalisation: applicationReference, firstName")
+            .hasNoValidationErrors()
     }
 
     @SourceTypesApiEnumTest
@@ -162,90 +162,90 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
         wireMockService.stubCognitoJwtIssuerResponse()
 
         val requestBody = buildGenerateInviteToRegisterTemplatePreviewRequest(
-                sourceType = sourceType,
-                personalisation = buildInviteToRegisterPersonalisation(
-                        applicationReference = "",
-                        firstName = "",
-                        eroContactDetails = buildEroContactDetails(
-                                address = buildAddress(
-                                        street = "",
-                                        postcode = "AB11111111111",
-                                ),
-                        ),
+            sourceType = sourceType,
+            personalisation = buildInviteToRegisterPersonalisation(
+                applicationReference = "",
+                firstName = "",
+                eroContactDetails = buildEroContactDetails(
+                    address = buildAddress(
+                        street = "",
+                        postcode = "AB11111111111",
+                    ),
                 ),
+            ),
         )
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
         val expectedValidationErrorsCount = 4
 
         // When
         val response = webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .bearerToken(getBearerToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .withABody(requestBody)
-                .exchange()
-                .expectStatus()
-                .isBadRequest
-                .returnResult(ErrorResponse::class.java)
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .withABody(requestBody)
+            .exchange()
+            .expectStatus()
+            .isBadRequest
+            .returnResult(ErrorResponse::class.java)
 
         // Then
         val actual = response.responseBody.blockFirst()
         ErrorResponseAssert.assertThat(actual)
-                .hasTimestampNotBefore(earliestExpectedTimeStamp)
-                .hasStatus(400)
-                .hasError("Bad Request")
-                .hasMessageContaining("Validation failed for object='generateInviteToRegisterTemplatePreviewRequest'. Error count: $expectedValidationErrorsCount")
-                .hasValidationError("Error on field 'personalisation.firstName': rejected value [], must match \".*[a-zA-Z]+.*\"")
-                .hasValidationError("Error on field 'personalisation.firstName': rejected value [], size must be between 1 and 255") // also validates size when firstName is blank
-                .hasValidationError("Error on field 'personalisation.eroContactDetails.address.street': rejected value [], size must be between 1 and 255")
-                .hasValidationError("Error on field 'personalisation.eroContactDetails.address.postcode': rejected value [AB11111111111], size must be between 1 and 10")
+            .hasTimestampNotBefore(earliestExpectedTimeStamp)
+            .hasStatus(400)
+            .hasError("Bad Request")
+            .hasMessageContaining("Validation failed for object='generateInviteToRegisterTemplatePreviewRequest'. Error count: $expectedValidationErrorsCount")
+            .hasValidationError("Error on field 'personalisation.firstName': rejected value [], must match \".*[a-zA-Z]+.*\"")
+            .hasValidationError("Error on field 'personalisation.firstName': rejected value [], size must be between 1 and 255") // also validates size when firstName is blank
+            .hasValidationError("Error on field 'personalisation.eroContactDetails.address.street': rejected value [], size must be between 1 and 255")
+            .hasValidationError("Error on field 'personalisation.eroContactDetails.address.postcode': rejected value [AB11111111111], size must be between 1 and 10")
     }
 
     @ParameterizedTest
     @CsvSource(
-            value = [
-                "POSTAL, EMAIL, ${EMAIL_ENGLISH_TEMPLATE_ID},EN,postal vote",
-                "POSTAL, LETTER, ${LETTER_ENGLISH_TEMPLATE_ID},EN,postal vote",
-                "POSTAL, EMAIL, ${EMAIL_WELSH_TEMPLATE_ID},CY,bleidlais bost",
-                "POSTAL, LETTER, ${LETTER_WELSH_TEMPLATE_ID},CY,bleidlais bost",
-                "PROXY, EMAIL, ${EMAIL_ENGLISH_TEMPLATE_ID},EN,proxy vote",
-                "PROXY, LETTER, ${LETTER_ENGLISH_TEMPLATE_ID},EN,proxy vote",
-                "PROXY, EMAIL, ${EMAIL_WELSH_TEMPLATE_ID},CY,bleidlais drwy ddirprwy",
-                "PROXY, LETTER, ${LETTER_WELSH_TEMPLATE_ID},CY,bleidlais drwy ddirprwy",
-                "VOTER_MINUS_CARD, EMAIL, ${EMAIL_ENGLISH_TEMPLATE_ID},EN,Voter Authority Certificate",
-                "VOTER_MINUS_CARD, LETTER, ${LETTER_ENGLISH_TEMPLATE_ID},EN,Voter Authority Certificate",
-                "VOTER_MINUS_CARD, EMAIL, ${EMAIL_WELSH_TEMPLATE_ID},CY,Dystysgrif Awdurdod Pleidleisiwr",
-                "VOTER_MINUS_CARD, LETTER, ${LETTER_WELSH_TEMPLATE_ID},CY,Dystysgrif Awdurdod Pleidleisiwr",
-            ],
+        value = [
+            "POSTAL, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,postal vote",
+            "POSTAL, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,postal vote",
+            "POSTAL, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais bost",
+            "POSTAL, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais bost",
+            "PROXY, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,proxy vote",
+            "PROXY, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,proxy vote",
+            "PROXY, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy",
+            "PROXY, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy",
+            "VOTER_MINUS_CARD, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
+            "VOTER_MINUS_CARD, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
+            "VOTER_MINUS_CARD, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
+            "VOTER_MINUS_CARD, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
+        ],
     )
     fun `should return template preview given valid request`(
-            sourceType: SourceType,
-            communicationChannel: CommunicationChannel,
-            templateId: String,
-            language: Language,
-            expectedPersonalisationFullSourceType: String,
+        sourceType: SourceType,
+        communicationChannel: CommunicationChannel,
+        templateId: String,
+        language: Language,
+        expectedPersonalisationFullSourceType: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
         val requestBody = buildGenerateInviteToRegisterTemplatePreviewRequest(
-                sourceType = sourceType,
-                channel = communicationChannel,
-                language = language,
-                personalisation = buildInviteToRegisterPersonalisation(
-                        freeText = "free text"
-                ),
+            sourceType = sourceType,
+            channel = communicationChannel,
+            language = language,
+            personalisation = buildInviteToRegisterPersonalisation(
+                freeText = "free text",
+            ),
         )
 
         // When
         val response = webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .bearerToken(getBearerToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .withABody(requestBody)
-                .exchange()
-                .expectStatus().isOk
-                .returnResult(GenerateTemplatePreviewResponse::class.java)
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .withABody(requestBody)
+            .exchange()
+            .expectStatus().isOk
+            .returnResult(GenerateTemplatePreviewResponse::class.java)
 
         // Then
         val actualResponse = response.responseBody.blockFirst()
@@ -253,20 +253,20 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse)
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf<String, Any>(
-                    "applicationReference" to applicationReference,
-                    "firstName" to firstName,
-                    "freeText" to requestBody.personalisation.freeText!!,
-                    "LAName" to eroContactDetails.localAuthorityName,
-                    "eroWebsite" to eroContactDetails.website,
-                    "eroEmail" to eroContactDetails.email,
-                    "eroPhone" to eroContactDetails.phone,
-                    "eroAddressLine1" to eroContactDetails.address.property!!,
-                    "eroAddressLine2" to eroContactDetails.address.street,
-                    "eroAddressLine3" to eroContactDetails.address.town!!,
-                    "eroAddressLine4" to eroContactDetails.address.area!!,
-                    "eroAddressLine5" to eroContactDetails.address.locality!!,
-                    "eroPostcode" to eroContactDetails.address.postcode,
-                    "sourceType" to expectedPersonalisationFullSourceType,
+                "applicationReference" to applicationReference,
+                "firstName" to firstName,
+                "freeText" to requestBody.personalisation.freeText!!,
+                "LAName" to eroContactDetails.localAuthorityName,
+                "eroWebsite" to eroContactDetails.website,
+                "eroEmail" to eroContactDetails.email,
+                "eroPhone" to eroContactDetails.phone,
+                "eroAddressLine1" to eroContactDetails.address.property!!,
+                "eroAddressLine2" to eroContactDetails.address.street,
+                "eroAddressLine3" to eroContactDetails.address.town!!,
+                "eroAddressLine4" to eroContactDetails.address.area!!,
+                "eroAddressLine5" to eroContactDetails.address.locality!!,
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to expectedPersonalisationFullSourceType,
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
@@ -274,42 +274,42 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
 
     @ParameterizedTest
     @CsvSource(
-            value = [
-                "EMAIL, ${EMAIL_ENGLISH_TEMPLATE_ID}",
-                "LETTER, ${LETTER_ENGLISH_TEMPLATE_ID}",
-            ],
+        value = [
+            "EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID",
+            "LETTER, $LETTER_ENGLISH_TEMPLATE_ID",
+        ],
     )
     fun `should return template preview given valid request when optional values are not populated`(
-            communicationChannel: CommunicationChannel,
-            templateId: String,
+        communicationChannel: CommunicationChannel,
+        templateId: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateInviteToRegisterTemplatePreviewRequest(
-                channel = communicationChannel,
-                personalisation = buildInviteToRegisterPersonalisation(
-                        freeText = null,
-                        eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
-                ),
+            channel = communicationChannel,
+            personalisation = buildInviteToRegisterPersonalisation(
+                freeText = null,
+                eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
+            ),
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
-                    "applicationReference" to applicationReference,
-                    "firstName" to firstName,
-                    "freeText" to "",
-                    "LAName" to eroContactDetails.localAuthorityName,
-                    "eroWebsite" to eroContactDetails.website,
-                    "eroEmail" to eroContactDetails.email,
-                    "eroPhone" to eroContactDetails.phone,
-                    "eroAddressLine1" to "",
-                    "eroAddressLine2" to eroContactDetails.address.street,
-                    "eroAddressLine3" to "",
-                    "eroAddressLine4" to "",
-                    "eroAddressLine5" to "",
-                    "eroPostcode" to eroContactDetails.address.postcode,
-                    "sourceType" to "postal vote",
+                "applicationReference" to applicationReference,
+                "firstName" to firstName,
+                "freeText" to "",
+                "LAName" to eroContactDetails.localAuthorityName,
+                "eroWebsite" to eroContactDetails.website,
+                "eroEmail" to eroContactDetails.email,
+                "eroPhone" to eroContactDetails.phone,
+                "eroAddressLine1" to "",
+                "eroAddressLine2" to eroContactDetails.address.street,
+                "eroAddressLine3" to "",
+                "eroAddressLine4" to "",
+                "eroAddressLine5" to "",
+                "eroPostcode" to eroContactDetails.address.postcode,
+                "sourceType" to "postal vote",
             )
         }
 
@@ -317,13 +317,13 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
 
         // When
         val response = webTestClient.post()
-                .uri(URI_TEMPLATE)
-                .bearerToken(getBearerToken())
-                .contentType(MediaType.APPLICATION_JSON)
-                .withABody(requestBody)
-                .exchange()
-                .expectStatus().isOk
-                .returnResult(GenerateTemplatePreviewResponse::class.java)
+            .uri(URI_TEMPLATE)
+            .bearerToken(getBearerToken())
+            .contentType(MediaType.APPLICATION_JSON)
+            .withABody(requestBody)
+            .exchange()
+            .expectStatus().isOk
+            .returnResult(GenerateTemplatePreviewResponse::class.java)
 
         // Then
         val actual = response.responseBody.blockFirst()
@@ -332,12 +332,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(sourceType: SourceType): WebTestClient.RequestBodySpec =
-            withABody(buildGenerateInviteToRegisterTemplatePreviewRequest(sourceType = sourceType))
+        withABody(buildGenerateInviteToRegisterTemplatePreviewRequest(sourceType = sourceType))
 
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateInviteToRegisterTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
-                Mono.just(request),
-                GenerateInviteToRegisterTemplatePreviewRequest::class.java,
+            Mono.just(request),
+            GenerateInviteToRegisterTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

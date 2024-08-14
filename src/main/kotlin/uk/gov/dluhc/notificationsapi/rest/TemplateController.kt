@@ -223,11 +223,11 @@ class TemplateController(
         request: GenerateInviteToRegisterTemplatePreviewRequest,
     ): GenerateTemplatePreviewResponse {
         return templateService.generateInviteToRegisterTemplatePreview(
-                inviteToRegisterPreviewDtoMapper.toDto(
-                    request,
-                ),
+            inviteToRegisterPreviewDtoMapper.toDto(
+                request,
+            ),
         )
-                .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
+            .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
     }
 
     @PostMapping("/templates/rejected-overseas-document/preview")

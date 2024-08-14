@@ -607,14 +607,14 @@ internal class TemplatePersonalisationMessageMapperTest {
     inner class ToInviteToRegisterTemplatePersonalisationDto {
         @ParameterizedTest
         @CsvSource(
-                value = [
-                    "VOTER_MINUS_CARD",
-                    "PROXY",
-                    "POSTAL",
-                ],
+            value = [
+                "VOTER_MINUS_CARD",
+                "PROXY",
+                "POSTAL",
+            ],
         )
         fun `should map SQS InviteToRegisterTemplatePersonalisation to InviteToRegisterTemplatePersonalisationDto`(
-                sourceType: SourceType,
+            sourceType: SourceType,
         ) {
             // Given
             val personalisationMessage = buildInviteToRegisterPersonalisation()
@@ -623,34 +623,34 @@ internal class TemplatePersonalisationMessageMapperTest {
 
             val expectedPersonalisationDto = with(personalisationMessage) {
                 InviteToRegisterPersonalisationDto(
-                        applicationReference = applicationReference,
-                        firstName = firstName,
-                        eroContactDetails = with(eroContactDetails) {
-                            buildContactDetailsDto(
-                                    localAuthorityName = localAuthorityName,
-                                    website = website,
-                                    phone = phone,
-                                    email = email,
-                                    address = with(address) {
-                                        buildAddressDto(
-                                                street = street,
-                                                property = property,
-                                                locality = locality,
-                                                town = town,
-                                                area = area,
-                                                postcode = postcode,
-                                        )
-                                    },
-                            )
-                        },
-                        personalisationFullSourceTypeString = "Full mapped source type",
-                        freeText = freeText,
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = with(eroContactDetails) {
+                        buildContactDetailsDto(
+                            localAuthorityName = localAuthorityName,
+                            website = website,
+                            phone = phone,
+                            email = email,
+                            address = with(address) {
+                                buildAddressDto(
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode,
+                                )
+                            },
+                        )
+                    },
+                    personalisationFullSourceTypeString = "Full mapped source type",
+                    freeText = freeText,
                 )
             }
 
             // When
             val actual =
-                    mapper.toInviteToRegisterTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
+                mapper.toInviteToRegisterTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

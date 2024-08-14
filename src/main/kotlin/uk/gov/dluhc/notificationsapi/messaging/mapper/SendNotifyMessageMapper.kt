@@ -113,7 +113,7 @@ abstract class SendNotifyMessageMapper {
         source = "messageType",
     )
     abstract fun fromInviteToRegisterMessageToSendNotificationRequestDto(
-            message: SendNotifyInviteToRegisterMessage,
+        message: SendNotifyInviteToRegisterMessage,
     ): SendNotificationRequestDto
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =

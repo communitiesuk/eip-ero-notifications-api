@@ -12,7 +12,7 @@ fun buildInviteToRegisterTemplatePreviewDto(
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: LanguageDto = LanguageDto.ENGLISH,
     notificationType: NotificationType = NotificationType.INVITE_TO_REGISTER,
-    personalisation: InviteToRegisterPersonalisationDto = buildInviteToRegisterPersonalisationDto()
+    personalisation: InviteToRegisterPersonalisationDto = buildInviteToRegisterPersonalisationDto(),
 ): InviteToRegisterTemplatePreviewDto =
     InviteToRegisterTemplatePreviewDto(
         channel = channel,

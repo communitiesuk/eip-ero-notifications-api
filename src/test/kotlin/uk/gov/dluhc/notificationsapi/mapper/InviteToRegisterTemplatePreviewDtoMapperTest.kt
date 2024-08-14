@@ -43,10 +43,10 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
         val freeText = "Free text"
 
         val request = buildGenerateInviteToRegisterTemplatePreviewRequest(
-                channel = channel,
-                personalisation = buildInviteToRegisterPersonalisation(
-                        freeText = freeText
-                )
+            channel = channel,
+            personalisation = buildInviteToRegisterPersonalisation(
+                freeText = freeText,
+            ),
         )
         val expectedChannel = CommunicationChannelDto.valueOf(channel.name)
         given { communicationChannelMapper.fromApiToDto(request.channel) }.willReturn(expectedChannel)
@@ -70,20 +70,20 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
                             email = email,
                             address = with(address) {
                                 buildAddressDto(
-                                        street = street,
-                                        property = property,
-                                        locality = locality,
-                                        town = town,
-                                        area = area,
-                                        postcode = postcode,
+                                    street = street,
+                                    property = property,
+                                    locality = locality,
+                                    town = town,
+                                    area = area,
+                                    postcode = postcode,
                                 )
                             },
                         )
                     },
-                    freeText = freeText
+                    freeText = freeText,
                 )
             },
-            notificationType = NotificationType.INVITE_TO_REGISTER
+            notificationType = NotificationType.INVITE_TO_REGISTER,
         )
 
         // When
@@ -91,8 +91,8 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
 
         // Then
         Assertions.assertThat(actual)
-                .usingRecursiveComparison()
-                .isEqualTo(expected)
+            .usingRecursiveComparison()
+            .isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(sourceTypeMapper).fromApiToDto(SourceType.POSTAL)
         verify(sourceTypeMapper, times(1)).toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
