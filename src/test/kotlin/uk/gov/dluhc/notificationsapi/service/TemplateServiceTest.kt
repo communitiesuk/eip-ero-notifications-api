@@ -40,6 +40,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhoto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationMapFromDto
@@ -490,6 +492,45 @@ class TemplateServiceTest {
             verify(templatePersonalisationDtoMapper).toBespokeCommTemplatePersonalisationMap(
                 dto.personalisation,
                 dto.language,
+            )
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
+        }
+    }
+
+    @Nested
+    inner class GenerateInviteToRegisterTemplatePreview {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY", "VOTER_CARD"])
+        fun `should return invite to register template preview`(
+            sourceType: SourceType,
+        ) {
+            // Given
+            val dto = buildInviteToRegisterTemplatePreviewDto(sourceType)
+            val templateId = "80210eee-4592-11ed-b878-0242ac120005"
+            val personalisationMap = buildInviteToRegisterPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                    .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(any(), any()))
+                    .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateInviteToRegisterTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                    .fromNotificationTypeForChannelInLanguage(
+                            dto.sourceType,
+                            dto.notificationType,
+                            dto.channel,
+                            dto.language,
+                    )
+            verify(templatePersonalisationDtoMapper).toInviteToRegisterTemplatePersonalisationMap(
+                    dto.personalisation,
+                    dto.language,
             )
             verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
