@@ -33,6 +33,8 @@ api:
           id-document-required-welsh: add31fb0-c982-11ed-afa1-0242ac120002
           bespoke-comm-english: d611c268-d512-4dc8-afa3-c3a833fd21c9
           bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
+          invite-to-register-english: bff9ea9b-6f06-467c-8390-7b0172609ee6
+          invite-to-register-welsh: 5321cc6f-2192-4303-8543-4de45a7bdcdd
         letter:
           photo-resubmission-english: 20ff73fd-ae85-447e-8199-c28f7328722d
           photo-resubmission-welsh: 2d017d11-ccca-4bb4-9e3c-af2f3447578b
@@ -48,6 +50,8 @@ api:
           id-document-required-welsh: cdd32cd0-c982-11ed-afa1-0242ac120002
           bespoke-comm-english: a09fca4a-dfc6-47ba-9ecc-ca5f1d580a34
           bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
+          invite-to-register-english: 945dd26f-fec2-474e-943b-1fb58c88497a
+          invite-to-register-welsh: d8a80df2-abf5-405e-81dc-4f814756c462
       postal:
         email:
           received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
@@ -66,6 +70,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: caf616da-c989-4cfb-9392-3f5e78f424e2
           bespoke-comm-english: d611c268-d512-4dc8-afa3-c3a833fd21c9
           bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
+          invite-to-register-english: bff9ea9b-6f06-467c-8390-7b0172609ee6
+          invite-to-register-welsh: 5321cc6f-2192-4303-8543-4de45a7bdcdd
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -81,6 +87,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: bcd3467e-5bc7-4689-9c9b-25a020ca1bca
           bespoke-comm-english: a09fca4a-dfc6-47ba-9ecc-ca5f1d580a34
           bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
+          invite-to-register-english: 945dd26f-fec2-474e-943b-1fb58c88497a
+          invite-to-register-welsh: d8a80df2-abf5-405e-81dc-4f814756c462
       proxy:
         email:
           received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
@@ -99,6 +107,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: caf616da-c989-4cfb-9392-3f5e78f424e2
           bespoke-comm-english: d611c268-d512-4dc8-afa3-c3a833fd21c9
           bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
+          invite-to-register-english: bff9ea9b-6f06-467c-8390-7b0172609ee6
+          invite-to-register-welsh: 5321cc6f-2192-4303-8543-4de45a7bdcdd
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -114,6 +124,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: bcd3467e-5bc7-4689-9c9b-25a020ca1bca
           bespoke-comm-english: a09fca4a-dfc6-47ba-9ecc-ca5f1d580a34
           bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
+          invite-to-register-english: 945dd26f-fec2-474e-943b-1fb58c88497a
+          invite-to-register-welsh: d8a80df2-abf5-405e-81dc-4f814756c462
       overseas:
         email:
           rejected-parent-guardian-english: 90d605be-36bb-4cea-b453-aaf16ca249b3
@@ -158,6 +170,7 @@ sqs:
   send-uk-gov-notify-requested-signature-queue-name: test-send-uk-gov-notify-requested-signature
   send-uk-gov-notify-nino-not-matched-queue-name: test-send-uk-gov-notify-nino-not-matched
   send-uk-gov-notify-bespoke-comm-queue-name: test-send-uk-gov-notify-bespoke-comm
+  send-uk-gov-notify-invite-to-register-queue-name: test-send-uk-gov-notify-invite-to-register
   remove-application-notifications-queue-name: test-remove-application-notifications
   trigger-voter-card-statistics-update-queue-name: test-trigger-voter-card-statistics-update.fifo
   trigger-postal-application-statistics-update-queue-name: test-trigger-postal-application-statistics-update.fifo

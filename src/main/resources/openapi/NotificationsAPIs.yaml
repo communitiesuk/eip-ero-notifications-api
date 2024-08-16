@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.16.3'
+  version: '1.17.0'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -1165,6 +1165,76 @@ paths:
         httpMethod: POST
 
   #
+  # Generate Invite To Register Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/invite-to-register/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Invite To Register matched Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for invite to register template type and personalisation data
+      description: Generates a text preview for invite to register template type and personalisation data
+      operationId: generate-invite-to-register-template-preview
+      tags:
+        - Generate Invite To Register Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateInviteToRegisterTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/invite-to-register/preview'
+        requestParameters:
+          integration.request.header.x-request-id: context.requestId
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
+  #
   # Generate Rejected Overseas Document Preview
   # --------------------------------------------------------------------------------
 
@@ -1359,6 +1429,7 @@ components:
         - previous-address-document-required
         - parent-guardian-proof-required
         - bespoke-comm
+        - invite-to-register
     Language:
       title: Language
       description: The language to view the template
@@ -2108,6 +2179,15 @@ components:
       required:
         - subjectHeader
         - details
+    InviteToRegisterPersonalisation:
+      title: InviteToRegisterPersonalisation
+      type: object
+      description: Personalisation details for an ivite to register
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+      properties:
+        freeText:
+          type: string
     GenerateRejectedSignatureTemplatePreviewRequest:
       title: GenerateRejectedSignatureTemplatePreviewRequest
       description: An object containing request attributes required for generating the rejected signature template preview
@@ -2174,6 +2254,23 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/BespokeCommPersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
+    GenerateInviteToRegisterTemplatePreviewRequest:
+      title: GenerateInviteToRegisterTemplatePreviewRequest
+      description: An object containing request attributes required for generating the invite to register template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/InviteToRegisterPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -2460,6 +2557,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateBespokeCommTemplatePreviewRequest'
+    GenerateInviteToRegisterTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateInviteToRegisterTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:

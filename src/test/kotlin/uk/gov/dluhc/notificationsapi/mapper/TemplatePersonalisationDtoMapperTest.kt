@@ -20,6 +20,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPer
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationDto
@@ -488,6 +490,33 @@ class TemplatePersonalisationDtoMapperTest {
 
             // When
             val actual = mapper.toBespokeCommTemplatePersonalisationMap(personalisationDto, LanguageDto.ENGLISH)
+
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+    }
+
+    @Nested
+    inner class ToInviteToRegisterTemplatePersonalisationMap {
+
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "postal vote, POSTAL",
+                "proxy vote, PROXY",
+                "Voter Authority Certificate, VOTER_CARD",
+            ],
+        )
+        fun `should map dto to personalisation map when all fields present`(
+            personalisationSourceTypeString: String,
+            sourceTypeDto: SourceType,
+        ) {
+            // Given
+            val personalisationDto = buildInviteToRegisterPersonalisationDto()
+            val expected = buildInviteToRegisterPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toInviteToRegisterTemplatePersonalisationMap(personalisationDto, LanguageDto.ENGLISH)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

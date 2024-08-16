@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
@@ -193,6 +194,26 @@ class TemplatePersonalisationDtoMapper {
             personalisation["sourceType"] = personalisationFullSourceTypeString
             personalisation["deadline"] = getSafeValue(deadline)
             personalisation["whatYouNeedToDo"] = deadline != null || whatToDo != null
+        }
+
+        return personalisation
+    }
+
+    fun toInviteToRegisterTemplatePersonalisationMap(
+        dto: InviteToRegisterPersonalisationDto,
+        language: LanguageDto,
+    ): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["freeText"] = getSafeValue(freeText)
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
+            personalisation["sourceType"] = personalisationFullSourceTypeString
         }
 
         return personalisation

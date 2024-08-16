@@ -142,6 +142,18 @@ class BespokeCommPersonalisationDto(
     eroContactDetails = eroContactDetails,
 )
 
+class InviteToRegisterPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val personalisationFullSourceTypeString: String,
+    val freeText: String?,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)
+
 class RejectedOverseasDocumentPersonalisationDto(
     applicationReference: String,
     firstName: String,

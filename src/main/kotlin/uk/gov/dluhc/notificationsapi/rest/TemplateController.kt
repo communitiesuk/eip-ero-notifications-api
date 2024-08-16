@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.mapper.BespokeCommTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateApplicationApprovedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateIdDocumentRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.InviteToRegisterTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.NinoNotMatchedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
@@ -23,6 +24,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplateP
 import uk.gov.dluhc.notificationsapi.models.GenerateBespokeCommTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateInviteToRegisterTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
@@ -51,6 +53,7 @@ class TemplateController(
     private val requiredOverseasDocumentTemplatePreviewDtoMapper: RequiredOverseasDocumentTemplatePreviewDtoMapper,
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
     private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper,
+    private val inviteToRegisterPreviewDtoMapper: InviteToRegisterTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -208,6 +211,19 @@ class TemplateController(
     ): GenerateTemplatePreviewResponse {
         return templateService.generateBespokeCommTemplatePreview(
             bespokeCommPreviewDtoMapper.toDto(
+                request,
+            ),
+        )
+            .let { GenerateTemplatePreviewResponse(it.text, it.subject, it.html) }
+    }
+
+    @PostMapping("/templates/invite-to-register/preview")
+    fun generateInviteToRegisterTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateInviteToRegisterTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
+        return templateService.generateInviteToRegisterTemplatePreview(
+            inviteToRegisterPreviewDtoMapper.toDto(
                 request,
             ),
         )

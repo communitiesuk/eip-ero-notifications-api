@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.BESPOKE_COMM
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.INVITE_TO_REGISTER
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED
@@ -98,6 +99,7 @@ class NotificationTemplateMapper(
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
             BESPOKE_COMM -> config.bespokeCommWelsh
+            INVITE_TO_REGISTER -> config.inviteToRegisterWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -124,6 +126,7 @@ class NotificationTemplateMapper(
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
             BESPOKE_COMM -> config.bespokeCommEnglish
+            INVITE_TO_REGISTER -> config.inviteToRegisterEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -174,6 +177,7 @@ class NotificationTemplateMapper(
             PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredWelsh
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
             BESPOKE_COMM -> config.bespokeCommWelsh
+            INVITE_TO_REGISTER -> config.inviteToRegisterWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -202,6 +206,7 @@ class NotificationTemplateMapper(
         PARENT_GUARDIAN_PROOF_REQUIRED -> config.parentGuardianProofRequiredEnglish
         PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
         BESPOKE_COMM -> config.bespokeCommEnglish
+        INVITE_TO_REGISTER -> config.inviteToRegisterEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
         }

@@ -10,6 +10,7 @@ import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
@@ -28,6 +29,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.BespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.InviteToRegisterPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
@@ -180,6 +182,17 @@ abstract class TemplatePersonalisationMessageMapper {
         languageDto: LanguageDto,
         sourceType: SourceType,
     ): BespokeCommPersonalisationDto
+
+    @Mapping(
+        target = "personalisationFullSourceTypeString",
+        expression = "java( mapFullSourceType( languageDto, sourceType ) )",
+    )
+    @Mapping(target = "freeText", source = "personalisation.freeText")
+    abstract fun toInviteToRegisterTemplatePersonalisationDto(
+        personalisation: InviteToRegisterPersonalisation,
+        languageDto: LanguageDto,
+        sourceType: SourceType,
+    ): InviteToRegisterPersonalisationDto
 
     protected fun mapSourceType(
         languageDto: LanguageDto,
