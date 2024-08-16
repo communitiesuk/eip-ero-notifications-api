@@ -130,7 +130,7 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
     }
 
     @Test
-    fun `should return bad request given valid missing request body parameters to gov notify`() {
+    fun `should return bad request given GOV Notify returns bad request due to missing request body parameters`() {
         // Given
         wireMockService.stubNotifyGenerateTemplatePreviewBadRequestResponse(EMAIL_ENGLISH_TEMPLATE_ID)
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)

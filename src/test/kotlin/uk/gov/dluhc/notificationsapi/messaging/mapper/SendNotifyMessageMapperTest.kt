@@ -1003,13 +1003,13 @@ internal class SendNotifyMessageMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "EMAIL,EN,EMAIL,ENGLISH,BESPOKE_COMM",
-                "EMAIL,CY,EMAIL,WELSH,BESPOKE_COMM",
-                "LETTER,EN,LETTER,ENGLISH,BESPOKE_COMM",
-                "LETTER,CY,LETTER,WELSH,BESPOKE_COMM",
+                "EMAIL,EN,EMAIL,ENGLISH,INVITE_TO_REGISTER",
+                "EMAIL,CY,EMAIL,WELSH,INVITE_TO_REGISTER",
+                "LETTER,EN,LETTER,ENGLISH,INVITE_TO_REGISTER",
+                "LETTER,CY,LETTER,WELSH,INVITE_TO_REGISTER",
             ],
         )
-        fun `should map SQS SendNotifyBespokeCommMessage to SendNotificationRequestDto`(
+        fun `should map SQS SendNotifyInviteToRegisterCommMessage to SendNotificationRequestDto`(
             sqsChannel: SqsChannel,
             language: Language,
             communicationChannel: CommunicationChannel,

@@ -859,8 +859,8 @@ components:
         - personalisation
         - channel
     InviteToRegister:
-      title: InviteTORegister
-      description: The data an invite to register
+      title: InviteToRegister
+      description: The data for an invite to register communication
       type: object
       properties:
         freeText:
@@ -868,7 +868,7 @@ components:
     InviteToRegisterPersonalisation:
       title: InviteToRegisterPersonalisation
       type: object
-      description: Personalisation details for an invite to register
+      description: Personalisation details for an invite to register communication
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
         - $ref: '#/components/schemas/InviteToRegister'

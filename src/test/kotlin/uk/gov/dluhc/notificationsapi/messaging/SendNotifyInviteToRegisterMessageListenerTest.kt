@@ -35,7 +35,7 @@ internal class SendNotifyInviteToRegisterMessageListenerTest {
     private lateinit var sendNotificationService: SendNotificationService
 
     @Test
-    fun `should handle SQS SendNotifyBespokeCommMessage`() {
+    fun `should handle SQS SendNotifyInviteTorRegisterMessage`() {
         // Given
         val sqsMessage = buildSendNotifyInviteToRegisterMessage()
         val requestDto = aSendNotificationRequestDto()
