@@ -43,15 +43,6 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
         private const val URI_TEMPLATE = "/templates/invite-to-register/preview"
     }
 
-    @Autowired
-    private lateinit var sourceTypeMapper: SourceTypeMapper
-
-    @Autowired
-    private lateinit var deadlineMapper: DeadlineMapper
-
-    @Autowired
-    private lateinit var languageMapper: LanguageMapper
-
     @BeforeEach
     fun setup() {
         wireMockService.stubCognitoJwtIssuerResponse()
@@ -234,6 +225,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
             language = language,
             personalisation = buildInviteToRegisterPersonalisation(
                 freeText = "free text",
+                property = "1234",
+                street = "Fake Street",
+                town = "Fake town",
+                area = "Fakeshire",
+                locality = "Fakenham",
+                postcode = "FA1 2KE"
             ),
         )
 
@@ -256,6 +253,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "freeText" to requestBody.personalisation.freeText!!,
+                "property" to requestBody.personalisation.property!!,
+                "street" to requestBody.personalisation.street!!,
+                "town" to requestBody.personalisation.town!!,
+                "area" to requestBody.personalisation.area!!,
+                "locality" to requestBody.personalisation.locality!!,
+                "postcode" to requestBody.personalisation.postcode!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
@@ -291,6 +294,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
             channel = communicationChannel,
             personalisation = buildInviteToRegisterPersonalisation(
                 freeText = null,
+                property = null,
+                street = null,
+                town = null,
+                area = null,
+                locality = null,
+                postcode = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
             ),
         )
@@ -299,6 +308,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "freeText" to "",
+                "property" to "",
+                "street" to "",
+                "town" to "",
+                "area" to "",
+                "locality" to "",
+                "postcode" to "",
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,

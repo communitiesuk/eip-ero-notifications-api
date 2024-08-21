@@ -209,6 +209,12 @@ class TemplatePersonalisationDtoMapper {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
             personalisation["freeText"] = getSafeValue(freeText)
+            personalisation["property"] = getSafeValue(property)
+            personalisation["street"] = getSafeValue(street)
+            personalisation["town"] = getSafeValue(town)
+            personalisation["area"] = getSafeValue(area)
+            personalisation["locality"] = getSafeValue(locality)
+            personalisation["postcode"] = getSafeValue(postcode)
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapEroContactFields(this)
                 personalisation.putAll(this)

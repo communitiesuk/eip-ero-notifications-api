@@ -41,11 +41,23 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
     fun `should map invite to register template preview request to dto`(channel: CommunicationChannel) {
         // Given
         val freeText = "Free text"
+        val property = "1234"
+        val street = "Fake Street"
+        val town = "Fakehampton"
+        val area = "Fakeshire"
+        val locality = "Fakenham"
+        val postcode = "FA1 2KE"
 
         val request = buildGenerateInviteToRegisterTemplatePreviewRequest(
             channel = channel,
             personalisation = buildInviteToRegisterPersonalisation(
                 freeText = freeText,
+                property = property,
+                street = street,
+                town = town,
+                area = area,
+                locality = locality,
+                postcode = postcode
             ),
         )
         val expectedChannel = CommunicationChannelDto.valueOf(channel.name)
@@ -81,6 +93,12 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
                         )
                     },
                     freeText = freeText,
+                    property = property,
+                    street = street,
+                    town = town,
+                    area = area,
+                    locality = locality,
+                    postcode = postcode
                 )
             },
             notificationType = NotificationType.INVITE_TO_REGISTER,

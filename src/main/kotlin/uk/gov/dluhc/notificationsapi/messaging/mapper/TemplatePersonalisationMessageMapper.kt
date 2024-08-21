@@ -188,6 +188,12 @@ abstract class TemplatePersonalisationMessageMapper {
         expression = "java( mapFullSourceType( languageDto, sourceType ) )",
     )
     @Mapping(target = "freeText", source = "personalisation.freeText")
+    @Mapping(target = "property", source = "personalisation.property")
+    @Mapping(target = "street", source = "personalisation.street")
+    @Mapping(target = "town", source = "personalisation.town")
+    @Mapping(target = "area", source = "personalisation.area")
+    @Mapping(target = "locality", source = "personalisation.locality")
+    @Mapping(target = "postcode", source = "personalisation.postcode")
     abstract fun toInviteToRegisterTemplatePersonalisationDto(
         personalisation: InviteToRegisterPersonalisation,
         languageDto: LanguageDto,

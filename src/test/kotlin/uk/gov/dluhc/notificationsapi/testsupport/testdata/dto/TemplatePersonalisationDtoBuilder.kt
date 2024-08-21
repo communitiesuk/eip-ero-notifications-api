@@ -21,6 +21,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
@@ -493,12 +494,24 @@ fun buildInviteToRegisterPersonalisationDto(
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
     sourceType: String = "postal vote",
     freeText: String? = faker.yoda().quote(),
+    property: String? = faker.address().buildingNumber(),
+    street: String? = faker.address().streetName(),
+    town: String? = faker.address().city(),
+    area: String? = faker.address().city(),
+    locality: String? = faker.address().city(),
+    postcode: String? = faker.address().postcode(),
 ): InviteToRegisterPersonalisationDto = InviteToRegisterPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     applicationReference = applicationReference,
     personalisationFullSourceTypeString = sourceType,
     freeText = freeText,
+    property = property,
+    street = street,
+    town = town,
+    area = area,
+    locality = locality,
+    postcode = postcode
 )
 
 fun buildInviteToRegisterPersonalisationMapFromDto(
@@ -508,6 +521,12 @@ fun buildInviteToRegisterPersonalisationMapFromDto(
 
     with(personalisationDto) {
         personalisationMap["freeText"] = freeText ?: ""
+        personalisationMap["property"] = property ?: ""
+        personalisationMap["street"] = street ?: ""
+        personalisationMap["town"] = town ?: ""
+        personalisationMap["area"] = area ?: ""
+        personalisationMap["locality"] = locality ?: ""
+        personalisationMap["postcode"] = postcode ?: ""
         personalisationMap["sourceType"] = personalisationFullSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }

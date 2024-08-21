@@ -148,6 +148,12 @@ class InviteToRegisterPersonalisationDto(
     eroContactDetails: ContactDetailsDto,
     val personalisationFullSourceTypeString: String,
     val freeText: String?,
+    val property: String?,
+    val street: String?,
+    val town: String?,
+    val area: String?,
+    val locality: String?,
+    val postcode: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,

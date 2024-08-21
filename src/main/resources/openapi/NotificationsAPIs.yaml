@@ -2188,6 +2188,18 @@ components:
       properties:
         freeText:
           type: string
+        property:
+          type: string
+        street:
+          type: string
+        town:
+          type: string
+        area:
+          type: string
+        locality:
+          type: string
+        postcode:
+          type: string
     GenerateRejectedSignatureTemplatePreviewRequest:
       title: GenerateRejectedSignatureTemplatePreviewRequest
       description: An object containing request attributes required for generating the rejected signature template preview

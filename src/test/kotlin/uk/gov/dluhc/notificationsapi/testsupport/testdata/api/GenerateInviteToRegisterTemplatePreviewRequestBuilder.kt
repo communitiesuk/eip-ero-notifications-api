@@ -27,10 +27,22 @@ fun buildInviteToRegisterPersonalisation(
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildEroContactDetails(),
     freeText: String? = DataFaker.faker.yoda().quote(),
+    property: String? = DataFaker.faker.address().buildingNumber(),
+    street: String? = DataFaker.faker.address().streetName(),
+    town: String? = DataFaker.faker.address().city(),
+    area: String? = DataFaker.faker.address().city(),
+    locality: String? = DataFaker.faker.address().city(),
+    postcode: String? = DataFaker.faker.address().postcode(),
 ): InviteToRegisterPersonalisation =
     InviteToRegisterPersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,
         freeText = freeText,
+        property = property,
+        street = street,
+        town = town,
+        area = area,
+        locality = locality,
+        postcode = postcode
     )
