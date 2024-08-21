@@ -645,6 +645,12 @@ internal class TemplatePersonalisationMessageMapperTest {
                     },
                     personalisationFullSourceTypeString = "Full mapped source type",
                     freeText = freeText,
+                    property = property,
+                    street = street,
+                    town = town,
+                    area = area,
+                    locality = locality,
+                    postcode = postcode,
                 )
             }
 

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '2.0.4'
+  version: '2.0.5'
   description: |-
     Notifications SQS Message Types
     
@@ -863,6 +863,18 @@ components:
       description: The data for an invite to register communication
       type: object
       properties:
+        property:
+          type: string
+        street:
+          type: string
+        town:
+          type: string
+        area:
+          type: string
+        locality:
+          type: string
+        postcode:
+          type: string
         freeText:
           type: string
     InviteToRegisterPersonalisation:

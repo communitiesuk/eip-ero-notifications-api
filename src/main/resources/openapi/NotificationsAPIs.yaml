@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.17.0'
+  version: '1.17.1'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -2187,6 +2187,18 @@ components:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
         freeText:
+          type: string
+        property:
+          type: string
+        street:
+          type: string
+        town:
+          type: string
+        area:
+          type: string
+        locality:
+          type: string
+        postcode:
           type: string
     GenerateRejectedSignatureTemplatePreviewRequest:
       title: GenerateRejectedSignatureTemplatePreviewRequest

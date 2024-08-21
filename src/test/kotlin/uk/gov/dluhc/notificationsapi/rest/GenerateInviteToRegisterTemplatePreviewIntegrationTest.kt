@@ -5,14 +5,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
-import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
-import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateInviteToRegisterTemplatePreviewRequest
@@ -42,15 +38,6 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
         private const val LETTER_WELSH_TEMPLATE_ID = "d8a80df2-abf5-405e-81dc-4f814756c462"
         private const val URI_TEMPLATE = "/templates/invite-to-register/preview"
     }
-
-    @Autowired
-    private lateinit var sourceTypeMapper: SourceTypeMapper
-
-    @Autowired
-    private lateinit var deadlineMapper: DeadlineMapper
-
-    @Autowired
-    private lateinit var languageMapper: LanguageMapper
 
     @BeforeEach
     fun setup() {
@@ -234,6 +221,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
             language = language,
             personalisation = buildInviteToRegisterPersonalisation(
                 freeText = "free text",
+                property = "1234",
+                street = "Fake Street",
+                town = "Fake town",
+                area = "Fakeshire",
+                locality = "Fakenham",
+                postcode = "FA1 2KE",
             ),
         )
 
@@ -256,6 +249,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "freeText" to requestBody.personalisation.freeText!!,
+                "property" to requestBody.personalisation.property!!,
+                "street" to requestBody.personalisation.street!!,
+                "town" to requestBody.personalisation.town!!,
+                "area" to requestBody.personalisation.area!!,
+                "locality" to requestBody.personalisation.locality!!,
+                "postcode" to requestBody.personalisation.postcode!!,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
@@ -291,6 +290,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
             channel = communicationChannel,
             personalisation = buildInviteToRegisterPersonalisation(
                 freeText = null,
+                property = null,
+                street = null,
+                town = null,
+                area = null,
+                locality = null,
+                postcode = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
             ),
         )
@@ -299,6 +304,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
                 "applicationReference" to applicationReference,
                 "firstName" to firstName,
                 "freeText" to "",
+                "property" to "",
+                "street" to "",
+                "town" to "",
+                "area" to "",
+                "locality" to "",
+                "postcode" to "",
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
