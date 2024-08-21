@@ -650,7 +650,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                     town = town,
                     area = area,
                     locality = locality,
-                    postcode = postcode
+                    postcode = postcode,
                 )
             }
 

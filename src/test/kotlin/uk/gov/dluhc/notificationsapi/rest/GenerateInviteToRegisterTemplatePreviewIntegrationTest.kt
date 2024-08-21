@@ -5,14 +5,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
-import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
-import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
-import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateInviteToRegisterTemplatePreviewRequest
@@ -230,7 +226,7 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
                 town = "Fake town",
                 area = "Fakeshire",
                 locality = "Fakenham",
-                postcode = "FA1 2KE"
+                postcode = "FA1 2KE",
             ),
         )
 

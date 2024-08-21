@@ -21,7 +21,6 @@ import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
@@ -511,7 +510,7 @@ fun buildInviteToRegisterPersonalisationDto(
     town = town,
     area = area,
     locality = locality,
-    postcode = postcode
+    postcode = postcode,
 )
 
 fun buildInviteToRegisterPersonalisationMapFromDto(

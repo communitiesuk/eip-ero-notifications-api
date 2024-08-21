@@ -35,28 +35,28 @@ abstract class InviteToRegisterTemplatePreviewDtoMapper {
         target = "freeText",
     )
     @Mapping(
-            source = "personalisation.property",
-            target = "property",
+        source = "personalisation.property",
+        target = "property",
     )
     @Mapping(
-            source = "personalisation.street",
-            target = "street",
+        source = "personalisation.street",
+        target = "street",
     )
     @Mapping(
-            source = "personalisation.town",
-            target = "town",
+        source = "personalisation.town",
+        target = "town",
     )
     @Mapping(
-            source = "personalisation.area",
-            target = "area",
+        source = "personalisation.area",
+        target = "area",
     )
     @Mapping(
-            source = "personalisation.locality",
-            target = "locality",
+        source = "personalisation.locality",
+        target = "locality",
     )
     @Mapping(
-            source = "personalisation.postcode",
-            target = "postcode",
+        source = "personalisation.postcode",
+        target = "postcode",
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,

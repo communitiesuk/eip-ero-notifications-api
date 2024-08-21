@@ -57,7 +57,7 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
                 town = town,
                 area = area,
                 locality = locality,
-                postcode = postcode
+                postcode = postcode,
             ),
         )
         val expectedChannel = CommunicationChannelDto.valueOf(channel.name)
@@ -98,7 +98,7 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
                     town = town,
                     area = area,
                     locality = locality,
-                    postcode = postcode
+                    postcode = postcode,
                 )
             },
             notificationType = NotificationType.INVITE_TO_REGISTER,
