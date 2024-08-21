@@ -80,16 +80,15 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
                             website = website,
                             phone = phone,
                             email = email,
-                            address = with(address) {
+                            address =
                                 buildAddressDto(
-                                    street = street,
-                                    property = property,
-                                    locality = locality,
-                                    town = town,
-                                    area = area,
-                                    postcode = postcode,
-                                )
-                            },
+                                    street = address.street,
+                                    property = address.property,
+                                    locality = address.locality,
+                                    town = address.town,
+                                    area = address.area,
+                                    postcode = address.postcode,
+                                ),
                         )
                     },
                     freeText = freeText,
