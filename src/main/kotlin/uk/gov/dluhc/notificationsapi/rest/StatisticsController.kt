@@ -37,10 +37,13 @@ class StatisticsController(
 
         val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
 
+        val hasSentInviteToRegister = notifications.any { it.type == NotificationType.INVITE_TO_REGISTER }
+
         return CommunicationsStatisticsResponseVAC(
             photoRequested = photoRequested,
             identityDocumentsRequested = identityDocumentsRequested,
             bespokeCommunicationsSent = bespokeCommunications,
+            hasSentInviteToRegister = hasSentInviteToRegister
         )
     }
 
@@ -71,10 +74,13 @@ class StatisticsController(
 
         val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
 
+        val hasSentInviteToRegister = notifications.any { it.type == NotificationType.INVITE_TO_REGISTER }
+
         return CommunicationsStatisticsResponseOAVA(
             signatureRequested = signatureRequested,
             identityDocumentsRequested = identityDocumentsRequested,
             bespokeCommunicationsSent = bespokeCommunications,
+            hasSentInviteToRegister = hasSentInviteToRegister
         )
     }
 }

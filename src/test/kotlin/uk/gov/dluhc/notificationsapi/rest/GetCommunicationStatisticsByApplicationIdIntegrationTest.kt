@@ -16,7 +16,7 @@ import java.util.UUID
 internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : IntegrationTest() {
 
     @Test
-    fun `should return photo not requested, documents not requested and 0 bespoke communications sent for VAC application with no communications sent`() {
+    fun `should return photo not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for VAC application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -24,6 +24,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -38,7 +39,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return photo not requested, documents not requested and 0 bespoke communications sent for VAC application with no relevant communications sent`() {
+    fun `should return photo not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for VAC application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -55,6 +56,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -86,6 +88,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -117,6 +120,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -148,6 +152,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -191,6 +196,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -205,7 +211,39 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Postal application with no communications sent`() {
+    fun `should return invite to register has been sent if an invite to register has been sent fro VAC application`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        val sentNotification = aNotificationBuilder(
+                sourceReference = applicationId,
+                sourceType = SourceType.VOTER_CARD,
+                type = NotificationType.INVITE_TO_REGISTER,
+        )
+        notificationRepository.saveNotification(
+                sentNotification,
+        )
+
+        val expected = CommunicationsStatisticsResponseVAC(
+                photoRequested = false,
+                identityDocumentsRequested = false,
+                bespokeCommunicationsSent = 0,
+                hasSentInviteToRegister = true,
+        )
+
+        // When
+        val response = webTestClient.get()
+                .uri(buildVacUri(applicationId = applicationId))
+                .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponseVAC::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Postal application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -213,6 +251,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -227,7 +266,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Postal application with no relevant communications sent`() {
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Postal application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -244,6 +283,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -276,6 +316,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -307,6 +348,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -338,6 +380,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -381,6 +424,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -395,7 +439,71 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Proxy application with no communications sent`() {
+    fun `should return invite to register has been sent if an invite to register has been sent for PROXY application`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        val sentNotification = aNotificationBuilder(
+                sourceReference = applicationId,
+                sourceType = SourceType.PROXY,
+                type = NotificationType.INVITE_TO_REGISTER,
+        )
+        notificationRepository.saveNotification(
+                sentNotification,
+        )
+
+        val expected = CommunicationsStatisticsResponseVAC(
+                photoRequested = false,
+                identityDocumentsRequested = false,
+                bespokeCommunicationsSent = 0,
+                hasSentInviteToRegister = true,
+        )
+
+        // When
+        val response = webTestClient.get()
+                .uri(buildVacUri(applicationId = applicationId))
+                .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponseVAC::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should return invite to register has been sent if an invite to register has been sent for Postal application`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        val sentNotification = aNotificationBuilder(
+                sourceReference = applicationId,
+                sourceType = SourceType.POSTAL,
+                type = NotificationType.INVITE_TO_REGISTER,
+        )
+        notificationRepository.saveNotification(
+                sentNotification,
+        )
+
+        val expected = CommunicationsStatisticsResponseVAC(
+                photoRequested = false,
+                identityDocumentsRequested = false,
+                bespokeCommunicationsSent = 0,
+                hasSentInviteToRegister = true,
+        )
+
+        // When
+        val response = webTestClient.get()
+                .uri(buildVacUri(applicationId = applicationId))
+                .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponseVAC::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Proxy application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -403,6 +511,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -417,7 +526,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested and 0 bespoke communications sent for Proxy application with no relevant communications sent`() {
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Proxy application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -434,6 +543,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -466,6 +576,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -497,6 +608,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -528,6 +640,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = false,
         )
 
         // When
@@ -571,6 +684,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
+            hasSentInviteToRegister = false,
         )
 
         // When
