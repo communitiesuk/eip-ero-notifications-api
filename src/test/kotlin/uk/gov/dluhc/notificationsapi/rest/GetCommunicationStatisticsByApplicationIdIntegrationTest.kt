@@ -211,7 +211,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return invite to register has been sent if an invite to register has been sent fro VAC application`() {
+    fun `should return invite to register sent for VAC application with invite to register communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -439,39 +439,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return invite to register has been sent if an invite to register has been sent for PROXY application`() {
-        // Given
-        val applicationId = aRandomSourceReference()
-
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.PROXY,
-            type = NotificationType.INVITE_TO_REGISTER,
-        )
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
-
-        val expected = CommunicationsStatisticsResponseVAC(
-            photoRequested = false,
-            identityDocumentsRequested = false,
-            bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = true,
-        )
-
-        // When
-        val response = webTestClient.get()
-            .uri(buildVacUri(applicationId = applicationId))
-            .exchange()
-
-        // Then
-        response.expectStatus().isOk
-        val actual = response.returnResult(CommunicationsStatisticsResponseVAC::class.java).responseBody.blockFirst()
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `should return invite to register has been sent if an invite to register has been sent for Postal application`() {
+    fun `should return invite to register sent for Postal application with invite to register communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -484,8 +452,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             sentNotification,
         )
 
-        val expected = CommunicationsStatisticsResponseVAC(
-            photoRequested = false,
+        val expected = CommunicationsStatisticsResponseOAVA(
+            signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentInviteToRegister = true,
@@ -493,12 +461,12 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
         // When
         val response = webTestClient.get()
-            .uri(buildVacUri(applicationId = applicationId))
+            .uri(buildOavaUri(applicationId = applicationId, "postal"))
             .exchange()
 
         // Then
         response.expectStatus().isOk
-        val actual = response.returnResult(CommunicationsStatisticsResponseVAC::class.java).responseBody.blockFirst()
+        val actual = response.returnResult(CommunicationsStatisticsResponseOAVA::class.java).responseBody.blockFirst()
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -685,6 +653,38 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
             hasSentInviteToRegister = false,
+        )
+
+        // When
+        val response = webTestClient.get()
+            .uri(buildOavaUri(applicationId = applicationId, "proxy"))
+            .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponseOAVA::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should return invite to register sent for Proxy application with invite to register communications sent`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        val sentNotification = aNotificationBuilder(
+            sourceReference = applicationId,
+            sourceType = SourceType.PROXY,
+            type = NotificationType.INVITE_TO_REGISTER,
+        )
+        notificationRepository.saveNotification(
+            sentNotification,
+        )
+
+        val expected = CommunicationsStatisticsResponseOAVA(
+            signatureRequested = false,
+            identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = true,
         )
 
         // When
