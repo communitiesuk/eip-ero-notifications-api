@@ -43,7 +43,7 @@ class StatisticsController(
             photoRequested = photoRequested,
             identityDocumentsRequested = identityDocumentsRequested,
             bespokeCommunicationsSent = bespokeCommunications,
-            hasSentInviteToRegister = hasSentInviteToRegister
+            hasSentInviteToRegister = hasSentInviteToRegister,
         )
     }
 
@@ -80,7 +80,7 @@ class StatisticsController(
             signatureRequested = signatureRequested,
             identityDocumentsRequested = identityDocumentsRequested,
             bespokeCommunicationsSent = bespokeCommunications,
-            hasSentInviteToRegister = hasSentInviteToRegister
+            hasSentInviteToRegister = hasSentInviteToRegister,
         )
     }
 }

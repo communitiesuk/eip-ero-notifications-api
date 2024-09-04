@@ -31,26 +31,26 @@ internal class SendNotifyInviteToRegisterMessageListenerIntegrationTest : Integr
 
     @ParameterizedTest
     @CsvSource(
-            value = [
-                "EMAIL,EN,PROXY,PROXY",
-                "EMAIL,CY,PROXY,PROXY",
-                "LETTER,EN,PROXY,PROXY",
-                "LETTER,CY,PROXY,PROXY",
-                "EMAIL,EN,POSTAL,POSTAL",
-                "EMAIL,CY,POSTAL,POSTAL",
-                "LETTER,EN,POSTAL,POSTAL",
-                "LETTER,CY,POSTAL,POSTAL",
-                "EMAIL,EN,VOTER_MINUS_CARD,VOTER_CARD",
-                "EMAIL,CY,VOTER_MINUS_CARD,VOTER_CARD",
-                "LETTER,EN,VOTER_MINUS_CARD,VOTER_CARD",
-                "LETTER,CY,VOTER_MINUS_CARD,VOTER_CARD",
-            ],
+        value = [
+            "EMAIL,EN,PROXY,PROXY",
+            "EMAIL,CY,PROXY,PROXY",
+            "LETTER,EN,PROXY,PROXY",
+            "LETTER,CY,PROXY,PROXY",
+            "EMAIL,EN,POSTAL,POSTAL",
+            "EMAIL,CY,POSTAL,POSTAL",
+            "LETTER,EN,POSTAL,POSTAL",
+            "LETTER,CY,POSTAL,POSTAL",
+            "EMAIL,EN,VOTER_MINUS_CARD,VOTER_CARD",
+            "EMAIL,CY,VOTER_MINUS_CARD,VOTER_CARD",
+            "LETTER,EN,VOTER_MINUS_CARD,VOTER_CARD",
+            "LETTER,CY,VOTER_MINUS_CARD,VOTER_CARD",
+        ],
     )
     fun `should process invite to register message from relevant service`(
-            sqsChannel: CommunicationChannel,
-            language: Language,
-            sourceType: SourceType,
-            expectedSourceType: SourceTypeEntityEnum,
+        sqsChannel: CommunicationChannel,
+        language: Language,
+        sourceType: SourceType,
+        expectedSourceType: SourceTypeEntityEnum,
     ) {
         val personalisationMessage = buildInviteToRegisterPersonalisation()
         val gssCode = aGssCode()
@@ -82,7 +82,7 @@ internal class SendNotifyInviteToRegisterMessageListenerIntegrationTest : Integr
                 wireMockService.verifyNotifySendLetterCalled()
             }
             val actualEntity = notificationRepository
-                    .getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
+                .getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             Assertions.assertThat(actualEntity).hasSize(1)
             when (sourceType) {
                 SourceType.POSTAL -> assertPostalUpdateStatisticsMessageSent(sourceReference)

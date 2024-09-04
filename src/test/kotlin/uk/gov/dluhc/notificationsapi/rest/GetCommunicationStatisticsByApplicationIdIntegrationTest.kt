@@ -216,25 +216,25 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val applicationId = aRandomSourceReference()
 
         val sentNotification = aNotificationBuilder(
-                sourceReference = applicationId,
-                sourceType = SourceType.VOTER_CARD,
-                type = NotificationType.INVITE_TO_REGISTER,
+            sourceReference = applicationId,
+            sourceType = SourceType.VOTER_CARD,
+            type = NotificationType.INVITE_TO_REGISTER,
         )
         notificationRepository.saveNotification(
-                sentNotification,
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseVAC(
-                photoRequested = false,
-                identityDocumentsRequested = false,
-                bespokeCommunicationsSent = 0,
-                hasSentInviteToRegister = true,
+            photoRequested = false,
+            identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = true,
         )
 
         // When
         val response = webTestClient.get()
-                .uri(buildVacUri(applicationId = applicationId))
-                .exchange()
+            .uri(buildVacUri(applicationId = applicationId))
+            .exchange()
 
         // Then
         response.expectStatus().isOk
@@ -444,25 +444,25 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val applicationId = aRandomSourceReference()
 
         val sentNotification = aNotificationBuilder(
-                sourceReference = applicationId,
-                sourceType = SourceType.PROXY,
-                type = NotificationType.INVITE_TO_REGISTER,
+            sourceReference = applicationId,
+            sourceType = SourceType.PROXY,
+            type = NotificationType.INVITE_TO_REGISTER,
         )
         notificationRepository.saveNotification(
-                sentNotification,
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseVAC(
-                photoRequested = false,
-                identityDocumentsRequested = false,
-                bespokeCommunicationsSent = 0,
-                hasSentInviteToRegister = true,
+            photoRequested = false,
+            identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = true,
         )
 
         // When
         val response = webTestClient.get()
-                .uri(buildVacUri(applicationId = applicationId))
-                .exchange()
+            .uri(buildVacUri(applicationId = applicationId))
+            .exchange()
 
         // Then
         response.expectStatus().isOk
@@ -476,25 +476,25 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val applicationId = aRandomSourceReference()
 
         val sentNotification = aNotificationBuilder(
-                sourceReference = applicationId,
-                sourceType = SourceType.POSTAL,
-                type = NotificationType.INVITE_TO_REGISTER,
+            sourceReference = applicationId,
+            sourceType = SourceType.POSTAL,
+            type = NotificationType.INVITE_TO_REGISTER,
         )
         notificationRepository.saveNotification(
-                sentNotification,
+            sentNotification,
         )
 
         val expected = CommunicationsStatisticsResponseVAC(
-                photoRequested = false,
-                identityDocumentsRequested = false,
-                bespokeCommunicationsSent = 0,
-                hasSentInviteToRegister = true,
+            photoRequested = false,
+            identityDocumentsRequested = false,
+            bespokeCommunicationsSent = 0,
+            hasSentInviteToRegister = true,
         )
 
         // When
         val response = webTestClient.get()
-                .uri(buildVacUri(applicationId = applicationId))
-                .exchange()
+            .uri(buildVacUri(applicationId = applicationId))
+            .exchange()
 
         // Then
         response.expectStatus().isOk
