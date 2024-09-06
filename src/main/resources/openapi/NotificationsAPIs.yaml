@@ -2300,13 +2300,13 @@ components:
           type: boolean
         bespokeCommunicationsSent:
           type: integer
-        hasSentInviteToRegister:
+        hasSentNotRegisteredToVoteCommunication:
           type: boolean
       required:
         - photoRequested
         - identityDocumentsRequested
         - bespokeCommunicationsSent
-        - hasSentInviteToRegister
+        - hasSentNotRegisteredToVoteCommunication
     CommunicationsStatisticsResponseOAVA:
       title: CommunicationsStatisticsResponseOAVA
       description: response containing anonymised statistics about communications related to an application
@@ -2318,13 +2318,13 @@ components:
           type: boolean
         bespokeCommunicationsSent:
           type: integer
-        hasSentInviteToRegister:
+        hasSentNotRegisteredToVoteCommunication:
           type: boolean
       required:
         - signatureRequested
         - identityDocumentsRequested
         - bespokeCommunicationsSent
-        - hasSentInviteToRegister
+        - hasSentNotRegisteredToVoteCommunication
 
   #
   # Response Body Definitions

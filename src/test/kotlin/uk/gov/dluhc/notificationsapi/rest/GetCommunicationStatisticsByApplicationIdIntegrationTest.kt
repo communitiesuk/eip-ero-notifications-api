@@ -24,7 +24,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -56,7 +56,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -88,7 +88,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -120,7 +120,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -152,7 +152,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -196,7 +196,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -228,7 +228,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             photoRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = true,
+            hasSentNotRegisteredToVoteCommunication = true,
         )
 
         // When
@@ -251,7 +251,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -283,7 +283,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -316,7 +316,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -348,7 +348,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -380,7 +380,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -424,7 +424,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -456,7 +456,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = true,
+            hasSentNotRegisteredToVoteCommunication = true,
         )
 
         // When
@@ -479,7 +479,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -511,7 +511,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -544,7 +544,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -576,7 +576,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -608,7 +608,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -652,7 +652,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
-            hasSentInviteToRegister = false,
+            hasSentNotRegisteredToVoteCommunication = false,
         )
 
         // When
@@ -684,7 +684,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             signatureRequested = false,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
-            hasSentInviteToRegister = true,
+            hasSentNotRegisteredToVoteCommunication = true,
         )
 
         // When
