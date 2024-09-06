@@ -12,8 +12,8 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplateP
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRequiredOverseasDocumentTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto

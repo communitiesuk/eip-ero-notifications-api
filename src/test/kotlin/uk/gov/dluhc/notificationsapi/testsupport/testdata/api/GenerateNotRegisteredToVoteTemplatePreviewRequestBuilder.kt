@@ -11,10 +11,10 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
 
 fun buildGenerateNotRegisteredToVoteTemplatePreviewRequest(
-        sourceType: SourceType = SourceType.POSTAL,
-        channel: CommunicationChannel = CommunicationChannel.EMAIL,
-        personalisation: NotRegisteredToVotePersonalisation = buildNotRegisteredToVotePersonalisation(),
-        language: Language? = Language.EN,
+    sourceType: SourceType = SourceType.POSTAL,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
+    personalisation: NotRegisteredToVotePersonalisation = buildNotRegisteredToVotePersonalisation(),
+    language: Language? = Language.EN,
 ) = GenerateNotRegisteredToVoteTemplatePreviewRequest(
     channel = channel,
     sourceType = sourceType,
@@ -34,7 +34,7 @@ fun buildNotRegisteredToVotePersonalisation(
     locality: String? = DataFaker.faker.address().city(),
     postcode: String? = DataFaker.faker.address().postcode(),
 ): NotRegisteredToVotePersonalisation =
-        NotRegisteredToVotePersonalisation(
+    NotRegisteredToVotePersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,

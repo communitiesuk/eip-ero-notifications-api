@@ -19,8 +19,8 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
-import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto

@@ -16,9 +16,9 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.BESPOKE_COMM
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.NOT_REGISTERED_TO_VOTE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.NOT_REGISTERED_TO_VOTE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS

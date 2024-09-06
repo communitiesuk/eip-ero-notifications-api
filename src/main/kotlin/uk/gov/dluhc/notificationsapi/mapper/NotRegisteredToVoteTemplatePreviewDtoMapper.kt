@@ -3,9 +3,9 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.springframework.beans.factory.annotation.Autowired
+import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.NotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType

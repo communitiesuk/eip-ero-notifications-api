@@ -9,8 +9,8 @@ import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
@@ -200,8 +200,8 @@ class TemplatePersonalisationDtoMapper {
     }
 
     fun toNotRegisteredToVoteTemplatePersonalisationMap(
-            dto: NotRegisteredToVotePersonalisationDto,
-            language: LanguageDto,
+        dto: NotRegisteredToVotePersonalisationDto,
+        language: LanguageDto,
     ): Map<String, Any> {
         val personalisation = mutableMapOf<String, Any>()
 

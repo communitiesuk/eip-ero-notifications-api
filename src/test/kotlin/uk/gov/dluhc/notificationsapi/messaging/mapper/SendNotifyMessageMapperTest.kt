@@ -39,8 +39,8 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejec
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyBespokeCommMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
@@ -53,8 +53,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNinoNotMatchedPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation

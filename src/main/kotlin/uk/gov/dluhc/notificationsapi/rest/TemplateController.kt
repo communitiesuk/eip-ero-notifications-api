@@ -10,8 +10,8 @@ import uk.gov.dluhc.notificationsapi.mapper.BespokeCommTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateApplicationApprovedTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.GenerateIdDocumentRequiredTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.NotRegisteredToVoteTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.NinoNotMatchedTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.NotRegisteredToVoteTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedOverseasDocumentTemplatePreviewDtoMapper
@@ -24,8 +24,8 @@ import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplateP
 import uk.gov.dluhc.notificationsapi.models.GenerateBespokeCommTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentRequiredTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateIdDocumentResubmissionTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateNinoNotMatchedTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemplatePreviewRequest
@@ -39,21 +39,21 @@ import javax.validation.Valid
 @RestController
 @CrossOrigin
 class TemplateController(
-        private val templateService: TemplateService,
-        private val identityDocumentResubmissionTemplatePreviewDtoMapper: IdentityDocumentResubmissionTemplatePreviewDtoMapper,
-        private val photoResubmissionTemplatePreviewDtoMapper: PhotoResubmissionTemplatePreviewDtoMapper,
-        private val generateIdDocumentRequiredTemplatePreviewDtoMapper: GenerateIdDocumentRequiredTemplatePreviewDtoMapper,
-        private val applicationReceivedTemplatePreviewDtoMapper: ApplicationReceivedTemplatePreviewDtoMapper,
-        private val applicationApprovedTemplatePreviewDtoMapper: GenerateApplicationApprovedTemplatePreviewDtoMapper,
-        private val applicationRejectedTemplatePreviewDtoMapper: ApplicationRejectedTemplatePreviewDtoMapper,
-        private val rejectedDocumentTemplatePreviewDtoMapper: RejectedDocumentTemplatePreviewDtoMapper,
-        private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper,
-        private val requestedSignatureTemplatePreviewDtoMapper: RequestedSignatureTemplatePreviewDtoMapper,
-        private val rejectedOverseasDocumentTemplatePreviewDtoMapper: RejectedOverseasDocumentTemplatePreviewDtoMapper,
-        private val requiredOverseasDocumentTemplatePreviewDtoMapper: RequiredOverseasDocumentTemplatePreviewDtoMapper,
-        private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
-        private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper,
-        private val notRegisteredToVotePreviewDtoMapper: NotRegisteredToVoteTemplatePreviewDtoMapper,
+    private val templateService: TemplateService,
+    private val identityDocumentResubmissionTemplatePreviewDtoMapper: IdentityDocumentResubmissionTemplatePreviewDtoMapper,
+    private val photoResubmissionTemplatePreviewDtoMapper: PhotoResubmissionTemplatePreviewDtoMapper,
+    private val generateIdDocumentRequiredTemplatePreviewDtoMapper: GenerateIdDocumentRequiredTemplatePreviewDtoMapper,
+    private val applicationReceivedTemplatePreviewDtoMapper: ApplicationReceivedTemplatePreviewDtoMapper,
+    private val applicationApprovedTemplatePreviewDtoMapper: GenerateApplicationApprovedTemplatePreviewDtoMapper,
+    private val applicationRejectedTemplatePreviewDtoMapper: ApplicationRejectedTemplatePreviewDtoMapper,
+    private val rejectedDocumentTemplatePreviewDtoMapper: RejectedDocumentTemplatePreviewDtoMapper,
+    private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper,
+    private val requestedSignatureTemplatePreviewDtoMapper: RequestedSignatureTemplatePreviewDtoMapper,
+    private val rejectedOverseasDocumentTemplatePreviewDtoMapper: RejectedOverseasDocumentTemplatePreviewDtoMapper,
+    private val requiredOverseasDocumentTemplatePreviewDtoMapper: RequiredOverseasDocumentTemplatePreviewDtoMapper,
+    private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
+    private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper,
+    private val notRegisteredToVotePreviewDtoMapper: NotRegisteredToVoteTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")

@@ -514,7 +514,7 @@ fun buildNotRegisteredToVotePersonalisationDto(
 )
 
 fun buildNotRegisteredToVotePersonalisationMapFromDto(
-        personalisationDto: NotRegisteredToVotePersonalisationDto = buildNotRegisteredToVotePersonalisationDto(),
+    personalisationDto: NotRegisteredToVotePersonalisationDto = buildNotRegisteredToVotePersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
 
