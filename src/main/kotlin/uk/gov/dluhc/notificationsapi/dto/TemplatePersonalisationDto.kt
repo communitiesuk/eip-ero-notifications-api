@@ -142,7 +142,7 @@ class BespokeCommPersonalisationDto(
     eroContactDetails = eroContactDetails,
 )
 
-class InviteToRegisterPersonalisationDto(
+class NotRegisteredToVotePersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,

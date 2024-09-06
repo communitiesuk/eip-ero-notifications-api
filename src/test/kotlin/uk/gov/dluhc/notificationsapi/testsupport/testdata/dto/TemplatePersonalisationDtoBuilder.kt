@@ -8,7 +8,7 @@ import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
@@ -487,7 +487,7 @@ fun buildBespokeCommPersonalisationMapFromDto(
     return personalisationMap
 }
 
-fun buildInviteToRegisterPersonalisationDto(
+fun buildNotRegisteredToVotePersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
@@ -499,7 +499,7 @@ fun buildInviteToRegisterPersonalisationDto(
     area: String? = faker.address().city(),
     locality: String? = faker.address().city(),
     postcode: String? = faker.address().postcode(),
-): InviteToRegisterPersonalisationDto = InviteToRegisterPersonalisationDto(
+): NotRegisteredToVotePersonalisationDto = NotRegisteredToVotePersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     applicationReference = applicationReference,
@@ -513,8 +513,8 @@ fun buildInviteToRegisterPersonalisationDto(
     postcode = postcode,
 )
 
-fun buildInviteToRegisterPersonalisationMapFromDto(
-    personalisationDto: InviteToRegisterPersonalisationDto = buildInviteToRegisterPersonalisationDto(),
+fun buildNotRegisteredToVotePersonalisationMapFromDto(
+        personalisationDto: NotRegisteredToVotePersonalisationDto = buildNotRegisteredToVotePersonalisationDto(),
 ): Map<String, Any> {
     val personalisationMap = mutableMapOf<String, Any>()
 

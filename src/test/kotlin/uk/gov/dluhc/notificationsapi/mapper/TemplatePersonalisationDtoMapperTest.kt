@@ -20,8 +20,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPer
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterPersonalisationMapFromDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotRegisteredToVotePersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotRegisteredToVotePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildPhotoPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedDocumentPersonalisationDto
@@ -497,7 +497,7 @@ class TemplatePersonalisationDtoMapperTest {
     }
 
     @Nested
-    inner class ToInviteToRegisterTemplatePersonalisationMap {
+    inner class ToNotRegisteredToVoteTemplatePersonalisationMap {
 
         @ParameterizedTest
         @CsvSource(
@@ -512,11 +512,11 @@ class TemplatePersonalisationDtoMapperTest {
             sourceTypeDto: SourceType,
         ) {
             // Given
-            val personalisationDto = buildInviteToRegisterPersonalisationDto()
-            val expected = buildInviteToRegisterPersonalisationMapFromDto(personalisationDto)
+            val personalisationDto = buildNotRegisteredToVotePersonalisationDto()
+            val expected = buildNotRegisteredToVotePersonalisationMapFromDto(personalisationDto)
 
             // When
-            val actual = mapper.toInviteToRegisterTemplatePersonalisationMap(personalisationDto, LanguageDto.ENGLISH)
+            val actual = mapper.toNotRegisteredToVoteTemplatePersonalisationMap(personalisationDto, LanguageDto.ENGLISH)
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

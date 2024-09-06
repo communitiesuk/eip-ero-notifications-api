@@ -12,7 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplateP
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRequiredOverseasDocumentTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
@@ -190,7 +190,7 @@ class TemplateService(
         }
     }
 
-    fun generateInviteToRegisterTemplatePreview(dto: InviteToRegisterTemplatePreviewDto): NotifyTemplatePreviewDto {
+    fun generateNotRegisteredToVoteTemplatePreview(dto: NotRegisteredToVoteTemplatePreviewDto): NotifyTemplatePreviewDto {
         return with(dto) {
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
@@ -199,7 +199,7 @@ class TemplateService(
                     channel,
                     language,
                 ),
-                templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(
+                templatePersonalisationDtoMapper.toNotRegisteredToVoteTemplatePersonalisationMap(
                     personalisation,
                     language,
                 ),

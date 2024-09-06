@@ -13,14 +13,14 @@ import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMes
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationRequestDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyInviteToRegisterMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotRegisteredToVotePersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyNotRegisteredToVoteMessage
 
 @ExtendWith(MockitoExtension::class)
-internal class SendNotifyInviteToRegisterMessageListenerTest {
+internal class SendNotifyNotRegisteredToVoteMessageListenerTest {
 
     @InjectMocks
-    private lateinit var listener: SendNotifyInviteToRegisterMessageListener
+    private lateinit var listener: SendNotifyNotRegisteredToVoteMessageListener
 
     @Mock
     private lateinit var sendNotifyMessageMapper: SendNotifyMessageMapper
@@ -35,16 +35,16 @@ internal class SendNotifyInviteToRegisterMessageListenerTest {
     private lateinit var sendNotificationService: SendNotificationService
 
     @Test
-    fun `should handle SQS SendNotifyInviteTorRegisterMessage`() {
+    fun `should handle SQS SendNotifyNotRegisteredToVoteMessage`() {
         // Given
-        val sqsMessage = buildSendNotifyInviteToRegisterMessage()
+        val sqsMessage = buildSendNotifyNotRegisteredToVoteMessage()
         val requestDto = aSendNotificationRequestDto()
         val personalisationMap = aNotificationPersonalisationMap()
-        val personalisationDto = buildInviteToRegisterPersonalisationDto()
+        val personalisationDto = buildNotRegisteredToVotePersonalisationDto()
 
-        given(sendNotifyMessageMapper.fromInviteToRegisterMessageToSendNotificationRequestDto(sqsMessage)).willReturn(requestDto)
-        given(templatePersonalisationMessageMapper.toInviteToRegisterTemplatePersonalisationDto(sqsMessage.personalisation, requestDto.language, sqsMessage.sourceType)).willReturn(personalisationDto)
-        given(templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(personalisationDto, requestDto.language)).willReturn(personalisationMap)
+        given(sendNotifyMessageMapper.fromNotRegisteredToVoteMessageToSendNotificationRequestDto(sqsMessage)).willReturn(requestDto)
+        given(templatePersonalisationMessageMapper.toNotRegisteredToVoteTemplatePersonalisationDto(sqsMessage.personalisation, requestDto.language, sqsMessage.sourceType)).willReturn(personalisationDto)
+        given(templatePersonalisationDtoMapper.toNotRegisteredToVoteTemplatePersonalisationMap(personalisationDto, requestDto.language)).willReturn(personalisationMap)
 
         // When
         listener.handleMessage(sqsMessage)

@@ -3,15 +3,15 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.springframework.beans.factory.annotation.Autowired
-import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.models.GenerateInviteToRegisterTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.InviteToRegisterPersonalisation
+import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.NotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
 
 @Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
-abstract class InviteToRegisterTemplatePreviewDtoMapper {
+abstract class NotRegisteredToVoteTemplatePreviewDtoMapper {
 
     @Autowired
     protected lateinit var sourceTypeMapper: SourceTypeMapper
@@ -22,9 +22,9 @@ abstract class InviteToRegisterTemplatePreviewDtoMapper {
     )
     @Mapping(
         target = "notificationType",
-        constant = "INVITE_TO_REGISTER",
+        constant = "NOT_REGISTERED_TO_VOTE",
     )
-    abstract fun toDto(request: GenerateInviteToRegisterTemplatePreviewRequest): InviteToRegisterTemplatePreviewDto
+    abstract fun toDto(request: GenerateNotRegisteredToVoteTemplatePreviewRequest): NotRegisteredToVoteTemplatePreviewDto
 
     @Mapping(
         target = "personalisationFullSourceTypeString",
@@ -60,7 +60,7 @@ abstract class InviteToRegisterTemplatePreviewDtoMapper {
     )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
-        personalisation: InviteToRegisterPersonalisation,
+        personalisation: NotRegisteredToVotePersonalisation,
         sourceType: SourceType,
-    ): InviteToRegisterPersonalisationDto
+    ): NotRegisteredToVotePersonalisationDto
 }

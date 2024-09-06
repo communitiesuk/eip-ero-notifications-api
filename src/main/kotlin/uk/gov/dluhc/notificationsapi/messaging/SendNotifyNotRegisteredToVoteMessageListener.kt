@@ -8,27 +8,27 @@ import uk.gov.dluhc.messagingsupport.MessageListener
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyInviteToRegisterMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import javax.validation.Valid
 
 private val logger = KotlinLogging.logger { }
 
 @Component
-class SendNotifyInviteToRegisterMessageListener(
+class SendNotifyNotRegisteredToVoteMessageListener(
     private val sendNotificationService: SendNotificationService,
     private val sendNotifyMessageMapper: SendNotifyMessageMapper,
     private val templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper,
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
-) : MessageListener<SendNotifyInviteToRegisterMessage> {
+) : MessageListener<SendNotifyNotRegisteredToVoteMessage> {
 
-    @SqsListener(value = ["\${sqs.send-uk-gov-notify-invite-to-register-queue-name}"])
+    @SqsListener(value = ["\${sqs.send-uk-gov-notify-not-registered-to-vote-queue-name}"])
     override fun handleMessage(
         @Valid @Payload
-        payload: SendNotifyInviteToRegisterMessage,
+        payload: SendNotifyNotRegisteredToVoteMessage,
     ) {
         logger.info {
-            "received send UK Gov notify invite to register message request for gssCode: ${payload.gssCode} with " +
+            "received send UK Gov notify not registered to vote message request for gssCode: ${payload.gssCode} with " +
                 "channel: ${payload.channel}, " +
                 "messageType: ${payload.messageType}, " +
                 "language: ${payload.language}, " +
@@ -37,16 +37,16 @@ class SendNotifyInviteToRegisterMessageListener(
         }
         with(payload) {
             val sendNotificationRequestDto =
-                sendNotifyMessageMapper.fromInviteToRegisterMessageToSendNotificationRequestDto(
+                sendNotifyMessageMapper.fromNotRegisteredToVoteMessageToSendNotificationRequestDto(
                     this,
                 )
             val personalisationDto = templatePersonalisationMessageMapper
-                .toInviteToRegisterTemplatePersonalisationDto(
+                .toNotRegisteredToVoteTemplatePersonalisationDto(
                     personalisation,
                     sendNotificationRequestDto.language,
                     sourceType,
                 )
-            val personalisationMap = templatePersonalisationDtoMapper.toInviteToRegisterTemplatePersonalisationMap(
+            val personalisationMap = templatePersonalisationDtoMapper.toNotRegisteredToVoteTemplatePersonalisationMap(
                 personalisationDto,
                 sendNotificationRequestDto.language,
             )

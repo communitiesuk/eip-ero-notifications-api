@@ -14,16 +14,16 @@ import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.annotations.CommunicationChannelsTest
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateInviteToRegisterTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildInviteToRegisterPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateNotRegisteredToVoteTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildNotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildInviteToRegisterTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotRegisteredToVotePersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 
 @ExtendWith(MockitoExtension::class)
-class InviteToRegisterTemplatePreviewDtoMapperTest {
+class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
 
     @Mock
     private lateinit var languageMapper: LanguageMapper
@@ -35,10 +35,10 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
     private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @InjectMocks
-    private lateinit var mapper: InviteToRegisterTemplatePreviewDtoMapperImpl
+    private lateinit var mapper: NotRegisteredToVoteTemplatePreviewDtoMapperImpl
 
     @CommunicationChannelsTest
-    fun `should map invite to register template preview request to dto`(channel: CommunicationChannel) {
+    fun `should map not registered to vote template preview request to dto`(channel: CommunicationChannel) {
         // Given
         val freeText = "Free text"
         val property = "1234"
@@ -48,9 +48,9 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
         val locality = "Fakenham"
         val postcode = "FA1 2KE"
 
-        val request = buildGenerateInviteToRegisterTemplatePreviewRequest(
+        val request = buildGenerateNotRegisteredToVoteTemplatePreviewRequest(
             channel = channel,
-            personalisation = buildInviteToRegisterPersonalisation(
+            personalisation = buildNotRegisteredToVotePersonalisation(
                 freeText = freeText,
                 property = property,
                 street = street,
@@ -66,12 +66,12 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
         given { sourceTypeMapper.toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH) }.willReturn("postal vote")
         given { languageMapper.fromApiToDto(Language.EN) }.willReturn(LanguageDto.ENGLISH)
 
-        val expected = buildInviteToRegisterTemplatePreviewDto(
+        val expected = buildNotRegisteredToVoteTemplatePreviewDto(
             sourceType = uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL,
             channel = expectedChannel,
             language = LanguageDto.ENGLISH,
             personalisation = with(request.personalisation) {
-                buildInviteToRegisterPersonalisationDto(
+                buildNotRegisteredToVotePersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
                     eroContactDetails = with(eroContactDetails) {
@@ -100,7 +100,7 @@ class InviteToRegisterTemplatePreviewDtoMapperTest {
                     postcode = postcode,
                 )
             },
-            notificationType = NotificationType.INVITE_TO_REGISTER,
+            notificationType = NotificationType.NOT_REGISTERED_TO_VOTE,
         )
 
         // When
