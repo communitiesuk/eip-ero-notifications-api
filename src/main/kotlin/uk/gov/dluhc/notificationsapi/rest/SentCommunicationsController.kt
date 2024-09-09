@@ -47,10 +47,11 @@ class SentCommunicationsController(
             CommunicationsHistoryResponse(communications = it)
         }
 
-    @GetMapping("{communicationId}")
+    @GetMapping("applications/{applicationId}/{communicationId}")
     @PreAuthorize(HAS_APPLICATION_SPECIFIC_ERO_ADMIN_AUTHORITY)
     fun getSentCommunication(
         @PathVariable eroId: String,
+        @PathVariable applicationId: String,
         @PathVariable communicationId: String,
         @RequestParam(required = true) sourceType: SourceTypeApi,
     ): SentCommunicationResponse {
@@ -58,6 +59,7 @@ class SentCommunicationsController(
             return sentNotificationsService.getNotificationByIdEroAndType(
                 notificationId = UUID.fromString(communicationId),
                 eroId = eroId,
+                sourceReference = applicationId,
                 sourceType = sourceTypeMapper.fromApiToDto(sourceType),
             ).let {
                 notificationApiMapper.toSentCommunicationsApi(it)
