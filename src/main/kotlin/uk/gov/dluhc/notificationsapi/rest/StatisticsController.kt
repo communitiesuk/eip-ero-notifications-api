@@ -37,7 +37,7 @@ class StatisticsController(
 
         val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
 
-        val hasSentNotRegisteredToVoteCommunication = notifications.any { it.type == NotificationType.INVITE_TO_REGISTER }
+        val hasSentNotRegisteredToVoteCommunication = notifications.any { it.type == NotificationType.NOT_REGISTERED_TO_VOTE }
 
         return CommunicationsStatisticsResponseVAC(
             photoRequested = photoRequested,
@@ -74,7 +74,7 @@ class StatisticsController(
 
         val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
 
-        val hasSentNotRegisteredToVoteCommunication = notifications.any { it.type == NotificationType.INVITE_TO_REGISTER }
+        val hasSentNotRegisteredToVoteCommunication = notifications.any { it.type == NotificationType.NOT_REGISTERED_TO_VOTE }
 
         return CommunicationsStatisticsResponseOAVA(
             signatureRequested = signatureRequested,

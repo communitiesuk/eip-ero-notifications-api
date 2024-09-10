@@ -218,7 +218,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.VOTER_CARD,
-            type = NotificationType.INVITE_TO_REGISTER,
+            type = NotificationType.NOT_REGISTERED_TO_VOTE,
         )
         notificationRepository.saveNotification(
             sentNotification,
@@ -446,7 +446,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.POSTAL,
-            type = NotificationType.INVITE_TO_REGISTER,
+            type = NotificationType.NOT_REGISTERED_TO_VOTE,
         )
         notificationRepository.saveNotification(
             sentNotification,
@@ -674,7 +674,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         val sentNotification = aNotificationBuilder(
             sourceReference = applicationId,
             sourceType = SourceType.PROXY,
-            type = NotificationType.INVITE_TO_REGISTER,
+            type = NotificationType.NOT_REGISTERED_TO_VOTE,
         )
         notificationRepository.saveNotification(
             sentNotification,
