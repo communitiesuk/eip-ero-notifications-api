@@ -124,6 +124,57 @@ internal class GetCommunicationByIdIntegrationTest: IntegrationTest() {
         assertThat(actual).isEqualTo(expected)
     }
 
+    @Test
+    fun `should return not found when given valid application id and communication id but the communication doesn't belong to that application`() {
+        // Given
+        wireMockService.stubCognitoJwtIssuerResponse()
+        val eroResponse = buildElectoralRegistrationOfficeResponse(id = ERO_ID)
+        wireMockService.stubEroManagementGetEroByEroId(eroResponse, ERO_ID)
+
+        val applicationId = aRandomSourceReference()
+        val anotherApplicationId = aRandomSourceReference()
+        val notificationId = aRandomNotificationId()
+        val sourceType = SourceType.POSTAL
+        val authGroupPrefix = "ero-postal-admin"
+        val requestor = aRequestor()
+
+        val sentNotification = aNotificationBuilder(
+            id = notificationId,
+            sourceReference = applicationId,
+            sourceType = sourceType,
+            gssCode = eroResponse.localAuthorities[0].gssCode,
+            requestor = requestor,
+            channel = Channel.EMAIL,
+            type = NotificationType.PHOTO_RESUBMISSION,
+            notifyDetails = aNotifyDetails(),
+            sentAt = LocalDateTime.of(2022, 10, 6, 9, 58, 24),
+        )
+
+        val anotherSentNotification = aNotificationBuilder(
+            id = aRandomNotificationId(),
+            sourceReference = anotherApplicationId,
+            sourceType = sourceType,
+            gssCode = eroResponse.localAuthorities[0].gssCode,
+            requestor = requestor,
+            channel = Channel.EMAIL,
+            type = NotificationType.PHOTO_RESUBMISSION,
+            notifyDetails = aNotifyDetails(),
+            sentAt = LocalDateTime.of(2022, 10, 6, 9, 58, 24),
+        )
+
+        notificationRepository.saveNotification(sentNotification)
+        notificationRepository.saveNotification(anotherSentNotification)
+
+        // When, Then
+        webTestClient.get()
+            .uri(buildUri(eroId = ERO_ID, applicationId = anotherApplicationId, notificationId = notificationId.toString(), sourceType = sourceType.toString()))
+            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-${ERO_ID}", "$authGroupPrefix-${ERO_ID}")))
+            .contentType(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus()
+            .isNotFound
+    }
+
     private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString(), notificationId: String = UUID.randomUUID().toString(), sourceType: String = SourceType.POSTAL.toString()) =
         "/eros/$eroId/communications/applications/$applicationId/$notificationId?sourceType=$sourceType"
 }
