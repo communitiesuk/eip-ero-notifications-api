@@ -15,8 +15,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNotRegisteredToVotePersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyNotRegisteredToVoteMessage
 import java.util.concurrent.TimeUnit
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 
