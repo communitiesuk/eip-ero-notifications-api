@@ -20,6 +20,10 @@ fun queryRequestWithoutGssCodes(sourceReference: String, sourceType: SourceType)
         .queryConditional(QueryConditional.keyEqualTo(key(sourceReference)))
         .filterExpression(sourceTypeFilterExpression(sourceType))
 
+fun queryRequestWithNotificationId(notificationId: String, sourceReference: String, sourceType: SourceType, gssCodes: List<String>): QueryEnhancedRequest.Builder =
+    queryRequest(sourceReference, sourceType, gssCodes)
+        .filterExpression(notificationIdFilterExpression(notificationId))
+
 fun sourceTypeFilterExpression(sourceType: SourceType): Expression =
     Expression.builder()
         .expression("#sourceType = :sourceType")
@@ -36,6 +40,13 @@ fun gssCodesFilterExpression(gssCodes: List<String>): Expression =
                 filterExpression.putExpressionValue(":gssCode_$index", AttributeValue.fromS(gssCode))
             }
         }.build()
+
+fun notificationIdFilterExpression(notificationId: String): Expression =
+    Expression.builder()
+        .expression("#id = :notificationId")
+        .putExpressionName("#id", "id")
+        .putExpressionValue(":notificationId", AttributeValue.fromS(notificationId))
+        .build()
 
 fun key(partitionValue: String): Key =
     Key.builder().partitionValue(partitionValue).build()

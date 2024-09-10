@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.17.2'
+  version: '1.18.0'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -104,10 +104,16 @@ paths:
   #
   # Get the subject and body of a specified notification
   # --------------------------------------------------------------------------------
-  '/eros/{eroId}/communications/{communicationId}':
+  '/eros/{eroId}/communications/applications/{applicationId}/{communicationId}':
     parameters:
       - name: eroId
         description: The ID of the Electoral Registration Office responsible for the application.
+        schema:
+          type: string
+        in: path
+        required: true
+      - name: applicationId
+        description: The identifier of the application to retrieve the communications history.
         schema:
           type: string
         in: path
