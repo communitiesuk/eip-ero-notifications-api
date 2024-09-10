@@ -39,12 +39,12 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
 
     /**
      * Returns the Notification identified by its id (primary partition key)
-     * Restricted by ERO and type of application to control access
+     * Restricted by ERO, sourceReference and type of application to control access
      */
-    fun getNotificationById(notificationId: UUID, sourceType: SourceType, gssCodes: List<String>): Notification {
-        val queryRequest = queryRequest(notificationId.toString(), sourceType, gssCodes).build()
+    fun getNotificationById(notificationId: UUID, sourceReference: String, sourceType: SourceType, gssCodes: List<String>): Notification {
+        val queryRequest = queryRequestWithNotificationId(notificationId.toString(), sourceReference, sourceType, gssCodes).build()
 
-        return notificationsTableFull.query(queryRequest).flatMap { it.items() }
+        return notificationsTableFull.index(SOURCE_REFERENCE_INDEX_NAME).query(queryRequest).flatMap { it.items() }
             .getOrElse(0) {
                 throw NotificationNotFoundException(notificationId)
             }

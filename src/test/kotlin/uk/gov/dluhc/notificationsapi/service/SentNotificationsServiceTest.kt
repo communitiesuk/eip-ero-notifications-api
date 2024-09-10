@@ -103,6 +103,7 @@ class SentNotificationsServiceTest {
         val notificationId = aRandomNotificationId()
         val eroId = aValidKnownEroId()
         val sourceType = aSourceType()
+        val sourceReference = aSourceReference()
 
         val gssCodes = listOf(aGssCode(), anotherGssCode())
         given(eroService.lookupGssCodesForEro(any())).willReturn(gssCodes)
@@ -113,7 +114,7 @@ class SentNotificationsServiceTest {
             gssCode = gssCodes[0],
             requestor = "vc-admin-1@some-ero.gov.uk",
         )
-        given(notificationRepository.getNotificationById(any(), any(), any())).willReturn(
+        given(notificationRepository.getNotificationById(any(), any(), any(), any())).willReturn(
             notificationEntity,
         )
 
@@ -124,7 +125,7 @@ class SentNotificationsServiceTest {
         )
 
         // When
-        val actual = service.getNotificationByIdEroAndType(notificationId, eroId, sourceType)
+        val actual = service.getNotificationByIdEroAndType(notificationId, eroId, sourceReference, sourceType)
 
         // Then
         assertThat(actual).isEqualTo(notification)

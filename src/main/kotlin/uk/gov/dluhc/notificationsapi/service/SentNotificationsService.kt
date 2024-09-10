@@ -66,11 +66,13 @@ class SentNotificationsService(
     fun getNotificationByIdEroAndType(
         notificationId: UUID,
         eroId: String,
+        sourceReference: String,
         sourceType: SourceType,
     ): Notification =
         eroService.lookupGssCodesForEro(eroId).let { gssCodes ->
             notificationRepository.getNotificationById(
                 notificationId = notificationId,
+                sourceReference = sourceReference,
                 sourceType = sourceTypeMapper.fromDtoToEntity(sourceType),
                 gssCodes = gssCodes,
             )

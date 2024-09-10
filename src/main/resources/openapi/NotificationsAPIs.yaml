@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.17.3'
+  version: '1.18.1'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -104,10 +104,16 @@ paths:
   #
   # Get the subject and body of a specified notification
   # --------------------------------------------------------------------------------
-  '/eros/{eroId}/communications/{communicationId}':
+  '/eros/{eroId}/communications/applications/{applicationId}/{communicationId}':
     parameters:
       - name: eroId
         description: The ID of the Electoral Registration Office responsible for the application.
+        schema:
+          type: string
+        in: path
+        required: true
+      - name: applicationId
+        description: The identifier of the application to retrieve the communications history.
         schema:
           type: string
         in: path
@@ -2300,10 +2306,13 @@ components:
           type: boolean
         bespokeCommunicationsSent:
           type: integer
+        hasSentNotRegisteredToVoteCommunication:
+          type: boolean
       required:
         - photoRequested
         - identityDocumentsRequested
         - bespokeCommunicationsSent
+        - hasSentNotRegisteredToVoteCommunication
     CommunicationsStatisticsResponseOAVA:
       title: CommunicationsStatisticsResponseOAVA
       description: response containing anonymised statistics about communications related to an application
@@ -2315,10 +2324,13 @@ components:
           type: boolean
         bespokeCommunicationsSent:
           type: integer
+        hasSentNotRegisteredToVoteCommunication:
+          type: boolean
       required:
         - signatureRequested
         - identityDocumentsRequested
         - bespokeCommunicationsSent
+        - hasSentNotRegisteredToVoteCommunication
 
   #
   # Response Body Definitions
