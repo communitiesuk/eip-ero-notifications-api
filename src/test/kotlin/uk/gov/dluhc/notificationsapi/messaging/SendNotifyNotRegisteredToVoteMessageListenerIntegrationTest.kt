@@ -15,14 +15,14 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessRes
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildInviteToRegisterPersonalisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyInviteToRegisterMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyNotRegisteredToVoteMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNotRegisteredToVotePersonalisation
 import java.util.concurrent.TimeUnit
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 
 private val logger = KotlinLogging.logger {}
 
-internal class SendNotifyInviteToRegisterMessageListenerIntegrationTest : IntegrationTest() {
+internal class SendNotifyNotRegisteredToVoteMessageListenerIntegrationTest : IntegrationTest() {
 
     @AfterEach
     fun cleanUp() {
@@ -46,16 +46,16 @@ internal class SendNotifyInviteToRegisterMessageListenerIntegrationTest : Integr
             "LETTER,CY,VOTER_MINUS_CARD,VOTER_CARD",
         ],
     )
-    fun `should process invite to register message from relevant service`(
+    fun `should process not registered to vote message from relevant service`(
         sqsChannel: CommunicationChannel,
         language: Language,
         sourceType: SourceType,
         expectedSourceType: SourceTypeEntityEnum,
     ) {
-        val personalisationMessage = buildInviteToRegisterPersonalisation()
+        val personalisationMessage = buildNotRegisteredToVotePersonalisation()
         val gssCode = aGssCode()
         val sourceReference = aRandomSourceReference()
-        val payload = buildSendNotifyInviteToRegisterMessage(
+        val payload = buildSendNotifyNotRegisteredToVoteMessage(
             channel = sqsChannel,
             language = language,
             sourceType = sourceType,
@@ -71,7 +71,7 @@ internal class SendNotifyInviteToRegisterMessageListenerIntegrationTest : Integr
         }
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyInviteToRegisterQueueName, payload)
+        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyNotRegisteredToVoteQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()

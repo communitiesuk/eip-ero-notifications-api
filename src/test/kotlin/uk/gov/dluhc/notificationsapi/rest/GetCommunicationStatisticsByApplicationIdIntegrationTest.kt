@@ -16,7 +16,7 @@ import java.util.UUID
 internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : IntegrationTest() {
 
     @Test
-    fun `should return photo not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for VAC application with no communications sent`() {
+    fun `should return photo not requested, documents not requested, 0 bespoke communications has not sent not registered to vote comm for VAC application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -39,7 +39,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return photo not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for VAC application with no relevant communications sent`() {
+    fun `should return photo not requested, documents not requested, 0 bespoke communications sent and has not sent not registered to vote comm for VAC application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -211,7 +211,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return invite to register sent for VAC application with invite to register communications sent`() {
+    fun `should return not registered to vote comm sent for VAC application with not registered to vote communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -243,7 +243,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Postal application with no communications sent`() {
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and not sent not registered to vote comm for Postal application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -266,7 +266,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Postal application with no relevant communications sent`() {
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and not sent not registered to vote comm for Postal application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -439,7 +439,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return invite to register sent for Postal application with invite to register communications sent`() {
+    fun `should return not registered to vote comm sent for Postal application with not registered to vote communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -471,7 +471,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Proxy application with no communications sent`() {
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and not sent not registered to vote comm for Proxy application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -494,7 +494,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and invite to register not sent for Proxy application with no relevant communications sent`() {
+    fun `should return signature not requested, documents not requested, 0 bespoke communications sent and not sent not registered to vote comm for Proxy application with no relevant communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -667,7 +667,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return invite to register sent for Proxy application with invite to register communications sent`() {
+    fun `should return not registered to vote comm sent for Proxy application with not registered to vote communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
