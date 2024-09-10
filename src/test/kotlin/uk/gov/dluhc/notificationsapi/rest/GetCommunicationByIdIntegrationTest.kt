@@ -8,7 +8,6 @@ import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType
 import uk.gov.dluhc.notificationsapi.models.SentCommunicationResponse
-import uk.gov.dluhc.notificationsapi.rest.GetCommunicationHistoryByApplicationIdIntegrationTest.Companion
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.getRandomEroId
@@ -23,7 +22,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.LocalDateTime
 import java.util.*
 
-internal class GetCommunicationByIdIntegrationTest: IntegrationTest() {
+internal class GetCommunicationByIdIntegrationTest : IntegrationTest() {
 
     companion object {
         private val ERO_ID = getRandomEroId()
@@ -114,7 +113,7 @@ internal class GetCommunicationByIdIntegrationTest: IntegrationTest() {
         // When
         val response = webTestClient.get()
             .uri(buildUri(eroId = ERO_ID, applicationId = applicationId, notificationId = notificationId.toString(), sourceType = sourceType.toString()))
-            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-${ERO_ID}", "$authGroupPrefix-${ERO_ID}")))
+            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "$authGroupPrefix-$ERO_ID")))
             .contentType(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -168,7 +167,7 @@ internal class GetCommunicationByIdIntegrationTest: IntegrationTest() {
         // When, Then
         webTestClient.get()
             .uri(buildUri(eroId = ERO_ID, applicationId = anotherApplicationId, notificationId = notificationId.toString(), sourceType = sourceType.toString()))
-            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-${ERO_ID}", "$authGroupPrefix-${ERO_ID}")))
+            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "$authGroupPrefix-$ERO_ID")))
             .contentType(MediaType.APPLICATION_JSON)
             .exchange()
             .expectStatus()
