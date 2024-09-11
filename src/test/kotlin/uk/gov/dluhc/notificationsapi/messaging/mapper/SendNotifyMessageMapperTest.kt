@@ -39,8 +39,8 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyApplicationRejec
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyBespokeCommMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentRequiredMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubmissionMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyInviteToRegisterMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
@@ -53,8 +53,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildInviteToRegisterPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNinoNotMatchedPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
@@ -999,17 +999,17 @@ internal class SendNotifyMessageMapperTest {
     }
 
     @Nested
-    inner class FromInviteToRegisterMessageToSendNotificationRequestDto {
+    inner class FromNotRegisteredToVoteMessageToSendNotificationRequestDto {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "EMAIL,EN,EMAIL,ENGLISH,INVITE_TO_REGISTER",
-                "EMAIL,CY,EMAIL,WELSH,INVITE_TO_REGISTER",
-                "LETTER,EN,LETTER,ENGLISH,INVITE_TO_REGISTER",
-                "LETTER,CY,LETTER,WELSH,INVITE_TO_REGISTER",
+                "EMAIL,EN,EMAIL,ENGLISH,NOT_REGISTERED_TO_VOTE",
+                "EMAIL,CY,EMAIL,WELSH,NOT_REGISTERED_TO_VOTE",
+                "LETTER,EN,LETTER,ENGLISH,NOT_REGISTERED_TO_VOTE",
+                "LETTER,CY,LETTER,WELSH,NOT_REGISTERED_TO_VOTE",
             ],
         )
-        fun `should map SQS SendNotifyInviteToRegisterCommMessage to SendNotificationRequestDto`(
+        fun `should map SQS SendNotifyNotRegisteredToVoteCommMessage to SendNotificationRequestDto`(
             sqsChannel: SqsChannel,
             language: Language,
             communicationChannel: CommunicationChannel,
@@ -1021,7 +1021,7 @@ internal class SendNotifyMessageMapperTest {
             val requestor = aRequestor()
             val sourceReference = aSourceReference()
             val toAddress = aMessageAddress()
-            val personalisation = buildInviteToRegisterPersonalisation()
+            val personalisation = buildNotRegisteredToVotePersonalisation()
 
             val expectedToAddress = aNotificationDestination()
             val expectedSourceType = SourceType.POSTAL
@@ -1032,7 +1032,7 @@ internal class SendNotifyMessageMapperTest {
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
             given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)
 
-            val request = SendNotifyInviteToRegisterMessage(
+            val request = SendNotifyNotRegisteredToVoteMessage(
                 channel = sqsChannel,
                 personalisation = personalisation,
                 language = language,
@@ -1041,10 +1041,10 @@ internal class SendNotifyMessageMapperTest {
                 gssCode = gssCode,
                 requestor = requestor,
                 toAddress = toAddress,
-                messageType = MessageType.INVITE_MINUS_TO_MINUS_REGISTER,
+                messageType = MessageType.NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE,
             )
 
-            val notification = mapper.fromInviteToRegisterMessageToSendNotificationRequestDto(request)
+            val notification = mapper.fromNotRegisteredToVoteMessageToSendNotificationRequestDto(request)
 
             assertThat(notification.channel).isEqualTo(communicationChannel)
             assertThat(notification.sourceType).isEqualTo(SourceType.POSTAL)

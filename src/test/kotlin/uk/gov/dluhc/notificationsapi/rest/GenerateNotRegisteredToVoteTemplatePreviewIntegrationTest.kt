@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
-import uk.gov.dluhc.notificationsapi.models.GenerateInviteToRegisterTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.SourceType
@@ -22,21 +22,21 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePre
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.UNAUTHORIZED_BEARER_TOKEN
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildAddressRequestWithOptionalParamsNull
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetailsRequest
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateInviteToRegisterTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildInviteToRegisterPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGenerateNotRegisteredToVoteTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildNotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
-internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : IntegrationTest() {
+internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : IntegrationTest() {
     companion object {
         private const val EMAIL_ENGLISH_TEMPLATE_ID = "bff9ea9b-6f06-467c-8390-7b0172609ee6"
         private const val LETTER_ENGLISH_TEMPLATE_ID = "945dd26f-fec2-474e-943b-1fb58c88497a"
         private const val EMAIL_WELSH_TEMPLATE_ID = "5321cc6f-2192-4303-8543-4de45a7bdcdd"
         private const val LETTER_WELSH_TEMPLATE_ID = "d8a80df2-abf5-405e-81dc-4f814756c462"
-        private const val URI_TEMPLATE = "/templates/invite-to-register/preview"
+        private const val URI_TEMPLATE = "/templates/not-registered-to-vote/preview"
     }
 
     @BeforeEach
@@ -148,9 +148,9 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
 
-        val requestBody = buildGenerateInviteToRegisterTemplatePreviewRequest(
+        val requestBody = buildGenerateNotRegisteredToVoteTemplatePreviewRequest(
             sourceType = sourceType,
-            personalisation = buildInviteToRegisterPersonalisation(
+            personalisation = buildNotRegisteredToVotePersonalisation(
                 applicationReference = "",
                 firstName = "",
                 eroContactDetails = buildEroContactDetails(
@@ -181,7 +181,7 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
             .hasTimestampNotBefore(earliestExpectedTimeStamp)
             .hasStatus(400)
             .hasError("Bad Request")
-            .hasMessageContaining("Validation failed for object='generateInviteToRegisterTemplatePreviewRequest'. Error count: $expectedValidationErrorsCount")
+            .hasMessageContaining("Validation failed for object='generateNotRegisteredToVoteTemplatePreviewRequest'. Error count: $expectedValidationErrorsCount")
             .hasValidationError("Error on field 'personalisation.firstName': rejected value [], must match \".*[a-zA-Z]+.*\"")
             .hasValidationError("Error on field 'personalisation.firstName': rejected value [], size must be between 1 and 255") // also validates size when firstName is blank
             .hasValidationError("Error on field 'personalisation.eroContactDetails.address.street': rejected value [], size must be between 1 and 255")
@@ -215,11 +215,11 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
-        val requestBody = buildGenerateInviteToRegisterTemplatePreviewRequest(
+        val requestBody = buildGenerateNotRegisteredToVoteTemplatePreviewRequest(
             sourceType = sourceType,
             channel = communicationChannel,
             language = language,
-            personalisation = buildInviteToRegisterPersonalisation(
+            personalisation = buildNotRegisteredToVotePersonalisation(
                 freeText = "free text",
                 property = "1234",
                 street = "Fake Street",
@@ -286,9 +286,9 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateInviteToRegisterTemplatePreviewRequest(
+        val requestBody = buildGenerateNotRegisteredToVoteTemplatePreviewRequest(
             channel = communicationChannel,
-            personalisation = buildInviteToRegisterPersonalisation(
+            personalisation = buildNotRegisteredToVotePersonalisation(
                 freeText = null,
                 property = null,
                 street = null,
@@ -343,12 +343,12 @@ internal class GenerateInviteToRegisterTemplatePreviewIntegrationTest : Integrat
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(sourceType: SourceType): WebTestClient.RequestBodySpec =
-        withABody(buildGenerateInviteToRegisterTemplatePreviewRequest(sourceType = sourceType))
+        withABody(buildGenerateNotRegisteredToVoteTemplatePreviewRequest(sourceType = sourceType))
 
-    private fun WebTestClient.RequestBodySpec.withABody(request: GenerateInviteToRegisterTemplatePreviewRequest): WebTestClient.RequestBodySpec {
+    private fun WebTestClient.RequestBodySpec.withABody(request: GenerateNotRegisteredToVoteTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateInviteToRegisterTemplatePreviewRequest::class.java,
+            GenerateNotRegisteredToVoteTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

@@ -19,8 +19,8 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
-import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
@@ -53,7 +53,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildInviteToRegisterPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
@@ -604,7 +604,7 @@ internal class TemplatePersonalisationMessageMapperTest {
     }
 
     @Nested
-    inner class ToInviteToRegisterTemplatePersonalisationDto {
+    inner class ToNotRegisteredToVoteTemplatePersonalisationDto {
         @ParameterizedTest
         @CsvSource(
             value = [
@@ -613,16 +613,16 @@ internal class TemplatePersonalisationMessageMapperTest {
                 "POSTAL",
             ],
         )
-        fun `should map SQS InviteToRegisterTemplatePersonalisation to InviteToRegisterTemplatePersonalisationDto`(
+        fun `should map SQS NotRegisteredToVoteTemplatePersonalisation to NotRegisteredToVoteTemplatePersonalisationDto`(
             sourceType: SourceType,
         ) {
             // Given
-            val personalisationMessage = buildInviteToRegisterPersonalisation()
+            val personalisationMessage = buildNotRegisteredToVotePersonalisation()
 
             given(sourceTypeMapper.toFullSourceTypeString(sourceType, ENGLISH)).willReturn("Full mapped source type")
 
             val expectedPersonalisationDto = with(personalisationMessage) {
-                InviteToRegisterPersonalisationDto(
+                NotRegisteredToVotePersonalisationDto(
                     applicationReference = applicationReference,
                     firstName = firstName,
                     eroContactDetails = with(eroContactDetails) {
@@ -656,7 +656,7 @@ internal class TemplatePersonalisationMessageMapperTest {
 
             // When
             val actual =
-                mapper.toInviteToRegisterTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
+                mapper.toNotRegisteredToVoteTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

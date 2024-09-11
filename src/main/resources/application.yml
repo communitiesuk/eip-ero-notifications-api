@@ -26,8 +26,8 @@ api:
           id-document-required-welsh: ${TEMPLATE_ID_DOCUMENT_REQUIRED_EMAIL_WELSH}
           bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_ENGLISH}
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
-          invite-to-register-english: ${TEMPLATE_INVITE_TO_REGISTER_EMAIL_ENGLISH}
-          invite-to-register-welsh: ${TEMPLATE_INVITE_TO_REGISTER_EMAIL_WELSH}
+          not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_ENGLISH}
+          not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_WELSH}
 
           # Rejection reasons have not yet been fully implemented for VAC.
           # Until the full journey for selecting rejection reasons has been implemented we shouldn't send them in emails.
@@ -47,8 +47,8 @@ api:
           id-document-required-welsh: ${TEMPLATE_ID_DOCUMENT_REQUIRED_LETTER_WELSH}
           bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_ENGLISH}
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
-          invite-to-register-english: ${TEMPLATE_INVITE_TO_REGISTER_LETTER_ENGLISH}
-          invite-to-register-welsh: ${TEMPLATE_INVITE_TO_REGISTER_LETTER_WELSH}
+          not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_ENGLISH}
+          not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_WELSH}
 
           # Rejection reasons have not yet been fully implemented for VAC.
           # Until the full journey for selecting rejection reasons has been implemented we shouldn't send them in emails.
@@ -73,8 +73,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH}
           bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_ENGLISH}
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
-          invite-to-register-english: ${TEMPLATE_INVITE_TO_REGISTER_EMAIL_ENGLISH}
-          invite-to-register-welsh: ${TEMPLATE_INVITE_TO_REGISTER_EMAIL_WELSH}
+          not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_ENGLISH}
+          not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_WELSH}
 
         letter:
           rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_ENGLISH}
@@ -91,8 +91,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_POSTAL_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH}
           bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_ENGLISH}
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
-          invite-to-register-english: ${TEMPLATE_INVITE_TO_REGISTER_LETTER_ENGLISH}
-          invite-to-register-welsh: ${TEMPLATE_INVITE_TO_REGISTER_LETTER_WELSH}
+          not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_ENGLISH}
+          not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_WELSH}
       proxy:
         email:
           received-english: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH}
@@ -111,8 +111,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_EMAIL_WELSH}
           bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_ENGLISH}
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
-          invite-to-register-english: ${TEMPLATE_INVITE_TO_REGISTER_EMAIL_ENGLISH}
-          invite-to-register-welsh: ${TEMPLATE_INVITE_TO_REGISTER_EMAIL_WELSH}
+          not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_ENGLISH}
+          not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_WELSH}
 
         letter:
           rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_ENGLISH}
@@ -129,8 +129,8 @@ api:
           nino-not-matched-restricted-documents-list-welsh: ${TEMPLATE_PROXY_NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST_LETTER_WELSH}
           bespoke-comm-english: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_ENGLISH}
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
-          invite-to-register-english: ${TEMPLATE_INVITE_TO_REGISTER_LETTER_ENGLISH}
-          invite-to-register-welsh: ${TEMPLATE_INVITE_TO_REGISTER_LETTER_WELSH}
+          not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_ENGLISH}
+          not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_WELSH}
 
       overseas:
         email:
@@ -179,7 +179,7 @@ sqs:
   send-uk-gov-notify-requested-signature-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_REQUESTED_SIGNATURE_QUEUE_NAME}
   send-uk-gov-notify-nino-not-matched-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_NINO_NOT_MATCHED_QUEUE_NAME}
   send-uk-gov-notify-bespoke-comm-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_BESPOKE_COMM_QUEUE_NAME}
-  send-uk-gov-notify-invite-to-register-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_INVITE_TO_REGISTER_QUEUE_NAME}
+  send-uk-gov-notify-not-registered-to-vote-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_NOT_REGISTERED_TO_VOTE_QUEUE_NAME}
   remove-application-notifications-queue-name: ${SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME}
   trigger-voter-card-statistics-update-queue-name: ${SQS_TRIGGER_VOTER_CARD_STATISTICS_UPDATE_QUEUE_NAME}
   trigger-postal-application-statistics-update-queue-name: ${SQS_TRIGGER_POSTAL_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}

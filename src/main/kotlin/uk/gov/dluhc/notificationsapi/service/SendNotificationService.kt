@@ -60,7 +60,7 @@ class SendNotificationService(
             NotificationType.REJECTED_SIGNATURE -> true
             NotificationType.REJECTED_SIGNATURE_WITH_REASONS -> true
             NotificationType.BESPOKE_COMM -> true
-            NotificationType.INVITE_TO_REGISTER -> true
+            NotificationType.NOT_REGISTERED_TO_VOTE -> true
             else -> false
         }
 
@@ -72,7 +72,7 @@ class SendNotificationService(
             NotificationType.PHOTO_RESUBMISSION -> true
             NotificationType.PHOTO_RESUBMISSION_WITH_REASONS -> true
             NotificationType.BESPOKE_COMM -> true
-            NotificationType.INVITE_TO_REGISTER -> true
+            NotificationType.NOT_REGISTERED_TO_VOTE -> true
             else -> false
         }
 

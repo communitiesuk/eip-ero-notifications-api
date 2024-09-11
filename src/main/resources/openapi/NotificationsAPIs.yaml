@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.18.0'
+  version: '1.19.0'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -1171,16 +1171,16 @@ paths:
         httpMethod: POST
 
   #
-  # Generate Invite To Register Template Preview
+  # Generate Not Registered To Vote Template Preview
   # --------------------------------------------------------------------------------
 
-  '/templates/invite-to-register/preview':
+  '/templates/not-registered-to-vote/preview':
     options:
       summary: CORS support
       description: |
         Enable CORS by returning correct headers
       tags:
-        - Generate Invite To Register matched Template Preview
+        - Generate Not Registered To Vote Template Preview
       responses:
         200:
           description: Default response for CORS method
@@ -1213,13 +1213,13 @@ paths:
               application/json: |
                 {}
     post:
-      summary: Generates a text preview for invite to register template type and personalisation data
-      description: Generates a text preview for invite to register template type and personalisation data
-      operationId: generate-invite-to-register-template-preview
+      summary: Generates a text preview for not registered to vote template type and personalisation data
+      description: Generates a text preview for not registered to vote template type and personalisation data
+      operationId: generate-not-registered-to-vote-template-preview
       tags:
-        - Generate Invite To Register Template Preview
+        - Generate Not Registered To Vote Template Preview
       requestBody:
-        $ref: '#/components/requestBodies/GenerateInviteToRegisterTemplatePreview'
+        $ref: '#/components/requestBodies/GenerateNotRegisteredToVoteTemplatePreview'
       responses:
         '201':
           $ref: '#/components/responses/GenerateTemplatePreview'
@@ -1229,7 +1229,7 @@ paths:
         - eroUserCognitoUserPoolAuthorizer: [ ]
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
-        uri: '${base_uri}/templates/invite-to-register/preview'
+        uri: '${base_uri}/templates/not-registered-to-vote/preview'
         requestParameters:
           integration.request.header.x-request-id: context.requestId
         responseParameters:
@@ -1435,7 +1435,7 @@ components:
         - previous-address-document-required
         - parent-guardian-proof-required
         - bespoke-comm
-        - invite-to-register
+        - not-registered-to-vote
     Language:
       title: Language
       description: The language to view the template
@@ -2185,10 +2185,10 @@ components:
       required:
         - subjectHeader
         - details
-    InviteToRegisterPersonalisation:
-      title: InviteToRegisterPersonalisation
+    NotRegisteredToVotePersonalisation:
+      title: NotRegisteredToVotePersonalisation
       type: object
-      description: Personalisation details for an ivite to register
+      description: Personalisation details for a not registered to vote communication
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
       properties:
@@ -2278,9 +2278,9 @@ components:
         - channel
         - personalisation
         - sourceType
-    GenerateInviteToRegisterTemplatePreviewRequest:
-      title: GenerateInviteToRegisterTemplatePreviewRequest
-      description: An object containing request attributes required for generating the invite to register template preview
+    GenerateNotRegisteredToVoteTemplatePreviewRequest:
+      title: GenerateNotRegisteredToVoteTemplatePreviewRequest
+      description: An object containing request attributes required for generating the not registered to vote template preview
       type: object
       properties:
         channel:
@@ -2288,7 +2288,7 @@ components:
         language:
           $ref: '#/components/schemas/Language'
         personalisation:
-          $ref: '#/components/schemas/InviteToRegisterPersonalisation'
+          $ref: '#/components/schemas/NotRegisteredToVotePersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -2581,11 +2581,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateBespokeCommTemplatePreviewRequest'
-    GenerateInviteToRegisterTemplatePreview:
+    GenerateNotRegisteredToVoteTemplatePreview:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/GenerateInviteToRegisterTemplatePreviewRequest'
+            $ref: '#/components/schemas/GenerateNotRegisteredToVoteTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:

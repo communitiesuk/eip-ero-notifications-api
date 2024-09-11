@@ -10,8 +10,8 @@ import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.InviteToRegisterPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
@@ -29,8 +29,8 @@ import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.BespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.InviteToRegisterPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.NotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
@@ -194,11 +194,11 @@ abstract class TemplatePersonalisationMessageMapper {
     @Mapping(target = "area", source = "personalisation.area")
     @Mapping(target = "locality", source = "personalisation.locality")
     @Mapping(target = "postcode", source = "personalisation.postcode")
-    abstract fun toInviteToRegisterTemplatePersonalisationDto(
-        personalisation: InviteToRegisterPersonalisation,
+    abstract fun toNotRegisteredToVoteTemplatePersonalisationDto(
+        personalisation: NotRegisteredToVotePersonalisation,
         languageDto: LanguageDto,
         sourceType: SourceType,
-    ): InviteToRegisterPersonalisationDto
+    ): NotRegisteredToVotePersonalisationDto
 
     protected fun mapSourceType(
         languageDto: LanguageDto,

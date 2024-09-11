@@ -2,11 +2,11 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
 import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
-import uk.gov.dluhc.notificationsapi.messaging.models.InviteToRegisterPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyInviteToRegisterMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.NotRegisteredToVotePersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -14,7 +14,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 
-fun buildSendNotifyInviteToRegisterMessage(
+fun buildSendNotifyNotRegisteredToVoteMessage(
     language: Language = Language.EN,
     sourceType: SourceType = SourceType.POSTAL,
     sourceReference: String = aSourceReference(),
@@ -22,21 +22,21 @@ fun buildSendNotifyInviteToRegisterMessage(
     requestor: String = aRequestor(),
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
     toAddress: MessageAddress = aMessageAddress(),
-    personalisation: InviteToRegisterPersonalisation = buildInviteToRegisterPersonalisation(),
-): SendNotifyInviteToRegisterMessage =
-    SendNotifyInviteToRegisterMessage(
+    personalisation: NotRegisteredToVotePersonalisation = buildNotRegisteredToVotePersonalisation(),
+): SendNotifyNotRegisteredToVoteMessage =
+    SendNotifyNotRegisteredToVoteMessage(
         language = language,
         sourceType = sourceType,
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.INVITE_MINUS_TO_MINUS_REGISTER,
+        messageType = MessageType.NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE,
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,
     )
 
-fun buildInviteToRegisterPersonalisation(
+fun buildNotRegisteredToVotePersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
@@ -47,8 +47,8 @@ fun buildInviteToRegisterPersonalisation(
     area: String? = DataFaker.faker.address().city(),
     locality: String? = DataFaker.faker.address().city(),
     postcode: String? = DataFaker.faker.address().postcode(),
-): InviteToRegisterPersonalisation =
-    InviteToRegisterPersonalisation(
+): NotRegisteredToVotePersonalisation =
+    NotRegisteredToVotePersonalisation(
         applicationReference = applicationReference,
         firstName = firstName,
         eroContactDetails = eroContactDetails,

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '2.0.5'
+  version: '2.0.6'
   description: |-
     Notifications SQS Message Types
     
@@ -142,12 +142,12 @@ paths:
         '204':
           description: No response content.
 
-  '/send-uk-gov-notify-invite-to-register-message':
+  '/send-uk-gov-notify-not-registered-to-vote-message':
     post:
       tags:
         - SQS Queues
       requestBody:
-        $ref: '#/components/requestBodies/SendNotifyInviteToRegisterMessage'
+        $ref: '#/components/requestBodies/SendNotifyNotRegisteredToVoteMessage'
       responses:
         '204':
           description: No response content.
@@ -586,7 +586,7 @@ components:
         - parent-guardian-proof-required
         - previous-address-document-required
         - bespoke-comm
-        - invite-to-register
+        - not-registered-to-vote
 
     MessageAddress:
       type: object
@@ -858,9 +858,9 @@ components:
       required:
         - personalisation
         - channel
-    InviteToRegister:
-      title: InviteToRegister
-      description: The data for an invite to register communication
+    NotRegisteredToVote:
+      title: NotRegisteredToVote
+      description: The data for a not registered to vote communication
       type: object
       properties:
         property:
@@ -877,24 +877,24 @@ components:
           type: string
         freeText:
           type: string
-    InviteToRegisterPersonalisation:
-      title: InviteToRegisterPersonalisation
+    NotRegisteredToVotePersonalisation:
+      title: NotRegisteredToVotePersonalisation
       type: object
-      description: Personalisation details for an invite to register communication
+      description: Personalisation details for a not registered to vote communication
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
-        - $ref: '#/components/schemas/InviteToRegister'
-    SendNotifyInviteToRegisterMessage:
-      title: SendNotifyInviteToRegisterMessage
+        - $ref: '#/components/schemas/NotRegisteredToVote'
+    SendNotifyNotRegisteredToVoteMessage:
+      title: SendNotifyNotRegisteredToVoteMessage
       type: object
-      description: SQS Mesage for sending GOV.UK Notify invite to register messages
+      description: SQS Mesage for sending GOV.UK Notify not registered to vote messages
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
         channel:
           $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
-          $ref: '#/components/schemas/InviteToRegisterPersonalisation'
+          $ref: '#/components/schemas/NotRegisteredToVotePersonalisation'
       required:
         - personalisation
         - channel
@@ -968,8 +968,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyBespokeCommMessage'
-    SendNotifyInviteToRegisterMessage:
+    SendNotifyNotRegisteredToVoteMessage:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SendNotifyInviteToRegisterMessage'
+            $ref: '#/components/schemas/SendNotifyNotRegisteredToVoteMessage'
