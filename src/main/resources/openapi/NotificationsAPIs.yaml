@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.19.1'
+  version: '1.19.2'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -185,6 +185,7 @@ paths:
         uri: '${base_uri}/eros/{eroId}/communications/applications/{applicationId}/{communicationId}'
         requestParameters:
           integration.request.path.eroId: method.request.path.eroId
+          integration.request.path.applicationId: method.request.path.applicationId
           integration.request.path.communicationId: method.request.path.communicationId
           integration.request.header.x-request-id: context.requestId
         responseParameters:
