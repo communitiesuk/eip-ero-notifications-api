@@ -100,8 +100,8 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                         null,
                         null,
                         null,
-                    )
-                )
+                    ),
+                ),
             )
 
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("eroId" to eroId))
@@ -135,8 +135,8 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                         null,
                         null,
                         null,
-                    )
-                )
+                    ),
+                ),
             )
 
             val expectedException =
@@ -227,8 +227,8 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                         null,
                         null,
                         null,
-                    )
-                )
+                    ),
+                ),
             )
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("gssCode" to gssCode))
 
@@ -262,8 +262,8 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                         null,
                         null,
                         null,
-                    )
-                )
+                    ),
+                ),
             )
 
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("gssCode" to gssCode))
@@ -298,8 +298,8 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                         null,
                         null,
                         null,
-                    )
-                )
+                    ),
+                ),
             )
 
             val expectedException =

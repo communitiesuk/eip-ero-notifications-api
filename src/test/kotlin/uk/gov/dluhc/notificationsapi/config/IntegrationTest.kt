@@ -151,6 +151,7 @@ internal abstract class IntegrationTest {
     companion object {
         val ERO_ID = getRandomEroId()
         val OTHER_ERO_ID = getDifferentRandomEroId(ERO_ID)
+
         @JvmStatic
         @BeforeAll
         fun setup() {
