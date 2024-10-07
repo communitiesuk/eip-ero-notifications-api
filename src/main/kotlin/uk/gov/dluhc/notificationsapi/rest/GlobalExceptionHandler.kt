@@ -21,6 +21,7 @@ import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.config.ApiRequestErrorAttributes
 import uk.gov.dluhc.notificationsapi.database.NotificationNotFoundException
 import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 import uk.gov.dluhc.notificationsapi.exception.InvalidUuidFormatException
 import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
@@ -94,6 +95,7 @@ class GlobalExceptionHandler(
             GssCodeMismatchException::class,
             NotificationTemplateNotFoundException::class,
             InvalidUuidFormatException::class,
+            InvalidSourceTypeException::class,
         ],
     )
     protected fun handleExceptionReturnBadRequestErrorResponse(

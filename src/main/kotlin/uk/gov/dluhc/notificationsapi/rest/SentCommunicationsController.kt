@@ -15,7 +15,6 @@ import uk.gov.dluhc.notificationsapi.models.CommunicationsHistoryResponse
 import uk.gov.dluhc.notificationsapi.models.SentCommunicationResponse
 import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
 import java.util.UUID
-import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
 
 /**
  * REST Controller exposing APIs relating to communications that have been sent.
@@ -35,12 +34,12 @@ class SentCommunicationsController(
     fun getCommunicationHistoryByApplicationId(
         @PathVariable eroId: String,
         @PathVariable applicationId: String,
-        @RequestParam(required = false, defaultValue = "voter-card") sourceType: SourceTypeApi,
+        @RequestParam(required = false, defaultValue = "voter-card") sourceType: String,
     ): CommunicationsHistoryResponse =
         sentNotificationsService.getNotificationSummariesForApplication(
             sourceReference = applicationId,
             eroId = eroId,
-            sourceType = sourceTypeMapper.fromApiToDto(sourceType),
+            sourceType = sourceTypeMapper.fromApiValueToDto(sourceType),
         ).map {
             notificationSummaryMapper.toCommunicationsSummaryApi(it)
         }.let {
@@ -53,14 +52,14 @@ class SentCommunicationsController(
         @PathVariable eroId: String,
         @PathVariable applicationId: String,
         @PathVariable communicationId: String,
-        @RequestParam(required = true) sourceType: SourceTypeApi,
+        @RequestParam(required = true) sourceType: String,
     ): SentCommunicationResponse {
         try {
             return sentNotificationsService.getNotificationByIdEroAndType(
                 notificationId = UUID.fromString(communicationId),
                 eroId = eroId,
                 sourceReference = applicationId,
-                sourceType = sourceTypeMapper.fromApiToDto(sourceType),
+                sourceType = sourceTypeMapper.fromApiValueToDto(sourceType),
             ).let {
                 notificationApiMapper.toSentCommunicationsApi(it)
             }

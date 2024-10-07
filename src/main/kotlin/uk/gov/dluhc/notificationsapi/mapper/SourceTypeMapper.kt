@@ -42,6 +42,14 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
         SourceTypeApiEnum.OVERSEAS -> SourceTypeDtoEnum.OVERSEAS
     }
 
+    fun fromApiValueToDto(sourceType: String) = when (sourceType) {
+        SourceTypeApiEnum.VOTER_MINUS_CARD.value -> SourceTypeDtoEnum.VOTER_CARD
+        SourceTypeApiEnum.POSTAL.value -> SourceTypeDtoEnum.POSTAL
+        SourceTypeApiEnum.PROXY.value -> SourceTypeDtoEnum.PROXY
+        SourceTypeApiEnum.OVERSEAS.value -> SourceTypeDtoEnum.OVERSEAS
+        else -> { throw IllegalArgumentException("Unknown source type $sourceType") }
+    }
+
     fun toSourceTypeString(
         sourceType: SourceTypeApiEnum,
         languageDto: LanguageDto,
