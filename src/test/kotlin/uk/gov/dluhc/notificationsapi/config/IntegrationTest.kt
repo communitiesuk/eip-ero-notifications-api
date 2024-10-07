@@ -20,6 +20,7 @@ import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import software.amazon.awssdk.services.sqs.model.PurgeQueueRequest
+import software.amazon.awssdk.services.sqs.model.PurgeQueueResponse
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
@@ -31,6 +32,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.getRandomEroId
 import uk.gov.service.notify.NotificationClient
 import java.time.Clock
+import java.util.concurrent.CompletableFuture
 
 /**
  * Base class used to bring up the entire Spring ApplicationContext
@@ -231,21 +233,22 @@ internal abstract class IntegrationTest {
     @BeforeEach
     fun clearSqsQueues() {
         with(localStackContainerSettings) {
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentRequiredQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName)
-            clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName)
-            clearSqsQueue(mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName)
+            CompletableFuture.allOf(
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentRequiredQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName),
+                clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName),
+            ).join()
         }
     }
 
-    fun clearSqsQueue(queueUrl: String) {
+    fun clearSqsQueue(queueUrl: String): CompletableFuture<PurgeQueueResponse> =
         amazonSQSAsync.purgeQueue(PurgeQueueRequest.builder().queueUrl(queueUrl).build())
-    }
 }
