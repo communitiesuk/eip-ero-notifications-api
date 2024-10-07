@@ -41,7 +41,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyPhotoResubmissionQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyPhotoResubmissionQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()
@@ -74,7 +74,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyPhotoResubmissionQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyPhotoResubmissionQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()

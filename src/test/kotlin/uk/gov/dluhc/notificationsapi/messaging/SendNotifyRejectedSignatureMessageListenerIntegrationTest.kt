@@ -70,7 +70,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         }
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyRejectedSignatureQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyRejectedSignatureQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()
@@ -114,7 +114,7 @@ internal class SendNotifyRejectedSignatureMessageListenerIntegrationTest : Integ
         )
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyRejectedSignatureQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyRejectedSignatureQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()

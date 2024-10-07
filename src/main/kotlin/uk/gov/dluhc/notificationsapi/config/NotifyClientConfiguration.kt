@@ -2,7 +2,6 @@ package uk.gov.dluhc.notificationsapi.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -85,7 +84,6 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.email", ignoreUnknownFields = false)
-@ConstructorBinding
 class PostalNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.POSTAL,
     receivedEnglish: String,
@@ -149,7 +147,6 @@ class PostalNotifyEmailTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
-@ConstructorBinding
 class ProxyNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.PROXY,
     receivedEnglish: String,
@@ -213,7 +210,6 @@ class ProxyNotifyEmailTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
-@ConstructorBinding
 class OverseasNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.OVERSEAS,
     receivedEnglish: String,
@@ -275,7 +271,6 @@ class OverseasNotifyEmailTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
-@ConstructorBinding
 class VoterCardNotifyEmailTemplateConfiguration(
     sourceType: SourceType = SourceType.VOTER_CARD,
     receivedEnglish: String? = null,
@@ -388,7 +383,6 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.letter", ignoreUnknownFields = false)
-@ConstructorBinding
 class VoterCardNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.VOTER_CARD,
     rejectedEnglish: String,
@@ -450,7 +444,6 @@ class VoterCardNotifyLetterTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
-@ConstructorBinding
 class PostalNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.POSTAL,
     rejectedDocumentEnglish: String,
@@ -512,7 +505,6 @@ class PostalNotifyLetterTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
-@ConstructorBinding
 class ProxyNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.PROXY,
     rejectedSignatureEnglish: String,
@@ -574,7 +566,6 @@ class ProxyNotifyLetterTemplateConfiguration(
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.letter", ignoreUnknownFields = false)
-@ConstructorBinding
 class OverseasNotifyLetterTemplateConfiguration(
     sourceType: SourceType = SourceType.OVERSEAS,
     rejectedParentGuardianEnglish: String?,

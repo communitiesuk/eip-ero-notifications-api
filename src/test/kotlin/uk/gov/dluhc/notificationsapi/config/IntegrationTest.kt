@@ -1,10 +1,9 @@
 package uk.gov.dluhc.notificationsapi.config
 
-import com.amazonaws.services.sqs.AmazonSQSAsync
-import com.amazonaws.services.sqs.model.PurgeQueueRequest
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.awspring.cloud.messaging.core.QueueMessagingTemplate
+import io.awspring.cloud.sqs.operations.SqsTemplate
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -19,6 +18,8 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest
+import software.amazon.awssdk.services.sqs.SqsAsyncClient
+import software.amazon.awssdk.services.sqs.model.PurgeQueueRequest
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
@@ -52,13 +53,13 @@ internal abstract class IntegrationTest {
     protected lateinit var communicationConfirmationRepository: CommunicationConfirmationRepository
 
     @Autowired
-    protected lateinit var amazonSQSAsync: AmazonSQSAsync
+    protected lateinit var amazonSQSAsync: SqsAsyncClient
 
     @Autowired
     protected lateinit var localStackContainerSettings: LocalStackContainerSettings
 
     @Autowired
-    protected lateinit var sqsMessagingTemplate: QueueMessagingTemplate
+    protected lateinit var sqsMessagingTemplate: SqsTemplate
 
     @Value("\${sqs.send-uk-gov-notify-photo-resubmission-queue-name}")
     protected lateinit var sendUkGovNotifyPhotoResubmissionQueueName: String
@@ -150,7 +151,11 @@ internal abstract class IntegrationTest {
     companion object {
         val ERO_ID = getRandomEroId()
         val OTHER_ERO_ID = getDifferentRandomEroId(ERO_ID)
-        val localStackContainer = LocalStackContainerConfiguration.getInstance()
+        @JvmStatic
+        @BeforeAll
+        fun setup() {
+            LocalStackContainerConfiguration.getInstance()
+        }
     }
 
     @BeforeEach
@@ -240,6 +245,6 @@ internal abstract class IntegrationTest {
     }
 
     fun clearSqsQueue(queueUrl: String) {
-        amazonSQSAsync.purgeQueue(PurgeQueueRequest(queueUrl))
+        amazonSQSAsync.purgeQueue(PurgeQueueRequest.builder().queueUrl(queueUrl).build())
     }
 }

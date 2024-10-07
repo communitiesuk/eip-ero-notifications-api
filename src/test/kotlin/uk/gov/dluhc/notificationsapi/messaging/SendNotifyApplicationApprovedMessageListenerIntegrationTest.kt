@@ -37,7 +37,7 @@ internal class SendNotifyApplicationApprovedMessageListenerIntegrationTest : Int
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyApplicationApprovedQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyApplicationApprovedQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()

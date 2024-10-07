@@ -1,10 +1,10 @@
 package uk.gov.dluhc.notificationsapi.stubs
 
-import io.awspring.cloud.messaging.listener.annotation.SqsListener
+import io.awspring.cloud.sqs.annotation.SqsListener
+import jakarta.validation.Valid
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage
-import javax.validation.Valid
 
 @Component
 class UpdateProxyStatisticsMessageListenerStub : MessageListenerStub<UpdateStatisticsMessage>() {

@@ -1,6 +1,7 @@
 package uk.gov.dluhc.notificationsapi.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.awspring.cloud.core.region.StaticRegionProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ConfigurableApplicationContext
@@ -12,6 +13,7 @@ import org.testcontainers.utility.DockerImageName
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
+import software.amazon.awssdk.regions.providers.AwsRegionProvider
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition
 import software.amazon.awssdk.services.dynamodb.model.BillingMode
@@ -50,7 +52,7 @@ class LocalStackContainerConfiguration {
         fun getInstance(): GenericContainer<*> {
             if (container == null) {
                 container = GenericContainer(
-                    DockerImageName.parse("localstack/localstack:1.1.0"),
+                    DockerImageName.parse("localstack/localstack:3.0.2"),
                 ).withEnv(
                     mapOf(
                         "SERVICES" to "dynamodb, sqs",
@@ -68,6 +70,9 @@ class LocalStackContainerConfiguration {
             return container!!
         }
     }
+
+    @Bean
+    fun awsRegionProvider(): AwsRegionProvider = StaticRegionProvider(DEFAULT_REGION)
 
     @Bean
     fun awsBasicCredentialsProvider(): AwsCredentialsProvider =
@@ -117,7 +122,7 @@ class LocalStackContainerConfiguration {
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 
-        TestPropertyValues.of("cloud.aws.sqs.endpoint=$apiUrl").applyTo(applicationContext)
+        TestPropertyValues.of("spring.cloud.aws.sqs.endpoint=$apiUrl").applyTo(applicationContext)
 
         return LocalStackContainerSettings(
             apiUrl = apiUrl,

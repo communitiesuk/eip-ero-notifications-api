@@ -78,7 +78,7 @@ internal class SendNotifyBespokeCommMessageListenerIntegrationTest : Integration
         }
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyBespokeCommQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyBespokeCommQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()

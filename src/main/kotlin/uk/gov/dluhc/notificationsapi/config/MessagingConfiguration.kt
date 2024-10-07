@@ -1,18 +1,16 @@
 package uk.gov.dluhc.notificationsapi.config
 
-import io.awspring.cloud.messaging.config.QueueMessageHandlerFactory
-import io.awspring.cloud.messaging.core.QueueMessagingTemplate
-import io.awspring.cloud.messaging.listener.support.AcknowledgmentHandlerMethodArgumentResolver
-import io.awspring.cloud.messaging.listener.support.VisibilityHandlerMethodArgumentResolver
-import io.awspring.cloud.messaging.support.NotificationSubjectArgumentResolver
+import com.fasterxml.jackson.databind.ObjectMapper
+import io.awspring.cloud.sqs.operations.SqsTemplate
+import io.awspring.cloud.sqs.support.converter.SqsMessagingMessageConverter
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.messaging.converter.MappingJackson2MessageConverter
-import org.springframework.messaging.handler.annotation.support.HeadersMethodArgumentResolver
-import org.springframework.messaging.handler.annotation.support.PayloadMethodArgumentResolver
-import org.springframework.validation.Validator
+import org.springframework.context.annotation.Primary
+import org.springframework.context.annotation.Profile
+import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import uk.gov.dluhc.messagingsupport.MessageQueue
+import uk.gov.dluhc.messagingsupport.MessagingConfigurationHelper
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
 import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
 import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
@@ -30,31 +28,38 @@ class MessagingConfiguration {
     private lateinit var triggerProxyApplicationStatisticsUpdateQueueName: String
 
     @Bean
-    fun triggerVoterCardStatisticsUpdateQueue(queueMessagingTemplate: QueueMessagingTemplate) =
-        MessageQueue<VoterCardUpdateStatisticsMessage>(triggerVoterCardStatisticsUpdateQueueName, queueMessagingTemplate)
+    @Primary
+    @Profile("!integration-test")
+    fun sqsTemplate(
+        sqsAsyncClient: SqsAsyncClient,
+        sqsMessagingMessageConverter: SqsMessagingMessageConverter,
+    ) = MessagingConfigurationHelper.sqsTemplate(sqsAsyncClient, sqsMessagingMessageConverter)
 
     @Bean
-    fun triggerPostalApplicationStatisticsUpdateQueue(queueMessagingTemplate: QueueMessagingTemplate) =
-        MessageQueue<PostalUpdateStatisticsMessage>(triggerPostalApplicationStatisticsUpdateQueueName, queueMessagingTemplate)
+    fun triggerVoterCardStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
+        MessageQueue<VoterCardUpdateStatisticsMessage>(triggerVoterCardStatisticsUpdateQueueName, sqsTemplate)
 
     @Bean
-    fun triggerProxyApplicationStatisticsUpdateQueue(queueMessagingTemplate: QueueMessagingTemplate) =
-        MessageQueue<ProxyUpdateStatisticsMessage>(triggerProxyApplicationStatisticsUpdateQueueName, queueMessagingTemplate)
+    fun triggerPostalApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
+        MessageQueue<PostalUpdateStatisticsMessage>(triggerPostalApplicationStatisticsUpdateQueueName, sqsTemplate)
 
     @Bean
-    fun queueMessageHandlerFactory(
-        jacksonMessageConverter: MappingJackson2MessageConverter,
-        hibernateValidator: Validator,
-    ): QueueMessageHandlerFactory =
-        QueueMessageHandlerFactory().apply {
-            setArgumentResolvers(
-                listOf(
-                    HeadersMethodArgumentResolver(),
-                    NotificationSubjectArgumentResolver(),
-                    AcknowledgmentHandlerMethodArgumentResolver("Acknowledgment"),
-                    VisibilityHandlerMethodArgumentResolver("Visibility"),
-                    PayloadMethodArgumentResolver(jacksonMessageConverter, hibernateValidator),
-                ),
-            )
-        }
+    fun triggerProxyApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
+        MessageQueue<ProxyUpdateStatisticsMessage>(triggerProxyApplicationStatisticsUpdateQueueName, sqsTemplate)
+
+    @Bean
+    fun sqsMessagingMessageConverter(
+        objectMapper: ObjectMapper,
+    ) = MessagingConfigurationHelper.sqsMessagingMessageConverter(objectMapper)
+
+    @Bean
+    fun defaultSqsListenerContainerFactory(
+        objectMapper: ObjectMapper,
+        sqsAsyncClient: SqsAsyncClient,
+        sqsMessagingMessageConverter: SqsMessagingMessageConverter,
+    ) = MessagingConfigurationHelper.defaultSqsListenerContainerFactory(
+        sqsAsyncClient,
+        sqsMessagingMessageConverter,
+        null,
+    )
 }

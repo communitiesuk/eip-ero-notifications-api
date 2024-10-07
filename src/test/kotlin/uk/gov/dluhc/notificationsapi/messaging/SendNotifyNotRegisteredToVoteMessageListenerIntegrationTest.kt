@@ -71,7 +71,7 @@ internal class SendNotifyNotRegisteredToVoteMessageListenerIntegrationTest : Int
         }
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyNotRegisteredToVoteQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyNotRegisteredToVoteQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()
