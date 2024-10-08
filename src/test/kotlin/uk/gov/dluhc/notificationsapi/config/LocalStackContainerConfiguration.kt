@@ -117,7 +117,7 @@ class LocalStackContainerConfiguration {
         val triggerVoterCardStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerVoterCardStatisticsUpdateQueueName)
         val triggerPostalApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerPostalApplicationStatisticsUpdateQueueName)
         val triggerProxyApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerProxyApplicationStatisticsUpdateQueueName)
-        localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
+        val sendUkGovNotifyRejectedSignatureQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
         val sendUkGovNotifyRequestedSignatureQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
@@ -141,6 +141,7 @@ class LocalStackContainerConfiguration {
             triggerPostalApplicationStatisticsUpdateQueueName = triggerPostalApplicationStatisticsMessageQueueName,
             triggerProxyApplicationStatisticsUpdateQueueName = triggerProxyApplicationStatisticsMessageQueueName,
             sendUkGovNotifyRequestedSignatureQueueName = sendUkGovNotifyRequestedSignatureQueueName,
+            sendUkGovNotifyRejectedSignatureQueueName = sendUkGovNotifyRejectedSignatureQueueName,
         )
     }
 
