@@ -6,7 +6,6 @@ import org.springframework.http.MediaType
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.Channel
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
-import uk.gov.dluhc.notificationsapi.database.entity.SourceType
 import uk.gov.dluhc.notificationsapi.models.SentCommunicationResponse
 import uk.gov.dluhc.notificationsapi.testsupport.bearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
@@ -21,6 +20,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotif
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.LocalDateTime
 import java.util.*
+import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
 
 internal class GetCommunicationByIdIntegrationTest : IntegrationTest() {
 
@@ -87,7 +88,8 @@ internal class GetCommunicationByIdIntegrationTest : IntegrationTest() {
 
         val applicationId = aRandomSourceReference()
         val notificationId = aRandomNotificationId()
-        val sourceType = SourceType.POSTAL
+        val sourceType = SourceTypeEntity.POSTAL
+        val sourceTypeApiValue = SourceTypeApi.POSTAL.value
         val authGroupPrefix = "ero-postal-admin"
         val requestor = aRequestor()
 
@@ -112,7 +114,7 @@ internal class GetCommunicationByIdIntegrationTest : IntegrationTest() {
 
         // When
         val response = webTestClient.get()
-            .uri(buildUri(eroId = ERO_ID, applicationId = applicationId, notificationId = notificationId.toString(), sourceType = sourceType.toString()))
+            .uri(buildUri(eroId = ERO_ID, applicationId = applicationId, notificationId = notificationId.toString(), sourceType = sourceTypeApiValue))
             .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "$authGroupPrefix-$ERO_ID")))
             .contentType(MediaType.APPLICATION_JSON)
             .exchange()
@@ -133,7 +135,8 @@ internal class GetCommunicationByIdIntegrationTest : IntegrationTest() {
         val applicationId = aRandomSourceReference()
         val anotherApplicationId = aRandomSourceReference()
         val notificationId = aRandomNotificationId()
-        val sourceType = SourceType.POSTAL
+        val sourceType = SourceTypeEntity.POSTAL
+        val sourceTypeApiValue = SourceTypeApi.POSTAL.value
         val authGroupPrefix = "ero-postal-admin"
         val requestor = aRequestor()
 
@@ -166,7 +169,7 @@ internal class GetCommunicationByIdIntegrationTest : IntegrationTest() {
 
         // When, Then
         webTestClient.get()
-            .uri(buildUri(eroId = ERO_ID, applicationId = anotherApplicationId, notificationId = notificationId.toString(), sourceType = sourceType.toString()))
+            .uri(buildUri(eroId = ERO_ID, applicationId = anotherApplicationId, notificationId = notificationId.toString(), sourceType = sourceTypeApiValue))
             .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "$authGroupPrefix-$ERO_ID")))
             .contentType(MediaType.APPLICATION_JSON)
             .exchange()
@@ -174,6 +177,6 @@ internal class GetCommunicationByIdIntegrationTest : IntegrationTest() {
             .isNotFound
     }
 
-    private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString(), notificationId: String = UUID.randomUUID().toString(), sourceType: String = SourceType.POSTAL.toString()) =
+    private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString(), notificationId: String = UUID.randomUUID().toString(), sourceType: String = SourceTypeApi.POSTAL.value) =
         "/eros/$eroId/communications/applications/$applicationId/$notificationId?sourceType=$sourceType"
 }

@@ -245,6 +245,7 @@ internal abstract class IntegrationTest {
                 clearSqsQueue(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName),
                 clearSqsQueue(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName),
                 clearSqsQueue(mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName),
+                clearSqsQueue(mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName),
             ).join()
         }
     }

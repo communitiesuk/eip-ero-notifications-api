@@ -118,7 +118,7 @@ class LocalStackContainerConfiguration {
         val triggerPostalApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerPostalApplicationStatisticsUpdateQueueName)
         val triggerProxyApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerProxyApplicationStatisticsUpdateQueueName)
         localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
-        localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
+        val sendUkGovNotifyRequestedSignatureQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 
@@ -140,6 +140,7 @@ class LocalStackContainerConfiguration {
             triggerVoterCardStatisticsUpdateQueueName = triggerVoterCardStatisticsMessageQueueName,
             triggerPostalApplicationStatisticsUpdateQueueName = triggerPostalApplicationStatisticsMessageQueueName,
             triggerProxyApplicationStatisticsUpdateQueueName = triggerProxyApplicationStatisticsMessageQueueName,
+            sendUkGovNotifyRequestedSignatureQueueName = sendUkGovNotifyRequestedSignatureQueueName,
         )
     }
 
@@ -279,6 +280,7 @@ data class LocalStackContainerSettings(
     val triggerVoterCardStatisticsUpdateQueueName: String,
     val triggerPostalApplicationStatisticsUpdateQueueName: String,
     val triggerProxyApplicationStatisticsUpdateQueueName: String,
+    val sendUkGovNotifyRequestedSignatureQueueName: String,
 ) {
     val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyIdDocumentResubmissionQueueName, apiUrl)
@@ -293,6 +295,7 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName: String = toMappedUrl(sendUkGovNotifyNotRegisteredToVoteMessageQueueName, apiUrl)
     val mappedQueueUrlTriggerVoterCardStatisticsUpdateQueueName: String = toMappedUrl(triggerVoterCardStatisticsUpdateQueueName, apiUrl)
     val mappedQueueUrlTriggerPostalApplicationStatisticsUpdateQueueName: String = toMappedUrl(triggerPostalApplicationStatisticsUpdateQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName: String = toMappedUrl(sendUkGovNotifyRequestedSignatureQueueName, apiUrl)
 
     private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
         val rawUrl = URI.create(rawUrlString)
