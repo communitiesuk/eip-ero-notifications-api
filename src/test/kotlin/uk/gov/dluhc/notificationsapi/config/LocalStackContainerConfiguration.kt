@@ -281,6 +281,7 @@ data class LocalStackContainerSettings(
     val triggerPostalApplicationStatisticsUpdateQueueName: String,
     val triggerProxyApplicationStatisticsUpdateQueueName: String,
     val sendUkGovNotifyRequestedSignatureQueueName: String,
+    val sendUkGovNotifyRejectedSignatureQueueName: String,
 ) {
     val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyIdDocumentResubmissionQueueName, apiUrl)
@@ -296,6 +297,7 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlTriggerVoterCardStatisticsUpdateQueueName: String = toMappedUrl(triggerVoterCardStatisticsUpdateQueueName, apiUrl)
     val mappedQueueUrlTriggerPostalApplicationStatisticsUpdateQueueName: String = toMappedUrl(triggerPostalApplicationStatisticsUpdateQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName: String = toMappedUrl(sendUkGovNotifyRequestedSignatureQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyRejectedSignatureQueueName: String = toMappedUrl(sendUkGovNotifyRejectedSignatureQueueName, apiUrl)
 
     private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
         val rawUrl = URI.create(rawUrlString)
