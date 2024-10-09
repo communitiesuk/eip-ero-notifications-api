@@ -28,7 +28,7 @@ internal class SendNotifyBespokeCommMessageListenerIntegrationTest : Integration
     @BeforeEach
     @AfterEach
     fun cleanUp() {
-        clearSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
+        clearSqsQueue(sendUkGovNotifyBespokeCommQueueName)
     }
 
     @ParameterizedTest

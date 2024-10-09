@@ -26,7 +26,7 @@ internal class SendNotifyNotRegisteredToVoteMessageListenerIntegrationTest : Int
 
     @AfterEach
     fun cleanUp() {
-        clearSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
+        clearSqsQueue(sendUkGovNotifyNotRegisteredToVoteQueueName)
     }
 
     @ParameterizedTest
