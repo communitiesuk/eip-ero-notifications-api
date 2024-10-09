@@ -24,16 +24,20 @@ class MessagingSupportLibraryListenerStub : MessageListener<TestSqsMessage> {
             MDC.get(CORRELATION_ID),
         )
     }
+
     fun getMessages() = messagesReceived.toList()
+
     fun clear() {
         messagesReceived.clear()
     }
 }
+
 data class SqsMessageWithMdcInfo<T>(
     val message: T,
     val mdcMessageId: String,
     val mdcCorrelationId: String,
 )
+
 data class TestSqsMessage(
     val id: UUID = UUID.randomUUID(),
 )

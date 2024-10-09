@@ -75,7 +75,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.7")
+    implementation("org.springframework:spring-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government

@@ -1,11 +1,11 @@
 spring:
-cloud:
-  aws:
-    region:
-      static: eu-west-2
-    credentials:
-      access-key: test
-      secret-key: test
+  cloud:
+    aws:
+      region:
+        static: eu-west-2
+      credentials:
+        access-key: test
+        secret-key: test
 
 dynamodb:
   notificationsTableName: unit-test-notifications
