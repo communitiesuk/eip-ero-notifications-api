@@ -1,7 +1,6 @@
 package uk.gov.dluhc.notificationsapi.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
@@ -31,7 +30,6 @@ class AwsDynamoDbClientConfiguration {
 }
 
 @ConfigurationProperties(prefix = "dynamodb")
-@ConstructorBinding
 data class DynamoDbConfiguration(
     val notificationsTableName: String,
     val communicationConfirmationsTableName: String,

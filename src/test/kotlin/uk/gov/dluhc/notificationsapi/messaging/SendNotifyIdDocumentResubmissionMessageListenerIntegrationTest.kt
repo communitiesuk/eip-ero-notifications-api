@@ -44,7 +44,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyIdDocumentResubmissionQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyIdDocumentResubmissionQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()
@@ -79,7 +79,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyIdDocumentResubmissionQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyIdDocumentResubmissionQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()

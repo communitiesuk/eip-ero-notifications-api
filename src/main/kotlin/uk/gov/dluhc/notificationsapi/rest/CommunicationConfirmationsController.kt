@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.rest
 
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
@@ -16,7 +17,6 @@ import uk.gov.dluhc.notificationsapi.mapper.CommunicationConfirmationMapper
 import uk.gov.dluhc.notificationsapi.models.CommunicationConfirmationHistoryResponse
 import uk.gov.dluhc.notificationsapi.models.CreateOfflineCommunicationConfirmationRequest
 import uk.gov.dluhc.notificationsapi.service.CommunicationConfirmationsService
-import javax.validation.Valid
 
 /**
  * REST Controller exposing APIs relating to offline communication confirmations.

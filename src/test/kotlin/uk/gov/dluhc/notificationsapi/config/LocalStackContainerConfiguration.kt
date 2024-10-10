@@ -50,7 +50,7 @@ class LocalStackContainerConfiguration {
         fun getInstance(): GenericContainer<*> {
             if (container == null) {
                 container = GenericContainer(
-                    DockerImageName.parse("localstack/localstack:1.1.0"),
+                    DockerImageName.parse("localstack/localstack:3.0.2"),
                 ).withEnv(
                     mapOf(
                         "SERVICES" to "dynamodb, sqs",
@@ -112,12 +112,12 @@ class LocalStackContainerConfiguration {
         val triggerVoterCardStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerVoterCardStatisticsUpdateQueueName)
         val triggerPostalApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerPostalApplicationStatisticsUpdateQueueName)
         val triggerProxyApplicationStatisticsMessageQueueName = localStackContainer.createSqsQueue(triggerProxyApplicationStatisticsUpdateQueueName)
-        localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
-        localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
+        val sendUkGovNotifyRejectedSignatureQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
+        val sendUkGovNotifyRequestedSignatureQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 
-        TestPropertyValues.of("cloud.aws.sqs.endpoint=$apiUrl").applyTo(applicationContext)
+        TestPropertyValues.of("spring.cloud.aws.sqs.endpoint=$apiUrl").applyTo(applicationContext)
 
         return LocalStackContainerSettings(
             apiUrl = apiUrl,
@@ -135,6 +135,8 @@ class LocalStackContainerConfiguration {
             triggerVoterCardStatisticsUpdateQueueName = triggerVoterCardStatisticsMessageQueueName,
             triggerPostalApplicationStatisticsUpdateQueueName = triggerPostalApplicationStatisticsMessageQueueName,
             triggerProxyApplicationStatisticsUpdateQueueName = triggerProxyApplicationStatisticsMessageQueueName,
+            sendUkGovNotifyRequestedSignatureQueueName = sendUkGovNotifyRequestedSignatureQueueName,
+            sendUkGovNotifyRejectedSignatureQueueName = sendUkGovNotifyRejectedSignatureQueueName,
         )
     }
 
@@ -274,6 +276,8 @@ data class LocalStackContainerSettings(
     val triggerVoterCardStatisticsUpdateQueueName: String,
     val triggerPostalApplicationStatisticsUpdateQueueName: String,
     val triggerProxyApplicationStatisticsUpdateQueueName: String,
+    val sendUkGovNotifyRequestedSignatureQueueName: String,
+    val sendUkGovNotifyRejectedSignatureQueueName: String,
 ) {
     val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyIdDocumentResubmissionQueueName, apiUrl)
@@ -288,6 +292,8 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName: String = toMappedUrl(sendUkGovNotifyNotRegisteredToVoteMessageQueueName, apiUrl)
     val mappedQueueUrlTriggerVoterCardStatisticsUpdateQueueName: String = toMappedUrl(triggerVoterCardStatisticsUpdateQueueName, apiUrl)
     val mappedQueueUrlTriggerPostalApplicationStatisticsUpdateQueueName: String = toMappedUrl(triggerPostalApplicationStatisticsUpdateQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName: String = toMappedUrl(sendUkGovNotifyRequestedSignatureQueueName, apiUrl)
+    val mappedQueueUrlSendUkGovNotifyRejectedSignatureQueueName: String = toMappedUrl(sendUkGovNotifyRejectedSignatureQueueName, apiUrl)
 
     private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
         val rawUrl = URI.create(rawUrlString)

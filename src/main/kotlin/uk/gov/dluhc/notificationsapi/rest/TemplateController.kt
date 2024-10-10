@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.rest
 
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -34,7 +35,6 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePr
 import uk.gov.dluhc.notificationsapi.models.GenerateRequiredOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.service.TemplateService
-import javax.validation.Valid
 
 @RestController
 @CrossOrigin

@@ -47,7 +47,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
         wireMockService.stubNotifySendLetterResponse(notifyResponse)
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyApplicationRejectedQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyApplicationRejectedQueueName, payload)
 
         // Then
         await.pollDelay(Duration.ofMillis(500)).atMost(5, TimeUnit.SECONDS).untilAsserted {

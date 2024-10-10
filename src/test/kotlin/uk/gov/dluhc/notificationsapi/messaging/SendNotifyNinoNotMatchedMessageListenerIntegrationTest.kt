@@ -64,7 +64,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
         wireMockService.stubNotifySendEmailResponse(NotifySendEmailSuccessResponse())
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyNinoNotMatchedQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyNinoNotMatchedQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()
@@ -114,7 +114,7 @@ internal class SendNotifyNinoNotMatchedMessageListenerIntegrationTest : Integrat
         wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
 
         // When
-        sqsMessagingTemplate.convertAndSend(sendUkGovNotifyNinoNotMatchedQueueName, payload)
+        sqsMessagingTemplate.send(sendUkGovNotifyNinoNotMatchedQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()

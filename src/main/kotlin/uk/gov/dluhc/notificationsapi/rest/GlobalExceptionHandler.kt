@@ -1,10 +1,12 @@
 package uk.gov.dluhc.notificationsapi.rest
 
+import jakarta.servlet.RequestDispatcher.ERROR_MESSAGE
+import jakarta.servlet.RequestDispatcher.ERROR_STATUS_CODE
 import org.springframework.beans.TypeMismatchException
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -19,11 +21,10 @@ import uk.gov.dluhc.notificationsapi.client.GovNotifyApiNotFoundException
 import uk.gov.dluhc.notificationsapi.config.ApiRequestErrorAttributes
 import uk.gov.dluhc.notificationsapi.database.NotificationNotFoundException
 import uk.gov.dluhc.notificationsapi.exception.GssCodeMismatchException
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 import uk.gov.dluhc.notificationsapi.exception.InvalidUuidFormatException
 import uk.gov.dluhc.notificationsapi.exception.NotificationTemplateNotFoundException
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
-import javax.servlet.RequestDispatcher.ERROR_MESSAGE
-import javax.servlet.RequestDispatcher.ERROR_STATUS_CODE
 
 /**
  * Global Exception Handler. Handles specific exceptions thrown by the application by returning a suitable [ErrorResponse]
@@ -64,7 +65,7 @@ class GlobalExceptionHandler(
     protected fun handleGovNotifyApiNotFoundException(
         e: GovNotifyApiNotFoundException,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         request.setAttribute(
             ERROR_MESSAGE,
             "Notification template not found for the given template type",
@@ -81,7 +82,7 @@ class GlobalExceptionHandler(
     protected fun handleNotificationNotFoundException(
         e: NotificationNotFoundException,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         return populateErrorResponseAndHandleExceptionInternal(e, NOT_FOUND, request)
     }
 
@@ -94,12 +95,13 @@ class GlobalExceptionHandler(
             GssCodeMismatchException::class,
             NotificationTemplateNotFoundException::class,
             InvalidUuidFormatException::class,
+            InvalidSourceTypeException::class,
         ],
     )
     protected fun handleExceptionReturnBadRequestErrorResponse(
         e: Exception,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         return populateErrorResponseAndHandleExceptionInternal(e, BAD_REQUEST, request)
     }
 
@@ -109,9 +111,9 @@ class GlobalExceptionHandler(
     override fun handleHttpMessageNotReadable(
         e: HttpMessageNotReadableException,
         headers: HttpHeaders,
-        status: HttpStatus,
+        status: HttpStatusCode,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         return populateErrorResponseAndHandleExceptionInternal(e, BAD_REQUEST, request)
     }
 
@@ -121,9 +123,9 @@ class GlobalExceptionHandler(
     override fun handleMethodArgumentNotValid(
         e: MethodArgumentNotValidException,
         headers: HttpHeaders,
-        status: HttpStatus,
+        status: HttpStatusCode,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         return populateErrorResponseAndHandleExceptionInternal(e, BAD_REQUEST, request)
     }
 
@@ -133,9 +135,9 @@ class GlobalExceptionHandler(
     override fun handleTypeMismatch(
         ex: TypeMismatchException,
         headers: HttpHeaders,
-        status: HttpStatus,
+        status: HttpStatusCode,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         request.setAttribute(ERROR_MESSAGE, ex.cause?.message ?: "", SCOPE_REQUEST)
         return populateErrorResponseAndHandleExceptionInternal(ex, BAD_REQUEST, request)
     }
@@ -146,18 +148,18 @@ class GlobalExceptionHandler(
     override fun handleMissingServletRequestParameter(
         ex: MissingServletRequestParameterException,
         headers: HttpHeaders,
-        status: HttpStatus,
+        status: HttpStatusCode,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         request.setAttribute(ERROR_MESSAGE, "Missing required parameter:  ${ex.parameterName}", SCOPE_REQUEST)
         return populateErrorResponseAndHandleExceptionInternal(ex, BAD_REQUEST, request)
     }
 
     private fun populateErrorResponseAndHandleExceptionInternal(
         exception: Exception,
-        status: HttpStatus,
+        status: HttpStatusCode,
         request: WebRequest,
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<Any>? {
         request.setAttribute(ERROR_STATUS_CODE, status.value(), SCOPE_REQUEST)
         val body = errorAttributes.getErrorResponse(request)
         return handleExceptionInternal(exception, body, HttpHeaders(), status, request)

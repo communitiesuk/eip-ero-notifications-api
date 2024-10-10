@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.springframework.context.MessageSource
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntityEnum
 import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDtoEnum
@@ -40,6 +41,14 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
         SourceTypeApiEnum.POSTAL -> SourceTypeDtoEnum.POSTAL
         SourceTypeApiEnum.PROXY -> SourceTypeDtoEnum.PROXY
         SourceTypeApiEnum.OVERSEAS -> SourceTypeDtoEnum.OVERSEAS
+    }
+
+    fun fromApiValueToDto(sourceType: String) = when (sourceType) {
+        SourceTypeApiEnum.VOTER_MINUS_CARD.value -> SourceTypeDtoEnum.VOTER_CARD
+        SourceTypeApiEnum.POSTAL.value -> SourceTypeDtoEnum.POSTAL
+        SourceTypeApiEnum.PROXY.value -> SourceTypeDtoEnum.PROXY
+        SourceTypeApiEnum.OVERSEAS.value -> SourceTypeDtoEnum.OVERSEAS
+        else -> { throw InvalidSourceTypeException(sourceType) }
     }
 
     fun toSourceTypeString(

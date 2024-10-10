@@ -6,16 +6,16 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import java.lang.ProcessBuilder.Redirect
 
 plugins {
-    id("org.springframework.boot") version "2.7.12"
-    id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.8.22"
-    kotlin("kapt") version "1.8.22"
-    kotlin("plugin.spring") version "1.8.22"
-    kotlin("plugin.jpa") version "1.8.22"
-    kotlin("plugin.allopen") version "1.8.22"
+    id("org.springframework.boot") version "3.3.4"
+    id("io.spring.dependency-management") version "1.1.3"
+    kotlin("jvm") version "1.9.10"
+    kotlin("kapt") version "1.9.10"
+    kotlin("plugin.spring") version "1.9.10"
+    kotlin("plugin.jpa") version "1.9.10"
+    kotlin("plugin.allopen") version "1.9.10"
     id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
     id("org.jlleitschuh.gradle.ktlint-idea") version "11.3.1"
-    id("org.openapi.generator") version "6.2.1"
+    id("org.openapi.generator") version "7.0.1"
     id("org.owasp.dependencycheck") version "8.2.1"
 }
 
@@ -23,13 +23,13 @@ group = "uk.gov.dluhc"
 version = "latest"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-ext["snakeyaml.version"] = "1.33"
+ext["snakeyaml.version"] = "2.2"
 // Spring cloud 3.x integrates with AWS v2, until that is released this project has both AWS v1 and v2 SDK libraries
-extra["springCloudVersion"] = "2.4.2"
-extra["awsSdkVersion"] = "2.18.9"
+extra["springCloudAwsVersion"] = "3.1.1"
+extra["awsSdkVersion"] = "2.26.20"
 
 allOpen {
-    annotations("javax.persistence.Entity", "javax.persistence.MappedSuperclass", "javax.persistence.Embedabble")
+    annotations("jakarta.persistence.Entity", "jakarta.persistence.MappedSuperclass", "jakarta.persistence.Embedabble")
 }
 
 val awsProfile = System.getenv("AWS_PROFILE_ARG") ?: "--profile code-artifact"
@@ -64,18 +64,19 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
     implementation("org.apache.commons:commons-lang3:3.12.0")
-    implementation("org.mapstruct:mapstruct:1.5.3.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
     // internal libs
-    implementation("uk.gov.dluhc:logging-library:2.3.1")
-    implementation("uk.gov.dluhc:messaging-support-library:1.1.0")
+    implementation("uk.gov.dluhc:logging-library:3.0.3")
+    implementation("uk.gov.dluhc:messaging-support-library:2.1.0")
 
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.7")
+    implementation("org.springframework:spring-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government
@@ -95,32 +96,32 @@ dependencies {
     implementation("software.amazon.awssdk:dynamodb-enhanced")
 
     // AWS v1 dependencies
-    implementation("io.awspring.cloud:spring-cloud-starter-aws-messaging")
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:${property("springCloudAwsVersion")}"))
+    implementation("io.awspring.cloud:spring-cloud-aws-starter")
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs")
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // Test implementations
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 
-    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
-    testImplementation("org.testcontainers:testcontainers:1.17.6")
+    testImplementation("org.testcontainers:junit-jupiter:1.19.1")
+    testImplementation("org.testcontainers:testcontainers:1.19.1")
 
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
 
-    testImplementation("com.github.tomakehurst:wiremock-jre8:2.35.0")
+    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
     testImplementation("net.datafaker:datafaker:1.7.0")
+
+    testImplementation(platform("software.amazon.awssdk:bom:${property("awsSdkVersion")}"))
+    testImplementation("software.amazon.awssdk:auth")
+    testImplementation("software.amazon.awssdk:sts")
 
     // Libraries to support creating JWTs in tests
     testImplementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     testImplementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:${property("springCloudVersion")}")
-        mavenBom("software.amazon.awssdk:bom:${property("awsSdkVersion")}")
-    }
 }
 
 tasks.withType<KotlinCompile> {
@@ -154,9 +155,9 @@ tasks.withType<GenerateTask> {
     configOptions.set(
         mapOf(
             "dateLibrary" to "java8",
-            "serializationLibrary" to "jackson",
             "enumPropertyNaming" to "UPPERCASE",
             "useBeanValidation" to "true",
+            "useSpringBoot3" to "true",
         ),
     )
 }

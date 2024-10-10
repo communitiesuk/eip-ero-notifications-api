@@ -36,7 +36,7 @@ internal class RemoveApplicationNotificationsMessageListenerIntegrationTest : In
         )
 
         // When
-        sqsMessagingTemplate.convertAndSend(removeApplicationNotificationsQueueName, sqsMessage)
+        sqsMessagingTemplate.send(removeApplicationNotificationsQueueName, sqsMessage)
 
         // Then
         val stopWatch = StopWatch.createStarted()
