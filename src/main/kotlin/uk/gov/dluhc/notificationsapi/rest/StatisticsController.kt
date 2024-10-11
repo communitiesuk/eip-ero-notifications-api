@@ -55,7 +55,11 @@ class StatisticsController(
     ): CommunicationsStatisticsResponseOAVA {
         val notifications = sentNotificationsService.getNotificationsForApplication(
             sourceReference = applicationId,
-            sourceType = if (oavaService == "postal") SourceType.POSTAL else SourceType.PROXY,
+            sourceType = when (oavaService) {
+                "postal" -> SourceType.POSTAL
+                "proxy" -> SourceType.PROXY
+                else -> SourceType.OVERSEAS
+            },
         )
 
         val signatureRequested = notifications.filter {
