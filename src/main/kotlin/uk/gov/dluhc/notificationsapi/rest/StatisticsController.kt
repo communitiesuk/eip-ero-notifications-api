@@ -44,7 +44,7 @@ class StatisticsController(
             identityDocumentsRequested = identityDocumentsRequested > 0,
             bespokeCommunicationsSent = bespokeCommunications,
             hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
-            numIdentityDocumentRequestCommsSent = identityDocumentsRequested
+            numIdentityDocumentRequestCommsSent = identityDocumentsRequested,
         )
     }
 
@@ -83,7 +83,7 @@ class StatisticsController(
             bespokeCommunicationsSent = bespokeCommunications,
             hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
             numSignatureRequestCommsSent = signatureRequested,
-            numIdentityDocumentRequestCommsSent = identityDocumentsRequested
+            numIdentityDocumentRequestCommsSent = identityDocumentsRequested,
         )
     }
 }

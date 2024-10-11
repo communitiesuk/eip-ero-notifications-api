@@ -25,7 +25,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -58,7 +58,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -100,7 +100,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -145,7 +145,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
-            numIdentityDocumentRequestCommsSent = numberOfNotifications
+            numIdentityDocumentRequestCommsSent = numberOfNotifications,
         )
 
         // When
@@ -190,7 +190,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
-            numIdentityDocumentRequestCommsSent = numberOfNotifications
+            numIdentityDocumentRequestCommsSent = numberOfNotifications,
         )
 
         // When
@@ -235,7 +235,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
             hasSentNotRegisteredToVoteCommunication = false,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -268,7 +268,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = true,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -293,7 +293,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -327,7 +327,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -373,7 +373,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = numberOfNotifications,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -419,7 +419,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = numberOfNotifications
+            numIdentityDocumentRequestCommsSent = numberOfNotifications,
         )
 
         // When
@@ -465,7 +465,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = numberOfNotifications
+            numIdentityDocumentRequestCommsSent = numberOfNotifications,
         )
 
         // When
@@ -511,7 +511,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = numberOfNotifications,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -545,7 +545,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = true,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -570,7 +570,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -604,7 +604,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -650,7 +650,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = numberOfNotifications,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -696,7 +696,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = numberOfNotifications
+            numIdentityDocumentRequestCommsSent = numberOfNotifications,
         )
 
         // When
@@ -742,7 +742,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = numberOfNotifications
+            numIdentityDocumentRequestCommsSent = numberOfNotifications,
         )
 
         // When
@@ -788,7 +788,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = numberOfNotifications,
             hasSentNotRegisteredToVoteCommunication = false,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
@@ -822,7 +822,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = true,
             numSignatureRequestCommsSent = 0,
-            numIdentityDocumentRequestCommsSent = 0
+            numIdentityDocumentRequestCommsSent = 0,
         )
 
         // When
