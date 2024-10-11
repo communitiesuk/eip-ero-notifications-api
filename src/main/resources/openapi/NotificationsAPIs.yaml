@@ -2309,11 +2309,14 @@ components:
           type: integer
         hasSentNotRegisteredToVoteCommunication:
           type: boolean
+        numIdentityDocumentRequestCommsSent:
+          type: integer
       required:
         - photoRequested
         - identityDocumentsRequested
         - bespokeCommunicationsSent
         - hasSentNotRegisteredToVoteCommunication
+        - numIdentityDocumentRequestCommsSent
     CommunicationsStatisticsResponseOAVA:
       title: CommunicationsStatisticsResponseOAVA
       description: response containing anonymised statistics about communications related to an application
@@ -2327,11 +2330,17 @@ components:
           type: integer
         hasSentNotRegisteredToVoteCommunication:
           type: boolean
+        numSignatureRequestCommsSent:
+          type: integer
+        numIdentityDocumentRequestCommsSent:
+          type: integer
       required:
         - signatureRequested
         - identityDocumentsRequested
         - bespokeCommunicationsSent
         - hasSentNotRegisteredToVoteCommunication
+        - numSignatureRequestCommsSent
+        - numIdentityDocumentRequestCommsSent
 
   #
   # Response Body Definitions

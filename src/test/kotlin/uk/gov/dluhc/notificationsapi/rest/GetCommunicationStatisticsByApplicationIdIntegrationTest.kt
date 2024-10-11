@@ -25,6 +25,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -57,6 +58,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -71,7 +73,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
-    fun `should return photo requested for VAC application with photo resubmission communications sent`() {
+    fun `should return photo requested and correct number of comms sent for VAC application with photo resubmission communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
 
@@ -84,11 +86,21 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             sentNotification,
         )
 
+        val sentNotification2 = aNotificationBuilder(
+            sourceReference = applicationId,
+            sourceType = SourceType.VOTER_CARD,
+            type = NotificationType.PHOTO_RESUBMISSION,
+        )
+        notificationRepository.saveNotification(
+            sentNotification2,
+        )
+
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -102,25 +114,38 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return identity document requested for VAC application with id document resubmission communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return identity document requested and correct number of comms sent for VAC application with id document resubmission communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.VOTER_CARD,
-            type = NotificationType.ID_DOCUMENT_RESUBMISSION,
-        )
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.VOTER_CARD,
+                type = NotificationType.ID_DOCUMENT_RESUBMISSION,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numIdentityDocumentRequestCommsSent = numberOfNotifications
         )
 
         // When
@@ -134,25 +159,38 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return identity document requested for VAC application with id document required communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return identity document requested and correct number of comms sent for VAC application with id document required communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.VOTER_CARD,
-            type = NotificationType.ID_DOCUMENT_REQUIRED,
-        )
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.VOTER_CARD,
+                type = NotificationType.ID_DOCUMENT_REQUIRED,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseVAC(
             photoRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numIdentityDocumentRequestCommsSent = numberOfNotifications
         )
 
         // When
@@ -197,6 +235,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
             hasSentNotRegisteredToVoteCommunication = false,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -229,6 +268,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = true,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -252,6 +292,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -284,6 +326,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -297,26 +341,39 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return signature requested for Postal application with signature resubmission communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return signature requested and correct number of comms sent for Postal application with signature resubmission communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.POSTAL,
-            type = NotificationType.REQUESTED_SIGNATURE,
-        )
-
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.POSTAL,
+                type = NotificationType.REQUESTED_SIGNATURE,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = numberOfNotifications,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -330,25 +387,39 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return identity document requested for Postal application with id document resubmission communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return identity document requested and correct number of comms sent for Postal application with id document resubmission communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.POSTAL,
-            type = NotificationType.ID_DOCUMENT_RESUBMISSION,
-        )
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.POSTAL,
+                type = NotificationType.ID_DOCUMENT_RESUBMISSION,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = numberOfNotifications
         )
 
         // When
@@ -362,25 +433,39 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return identity document requested for Postal application with id document required communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return identity document requested and correct number of comms sent for Postal application with id document required communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.POSTAL,
-            type = NotificationType.ID_DOCUMENT_REQUIRED,
-        )
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.POSTAL,
+                type = NotificationType.ID_DOCUMENT_REQUIRED,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = numberOfNotifications
         )
 
         // When
@@ -425,6 +510,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -457,6 +544,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = true,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -480,6 +569,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -512,6 +603,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -525,26 +618,39 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return signature requested for Proxy application with signature resubmission communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return signature requested and correct number of comms sent for Proxy application with signature requested communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.PROXY,
-            type = NotificationType.REQUESTED_SIGNATURE,
-        )
-
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.PROXY,
+                type = NotificationType.REQUESTED_SIGNATURE,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = true,
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = numberOfNotifications,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -558,25 +664,39 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return identity document requested for Proxy application with id document resubmission communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return identity document requested and correct number of comms sent for Proxy application with id document resubmission communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.PROXY,
-            type = NotificationType.ID_DOCUMENT_RESUBMISSION,
-        )
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.PROXY,
+                type = NotificationType.ID_DOCUMENT_RESUBMISSION,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = numberOfNotifications
         )
 
         // When
@@ -590,25 +710,39 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
-    @Test
-    fun `should return identity document requested for Proxy application with id document required communications sent`() {
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1",
+            "2",
+            "3",
+        ],
+    )
+    fun `should return identity document requested and correct number of comms sent for Proxy application with id document required communications sent`(
+        numberOfNotifications: Int,
+    ) {
         // Given
         val applicationId = aRandomSourceReference()
 
-        val sentNotification = aNotificationBuilder(
-            sourceReference = applicationId,
-            sourceType = SourceType.PROXY,
-            type = NotificationType.ID_DOCUMENT_REQUIRED,
-        )
-        notificationRepository.saveNotification(
-            sentNotification,
-        )
+        repeat(numberOfNotifications) {
+            val sentNotification = aNotificationBuilder(
+                id = UUID.randomUUID(),
+                sourceReference = applicationId,
+                sourceType = SourceType.PROXY,
+                type = NotificationType.ID_DOCUMENT_REQUIRED,
+            )
+            notificationRepository.saveNotification(
+                sentNotification,
+            )
+        }
 
         val expected = CommunicationsStatisticsResponseOAVA(
             signatureRequested = false,
             identityDocumentsRequested = true,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = numberOfNotifications
         )
 
         // When
@@ -653,6 +787,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = numberOfNotifications,
             hasSentNotRegisteredToVoteCommunication = false,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When
@@ -685,6 +821,8 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             identityDocumentsRequested = false,
             bespokeCommunicationsSent = 0,
             hasSentNotRegisteredToVoteCommunication = true,
+            numSignatureRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0
         )
 
         // When

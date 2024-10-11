@@ -28,12 +28,12 @@ class StatisticsController(
         )
 
         val photoRequested = notifications.any { it.type == NotificationType.PHOTO_RESUBMISSION }
-        val identityDocumentsRequested = notifications.any {
+        val identityDocumentsRequested = notifications.filter {
             it.type in listOf(
                 NotificationType.ID_DOCUMENT_REQUIRED,
                 NotificationType.ID_DOCUMENT_RESUBMISSION,
             )
-        }
+        }.size
 
         val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
 
@@ -41,9 +41,10 @@ class StatisticsController(
 
         return CommunicationsStatisticsResponseVAC(
             photoRequested = photoRequested,
-            identityDocumentsRequested = identityDocumentsRequested,
+            identityDocumentsRequested = identityDocumentsRequested > 0,
             bespokeCommunicationsSent = bespokeCommunications,
             hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
+            numIdentityDocumentRequestCommsSent = identityDocumentsRequested
         )
     }
 
@@ -57,30 +58,32 @@ class StatisticsController(
             sourceType = if (oavaService == "postal") SourceType.POSTAL else SourceType.PROXY,
         )
 
-        val signatureRequested = notifications.any {
+        val signatureRequested = notifications.filter {
             it.type in listOf(
                 NotificationType.REJECTED_SIGNATURE,
                 NotificationType.REQUESTED_SIGNATURE,
                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
             )
-        }
-        val identityDocumentsRequested = notifications.any {
+        }.size
+        val identityDocumentsRequested = notifications.filter {
             it.type in listOf(
                 NotificationType.ID_DOCUMENT_REQUIRED,
                 NotificationType.ID_DOCUMENT_RESUBMISSION,
                 NotificationType.NINO_NOT_MATCHED,
             )
-        }
+        }.size
 
         val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
 
         val hasSentNotRegisteredToVoteCommunication = notifications.any { it.type == NotificationType.NOT_REGISTERED_TO_VOTE }
 
         return CommunicationsStatisticsResponseOAVA(
-            signatureRequested = signatureRequested,
-            identityDocumentsRequested = identityDocumentsRequested,
+            signatureRequested = signatureRequested > 0,
+            identityDocumentsRequested = identityDocumentsRequested > 0,
             bespokeCommunicationsSent = bespokeCommunications,
             hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
+            numSignatureRequestCommsSent = signatureRequested,
+            numIdentityDocumentRequestCommsSent = identityDocumentsRequested
         )
     }
 }
