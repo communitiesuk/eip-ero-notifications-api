@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseOAVA
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseVAC
 import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
@@ -55,7 +56,12 @@ class StatisticsController(
     ): CommunicationsStatisticsResponseOAVA {
         val notifications = sentNotificationsService.getNotificationsForApplication(
             sourceReference = applicationId,
-            sourceType = if (oavaService == "postal") SourceType.POSTAL else SourceType.PROXY,
+            sourceType = when (oavaService) {
+                "postal" -> SourceType.POSTAL
+                "proxy" -> SourceType.PROXY
+                "overseas" -> SourceType.OVERSEAS
+                else -> throw InvalidSourceTypeException(oavaService)
+            },
         )
 
         val signatureRequested = notifications.filter {
