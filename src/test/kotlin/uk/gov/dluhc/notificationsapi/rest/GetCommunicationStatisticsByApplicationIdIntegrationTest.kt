@@ -283,6 +283,21 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     }
 
     @Test
+    fun `should return bad request when invalid service parameter is used in uri`() {
+        // Given
+
+        val applicationId = aRandomSourceReference()
+
+        // When
+        val response = webTestClient.get()
+            .uri(buildOavaUri(applicationId = applicationId, "invalid"))
+            .exchange()
+
+        // Then
+        response.expectStatus().isBadRequest
+    }
+
+    @Test
     fun `should return signature not requested, documents not requested, 0 bespoke communications sent and not sent not registered to vote comm for Postal application with no communications sent`() {
         // Given
         val applicationId = aRandomSourceReference()
