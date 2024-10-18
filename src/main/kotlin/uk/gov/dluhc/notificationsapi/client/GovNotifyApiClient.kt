@@ -90,8 +90,8 @@ class GovNotifyApiClient(
         sourceType: SourceType,
     ): Map<String, String?> {
         return if (sourceType == SourceType.OVERSEAS) {
-            toAddress.overseasElectorAddress?.toPersonalisationMap()
-                ?: throw IllegalArgumentException("OverseasElectorAddress is required with given sourceType: $sourceType")
+            toAddress.overseasElectorAddress?.toPersonalisationMap() ?: toAddress.postalAddress?.toPersonalisationMap()
+                ?: throw IllegalArgumentException("One of OverseasElectorAddress or PostalAddress is required with given sourceType: $sourceType")
         } else {
             toAddress.postalAddress?.toPersonalisationMap()
                 ?: throw IllegalArgumentException("PostalAddress is required with given sourceType: $sourceType")
