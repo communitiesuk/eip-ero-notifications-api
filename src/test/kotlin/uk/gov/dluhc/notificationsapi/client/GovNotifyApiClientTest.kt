@@ -21,6 +21,7 @@ import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
+import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationId
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aPostalAddress
@@ -171,23 +172,24 @@ internal class GovNotifyApiClientTest {
 
         @ParameterizedTest
         @EnumSource(value = SourceType::class, names = ["POSTAL", "OVERSEAS"])
-        fun `should send letter`(sourceType: SourceType) {
+        fun `should send letter when toAddress has a postal address`(sourceType: SourceType) {
             // Given
             val postalAddress = aPostalAddress()
-            val overseasAddress = anOverseasAddress()
             val notificationId = aNotificationId()
             val templateId = aTemplateId().toString()
             val notificationDestination =
-                aNotificationDestination(postalAddress = postalAddress, overseasAddress = overseasAddress)
+                aNotificationDestination(
+                    emailAddress = null,
+                    postalAddress = postalAddress,
+                    overseasAddress = null,
+                )
 
-            val response = NotifySendEmailSuccessResponse()
+            val response = NotifySendLetterSuccessResponse()
             val objectMapper = ObjectMapper()
             val sendLetterResponse = SendLetterResponse(objectMapper.writeValueAsString(response))
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
-
-            val personalisationMapForSourceType =
-                if (sourceType == SourceType.POSTAL) postalAddress.toPersonalisationMap() else overseasAddress.toPersonalisationMap()
+            val personalisationMapForSourceType = postalAddress.toPersonalisationMap()
 
             given(notificationClient.sendLetter(any(), any(), any())).willReturn(sendLetterResponse)
             given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendLetterResponse>())).willReturn(
@@ -212,6 +214,105 @@ internal class GovNotifyApiClientTest {
             )
             verify(sendNotificationResponseMapper).toSendNotificationResponse(sendLetterResponse)
             assertThat(actual).isSameAs(sendNotificationDto)
+        }
+
+        @Test
+        fun `should send letter for overseas application when toAddress has an overseasAddress and no postalAddress`() {
+            // Given
+            val overseasAddress = anOverseasAddress()
+            val notificationId = aNotificationId()
+            val templateId = aTemplateId().toString()
+            val notificationDestination =
+                aNotificationDestination(
+                    emailAddress = null,
+                    postalAddress = null,
+                    overseasAddress = overseasAddress,
+                )
+
+            val response = NotifySendLetterSuccessResponse()
+            val objectMapper = ObjectMapper()
+            val sendLetterResponse = SendLetterResponse(objectMapper.writeValueAsString(response))
+            val personalisation = aNotificationPersonalisationMap()
+            val sendNotificationDto = buildSendNotificationDto()
+            val personalisationMapForSourceType = overseasAddress.toPersonalisationMap()
+
+            given(notificationClient.sendLetter(any(), any(), any())).willReturn(sendLetterResponse)
+            given(sendNotificationResponseMapper.toSendNotificationResponse(any<SendLetterResponse>())).willReturn(
+                sendNotificationDto,
+            )
+
+            // When
+            val actual =
+                govNotifyApiClient.sendLetter(
+                    templateId,
+                    notificationDestination,
+                    personalisation,
+                    notificationId,
+                    SourceType.OVERSEAS,
+                )
+
+            // Then
+            verify(notificationClient).sendLetter(
+                templateId,
+                (personalisation + personalisationMapForSourceType),
+                notificationId.toString(),
+            )
+            verify(sendNotificationResponseMapper).toSendNotificationResponse(sendLetterResponse)
+            assertThat(actual).isSameAs(sendNotificationDto)
+        }
+
+        @Test
+        fun `should throw error when a postal application has no postalAddress`() {
+            val notificationId = aNotificationId()
+            val templateId = aTemplateId().toString()
+            val notificationDestination = aNotificationDestination(postalAddress = null)
+            val sourceType = SourceType.POSTAL
+
+            val personalisation = aNotificationPersonalisationMap()
+
+            // When
+            val exception = Assertions.catchThrowableOfType(
+                {
+                    govNotifyApiClient.sendLetter(
+                        templateId,
+                        notificationDestination,
+                        personalisation,
+                        notificationId,
+                        sourceType,
+                    )
+                },
+                IllegalArgumentException::class.java,
+            )
+
+            // Then
+            assertThat(exception.message).isEqualTo("PostalAddress is required with given sourceType: POSTAL")
+        }
+
+        @Test
+        fun `should throw error when an overseas application has no postalAddress and no overseasAddress`() {
+            val notificationId = aNotificationId()
+            val templateId = aTemplateId().toString()
+            val notificationDestination = aNotificationDestination(postalAddress = null, overseasAddress = null)
+            val sourceType = SourceType.OVERSEAS
+
+            val personalisation = aNotificationPersonalisationMap()
+
+            // When
+            val exception = Assertions.catchThrowableOfType(
+                {
+                    govNotifyApiClient.sendLetter(
+                        templateId,
+                        notificationDestination,
+                        personalisation,
+                        notificationId,
+                        sourceType,
+                    )
+                },
+                IllegalArgumentException::class.java,
+            )
+
+            // Then
+            assertThat(exception.message).isEqualTo("One of OverseasElectorAddress or PostalAddress is required with given sourceType: OVERSEAS")
         }
 
         @Test
