@@ -78,10 +78,9 @@ class SendNotificationService(
 
     private fun shouldSendApplicationStatisticsUpdate(requestDto: SendNotificationRequestDto): Boolean =
         when (requestDto.sourceType) {
-            SourceType.POSTAL -> shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto)
-            SourceType.PROXY -> shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto)
+            SourceType.ANONYMOUS_ELECTOR_DOCUMENT -> false
             SourceType.VOTER_CARD -> shouldSendVacApplicationStatisticsUpdateForNotificationType(requestDto)
-            else -> false
+            else -> shouldSendOavaApplicationStatisticsUpdateForNotificationType(requestDto)
         }
 
     private fun sendNotificationForChannel(
