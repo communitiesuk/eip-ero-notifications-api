@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.messagingsupport.MessagingConfigurationHelper
+import uk.gov.dluhc.overseasapplicationsapi.messaging.models.UpdateStatisticsMessage as OverseasUpdateStatisticsMessage
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
 import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
 import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
@@ -26,6 +27,9 @@ class MessagingConfiguration {
 
     @Value("\${sqs.trigger-proxy-application-statistics-update-queue-name}")
     private lateinit var triggerProxyApplicationStatisticsUpdateQueueName: String
+
+    @Value("\${sqs.trigger-overseas-application-statistics-update-queue-name}")
+    private lateinit var triggerOverseasApplicationStatisticsUpdateQueueName: String
 
     @Bean
     @Primary
@@ -46,6 +50,10 @@ class MessagingConfiguration {
     @Bean
     fun triggerProxyApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
         MessageQueue<ProxyUpdateStatisticsMessage>(triggerProxyApplicationStatisticsUpdateQueueName, sqsTemplate)
+
+    @Bean
+    fun triggerOverseasApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
+        MessageQueue<OverseasUpdateStatisticsMessage>(triggerOverseasApplicationStatisticsUpdateQueueName, sqsTemplate)
 
     @Bean
     fun sqsMessagingMessageConverter(

@@ -97,6 +97,7 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}") triggerVoterCardStatisticsUpdateQueueName: String,
         @Value("\${sqs.trigger-postal-application-statistics-update-queue-name}") triggerPostalApplicationStatisticsUpdateQueueName: String,
         @Value("\${sqs.trigger-proxy-application-statistics-update-queue-name}") triggerProxyApplicationStatisticsUpdateQueueName: String,
+        @Value("\${sqs.trigger-overseas-application-statistics-update-queue-name}") triggerOverseasApplicationStatisticsUpdateQueueName: String,
     ): LocalStackContainerSettings {
         val sendUkGovNotifyPhotoResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyPhotoResubmissionQueueName)
         val sendUkGovNotifyIdDocumentResubmissionMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyIdDocumentResubmissionQueueName)

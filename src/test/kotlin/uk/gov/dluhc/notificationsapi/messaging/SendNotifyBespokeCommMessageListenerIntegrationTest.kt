@@ -95,6 +95,7 @@ internal class SendNotifyBespokeCommMessageListenerIntegrationTest : Integration
                 SourceType.POSTAL -> assertPostalUpdateStatisticsMessageSent(sourceReference)
                 SourceType.PROXY -> assertProxyUpdateStatisticsMessageSent(sourceReference)
                 SourceType.VOTER_MINUS_CARD -> assertVoterCardUpdateStatisticsMessageSent(sourceReference)
+                SourceType.OVERSEAS -> assertOverseasUpdateStatisticsMessageSent(sourceReference)
                 else -> {}
             }
             stopWatch.stop()

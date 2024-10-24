@@ -18,6 +18,7 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
+import uk.gov.dluhc.overseasapplicationsapi.messaging.models.UpdateStatisticsMessage as OverseasUpdateStatisticsMessage
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
 import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
 import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
@@ -40,12 +41,16 @@ class StatisticsUpdateServiceTest {
     @Mock
     private lateinit var triggerProxyApplicationStatisticsUpdateQueue: MessageQueue<ProxyUpdateStatisticsMessage>
 
+    @Mock
+    private lateinit var triggerOverseasApplicationStatisticsUpdateQueue: MessageQueue<OverseasUpdateStatisticsMessage>
+
     @BeforeEach
     fun setUp() {
         statisticsUpdateService = StatisticsUpdateService(
             triggerVoterCardStatisticsUpdateQueue,
             triggerPostalApplicationStatisticsUpdateQueue,
             triggerProxyApplicationStatisticsUpdateQueue,
+            triggerOverseasApplicationStatisticsUpdateQueue,
         )
     }
 
@@ -73,6 +78,7 @@ class StatisticsUpdateServiceTest {
         // When
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
 
         // Then
         verifyNoInteractions(triggerVoterCardStatisticsUpdateQueue)
@@ -102,6 +108,7 @@ class StatisticsUpdateServiceTest {
         // When
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
 
         // Then
         verifyNoInteractions(triggerPostalApplicationStatisticsUpdateQueue)
@@ -131,9 +138,40 @@ class StatisticsUpdateServiceTest {
         // When
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
 
         // Then
         verifyNoInteractions(triggerProxyApplicationStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should send a message containing the application ID to the overseas queue for overseas applications`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
+
+        // Then
+        verify(triggerOverseasApplicationStatisticsUpdateQueue).submit(
+            eq(OverseasUpdateStatisticsMessage(applicationId)),
+            any(),
+        )
+        verifyNoMoreInteractions(triggerOverseasApplicationStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should not send a message to the overseas queue for non overseas applications`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
+
+        // Then
+        verifyNoInteractions(triggerOverseasApplicationStatisticsUpdateQueue)
     }
 
     @Test
