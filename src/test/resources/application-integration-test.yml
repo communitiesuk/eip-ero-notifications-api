@@ -176,3 +176,4 @@ sqs:
   trigger-voter-card-statistics-update-queue-name: test-trigger-voter-card-statistics-update.fifo
   trigger-postal-application-statistics-update-queue-name: test-trigger-postal-application-statistics-update.fifo
   trigger-proxy-application-statistics-update-queue-name: test-trigger-proxy-application-statistics-update.fifo
+  trigger-overseas-application-statistics-update-queue-name: test-trigger-overseas-application-statistics-update.fifo

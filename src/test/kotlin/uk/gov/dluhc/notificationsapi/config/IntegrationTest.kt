@@ -24,6 +24,7 @@ import software.amazon.awssdk.services.sqs.model.PurgeQueueResponse
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
+import uk.gov.dluhc.notificationsapi.stubs.UpdateOverseasStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.stubs.UpdatePostalStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.stubs.UpdateProxyStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.stubs.UpdateVoterCardStatisticsMessageListenerStub
@@ -145,6 +146,9 @@ internal abstract class IntegrationTest {
     protected lateinit var updateProxyStatisticsMessageListenerStub: UpdateProxyStatisticsMessageListenerStub
 
     @Autowired
+    protected lateinit var updateOverseasStatisticsMessageListenerStub: UpdateOverseasStatisticsMessageListenerStub
+
+    @Autowired
     protected lateinit var objectMapper: ObjectMapper
 
     @Autowired
@@ -219,6 +223,14 @@ internal abstract class IntegrationTest {
         Assertions.assertThat(messages).isNotEmpty
         Assertions.assertThat(messages).anyMatch {
             it.proxyApplicationId == applicationId
+        }
+    }
+
+    protected fun assertOverseasUpdateStatisticsMessageSent(applicationId: String) {
+        val messages = updateOverseasStatisticsMessageListenerStub.getMessages()
+        Assertions.assertThat(messages).isNotEmpty
+        Assertions.assertThat(messages).anyMatch {
+            it.overseasApplicationId == applicationId
         }
     }
 

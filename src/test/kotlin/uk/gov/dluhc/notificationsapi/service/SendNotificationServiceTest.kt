@@ -532,7 +532,7 @@ internal class SendNotificationServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(SourceType::class, names = ["VOTER_CARD", "POSTAL", "PROXY"])
+    @EnumSource(SourceType::class, names = ["VOTER_CARD", "POSTAL", "PROXY", "OVERSEAS"])
     fun `should send statistics update for Proxy, Postal and Voter Card applications`(sourceType: SourceType) {
         // Given
         val request = buildSendNotificationRequestDto(
@@ -565,7 +565,7 @@ internal class SendNotificationServiceTest {
     @ParameterizedTest
     @EnumSource(
         SourceType::class,
-        names = ["VOTER_CARD", "POSTAL", "PROXY"],
+        names = ["VOTER_CARD", "POSTAL", "PROXY", "OVERSEAS"],
         mode = EnumSource.Mode.EXCLUDE,
     )
     fun `should not send statistics update for irrelevant source types`(sourceType: SourceType) {
