@@ -194,6 +194,10 @@ abstract class TemplatePersonalisationMessageMapper {
     @Mapping(target = "area", source = "personalisation.area")
     @Mapping(target = "locality", source = "personalisation.locality")
     @Mapping(target = "postcode", source = "personalisation.postcode")
+    @Mapping(
+        target = "deadline",
+        expression = "java( mapDeadline( personalisation.getDeadlineDate(), personalisation.getDeadlineTime(), languageDto, sourceType ) )",
+    )
     abstract fun toNotRegisteredToVoteTemplatePersonalisationDto(
         personalisation: NotRegisteredToVotePersonalisation,
         languageDto: LanguageDto,

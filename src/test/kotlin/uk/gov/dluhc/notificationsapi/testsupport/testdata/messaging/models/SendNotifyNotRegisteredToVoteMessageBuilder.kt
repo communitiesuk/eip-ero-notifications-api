@@ -13,6 +13,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
+import java.time.LocalDate
 
 fun buildSendNotifyNotRegisteredToVoteMessage(
     language: Language = Language.EN,
@@ -47,6 +48,8 @@ fun buildNotRegisteredToVotePersonalisation(
     area: String? = DataFaker.faker.address().city(),
     locality: String? = DataFaker.faker.address().city(),
     postcode: String? = DataFaker.faker.address().postcode(),
+    deadlineDate: LocalDate? = LocalDate.now().plusMonths(3),
+    deadlineTime: String? = "17:00",
 ): NotRegisteredToVotePersonalisation =
     NotRegisteredToVotePersonalisation(
         applicationReference = applicationReference,
@@ -59,4 +62,6 @@ fun buildNotRegisteredToVotePersonalisation(
         area = area,
         locality = locality,
         postcode = postcode,
+        deadlineDate = deadlineDate,
+        deadlineTime = deadlineTime,
     )

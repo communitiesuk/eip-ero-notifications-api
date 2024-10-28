@@ -499,6 +499,7 @@ fun buildNotRegisteredToVotePersonalisationDto(
     area: String? = faker.address().city(),
     locality: String? = faker.address().city(),
     postcode: String? = faker.address().postcode(),
+    deadline: String? = "You must do this by 17:00 on 07 July 2024 or your postal vote application may be rejected",
 ): NotRegisteredToVotePersonalisationDto = NotRegisteredToVotePersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
@@ -511,6 +512,7 @@ fun buildNotRegisteredToVotePersonalisationDto(
     area = area,
     locality = locality,
     postcode = postcode,
+    deadline = deadline,
 )
 
 fun buildNotRegisteredToVotePersonalisationMapFromDto(
@@ -526,6 +528,7 @@ fun buildNotRegisteredToVotePersonalisationMapFromDto(
         personalisationMap["area"] = area ?: ""
         personalisationMap["locality"] = locality ?: ""
         personalisationMap["postcode"] = postcode ?: ""
+        personalisationMap["deadline"] = deadline ?: ""
         personalisationMap["sourceType"] = personalisationFullSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }

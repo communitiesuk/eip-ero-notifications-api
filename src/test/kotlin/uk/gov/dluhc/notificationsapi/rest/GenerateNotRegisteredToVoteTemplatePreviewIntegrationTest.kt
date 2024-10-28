@@ -5,10 +5,14 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
+import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
+import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
+import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
 import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplatePreviewRequest
@@ -27,6 +31,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildNotRegistered
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildAddress
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
@@ -38,6 +43,15 @@ internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : Integ
         private const val LETTER_WELSH_TEMPLATE_ID = "d8a80df2-abf5-405e-81dc-4f814756c462"
         private const val URI_TEMPLATE = "/templates/not-registered-to-vote/preview"
     }
+
+    @Autowired
+    private lateinit var sourceTypeMapper: SourceTypeMapper
+
+    @Autowired
+    private lateinit var deadlineMapper: DeadlineMapper
+
+    @Autowired
+    private lateinit var languageMapper: LanguageMapper
 
     @BeforeEach
     fun setup() {
@@ -227,6 +241,8 @@ internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : Integ
                 area = "Fakeshire",
                 locality = "Fakenham",
                 postcode = "FA1 2KE",
+                deadlineDate = LocalDate.now().plusMonths(3),
+                deadlineTime = "17:00",
             ),
         )
 
@@ -244,6 +260,8 @@ internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : Integ
         val actualResponse = response.responseBody.blockFirst()
         val expectedResponse = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse)
+        val languageDto = languageMapper.fromApiToDto(language)
+        val expectedDeadline = deadlineMapper.toDeadlineString(requestBody.personalisation.deadlineDate!!, requestBody.personalisation.deadlineTime!!, languageDto, sourceTypeMapper.toFullSourceTypeString(sourceType, languageDto))
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf<String, Any>(
                 "applicationReference" to applicationReference,
@@ -255,6 +273,7 @@ internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : Integ
                 "area" to requestBody.personalisation.area!!,
                 "locality" to requestBody.personalisation.locality!!,
                 "postcode" to requestBody.personalisation.postcode!!,
+                "deadline" to expectedDeadline,
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,
@@ -296,6 +315,8 @@ internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : Integ
                 area = null,
                 locality = null,
                 postcode = null,
+                deadlineTime = null,
+                deadlineDate = null,
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
             ),
         )
@@ -310,6 +331,7 @@ internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : Integ
                 "area" to "",
                 "locality" to "",
                 "postcode" to "",
+                "deadline" to "",
                 "LAName" to eroContactDetails.localAuthorityName,
                 "eroWebsite" to eroContactDetails.website,
                 "eroEmail" to eroContactDetails.email,

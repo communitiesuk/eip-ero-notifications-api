@@ -877,6 +877,13 @@ components:
           type: string
         freeText:
           type: string
+        deadlineDate:
+          type: string
+          format: date
+          description: The deadline date for the 'what you need to do' section of the communication
+        deadlineTime:
+          type: string
+          description: The deadline time for the 'what you need to do' section
     NotRegisteredToVotePersonalisation:
       title: NotRegisteredToVotePersonalisation
       type: object
