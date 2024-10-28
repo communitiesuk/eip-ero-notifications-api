@@ -20,6 +20,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotRegisteredToVoteTemplatePreviewDto
+import java.time.LocalDate
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
 
 @ExtendWith(MockitoExtension::class)
@@ -34,6 +35,9 @@ class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
+    @Mock
+    private lateinit var deadlineMapper: DeadlineMapper
+
     @InjectMocks
     private lateinit var mapper: NotRegisteredToVoteTemplatePreviewDtoMapperImpl
 
@@ -47,6 +51,8 @@ class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
         val area = "Fakeshire"
         val locality = "Fakenham"
         val postcode = "FA1 2KE"
+        val deadlineDate = LocalDate.of(2024, 7, 10)
+        val deadlineTime = "17:00"
 
         val request = buildGenerateNotRegisteredToVoteTemplatePreviewRequest(
             channel = channel,
@@ -58,6 +64,8 @@ class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
                 area = area,
                 locality = locality,
                 postcode = postcode,
+                deadlineDate = deadlineDate,
+                deadlineTime = deadlineTime,
             ),
         )
         val expectedChannel = CommunicationChannelDto.valueOf(channel.name)
@@ -65,6 +73,7 @@ class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
         given { sourceTypeMapper.fromApiToDto(SourceType.POSTAL) }.willReturn(uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL)
         given { sourceTypeMapper.toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH) }.willReturn("postal vote")
         given { languageMapper.fromApiToDto(Language.EN) }.willReturn(LanguageDto.ENGLISH)
+        given { deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, LanguageDto.ENGLISH, "postal vote") }.willReturn("Deadline string")
 
         val expected = buildNotRegisteredToVoteTemplatePreviewDto(
             sourceType = uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL,
@@ -98,6 +107,7 @@ class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
                     area = area,
                     locality = locality,
                     postcode = postcode,
+                    deadline = "Deadline string",
                 )
             },
             notificationType = NotificationType.NOT_REGISTERED_TO_VOTE,
@@ -112,6 +122,6 @@ class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
             .isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(sourceTypeMapper).fromApiToDto(SourceType.POSTAL)
-        verify(sourceTypeMapper, times(1)).toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
+        verify(sourceTypeMapper, times(2)).toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
     }
 }
