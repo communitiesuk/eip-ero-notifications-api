@@ -620,6 +620,7 @@ internal class TemplatePersonalisationMessageMapperTest {
             val personalisationMessage = buildNotRegisteredToVotePersonalisation()
 
             given(sourceTypeMapper.toFullSourceTypeString(sourceType, ENGLISH)).willReturn("Full mapped source type")
+            given(deadlineMapper.toDeadlineString(any(), any(), any(), any())).willReturn("Mapped deadline")
 
             val expectedPersonalisationDto = with(personalisationMessage) {
                 NotRegisteredToVotePersonalisationDto(
@@ -651,6 +652,7 @@ internal class TemplatePersonalisationMessageMapperTest {
                     area = area,
                     locality = locality,
                     postcode = postcode,
+                    deadline = "Mapped deadline",
                 )
             }
 

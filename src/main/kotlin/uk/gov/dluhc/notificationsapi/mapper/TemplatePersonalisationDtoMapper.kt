@@ -220,6 +220,7 @@ class TemplatePersonalisationDtoMapper {
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationFullSourceTypeString
+            personalisation["deadline"] = getSafeValue(deadline)
         }
 
         return personalisation

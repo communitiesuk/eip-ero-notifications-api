@@ -9,6 +9,7 @@ import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
+import java.time.LocalDate
 
 fun buildGenerateNotRegisteredToVoteTemplatePreviewRequest(
     sourceType: SourceType = SourceType.POSTAL,
@@ -33,6 +34,8 @@ fun buildNotRegisteredToVotePersonalisation(
     area: String? = DataFaker.faker.address().city(),
     locality: String? = DataFaker.faker.address().city(),
     postcode: String? = DataFaker.faker.address().postcode(),
+    deadlineDate: LocalDate? = LocalDate.now().plusMonths(3),
+    deadlineTime: String? = "17:00",
 ): NotRegisteredToVotePersonalisation =
     NotRegisteredToVotePersonalisation(
         applicationReference = applicationReference,
@@ -45,4 +48,6 @@ fun buildNotRegisteredToVotePersonalisation(
         area = area,
         locality = locality,
         postcode = postcode,
+        deadlineDate = deadlineDate,
+        deadlineTime = deadlineTime,
     )

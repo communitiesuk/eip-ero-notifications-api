@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.19.2'
+  version: '1.19.3'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -2206,6 +2206,11 @@ components:
         locality:
           type: string
         postcode:
+          type: string
+        deadlineDate:
+          type: string
+          format: date
+        deadlineTime:
           type: string
     GenerateRejectedSignatureTemplatePreviewRequest:
       title: GenerateRejectedSignatureTemplatePreviewRequest

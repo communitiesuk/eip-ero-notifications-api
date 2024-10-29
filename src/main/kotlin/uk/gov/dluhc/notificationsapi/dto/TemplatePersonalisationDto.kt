@@ -154,6 +154,7 @@ class NotRegisteredToVotePersonalisationDto(
     val area: String?,
     val locality: String?,
     val postcode: String?,
+    val deadline: String?,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,
     firstName = firstName,

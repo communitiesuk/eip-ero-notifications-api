@@ -9,9 +9,13 @@ import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.NotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
+import java.time.LocalDate
 
 @Mapper(uses = [LanguageMapper::class, CommunicationChannelMapper::class, SourceTypeMapper::class])
 abstract class NotRegisteredToVoteTemplatePreviewDtoMapper {
+
+    @Autowired
+    protected lateinit var deadlineMapper: DeadlineMapper
 
     @Autowired
     protected lateinit var sourceTypeMapper: SourceTypeMapper
@@ -58,9 +62,22 @@ abstract class NotRegisteredToVoteTemplatePreviewDtoMapper {
         source = "personalisation.postcode",
         target = "postcode",
     )
+    @Mapping(
+        target = "deadline",
+        expression = "java( mapDeadline( personalisation.getDeadlineDate(), personalisation.getDeadlineTime(), languageDto, sourceTypeMapper.toFullSourceTypeString( sourceType, languageDto ) ) )",
+    )
     abstract fun mapPersonalisation(
         languageDto: LanguageDto,
         personalisation: NotRegisteredToVotePersonalisation,
         sourceType: SourceType,
     ): NotRegisteredToVotePersonalisationDto
+
+    protected fun mapDeadline(
+        deadlineDate: LocalDate?,
+        deadlineTime: String?,
+        languageDto: LanguageDto,
+        sourceTypeString: String,
+    ): String? = deadlineDate?.let {
+        deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, languageDto, sourceTypeString)
+    }
 }
