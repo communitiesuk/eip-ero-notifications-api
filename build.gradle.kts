@@ -6,7 +6,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import java.lang.ProcessBuilder.Redirect
 
 plugins {
-    id("org.springframework.boot") version "3.3.4"
+    id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.3"
     kotlin("jvm") version "1.9.10"
     kotlin("kapt") version "1.9.10"
@@ -80,7 +80,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government
-    implementation("uk.gov.service.notify:notifications-java-client:5.1.0-RELEASE")
+    implementation("uk.gov.service.notify:notifications-java-client:5.2.1-RELEASE")
 
     // Logging
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:7.3")
