@@ -185,6 +185,7 @@ sqs:
   trigger-postal-application-statistics-update-queue-name: ${SQS_TRIGGER_POSTAL_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
   trigger-proxy-application-statistics-update-queue-name: ${SQS_TRIGGER_PROXY_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
   trigger-overseas-application-statistics-update-queue-name: ${SQS_TRIGGER_OVERSEAS_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
+  trigger-application-statistics-update-queue-name: ${SQS_TRIGGER_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
 
 logging:
   pattern:

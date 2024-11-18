@@ -31,6 +31,9 @@ class MessagingConfiguration {
     @Value("\${sqs.trigger-overseas-application-statistics-update-queue-name}")
     private lateinit var triggerOverseasApplicationStatisticsUpdateQueueName: String
 
+    @Value("\${sqs.trigger-application-statistics-update-queue-name}")
+    private  lateinit var triggerApplicationStatisticsUpdateQueueName: String
+
     @Bean
     @Primary
     @Profile("!integration-test")
@@ -54,6 +57,10 @@ class MessagingConfiguration {
     @Bean
     fun triggerOverseasApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
         MessageQueue<OverseasUpdateStatisticsMessage>(triggerOverseasApplicationStatisticsUpdateQueueName, sqsTemplate)
+
+    @Bean
+    fun triggerApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
+        MessageQueue<ApplicationUpdateStatisticsMessage>(triggerApplicationStatisticsUpdateQueueName, sqsTemplate)
 
     @Bean
     fun sqsMessagingMessageConverter(
