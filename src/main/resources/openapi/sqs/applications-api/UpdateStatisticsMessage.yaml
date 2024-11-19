@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: Application API SQS Message Types for EROP Clients
+  version: '1.0.0'
+  description: |-
+    Application API SQS Message Types for EROP Clients
+    
+    Messages defined in this spec are produced by EROP (VCA and other apps) and consumed by VCA
+    
+    Whilst this is an openAPI spec, it does not imply being used to define REST APIs, nor is it intended to.
+    
+    The `paths` elements are being used to document (at a high level) the SQS queues and the request bodies that are expected
+    to be published to them. **There is no intent to generate or implement SQS queues or listener classes from this document.**
+    
+    The `paths` element is only being used in order to maintain the structure of the openApi spec, as `paths` are required 
+    elements.
+#
+# --------------------------------------------------------------------------------
+#
+
+paths:
+  #
+  # --------------------------------------------------------------------------------
+  # SQS Queues start here
+  # --------------------------------------------------------------------------------
+  #
+  '/trigger-application-statistics-update':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateStatisticsMessage'
+      responses:
+        '204':
+          description: No response content.
+components:
+#
+# Schema and Enum Definitions
+# --------------------------------------------------------------------------------
+  schemas:
+    UpdateStatisticsMessage:
+      title: UpdateStatisticsMessage
+      type: object
+      description: SQS Message for initiating a statistics update for a postal application.
+      properties:
+        applicationId:
+          type: string
+          description: The identifier of the application
+          example: 1f0f76a9a66f438b9bb33070
+      required:
+        - postalApplicationId
+  requestBodies:
+    #
+    # Request Body Definitions
+    # --------------------------------------------------------------------------------
+    UpdateStatisticsMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateStatisticsMessage'

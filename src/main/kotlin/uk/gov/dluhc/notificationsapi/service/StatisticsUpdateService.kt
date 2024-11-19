@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import java.util.UUID
+import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
 import uk.gov.dluhc.overseasapplicationsapi.messaging.models.UpdateStatisticsMessage as OverseasUpdateStatisticsMessage
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
 import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
