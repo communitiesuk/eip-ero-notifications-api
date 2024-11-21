@@ -12,12 +12,14 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.capture
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
+import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
 import uk.gov.dluhc.overseasapplicationsapi.messaging.models.UpdateStatisticsMessage as OverseasUpdateStatisticsMessage
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
 import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
@@ -190,7 +192,7 @@ class StatisticsUpdateServiceTest {
         statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS, true)
 
         // Then
-        verify(triggerApplicationStatisticsUpdateQueue).submit(
+        verify(triggerApplicationStatisticsUpdateQueue, times(4)).submit(
             eq(ApplicationUpdateStatisticsMessage(applicationId)),
             any(),
         )
