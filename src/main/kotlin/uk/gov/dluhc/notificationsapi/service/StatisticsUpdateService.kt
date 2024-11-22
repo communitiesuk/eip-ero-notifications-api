@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.service
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 import java.util.UUID
 import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
 import uk.gov.dluhc.overseasapplicationsapi.messaging.models.UpdateStatisticsMessage as OverseasUpdateStatisticsMessage
@@ -29,7 +30,9 @@ class StatisticsUpdateService(
                 SourceType.POSTAL -> submitToTriggerPostalApplicationStatisticsUpdateQueue(applicationId, deduplicationId)
                 SourceType.PROXY -> submitToTriggerProxyApplicationStatisticsUpdateQueue(applicationId, deduplicationId)
                 SourceType.OVERSEAS -> submitToTriggerOverseasStatisticsUpdateQueue(applicationId, deduplicationId)
-                else -> {}
+                else -> {
+                    throw InvalidSourceTypeException(sourceType.toString())
+                }
             }
         }
     }

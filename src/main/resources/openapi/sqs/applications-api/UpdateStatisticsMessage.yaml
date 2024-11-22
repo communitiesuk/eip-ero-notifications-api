@@ -5,7 +5,7 @@ info:
   description: |-
     Application API SQS Message Types for EROP Clients
     
-    Messages defined in this spec are produced by EROP (VCA and other apps) and consumed by VCA
+    Messages defined in this spec are produced by EROP and consumed by the applications API
     
     Whilst this is an openAPI spec, it does not imply being used to define REST APIs, nor is it intended to.
     
@@ -34,21 +34,21 @@ paths:
         '204':
           description: No response content.
 components:
-#
-# Schema and Enum Definitions
-# --------------------------------------------------------------------------------
+  #
+  # Schema and Enum Definitions
+  # --------------------------------------------------------------------------------
   schemas:
     UpdateStatisticsMessage:
       title: UpdateStatisticsMessage
       type: object
-      description: SQS Message for initiating a statistics update for a postal application.
+      description: SQS Message for initiating a statistics update for an application.
       properties:
         applicationId:
           type: string
           description: The identifier of the application
           example: 1f0f76a9a66f438b9bb33070
       required:
-        - postalApplicationId
+        - applicationId
   requestBodies:
     #
     # Request Body Definitions
