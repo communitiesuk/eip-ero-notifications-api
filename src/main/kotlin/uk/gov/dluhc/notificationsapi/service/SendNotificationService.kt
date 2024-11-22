@@ -43,7 +43,7 @@ class SendNotificationService(
             val sentNotification = sendNotificationForChannel(requestDto, personalisationMap, notificationId, sentAt)
             saveSentMessageAndCreateAuditOrLogError(sentNotification)
             if (shouldSendApplicationStatisticsUpdate(requestDto)) {
-                statisticsUpdateService.triggerStatisticsUpdate(requestDto.sourceReference, requestDto.sourceType)
+                statisticsUpdateService.triggerStatisticsUpdate(requestDto.sourceReference, requestDto.sourceType, requestDto.isFromApplicationApi)
             }
         } catch (ex: GovNotifyNonRetryableException) {
             logger.warn("Non-retryable error returned from the Notify service: ${ex.message}")

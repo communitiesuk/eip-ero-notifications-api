@@ -3,7 +3,10 @@ package uk.gov.dluhc.notificationsapi.service
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.mockito.ArgumentCaptor
 import org.mockito.Captor
 import org.mockito.InjectMocks
@@ -12,12 +15,15 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.capture
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
+import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
 import uk.gov.dluhc.overseasapplicationsapi.messaging.models.UpdateStatisticsMessage as OverseasUpdateStatisticsMessage
 import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
 import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
@@ -44,6 +50,9 @@ class StatisticsUpdateServiceTest {
     @Mock
     private lateinit var triggerOverseasApplicationStatisticsUpdateQueue: MessageQueue<OverseasUpdateStatisticsMessage>
 
+    @Mock
+    private lateinit var triggerApplicationStatisticsUpdateQueue: MessageQueue<ApplicationUpdateStatisticsMessage>
+
     @BeforeEach
     fun setUp() {
         statisticsUpdateService = StatisticsUpdateService(
@@ -51,6 +60,7 @@ class StatisticsUpdateServiceTest {
             triggerPostalApplicationStatisticsUpdateQueue,
             triggerProxyApplicationStatisticsUpdateQueue,
             triggerOverseasApplicationStatisticsUpdateQueue,
+            triggerApplicationStatisticsUpdateQueue,
         )
     }
 
@@ -60,7 +70,7 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD, false)
 
         // Then
         verify(triggerVoterCardStatisticsUpdateQueue).submit(
@@ -76,9 +86,9 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS, false)
 
         // Then
         verifyNoInteractions(triggerVoterCardStatisticsUpdateQueue)
@@ -90,7 +100,7 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL, false)
 
         // Then
         verify(triggerPostalApplicationStatisticsUpdateQueue).submit(
@@ -106,9 +116,9 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS, false)
 
         // Then
         verifyNoInteractions(triggerPostalApplicationStatisticsUpdateQueue)
@@ -120,7 +130,7 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY, false)
 
         // Then
         verify(triggerProxyApplicationStatisticsUpdateQueue).submit(
@@ -136,9 +146,9 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS, false)
 
         // Then
         verifyNoInteractions(triggerProxyApplicationStatisticsUpdateQueue)
@@ -150,7 +160,7 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS, false)
 
         // Then
         verify(triggerOverseasApplicationStatisticsUpdateQueue).submit(
@@ -166,12 +176,57 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL)
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL, false)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY, false)
 
         // Then
         verifyNoInteractions(triggerOverseasApplicationStatisticsUpdateQueue)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = SourceType::class)
+    fun `should send a message to the applications queue for applications flagged for OS`(sourceType: SourceType) {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, sourceType, true)
+
+        // Then
+        verify(triggerApplicationStatisticsUpdateQueue).submit(
+            eq(ApplicationUpdateStatisticsMessage(applicationId)),
+            any(),
+        )
+        verifyNoMoreInteractions(triggerApplicationStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should not send a message to the any other queue for applications flagged for OS`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD, true)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.POSTAL, true)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.PROXY, true)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.OVERSEAS, true)
+
+        // Then
+        verifyNoInteractions(triggerVoterCardStatisticsUpdateQueue)
+        verifyNoInteractions(triggerPostalApplicationStatisticsUpdateQueue)
+        verifyNoInteractions(triggerProxyApplicationStatisticsUpdateQueue)
+        verifyNoInteractions(triggerOverseasApplicationStatisticsUpdateQueue)
+    }
+
+    @Test
+    fun `should throw an invalid source type exception if an invalid source type is used to trigger the queue update`() {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        // When
+        // Then
+        assertThrows<InvalidSourceTypeException> { statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.ANONYMOUS_ELECTOR_DOCUMENT, false) }
     }
 
     @Test
@@ -180,7 +235,7 @@ class StatisticsUpdateServiceTest {
         val applicationId = aRandomSourceReference()
 
         // When
-        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD)
+        statisticsUpdateService.triggerStatisticsUpdate(applicationId, SourceType.VOTER_CARD, false)
 
         // Then
         verify(triggerVoterCardStatisticsUpdateQueue).submit(

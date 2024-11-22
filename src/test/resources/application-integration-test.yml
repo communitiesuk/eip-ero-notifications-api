@@ -177,3 +177,4 @@ sqs:
   trigger-postal-application-statistics-update-queue-name: test-trigger-postal-application-statistics-update.fifo
   trigger-proxy-application-statistics-update-queue-name: test-trigger-proxy-application-statistics-update.fifo
   trigger-overseas-application-statistics-update-queue-name: test-trigger-overseas-application-statistics-update.fifo
+  trigger-application-statistics-update-queue-name: test-trigger-application-statistics-update.fifo
