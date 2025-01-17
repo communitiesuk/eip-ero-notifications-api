@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <suppress until="2024-12-01Z">
+    <suppress until="2025-02-01Z">
         <notes>
-            <![CDATA[file name: json-20210307.jar]]>
+            <![CDATA[file name: logback-core-1.5.11.jar]]>
 
-            This is a transitive dependency of the Notify API client. It is only used for serializing and deserializing
-            requests to and responses from the Notify API; as such, it only works with trusted data.
+            This vulnerability is fixed in 1.5.13.
+
+            Spring boot versions 3.4.2+ imports 1.5.16. This is expected to be released in late Jan 2025.
+
+            The attack involves the modification of DOCTYPE declaration in XML configuration files.
+            The attack requires existing privilege so the risk is low.
         </notes>
-        <packageUrl regex="true">^pkg:maven/org\.json/json@.*$</packageUrl>
-        <cve>CVE-2022-45688</cve>
+        <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback-core@.*$</packageUrl>
+        <vulnerabilityName>CVE-2024-12801</vulnerabilityName>
     </suppress>
-    <suppress until="2024-12-01Z">
+    <suppress until="2025-02-01Z">
         <notes>
-            <![CDATA[file name: json-20210307.jar]]>
+            <![CDATA[file name: logback-core-1.5.11.jar]]>
 
-            This is a transitive dependency of the Notify API client. It is only used for serializing and deserializing
-            requests to and responses from the Notify API; as such, it only works with trusted data.
+            This vulnerability is fixed in 1.5.13.
+
+            Spring boot versions 3.4.2+ imports 1.5.16. This is expected to be released in late Jan 2025.
+
+            A successful attack requires the user to have write access to a configuration file.
+            Alternatively, the attacker could inject a malicious environment variable
+            pointing to a malicious configuration file.
+            In both cases, the attack requires existing privilege so the risk is low.
         </notes>
-        <packageUrl regex="true">^pkg:maven/org\.json/json@.*$</packageUrl>
-        <cve>CVE-2023-5072</cve>
+        <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback-core@.*$</packageUrl>
+        <vulnerabilityName>CVE-2024-12798</vulnerabilityName>
     </suppress>
 </suppressions>
