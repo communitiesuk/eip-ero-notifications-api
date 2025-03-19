@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
+import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponse
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseOAVA
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseVAC
 import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
@@ -90,6 +91,53 @@ class StatisticsController(
             hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
             numSignatureRequestCommsSent = signatureRequested,
             numIdentityDocumentRequestCommsSent = identityDocumentsRequested,
+        )
+    }
+
+    @GetMapping("/{service}/{applicationId}")
+    fun getCommunicationsStatistics(
+        @PathVariable service: String,
+        @PathVariable applicationId: String,
+    ): CommunicationsStatisticsResponse {
+        val notifications = sentNotificationsService.getNotificationsForApplication(
+            sourceReference = applicationId,
+            sourceType = when (service) {
+                "postal" -> SourceType.POSTAL
+                "proxy" -> SourceType.PROXY
+                "overseas" -> SourceType.OVERSEAS
+                "vac" -> SourceType.VOTER_CARD
+                else -> throw InvalidSourceTypeException(service)
+            },
+        )
+
+        val signatureRequested = notifications.filter {
+            it.type in listOf(
+                NotificationType.REJECTED_SIGNATURE,
+                NotificationType.REQUESTED_SIGNATURE,
+                NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
+            )
+        }.size
+        val identityDocumentsRequested = notifications.filter {
+            it.type in listOf(
+                NotificationType.ID_DOCUMENT_REQUIRED,
+                NotificationType.ID_DOCUMENT_RESUBMISSION,
+                NotificationType.NINO_NOT_MATCHED,
+            )
+        }.size
+
+        val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
+
+        val hasSentNotRegisteredToVoteCommunication = notifications.any { it.type == NotificationType.NOT_REGISTERED_TO_VOTE }
+        val photoRequested = notifications.any { it.type == NotificationType.PHOTO_RESUBMISSION }
+
+        return CommunicationsStatisticsResponse(
+            signatureRequested = signatureRequested > 0,
+            identityDocumentsRequested = identityDocumentsRequested > 0,
+            bespokeCommunicationsSent = bespokeCommunications,
+            hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
+            numSignatureRequestCommsSent = signatureRequested,
+            numIdentityDocumentRequestCommsSent = identityDocumentsRequested,
+            photoRequested = photoRequested,
         )
     }
 }
