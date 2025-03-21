@@ -2448,10 +2448,6 @@ components:
       properties:
         photoRequested:
           type: boolean
-        signatureRequested:
-          type: boolean
-        identityDocumentsRequested:
-          type: boolean
         bespokeCommunicationsSent:
           type: integer
         hasSentNotRegisteredToVoteCommunication:
@@ -2462,8 +2458,6 @@ components:
           type: integer
       required:
         - photoRequested
-        - signatureRequested
-        - identityDocumentsRequested
         - bespokeCommunicationsSent
         - hasSentNotRegisteredToVoteCommunication
         - numSignatureRequestCommsSent

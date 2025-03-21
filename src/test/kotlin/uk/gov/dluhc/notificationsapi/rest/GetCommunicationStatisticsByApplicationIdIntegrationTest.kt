@@ -831,11 +831,9 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 photoRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numIdentityDocumentRequestCommsSent = 0,
-                signatureRequested = false,
                 numSignatureRequestCommsSent = 0,
             )
 
@@ -866,11 +864,9 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 photoRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numIdentityDocumentRequestCommsSent = 0,
-                signatureRequested = false,
                 numSignatureRequestCommsSent = 0,
             )
 
@@ -910,11 +906,9 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 photoRequested = true,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numIdentityDocumentRequestCommsSent = 0,
-                signatureRequested = false,
                 numSignatureRequestCommsSent = 0,
             )
 
@@ -957,11 +951,9 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 photoRequested = false,
-                identityDocumentsRequested = true,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numIdentityDocumentRequestCommsSent = numberOfNotifications,
-                signatureRequested = false,
                 numSignatureRequestCommsSent = 0,
             )
 
@@ -1004,11 +996,9 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 photoRequested = false,
-                identityDocumentsRequested = true,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numIdentityDocumentRequestCommsSent = numberOfNotifications,
-                signatureRequested = false,
                 numSignatureRequestCommsSent = 0,
             )
 
@@ -1051,11 +1041,9 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 photoRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = numberOfNotifications,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numIdentityDocumentRequestCommsSent = 0,
-                signatureRequested = false,
                 numSignatureRequestCommsSent = 0,
             )
 
@@ -1086,11 +1074,9 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 photoRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = true,
                 numIdentityDocumentRequestCommsSent = 0,
-                signatureRequested = false,
                 numSignatureRequestCommsSent = 0,
             )
 
@@ -1126,8 +1112,6 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             val applicationId = aRandomSourceReference()
 
             val expected = CommunicationsStatisticsResponse(
-                signatureRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numSignatureRequestCommsSent = 0,
@@ -1161,8 +1145,6 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             )
 
             val expected = CommunicationsStatisticsResponse(
-                signatureRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numSignatureRequestCommsSent = 0,
@@ -1208,8 +1190,6 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             }
 
             val expected = CommunicationsStatisticsResponse(
-                signatureRequested = true,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numSignatureRequestCommsSent = numberOfNotifications,
@@ -1255,8 +1235,6 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             }
 
             val expected = CommunicationsStatisticsResponse(
-                signatureRequested = false,
-                identityDocumentsRequested = true,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numSignatureRequestCommsSent = 0,
@@ -1302,8 +1280,6 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             }
 
             val expected = CommunicationsStatisticsResponse(
-                signatureRequested = false,
-                identityDocumentsRequested = true,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numSignatureRequestCommsSent = 0,
@@ -1349,8 +1325,6 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             }
 
             val expected = CommunicationsStatisticsResponse(
-                signatureRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = numberOfNotifications,
                 hasSentNotRegisteredToVoteCommunication = false,
                 numSignatureRequestCommsSent = 0,
@@ -1384,8 +1358,6 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             )
 
             val expected = CommunicationsStatisticsResponse(
-                signatureRequested = false,
-                identityDocumentsRequested = false,
                 bespokeCommunicationsSent = 0,
                 hasSentNotRegisteredToVoteCommunication = true,
                 numSignatureRequestCommsSent = 0,

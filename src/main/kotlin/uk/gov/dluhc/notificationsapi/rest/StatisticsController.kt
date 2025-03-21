@@ -131,8 +131,6 @@ class StatisticsController(
         val photoRequested = notifications.any { it.type == NotificationType.PHOTO_RESUBMISSION }
 
         return CommunicationsStatisticsResponse(
-            signatureRequested = signatureRequested > 0,
-            identityDocumentsRequested = identityDocumentsRequested > 0,
             bespokeCommunicationsSent = bespokeCommunications,
             hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
             numSignatureRequestCommsSent = signatureRequested,
