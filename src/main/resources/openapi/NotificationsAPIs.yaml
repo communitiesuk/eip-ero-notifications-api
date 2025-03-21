@@ -2446,16 +2446,21 @@ components:
       description: response containing anonymised statistics about communications related to an application
       type: object
       properties:
-        photoRequested:
-          type: boolean
+        numPhotoRequestCommsSent:
+          type: integer
+          default: 0
         bespokeCommunicationsSent:
           type: integer
-        hasSentNotRegisteredToVoteCommunication:
-          type: boolean
+          default: 0
+        numNotRegisteredToVoteCommsSent:
+          type: integer
+          default: 0
         numSignatureRequestCommsSent:
           type: integer
+          default: 0
         numIdentityDocumentRequestCommsSent:
           type: integer
+          default: 0
       required:
         - photoRequested
         - bespokeCommunicationsSent

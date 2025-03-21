@@ -13,12 +13,14 @@ import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponse
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseOAVA
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseVAC
 import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
+import uk.gov.dluhc.notificationsapi.service.StatisticsService
 
 @RestController
 @CrossOrigin
 @RequestMapping("/communications/statistics")
 class StatisticsController(
     private val sentNotificationsService: SentNotificationsService,
+    private val statisticsService: StatisticsService,
 ) {
     @GetMapping("/vac")
     fun getVacCommunicationsStatistics(
@@ -99,43 +101,14 @@ class StatisticsController(
         @PathVariable service: String,
         @PathVariable applicationId: String,
     ): CommunicationsStatisticsResponse {
-        val notifications = sentNotificationsService.getNotificationsForApplication(
-            sourceReference = applicationId,
-            sourceType = when (service) {
-                "postal" -> SourceType.POSTAL
-                "proxy" -> SourceType.PROXY
-                "overseas" -> SourceType.OVERSEAS
-                "vac" -> SourceType.VOTER_CARD
-                else -> throw InvalidSourceTypeException(service)
-            },
-        )
+        val source = when (service) {
+            "postal" -> SourceType.POSTAL
+            "proxy" -> SourceType.PROXY
+            "overseas" -> SourceType.OVERSEAS
+            "vac" -> SourceType.VOTER_CARD
+            else -> throw InvalidSourceTypeException(service)
+        }
 
-        val signatureRequested = notifications.filter {
-            it.type in listOf(
-                NotificationType.REJECTED_SIGNATURE,
-                NotificationType.REQUESTED_SIGNATURE,
-                NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
-            )
-        }.size
-        val identityDocumentsRequested = notifications.filter {
-            it.type in listOf(
-                NotificationType.ID_DOCUMENT_REQUIRED,
-                NotificationType.ID_DOCUMENT_RESUBMISSION,
-                NotificationType.NINO_NOT_MATCHED,
-            )
-        }.size
-
-        val bespokeCommunications = notifications.filter { it.type == NotificationType.BESPOKE_COMM }.size
-
-        val hasSentNotRegisteredToVoteCommunication = notifications.any { it.type == NotificationType.NOT_REGISTERED_TO_VOTE }
-        val photoRequested = notifications.any { it.type == NotificationType.PHOTO_RESUBMISSION }
-
-        return CommunicationsStatisticsResponse(
-            bespokeCommunicationsSent = bespokeCommunications,
-            hasSentNotRegisteredToVoteCommunication = hasSentNotRegisteredToVoteCommunication,
-            numSignatureRequestCommsSent = signatureRequested,
-            numIdentityDocumentRequestCommsSent = identityDocumentsRequested,
-            photoRequested = photoRequested,
-        )
+        return statisticsService.getApplicationStatistics(source, applicationId)
     }
 }
