@@ -2462,9 +2462,9 @@ components:
           type: integer
           default: 0
       required:
-        - photoRequested
+        - numPhotoRequestCommsSent
         - bespokeCommunicationsSent
-        - hasSentNotRegisteredToVoteCommunication
+        - numNotRegisteredToVoteCommsSent
         - numSignatureRequestCommsSent
         - numIdentityDocumentRequestCommsSent
 
