@@ -32,16 +32,16 @@ class StatisticsService(private val sentNotificationsService: SentNotificationsS
             sourceType = service,
         )
         return CommunicationsStatisticsResponse(
-            numSignatureRequestCommsSent = if (statisticsPerService[service]?.contains("signatureRequested") == true) countNotificationsForStatistic("signatureRequested", notifications) else 0,
-            numNotRegisteredToVoteCommsSent = if (statisticsPerService[service]?.contains("notRegisteredToVoteCommunication") == true) countNotificationsForStatistic("notRegisteredToVoteCommunication", notifications) else 0,
-            numPhotoRequestCommsSent = if (statisticsPerService[service]?.contains("photoRequested") == true) countNotificationsForStatistic("photoRequested", notifications) else 0,
-            numIdentityDocumentRequestCommsSent = if (statisticsPerService[service]?.contains("identityDocumentsRequested") == true) countNotificationsForStatistic("identityDocumentsRequested", notifications) else 0,
-            bespokeCommunicationsSent = if (statisticsPerService[service]?.contains("bespokeCommunicationsSent") == true) countNotificationsForStatistic("bespokeCommunicationsSent", notifications) else 0,
+            numSignatureRequestCommsSent = if (statisticsPerService[service]?.contains("signatureRequested") == true) getNotificationsForStatistic("signatureRequested", notifications).size else 0,
+            numNotRegisteredToVoteCommsSent = if (statisticsPerService[service]?.contains("notRegisteredToVoteCommunication") == true) getNotificationsForStatistic("notRegisteredToVoteCommunication", notifications).size else 0,
+            numPhotoRequestCommsSent = if (statisticsPerService[service]?.contains("photoRequested") == true) getNotificationsForStatistic("photoRequested", notifications).size else 0,
+            numIdentityDocumentRequestCommsSent = if (statisticsPerService[service]?.contains("identityDocumentsRequested") == true) getNotificationsForStatistic("identityDocumentsRequested", notifications).size else 0,
+            bespokeCommunicationsSent = if (statisticsPerService[service]?.contains("bespokeCommunicationsSent") == true) getNotificationsForStatistic("bespokeCommunicationsSent", notifications).size else 0,
         )
     }
 
-    fun countNotificationsForStatistic(
+    fun getNotificationsForStatistic(
         statistic: String,
         notifications: List<NotificationSummaryDto>,
-    ) = notifications.filter { it.type in notificationsPerStatistic[statistic]!! }.size
+    ) = notifications.filter { it.type in notificationsPerStatistic[statistic]!! }
 }
