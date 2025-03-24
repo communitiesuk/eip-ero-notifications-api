@@ -21,8 +21,6 @@ internal class StatisticsServiceTest {
     @Mock
     private lateinit var sentNotificationsService: SentNotificationsService
 
-
-
     companion object {
         private val testSourceReference = aSourceReference()
         private val notificationResponse = listOf(
@@ -143,7 +141,7 @@ internal class StatisticsServiceTest {
         val expectedNotifications = listOf(
             NotificationType.REJECTED_SIGNATURE,
             NotificationType.REQUESTED_SIGNATURE,
-            NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+            NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
         )
 
         // When
@@ -161,7 +159,7 @@ internal class StatisticsServiceTest {
         val expectedNotifications = listOf(
             NotificationType.ID_DOCUMENT_REQUIRED,
             NotificationType.ID_DOCUMENT_RESUBMISSION,
-            NotificationType.NINO_NOT_MATCHED
+            NotificationType.NINO_NOT_MATCHED,
         )
 
         // When
@@ -177,7 +175,7 @@ internal class StatisticsServiceTest {
     fun `should only count relevant notifications for bespokeCommunicationsSent`() {
         // Given
         val expectedNotifications = listOf(
-            NotificationType.BESPOKE_COMM
+            NotificationType.BESPOKE_COMM,
         )
 
         // When
@@ -193,7 +191,7 @@ internal class StatisticsServiceTest {
     fun `should only count relevant notifications for notRegisteredToVoteCommunication`() {
         // Given
         val expectedNotifications = listOf(
-            NotificationType.NOT_REGISTERED_TO_VOTE
+            NotificationType.NOT_REGISTERED_TO_VOTE,
         )
 
         // When
@@ -209,7 +207,7 @@ internal class StatisticsServiceTest {
     fun `should only count relevant notifications for photoRequested`() {
         // Given
         val expectedNotifications = listOf(
-            NotificationType.PHOTO_RESUBMISSION
+            NotificationType.PHOTO_RESUBMISSION,
         )
 
         // When
@@ -220,5 +218,4 @@ internal class StatisticsServiceTest {
             assertThat(notification.type).isIn(expectedNotifications)
         }
     }
-
 }
