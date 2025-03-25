@@ -2448,19 +2448,14 @@ components:
       properties:
         numPhotoRequestCommsSent:
           type: integer
-          default: 0
         bespokeCommunicationsSent:
           type: integer
-          default: 0
         numNotRegisteredToVoteCommsSent:
           type: integer
-          default: 0
         numSignatureRequestCommsSent:
           type: integer
-          default: 0
         numIdentityDocumentRequestCommsSent:
           type: integer
-          default: 0
       required:
         - numPhotoRequestCommsSent
         - bespokeCommunicationsSent

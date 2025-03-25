@@ -845,6 +845,10 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
 
             val expected = CommunicationsStatisticsResponse(
                 bespokeCommunicationsSent = 1,
+                numNotRegisteredToVoteCommsSent = 0,
+                numSignatureRequestCommsSent = 0,
+                numPhotoRequestCommsSent = 0,
+                numIdentityDocumentRequestCommsSent = 0,
             )
 
             // When

@@ -13,14 +13,14 @@ import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponse
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseOAVA
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseVAC
 import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
-import uk.gov.dluhc.notificationsapi.service.StatisticsService
+import uk.gov.dluhc.notificationsapi.service.StatisticsRetrievalService
 
 @RestController
 @CrossOrigin
 @RequestMapping("/communications/statistics")
 class StatisticsController(
     private val sentNotificationsService: SentNotificationsService,
-    private val statisticsService: StatisticsService,
+    private val statisticsRetrievalService: StatisticsRetrievalService,
 ) {
     @GetMapping("/vac")
     fun getVacCommunicationsStatistics(
@@ -109,6 +109,6 @@ class StatisticsController(
             else -> throw InvalidSourceTypeException(service)
         }
 
-        return statisticsService.getApplicationStatistics(source, applicationId)
+        return statisticsRetrievalService.getApplicationStatistics(source, applicationId)
     }
 }
