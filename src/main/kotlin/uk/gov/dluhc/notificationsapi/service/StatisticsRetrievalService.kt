@@ -2,11 +2,11 @@ package uk.gov.dluhc.notificationsapi.service
 
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.dto.NotificationCategory
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.SIGNATURE_REQUESTED
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.IDENTITY_DOCUMENTS_REQUESTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.BESPOKE_COMMUNICATION_SENT
+import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.IDENTITY_DOCUMENTS_REQUESTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.NOT_REGISTERED_TO_VOTE_COMMUNICATION
 import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.PHOTO_REQUESTED
+import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.SIGNATURE_REQUESTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationSummaryDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.notificationCategories
