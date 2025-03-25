@@ -36,3 +36,19 @@ enum class NotificationType {
     BESPOKE_COMM,
     NOT_REGISTERED_TO_VOTE,
 }
+
+enum class NotificationCategory {
+    SIGNATURE_REQUESTED,
+    IDENTITY_DOCUMENTS_REQUESTED,
+    BESPOKE_COMMUNICATION_SENT,
+    NOT_REGISTERED_TO_VOTE_COMMUNICATION,
+    PHOTO_REQUESTED,
+}
+
+val notificationCategories = mapOf(
+    NotificationCategory.SIGNATURE_REQUESTED to listOf(NotificationType.REJECTED_SIGNATURE, NotificationType.REJECTED_SIGNATURE_WITH_REASONS, NotificationType.REQUESTED_SIGNATURE),
+    NotificationCategory.IDENTITY_DOCUMENTS_REQUESTED to listOf(NotificationType.ID_DOCUMENT_REQUIRED, NotificationType.ID_DOCUMENT_RESUBMISSION, NotificationType.NINO_NOT_MATCHED),
+    NotificationCategory.BESPOKE_COMMUNICATION_SENT to listOf(NotificationType.BESPOKE_COMM),
+    NotificationCategory.NOT_REGISTERED_TO_VOTE_COMMUNICATION to listOf(NotificationType.NOT_REGISTERED_TO_VOTE),
+    NotificationCategory.PHOTO_REQUESTED to listOf(NotificationType.PHOTO_RESUBMISSION),
+)
