@@ -34,7 +34,7 @@ class StatisticsRetrievalService(private val sentNotificationsService: SentNotif
             numNotRegisteredToVoteCommsSent = getNumberOfNotificationsForCategory(service, NOT_REGISTERED_TO_VOTE_COMMUNICATION, notifications),
             numPhotoRequestCommsSent = getNumberOfNotificationsForCategory(service, PHOTO_REQUESTED, notifications),
             numIdentityDocumentRequestCommsSent = getNumberOfNotificationsForCategory(service, IDENTITY_DOCUMENTS_REQUESTED, notifications),
-            bespokeCommunicationsSent = getNumberOfNotificationsForCategory(service, BESPOKE_COMMUNICATION_SENT, notifications),
+            numBespokeCommunicationsSent = getNumberOfNotificationsForCategory(service, BESPOKE_COMMUNICATION_SENT, notifications),
         )
     }
 
