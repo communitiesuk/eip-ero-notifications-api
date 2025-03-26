@@ -72,7 +72,7 @@ internal class StatisticsRetrievalServiceTest {
                 numSignatureRequestCommsSent = 3,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
-                bespokeCommunicationsSent = 1,
+                numBespokeCommunicationsSent = 1,
             )
 
             // When
@@ -91,7 +91,7 @@ internal class StatisticsRetrievalServiceTest {
                 numSignatureRequestCommsSent = 3,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
-                bespokeCommunicationsSent = 1,
+                numBespokeCommunicationsSent = 1,
             )
 
             // When
@@ -109,7 +109,7 @@ internal class StatisticsRetrievalServiceTest {
                 numNotRegisteredToVoteCommsSent = 1,
                 numSignatureRequestCommsSent = 0,
                 numPhotoRequestCommsSent = 1,
-                bespokeCommunicationsSent = 1,
+                numBespokeCommunicationsSent = 1,
                 numIdentityDocumentRequestCommsSent = 3,
             )
 
@@ -129,7 +129,7 @@ internal class StatisticsRetrievalServiceTest {
                 numSignatureRequestCommsSent = 0,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
-                bespokeCommunicationsSent = 1,
+                numBespokeCommunicationsSent = 1,
             )
 
             // When
