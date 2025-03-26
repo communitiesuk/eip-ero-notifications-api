@@ -2448,7 +2448,7 @@ components:
       properties:
         numPhotoRequestCommsSent:
           type: integer
-        bespokeCommunicationsSent:
+        numBespokeCommunicationsSent:
           type: integer
         numNotRegisteredToVoteCommsSent:
           type: integer
@@ -2458,7 +2458,7 @@ components:
           type: integer
       required:
         - numPhotoRequestCommsSent
-        - bespokeCommunicationsSent
+        - numBespokeCommunicationsSent
         - numNotRegisteredToVoteCommsSent
         - numSignatureRequestCommsSent
         - numIdentityDocumentRequestCommsSent
