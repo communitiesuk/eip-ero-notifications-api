@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.RestController
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.exception.InvalidSourceTypeException
+import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponse
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseOAVA
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponseVAC
 import uk.gov.dluhc.notificationsapi.service.SentNotificationsService
+import uk.gov.dluhc.notificationsapi.service.StatisticsRetrievalService
 
 @RestController
 @CrossOrigin
 @RequestMapping("/communications/statistics")
 class StatisticsController(
     private val sentNotificationsService: SentNotificationsService,
+    private val statisticsRetrievalService: StatisticsRetrievalService,
 ) {
     @GetMapping("/vac")
     fun getVacCommunicationsStatistics(
@@ -91,5 +94,21 @@ class StatisticsController(
             numSignatureRequestCommsSent = signatureRequested,
             numIdentityDocumentRequestCommsSent = identityDocumentsRequested,
         )
+    }
+
+    @GetMapping("/{service}/{applicationId}")
+    fun getCommunicationsStatistics(
+        @PathVariable service: String,
+        @PathVariable applicationId: String,
+    ): CommunicationsStatisticsResponse {
+        val source = when (service) {
+            "postal" -> SourceType.POSTAL
+            "proxy" -> SourceType.PROXY
+            "overseas" -> SourceType.OVERSEAS
+            "vac" -> SourceType.VOTER_CARD
+            else -> throw InvalidSourceTypeException(service)
+        }
+
+        return statisticsRetrievalService.getApplicationStatistics(source, applicationId)
     }
 }
