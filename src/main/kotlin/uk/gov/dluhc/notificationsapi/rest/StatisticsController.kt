@@ -105,7 +105,7 @@ class StatisticsController(
             "postal" -> SourceType.POSTAL
             "proxy" -> SourceType.PROXY
             "overseas" -> SourceType.OVERSEAS
-            "vac" -> SourceType.VOTER_CARD
+            "voter-card" -> SourceType.VOTER_CARD
             else -> throw InvalidSourceTypeException(service)
         }
 
