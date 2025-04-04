@@ -826,7 +826,7 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
     inner class SharedEndpoint {
         @ParameterizedTest
         @CsvSource(
-            value = ["POSTAL,postal", "PROXY,proxy", "VOTER_CARD,vac", "OVERSEAS,overseas"],
+            value = ["POSTAL,postal", "PROXY,proxy", "VOTER_CARD,voter-card", "OVERSEAS,overseas"],
         )
         fun `should return correctly built response`(
             sourceType: SourceType,
