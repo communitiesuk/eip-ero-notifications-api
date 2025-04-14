@@ -56,10 +56,9 @@ internal class EroServiceTest {
             given(electoralRegistrationOfficeManagementApiClient.getElectoralRegistrationOfficeGssCodes(any())).willThrow(expected)
 
             // When
-            val ex = catchThrowableOfType(
-                { eroService.lookupGssCodesForEro(eroId) },
-                ElectoralRegistrationOfficeNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeNotFoundException::class.java) {
+                eroService.lookupGssCodesForEro(eroId)
+            }
 
             // Then
             assertThat(ex).isEqualTo(expected)
@@ -74,10 +73,9 @@ internal class EroServiceTest {
             given(electoralRegistrationOfficeManagementApiClient.getElectoralRegistrationOfficeGssCodes(any())).willThrow(expected)
 
             // When
-            val ex = catchThrowableOfType(
-                { eroService.lookupGssCodesForEro(eroId) },
-                ElectoralRegistrationOfficeGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeGeneralException::class.java) {
+                eroService.lookupGssCodesForEro(eroId)
+            }
 
             // Then
             assertThat(ex).isEqualTo(expected)
@@ -114,10 +112,9 @@ internal class EroServiceTest {
                 .willReturn(erosGssCodes)
 
             // When
-            val ex = catchThrowableOfType(
-                { eroService.validateGssCodeAssociatedWithEro(eroId, gssCode) },
-                GssCodeMismatchException::class.java,
-            )
+            val ex = catchThrowableOfType(GssCodeMismatchException::class.java) {
+                eroService.validateGssCodeAssociatedWithEro(eroId, gssCode)
+            }
 
             // Then
             assertThat(ex).hasMessage("Request gssCode:[$gssCode] does not belong to eroId:[$eroId]")

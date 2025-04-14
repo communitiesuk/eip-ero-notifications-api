@@ -52,10 +52,9 @@ internal class RemoveNotificationsServiceTest {
         given(notificationRepository.removeBySourceReference(any(), any())).willThrow(SdkClientException.create("SDK exception"))
 
         // When
-        val ex = catchThrowableOfType(
-            { removeNotificationsService.remove(removeNotificationsDto) },
-            SdkClientException::class.java,
-        )
+        val ex = catchThrowableOfType(SdkClientException::class.java) {
+            removeNotificationsService.remove(removeNotificationsDto)
+        }
 
         // Then
         assertThat(ex).isNotNull
