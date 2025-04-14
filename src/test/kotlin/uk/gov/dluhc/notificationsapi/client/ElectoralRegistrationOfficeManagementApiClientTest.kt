@@ -107,7 +107,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("eroId" to eroId))
 
             // When
-            val ex = catchThrowableOfType( ElectoralRegistrationOfficeNotFoundException::class.java, ) {
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeNotFoundException::class.java) {
                 apiClient.getElectoralRegistrationOfficeGssCodes(eroId)
             }
 
@@ -142,7 +142,7 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                 ElectoralRegistrationOfficeGeneralException("500 INTERNAL_SERVER_ERROR", mapOf("eroId" to eroId))
 
             // When
-            val ex = catchThrowableOfType( ElectoralRegistrationOfficeGeneralException::class.java, ) {
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeGeneralException::class.java) {
                 apiClient.getElectoralRegistrationOfficeGssCodes(eroId)
             }
 
