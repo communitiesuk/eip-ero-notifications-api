@@ -140,10 +140,9 @@ class NotificationTypeMapperTest {
         // Given
 
         // When
-        val exception = catchThrowableOfType(
-            { mapper.fromNotificationTypeDtoToTemplateTypeApi(unSupportedNotificationType) },
-            IllegalArgumentException::class.java,
-        )
+        val exception = catchThrowableOfType(IllegalArgumentException::class.java) {
+            mapper.fromNotificationTypeDtoToTemplateTypeApi(unSupportedNotificationType)
+        }
 
         // Then
         assertThat(exception)

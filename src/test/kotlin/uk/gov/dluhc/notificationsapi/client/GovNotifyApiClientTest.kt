@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.client
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowableOfType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -103,10 +104,9 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.sendEmail(any(), any(), any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId) },
-                GovNotifyApiNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiNotFoundException::class.java) {
+                govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -126,10 +126,9 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.sendEmail(any(), any(), any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId) },
-                GovNotifyApiBadRequestException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiBadRequestException::class.java) {
+                govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -149,10 +148,9 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.sendEmail(any(), any(), any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId) },
-                GovNotifyApiGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiGeneralException::class.java) {
+                govNotifyApiClient.sendEmail(templateId, emailAddress, personalisation, notificationId)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -271,18 +269,15 @@ internal class GovNotifyApiClientTest {
             val personalisation = aNotificationPersonalisationMap()
 
             // When
-            val exception = Assertions.catchThrowableOfType(
-                {
-                    govNotifyApiClient.sendLetter(
-                        templateId,
-                        notificationDestination,
-                        personalisation,
-                        notificationId,
-                        sourceType,
-                    )
-                },
-                IllegalArgumentException::class.java,
-            )
+            val exception = catchThrowableOfType(IllegalArgumentException::class.java) {
+                govNotifyApiClient.sendLetter(
+                    templateId,
+                    notificationDestination,
+                    personalisation,
+                    notificationId,
+                    sourceType,
+                )
+            }
 
             // Then
             assertThat(exception.message).isEqualTo("PostalAddress is required with given sourceType: POSTAL")
@@ -298,18 +293,15 @@ internal class GovNotifyApiClientTest {
             val personalisation = aNotificationPersonalisationMap()
 
             // When
-            val exception = Assertions.catchThrowableOfType(
-                {
-                    govNotifyApiClient.sendLetter(
-                        templateId,
-                        notificationDestination,
-                        personalisation,
-                        notificationId,
-                        sourceType,
-                    )
-                },
-                IllegalArgumentException::class.java,
-            )
+            val exception = Assertions.catchThrowableOfType(IllegalArgumentException::class.java) {
+                govNotifyApiClient.sendLetter(
+                    templateId,
+                    notificationDestination,
+                    personalisation,
+                    notificationId,
+                    sourceType,
+                )
+            }
 
             // Then
             assertThat(exception.message).isEqualTo("One of OverseasElectorAddress or PostalAddress is required with given sourceType: OVERSEAS")
@@ -330,18 +322,15 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                {
-                    govNotifyApiClient.sendLetter(
-                        templateId,
-                        notificationDestination,
-                        personalisation,
-                        notificationId,
-                        sourceType,
-                    )
-                },
-                GovNotifyApiNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiNotFoundException::class.java) {
+                govNotifyApiClient.sendLetter(
+                    templateId,
+                    notificationDestination,
+                    personalisation,
+                    notificationId,
+                    sourceType,
+                )
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -362,18 +351,15 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                {
-                    govNotifyApiClient.sendLetter(
-                        templateId,
-                        notificationDestination,
-                        personalisation,
-                        notificationId,
-                        sourceType,
-                    )
-                },
-                GovNotifyApiBadRequestException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiBadRequestException::class.java) {
+                govNotifyApiClient.sendLetter(
+                    templateId,
+                    notificationDestination,
+                    personalisation,
+                    notificationId,
+                    sourceType,
+                )
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -394,18 +380,15 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.sendLetter(any(), any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                {
-                    govNotifyApiClient.sendLetter(
-                        templateId,
-                        notificationDestination,
-                        personalisation,
-                        notificationId,
-                        sourceType,
-                    )
-                },
-                GovNotifyApiGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiGeneralException::class.java) {
+                govNotifyApiClient.sendLetter(
+                    templateId,
+                    notificationDestination,
+                    personalisation,
+                    notificationId,
+                    sourceType,
+                )
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -540,10 +523,9 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.generateTemplatePreview(any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
-                GovNotifyApiNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiNotFoundException::class.java) {
+                govNotifyApiClient.generateTemplatePreview(templateId, personalisation)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -564,10 +546,9 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.generateTemplatePreview(any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
-                GovNotifyApiBadRequestException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiBadRequestException::class.java) {
+                govNotifyApiClient.generateTemplatePreview(templateId, personalisation)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)
@@ -588,10 +569,9 @@ internal class GovNotifyApiClientTest {
             given(notificationClient.generateTemplatePreview(any(), any())).willThrow(exception)
 
             // When
-            val ex = Assertions.catchThrowableOfType(
-                { govNotifyApiClient.generateTemplatePreview(templateId, personalisation) },
-                GovNotifyApiGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(GovNotifyApiGeneralException::class.java) {
+                govNotifyApiClient.generateTemplatePreview(templateId, personalisation)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(exceptionMessage)

@@ -107,10 +107,9 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("eroId" to eroId))
 
             // When
-            val ex = catchThrowableOfType(
-                { apiClient.getElectoralRegistrationOfficeGssCodes(eroId) },
-                ElectoralRegistrationOfficeNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeNotFoundException::class.java) {
+                apiClient.getElectoralRegistrationOfficeGssCodes(eroId)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(expectedException.message)
@@ -143,10 +142,9 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                 ElectoralRegistrationOfficeGeneralException("500 INTERNAL_SERVER_ERROR", mapOf("eroId" to eroId))
 
             // When
-            val ex = catchThrowableOfType(
-                { apiClient.getElectoralRegistrationOfficeGssCodes(eroId) },
-                ElectoralRegistrationOfficeGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeGeneralException::class.java) {
+                apiClient.getElectoralRegistrationOfficeGssCodes(eroId)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(expectedException.message)
@@ -169,10 +167,9 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                 ElectoralRegistrationOfficeGeneralException("general exception", mapOf("eroId" to eroId))
 
             // When
-            val ex = catchThrowableOfType(
-                { apiClient.getElectoralRegistrationOfficeGssCodes(eroId) },
-                ElectoralRegistrationOfficeGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeGeneralException::class.java) {
+                apiClient.getElectoralRegistrationOfficeGssCodes(eroId)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(expectedException.message)
@@ -233,10 +230,9 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("gssCode" to gssCode))
 
             // When
-            val ex = catchThrowableOfType(
-                { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeNotFoundException::class.java) {
+                apiClient.getEro(gssCode)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(expectedException.message)
@@ -269,10 +265,9 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
             val expectedException = ElectoralRegistrationOfficeNotFoundException(mapOf("gssCode" to gssCode))
 
             // When
-            val ex = catchThrowableOfType(
-                { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeNotFoundException::class.java) {
+                apiClient.getEro(gssCode)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(expectedException.message)
@@ -306,10 +301,9 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                 ElectoralRegistrationOfficeGeneralException("500 INTERNAL_SERVER_ERROR", mapOf("gssCode" to gssCode))
 
             // When
-            val ex = catchThrowableOfType(
-                { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeGeneralException::class.java) {
+                apiClient.getEro(gssCode)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(expectedException.message)
@@ -333,10 +327,9 @@ internal class ElectoralRegistrationOfficeManagementApiClientTest {
                 ElectoralRegistrationOfficeGeneralException("general exception", mapOf("gssCode" to gssCode))
 
             // When
-            val ex = catchThrowableOfType(
-                { apiClient.getEro(gssCode) },
-                ElectoralRegistrationOfficeGeneralException::class.java,
-            )
+            val ex = catchThrowableOfType(ElectoralRegistrationOfficeGeneralException::class.java) {
+                apiClient.getEro(gssCode)
+            }
 
             // Then
             assertThat(ex.message).isEqualTo(expectedException.message)

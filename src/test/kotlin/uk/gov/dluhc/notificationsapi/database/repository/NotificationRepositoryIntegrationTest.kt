@@ -86,10 +86,9 @@ internal class NotificationRepositoryIntegrationTest : IntegrationTest() {
             val msg = "Notification item not found for id: 1873fb59-c15d-4473-8ff5-12076b102155"
 
             // When
-            val ex = catchThrowableOfType(
-                { notificationRepository.getNotification(id) },
-                NotificationNotFoundException::class.java,
-            )
+            val ex = catchThrowableOfType(NotificationNotFoundException::class.java) {
+                notificationRepository.getNotification(id)
+            }
 
             // Then
             assertThat(ex).hasMessage(msg)
