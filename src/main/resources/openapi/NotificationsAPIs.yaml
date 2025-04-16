@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.20.0'
+  version: '1.20.1'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -1868,8 +1868,6 @@ components:
           type: string
           description: Free text message to provided further information regarding the required document
           example: Please provide a valid document within 28 days
-      required:
-        - documents
     BasePersonalisation:
       title: BasePersonalisation
       type: object
@@ -2022,7 +2020,7 @@ components:
       required:
         - id
         - channel
-        - type
+        - templateType
     UpdatedBy:
       title: UpdatedBy
       description: Object containing the updated by details of a resource.
@@ -2124,7 +2122,6 @@ components:
         - gssCode
         - reason
         - channel
-        - type
     RejectedDocument:
       title: RejectedDocument
       description: The data for the specific rejected document.
