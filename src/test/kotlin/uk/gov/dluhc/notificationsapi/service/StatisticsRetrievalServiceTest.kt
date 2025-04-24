@@ -125,7 +125,7 @@ internal class StatisticsRetrievalServiceTest {
             // Given
             given(sentNotificationsService.getNotificationsForApplication(testSourceReference, SourceType.OVERSEAS)).willReturn(notificationResponse)
             val expected = CommunicationsStatisticsResponse(
-                numNotRegisteredToVoteCommsSent = 1,
+                numNotRegisteredToVoteCommsSent = 0,
                 numSignatureRequestCommsSent = 0,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
