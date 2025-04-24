@@ -129,7 +129,7 @@ internal class StatisticsRetrievalServiceTest {
                 numSignatureRequestCommsSent = 0,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
-                numBespokeCommunicationsSent = 1,
+                numBespokeCommunicationsSent = 0,
             )
 
             // When
