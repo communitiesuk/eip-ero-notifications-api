@@ -226,7 +226,7 @@ tasks.withType<BootBuildImage> {
     environment = mapOf("BP_HEALTH_CHECKER_ENABLED" to "true")
     buildpacks = listOf(
         "urn:cnb:builder:paketo-buildpacks/java",
-        "gcr.io/paketo-buildpacks/health-checker",
+        "docker.io/paketobuildpacks/health-checker",
     )
 }
 
