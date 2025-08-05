@@ -1,8 +1,6 @@
 package uk.gov.dluhc.notificationsapi.testsupport.testdata
 
 import org.apache.commons.lang3.RandomStringUtils
-import org.apache.commons.lang3.RandomStringUtils.random
-import org.apache.commons.lang3.RandomStringUtils.randomNumeric
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.OverseasElectorAddress
@@ -53,9 +51,9 @@ fun aLocalDateTime(): LocalDateTime = LocalDateTime.of(2022, 10, 6, 9, 58, 24)
 
 fun anOffsetDateTime(): OffsetDateTime = OffsetDateTime.of(2022, 10, 6, 9, 58, 24, 0, ZoneOffset.UTC)
 
-fun aValidApplicationReference(): String = "V${RandomStringUtils.randomAlphabetic(9).uppercase()}"
+fun aValidApplicationReference(): String = "V${RandomStringUtils.secure().nextAlphabetic(9).uppercase()}"
 
-fun getAValidPostcode() = random(2, "ABEHW") + randomNumeric(2) + random(2, "ABEHW")
+fun getAValidPostcode() = RandomStringUtils.secure().next(2, "ABEHW") + RandomStringUtils.secure().nextNumeric(2) + RandomStringUtils.secure().next(2, "ABEHW")
 
 fun aPostalAddress(
     addressee: String = faker.name().firstName(),
