@@ -24,10 +24,7 @@ import software.amazon.awssdk.services.sqs.model.PurgeQueueResponse
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
-import uk.gov.dluhc.notificationsapi.stubs.UpdateOverseasStatisticsMessageListenerStub
-import uk.gov.dluhc.notificationsapi.stubs.UpdatePostalStatisticsMessageListenerStub
-import uk.gov.dluhc.notificationsapi.stubs.UpdateProxyStatisticsMessageListenerStub
-import uk.gov.dluhc.notificationsapi.stubs.UpdateVoterCardStatisticsMessageListenerStub
+import uk.gov.dluhc.notificationsapi.stubs.UpdateApplicationStatisticsMessageListenerStub
 import uk.gov.dluhc.notificationsapi.testsupport.WiremockService
 import uk.gov.dluhc.notificationsapi.testsupport.getDifferentRandomEroId
 import uk.gov.dluhc.notificationsapi.testsupport.getRandomEroId
@@ -103,9 +100,6 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.send-uk-gov-notify-requested-signature-queue-name}")
     protected lateinit var sendUkGovNotifyRequestedSignatureQueueName: String
 
-    @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}")
-    protected lateinit var triggerStatisticsUpdateQueueName: String
-
     @Autowired
     protected lateinit var webTestClient: WebTestClient
 
@@ -137,16 +131,7 @@ internal abstract class IntegrationTest {
     protected lateinit var idDocumentRequiredLetterWelshTemplateId: String
 
     @Autowired
-    protected lateinit var updateVoterCardStatisticsMessageListenerStub: UpdateVoterCardStatisticsMessageListenerStub
-
-    @Autowired
-    protected lateinit var updatePostalStatisticsMessageListenerStub: UpdatePostalStatisticsMessageListenerStub
-
-    @Autowired
-    protected lateinit var updateProxyStatisticsMessageListenerStub: UpdateProxyStatisticsMessageListenerStub
-
-    @Autowired
-    protected lateinit var updateOverseasStatisticsMessageListenerStub: UpdateOverseasStatisticsMessageListenerStub
+    protected lateinit var updateApplicationStatisticsMessageListenerStub: UpdateApplicationStatisticsMessageListenerStub
 
     @Autowired
     protected lateinit var objectMapper: ObjectMapper
@@ -178,8 +163,7 @@ internal abstract class IntegrationTest {
 
     @BeforeEach
     fun clearMessagesFromStubs() {
-        updateVoterCardStatisticsMessageListenerStub.clear()
-        updatePostalStatisticsMessageListenerStub.clear()
+        updateApplicationStatisticsMessageListenerStub.clear()
     }
 
     protected fun clearTable(tableName: String, partitionKey: String = "id", sortKey: String? = null) {
@@ -202,35 +186,11 @@ internal abstract class IntegrationTest {
         }
     }
 
-    protected fun assertVoterCardUpdateStatisticsMessageSent(applicationId: String) {
-        val messages = updateVoterCardStatisticsMessageListenerStub.getMessages()
+    protected fun assertUpdateApplicationStatisticsMessageSent(applicationId: String) {
+        val messages = updateApplicationStatisticsMessageListenerStub.getMessages()
         Assertions.assertThat(messages).isNotEmpty
         Assertions.assertThat(messages).anyMatch {
-            it.voterCardApplicationId == applicationId
-        }
-    }
-
-    protected fun assertPostalUpdateStatisticsMessageSent(applicationId: String) {
-        val messages = updatePostalStatisticsMessageListenerStub.getMessages()
-        Assertions.assertThat(messages).isNotEmpty
-        Assertions.assertThat(messages).anyMatch {
-            it.postalApplicationId == applicationId
-        }
-    }
-
-    protected fun assertProxyUpdateStatisticsMessageSent(applicationId: String) {
-        val messages = updateProxyStatisticsMessageListenerStub.getMessages()
-        Assertions.assertThat(messages).isNotEmpty
-        Assertions.assertThat(messages).anyMatch {
-            it.proxyApplicationId == applicationId
-        }
-    }
-
-    protected fun assertOverseasUpdateStatisticsMessageSent(applicationId: String) {
-        val messages = updateOverseasStatisticsMessageListenerStub.getMessages()
-        Assertions.assertThat(messages).isNotEmpty
-        Assertions.assertThat(messages).anyMatch {
-            it.overseasApplicationId == applicationId
+            it.applicationId == applicationId
         }
     }
 
