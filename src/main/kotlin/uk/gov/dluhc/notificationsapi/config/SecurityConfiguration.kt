@@ -38,7 +38,7 @@ class SecurityConfiguration(
                 .cors { }
                 .formLogin { it.disable() }
                 .httpBasic { it.disable() }
-                .authorizeRequests {
+                .authorizeHttpRequests {
                     it.requestMatchers(OPTIONS).permitAll()
                     it.requestMatchers("/actuator/**").permitAll()
 
