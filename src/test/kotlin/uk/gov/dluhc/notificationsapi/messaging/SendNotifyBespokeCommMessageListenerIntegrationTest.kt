@@ -91,13 +91,7 @@ internal class SendNotifyBespokeCommMessageListenerIntegrationTest : Integration
             val actualEntity = notificationRepository
                 .getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             Assertions.assertThat(actualEntity).hasSize(1)
-            when (sourceType) {
-                SourceType.POSTAL -> assertPostalUpdateStatisticsMessageSent(sourceReference)
-                SourceType.PROXY -> assertProxyUpdateStatisticsMessageSent(sourceReference)
-                SourceType.VOTER_MINUS_CARD -> assertVoterCardUpdateStatisticsMessageSent(sourceReference)
-                SourceType.OVERSEAS -> assertOverseasUpdateStatisticsMessageSent(sourceReference)
-                else -> {}
-            }
+            assertUpdateApplicationStatisticsMessageSent(sourceReference)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language and channel $sqsChannel")
         }

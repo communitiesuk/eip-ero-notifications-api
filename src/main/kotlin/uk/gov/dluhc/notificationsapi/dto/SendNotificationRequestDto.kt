@@ -9,5 +9,4 @@ data class SendNotificationRequestDto(
     val sourceReference: String,
     val toAddress: NotificationDestinationDto,
     val notificationType: NotificationType,
-    val isFromApplicationApi: Boolean = false,
 )

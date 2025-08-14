@@ -181,30 +181,6 @@ tasks.create("generate-models-from-openapi-document-Notifications-sqs-message-ty
     packageName.set("uk.gov.dluhc.notificationsapi.messaging")
 }
 
-tasks.create("generate-models-from-openapi-document-vca-sqs-messaging-erop.yaml", GenerateTask::class) {
-    enabled = true
-    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/vca-api-sqs-messaging-erop.yaml")
-    packageName.set("uk.gov.dluhc.votercardapplicationsapi.messaging")
-}
-
-tasks.create("generate-models-from-openapi-document-postal-sqs-messaging-erop.yaml", GenerateTask::class) {
-    enabled = true
-    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/postal-api-sqs-messaging-erop.yaml")
-    packageName.set("uk.gov.dluhc.postalapplicationsapi.messaging")
-}
-
-tasks.create("generate-models-from-openapi-document-proxy-sqs-messaging-erop.yaml", GenerateTask::class) {
-    enabled = true
-    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/proxy-api-sqs-messaging-erop.yaml")
-    packageName.set("uk.gov.dluhc.proxyapplicationsapi.messaging")
-}
-
-tasks.create("generate-models-from-openapi-document-overseas-sqs-messaging-erop.yaml", GenerateTask::class) {
-    enabled = true
-    inputSpec.set("$projectDir/src/main/resources/openapi/sqs/overseas-api-sqs-messaging-erop.yaml")
-    packageName.set("uk.gov.dluhc.overseasapplicationsapi.messaging")
-}
-
 tasks.create("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/external/EROManagementAPIs.yaml")

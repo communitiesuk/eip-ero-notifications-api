@@ -431,7 +431,7 @@ internal class SendNotificationServiceTest {
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!, SourceType.VOTER_CARD, request.isFromApplicationApi)
+        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!)
     }
 
     @ParameterizedTest
@@ -495,7 +495,7 @@ internal class SendNotificationServiceTest {
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!, SourceType.POSTAL, request.isFromApplicationApi)
+        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!)
     }
 
     @ParameterizedTest
@@ -559,7 +559,7 @@ internal class SendNotificationServiceTest {
         sendNotificationService.sendNotification(request, personalisation)
 
         // Then
-        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!, sourceType, request.isFromApplicationApi)
+        verify(statisticsUpdateService).triggerStatisticsUpdate(notification.sourceReference!!)
     }
 
     @ParameterizedTest
