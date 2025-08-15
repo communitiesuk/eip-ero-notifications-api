@@ -12,25 +12,9 @@ import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.messagingsupport.MessagingConfigurationHelper
 import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
-import uk.gov.dluhc.overseasapplicationsapi.messaging.models.UpdateStatisticsMessage as OverseasUpdateStatisticsMessage
-import uk.gov.dluhc.postalapplicationsapi.messaging.models.UpdateStatisticsMessage as PostalUpdateStatisticsMessage
-import uk.gov.dluhc.proxyapplicationsapi.messaging.models.UpdateStatisticsMessage as ProxyUpdateStatisticsMessage
-import uk.gov.dluhc.votercardapplicationsapi.messaging.models.UpdateStatisticsMessage as VoterCardUpdateStatisticsMessage
 
 @Configuration
 class MessagingConfiguration {
-
-    @Value("\${sqs.trigger-voter-card-statistics-update-queue-name}")
-    private lateinit var triggerVoterCardStatisticsUpdateQueueName: String
-
-    @Value("\${sqs.trigger-postal-application-statistics-update-queue-name}")
-    private lateinit var triggerPostalApplicationStatisticsUpdateQueueName: String
-
-    @Value("\${sqs.trigger-proxy-application-statistics-update-queue-name}")
-    private lateinit var triggerProxyApplicationStatisticsUpdateQueueName: String
-
-    @Value("\${sqs.trigger-overseas-application-statistics-update-queue-name}")
-    private lateinit var triggerOverseasApplicationStatisticsUpdateQueueName: String
 
     @Value("\${sqs.trigger-application-statistics-update-queue-name}")
     private lateinit var triggerApplicationStatisticsUpdateQueueName: String
@@ -42,22 +26,6 @@ class MessagingConfiguration {
         sqsAsyncClient: SqsAsyncClient,
         sqsMessagingMessageConverter: SqsMessagingMessageConverter,
     ) = MessagingConfigurationHelper.sqsTemplate(sqsAsyncClient, sqsMessagingMessageConverter)
-
-    @Bean
-    fun triggerVoterCardStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
-        MessageQueue<VoterCardUpdateStatisticsMessage>(triggerVoterCardStatisticsUpdateQueueName, sqsTemplate)
-
-    @Bean
-    fun triggerPostalApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
-        MessageQueue<PostalUpdateStatisticsMessage>(triggerPostalApplicationStatisticsUpdateQueueName, sqsTemplate)
-
-    @Bean
-    fun triggerProxyApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
-        MessageQueue<ProxyUpdateStatisticsMessage>(triggerProxyApplicationStatisticsUpdateQueueName, sqsTemplate)
-
-    @Bean
-    fun triggerOverseasApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
-        MessageQueue<OverseasUpdateStatisticsMessage>(triggerOverseasApplicationStatisticsUpdateQueueName, sqsTemplate)
 
     @Bean
     fun triggerApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =

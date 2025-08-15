@@ -178,9 +178,6 @@ components:
           $ref: '#/components/schemas/MessageAddress'
         messageType:
           $ref: '#/components/schemas/MessageType'
-        isFromApplicationApi:
-          type: boolean
-          description: Determines whether the application should be processed by the OS applications queue or by the old queues
       required:
         - language
         - sourceType

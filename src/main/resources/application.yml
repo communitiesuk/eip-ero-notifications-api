@@ -181,10 +181,6 @@ sqs:
   send-uk-gov-notify-bespoke-comm-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_BESPOKE_COMM_QUEUE_NAME}
   send-uk-gov-notify-not-registered-to-vote-queue-name: ${SQS_SEND_UK_GOV_NOTIFY_NOT_REGISTERED_TO_VOTE_QUEUE_NAME}
   remove-application-notifications-queue-name: ${SQS_REMOVE_APPLICATION_NOTIFICATIONS_QUEUE_NAME}
-  trigger-voter-card-statistics-update-queue-name: ${SQS_TRIGGER_VOTER_CARD_STATISTICS_UPDATE_QUEUE_NAME}
-  trigger-postal-application-statistics-update-queue-name: ${SQS_TRIGGER_POSTAL_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
-  trigger-proxy-application-statistics-update-queue-name: ${SQS_TRIGGER_PROXY_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
-  trigger-overseas-application-statistics-update-queue-name: ${SQS_TRIGGER_OVERSEAS_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
   trigger-application-statistics-update-queue-name: ${SQS_TRIGGER_APPLICATION_STATISTICS_UPDATE_QUEUE_NAME}
 
 logging:

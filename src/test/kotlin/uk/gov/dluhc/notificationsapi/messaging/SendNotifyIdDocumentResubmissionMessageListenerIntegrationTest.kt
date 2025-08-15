@@ -54,7 +54,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
                 .containsExactlyInAnyOrder(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, EMAIL)
-            assertVoterCardUpdateStatisticsMessageSent(sourceReference)
+            assertUpdateApplicationStatisticsMessageSent(sourceReference)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")
         }
@@ -89,7 +89,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
             assertThat(actualEntity).hasSize(1).element(0)
                 .extracting("sourceType", "type", "channel")
                 .containsExactlyInAnyOrder(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, LETTER)
-            assertVoterCardUpdateStatisticsMessageSent(sourceReference)
+            assertUpdateApplicationStatisticsMessageSent(sourceReference)
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language")
         }
