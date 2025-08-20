@@ -1,13 +1,13 @@
 package uk.gov.dluhc.notificationsapi.service
 
 import org.springframework.stereotype.Service
+import uk.gov.dluhc.applicationsapi.messaging.models.UpdateApplicationStatisticsMessage
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import java.util.UUID
-import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
 
 @Service
 class StatisticsUpdateService(
-    private val triggerApplicationStatisticsUpdateQueue: MessageQueue<ApplicationUpdateStatisticsMessage>,
+    private val triggerApplicationStatisticsUpdateQueue: MessageQueue<UpdateApplicationStatisticsMessage>,
 ) {
     fun triggerStatisticsUpdate(applicationId: String) {
         val deduplicationId = UUID.randomUUID().toString()
@@ -15,7 +15,7 @@ class StatisticsUpdateService(
     }
 
     fun submitToTriggerApplicationStatisticsUpdateQueue(applicationId: String, deduplicationId: String) {
-        val updateMessage = ApplicationUpdateStatisticsMessage(applicationId = applicationId)
+        val updateMessage = UpdateApplicationStatisticsMessage(externalId = applicationId)
         triggerApplicationStatisticsUpdateQueue.submit(updateMessage, createMap(applicationId, deduplicationId))
     }
 

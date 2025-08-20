@@ -1,11 +1,14 @@
 openapi: 3.0.0
 info:
-  title: Application API SQS Message Types for EROP Clients
-  version: '1.0.0'
+  title: Applications API SQS Message Types for stats update
+  version: '0.0.0'
   description: |-
-    Application API SQS Message Types for EROP Clients
+    Applications API SQS Message Types for stats update
     
-    Messages defined in this spec are produced by EROP and consumed by the applications API
+    Messages defined in this spec are produced by the Applications API, notifications API and the Print API.
+    Messages defined in this spec are consumed by the Applications API.
+    
+    Any changes to this spec should be based on joint collaboration and agreement between the Applications APIs and the Print API.
     
     Whilst this is an openAPI spec, it does not imply being used to define REST APIs, nor is it intended to.
     
@@ -29,7 +32,7 @@ paths:
       tags:
         - SQS Queues
       requestBody:
-        $ref: '#/components/requestBodies/UpdateStatisticsMessage'
+        $ref: '#/components/requestBodies/UpdateApplicationStatisticsMessage'
       responses:
         '204':
           description: No response content.
@@ -38,23 +41,29 @@ components:
   # Schema and Enum Definitions
   # --------------------------------------------------------------------------------
   schemas:
-    UpdateStatisticsMessage:
-      title: UpdateStatisticsMessage
+    UpdateApplicationStatisticsMessage:
+      title: TriggerApplicationStatisticsUpdateMessage
       type: object
-      description: SQS Message for initiating a statistics update for an application.
+      description: SQS message for initiating a statistics update for an application
       properties:
-        applicationId:
+        externalId:
           type: string
-          description: The identifier of the application
+          description: The identifier of the Application
           example: 1f0f76a9a66f438b9bb33070
       required:
-        - applicationId
+        - externalId
+
+  #
+  # Response Body Definitions
+  # --------------------------------------------------------------------------------
+  responses: { }
+
+  #
+  # Request Body Definitions
+  # --------------------------------------------------------------------------------
   requestBodies:
-    #
-    # Request Body Definitions
-    # --------------------------------------------------------------------------------
-    UpdateStatisticsMessage:
+    UpdateApplicationStatisticsMessage:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateStatisticsMessage'
+            $ref: '#/components/schemas/UpdateApplicationStatisticsMessage'
