@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Profile
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
+import uk.gov.dluhc.applicationsapi.messaging.models.UpdateApplicationStatisticsMessage
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.messagingsupport.MessagingConfigurationHelper
-import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
 
 @Configuration
 class MessagingConfiguration {
@@ -29,7 +29,7 @@ class MessagingConfiguration {
 
     @Bean
     fun triggerApplicationStatisticsUpdateQueue(sqsTemplate: SqsTemplate) =
-        MessageQueue<ApplicationUpdateStatisticsMessage>(triggerApplicationStatisticsUpdateQueueName, sqsTemplate)
+        MessageQueue<UpdateApplicationStatisticsMessage>(triggerApplicationStatisticsUpdateQueueName, sqsTemplate)
 
     @Bean
     fun sqsMessagingMessageConverter(
