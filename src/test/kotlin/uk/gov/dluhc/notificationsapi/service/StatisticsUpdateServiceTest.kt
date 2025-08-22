@@ -16,10 +16,10 @@ import org.mockito.kotlin.capture
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
+import uk.gov.dluhc.applicationsapi.messaging.models.UpdateApplicationStatisticsMessage
 import uk.gov.dluhc.messagingsupport.MessageQueue
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRandomSourceReference
-import uk.gov.dluhc.applicationsapi.messaging.models.UpdateStatisticsMessage as ApplicationUpdateStatisticsMessage
 
 @ExtendWith(MockitoExtension::class)
 class StatisticsUpdateServiceTest {
@@ -31,7 +31,7 @@ class StatisticsUpdateServiceTest {
     private lateinit var headersArgumentCaptor: ArgumentCaptor<Map<String, Any>>
 
     @Mock
-    private lateinit var triggerApplicationStatisticsUpdateQueue: MessageQueue<ApplicationUpdateStatisticsMessage>
+    private lateinit var triggerApplicationStatisticsUpdateQueue: MessageQueue<UpdateApplicationStatisticsMessage>
 
     @BeforeEach
     fun setUp() {
@@ -51,7 +51,7 @@ class StatisticsUpdateServiceTest {
 
         // Then
         verify(triggerApplicationStatisticsUpdateQueue).submit(
-            eq(ApplicationUpdateStatisticsMessage(applicationId)),
+            eq(UpdateApplicationStatisticsMessage(applicationId)),
             any(),
         )
         verifyNoMoreInteractions(triggerApplicationStatisticsUpdateQueue)
