@@ -663,7 +663,6 @@ components:
         - utility-bill
         - p45-or-p60-form
         - statement-of-or-entitlement-to-benefits
-        - completed-attestation-documents
         - passport
         - eea-issued-id-card
         - photocard-driving-licence
