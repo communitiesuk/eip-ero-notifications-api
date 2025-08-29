@@ -1593,6 +1593,7 @@ components:
         - parent-guardian-proof-required
         - bespoke-comm
         - not-registered-to-vote
+        - signature-resubmission
     Language:
       title: Language
       description: The language to view the template
