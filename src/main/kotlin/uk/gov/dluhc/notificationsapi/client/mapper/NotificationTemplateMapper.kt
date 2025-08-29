@@ -29,6 +29,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PREVIOUS_ADDR
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
@@ -100,6 +102,8 @@ class NotificationTemplateMapper(
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
             BESPOKE_COMM -> config.bespokeCommWelsh
             NOT_REGISTERED_TO_VOTE -> config.notRegisteredToVoteWelsh
+            SIGNATURE_RESUBMISSION -> config.signatureResubmissionWelsh
+            SIGNATURE_RESUBMISSION_WITH_REASONS -> config.signatureResubmissionWithReasonsWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -127,6 +131,8 @@ class NotificationTemplateMapper(
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
             BESPOKE_COMM -> config.bespokeCommEnglish
             NOT_REGISTERED_TO_VOTE -> config.notRegisteredToVoteEnglish
+            SIGNATURE_RESUBMISSION -> config.signatureResubmissionEnglish
+            SIGNATURE_RESUBMISSION_WITH_REASONS -> config.signatureResubmissionWithReasonsEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -178,6 +184,8 @@ class NotificationTemplateMapper(
             PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredWelsh
             BESPOKE_COMM -> config.bespokeCommWelsh
             NOT_REGISTERED_TO_VOTE -> config.notRegisteredToVoteWelsh
+            SIGNATURE_RESUBMISSION -> config.signatureResubmissionWelsh
+            SIGNATURE_RESUBMISSION_WITH_REASONS -> config.signatureResubmissionWithReasonsWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No letter template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -207,6 +215,8 @@ class NotificationTemplateMapper(
         PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> config.previousAddressDocumentRequiredEnglish
         BESPOKE_COMM -> config.bespokeCommEnglish
         NOT_REGISTERED_TO_VOTE -> config.notRegisteredToVoteEnglish
+        SIGNATURE_RESUBMISSION -> config.signatureResubmissionEnglish
+        SIGNATURE_RESUBMISSION_WITH_REASONS -> config.signatureResubmissionWithReasonsEnglish
         else -> {
             throw NotificationTemplateNotFoundException("No letter template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
         }
