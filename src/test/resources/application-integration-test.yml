@@ -73,6 +73,10 @@ api:
           bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
           not-registered-to-vote-english: bff9ea9b-6f06-467c-8390-7b0172609ee6
           not-registered-to-vote-welsh: 5321cc6f-2192-4303-8543-4de45a7bdcdd
+          signature-resubmission-english: 4bd12b8b-f2a8-4d5a-8fb6-69ed5f9e90ae
+          signature-resubmission-welsh: 40b4ae6e-0c8c-4267-a843-24566dd8711e
+          signature-resubmission-with-reasons-english: 6bd16119-4143-4fc4-8da6-6834a6b3400e
+          signature-resubmission-with-reasons-welsh: ba3e64b9-40a5-46a2-b867-c7e2f9ffad5d
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -90,6 +94,10 @@ api:
           bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
           not-registered-to-vote-english: 945dd26f-fec2-474e-943b-1fb58c88497a
           not-registered-to-vote-welsh: d8a80df2-abf5-405e-81dc-4f814756c462
+          signature-resubmission-english: b137eb58-19ae-409f-8c27-b5c3fe17c265
+          signature-resubmission-welsh: 1af61438-5bca-4adb-b1a6-9dea7ecc575f
+          signature-resubmission-with-reasons-english: 970671d3-06ab-4bf1-979c-8aca60b7368a
+          signature-resubmission-with-reasons-welsh: deef9aa2-7790-447f-8af1-f921ce21958c
       proxy:
         email:
           received-english: 6d0490ee-e004-402e-808f-5791e8336ddb
@@ -110,6 +118,10 @@ api:
           bespoke-comm-welsh: 726ecf58-5974-42d9-bcde-b5f0b3a973f9
           not-registered-to-vote-english: bff9ea9b-6f06-467c-8390-7b0172609ee6
           not-registered-to-vote-welsh: 5321cc6f-2192-4303-8543-4de45a7bdcdd
+          signature-resubmission-english: 4bd12b8b-f2a8-4d5a-8fb6-69ed5f9e90ae
+          signature-resubmission-welsh: 40b4ae6e-0c8c-4267-a843-24566dd8711e
+          signature-resubmission-with-reasons-english: 6bd16119-4143-4fc4-8da6-6834a6b3400e
+          signature-resubmission-with-reasons-welsh: ba3e64b9-40a5-46a2-b867-c7e2f9ffad5d
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -127,6 +139,10 @@ api:
           bespoke-comm-welsh: 41516dc0-8c27-45b5-8b82-bf4b27662715
           not-registered-to-vote-english: 945dd26f-fec2-474e-943b-1fb58c88497a
           not-registered-to-vote-welsh: d8a80df2-abf5-405e-81dc-4f814756c462
+          signature-resubmission-english: b137eb58-19ae-409f-8c27-b5c3fe17c265
+          signature-resubmission-welsh: 1af61438-5bca-4adb-b1a6-9dea7ecc575f
+          signature-resubmission-with-reasons-english: 970671d3-06ab-4bf1-979c-8aca60b7368a
+          signature-resubmission-with-reasons-welsh: deef9aa2-7790-447f-8af1-f921ce21958c
       overseas:
         email:
           rejected-parent-guardian-english: 90d605be-36bb-4cea-b453-aaf16ca249b3
