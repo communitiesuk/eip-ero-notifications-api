@@ -18,6 +18,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 
 @Component
@@ -194,6 +195,30 @@ class TemplatePersonalisationDtoMapper {
             personalisation["sourceType"] = personalisationFullSourceTypeString
             personalisation["deadline"] = getSafeValue(deadline)
             personalisation["whatYouNeedToDo"] = deadline != null || whatToDo != null
+        }
+
+        return personalisation
+    }
+
+    fun toSignatureResubmissionTemplatePersonalisationMap(
+        dto: SignatureResubmissionPersonalisationDto,
+        language: LanguageDto,
+    ): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["rejectionNotes"] = getSafeValue(rejectionNotes)
+            personalisation["rejectionReasons"] = rejectionReasons
+            personalisation["rejectionFreeText"] = getSafeValue(rejectionFreeText)
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
+            personalisation["sourceType"] = personalisationSourceTypeString
+            personalisation["deadline"] = getSafeValue(deadline)
+            personalisation["uploadSignatureLink"] = uploadSignatureLink
         }
 
         return personalisation
