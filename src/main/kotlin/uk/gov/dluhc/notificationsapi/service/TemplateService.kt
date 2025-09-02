@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplateP
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRequiredOverseasDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateSignatureResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
@@ -235,6 +236,20 @@ class TemplateService(
                     language,
                 ),
                 templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisation),
+            )
+        }
+    }
+
+    fun generateSignatureResubmissionTemplatePreview(dto: GenerateSignatureResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
+        return with(dto) {
+            govNotifyApiClient.generateTemplatePreview(
+                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
+                    sourceType,
+                    notificationType,
+                    channel,
+                    language,
+                ),
+                templatePersonalisationDtoMapper.toSignatureResubmissionTemplatePersonalisationMap(personalisation, language),
             )
         }
     }
