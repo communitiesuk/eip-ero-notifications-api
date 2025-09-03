@@ -2,6 +2,7 @@ package uk.gov.dluhc.notificationsapi.messaging
 
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
@@ -27,6 +28,12 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 internal class SendNotifyApplicationRejectedMessageIntegrationTest : IntegrationTest() {
+
+    @BeforeEach
+    fun cleanUp() {
+        clearSqsQueueAsync(sendUkGovNotifyApplicationRejectedQueueName).join()
+    }
+
     @ParameterizedTest
     @CsvSource(
         value = [

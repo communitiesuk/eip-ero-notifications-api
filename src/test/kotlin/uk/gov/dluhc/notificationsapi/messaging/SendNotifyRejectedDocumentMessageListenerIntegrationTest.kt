@@ -4,6 +4,7 @@ import mu.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
@@ -24,6 +25,11 @@ import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEnt
 private val logger = KotlinLogging.logger {}
 
 internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : IntegrationTest() {
+
+    @BeforeEach
+    fun cleanUp() {
+        clearSqsQueueAsync(sendUkGovNotifyRejectedDocumentQueueName).join()
+    }
 
     companion object {
         private const val SOURCE_TYPE_POSTAL = "POSTAL"

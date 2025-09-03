@@ -4,7 +4,6 @@ import mu.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions
 import org.awaitility.kotlin.await
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -26,9 +25,8 @@ private val logger = KotlinLogging.logger {}
 internal class SendNotifyBespokeCommMessageListenerIntegrationTest : IntegrationTest() {
 
     @BeforeEach
-    @AfterEach
     fun cleanUp() {
-        clearSqsQueue(sendUkGovNotifyBespokeCommQueueName)
+        clearSqsQueueAsync(sendUkGovNotifyBespokeCommQueueName).join()
     }
 
     @ParameterizedTest
