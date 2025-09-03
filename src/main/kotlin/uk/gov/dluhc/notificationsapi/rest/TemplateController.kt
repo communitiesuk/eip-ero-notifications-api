@@ -19,6 +19,7 @@ import uk.gov.dluhc.notificationsapi.mapper.RejectedOverseasDocumentTemplatePrev
 import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RequestedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RequiredOverseasDocumentTemplatePreviewDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest
@@ -33,6 +34,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemp
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequiredOverseasDocumentTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.service.TemplateService
 
@@ -54,6 +56,7 @@ class TemplateController(
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
     private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper,
     private val notRegisteredToVotePreviewDtoMapper: NotRegisteredToVoteTemplatePreviewDtoMapper,
+    private val signatureResubmissionPreviewDtoMapper: SignatureResubmissionTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -252,6 +255,20 @@ class TemplateController(
         return with(
             templateService.generateRequiredOverseasDocumentTemplatePreview(
                 requiredOverseasDocumentTemplatePreviewDtoMapper.toRequiredOverseasDocumentTemplatePreviewDto(request),
+            ),
+        ) {
+            GenerateTemplatePreviewResponse(text, subject, html)
+        }
+    }
+
+    @PostMapping("/templates/signature-resubmission/preview")
+    fun generateSignatureResubmissionDocumentTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateSignatureResubmissionTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
+        return with(
+            templateService.generateSignatureResubmissionTemplatePreview(
+                signatureResubmissionPreviewDtoMapper.toSignatureResubmissionTemplatePreviewDto(request),
             ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)

@@ -73,7 +73,7 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
             applicationReference = applicationReference,
             firstName = firstName,
             eroContactDetails = eroContactDetails.let(eroContactDetailsMapper::fromApiToDto),
-            personalisationSourceTypeString = sourceTypeMapper.toFullSourceTypeString(sourceType, languageDto),
+            personalisationSourceTypeString = sourceTypeMapper.toSourceTypeString(sourceType, languageDto),
             rejectionNotes = rejectionNotes?.ifBlank { null },
             rejectionReasons = mapSignatureRejectionReasons(languageDto, this),
             rejectionFreeText = rejectionFreeText?.ifBlank { null },

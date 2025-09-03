@@ -6,7 +6,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
-import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
@@ -51,9 +50,6 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
     @Mock
     private lateinit var eroContactDetailsMapper: EroContactDetailsMapper
 
-    @Mock
-    private lateinit var addressMapper: AddressMapper
-
     @CommunicationChannelsTest
     fun `should map signature resubmission template preview request to dto`(channel: CommunicationChannel) {
         // Given
@@ -88,6 +84,7 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
         val eroContactDetailsDto = buildContactDetailsDto()
         given(communicationChannelMapper.fromApiToDto(request.channel)).willReturn(expectedChannel)
         given(sourceTypeMapper.fromApiToDto(SourceType.POSTAL)).willReturn(SourceTypeDto.POSTAL)
+        given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)).willReturn("postal vote")
         given(sourceTypeMapper.toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)).willReturn("postal vote")
         given(languageMapper.fromApiToDto(Language.EN)).willReturn(LanguageDto.ENGLISH)
         given(deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, LanguageDto.ENGLISH, "postal vote")).willReturn("Deadline string")
@@ -124,9 +121,9 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
         verify(communicationChannelMapper).fromApiToDto(channel)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(sourceTypeMapper).fromApiToDto(SourceType.POSTAL)
-        verify(sourceTypeMapper, times(2)).toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
+        verify(sourceTypeMapper).toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
+        verify(sourceTypeMapper).toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
         verify(deadlineMapper).toDeadlineString(deadlineDate, deadlineTime, LanguageDto.ENGLISH, "postal vote")
         verify(eroContactDetailsMapper).fromApiToDto(eroContactDetails)
-        verify(addressMapper).fromApiToDto(eroContactDetails.address)
     }
 }
