@@ -2,12 +2,9 @@ package uk.gov.dluhc.notificationsapi.mapper
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import uk.gov.dluhc.notificationsapi.dto.GenerateSignatureResubmissionTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.NotificationType
+import uk.gov.dluhc.notificationsapi.dto.*
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.SignatureResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.models.SourceType
@@ -33,6 +30,39 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
 
     @Autowired
     protected lateinit var signatureRejectionReasonMapper: SignatureRejectionReasonMapper
+
+    @Autowired
+    protected lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
+
+    fun toSignatureResubmissionPersonalisation(
+        request: GenerateSignatureResubmissionTemplatePreviewRequest,
+        commonTemplatePreviewDto: CommonTemplatePreviewDto,
+    ): Map<String, Any> {
+        val personalisationMap = mutableMapOf<String, Any>()
+
+        with(request.personalisation) {
+            personalisationMap["applicationReference"] = applicationReference
+            personalisationMap["firstName"] = firstName
+            personalisationMap["rejectionNotes"] = templatePersonalisationDtoMapper.getSafeValue(rejectionNotes?.ifBlank { null })
+            personalisationMap["rejectionReasons"] = mapSignatureRejectionReasons(commonTemplatePreviewDto.language, this)
+            personalisationMap["rejectionFreeText"] = templatePersonalisationDtoMapper.getSafeValue(rejectionFreeText?.ifBlank { null })
+            with(mutableMapOf<String, String>()) {
+                (eroContactDetails.let(eroContactDetailsMapper::fromApiToDto)).mapEroContactFields(this)
+                personalisationMap.putAll(this)
+            }
+            personalisationMap["sourceType"] = sourceTypeMapper.toSourceTypeString(request.sourceType, commonTemplatePreviewDto.language)
+
+            personalisationMap["deadline"] = templatePersonalisationDtoMapper.getSafeValue(mapDeadline(
+                deadlineDate,
+                deadlineTime,
+                commonTemplatePreviewDto.language,
+                sourceTypeMapper.toFullSourceTypeString(request.sourceType, commonTemplatePreviewDto.language)
+            ))
+            personalisationMap["uploadSignatureLink"] = uploadSignatureLink
+        }
+
+        return personalisationMap
+    }
 
     fun toSignatureResubmissionTemplatePreviewDto(
         request: GenerateSignatureResubmissionTemplatePreviewRequest,

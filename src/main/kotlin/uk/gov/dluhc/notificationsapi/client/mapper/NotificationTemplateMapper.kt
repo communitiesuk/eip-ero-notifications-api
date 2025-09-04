@@ -31,7 +31,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WIT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
 import uk.gov.dluhc.notificationsapi.dto.SourceType.PROXY
@@ -52,6 +51,17 @@ class NotificationTemplateMapper(
         return when (channel) {
             CommunicationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(sourceType, notificationType, language)
             CommunicationChannel.LETTER -> fromLetterNotificationTypeInLanguage(sourceType, notificationType, language)
+        }
+    }
+
+    fun fromNotificationTypeForChannelInLanguage(
+        commonTemplatePreviewDto: CommonTemplatePreviewDto
+    ): String {
+        with(commonTemplatePreviewDto) {
+            return when (channel) {
+                CommunicationChannel.EMAIL -> fromEmailNotificationTypeInLanguage(sourceType, notificationType, language)
+                CommunicationChannel.LETTER -> fromLetterNotificationTypeInLanguage(sourceType, notificationType, language)
+            }
         }
     }
 

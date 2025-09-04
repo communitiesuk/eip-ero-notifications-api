@@ -29,6 +29,8 @@ class TemplateService(
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
     private val notificationTemplateMapper: NotificationTemplateMapper,
     private val documentCategoryMapper: DocumentCategoryMapper,
+    private val commonTemplateService: CommonTemplateService,
+    private val signatureResubmissionPreviewDtoMapper: SignatureResubmissionTemplatePreviewDtoMapper,
 ) {
 
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
@@ -240,17 +242,18 @@ class TemplateService(
         }
     }
 
-    fun generateSignatureResubmissionTemplatePreview(dto: GenerateSignatureResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
-        return with(dto) {
-            govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
-                    sourceType,
-                    notificationType,
-                    channel,
-                    language,
-                ),
-                templatePersonalisationDtoMapper.toSignatureResubmissionTemplatePersonalisationMap(personalisation, language),
-            )
+    fun generateSignatureResubmissionTemplatePreview(request: GenerateSignatureResubmissionTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        val notificationTypeDto = signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)
+        val getPersonalisation = { commonTemplatePreviewDto: CommonTemplatePreviewDto ->
+            signatureResubmissionPreviewDtoMapper.toSignatureResubmissionPersonalisation(request, commonTemplatePreviewDto)
         }
+
+        return commonTemplateService.generateTemplatePreview(
+            request.channel,
+            request.sourceType,
+            request.language,
+            notificationTypeDto,
+            getPersonalisation
+        )
     }
 }

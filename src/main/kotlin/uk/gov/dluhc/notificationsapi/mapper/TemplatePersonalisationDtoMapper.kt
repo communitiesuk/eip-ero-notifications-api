@@ -282,7 +282,7 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    private fun ContactDetailsDto.mapEroContactFields(personalisation: MutableMap<String, String>) {
+    fun ContactDetailsDto.mapEroContactFields(personalisation: MutableMap<String, String>) {
         personalisation["LAName"] = localAuthorityName
         personalisation["eroPhone"] = phone
         personalisation["eroWebsite"] = website
@@ -309,5 +309,5 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    private fun getSafeValue(input: String?): String = input ?: ""
+    fun getSafeValue(input: String?): String = input ?: ""
 }

@@ -56,7 +56,6 @@ class TemplateController(
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
     private val bespokeCommPreviewDtoMapper: BespokeCommTemplatePreviewDtoMapper,
     private val notRegisteredToVotePreviewDtoMapper: NotRegisteredToVoteTemplatePreviewDtoMapper,
-    private val signatureResubmissionPreviewDtoMapper: SignatureResubmissionTemplatePreviewDtoMapper,
 ) {
 
     @PostMapping("/templates/photo-resubmission/preview")
@@ -266,12 +265,6 @@ class TemplateController(
         @Valid @RequestBody
         request: GenerateSignatureResubmissionTemplatePreviewRequest,
     ): GenerateTemplatePreviewResponse {
-        return with(
-            templateService.generateSignatureResubmissionTemplatePreview(
-                signatureResubmissionPreviewDtoMapper.toSignatureResubmissionTemplatePreviewDto(request),
-            ),
-        ) {
-            GenerateTemplatePreviewResponse(text, subject, html)
-        }
+        return templateService.generateSignatureResubmissionTemplatePreview(request)
     }
 }
