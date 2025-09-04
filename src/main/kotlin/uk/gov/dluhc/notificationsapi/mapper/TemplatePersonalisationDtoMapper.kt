@@ -6,7 +6,6 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BaseTemplatePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
@@ -20,6 +19,7 @@ import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.dto.mapEroContactFields
 
 @Component
 class TemplatePersonalisationDtoMapper {
@@ -280,21 +280,6 @@ class TemplatePersonalisationDtoMapper {
             }
         }
         return personalisation
-    }
-
-    fun ContactDetailsDto.mapEroContactFields(personalisation: MutableMap<String, String>) {
-        personalisation["LAName"] = localAuthorityName
-        personalisation["eroPhone"] = phone
-        personalisation["eroWebsite"] = website
-        personalisation["eroEmail"] = email
-        with(address) {
-            personalisation["eroAddressLine1"] = getSafeValue(property)
-            personalisation["eroAddressLine2"] = street
-            personalisation["eroAddressLine3"] = getSafeValue(town)
-            personalisation["eroAddressLine4"] = getSafeValue(area)
-            personalisation["eroAddressLine5"] = getSafeValue(locality)
-            personalisation["eroPostcode"] = postcode
-        }
     }
 
     private fun getBasicContactDetailsPersonalisationMap(dto: BaseTemplatePersonalisationDto): MutableMap<String, String> {

@@ -6,13 +6,13 @@ import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.CommonTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRequiredOverseasDocumentTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.GenerateSignatureResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
@@ -21,7 +21,10 @@ import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
+import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 
 @Service
 class TemplateService(
@@ -253,7 +256,7 @@ class TemplateService(
             request.sourceType,
             request.language,
             notificationTypeDto,
-            getPersonalisation
+            getPersonalisation,
         )
     }
 }

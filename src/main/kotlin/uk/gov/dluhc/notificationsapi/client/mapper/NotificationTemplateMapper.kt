@@ -5,6 +5,7 @@ import uk.gov.dluhc.notificationsapi.config.AbstractNotifyEmailTemplateConfigura
 import uk.gov.dluhc.notificationsapi.config.AbstractNotifyLetterTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyEmailTemplateConfiguration
 import uk.gov.dluhc.notificationsapi.config.NotifyLetterTemplateConfiguration
+import uk.gov.dluhc.notificationsapi.dto.CommonTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
@@ -31,6 +32,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WIT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.POSTAL
 import uk.gov.dluhc.notificationsapi.dto.SourceType.PROXY
@@ -55,7 +57,7 @@ class NotificationTemplateMapper(
     }
 
     fun fromNotificationTypeForChannelInLanguage(
-        commonTemplatePreviewDto: CommonTemplatePreviewDto
+        commonTemplatePreviewDto: CommonTemplatePreviewDto,
     ): String {
         with(commonTemplatePreviewDto) {
             return when (channel) {
