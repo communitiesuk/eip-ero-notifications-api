@@ -3,8 +3,6 @@ package uk.gov.dluhc.notificationsapi.service
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
-import uk.gov.dluhc.notificationsapi.dto.BaseGenerateTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.CommonTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.mapper.CommonTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
@@ -23,7 +21,7 @@ class CommonTemplateService(
         sourceType: SourceType,
         language: Language?,
         notificationTypeDto: NotificationType,
-        getTemplatePersonalisation: (CommonTemplatePreviewDto) -> Map<String, Any>
+        getTemplatePersonalisation: () -> Map<String, Any>,
     ): GenerateTemplatePreviewResponse {
         val commonTemplatePreviewDto = commonTemplatePreviewDtoMapper.toCommonTemplatePreviewDto(
             channel,
@@ -32,17 +30,17 @@ class CommonTemplateService(
             notificationTypeDto,
         )
 
-        val personalisation = getTemplatePersonalisation(commonTemplatePreviewDto)
+        val personalisation = getTemplatePersonalisation()
 
-         val notifyTemplatePreviewDto =
+        val notifyTemplatePreviewDto =
             govNotifyApiClient.generateTemplatePreview(
                 notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
-                    commonTemplatePreviewDto
+                    commonTemplatePreviewDto,
                 ),
-                personalisation
+                personalisation,
             )
 
-        return with(notifyTemplatePreviewDto){
+        return with(notifyTemplatePreviewDto) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
     }

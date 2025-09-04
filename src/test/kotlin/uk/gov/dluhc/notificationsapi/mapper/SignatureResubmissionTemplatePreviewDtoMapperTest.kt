@@ -1,30 +1,26 @@
 package uk.gov.dluhc.notificationsapi.mapper
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
-import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
-import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
-import uk.gov.dluhc.notificationsapi.testsupport.annotations.CommunicationChannelsTest
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildEroContactDetails
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildGenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildSignatureResubmissionPersonalisation
 import java.time.LocalDate
-import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel as CommunicationChannelDto
-import uk.gov.dluhc.notificationsapi.dto.SourceType as SourceTypeDto
 
 @ExtendWith(MockitoExtension::class)
 internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
@@ -42,88 +38,103 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
     private lateinit var sourceTypeMapper: SourceTypeMapper
 
     @Mock
-    private lateinit var communicationChannelMapper: CommunicationChannelMapper
-
-    @Mock
     private lateinit var signatureRejectionReasonMapper: SignatureRejectionReasonMapper
 
     @Mock
     private lateinit var eroContactDetailsMapper: EroContactDetailsMapper
 
-    @CommunicationChannelsTest
-    fun `should map signature resubmission template preview request to dto`(channel: CommunicationChannel) {
-        // Given
-        val applicationReference = aValidApplicationReference()
-        val firstName = faker.name().firstName()
-        val eroContactDetails = buildEroContactDetails()
-        val deadlineDate = LocalDate.of(2024, 7, 10)
-        val deadlineTime = "17:00"
-        val uploadSignatureLink = "https://a-link.gov.uk/resubmit-signature"
-        val rejectionNotes = "Rejection notes"
-        val rejectionFreeText = "Free text"
+    @Mock
+    private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
 
+    @Test
+    fun `should map to personalisation map`() {
+        // Given
+        val personalisationDto = buildSignatureResubmissionPersonalisationDto(
+            rejectionNotes = null,
+            freeText = null,
+            deadline = null,
+        )
+
+        given(templatePersonalisationDtoMapper.getSafeValue(null)).willReturn("")
+
+        val expected = buildSignatureResubmissionPersonalisationMapFromDto(personalisationDto)
+
+        // When
+        val actual = mapper.toSignatureResubmissionPersonalisation(personalisationDto)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = ["true,SIGNATURE_RESUBMISSION_WITH_REASONS", "false,SIGNATURE_RESUBMISSION"],
+    )
+    fun `should map to correct notification type given rejection reasons`(
+        shouldHaveRejectionReasons: Boolean,
+        expectedNotificationType: NotificationType,
+    ) {
+        // Given
         val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(
-            channel = channel,
             personalisation = buildSignatureResubmissionPersonalisation(
-                rejectionReasons = listOf(
-                    SignatureRejectionReason.WRONG_MINUS_SIZE,
-                ),
-                applicationReference = applicationReference,
-                firstName = firstName,
-                eroContactDetails = eroContactDetails,
-                deadlineDate = deadlineDate,
-                deadlineTime = deadlineTime,
-                uploadSignatureLink = uploadSignatureLink,
-                rejectionNotes = rejectionNotes,
-                rejectionFreeText = rejectionFreeText,
+                rejectionReasons = if (shouldHaveRejectionReasons) listOf(SignatureRejectionReason.WRONG_MINUS_SIZE) else emptyList(),
+                rejectionNotes = if (shouldHaveRejectionReasons) "Rejection notes" else null,
             ),
             sourceType = SourceType.POSTAL,
         )
 
-        val expectedChannel = CommunicationChannelDto.valueOf(channel.name)
-        val eroContactDetailsDto = buildContactDetailsDto()
-        given(communicationChannelMapper.fromApiToDto(request.channel)).willReturn(expectedChannel)
-        given(sourceTypeMapper.fromApiToDto(SourceType.POSTAL)).willReturn(SourceTypeDto.POSTAL)
-        given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)).willReturn("postal vote")
-        given(sourceTypeMapper.toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)).willReturn("postal vote")
-        given(languageMapper.fromApiToDto(Language.EN)).willReturn(LanguageDto.ENGLISH)
-        given(deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, LanguageDto.ENGLISH, "postal vote")).willReturn("Deadline string")
-        given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReason.WRONG_MINUS_SIZE, LanguageDto.ENGLISH)).willReturn("wrong size")
-        given(eroContactDetailsMapper.fromApiToDto(request.personalisation.eroContactDetails)).willReturn(eroContactDetailsDto)
+        // Then
+        assertEquals(expectedNotificationType, mapper.signatureResubmissionNotificationType(request))
+    }
 
-        val expected = buildSignatureResubmissionTemplatePreviewDto(
-            sourceType = SourceTypeDto.POSTAL,
-            channel = expectedChannel,
-            languageDto = LanguageDto.ENGLISH,
-            personalisation = with(request.personalisation) {
-                buildSignatureResubmissionPersonalisationDto(
-                    applicationReference = applicationReference,
-                    firstName = firstName,
-                    eroContactDetails = eroContactDetailsDto,
-                    sourceType = "postal vote",
-                    freeText = rejectionFreeText,
-                    rejectionNotes = rejectionNotes,
-                    rejectionReasons = listOf("wrong size"),
-                    uploadSignatureLink = uploadSignatureLink,
-                    deadline = "Deadline string",
-                )
-            },
-            notificationType = NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS,
+    @Test
+    fun `should map from request to personalisation dto`() {
+        // Given
+        val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(
+            sourceType = SourceType.POSTAL,
+            language = Language.EN,
+            personalisation = buildSignatureResubmissionPersonalisation(
+                rejectionNotes = "Notes",
+                rejectionReasons = listOf(SignatureRejectionReason.WRONG_MINUS_SIZE, SignatureRejectionReason.HAS_MINUS_SHADOWS, SignatureRejectionReason.OTHER),
+                rejectionFreeText = "Free Text",
+                deadlineDate = LocalDate.of(2024, 10, 1),
+            ),
         )
 
+        val eroContactDetailsDto = buildContactDetailsDto()
+        val sourceTypeString = "Source Type"
+        val wrongSizeText = "Wrong Size"
+        val hasShadowsText = "Has Shadows"
+        val deadlineString = "Deadline"
+
+        given(languageMapper.fromApiToDto(request.language!!)).willReturn(LanguageDto.ENGLISH)
+        with(request.personalisation) {
+            given(eroContactDetailsMapper.fromApiToDto(eroContactDetails)).willReturn(eroContactDetailsDto)
+            given(sourceTypeMapper.toSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn(sourceTypeString)
+            given(sourceTypeMapper.toFullSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn("Full String")
+            given(deadlineMapper.toDeadlineString(deadlineDate!!, deadlineTime, LanguageDto.ENGLISH, "Full String")).willReturn(deadlineString)
+        }
+        given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReason.WRONG_MINUS_SIZE, LanguageDto.ENGLISH)).willReturn(wrongSizeText)
+        given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReason.HAS_MINUS_SHADOWS, LanguageDto.ENGLISH)).willReturn(hasShadowsText)
+
+        val expected = with(request.personalisation) {
+            buildSignatureResubmissionPersonalisationDto(
+                applicationReference = applicationReference,
+                firstName = firstName,
+                eroContactDetails = eroContactDetailsDto,
+                sourceType = sourceTypeString,
+                rejectionNotes = rejectionNotes,
+                rejectionReasons = listOf(wrongSizeText, hasShadowsText),
+                freeText = rejectionFreeText,
+                deadline = deadlineString,
+                uploadSignatureLink = uploadSignatureLink,
+            )
+        }
+
         // When
-        val actual = mapper.toSignatureResubmissionTemplatePreviewDto(request)
+        val actual = mapper.fromRequestToPersonalisationDto(request)
 
         // Then
-        Assertions.assertThat(actual)
-            .usingRecursiveComparison()
-            .isEqualTo(expected)
-        verify(communicationChannelMapper).fromApiToDto(channel)
-        verify(languageMapper).fromApiToDto(Language.EN)
-        verify(sourceTypeMapper).fromApiToDto(SourceType.POSTAL)
-        verify(sourceTypeMapper).toSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
-        verify(sourceTypeMapper).toFullSourceTypeString(SourceType.POSTAL, LanguageDto.ENGLISH)
-        verify(deadlineMapper).toDeadlineString(deadlineDate, deadlineTime, LanguageDto.ENGLISH, "postal vote")
-        verify(eroContactDetailsMapper).fromApiToDto(eroContactDetails)
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
     }
 }

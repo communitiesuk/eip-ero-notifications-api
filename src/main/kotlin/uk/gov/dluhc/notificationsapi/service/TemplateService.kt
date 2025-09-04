@@ -6,7 +6,6 @@ import uk.gov.dluhc.notificationsapi.client.mapper.NotificationTemplateMapper
 import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.CommonTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateApplicationApprovedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentRequiredTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
@@ -21,7 +20,6 @@ import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
-import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
@@ -35,7 +33,6 @@ class TemplateService(
     private val documentCategoryMapper: DocumentCategoryMapper,
     private val commonTemplateService: CommonTemplateService,
     private val signatureResubmissionPreviewDtoMapper: SignatureResubmissionTemplatePreviewDtoMapper,
-    private val languageMapper: LanguageMapper,
 ) {
 
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
@@ -250,9 +247,7 @@ class TemplateService(
     fun generateSignatureResubmissionTemplatePreview(request: GenerateSignatureResubmissionTemplatePreviewRequest): GenerateTemplatePreviewResponse {
         val notificationTypeDto = signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)
         val personalisationDto = signatureResubmissionPreviewDtoMapper.fromRequestToPersonalisationDto(request)
-        val getPersonalisation = { commonTemplatePreviewDto: CommonTemplatePreviewDto ->
-            signatureResubmissionPreviewDtoMapper.toSignatureResubmissionPersonalisation(personalisationDto, commonTemplatePreviewDto)
-        }
+        val getPersonalisation = { signatureResubmissionPreviewDtoMapper.toSignatureResubmissionPersonalisation(personalisationDto) }
 
         return commonTemplateService.generateTemplatePreview(
             request.channel,

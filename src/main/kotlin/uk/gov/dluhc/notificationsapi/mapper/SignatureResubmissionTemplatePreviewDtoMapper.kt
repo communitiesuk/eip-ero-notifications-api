@@ -2,8 +2,6 @@ package uk.gov.dluhc.notificationsapi.mapper
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import uk.gov.dluhc.notificationsapi.dto.CommonTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.GenerateSignatureResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
@@ -19,9 +17,6 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
 
     @Autowired
     private lateinit var languageMapper: LanguageMapper
-
-    @Autowired
-    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Autowired
     private lateinit var deadlineMapper: DeadlineMapper
@@ -40,7 +35,6 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
 
     fun toSignatureResubmissionPersonalisation(
         personalisation: SignatureResubmissionPersonalisationDto,
-        commonTemplatePreviewDto: CommonTemplatePreviewDto,
     ): Map<String, Any> {
         val personalisationMap = mutableMapOf<String, Any>()
 
@@ -60,22 +54,6 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
         }
 
         return personalisationMap
-    }
-
-    fun toSignatureResubmissionTemplatePreviewDto(
-        request: GenerateSignatureResubmissionTemplatePreviewRequest,
-    ): GenerateSignatureResubmissionTemplatePreviewDto {
-        val language = request.language!!.let(languageMapper::fromApiToDto)
-
-        return with(request) {
-            GenerateSignatureResubmissionTemplatePreviewDto(
-                sourceType = sourceType.let(sourceTypeMapper::fromApiToDto),
-                channel = channel.let(communicationChannelMapper::fromApiToDto),
-                language = language,
-                notificationType = signatureResubmissionNotificationType(request),
-                personalisation = fromRequestToPersonalisationDto(this),
-            )
-        }
     }
 
     fun signatureResubmissionNotificationType(request: GenerateSignatureResubmissionTemplatePreviewRequest): NotificationType =
