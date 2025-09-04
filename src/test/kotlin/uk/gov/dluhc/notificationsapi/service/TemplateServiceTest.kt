@@ -39,6 +39,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateIdDoc
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRejectedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateRequestedSignatureTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildGenerateSignatureResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildIdDocumentRequiredPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNinoNotMatchedTemplatePreviewDto
@@ -52,6 +53,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSigna
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationMapFromDto
 import java.util.UUID
 
 @ExtendWith(MockitoExtension::class)
@@ -665,6 +667,42 @@ class TemplateServiceTest {
                 templatePersonalisationDtoMapper,
                 documentCategoryMapper,
             )
+        }
+    }
+
+    @Nested
+    inner class GenerateSignatureResubmissionTemplatePreview {
+        @ParameterizedTest
+        @EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY"])
+        fun `should return signature resubmission template preview`(
+            sourceType: SourceType,
+        ) {
+            // Given
+            val dto = buildGenerateSignatureResubmissionTemplatePreviewDto(sourceType = sourceType)
+            val templateId = "7fa64777-222f-45e9-937b-6236359b79df"
+            val personalisationMap = buildSignatureResubmissionPersonalisationMapFromDto(dto.personalisation)
+            val previewDto = NotifyTemplatePreviewDto(text = "body", subject = "subject", html = "<p>body</p>")
+            given(notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(any(), any(), any(), any()))
+                .willReturn(templateId)
+            given(templatePersonalisationDtoMapper.toSignatureResubmissionTemplatePersonalisationMap(dto.personalisation, dto.language))
+                .willReturn(personalisationMap)
+            given(govNotifyApiClient.generateTemplatePreview(any(), any())).willReturn(previewDto)
+
+            // When
+            val actual = templateService.generateSignatureResubmissionTemplatePreview(dto)
+
+            // Then
+            assertThat(actual).isEqualTo(previewDto)
+            verify(govNotifyApiClient).generateTemplatePreview(templateId, personalisationMap)
+            verify(notificationTemplateMapper)
+                .fromNotificationTypeForChannelInLanguage(
+                    dto.sourceType,
+                    dto.notificationType,
+                    dto.channel,
+                    dto.language,
+                )
+            verify(templatePersonalisationDtoMapper).toSignatureResubmissionTemplatePersonalisationMap(dto.personalisation, dto.language)
+            verifyNoMoreInteractions(govNotifyApiClient, notificationTemplateMapper, templatePersonalisationDtoMapper)
         }
     }
 }

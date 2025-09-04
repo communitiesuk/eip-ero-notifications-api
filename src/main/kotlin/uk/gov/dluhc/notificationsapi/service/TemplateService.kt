@@ -12,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplateP
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRejectedOverseasDocumentTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GenerateRequiredOverseasDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateSignatureResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
@@ -28,6 +29,8 @@ class TemplateService(
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
     private val notificationTemplateMapper: NotificationTemplateMapper,
     private val documentCategoryMapper: DocumentCategoryMapper,
+    private val commonTemplateService: CommonTemplateService,
+    private val signatureResubmissionPreviewDtoMapper: SignatureResubmissionTemplatePreviewDtoMapper,
 ) {
 
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
@@ -237,5 +240,20 @@ class TemplateService(
                 templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisation),
             )
         }
+    }
+
+    fun generateSignatureResubmissionTemplatePreview(request: GenerateSignatureResubmissionTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        val notificationTypeDto = signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)
+        val getPersonalisation = { commonTemplatePreviewDto: CommonTemplatePreviewDto ->
+            signatureResubmissionPreviewDtoMapper.toSignatureResubmissionPersonalisation(request, commonTemplatePreviewDto)
+        }
+
+        return commonTemplateService.generateTemplatePreview(
+            request.channel,
+            request.sourceType,
+            request.language,
+            notificationTypeDto,
+            getPersonalisation
+        )
     }
 }

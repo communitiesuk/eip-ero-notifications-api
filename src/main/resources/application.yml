@@ -75,6 +75,10 @@ api:
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
           not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_ENGLISH}
           not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_WELSH}
+          signature-resubmission-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_EMAIL_ENGLISH}
+          signature-resubmission-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_EMAIL_WELSH}
+          signature-resubmission-with-reasons-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_EMAIL_ENGLISH}
+          signature-resubmission-with-reasons-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_EMAIL_WELSH}
 
         letter:
           rejected-document-english: ${TEMPLATE_POSTAL_REJECTED_DOCUMENT_LETTER_ENGLISH}
@@ -93,6 +97,10 @@ api:
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
           not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_ENGLISH}
           not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_WELSH}
+          signature-resubmission-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_LETTER_ENGLISH}
+          signature-resubmission-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_LETTER_WELSH}
+          signature-resubmission-with-reasons-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_LETTER_ENGLISH}
+          signature-resubmission-with-reasons-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_LETTER_WELSH}
       proxy:
         email:
           received-english: ${TEMPLATE_PROXY_APPLICATION_RECEIVED_EMAIL_ENGLISH}
@@ -113,6 +121,10 @@ api:
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_EMAIL_WELSH}
           not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_ENGLISH}
           not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_EMAIL_WELSH}
+          signature-resubmission-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_EMAIL_ENGLISH}
+          signature-resubmission-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_EMAIL_WELSH}
+          signature-resubmission-with-reasons-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_EMAIL_ENGLISH}
+          signature-resubmission-with-reasons-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_EMAIL_WELSH}
 
         letter:
           rejected-document-english: ${TEMPLATE_PROXY_REJECTED_DOCUMENT_LETTER_ENGLISH}
@@ -131,6 +143,10 @@ api:
           bespoke-comm-welsh: ${TEMPLATE_BESPOKE_COMMUNICATION_LETTER_WELSH}
           not-registered-to-vote-english: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_ENGLISH}
           not-registered-to-vote-welsh: ${TEMPLATE_NOT_REGISTERED_TO_VOTE_LETTER_WELSH}
+          signature-resubmission-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_LETTER_ENGLISH}
+          signature-resubmission-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_LETTER_WELSH}
+          signature-resubmission-with-reasons-english: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_LETTER_ENGLISH}
+          signature-resubmission-with-reasons-welsh: ${TEMPLATE_SIGNATURE_RESUBMISSION_WITH_REASONS_LETTER_WELSH}
 
       overseas:
         email:

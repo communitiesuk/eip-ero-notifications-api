@@ -39,6 +39,9 @@ interface NotificationTypeMapper {
     // NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST is an implementation detail and not a "business" notification type
     // Therefore it should be saved to the database as NINO_NOT_MATCHED
     @ValueMapping(source = "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST", target = "NINO_NOT_MATCHED")
+    // SIGNATURE_RESUBMISSION_WITH_REASONS is an implementation detail and not a "business" notification type
+    // Therefore it should be saved to the database as SIGNATURE_RESUBMISSION
+    @ValueMapping(source = "SIGNATURE_RESUBMISSION_WITH_REASONS", target = "SIGNATURE_RESUBMISSION")
     fun toNotificationTypeEntity(notificationType: NotificationType): NotificationTypeEntity
 
     fun toNotificationTypeDto(notificationTypeEntity: NotificationTypeEntity): NotificationType
@@ -65,11 +68,13 @@ interface NotificationTypeMapper {
     )
     @ValueMapping(source = "BESPOKE_COMM", target = "BESPOKE_MINUS_COMM")
     @ValueMapping(source = "NOT_REGISTERED_TO_VOTE", target = "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE")
+    @ValueMapping(source = "SIGNATURE_RESUBMISSION", target = "SIGNATURE_MINUS_RESUBMISSION")
     // Mappings
     // - NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
     // - NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
     // - NotificationType.REJECTED_SIGNATURE_WITH_REASONS
     // - NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
+    // - NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
     // to the REST API (TemplateType) are not supported and will never happen because they are not saved as database
     // enums, so they will never be presented in this method call. MapStruct does not know this though, so makes us
     // handle the scenario
@@ -77,5 +82,6 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "ID_DOCUMENT_RESUBMISSION_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     @ValueMapping(source = "REJECTED_SIGNATURE_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     @ValueMapping(source = "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST", target = MappingConstants.THROW_EXCEPTION)
+    @ValueMapping(source = "SIGNATURE_RESUBMISSION_WITH_REASONS", target = MappingConstants.THROW_EXCEPTION)
     fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType
 }

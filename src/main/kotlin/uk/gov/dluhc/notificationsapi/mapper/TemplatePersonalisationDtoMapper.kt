@@ -18,6 +18,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 
 @Component
@@ -199,6 +200,30 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
+    fun toSignatureResubmissionTemplatePersonalisationMap(
+        dto: SignatureResubmissionPersonalisationDto,
+        language: LanguageDto,
+    ): Map<String, Any> {
+        val personalisation = mutableMapOf<String, Any>()
+
+        with(dto) {
+            personalisation["applicationReference"] = applicationReference
+            personalisation["firstName"] = firstName
+            personalisation["rejectionNotes"] = getSafeValue(rejectionNotes)
+            personalisation["rejectionReasons"] = rejectionReasons
+            personalisation["rejectionFreeText"] = getSafeValue(rejectionFreeText)
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapEroContactFields(this)
+                personalisation.putAll(this)
+            }
+            personalisation["sourceType"] = personalisationSourceTypeString
+            personalisation["deadline"] = getSafeValue(deadline)
+            personalisation["uploadSignatureLink"] = uploadSignatureLink
+        }
+
+        return personalisation
+    }
+
     fun toNotRegisteredToVoteTemplatePersonalisationMap(
         dto: NotRegisteredToVotePersonalisationDto,
         language: LanguageDto,
@@ -257,7 +282,7 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    private fun ContactDetailsDto.mapEroContactFields(personalisation: MutableMap<String, String>) {
+    fun ContactDetailsDto.mapEroContactFields(personalisation: MutableMap<String, String>) {
         personalisation["LAName"] = localAuthorityName
         personalisation["eroPhone"] = phone
         personalisation["eroWebsite"] = website
@@ -284,5 +309,5 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    private fun getSafeValue(input: String?): String = input ?: ""
+    fun getSafeValue(input: String?): String = input ?: ""
 }
