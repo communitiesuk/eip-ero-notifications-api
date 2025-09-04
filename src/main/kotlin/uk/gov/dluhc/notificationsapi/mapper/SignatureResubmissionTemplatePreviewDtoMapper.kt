@@ -12,7 +12,6 @@ import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.mapEroContactFields
 import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.SignatureResubmissionPersonalisation
-import uk.gov.dluhc.notificationsapi.models.SourceType
 import java.time.LocalDate
 
 @Component
@@ -40,33 +39,23 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
     protected lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
 
     fun toSignatureResubmissionPersonalisation(
-        request: GenerateSignatureResubmissionTemplatePreviewRequest,
+        personalisation: SignatureResubmissionPersonalisationDto,
         commonTemplatePreviewDto: CommonTemplatePreviewDto,
     ): Map<String, Any> {
         val personalisationMap = mutableMapOf<String, Any>()
 
-        val eroContactDetailsDto = request.personalisation.eroContactDetails.let(eroContactDetailsMapper::fromApiToDto)
-
-        with(request.personalisation) {
+        with(personalisation) {
             personalisationMap["applicationReference"] = applicationReference
             personalisationMap["firstName"] = firstName
-            personalisationMap["rejectionNotes"] = templatePersonalisationDtoMapper.getSafeValue(rejectionNotes?.ifBlank { null })
-            personalisationMap["rejectionReasons"] = mapSignatureRejectionReasons(commonTemplatePreviewDto.language, this)
-            personalisationMap["rejectionFreeText"] = templatePersonalisationDtoMapper.getSafeValue(rejectionFreeText?.ifBlank { null })
+            personalisationMap["rejectionNotes"] = templatePersonalisationDtoMapper.getSafeValue(rejectionNotes)
+            personalisationMap["rejectionReasons"] = rejectionReasons
+            personalisationMap["rejectionFreeText"] = templatePersonalisationDtoMapper.getSafeValue(rejectionFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetailsDto.mapEroContactFields(this)
+                eroContactDetails.mapEroContactFields(this)
                 personalisationMap.putAll(this)
             }
-            personalisationMap["sourceType"] = sourceTypeMapper.toSourceTypeString(request.sourceType, commonTemplatePreviewDto.language)
-
-            personalisationMap["deadline"] = templatePersonalisationDtoMapper.getSafeValue(
-                mapDeadline(
-                    deadlineDate,
-                    deadlineTime,
-                    commonTemplatePreviewDto.language,
-                    sourceTypeMapper.toFullSourceTypeString(request.sourceType, commonTemplatePreviewDto.language),
-                ),
-            )
+            personalisationMap["sourceType"] = personalisationSourceTypeString
+            personalisationMap["deadline"] = templatePersonalisationDtoMapper.getSafeValue(deadline)
             personalisationMap["uploadSignatureLink"] = uploadSignatureLink
         }
 
@@ -84,11 +73,7 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
                 channel = channel.let(communicationChannelMapper::fromApiToDto),
                 language = language,
                 notificationType = signatureResubmissionNotificationType(request),
-                personalisation = mapPersonalisation(
-                    languageDto = language,
-                    personalisation = personalisation,
-                    sourceType = sourceType,
-                ),
+                personalisation = fromRequestToPersonalisationDto(this),
             )
         }
     }
@@ -103,22 +88,24 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
             }
         }
 
-    fun mapPersonalisation(
-        languageDto: LanguageDto,
-        personalisation: SignatureResubmissionPersonalisation,
-        sourceType: SourceType,
-    ): SignatureResubmissionPersonalisationDto = with(personalisation) {
-        SignatureResubmissionPersonalisationDto(
-            applicationReference = applicationReference,
-            firstName = firstName,
-            eroContactDetails = eroContactDetails.let(eroContactDetailsMapper::fromApiToDto),
-            personalisationSourceTypeString = sourceTypeMapper.toSourceTypeString(sourceType, languageDto),
-            rejectionNotes = rejectionNotes?.ifBlank { null },
-            rejectionReasons = mapSignatureRejectionReasons(languageDto, this),
-            rejectionFreeText = rejectionFreeText?.ifBlank { null },
-            deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, sourceTypeMapper.toFullSourceTypeString(sourceType, languageDto)),
-            uploadSignatureLink = uploadSignatureLink,
-        )
+    fun fromRequestToPersonalisationDto(
+        request: GenerateSignatureResubmissionTemplatePreviewRequest,
+    ): SignatureResubmissionPersonalisationDto {
+        val languageDto = request.language?.let(languageMapper::fromApiToDto) ?: LanguageDto.ENGLISH
+
+        return with(request.personalisation) {
+            SignatureResubmissionPersonalisationDto(
+                applicationReference = applicationReference,
+                firstName = firstName,
+                eroContactDetails = eroContactDetails.let(eroContactDetailsMapper::fromApiToDto),
+                personalisationSourceTypeString = sourceTypeMapper.toSourceTypeString(request.sourceType, languageDto),
+                rejectionNotes = rejectionNotes?.ifBlank { null },
+                rejectionReasons = mapSignatureRejectionReasons(languageDto, this),
+                rejectionFreeText = rejectionFreeText?.ifBlank { null },
+                deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, sourceTypeMapper.toFullSourceTypeString(request.sourceType, languageDto)),
+                uploadSignatureLink = uploadSignatureLink,
+            )
+        }
     }
 
     fun mapSignatureRejectionReasons(
