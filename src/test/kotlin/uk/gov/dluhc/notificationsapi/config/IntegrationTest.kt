@@ -206,25 +206,25 @@ internal abstract class IntegrationTest {
     fun clearSqsQueues() {
         with(localStackContainerSettings) {
             CompletableFuture.allOf(
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyIdDocumentRequiredQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName),
-                clearSqsQueue(mappedQueueUrlRemoveApplicationNotificationsQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName),
-                clearSqsQueue(mappedQueueUrlSendUkGovNotifyRejectedSignatureQueueName),
-                clearSqsQueue(sendUkGovNotifyRequestedSignatureQueueName),
-                clearSqsQueue(sendUkGovNotifyRejectedSignatureQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyIdDocumentRequiredQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyApplicationReceivedQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyApplicationApprovedQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyApplicationRejectedMessageQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyRejectedDocumentMessageQueueName),
+                clearSqsQueueAsync(mappedQueueUrlRemoveApplicationNotificationsQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName),
+                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyRejectedSignatureQueueName),
+                clearSqsQueueAsync(sendUkGovNotifyRequestedSignatureQueueName),
+                clearSqsQueueAsync(sendUkGovNotifyRejectedSignatureQueueName),
             ).join()
         }
     }
 
-    fun clearSqsQueue(queueUrl: String): CompletableFuture<PurgeQueueResponse> =
+    fun clearSqsQueueAsync(queueUrl: String): CompletableFuture<PurgeQueueResponse> =
         amazonSQSAsync.purgeQueue(PurgeQueueRequest.builder().queueUrl(queueUrl).build())
 }
