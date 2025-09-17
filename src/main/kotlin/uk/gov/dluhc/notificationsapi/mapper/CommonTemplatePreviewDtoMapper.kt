@@ -27,11 +27,10 @@ class CommonTemplatePreviewDtoMapper {
         notificationTypeDto: NotificationType,
     ): CommonTemplatePreviewDto {
         return CommonTemplatePreviewDto(
-                sourceType = sourceType.let(sourceTypeMapper::fromApiToDto),
-                channel = channel.let(communicationChannelMapper::fromApiToDto),
-                language = language!!.let(languageMapper::fromApiToDto),
-                notificationType = notificationTypeDto,
-            )
-
+            sourceType = sourceType.let(sourceTypeMapper::fromApiToDto),
+            channel = channel.let(communicationChannelMapper::fromApiToDto),
+            language = language!!.let(languageMapper::fromApiToDto),
+            notificationType = notificationTypeDto,
+        )
     }
 }

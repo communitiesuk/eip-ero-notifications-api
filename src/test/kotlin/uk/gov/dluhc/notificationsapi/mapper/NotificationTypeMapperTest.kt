@@ -55,6 +55,8 @@ class NotificationTypeMapperTest {
             "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
             "NINO_NOT_MATCHED, NINO_NOT_MATCHED",
             "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST, NINO_NOT_MATCHED",
+            "SIGNATURE_RESUBMISSION, SIGNATURE_RESUBMISSION",
+            "SIGNATURE_RESUBMISSION_WITH_REASONS, SIGNATURE_RESUBMISSION",
         ],
     )
     fun `should map DTO Notification Type to Entity Notification Type`(
@@ -83,6 +85,7 @@ class NotificationTypeMapperTest {
             "REJECTED_SIGNATURE, REJECTED_SIGNATURE",
             "REQUESTED_SIGNATURE, REQUESTED_SIGNATURE",
             "NINO_NOT_MATCHED, NINO_NOT_MATCHED",
+            "SIGNATURE_RESUBMISSION, SIGNATURE_RESUBMISSION",
         ],
     )
     fun `should map Entity Notification Type to Dto Notification Type`(
@@ -114,6 +117,7 @@ class NotificationTypeMapperTest {
             "NINO_NOT_MATCHED, NINO_MINUS_NOT_MINUS_MATCHED",
             "REJECTED_PARENT_GUARDIAN, REJECTED_MINUS_PARENT_MINUS_GUARDIAN",
             "REJECTED_PREVIOUS_ADDRESS, REJECTED_MINUS_PREVIOUS_MINUS_ADDRESS",
+            "SIGNATURE_RESUBMISSION, SIGNATURE_MINUS_RESUBMISSION",
         ],
     )
     fun `should map Notification Type to Template Type`(notificationType: NotificationType, expected: TemplateType) {
@@ -134,6 +138,7 @@ class NotificationTypeMapperTest {
             "ID_DOCUMENT_RESUBMISSION_WITH_REASONS",
             "REJECTED_SIGNATURE_WITH_REASONS",
             "NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST",
+            "SIGNATURE_RESUBMISSION_WITH_REASONS",
         ],
     )
     fun `should not map Notification Type to Template Type given unsupported value`(unSupportedNotificationType: NotificationType) {

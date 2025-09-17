@@ -19,7 +19,6 @@ import uk.gov.dluhc.notificationsapi.mapper.RejectedOverseasDocumentTemplatePrev
 import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RequestedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RequiredOverseasDocumentTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationRejectedTemplatePreviewRequest

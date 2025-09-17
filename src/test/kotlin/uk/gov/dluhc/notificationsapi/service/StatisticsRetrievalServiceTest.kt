@@ -53,6 +53,12 @@ internal class StatisticsRetrievalServiceTest {
             buildNotificationSummaryDto(
                 type = NotificationType.PHOTO_RESUBMISSION,
             ),
+            buildNotificationSummaryDto(
+                type = NotificationType.SIGNATURE_RESUBMISSION,
+            ),
+            buildNotificationSummaryDto(
+                type = NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS,
+            ),
         )
     }
 
@@ -69,7 +75,7 @@ internal class StatisticsRetrievalServiceTest {
             given(sentNotificationsService.getNotificationsForApplication(testSourceReference, SourceType.POSTAL)).willReturn(notificationResponse)
             val expected = CommunicationsStatisticsResponse(
                 numNotRegisteredToVoteCommsSent = 1,
-                numSignatureRequestCommsSent = 3,
+                numSignatureRequestCommsSent = 5,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
                 numBespokeCommunicationsSent = 1,
@@ -88,7 +94,7 @@ internal class StatisticsRetrievalServiceTest {
             given(sentNotificationsService.getNotificationsForApplication(testSourceReference, SourceType.PROXY)).willReturn(notificationResponse)
             val expected = CommunicationsStatisticsResponse(
                 numNotRegisteredToVoteCommsSent = 1,
-                numSignatureRequestCommsSent = 3,
+                numSignatureRequestCommsSent = 5,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
                 numBespokeCommunicationsSent = 1,
@@ -150,6 +156,8 @@ internal class StatisticsRetrievalServiceTest {
                 NotificationType.REJECTED_SIGNATURE,
                 NotificationType.REQUESTED_SIGNATURE,
                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
+                NotificationType.SIGNATURE_RESUBMISSION,
+                NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS,
             )
 
             // When
