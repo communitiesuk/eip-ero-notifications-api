@@ -407,7 +407,7 @@ internal class NotificationTemplateMapperTest {
     ) {
         // Given
         val commonTemplatePreviewDto = buildCommonTemplatePreviewDto(
-            channel = CommunicationChannel.EMAIL,
+            channel = CommunicationChannel.LETTER,
             sourceType = sourceType,
             language = language,
             notificationType = notificationType,
