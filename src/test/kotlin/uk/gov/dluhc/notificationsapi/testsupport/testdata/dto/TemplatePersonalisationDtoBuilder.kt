@@ -547,6 +547,7 @@ fun buildSignatureResubmissionPersonalisationDto(
     freeText: String? = faker.yoda().quote(),
     uploadSignatureLink: String = faker.backToTheFuture().quote(),
     deadline: String? = "You must do this by 17:00 on 07 July 2024 or your postal vote application may be rejected",
+    signatureNotSuitableText: String? = "The signature you provided in your postal vote application is not suitable.",
 ): SignatureResubmissionPersonalisationDto = SignatureResubmissionPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
@@ -557,6 +558,7 @@ fun buildSignatureResubmissionPersonalisationDto(
     rejectionNotes = rejectionNotes,
     uploadSignatureLink = uploadSignatureLink,
     deadline = deadline,
+    signatureNotSuitableText = signatureNotSuitableText,
 )
 
 fun buildSignatureResubmissionPersonalisationMapFromDto(

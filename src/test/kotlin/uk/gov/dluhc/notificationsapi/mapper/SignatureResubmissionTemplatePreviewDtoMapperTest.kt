@@ -10,6 +10,8 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.Language
@@ -128,6 +130,7 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
                 freeText = rejectionFreeText,
                 deadline = deadlineString,
                 uploadSignatureLink = uploadSignatureLink,
+                signatureNotSuitableText = null,
             )
         }
 
@@ -136,5 +139,48 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
 
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = ["false,false,0", "true,false,1", "true,true,0"],
+    )
+    fun `should include signature not suitable text only if rejected without rejection reasons`(
+        isRejected: Boolean,
+        includeReasons: Boolean,
+        expectedMapperCalls: Int,
+    ) {
+        // Given
+        val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(
+            sourceType = SourceType.POSTAL,
+            language = Language.EN,
+            personalisation = buildSignatureResubmissionPersonalisation(
+                rejectionNotes = "Notes",
+                rejectionReasons = if (includeReasons) listOf(SignatureRejectionReason.WRONG_MINUS_SIZE, SignatureRejectionReason.HAS_MINUS_SHADOWS, SignatureRejectionReason.OTHER) else emptyList(),
+                rejectionFreeText = "Free Text",
+                deadlineDate = LocalDate.of(2024, 10, 1),
+                isRejected = isRejected,
+            ),
+        )
+        val sourceTypeString = "Source Type"
+        val eroContactDetailsDto = buildContactDetailsDto()
+        val deadlineString = "Deadline"
+
+        given(sourceTypeMapper.toSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn(sourceTypeString)
+        given(languageMapper.fromApiToDto(request.language!!)).willReturn(LanguageDto.ENGLISH)
+        with(request.personalisation) {
+            given(eroContactDetailsMapper.fromApiToDto(eroContactDetails)).willReturn(eroContactDetailsDto)
+            given(sourceTypeMapper.toSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn(sourceTypeString)
+            given(sourceTypeMapper.toFullSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn("Full String")
+            given(deadlineMapper.toDeadlineString(deadlineDate!!, deadlineTime, LanguageDto.ENGLISH, "Full String")).willReturn(deadlineString)
+        }
+        // When
+        mapper.fromRequestToPersonalisationDto(request)
+
+        // Then
+        verify(signatureRejectionReasonMapper, times(expectedMapperCalls)).toSignatureNotSuitableText(
+            sourceTypeString,
+            LanguageDto.ENGLISH,
+        )
     }
 }

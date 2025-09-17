@@ -2303,12 +2303,15 @@ components:
           format: date
         deadlineTime:
           type: string
+        isRejected:
+          type: boolean
         uploadSignatureLink:
           type: string
           description: The URL link to upload a new signature
           example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/signatures/398c1be2-7950-48a2-aca8-14cb9276a673'
       required:
         - uploadSignatureLink
+        - isRejected
     SignatureRejectionReason:
       title: SignatureRejectionReason
       description: Enum of reasons why a signature is rejected

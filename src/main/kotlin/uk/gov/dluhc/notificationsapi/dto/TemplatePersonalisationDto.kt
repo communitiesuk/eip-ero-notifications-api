@@ -52,6 +52,7 @@ class SignatureResubmissionPersonalisationDto(
     val rejectionReasons: List<String>,
     val rejectionFreeText: String?,
     val deadline: String?,
+    val signatureNotSuitableText: String?,
     val uploadSignatureLink: String,
 ) : BaseTemplatePersonalisationDto(
     applicationReference = applicationReference,

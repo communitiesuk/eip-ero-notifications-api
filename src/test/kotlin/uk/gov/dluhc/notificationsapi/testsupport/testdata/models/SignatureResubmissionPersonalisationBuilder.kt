@@ -21,6 +21,7 @@ fun buildSignatureResubmissionPersonalisation(
     uploadSignatureLink: String = "https://postal-vote.service.gov.uk/resubmit-signature?referenceNumber=A123456789",
     rejectionNotes: String? = "Signature rejected since cropping was poor.",
     rejectionFreeText: String? = "Please be more careful with the scan chosen",
+    isRejected: Boolean = true,
 ): SignatureResubmissionPersonalisation =
     SignatureResubmissionPersonalisation(
         applicationReference = applicationReference,
@@ -32,4 +33,5 @@ fun buildSignatureResubmissionPersonalisation(
         uploadSignatureLink = uploadSignatureLink,
         rejectionNotes = rejectionNotes,
         rejectionFreeText = rejectionFreeText,
+        isRejected = isRejected,
     )

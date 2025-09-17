@@ -70,18 +70,23 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
         request: GenerateSignatureResubmissionTemplatePreviewRequest,
     ): SignatureResubmissionPersonalisationDto {
         val languageDto = request.language?.let(languageMapper::fromApiToDto) ?: LanguageDto.ENGLISH
+        val sourceTypeString = sourceTypeMapper.toSourceTypeString(request.sourceType, languageDto)
+        val hasRejectionReasons = request.personalisation.rejectionReasonsExcludingOther.isNotEmpty()
+        // Template SIGNATURE_RESUBMISSION_WITH_REASONS is only for rejected signatures, and has this text as standard.
+        val includeSignatureNotSuitableText = request.personalisation.isRejected && !hasRejectionReasons
 
         return with(request.personalisation) {
             SignatureResubmissionPersonalisationDto(
                 applicationReference = applicationReference,
                 firstName = firstName,
                 eroContactDetails = eroContactDetails.let(eroContactDetailsMapper::fromApiToDto),
-                personalisationSourceTypeString = sourceTypeMapper.toSourceTypeString(request.sourceType, languageDto),
+                personalisationSourceTypeString = sourceTypeString,
                 rejectionNotes = rejectionNotes?.ifBlank { null },
                 rejectionReasons = mapSignatureRejectionReasons(languageDto, this),
                 rejectionFreeText = rejectionFreeText?.ifBlank { null },
                 deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, sourceTypeMapper.toFullSourceTypeString(request.sourceType, languageDto)),
                 uploadSignatureLink = uploadSignatureLink,
+                signatureNotSuitableText = mapSignatureNotSuitableText(sourceTypeString, includeSignatureNotSuitableText, languageDto),
             )
         }
     }
@@ -105,5 +110,16 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
         sourceTypeString: String,
     ): String? = deadlineDate?.let {
         deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, languageDto, sourceTypeString)
+    }
+
+    fun mapSignatureNotSuitableText(sourceType: String, includeText: Boolean, languageDto: LanguageDto): String? {
+        return if (includeText) {
+            signatureRejectionReasonMapper.toSignatureNotSuitableText(
+                sourceType,
+                languageDto,
+            )
+        } else {
+            null
+        }
     }
 }
