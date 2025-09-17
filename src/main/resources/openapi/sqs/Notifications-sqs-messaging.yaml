@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '2.0.9'
+  version: '2.0.10'
   description: |-
     Notifications SQS Message Types
     
@@ -148,6 +148,16 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/SendNotifyNotRegisteredToVoteMessage'
+      responses:
+        '204':
+          description: No response content.
+
+  '/send-uk-gov-notify-signature-resubmission-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifySignatureResubmissionMessage'
       responses:
         '204':
           description: No response content.
@@ -893,7 +903,7 @@ components:
     SendNotifyNotRegisteredToVoteMessage:
       title: SendNotifyNotRegisteredToVoteMessage
       type: object
-      description: SQS Mesage for sending GOV.UK Notify not registered to vote messages
+      description: SQS Message for sending GOV.UK Notify not registered to vote messages
       allOf:
         - $ref: '#/components/schemas/SendNotifyMessage'
       properties:
@@ -901,6 +911,42 @@ components:
           $ref: '#/components/schemas/CommunicationChannel'
         personalisation:
           $ref: '#/components/schemas/NotRegisteredToVotePersonalisation'
+      required:
+        - personalisation
+        - channel
+    SignatureResubmissionPersonalisation:
+      title: SignatureResubmissionPersonalisation
+      type: object
+      description: Personalisation details for a signature resubmission communication
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/RejectedSignature'
+      properties:
+        deadlineDate:
+          type: string
+          format: date
+        deadlineTime:
+          type: string
+        isRejected:
+          type: boolean
+        uploadSignatureLink:
+          type: string
+          description: The URL link to upload a new signature
+          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/signatures/398c1be2-7950-48a2-aca8-14cb9276a673'
+      required:
+        - uploadSignatureLink
+        - isRejected
+    SendNotifySignatureResubmissionMessage:
+      title: SendNotifySignatureResubmissionMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify signature resubmission messages
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        personalisation:
+          $ref: '#/components/schemas/SignatureResubmissionPersonalisation'
       required:
         - personalisation
         - channel
@@ -979,3 +1025,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifyNotRegisteredToVoteMessage'
+    SendNotifySignatureResubmissionMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifySignatureResubmissionMessage'
