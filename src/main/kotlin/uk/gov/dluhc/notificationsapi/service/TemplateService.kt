@@ -246,6 +246,7 @@ class TemplateService(
 
     fun generateSignatureResubmissionTemplatePreview(request: GenerateSignatureResubmissionTemplatePreviewRequest): GenerateTemplatePreviewResponse {
         val notificationTypeDto = signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)
+        // TODO EIP1-12988: Consider whether this intermediate step is required
         val personalisationDto = signatureResubmissionPreviewDtoMapper.fromRequestToPersonalisationDto(request)
         val getPersonalisation = { signatureResubmissionPreviewDtoMapper.toSignatureResubmissionPersonalisation(personalisationDto) }
 

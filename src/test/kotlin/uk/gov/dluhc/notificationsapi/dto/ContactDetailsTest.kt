@@ -51,7 +51,7 @@ internal class ContactDetailsTest {
         val personalisation = mutableMapOf<String, String>()
 
         // When
-        contactDetails.mapEroContactFields(personalisation)
+        contactDetails.mapToPersonalisation(personalisation)
 
         // Then
         assertThat(personalisation).isEqualTo(expected)
@@ -95,7 +95,7 @@ internal class ContactDetailsTest {
         val personalisation = mutableMapOf<String, String>()
 
         // When
-        contactDetails.mapEroContactFields(personalisation)
+        contactDetails.mapToPersonalisation(personalisation)
 
         // Then
         assertThat(personalisation).isEqualTo(expected)

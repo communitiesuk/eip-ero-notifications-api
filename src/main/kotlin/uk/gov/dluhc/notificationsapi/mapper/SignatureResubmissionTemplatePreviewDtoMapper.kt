@@ -7,7 +7,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.mapEroContactFields
+import uk.gov.dluhc.notificationsapi.dto.mapToPersonalisation
 import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.SignatureResubmissionPersonalisation
 import java.time.LocalDate
@@ -45,7 +45,7 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
             personalisationMap["rejectionReasons"] = rejectionReasons
             personalisationMap["rejectionFreeText"] = templatePersonalisationDtoMapper.getSafeValue(rejectionFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisationMap.putAll(this)
             }
             personalisationMap["sourceType"] = personalisationSourceTypeString

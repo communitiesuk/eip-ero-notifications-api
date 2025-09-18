@@ -17,7 +17,7 @@ data class AddressDto(
     val postcode: String,
 )
 
-fun ContactDetailsDto.mapEroContactFields(personalisation: MutableMap<String, String>) {
+fun ContactDetailsDto.mapToPersonalisation(personalisation: MutableMap<String, String>) {
     personalisation["LAName"] = localAuthorityName
     personalisation["eroPhone"] = phone
     personalisation["eroWebsite"] = website
