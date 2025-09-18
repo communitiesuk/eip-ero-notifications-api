@@ -213,7 +213,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["rejectionReasons"] = rejectionReasons
             personalisation["rejectionFreeText"] = getSafeValue(rejectionFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationSourceTypeString
