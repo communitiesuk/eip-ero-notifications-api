@@ -6,7 +6,6 @@ import uk.gov.dluhc.notificationsapi.dto.ApplicationReceivedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BaseTemplatePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.BespokeCommPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentRequiredPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
@@ -19,6 +18,7 @@ import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.dto.mapToPersonalisation
 
 @Component
 class TemplatePersonalisationDtoMapper {
@@ -57,7 +57,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["ninoFailFreeText"] = idDocumentRequiredFreeText
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
         }
@@ -72,7 +72,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationSourceTypeString
@@ -93,7 +93,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["rejectionReasonList"] = rejectionReasonList
             personalisation["rejectionReasonMessage"] = getSafeValue(rejectionReasonMessage)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
         }
@@ -109,7 +109,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["rejectedDocuments"] = documents
             personalisation["rejectionMessage"] = getSafeValue(rejectedDocumentFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationSourceTypeString
@@ -127,7 +127,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["rejectionReasons"] = rejectionReasons
             personalisation["rejectionFreeText"] = getSafeValue(rejectionFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationSourceTypeString
@@ -143,7 +143,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["freeText"] = getSafeValue(freeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationSourceTypeString
@@ -166,7 +166,7 @@ class TemplatePersonalisationDtoMapper {
                 personalisation["additionalNotes"] = getSafeValue(additionalNotes)
             }
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationSourceTypeString
@@ -187,7 +187,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["giveDetailsFreeText"] = details
             personalisation["explainFreeText"] = getSafeValue(whatToDo)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["an"] = personalisationFullSourceTypeString == "overseas vote"
@@ -216,7 +216,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["locality"] = getSafeValue(locality)
             personalisation["postcode"] = getSafeValue(postcode)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
             personalisation["sourceType"] = personalisationFullSourceTypeString
@@ -235,7 +235,7 @@ class TemplatePersonalisationDtoMapper {
             personalisation["rejectedDocuments"] = documents
             personalisation["rejectionMessage"] = getSafeValue(rejectedDocumentFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
         }
@@ -250,26 +250,11 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["freeText"] = getSafeValue(requiredDocumentFreeText)
             with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapEroContactFields(this)
+                eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)
             }
         }
         return personalisation
-    }
-
-    private fun ContactDetailsDto.mapEroContactFields(personalisation: MutableMap<String, String>) {
-        personalisation["LAName"] = localAuthorityName
-        personalisation["eroPhone"] = phone
-        personalisation["eroWebsite"] = website
-        personalisation["eroEmail"] = email
-        with(address) {
-            personalisation["eroAddressLine1"] = getSafeValue(property)
-            personalisation["eroAddressLine2"] = street
-            personalisation["eroAddressLine3"] = getSafeValue(town)
-            personalisation["eroAddressLine4"] = getSafeValue(area)
-            personalisation["eroAddressLine5"] = getSafeValue(locality)
-            personalisation["eroPostcode"] = postcode
-        }
     }
 
     private fun getBasicContactDetailsPersonalisationMap(dto: BaseTemplatePersonalisationDto): MutableMap<String, String> {
@@ -278,11 +263,11 @@ class TemplatePersonalisationDtoMapper {
             personalisation["applicationReference"] = applicationReference
             personalisation["firstName"] = firstName
             with(eroContactDetails) {
-                mapEroContactFields(personalisation)
+                mapToPersonalisation(personalisation)
             }
         }
         return personalisation
     }
 
-    private fun getSafeValue(input: String?): String = input ?: ""
+    fun getSafeValue(input: String?): String = input ?: ""
 }

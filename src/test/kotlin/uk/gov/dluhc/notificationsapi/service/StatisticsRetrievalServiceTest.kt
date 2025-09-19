@@ -8,9 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.SourceType
+import uk.gov.dluhc.notificationsapi.dto.StatisticsNotificationCategory
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildNotificationSummaryDto
@@ -53,6 +53,12 @@ internal class StatisticsRetrievalServiceTest {
             buildNotificationSummaryDto(
                 type = NotificationType.PHOTO_RESUBMISSION,
             ),
+            buildNotificationSummaryDto(
+                type = NotificationType.SIGNATURE_RESUBMISSION,
+            ),
+            buildNotificationSummaryDto(
+                type = NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS,
+            ),
         )
     }
 
@@ -69,7 +75,7 @@ internal class StatisticsRetrievalServiceTest {
             given(sentNotificationsService.getNotificationsForApplication(testSourceReference, SourceType.POSTAL)).willReturn(notificationResponse)
             val expected = CommunicationsStatisticsResponse(
                 numNotRegisteredToVoteCommsSent = 1,
-                numSignatureRequestCommsSent = 3,
+                numSignatureRequestCommsSent = 5,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
                 numBespokeCommunicationsSent = 1,
@@ -88,7 +94,7 @@ internal class StatisticsRetrievalServiceTest {
             given(sentNotificationsService.getNotificationsForApplication(testSourceReference, SourceType.PROXY)).willReturn(notificationResponse)
             val expected = CommunicationsStatisticsResponse(
                 numNotRegisteredToVoteCommsSent = 1,
-                numSignatureRequestCommsSent = 3,
+                numSignatureRequestCommsSent = 5,
                 numPhotoRequestCommsSent = 0,
                 numIdentityDocumentRequestCommsSent = 3,
                 numBespokeCommunicationsSent = 1,
@@ -150,10 +156,12 @@ internal class StatisticsRetrievalServiceTest {
                 NotificationType.REJECTED_SIGNATURE,
                 NotificationType.REQUESTED_SIGNATURE,
                 NotificationType.REJECTED_SIGNATURE_WITH_REASONS,
+                NotificationType.SIGNATURE_RESUBMISSION,
+                NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS,
             )
 
             // When
-            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(NotificationCategory.SIGNATURE_REQUESTED, notificationResponse)
+            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(StatisticsNotificationCategory.SIGNATURE_REQUESTED, notificationResponse)
 
             // Then
             returnedNotifications.forEach { notification ->
@@ -171,7 +179,7 @@ internal class StatisticsRetrievalServiceTest {
             )
 
             // When
-            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(NotificationCategory.IDENTITY_DOCUMENTS_REQUESTED, notificationResponse)
+            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(StatisticsNotificationCategory.IDENTITY_DOCUMENTS_REQUESTED, notificationResponse)
 
             // Then
             returnedNotifications.forEach { notification ->
@@ -187,7 +195,7 @@ internal class StatisticsRetrievalServiceTest {
             )
 
             // When
-            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(NotificationCategory.BESPOKE_COMMUNICATION_SENT, notificationResponse)
+            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(StatisticsNotificationCategory.BESPOKE_COMMUNICATION_SENT, notificationResponse)
 
             // Then
             returnedNotifications.forEach { notification ->
@@ -203,7 +211,7 @@ internal class StatisticsRetrievalServiceTest {
             )
 
             // When
-            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(NotificationCategory.NOT_REGISTERED_TO_VOTE_COMMUNICATION, notificationResponse)
+            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(StatisticsNotificationCategory.NOT_REGISTERED_TO_VOTE_COMMUNICATION, notificationResponse)
 
             // Then
             returnedNotifications.forEach { notification ->
@@ -219,7 +227,7 @@ internal class StatisticsRetrievalServiceTest {
             )
 
             // When
-            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(NotificationCategory.PHOTO_REQUESTED, notificationResponse)
+            val returnedNotifications = statisticsRetrievalService.getNotificationsForStatistic(StatisticsNotificationCategory.PHOTO_REQUESTED, notificationResponse)
 
             // Then
             returnedNotifications.forEach { notification ->

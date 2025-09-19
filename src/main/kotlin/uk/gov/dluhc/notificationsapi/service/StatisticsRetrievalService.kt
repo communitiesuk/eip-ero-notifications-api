@@ -1,15 +1,15 @@
 package uk.gov.dluhc.notificationsapi.service
 
 import org.springframework.stereotype.Service
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.BESPOKE_COMMUNICATION_SENT
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.IDENTITY_DOCUMENTS_REQUESTED
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.NOT_REGISTERED_TO_VOTE_COMMUNICATION
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.PHOTO_REQUESTED
-import uk.gov.dluhc.notificationsapi.dto.NotificationCategory.SIGNATURE_REQUESTED
 import uk.gov.dluhc.notificationsapi.dto.NotificationSummaryDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
-import uk.gov.dluhc.notificationsapi.dto.notificationCategories
+import uk.gov.dluhc.notificationsapi.dto.StatisticsNotificationCategory
+import uk.gov.dluhc.notificationsapi.dto.StatisticsNotificationCategory.BESPOKE_COMMUNICATION_SENT
+import uk.gov.dluhc.notificationsapi.dto.StatisticsNotificationCategory.IDENTITY_DOCUMENTS_REQUESTED
+import uk.gov.dluhc.notificationsapi.dto.StatisticsNotificationCategory.NOT_REGISTERED_TO_VOTE_COMMUNICATION
+import uk.gov.dluhc.notificationsapi.dto.StatisticsNotificationCategory.PHOTO_REQUESTED
+import uk.gov.dluhc.notificationsapi.dto.StatisticsNotificationCategory.SIGNATURE_REQUESTED
+import uk.gov.dluhc.notificationsapi.dto.statisticsNotificationCategories
 import uk.gov.dluhc.notificationsapi.models.CommunicationsStatisticsResponse
 
 @Service
@@ -39,10 +39,10 @@ class StatisticsRetrievalService(private val sentNotificationsService: SentNotif
     }
 
     fun getNotificationsForStatistic(
-        notificationCategory: NotificationCategory,
+        statisticsNotificationCategory: StatisticsNotificationCategory,
         notifications: List<NotificationSummaryDto>,
-    ) = notifications.filter { it.type in notificationCategories[notificationCategory]!! }
+    ) = notifications.filter { it.type in statisticsNotificationCategories[statisticsNotificationCategory]!! }
 
-    private fun getNumberOfNotificationsForCategory(service: SourceType, notificationCategory: NotificationCategory, notifications: List<NotificationSummaryDto>): Int =
-        if (statisticsPerService[service]?.contains(notificationCategory) == true) getNotificationsForStatistic(notificationCategory, notifications).size else 0
+    private fun getNumberOfNotificationsForCategory(service: SourceType, statisticsNotificationCategory: StatisticsNotificationCategory, notifications: List<NotificationSummaryDto>): Int =
+        if (statisticsPerService[service]?.contains(statisticsNotificationCategory) == true) getNotificationsForStatistic(statisticsNotificationCategory, notifications).size else 0
 }

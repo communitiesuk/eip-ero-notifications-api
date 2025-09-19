@@ -20,7 +20,10 @@ import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
+import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 
 @Service
 class TemplateService(
@@ -28,6 +31,8 @@ class TemplateService(
     private val templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper,
     private val notificationTemplateMapper: NotificationTemplateMapper,
     private val documentCategoryMapper: DocumentCategoryMapper,
+    private val commonTemplateService: CommonTemplateService,
+    private val signatureResubmissionPreviewDtoMapper: SignatureResubmissionTemplatePreviewDtoMapper,
 ) {
 
     fun generatePhotoResubmissionTemplatePreview(request: GeneratePhotoResubmissionTemplatePreviewDto): NotifyTemplatePreviewDto {
@@ -237,5 +242,20 @@ class TemplateService(
                 templatePersonalisationDtoMapper.toRequiredOverseasDocumentTemplatePersonalisationMap(personalisation),
             )
         }
+    }
+
+    fun generateSignatureResubmissionTemplatePreview(request: GenerateSignatureResubmissionTemplatePreviewRequest): GenerateTemplatePreviewResponse {
+        val notificationTypeDto = signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)
+        // TODO EIP1-12988: Consider whether this intermediate step is required
+        val personalisationDto = signatureResubmissionPreviewDtoMapper.fromRequestToPersonalisationDto(request)
+        val getPersonalisation = { signatureResubmissionPreviewDtoMapper.toSignatureResubmissionPersonalisation(personalisationDto) }
+
+        return commonTemplateService.generateTemplatePreview(
+            request.channel,
+            request.sourceType,
+            request.language,
+            notificationTypeDto,
+            getPersonalisation,
+        )
     }
 }

@@ -11,6 +11,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
@@ -22,11 +23,13 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedTemplatePreviewDto
@@ -52,7 +55,10 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSigna
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildGenerateSignatureResubmissionTemplatePreviewRequest
 import java.util.UUID
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
 
 @ExtendWith(MockitoExtension::class)
 class TemplateServiceTest {
@@ -67,6 +73,12 @@ class TemplateServiceTest {
 
     @Mock
     private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
+
+    @Mock
+    private lateinit var signatureResubmissionPreviewDtoMapper: SignatureResubmissionTemplatePreviewDtoMapper
+
+    @Mock
+    private lateinit var commonTemplateService: CommonTemplateService
 
     @Mock
     private lateinit var documentCategoryMapper: DocumentCategoryMapper
@@ -664,6 +676,36 @@ class TemplateServiceTest {
                 notificationTemplateMapper,
                 templatePersonalisationDtoMapper,
                 documentCategoryMapper,
+            )
+        }
+    }
+
+    @Nested
+    inner class GenerateSignatureResubmissionTemplatePreview {
+        @ParameterizedTest
+        @EnumSource(value = SourceTypeApi::class, names = ["POSTAL", "PROXY"])
+        fun `should return signature resubmission template preview`(
+            sourceType: SourceTypeApi,
+        ) {
+            // Given
+            val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(sourceType = sourceType)
+            val personalisationDto = buildSignatureResubmissionPersonalisationDto()
+
+            given(signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)).willReturn(SIGNATURE_RESUBMISSION)
+            given(signatureResubmissionPreviewDtoMapper.fromRequestToPersonalisationDto(request)).willReturn(personalisationDto)
+
+            // When
+            templateService.generateSignatureResubmissionTemplatePreview(request)
+
+            // Then
+            verify(signatureResubmissionPreviewDtoMapper).signatureResubmissionNotificationType(request)
+            verify(signatureResubmissionPreviewDtoMapper).fromRequestToPersonalisationDto(request)
+            verify(commonTemplateService).generateTemplatePreview(
+                eq(request.channel),
+                eq(request.sourceType),
+                eq(request.language),
+                eq(SIGNATURE_RESUBMISSION),
+                any(),
             )
         }
     }
