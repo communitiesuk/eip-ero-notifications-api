@@ -118,8 +118,8 @@ class RejectedSignatureReasonMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "ENGLISH,The signature you provided in your text vote application is not suitable.",
-            "WELSH,Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am bleidlais text yn addas.",
+            "ENGLISH,The signature you provided in your text application is not suitable.",
+            "WELSH,Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am text yn addas.",
         ],
     )
     fun `should map source type to human readable messages`(

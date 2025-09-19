@@ -541,7 +541,8 @@ fun buildSignatureResubmissionPersonalisationDto(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
-    sourceType: String = "postal vote",
+    shortSourceType: String = "post",
+    fullSourceType: String = "postal vote",
     rejectionNotes: String? = faker.harryPotter().quote(),
     rejectionReasons: List<String> = listOf(faker.theItCrowd().quotes()),
     freeText: String? = faker.yoda().quote(),
@@ -552,7 +553,8 @@ fun buildSignatureResubmissionPersonalisationDto(
     firstName = firstName,
     eroContactDetails = eroContactDetails,
     applicationReference = applicationReference,
-    personalisationSourceTypeString = sourceType,
+    fullSourceTypeString = fullSourceType,
+    shortSourceTypeString = shortSourceType,
     rejectionFreeText = freeText,
     rejectionReasons = rejectionReasons,
     rejectionNotes = rejectionNotes,
@@ -571,8 +573,10 @@ fun buildSignatureResubmissionPersonalisationMapFromDto(
         personalisationMap["rejectionReasons"] = rejectionReasons
         personalisationMap["rejectionFreeText"] = rejectionFreeText ?: ""
         personalisationMap["deadline"] = deadline ?: ""
-        personalisationMap["sourceType"] = personalisationSourceTypeString
+        personalisationMap["fullSourceType"] = fullSourceTypeString
+        personalisationMap["shortSourceType"] = shortSourceTypeString
         personalisationMap["uploadSignatureLink"] = uploadSignatureLink
+        personalisationMap["signatureNotSuitableText"] = signatureNotSuitableText ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
 

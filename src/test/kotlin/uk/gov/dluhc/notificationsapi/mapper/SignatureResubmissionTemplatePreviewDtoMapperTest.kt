@@ -55,6 +55,7 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
             rejectionNotes = null,
             freeText = null,
             deadline = null,
+            signatureNotSuitableText = null,
         )
 
         given(templatePersonalisationDtoMapper.getSafeValue(null)).willReturn("")
@@ -104,7 +105,6 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
         )
 
         val eroContactDetailsDto = buildContactDetailsDto()
-        val sourceTypeString = "Source Type"
         val wrongSizeText = "Wrong Size"
         val hasShadowsText = "Has Shadows"
         val deadlineString = "Deadline"
@@ -112,7 +112,7 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
         given(languageMapper.fromApiToDto(request.language!!)).willReturn(LanguageDto.ENGLISH)
         with(request.personalisation) {
             given(eroContactDetailsMapper.fromApiToDto(eroContactDetails)).willReturn(eroContactDetailsDto)
-            given(sourceTypeMapper.toSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn(sourceTypeString)
+            given(sourceTypeMapper.toShortSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn("Short String")
             given(sourceTypeMapper.toFullSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn("Full String")
             given(deadlineMapper.toDeadlineString(deadlineDate!!, deadlineTime, LanguageDto.ENGLISH, "Full String")).willReturn(deadlineString)
         }
@@ -124,7 +124,8 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
                 applicationReference = applicationReference,
                 firstName = firstName,
                 eroContactDetails = eroContactDetailsDto,
-                sourceType = sourceTypeString,
+                shortSourceType = "Short String",
+                fullSourceType = "Full String",
                 rejectionNotes = rejectionNotes,
                 rejectionReasons = listOf(wrongSizeText, hasShadowsText),
                 freeText = rejectionFreeText,
@@ -162,15 +163,13 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
                 isRejected = isRejected,
             ),
         )
-        val sourceTypeString = "Source Type"
         val eroContactDetailsDto = buildContactDetailsDto()
         val deadlineString = "Deadline"
 
-        given(sourceTypeMapper.toSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn(sourceTypeString)
         given(languageMapper.fromApiToDto(request.language!!)).willReturn(LanguageDto.ENGLISH)
         with(request.personalisation) {
             given(eroContactDetailsMapper.fromApiToDto(eroContactDetails)).willReturn(eroContactDetailsDto)
-            given(sourceTypeMapper.toSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn(sourceTypeString)
+            given(sourceTypeMapper.toShortSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn("Short String")
             given(sourceTypeMapper.toFullSourceTypeString(request.sourceType, LanguageDto.ENGLISH)).willReturn("Full String")
             given(deadlineMapper.toDeadlineString(deadlineDate!!, deadlineTime, LanguageDto.ENGLISH, "Full String")).willReturn(deadlineString)
         }
@@ -179,7 +178,7 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
 
         // Then
         verify(signatureRejectionReasonMapper, times(expectedMapperCalls)).toSignatureNotSuitableText(
-            sourceTypeString,
+            "Full String",
             LanguageDto.ENGLISH,
         )
     }

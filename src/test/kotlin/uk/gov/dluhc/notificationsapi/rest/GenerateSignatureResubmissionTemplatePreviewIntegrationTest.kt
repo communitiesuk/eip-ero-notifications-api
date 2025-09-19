@@ -202,22 +202,38 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
     @ParameterizedTest
     @CsvSource(
         value = [
-            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,postal",
-            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,postal",
-            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,drwy'r post",
-            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,drwy'r post",
-            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,proxy",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,proxy",
-            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,drwy ddirprwy",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,drwy ddirprwy",
-            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,postal",
-            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,postal",
-            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy'r post",
-            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy'r post",
-            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,proxy",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,proxy",
-            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy",
-            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,drwy ddirprwy",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,false,post,postal vote",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,false,post,postal vote",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,false,drwy'r post,bleidlais bost",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,false,drwy'r post,bleidlais bost",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,false,proxy,proxy vote",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,false,false,proxy,proxy vote",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,false,drwy ddirprwy,bleidlais drwy ddirprwy",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,false,false,drwy ddirprwy,bleidlais drwy ddirprwy",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,false,true,post,postal vote",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,false,true,post,postal vote",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,false,true,drwy'r post,bleidlais bost",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,false,true,drwy'r post,bleidlais bost",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,false,true,proxy,proxy vote",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,false,true,proxy,proxy vote",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,false,true,drwy ddirprwy,bleidlais drwy ddirprwy",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,false,true,drwy ddirprwy,bleidlais drwy ddirprwy",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,true,false,post,postal vote",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,true,false,post,postal vote",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,true,false,drwy'r post,bleidlais bost",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,true,false,drwy'r post,bleidlais bost",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,true,false,proxy,proxy vote",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_ENGLISH_TEMPLATE_ID,EN,true,false,proxy,proxy vote",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WELSH_TEMPLATE_ID,CY,true,false,drwy ddirprwy,bleidlais drwy ddirprwy",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WELSH_TEMPLATE_ID,CY,true,false,drwy ddirprwy,bleidlais drwy ddirprwy",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,true,post,postal vote",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,true,post,postal vote",
+            "POSTAL, EMAIL,$POSTAL_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,true,drwy'r post,bleidlais bost",
+            "POSTAL, LETTER,$POSTAL_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,true,drwy'r post,bleidlais bost",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,true,proxy,proxy vote",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_ENGLISH_TEMPLATE_ID,EN,true,true,proxy,proxy vote",
+            "PROXY, EMAIL,$PROXY_EMAIL_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,true,drwy ddirprwy,bleidlais drwy ddirprwy",
+            "PROXY, LETTER,$PROXY_LETTER_SIGNATURE_WITH_REASONS_WELSH_TEMPLATE_ID,CY,true,true,drwy ddirprwy,bleidlais drwy ddirprwy",
         ],
     )
     fun `should return template preview given valid request`(
@@ -225,8 +241,10 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
         communicationChannel: CommunicationChannel,
         templateId: String,
         language: Language,
+        isRejected: Boolean,
         withReasons: Boolean,
-        expectedPersonalisationSourceType: String,
+        expectedShortSourceType: String,
+        expectedFullSourceType: String,
     ) {
         // Given
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
@@ -239,6 +257,7 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
                 rejectionReasons = if (withReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
                 rejectionNotes = if (withReasons) "Invalid" else null,
                 rejectionFreeText = "Free Text",
+                isRejected = isRejected,
             ),
         )
 
@@ -257,6 +276,9 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
         val expectedResponse = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse)
         val expectedRejectionReasons = if (language == Language.EN) listOf("The image has some of it cut off") else listOf("Mae darn o'r llun wedi'i dorri i ffwrdd")
+        val shouldShowText = isRejected && !withReasons
+        val sourceTypeText = getSourceTypeText(language, sourceType)
+        val expectedNotSuitableText = if (language == Language.EN) "The signature you provided in your $sourceTypeText application is not suitable." else "Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am $sourceTypeText yn addas."
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mutableMapOf(
                 "applicationReference" to applicationReference,
@@ -274,12 +296,30 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
                 "eroAddressLine4" to eroContactDetails.address.area!!,
                 "eroAddressLine5" to eroContactDetails.address.locality!!,
                 "eroPostcode" to eroContactDetails.address.postcode,
-                "sourceType" to expectedPersonalisationSourceType,
+                "fullSourceType" to expectedFullSourceType,
+                "shortSourceType" to expectedShortSourceType,
                 "uploadSignatureLink" to uploadSignatureLink,
+                "signatureNotSuitableText" to if (shouldShowText) expectedNotSuitableText else "",
                 "deadline" to "",
             )
         }
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
+    }
+
+    private fun getSourceTypeText(language: Language, sourceType: SourceType): String {
+        return if (language == Language.EN) {
+            if (sourceType == SourceType.POSTAL) {
+                "postal vote"
+            } else {
+                "proxy vote"
+            }
+        } else {
+            if (sourceType == SourceType.POSTAL) {
+                "bleidlais bost"
+            } else {
+                "bleidlais drwy ddirprwy"
+            }
+        }
     }
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =

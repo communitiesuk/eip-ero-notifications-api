@@ -48,9 +48,11 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
                 eroContactDetails.mapToPersonalisation(this)
                 personalisationMap.putAll(this)
             }
-            personalisationMap["sourceType"] = personalisationSourceTypeString
+            personalisationMap["fullSourceType"] = fullSourceTypeString
+            personalisationMap["shortSourceType"] = shortSourceTypeString
             personalisationMap["deadline"] = templatePersonalisationDtoMapper.getSafeValue(deadline)
             personalisationMap["uploadSignatureLink"] = uploadSignatureLink
+            personalisationMap["signatureNotSuitableText"] = templatePersonalisationDtoMapper.getSafeValue(signatureNotSuitableText)
         }
 
         return personalisationMap
@@ -70,7 +72,8 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
         request: GenerateSignatureResubmissionTemplatePreviewRequest,
     ): SignatureResubmissionPersonalisationDto {
         val languageDto = request.language?.let(languageMapper::fromApiToDto) ?: LanguageDto.ENGLISH
-        val sourceTypeString = sourceTypeMapper.toSourceTypeString(request.sourceType, languageDto)
+        val shortSourceTypeString = sourceTypeMapper.toShortSourceTypeString(request.sourceType, languageDto)
+        val fullSourceTypeString = sourceTypeMapper.toFullSourceTypeString(request.sourceType, languageDto)
         val hasRejectionReasons = request.personalisation.rejectionReasonsExcludingOther.isNotEmpty()
         // Template SIGNATURE_RESUBMISSION_WITH_REASONS is only for rejected signatures, and has this text as standard.
         val includeSignatureNotSuitableText = request.personalisation.isRejected && !hasRejectionReasons
@@ -80,13 +83,14 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
                 applicationReference = applicationReference,
                 firstName = firstName,
                 eroContactDetails = eroContactDetails.let(eroContactDetailsMapper::fromApiToDto),
-                personalisationSourceTypeString = sourceTypeString,
+                shortSourceTypeString = shortSourceTypeString,
+                fullSourceTypeString = fullSourceTypeString,
                 rejectionNotes = rejectionNotes?.ifBlank { null },
                 rejectionReasons = mapSignatureRejectionReasons(languageDto, this),
                 rejectionFreeText = rejectionFreeText?.ifBlank { null },
-                deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, sourceTypeMapper.toFullSourceTypeString(request.sourceType, languageDto)),
+                deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, fullSourceTypeString),
                 uploadSignatureLink = uploadSignatureLink,
-                signatureNotSuitableText = mapSignatureNotSuitableText(sourceTypeString, includeSignatureNotSuitableText, languageDto),
+                signatureNotSuitableText = mapSignatureNotSuitableText(fullSourceTypeString, includeSignatureNotSuitableText, languageDto),
             )
         }
     }
