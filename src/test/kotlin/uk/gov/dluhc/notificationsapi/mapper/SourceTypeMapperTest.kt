@@ -277,7 +277,7 @@ class SourceTypeMapperTest {
         // Given
 
         // When
-        val actual = mapper.toFullSourceTypeString(sourceType, LanguageDto.WELSH)
+        val actual = mapper.toShortSourceTypeString(sourceType, LanguageDto.WELSH)
 
         // Then
         assertThat(actual).isEqualTo(expected)
