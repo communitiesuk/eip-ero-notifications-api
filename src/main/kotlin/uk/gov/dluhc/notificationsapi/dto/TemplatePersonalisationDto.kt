@@ -43,6 +43,24 @@ class PhotoPersonalisationDto(
     eroContactDetails = eroContactDetails,
 )
 
+class SignatureResubmissionPersonalisationDto(
+    applicationReference: String,
+    firstName: String,
+    eroContactDetails: ContactDetailsDto,
+    val shortSourceTypeString: String,
+    val fullSourceTypeString: String,
+    val rejectionNotes: String?,
+    val rejectionReasons: List<String>,
+    val rejectionFreeText: String?,
+    val deadline: String?,
+    val signatureNotSuitableText: String?,
+    val uploadSignatureLink: String,
+) : BaseTemplatePersonalisationDto(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)
+
 class ApplicationApprovedPersonalisationDto(
     applicationReference: String,
     firstName: String,

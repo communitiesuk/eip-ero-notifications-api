@@ -3,10 +3,12 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.dto
 import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.GenerateIdDocumentResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.GeneratePhotoResubmissionTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.dto.GenerateSignatureResubmissionTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.IdDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 
 fun buildGeneratePhotoResubmissionTemplatePreviewDto(
@@ -38,3 +40,17 @@ fun buildGenerateIdDocumentResubmissionTemplatePreviewDto(
         sourceType = sourceType,
         notificationType = notificationType,
     )
+
+fun buildSignatureResubmissionTemplatePreviewDto(
+    sourceType: SourceType,
+    channel: CommunicationChannel = CommunicationChannel.EMAIL,
+    languageDto: LanguageDto = LanguageDto.ENGLISH,
+    notificationType: NotificationType = NotificationType.SIGNATURE_RESUBMISSION,
+    personalisation: SignatureResubmissionPersonalisationDto = buildSignatureResubmissionPersonalisationDto(),
+): GenerateSignatureResubmissionTemplatePreviewDto = GenerateSignatureResubmissionTemplatePreviewDto(
+    sourceType = sourceType,
+    channel = channel,
+    language = languageDto,
+    notificationType = notificationType,
+    personalisation = personalisation,
+)

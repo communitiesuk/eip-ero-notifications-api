@@ -33,6 +33,7 @@ import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemp
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequiredOverseasDocumentTemplatePreviewRequest
+import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.service.TemplateService
 
@@ -256,5 +257,13 @@ class TemplateController(
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)
         }
+    }
+
+    @PostMapping("/templates/signature-resubmission/preview")
+    fun generateSignatureResubmissionDocumentTemplatePreview(
+        @Valid @RequestBody
+        request: GenerateSignatureResubmissionTemplatePreviewRequest,
+    ): GenerateTemplatePreviewResponse {
+        return templateService.generateSignatureResubmissionTemplatePreview(request)
     }
 }

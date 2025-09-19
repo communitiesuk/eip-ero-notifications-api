@@ -16,6 +16,7 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
@@ -530,6 +531,52 @@ fun buildNotRegisteredToVotePersonalisationMapFromDto(
         personalisationMap["postcode"] = postcode ?: ""
         personalisationMap["deadline"] = deadline ?: ""
         personalisationMap["sourceType"] = personalisationFullSourceTypeString
+        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
+    }
+
+    return personalisationMap
+}
+
+fun buildSignatureResubmissionPersonalisationDto(
+    applicationReference: String = aValidApplicationReference(),
+    firstName: String = faker.name().firstName(),
+    eroContactDetails: ContactDetailsDto = buildContactDetailsDto(),
+    shortSourceType: String = "post",
+    fullSourceType: String = "postal vote",
+    rejectionNotes: String? = faker.harryPotter().quote(),
+    rejectionReasons: List<String> = listOf(faker.theItCrowd().quotes()),
+    freeText: String? = faker.yoda().quote(),
+    uploadSignatureLink: String = faker.backToTheFuture().quote(),
+    deadline: String? = "You must do this by 17:00 on 07 July 2024 or your postal vote application may be rejected",
+    signatureNotSuitableText: String? = "The signature you provided in your postal vote application is not suitable.",
+): SignatureResubmissionPersonalisationDto = SignatureResubmissionPersonalisationDto(
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+    applicationReference = applicationReference,
+    fullSourceTypeString = fullSourceType,
+    shortSourceTypeString = shortSourceType,
+    rejectionFreeText = freeText,
+    rejectionReasons = rejectionReasons,
+    rejectionNotes = rejectionNotes,
+    uploadSignatureLink = uploadSignatureLink,
+    deadline = deadline,
+    signatureNotSuitableText = signatureNotSuitableText,
+)
+
+fun buildSignatureResubmissionPersonalisationMapFromDto(
+    personalisationDto: SignatureResubmissionPersonalisationDto = buildSignatureResubmissionPersonalisationDto(),
+): Map<String, Any> {
+    val personalisationMap = mutableMapOf<String, Any>()
+
+    with(personalisationDto) {
+        personalisationMap["rejectionNotes"] = rejectionNotes ?: ""
+        personalisationMap["rejectionReasons"] = rejectionReasons
+        personalisationMap["rejectionFreeText"] = rejectionFreeText ?: ""
+        personalisationMap["deadline"] = deadline ?: ""
+        personalisationMap["fullSourceType"] = fullSourceTypeString
+        personalisationMap["shortSourceType"] = shortSourceTypeString
+        personalisationMap["uploadSignatureLink"] = uploadSignatureLink
+        personalisationMap["signatureNotSuitableText"] = signatureNotSuitableText ?: ""
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
 

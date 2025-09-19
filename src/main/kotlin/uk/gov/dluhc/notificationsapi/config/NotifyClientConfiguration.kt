@@ -80,7 +80,10 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val bespokeCommWelsh: String?,
     val notRegisteredToVoteEnglish: String?,
     val notRegisteredToVoteWelsh: String?,
-
+    val signatureResubmissionEnglish: String?,
+    val signatureResubmissionWelsh: String?,
+    val signatureResubmissionWithReasonsEnglish: String?,
+    val signatureResubmissionWithReasonsWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.email", ignoreUnknownFields = false)
@@ -104,6 +107,10 @@ class PostalNotifyEmailTemplateConfiguration(
     bespokeCommWelsh: String,
     notRegisteredToVoteEnglish: String,
     notRegisteredToVoteWelsh: String,
+    signatureResubmissionEnglish: String,
+    signatureResubmissionWelsh: String,
+    signatureResubmissionWithReasonsEnglish: String,
+    signatureResubmissionWithReasonsWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -144,6 +151,10 @@ class PostalNotifyEmailTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = notRegisteredToVoteEnglish,
     notRegisteredToVoteWelsh = notRegisteredToVoteWelsh,
+    signatureResubmissionEnglish = signatureResubmissionEnglish,
+    signatureResubmissionWelsh = signatureResubmissionWelsh,
+    signatureResubmissionWithReasonsEnglish = signatureResubmissionWithReasonsEnglish,
+    signatureResubmissionWithReasonsWelsh = signatureResubmissionWithReasonsWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -167,6 +178,10 @@ class ProxyNotifyEmailTemplateConfiguration(
     bespokeCommWelsh: String,
     notRegisteredToVoteEnglish: String,
     notRegisteredToVoteWelsh: String,
+    signatureResubmissionEnglish: String,
+    signatureResubmissionWelsh: String,
+    signatureResubmissionWithReasonsEnglish: String,
+    signatureResubmissionWithReasonsWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -207,6 +222,10 @@ class ProxyNotifyEmailTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = notRegisteredToVoteEnglish,
     notRegisteredToVoteWelsh = notRegisteredToVoteWelsh,
+    signatureResubmissionEnglish = signatureResubmissionEnglish,
+    signatureResubmissionWelsh = signatureResubmissionWelsh,
+    signatureResubmissionWithReasonsEnglish = signatureResubmissionWithReasonsEnglish,
+    signatureResubmissionWithReasonsWelsh = signatureResubmissionWithReasonsWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -268,6 +287,10 @@ class OverseasNotifyEmailTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = null,
     notRegisteredToVoteWelsh = null,
+    signatureResubmissionEnglish = null,
+    signatureResubmissionWelsh = null,
+    signatureResubmissionWithReasonsEnglish = null,
+    signatureResubmissionWithReasonsWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -331,6 +354,10 @@ class VoterCardNotifyEmailTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = notRegisteredToVoteEnglish,
     notRegisteredToVoteWelsh = notRegisteredToVoteWelsh,
+    signatureResubmissionEnglish = null,
+    signatureResubmissionWelsh = null,
+    signatureResubmissionWithReasonsEnglish = null,
+    signatureResubmissionWithReasonsWelsh = null,
 )
 
 data class NotifyLetterTemplateConfiguration(
@@ -380,6 +407,10 @@ abstract class AbstractNotifyLetterTemplateConfiguration(
     val bespokeCommWelsh: String?,
     val notRegisteredToVoteEnglish: String?,
     val notRegisteredToVoteWelsh: String?,
+    val signatureResubmissionEnglish: String?,
+    val signatureResubmissionWelsh: String?,
+    val signatureResubmissionWithReasonsEnglish: String?,
+    val signatureResubmissionWithReasonsWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.letter", ignoreUnknownFields = false)
@@ -441,6 +472,10 @@ class VoterCardNotifyLetterTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = notRegisteredToVoteEnglish,
     notRegisteredToVoteWelsh = notRegisteredToVoteWelsh,
+    signatureResubmissionEnglish = null,
+    signatureResubmissionWelsh = null,
+    signatureResubmissionWithReasonsEnglish = null,
+    signatureResubmissionWithReasonsWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.letter", ignoreUnknownFields = false)
@@ -462,6 +497,10 @@ class PostalNotifyLetterTemplateConfiguration(
     bespokeCommWelsh: String,
     notRegisteredToVoteEnglish: String,
     notRegisteredToVoteWelsh: String,
+    signatureResubmissionEnglish: String,
+    signatureResubmissionWelsh: String,
+    signatureResubmissionWithReasonsEnglish: String,
+    signatureResubmissionWithReasonsWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -502,6 +541,10 @@ class PostalNotifyLetterTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = notRegisteredToVoteEnglish,
     notRegisteredToVoteWelsh = notRegisteredToVoteWelsh,
+    signatureResubmissionEnglish = signatureResubmissionEnglish,
+    signatureResubmissionWelsh = signatureResubmissionWelsh,
+    signatureResubmissionWithReasonsEnglish = signatureResubmissionWithReasonsEnglish,
+    signatureResubmissionWithReasonsWelsh = signatureResubmissionWithReasonsWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.letter", ignoreUnknownFields = false)
@@ -523,6 +566,10 @@ class ProxyNotifyLetterTemplateConfiguration(
     bespokeCommWelsh: String,
     notRegisteredToVoteEnglish: String,
     notRegisteredToVoteWelsh: String,
+    signatureResubmissionEnglish: String,
+    signatureResubmissionWelsh: String,
+    signatureResubmissionWithReasonsEnglish: String,
+    signatureResubmissionWithReasonsWelsh: String,
 ) : AbstractNotifyLetterTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = null,
@@ -563,6 +610,10 @@ class ProxyNotifyLetterTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = notRegisteredToVoteEnglish,
     notRegisteredToVoteWelsh = notRegisteredToVoteWelsh,
+    signatureResubmissionEnglish = signatureResubmissionEnglish,
+    signatureResubmissionWelsh = signatureResubmissionWelsh,
+    signatureResubmissionWithReasonsEnglish = signatureResubmissionWithReasonsEnglish,
+    signatureResubmissionWithReasonsWelsh = signatureResubmissionWithReasonsWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.letter", ignoreUnknownFields = false)
@@ -622,4 +673,8 @@ class OverseasNotifyLetterTemplateConfiguration(
     bespokeCommWelsh = bespokeCommWelsh,
     notRegisteredToVoteEnglish = null,
     notRegisteredToVoteWelsh = null,
+    signatureResubmissionEnglish = null,
+    signatureResubmissionWelsh = null,
+    signatureResubmissionWithReasonsEnglish = null,
+    signatureResubmissionWithReasonsWelsh = null,
 )

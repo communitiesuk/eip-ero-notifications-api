@@ -1226,6 +1226,76 @@ paths:
         connectionId: '${vpc_connection_id}'
         httpMethod: POST
 
+  #
+  # Generate Signature Resubmission Template Preview
+  # --------------------------------------------------------------------------------
+
+  '/templates/signature-resubmission/preview':
+    options:
+      summary: CORS support
+      description: |
+        Enable CORS by returning correct headers
+      tags:
+        - Generate Signature Resubmission Template Preview
+      responses:
+        200:
+          description: Default response for CORS method
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: { }
+      x-amazon-apigateway-integration:
+        type: mock
+        requestTemplates:
+          application/json: |
+            {
+              "statusCode" : 200
+            }
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Methods: '''*'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+            responseTemplates:
+              application/json: |
+                {}
+    post:
+      summary: Generates a text preview for a signature resubmission template type and personalisation data
+      description: Generates a text preview for a signature resubmission template type and personalisation data
+      operationId: generate-signature-resubmission-template-preview
+      tags:
+        - Generate Signature Resubmission Template Preview
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateSignatureResubmissionTemplatePreview'
+      responses:
+        '201':
+          $ref: '#/components/responses/GenerateTemplatePreview'
+        '400':
+          $ref: '#/components/responses/400ErrorResponse'
+      security:
+        - eroUserCognitoUserPoolAuthorizer: [ ]
+      x-amazon-apigateway-integration:
+        type: HTTP_PROXY
+        uri: '${base_uri}/templates/signature-resubmission/preview'
+        requestParameters:
+          integration.request.header.x-request-id: context.requestId
+        responseParameters:
+          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+          method.response.header.Access-Control-Allow-Methods: '''*'''
+          method.response.header.Access-Control-Allow-Origin: '''*'''
+        connectionType: VPC_LINK
+        connectionId: '${vpc_connection_id}'
+        httpMethod: POST
+
 components:
   #
   # Schema and Enum Definitions
@@ -1282,6 +1352,7 @@ components:
         - parent-guardian-proof-required
         - bespoke-comm
         - not-registered-to-vote
+        - signature-resubmission
     Language:
       title: Language
       description: The language to view the template
@@ -1978,6 +2049,28 @@ components:
       allOf:
         - $ref: '#/components/schemas/BasePersonalisation'
         - $ref: '#/components/schemas/RejectedSignature'
+    SignatureResubmissionPersonalisation:
+      title: RejectedSignaturePersonalisation
+      type: object
+      description: Personalisation details for a rejected signature
+      allOf:
+        - $ref: '#/components/schemas/BasePersonalisation'
+        - $ref: '#/components/schemas/RejectedSignature'
+      properties:
+        deadlineDate:
+          type: string
+          format: date
+        deadlineTime:
+          type: string
+        isRejected:
+          type: boolean
+        uploadSignatureLink:
+          type: string
+          description: The URL link to upload a new signature
+          example: 'http://localhost:8080/eros/city-council/applications/507f1f77bcf86cd799439011/signatures/398c1be2-7950-48a2-aca8-14cb9276a673'
+      required:
+        - uploadSignatureLink
+        - isRejected
     SignatureRejectionReason:
       title: SignatureRejectionReason
       description: Enum of reasons why a signature is rejected
@@ -2145,6 +2238,23 @@ components:
           $ref: '#/components/schemas/Language'
         personalisation:
           $ref: '#/components/schemas/NotRegisteredToVotePersonalisation'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+      required:
+        - channel
+        - personalisation
+        - sourceType
+    GenerateSignatureResubmissionTemplatePreviewRequest:
+      title: GenerateSignatureResubmissionTemplatePreviewRequest
+      description: An object containing request attributes required for generating the signature resubmission template preview
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        language:
+          $ref: '#/components/schemas/Language'
+        personalisation:
+          $ref: '#/components/schemas/SignatureResubmissionPersonalisation'
         sourceType:
           $ref: '#/components/schemas/SourceType'
       required:
@@ -2489,6 +2599,11 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenerateNotRegisteredToVoteTemplatePreviewRequest'
+    GenerateSignatureResubmissionTemplatePreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateSignatureResubmissionTemplatePreviewRequest'
 
   securitySchemes:
     eroUserCognitoUserPoolAuthorizer:
