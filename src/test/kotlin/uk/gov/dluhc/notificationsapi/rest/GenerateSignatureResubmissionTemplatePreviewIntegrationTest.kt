@@ -277,7 +277,7 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse)
         val expectedRejectionReasons = if (language == Language.EN) listOf("The image has some of it cut off") else listOf("Mae darn o'r llun wedi'i dorri i ffwrdd")
         val shouldShowText = isRejected && !withReasons
-        val sourceTypeText = getSourceTypeText(language, sourceType)
+        val sourceTypeText = getExpectedSourceTypeText(language, sourceType)
         val expectedNotSuitableText = if (language == Language.EN) "The signature you provided in your $sourceTypeText application is not suitable." else "Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am $sourceTypeText yn addas."
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mutableMapOf(
@@ -306,7 +306,7 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
         wireMockService.verifyNotifyGenerateTemplatePreview(templateId, expectedPersonalisationDataMap)
     }
 
-    private fun getSourceTypeText(language: Language, sourceType: SourceType): String {
+    private fun getExpectedSourceTypeText(language: Language, sourceType: SourceType): String {
         return if (language == Language.EN) {
             if (sourceType == SourceType.POSTAL) {
                 "postal vote"

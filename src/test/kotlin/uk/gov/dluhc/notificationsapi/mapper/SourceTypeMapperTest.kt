@@ -238,4 +238,48 @@ class SourceTypeMapperTest {
         // Then
         assertThat(actual).isEqualTo(expected)
     }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "OVERSEAS,''",
+            "POSTAL,post",
+            "PROXY,proxy",
+            "VOTER_MINUS_CARD,''",
+        ],
+    )
+    fun `should map message sourceType to human readable short source in English`(
+        sourceType: SourceTypeModel,
+        expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toShortSourceTypeString(sourceType, LanguageDto.ENGLISH)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "OVERSEAS,''",
+            "POSTAL,drwy'r post",
+            "PROXY,drwy ddirprwy",
+            "VOTER_MINUS_CARD,''",
+        ],
+    )
+    fun `should map message sourceType to human readable short source in Welsh`(
+        sourceType: SourceTypeModel,
+        expected: String,
+    ) {
+        // Given
+
+        // When
+        val actual = mapper.toFullSourceTypeString(sourceType, LanguageDto.WELSH)
+
+        // Then
+        assertThat(actual).isEqualTo(expected)
+    }
 }
