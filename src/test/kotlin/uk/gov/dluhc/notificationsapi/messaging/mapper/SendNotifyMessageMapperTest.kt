@@ -42,6 +42,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyIdDocumentResubm
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aRequestor
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceReference
@@ -63,6 +64,8 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRequestedSignatureMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifySignatureResubmissionMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSignatureResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel as SqsChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType as SqsSourceType
 
@@ -1056,6 +1059,77 @@ internal class SendNotifyMessageMapperTest {
             verify(languageMapper).fromMessageToDto(language)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationTypeMapper).mapMessageTypeToNotificationType(request.messageType)
+            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
+            verify(communicationChannelMapper).fromMessagingApiToDto(sqsChannel)
+        }
+    }
+
+    @Nested
+    inner class FromSignatureResubmissionMessageToSendNotificationRequestDto {
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "EMAIL,EN,EMAIL,ENGLISH,false,SIGNATURE_RESUBMISSION",
+                "EMAIL,CY,EMAIL,WELSH,false,SIGNATURE_RESUBMISSION",
+                "LETTER,EN,LETTER,ENGLISH,false,SIGNATURE_RESUBMISSION",
+                "LETTER,CY,LETTER,WELSH,false,SIGNATURE_RESUBMISSION",
+                "EMAIL,EN,EMAIL,ENGLISH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "EMAIL,CY,EMAIL,WELSH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "LETTER,EN,LETTER,ENGLISH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "LETTER,CY,LETTER,WELSH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+            ],
+        )
+        fun `should map SQS SendNotifyRejectedSignatureMessage to SendNotificationRequestDto with rejection reasons and notes`(
+            sqsChannel: SqsChannel,
+            language: Language,
+            communicationChannel: CommunicationChannel,
+            languageDto: LanguageDto,
+            isRejected: Boolean,
+            expectedNotificationType: NotificationType,
+        ) {
+            // Given
+            val gssCode = aGssCode()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val toAddress = aMessageAddress()
+            val expectedToAddress = aNotificationDestination()
+
+            val expectedSourceType = SourceType.POSTAL
+            val personalisationMessage = buildSignatureResubmissionPersonalisation(
+                isRejected = isRejected,
+                rejectionReasons = if (isRejected) listOf(SignatureRejectionReason.TOO_MINUS_DARK) else emptyList(),
+                rejectionNotes = if (isRejected) "Rejection Notes" else null,
+            )
+
+            given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)
+
+            val request = buildSendNotifySignatureResubmissionMessage(
+                channel = sqsChannel,
+                language = language,
+                sourceType = SqsSourceType.POSTAL,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                toAddress = toAddress,
+                personalisation = personalisationMessage,
+            )
+
+            // When
+            val notification = mapper.fromSignatureResubmissionMessageToSendNotificationRequestDto(request)
+
+            // Then
+            assertThat(notification.channel).isEqualTo(communicationChannel)
+            assertThat(notification.sourceType).isEqualTo(expectedSourceType)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
+            assertThat(notification.gssCode).isEqualTo(gssCode)
+            assertThat(notification.requestor).isEqualTo(requestor)
+            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            verify(languageMapper).fromMessageToDto(language)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(communicationChannelMapper).fromMessagingApiToDto(sqsChannel)
         }

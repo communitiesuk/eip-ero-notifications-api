@@ -12,6 +12,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.mapper.CommunicationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
@@ -30,6 +32,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissio
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureResubmissionMessage
 
 @Mapper(
     componentModel = "spring",
@@ -116,6 +119,14 @@ abstract class SendNotifyMessageMapper {
         message: SendNotifyNotRegisteredToVoteMessage,
     ): SendNotificationRequestDto
 
+    @Mapping(
+        target = "notificationType",
+        expression = "java( signatureResubmissionNotificationType(message) )",
+    )
+    abstract fun fromSignatureResubmissionMessageToSendNotificationRequestDto(
+        message: SendNotifySignatureResubmissionMessage,
+    ): SendNotificationRequestDto
+
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
         with(message.personalisation) {
@@ -167,6 +178,17 @@ abstract class SendNotifyMessageMapper {
                 NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
             } else {
                 documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
+            }
+        }
+
+    protected fun signatureResubmissionNotificationType(
+        message: SendNotifySignatureResubmissionMessage,
+    ): NotificationType =
+        with(message.personalisation) {
+            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank()) {
+                SIGNATURE_RESUBMISSION_WITH_REASONS
+            } else {
+                SIGNATURE_RESUBMISSION
             }
         }
 

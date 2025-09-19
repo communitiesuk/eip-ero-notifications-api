@@ -597,6 +597,7 @@ components:
         - previous-address-document-required
         - bespoke-comm
         - not-registered-to-vote
+        - signature-resubmission
 
     MessageAddress:
       type: object
