@@ -89,7 +89,7 @@ abstract class TemplatePersonalisationMessageMapper {
     )
     @Mapping(
         target = "rejectionReasons",
-        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage.rejectionReasons ) )",
+        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage.getRejectionReasons() ) )",
     )
     abstract fun toRejectedSignaturePersonalisationDto(
         personalisationMessage: RejectedSignaturePersonalisation,
