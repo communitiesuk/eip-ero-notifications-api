@@ -17,9 +17,12 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
+import uk.gov.dluhc.notificationsapi.mapper.EroContactDetailsMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
+import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
 import uk.gov.dluhc.notificationsapi.mapper.SignatureRejectionReasonMapper
@@ -29,12 +32,15 @@ import uk.gov.dluhc.notificationsapi.messaging.models.BasePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.BespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentRequiredPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.NotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RequestedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import java.time.LocalDate
 
@@ -62,6 +68,12 @@ abstract class TemplatePersonalisationMessageMapper {
     @Autowired
     protected lateinit var deadlineMapper: DeadlineMapper
 
+    @Autowired
+    protected lateinit var eroContactDetailsMapper: EroContactDetailsMapper
+
+    @Autowired
+    private lateinit var languageMapper: LanguageMapper
+
     @Mapping(
         target = "photoRejectionReasons",
         expression = "java( mapPhotoRejectionReasons( languageDto, personalisationMessage ) )",
@@ -77,7 +89,7 @@ abstract class TemplatePersonalisationMessageMapper {
     )
     @Mapping(
         target = "rejectionReasons",
-        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage ) )",
+        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage.rejectionReasons ) )",
     )
     abstract fun toRejectedSignaturePersonalisationDto(
         personalisationMessage: RejectedSignaturePersonalisation,
@@ -204,6 +216,35 @@ abstract class TemplatePersonalisationMessageMapper {
         sourceType: SourceType,
     ): NotRegisteredToVotePersonalisationDto
 
+    fun toSignatureResubmissionTemplatePersonalisationDto(
+        personalisation: SignatureResubmissionPersonalisation,
+        language: Language,
+        sourceType: SourceType,
+    ): SignatureResubmissionPersonalisationDto {
+        val languageDto = language.let(languageMapper::fromMessageToDto)
+        val shortSourceTypeString = sourceTypeMapper.toShortSourceTypeString(sourceType, languageDto)
+        val fullSourceTypeString = sourceTypeMapper.toFullSourceTypeString(sourceType, languageDto)
+        val hasRejectionReasons = personalisation.rejectionReasonsExcludingOther.isNotEmpty()
+        // Template SIGNATURE_RESUBMISSION_WITH_REASONS is only for rejected signatures, and has this text as standard.
+        val includeSignatureNotSuitableText = personalisation.isRejected && !hasRejectionReasons
+
+        return with(personalisation) {
+            SignatureResubmissionPersonalisationDto(
+                applicationReference = applicationReference,
+                firstName = firstName,
+                eroContactDetails = eroContactDetails.let(eroContactDetailsMapper::fromSqsToDto),
+                shortSourceTypeString = shortSourceTypeString,
+                fullSourceTypeString = fullSourceTypeString,
+                rejectionNotes = rejectionNotes?.ifBlank { null },
+                rejectionReasons = mapSignatureRejectionReasons(languageDto, this.rejectionReasons),
+                rejectionFreeText = rejectionFreeText?.ifBlank { null },
+                deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, sourceType),
+                uploadSignatureLink = uploadSignatureLink,
+                signatureNotSuitableText = mapSignatureNotSuitableText(fullSourceTypeString, includeSignatureNotSuitableText, languageDto),
+            )
+        }
+    }
+
     protected fun mapSourceType(
         languageDto: LanguageDto,
         sourceType: SourceType,
@@ -241,9 +282,9 @@ abstract class TemplatePersonalisationMessageMapper {
 
     protected fun mapSignatureRejectionReasons(
         languageDto: LanguageDto,
-        personalisation: RejectedSignaturePersonalisation,
+        rejectionReasons: List<SignatureRejectionReason>,
     ): List<String> {
-        return personalisation.rejectionReasonsExcludingOther.map { reason ->
+        return rejectionReasons.map { reason ->
             signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                 reason,
                 languageDto,
@@ -261,5 +302,16 @@ abstract class TemplatePersonalisationMessageMapper {
             personalisation = personalisation,
             channel = channel,
         )
+    }
+
+    protected fun mapSignatureNotSuitableText(sourceType: String, includeText: Boolean, languageDto: LanguageDto): String? {
+        return if (includeText) {
+            signatureRejectionReasonMapper.toSignatureNotSuitableText(
+                sourceType,
+                languageDto,
+            )
+        } else {
+            null
+        }
     }
 }
