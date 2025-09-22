@@ -7,7 +7,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.mapToPersonalisation
 import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.SignatureResubmissionPersonalisation
 import java.time.LocalDate
@@ -29,34 +28,6 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
 
     @Autowired
     protected lateinit var signatureRejectionReasonMapper: SignatureRejectionReasonMapper
-
-    @Autowired
-    protected lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
-
-    fun toSignatureResubmissionPersonalisation(
-        personalisation: SignatureResubmissionPersonalisationDto,
-    ): Map<String, Any> {
-        val personalisationMap = mutableMapOf<String, Any>()
-
-        with(personalisation) {
-            personalisationMap["applicationReference"] = applicationReference
-            personalisationMap["firstName"] = firstName
-            personalisationMap["rejectionNotes"] = templatePersonalisationDtoMapper.getSafeValue(rejectionNotes)
-            personalisationMap["rejectionReasons"] = rejectionReasons
-            personalisationMap["rejectionFreeText"] = templatePersonalisationDtoMapper.getSafeValue(rejectionFreeText)
-            with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapToPersonalisation(this)
-                personalisationMap.putAll(this)
-            }
-            personalisationMap["fullSourceType"] = fullSourceTypeString
-            personalisationMap["shortSourceType"] = shortSourceTypeString
-            personalisationMap["deadline"] = templatePersonalisationDtoMapper.getSafeValue(deadline)
-            personalisationMap["uploadSignatureLink"] = uploadSignatureLink
-            personalisationMap["signatureNotSuitableText"] = templatePersonalisationDtoMapper.getSafeValue(signatureNotSuitableText)
-        }
-
-        return personalisationMap
-    }
 
     fun signatureResubmissionNotificationType(request: GenerateSignatureResubmissionTemplatePreviewRequest): NotificationType =
         // SIGNATURE_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes

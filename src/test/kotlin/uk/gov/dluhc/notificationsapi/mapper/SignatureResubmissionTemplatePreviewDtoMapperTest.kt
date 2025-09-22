@@ -19,7 +19,6 @@ import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildContactDetailsDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildGenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildSignatureResubmissionPersonalisation
 import java.time.LocalDate
@@ -44,30 +43,6 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
 
     @Mock
     private lateinit var eroContactDetailsMapper: EroContactDetailsMapper
-
-    @Mock
-    private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
-
-    @Test
-    fun `should map to personalisation map`() {
-        // Given
-        val personalisationDto = buildSignatureResubmissionPersonalisationDto(
-            rejectionNotes = null,
-            freeText = null,
-            deadline = null,
-            signatureNotSuitableText = null,
-        )
-
-        given(templatePersonalisationDtoMapper.getSafeValue(null)).willReturn("")
-
-        val expected = buildSignatureResubmissionPersonalisationMapFromDto(personalisationDto)
-
-        // When
-        val actual = mapper.toSignatureResubmissionPersonalisation(personalisationDto)
-
-        // Then
-        assertThat(actual).isEqualTo(expected)
-    }
 
     @ParameterizedTest
     @CsvSource(

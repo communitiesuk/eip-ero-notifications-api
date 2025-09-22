@@ -282,6 +282,31 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
+    fun toSignatureResubmissionPersonalisation(
+        personalisation: SignatureResubmissionPersonalisationDto,
+    ): Map<String, Any> {
+        val personalisationMap = mutableMapOf<String, Any>()
+
+        with(personalisation) {
+            personalisationMap["applicationReference"] = applicationReference
+            personalisationMap["firstName"] = firstName
+            personalisationMap["rejectionNotes"] = getSafeValue(rejectionNotes)
+            personalisationMap["rejectionReasons"] = rejectionReasons
+            personalisationMap["rejectionFreeText"] = getSafeValue(rejectionFreeText)
+            with(mutableMapOf<String, String>()) {
+                eroContactDetails.mapToPersonalisation(this)
+                personalisationMap.putAll(this)
+            }
+            personalisationMap["fullSourceType"] = fullSourceTypeString
+            personalisationMap["shortSourceType"] = shortSourceTypeString
+            personalisationMap["deadline"] = getSafeValue(deadline)
+            personalisationMap["uploadSignatureLink"] = uploadSignatureLink
+            personalisationMap["signatureNotSuitableText"] = getSafeValue(signatureNotSuitableText)
+        }
+
+        return personalisationMap
+    }
+
     private fun getBasicContactDetailsPersonalisationMap(dto: BaseTemplatePersonalisationDto): MutableMap<String, String> {
         val personalisation = mutableMapOf<String, String>()
         with(dto) {

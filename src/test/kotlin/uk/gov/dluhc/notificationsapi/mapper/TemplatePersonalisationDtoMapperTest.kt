@@ -549,4 +549,26 @@ class TemplatePersonalisationDtoMapperTest {
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         }
     }
+
+    @Nested
+    inner class ToSignatureResubmisionTemplatePersonalisationMap {
+        @Test
+        fun `should map to personalisation map`() {
+            // Given
+            val personalisationDto = buildSignatureResubmissionPersonalisationDto(
+                rejectionNotes = null,
+                freeText = null,
+                deadline = null,
+                signatureNotSuitableText = null,
+            )
+
+            val expected = buildSignatureResubmissionPersonalisationMapFromDto(personalisationDto)
+
+            // When
+            val actual = mapper.toSignatureResubmissionPersonalisation(personalisationDto)
+
+            // Then
+            assertThat(actual).isEqualTo(expected)
+        }
+    }
 }

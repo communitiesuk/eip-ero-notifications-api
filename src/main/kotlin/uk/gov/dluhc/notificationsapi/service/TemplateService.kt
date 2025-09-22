@@ -248,7 +248,7 @@ class TemplateService(
         val notificationTypeDto = signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)
         // TODO EIP1-12988: Consider whether this intermediate step is required
         val personalisationDto = signatureResubmissionPreviewDtoMapper.fromRequestToPersonalisationDto(request)
-        val getPersonalisation = { signatureResubmissionPreviewDtoMapper.toSignatureResubmissionPersonalisation(personalisationDto) }
+        val getPersonalisation = { templatePersonalisationDtoMapper.toSignatureResubmissionPersonalisation(personalisationDto) }
 
         return commonTemplateService.generateTemplatePreview(
             request.channel,
