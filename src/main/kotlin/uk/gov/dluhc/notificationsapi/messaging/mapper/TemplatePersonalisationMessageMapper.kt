@@ -284,7 +284,7 @@ abstract class TemplatePersonalisationMessageMapper {
         languageDto: LanguageDto,
         rejectionReasons: List<SignatureRejectionReason>,
     ): List<String> {
-        return rejectionReasons.map { reason ->
+        return rejectionReasons.filter { it !== SignatureRejectionReason.OTHER }.map { reason ->
             signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                 reason,
                 languageDto,

@@ -527,31 +527,6 @@ class TemplatePersonalisationDtoMapperTest {
 
     @Nested
     inner class ToSignatureResubmissionTemplatePersonalisationMap {
-        @ParameterizedTest
-        @CsvSource(
-            value = [
-                "postal vote, POSTAL",
-                "proxy vote, PROXY",
-            ],
-        )
-        fun `should map dto to personalisation map when all fields present`(
-            personalisationSourceTypeString: String,
-            sourceTypeDto: SourceType,
-        ) {
-            // Given
-            val personalisationDto = buildSignatureResubmissionPersonalisationDto()
-            val expected = buildSignatureResubmissionPersonalisationMapFromDto(personalisationDto)
-
-            // When
-            val actual = mapper.toSignatureResubmissionTemplatePersonalisationMap(personalisationDto, LanguageDto.ENGLISH)
-
-            // Then
-            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-        }
-    }
-
-    @Nested
-    inner class ToSignatureResubmisionTemplatePersonalisationMap {
         @Test
         fun `should map to personalisation map`() {
             // Given

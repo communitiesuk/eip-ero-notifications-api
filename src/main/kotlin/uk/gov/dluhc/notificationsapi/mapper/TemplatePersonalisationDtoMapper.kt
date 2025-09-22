@@ -200,30 +200,6 @@ class TemplatePersonalisationDtoMapper {
         return personalisation
     }
 
-    fun toSignatureResubmissionTemplatePersonalisationMap(
-        dto: SignatureResubmissionPersonalisationDto,
-        language: LanguageDto,
-    ): Map<String, Any> {
-        val personalisation = mutableMapOf<String, Any>()
-
-        with(dto) {
-            personalisation["applicationReference"] = applicationReference
-            personalisation["firstName"] = firstName
-            personalisation["rejectionNotes"] = getSafeValue(rejectionNotes)
-            personalisation["rejectionReasons"] = rejectionReasons
-            personalisation["rejectionFreeText"] = getSafeValue(rejectionFreeText)
-            with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapToPersonalisation(this)
-                personalisation.putAll(this)
-            }
-            personalisation["sourceType"] = personalisationSourceTypeString
-            personalisation["deadline"] = getSafeValue(deadline)
-            personalisation["uploadSignatureLink"] = uploadSignatureLink
-        }
-
-        return personalisation
-    }
-
     fun toNotRegisteredToVoteTemplatePersonalisationMap(
         dto: NotRegisteredToVotePersonalisationDto,
         language: LanguageDto,
