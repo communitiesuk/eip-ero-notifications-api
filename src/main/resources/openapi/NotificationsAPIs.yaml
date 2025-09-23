@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.21.0'
+  version: '1.21.1'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -2261,51 +2261,6 @@ components:
         - channel
         - personalisation
         - sourceType
-    CommunicationsStatisticsResponseVAC:
-      title: CommunicationsStatisticsResponseVAC
-      description: response containing anonymised statistics about communications related to an application
-      type: object
-      properties:
-        photoRequested:
-          type: boolean
-        identityDocumentsRequested:
-          type: boolean
-        bespokeCommunicationsSent:
-          type: integer
-        hasSentNotRegisteredToVoteCommunication:
-          type: boolean
-        numIdentityDocumentRequestCommsSent:
-          type: integer
-      required:
-        - photoRequested
-        - identityDocumentsRequested
-        - bespokeCommunicationsSent
-        - hasSentNotRegisteredToVoteCommunication
-        - numIdentityDocumentRequestCommsSent
-    CommunicationsStatisticsResponseOAVA:
-      title: CommunicationsStatisticsResponseOAVA
-      description: response containing anonymised statistics about communications related to an application
-      type: object
-      properties:
-        signatureRequested:
-          type: boolean
-        identityDocumentsRequested:
-          type: boolean
-        bespokeCommunicationsSent:
-          type: integer
-        hasSentNotRegisteredToVoteCommunication:
-          type: boolean
-        numSignatureRequestCommsSent:
-          type: integer
-        numIdentityDocumentRequestCommsSent:
-          type: integer
-      required:
-        - signatureRequested
-        - identityDocumentsRequested
-        - bespokeCommunicationsSent
-        - hasSentNotRegisteredToVoteCommunication
-        - numSignatureRequestCommsSent
-        - numIdentityDocumentRequestCommsSent
     CommunicationsStatisticsResponse:
       title: CommunicationsStatisticsResponse
       description: response containing anonymised statistics about communications related to an application
@@ -2465,38 +2420,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CommunicationConfirmationHistoryResponse'
-    CommunicationsStatisticsVAC:
-      description: Response containing statistics about communications for an application
-      headers:
-        Access-Control-Allow-Origin:
-          schema:
-            type: string
-        Access-Control-Allow-Methods:
-          schema:
-            type: string
-        Access-Control-Allow-Headers:
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommunicationsStatisticsResponseVAC'
-    CommunicationsStatisticsOAVA:
-      description: Response containing statistics about communications for an application
-      headers:
-        Access-Control-Allow-Origin:
-          schema:
-            type: string
-        Access-Control-Allow-Methods:
-          schema:
-            type: string
-        Access-Control-Allow-Headers:
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CommunicationsStatisticsResponseOAVA'
     CommunicationsStatistics:
       description: Response containing statistics about communications for an application
       headers:
