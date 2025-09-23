@@ -1079,7 +1079,7 @@ internal class SendNotifyMessageMapperTest {
                 "LETTER,CY,LETTER,WELSH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
             ],
         )
-        fun `should map SQS SendNotifyRejectedSignatureMessage to SendNotificationRequestDto with rejection reasons and notes`(
+        fun `should map SQS SendNotifySignatureResubmissionMessage to SendNotificationRequestDto with rejection reasons and notes`(
             sqsChannel: SqsChannel,
             language: Language,
             communicationChannel: CommunicationChannel,
