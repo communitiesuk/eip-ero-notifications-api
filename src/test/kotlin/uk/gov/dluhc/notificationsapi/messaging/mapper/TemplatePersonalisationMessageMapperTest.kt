@@ -25,9 +25,12 @@ import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
+import uk.gov.dluhc.notificationsapi.dto.SignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
+import uk.gov.dluhc.notificationsapi.mapper.EroContactDetailsMapper
 import uk.gov.dluhc.notificationsapi.mapper.IdentityDocumentResubmissionDocumentRejectionTextMapper
+import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
 import uk.gov.dluhc.notificationsapi.mapper.SignatureRejectionReasonMapper
@@ -36,6 +39,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
@@ -58,6 +62,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRequestedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSignatureResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRequiredDocumentPersonalisation
 
 @ExtendWith(MockitoExtension::class)
@@ -86,6 +91,12 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Mock
     private lateinit var deadlineMapper: DeadlineMapper
+
+    @Mock
+    private lateinit var languageMapper: LanguageMapper
+
+    @Mock
+    private lateinit var eroContactDetailsMapper: EroContactDetailsMapper
 
     @Nested
     inner class ToPhotoPersonalisationDto {
@@ -659,6 +670,55 @@ internal class TemplatePersonalisationMessageMapperTest {
             // When
             val actual =
                 mapper.toNotRegisteredToVoteTemplatePersonalisationDto(personalisationMessage, ENGLISH, sourceType)
+            // Then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
+        }
+    }
+
+    @Nested
+    inner class ToSignatureResubmissionTemplatePersonalisationDto {
+        @ParameterizedTest
+        @CsvSource(
+            value = [
+                "PROXY",
+                "POSTAL",
+            ],
+        )
+        fun `should map SQS SignatureResubmissionPersonalisation to SignatureResubmissionPersonalisationDto`(
+            sourceType: SourceType,
+        ) {
+            // Given
+            val personalisationMessage = buildSignatureResubmissionPersonalisation()
+
+            val dtoContactDetails = buildContactDetailsDto()
+
+            given(sourceTypeMapper.toFullSourceTypeString(sourceType, ENGLISH)).willReturn("Full mapped source type")
+            given(sourceTypeMapper.toShortSourceTypeString(sourceType, ENGLISH)).willReturn("Short mapped source type")
+            given(deadlineMapper.toDeadlineString(any(), any(), any(), any())).willReturn("Mapped deadline")
+            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReason.TOO_MINUS_DARK, ENGLISH)).willReturn("Too Dark")
+            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReason.HAS_MINUS_SHADOWS, ENGLISH)).willReturn("Has Shadows")
+            given(languageMapper.fromMessageToDto(Language.EN)).willReturn(ENGLISH)
+            given(eroContactDetailsMapper.fromSqsToDto(personalisationMessage.eroContactDetails)).willReturn(dtoContactDetails)
+
+            val expectedPersonalisationDto = with(personalisationMessage) {
+                SignatureResubmissionPersonalisationDto(
+                    applicationReference = applicationReference,
+                    firstName = firstName,
+                    eroContactDetails = dtoContactDetails,
+                    shortSourceTypeString = "Short mapped source type",
+                    fullSourceTypeString = "Full mapped source type",
+                    rejectionNotes = rejectionNotes,
+                    rejectionReasons = listOf("Too Dark", "Has Shadows"),
+                    rejectionFreeText = rejectionFreeText,
+                    deadline = "Mapped deadline",
+                    signatureNotSuitableText = null,
+                    uploadSignatureLink = uploadSignatureLink,
+                )
+            }
+
+            // When
+            val actual =
+                mapper.toSignatureResubmissionTemplatePersonalisationDto(personalisationMessage, Language.EN, sourceType)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

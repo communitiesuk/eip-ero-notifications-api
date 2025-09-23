@@ -188,5 +188,6 @@ sqs:
   send-uk-gov-notify-nino-not-matched-queue-name: test-send-uk-gov-notify-nino-not-matched
   send-uk-gov-notify-bespoke-comm-queue-name: test-send-uk-gov-notify-bespoke-comm
   send-uk-gov-notify-not-registered-to-vote-queue-name: test-send-uk-gov-notify-not-registered-to-vote
+  send-uk-gov-notify-signature-resubmission-queue-name: test-send-uk-gov-notify-signature-resubmission
   remove-application-notifications-queue-name: test-remove-application-notifications
   trigger-application-statistics-update-queue-name: test-trigger-application-statistics-update.fifo

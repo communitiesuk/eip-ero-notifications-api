@@ -84,6 +84,17 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
         )
     }
 
+    fun toShortSourceTypeString(
+        sourceType: SourceTypeMessageEnum,
+        languageDto: LanguageDto,
+    ): String {
+        return messageSource.getMessage(
+            "templates.short-vote-type.${sourceType.value}",
+            null,
+            languageDto.locale,
+        )
+    }
+
     fun toFullSourceTypeString(
         sourceType: SourceTypeApiEnum,
         languageDto: LanguageDto,
