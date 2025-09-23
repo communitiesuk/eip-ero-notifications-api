@@ -38,9 +38,9 @@ class SendNotifySignatureResubmissionMessageListener(
                 sendNotifyMessageMapper.fromSignatureResubmissionMessageToSendNotificationRequestDto(this)
             val personalisationDto =
                 templatePersonalisationMessageMapper.toSignatureResubmissionTemplatePersonalisationDto(
-                    this.personalisation,
-                    this.language,
-                    this.sourceType,
+                    personalisation,
+                    language,
+                    sourceType,
                 )
             val personalisationMap =
                 templatePersonalisationDtoMapper.toSignatureResubmissionPersonalisation(personalisationDto)
