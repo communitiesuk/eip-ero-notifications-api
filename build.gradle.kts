@@ -7,16 +7,16 @@ import java.lang.ProcessBuilder.Redirect
 
 plugins {
     id("org.springframework.boot") version "3.5.6"
-    id("io.spring.dependency-management") version "1.1.3"
+    id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "1.9.25"
     kotlin("kapt") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
     kotlin("plugin.jpa") version "1.9.25"
     kotlin("plugin.allopen") version "1.9.25"
-    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
-    id("org.jlleitschuh.gradle.ktlint-idea") version "11.3.1"
-    id("org.openapi.generator") version "7.0.1"
-    id("org.owasp.dependencycheck") version "12.1.3"
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "11.6.1"
+    id("org.openapi.generator") version "7.15.0"
+    id("org.owasp.dependencycheck") version "12.1.6"
 }
 
 group = "uk.gov.dluhc"
@@ -62,10 +62,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
-    implementation("org.apache.commons:commons-lang3:3.18.0")
-    implementation("org.mapstruct:mapstruct:1.5.5.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    implementation("org.apache.commons:commons-lang3:3.19.0")
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    kapt("org.mapstruct:mapstruct-processor:1.6.3")
 
     // internal libs
     implementation("uk.gov.dluhc:logging-library:3.0.3")
@@ -75,7 +75,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.7")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.37")
     implementation("org.springframework:spring-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
@@ -83,13 +83,13 @@ dependencies {
     implementation("uk.gov.service.notify:notifications-java-client:5.2.1-RELEASE")
 
     // Logging
-    runtimeOnly("net.logstash.logback:logstash-logback-encoder:7.3")
+    runtimeOnly("net.logstash.logback:logstash-logback-encoder:8.1")
 
     // spring security
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     // later version of nimbus-jose-jwt than brought in transitively by spring security - earlier version triggers CVE-2023-1370
-    implementation("com.nimbusds:nimbus-jose-jwt:10.0.2")
+    implementation("com.nimbusds:nimbus-jose-jwt:10.5")
 
     // AWS v2 dependencies
     implementation("software.amazon.awssdk:dynamodb")
@@ -106,22 +106,22 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 
-    testImplementation("org.testcontainers:junit-jupiter:1.19.1")
-    testImplementation("org.testcontainers:testcontainers:1.19.1")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.3")
+    testImplementation("org.testcontainers:testcontainers:1.21.3")
 
-    testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.awaitility:awaitility-kotlin:4.3.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.0.0")
 
-    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
-    testImplementation("net.datafaker:datafaker:1.7.0")
+    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:3.0.1")
+    testImplementation("net.datafaker:datafaker:2.5.1")
 
     testImplementation(platform("software.amazon.awssdk:bom:${property("awsSdkVersion")}"))
     testImplementation("software.amazon.awssdk:auth")
     testImplementation("software.amazon.awssdk:sts")
 
     // Libraries to support creating JWTs in tests
-    testImplementation("io.jsonwebtoken:jjwt-impl:0.11.5")
-    testImplementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    testImplementation("io.jsonwebtoken:jjwt-impl:0.13.0")
+    testImplementation("io.jsonwebtoken:jjwt-jackson:0.13.0")
 }
 
 tasks.withType<KotlinCompile> {
