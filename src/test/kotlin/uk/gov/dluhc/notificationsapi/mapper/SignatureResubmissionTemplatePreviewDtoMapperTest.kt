@@ -119,12 +119,12 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
 
     @ParameterizedTest
     @CsvSource(
-        value = ["false,false,0", "true,false,1", "true,true,0"],
+        value = ["false,false,false", "true,false,true", "true,true,false"],
     )
     fun `should include signature not suitable text only if rejected without rejection reasons`(
         isRejected: Boolean,
         includeReasons: Boolean,
-        expectedMapperCalls: Int,
+        includeText: Boolean,
     ) {
         // Given
         val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(
@@ -152,9 +152,10 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
         mapper.fromRequestToPersonalisationDto(request)
 
         // Then
-        verify(signatureRejectionReasonMapper, times(expectedMapperCalls)).toSignatureNotSuitableText(
+        verify(signatureRejectionReasonMapper).toSignatureNotSuitableText(
             "Full String",
             LanguageDto.ENGLISH,
+            includeText,
         )
     }
 }
