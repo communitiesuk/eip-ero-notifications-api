@@ -1069,21 +1069,20 @@ internal class SendNotifyMessageMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "EMAIL,EN,EMAIL,ENGLISH,false,SIGNATURE_RESUBMISSION",
-                "EMAIL,CY,EMAIL,WELSH,false,SIGNATURE_RESUBMISSION",
-                "LETTER,EN,LETTER,ENGLISH,false,SIGNATURE_RESUBMISSION",
-                "LETTER,CY,LETTER,WELSH,false,SIGNATURE_RESUBMISSION",
-                "EMAIL,EN,EMAIL,ENGLISH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
-                "EMAIL,CY,EMAIL,WELSH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
-                "LETTER,EN,LETTER,ENGLISH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
-                "LETTER,CY,LETTER,WELSH,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "EMAIL,EN,EMAIL,false,SIGNATURE_RESUBMISSION",
+                "EMAIL,CY,EMAIL,false,SIGNATURE_RESUBMISSION",
+                "LETTER,EN,LETTER,false,SIGNATURE_RESUBMISSION",
+                "LETTER,CY,LETTER,false,SIGNATURE_RESUBMISSION",
+                "EMAIL,EN,EMAIL,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "EMAIL,CY,EMAIL,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "LETTER,EN,LETTER,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "LETTER,CY,LETTER,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
             ],
         )
         fun `should map SQS SendNotifySignatureResubmissionMessage to SendNotificationRequestDto with rejection reasons and notes`(
             sqsChannel: SqsChannel,
             language: Language,
             communicationChannel: CommunicationChannel,
-            languageDto: LanguageDto,
             isRejected: Boolean,
             expectedNotificationType: NotificationType,
         ) {
@@ -1101,7 +1100,7 @@ internal class SendNotifyMessageMapperTest {
                 rejectionNotes = if (isRejected) "Rejection Notes" else null,
             )
 
-            given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
+            given(languageMapper.fromMessageToDto(any())).willReturn(LanguageDto.ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
             given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)

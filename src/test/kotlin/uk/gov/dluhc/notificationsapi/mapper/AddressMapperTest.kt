@@ -65,4 +65,60 @@ class AddressMapperTest {
         // Then
         assertThat(dto).isEqualTo(expected)
     }
+
+    @Test
+    fun `should map blank fields correctly from api to dto`() {
+        // Given
+        val message = ApiAddress(
+            property = "         ",
+            street = faker.address().streetAddress(),
+            locality = "",
+            town = " ",
+            area = null,
+            postcode = faker.address().postcode(),
+        )
+
+        val expected = AddressDto(
+            property = null,
+            street = message.street,
+            locality = null,
+            town = null,
+            area = null,
+            postcode = message.postcode,
+        )
+
+        // When
+        val dto = mapper.fromApiToDto(message)
+
+        // Then
+        assertThat(dto).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should map blank fields correctly from message to dto`() {
+        // Given
+        val message = MessageAddress(
+            property = "         ",
+            street = faker.address().streetAddress(),
+            locality = "",
+            town = " ",
+            area = null,
+            postcode = faker.address().postcode(),
+        )
+
+        val expected = AddressDto(
+            property = null,
+            street = message.street,
+            locality = null,
+            town = null,
+            area = null,
+            postcode = message.postcode,
+        )
+
+        // When
+        val dto = mapper.fromSqsToDto(message)
+
+        // Then
+        assertThat(dto).isEqualTo(expected)
+    }
 }

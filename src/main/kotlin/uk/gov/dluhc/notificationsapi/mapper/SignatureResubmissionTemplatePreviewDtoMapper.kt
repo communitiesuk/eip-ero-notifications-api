@@ -61,7 +61,11 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
                 rejectionFreeText = rejectionFreeText?.ifBlank { null },
                 deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, fullSourceTypeString),
                 uploadSignatureLink = uploadSignatureLink,
-                signatureNotSuitableText = mapSignatureNotSuitableText(fullSourceTypeString, includeSignatureNotSuitableText, languageDto),
+                signatureNotSuitableText = signatureRejectionReasonMapper.toSignatureNotSuitableText(
+                    fullSourceTypeString,
+                    languageDto,
+                    includeSignatureNotSuitableText,
+                ),
             )
         }
     }
@@ -85,16 +89,5 @@ class SignatureResubmissionTemplatePreviewDtoMapper {
         sourceTypeString: String,
     ): String? = deadlineDate?.let {
         deadlineMapper.toDeadlineString(deadlineDate, deadlineTime, languageDto, sourceTypeString)
-    }
-
-    fun mapSignatureNotSuitableText(sourceType: String, includeText: Boolean, languageDto: LanguageDto): String? {
-        return if (includeText) {
-            signatureRejectionReasonMapper.toSignatureNotSuitableText(
-                sourceType,
-                languageDto,
-            )
-        } else {
-            null
-        }
     }
 }

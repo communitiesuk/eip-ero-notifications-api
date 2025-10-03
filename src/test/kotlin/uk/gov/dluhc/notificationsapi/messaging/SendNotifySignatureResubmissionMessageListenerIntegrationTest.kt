@@ -42,7 +42,7 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
             "LETTER,CY,POSTAL,POSTAL",
         ],
     )
-    fun `should process rejected signature notification message from relevant service`(
+    fun `should process signature resubmission notification message from relevant service`(
         sqsChannel: CommunicationChannel,
         language: Language,
         sourceType: SourceType,
@@ -94,7 +94,7 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
             "EMAIL,EN,VOTER_MINUS_CARD,VOTER_CARD",
         ],
     )
-    fun `should not process rejected signature notification message from non enabled services`(
+    fun `should not process signature resubmission notification message from non enabled services`(
         sqsChannel: CommunicationChannel,
         language: Language,
         sourceType: SourceType,

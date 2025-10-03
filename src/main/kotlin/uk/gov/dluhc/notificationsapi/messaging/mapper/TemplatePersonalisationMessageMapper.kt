@@ -240,7 +240,11 @@ abstract class TemplatePersonalisationMessageMapper {
                 rejectionFreeText = rejectionFreeText?.ifBlank { null },
                 deadline = mapDeadline(deadlineDate, deadlineTime, languageDto, sourceType),
                 uploadSignatureLink = uploadSignatureLink,
-                signatureNotSuitableText = mapSignatureNotSuitableText(fullSourceTypeString, includeSignatureNotSuitableText, languageDto),
+                signatureNotSuitableText = signatureRejectionReasonMapper.toSignatureNotSuitableText(
+                    fullSourceTypeString,
+                    languageDto,
+                    includeSignatureNotSuitableText,
+                ),
             )
         }
     }
@@ -284,7 +288,7 @@ abstract class TemplatePersonalisationMessageMapper {
         languageDto: LanguageDto,
         rejectionReasons: List<SignatureRejectionReason>,
     ): List<String> {
-        return rejectionReasons.filter { it !== SignatureRejectionReason.OTHER }.map { reason ->
+        return rejectionReasons.filter { it != SignatureRejectionReason.OTHER }.map { reason ->
             signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                 reason,
                 languageDto,
@@ -302,16 +306,5 @@ abstract class TemplatePersonalisationMessageMapper {
             personalisation = personalisation,
             channel = channel,
         )
-    }
-
-    protected fun mapSignatureNotSuitableText(sourceType: String, includeText: Boolean, languageDto: LanguageDto): String? {
-        return if (includeText) {
-            signatureRejectionReasonMapper.toSignatureNotSuitableText(
-                sourceType,
-                languageDto,
-            )
-        } else {
-            null
-        }
     }
 }

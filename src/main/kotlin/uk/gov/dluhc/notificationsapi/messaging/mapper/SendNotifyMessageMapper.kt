@@ -33,6 +33,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocument
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureResubmissionPersonalisation
 
 @Mapper(
     componentModel = "spring",
@@ -45,6 +46,18 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureResubmi
     ],
 )
 abstract class SendNotifyMessageMapper {
+
+    @Autowired
+    private lateinit var notificationDestinationDtoMapper: NotificationDestinationDtoMapper
+
+    @Autowired
+    private lateinit var sourceTypeMapper: SourceTypeMapper
+
+    @Autowired
+    private lateinit var languageMapper: LanguageMapper
+
+    @Autowired
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Autowired
     private lateinit var documentCategoryMapper: DocumentCategoryMapper
@@ -119,13 +132,20 @@ abstract class SendNotifyMessageMapper {
         message: SendNotifyNotRegisteredToVoteMessage,
     ): SendNotificationRequestDto
 
-    @Mapping(
-        target = "notificationType",
-        expression = "java( signatureResubmissionNotificationType(message) )",
-    )
-    abstract fun fromSignatureResubmissionMessageToSendNotificationRequestDto(
+    fun fromSignatureResubmissionMessageToSendNotificationRequestDto(
         message: SendNotifySignatureResubmissionMessage,
-    ): SendNotificationRequestDto
+    ): SendNotificationRequestDto = with(message) {
+        SendNotificationRequestDto(
+            channel = channel.let(communicationChannelMapper::fromMessagingApiToDto),
+            language = language.let(languageMapper::fromMessageToDto),
+            gssCode = gssCode,
+            requestor = requestor,
+            sourceType = sourceType.let(sourceTypeMapper::fromMessageToDto),
+            sourceReference = sourceReference,
+            toAddress = toAddress.let(notificationDestinationDtoMapper::toNotificationDestinationDto),
+            notificationType = signatureResubmissionNotificationType(personalisation),
+        )
+    }
 
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
@@ -182,9 +202,9 @@ abstract class SendNotifyMessageMapper {
         }
 
     protected fun signatureResubmissionNotificationType(
-        message: SendNotifySignatureResubmissionMessage,
+        personalisation: SignatureResubmissionPersonalisation,
     ): NotificationType =
-        with(message.personalisation) {
+        with(personalisation) {
             if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank()) {
                 SIGNATURE_RESUBMISSION_WITH_REASONS
             } else {

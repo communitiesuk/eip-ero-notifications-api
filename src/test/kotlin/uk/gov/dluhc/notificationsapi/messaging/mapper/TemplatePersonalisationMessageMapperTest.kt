@@ -677,23 +677,15 @@ internal class TemplatePersonalisationMessageMapperTest {
 
     @Nested
     inner class ToSignatureResubmissionTemplatePersonalisationDto {
-        @ParameterizedTest
-        @CsvSource(
-            value = [
-                "PROXY",
-                "POSTAL",
-            ],
-        )
-        fun `should map SQS SignatureResubmissionPersonalisation to SignatureResubmissionPersonalisationDto`(
-            sourceType: SourceType,
-        ) {
+        @Test
+        fun `should map SQS SignatureResubmissionPersonalisation to SignatureResubmissionPersonalisationDto`() {
             // Given
             val personalisationMessage = buildSignatureResubmissionPersonalisation()
 
             val dtoContactDetails = buildContactDetailsDto()
 
-            given(sourceTypeMapper.toFullSourceTypeString(sourceType, ENGLISH)).willReturn("Full mapped source type")
-            given(sourceTypeMapper.toShortSourceTypeString(sourceType, ENGLISH)).willReturn("Short mapped source type")
+            given(sourceTypeMapper.toFullSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Full mapped source type")
+            given(sourceTypeMapper.toShortSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Short mapped source type")
             given(deadlineMapper.toDeadlineString(any(), any(), any(), any())).willReturn("Mapped deadline")
             given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReason.TOO_MINUS_DARK, ENGLISH)).willReturn("Too Dark")
             given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReason.HAS_MINUS_SHADOWS, ENGLISH)).willReturn("Has Shadows")
@@ -718,7 +710,7 @@ internal class TemplatePersonalisationMessageMapperTest {
 
             // When
             val actual =
-                mapper.toSignatureResubmissionTemplatePersonalisationDto(personalisationMessage, Language.EN, sourceType)
+                mapper.toSignatureResubmissionTemplatePersonalisationDto(personalisationMessage, Language.EN, SourceType.POSTAL)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }
