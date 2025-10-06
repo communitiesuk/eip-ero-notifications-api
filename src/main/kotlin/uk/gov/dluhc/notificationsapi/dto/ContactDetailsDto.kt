@@ -32,4 +32,4 @@ fun ContactDetailsDto.mapToPersonalisation(personalisation: MutableMap<String, S
     }
 }
 
-fun getSafeValue(input: String?): String = input ?: ""
+fun getSafeValue(input: String?): String = input?.ifBlank { "" } ?: ""

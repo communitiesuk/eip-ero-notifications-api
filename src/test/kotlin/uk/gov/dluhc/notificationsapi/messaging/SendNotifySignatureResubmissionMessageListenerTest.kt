@@ -7,13 +7,11 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
-import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper
-import uk.gov.dluhc.notificationsapi.messaging.mapper.TemplatePersonalisationMessageMapper
 import uk.gov.dluhc.notificationsapi.service.SendNotificationService
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aNotificationPersonalisationMap
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aSendNotificationRequestDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifySignatureResubmissionMessage
 
 @ExtendWith(MockitoExtension::class)
@@ -26,13 +24,10 @@ class SendNotifySignatureResubmissionMessageListenerTest {
     private lateinit var sendNotifyMessageMapper: SendNotifyMessageMapper
 
     @Mock
-    private lateinit var templatePersonalisationMessageMapper: TemplatePersonalisationMessageMapper
-
-    @Mock
-    private lateinit var templatePersonalisationDtoMapper: TemplatePersonalisationDtoMapper
-
-    @Mock
     private lateinit var sendNotificationService: SendNotificationService
+
+    @Mock
+    private lateinit var signatureResubmissionPersonalisationMapper: SignatureResubmissionPersonalisationMapper
 
     @Test
     fun `should handle SQS SendNotifySignatureResubmissionMessage`() {
@@ -40,19 +35,13 @@ class SendNotifySignatureResubmissionMessageListenerTest {
         val sqsMessage = buildSendNotifySignatureResubmissionMessage()
         val requestDto = aSendNotificationRequestDto()
         val personalisationMap = aNotificationPersonalisationMap()
-        val personalisationDto = buildSignatureResubmissionPersonalisationDto()
 
         given(sendNotifyMessageMapper.fromSignatureResubmissionMessageToSendNotificationRequestDto(sqsMessage)).willReturn(requestDto)
         given(
-            templatePersonalisationMessageMapper.toSignatureResubmissionTemplatePersonalisationDto(
+            signatureResubmissionPersonalisationMapper.fromMessagePersonalisationToPersonalisationMap(
                 sqsMessage.personalisation,
-                sqsMessage.language,
                 sqsMessage.sourceType,
-            ),
-        ).willReturn(personalisationDto)
-        given(
-            templatePersonalisationDtoMapper.toSignatureResubmissionPersonalisation(
-                personalisationDto,
+                sqsMessage.language,
             ),
         ).willReturn(personalisationMap)
 

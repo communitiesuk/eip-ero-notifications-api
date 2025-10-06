@@ -36,8 +36,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredDocum
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewPersonalisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildApplicationRejectedPersonalisationDto
 
 class TemplatePersonalisationDtoMapperTest {
@@ -522,28 +520,6 @@ class TemplatePersonalisationDtoMapperTest {
 
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
-        }
-    }
-
-    @Nested
-    inner class ToSignatureResubmissionTemplatePersonalisationMap {
-        @Test
-        fun `should map to personalisation map`() {
-            // Given
-            val personalisationDto = buildSignatureResubmissionPersonalisationDto(
-                rejectionNotes = null,
-                freeText = null,
-                deadline = null,
-                signatureNotSuitableText = null,
-            )
-
-            val expected = buildSignatureResubmissionPersonalisationMapFromDto(personalisationDto)
-
-            // When
-            val actual = mapper.toSignatureResubmissionPersonalisation(personalisationDto)
-
-            // Then
-            assertThat(actual).isEqualTo(expected)
         }
     }
 }
