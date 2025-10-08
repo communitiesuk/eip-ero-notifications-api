@@ -25,6 +25,7 @@ interface NotificationTypeMapper {
     @ValueMapping(source = "PREVIOUS_MINUS_ADDRESS_MINUS_DOCUMENT_MINUS_REQUIRED", target = "PREVIOUS_ADDRESS_DOCUMENT_REQUIRED")
     @ValueMapping(source = "BESPOKE_MINUS_COMM", target = "BESPOKE_COMM")
     @ValueMapping(source = "NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE", target = "NOT_REGISTERED_TO_VOTE")
+    @ValueMapping(source = "SIGNATURE_MINUS_RESUBMISSION", target = "SIGNATURE_RESUBMISSION")
     fun mapMessageTypeToNotificationType(messageType: MessageType): NotificationType
 
     // PHOTO_RESUBMISSION_WITH_REASONS is an implementation detail and not a "business" notification type

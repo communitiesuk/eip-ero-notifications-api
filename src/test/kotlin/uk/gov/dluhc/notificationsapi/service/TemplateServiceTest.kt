@@ -23,12 +23,12 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.SourceType.OVERSEAS
 import uk.gov.dluhc.notificationsapi.dto.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
+import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionPersonalisationMapper
 import uk.gov.dluhc.notificationsapi.mapper.SignatureResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.TemplatePersonalisationDtoMapper
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationRejectedPersonalisationMapFromDto
@@ -55,7 +55,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSigna
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildSignatureResubmissionPersonalisationDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildGenerateSignatureResubmissionTemplatePreviewRequest
 import java.util.UUID
 import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
@@ -82,6 +81,9 @@ class TemplateServiceTest {
 
     @Mock
     private lateinit var documentCategoryMapper: DocumentCategoryMapper
+
+    @Mock
+    private lateinit var signatureResubmissionPersonalisationMapper: SignatureResubmissionPersonalisationMapper
 
     @Nested
     inner class GeneratePhotoResubmissionTemplatePreview {
@@ -689,22 +691,19 @@ class TemplateServiceTest {
         ) {
             // Given
             val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(sourceType = sourceType)
-            val personalisationDto = buildSignatureResubmissionPersonalisationDto()
 
-            given(signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)).willReturn(SIGNATURE_RESUBMISSION)
-            given(signatureResubmissionPreviewDtoMapper.fromRequestToPersonalisationDto(request)).willReturn(personalisationDto)
+            given(signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)).willReturn(NotificationType.SIGNATURE_RESUBMISSION)
 
             // When
             templateService.generateSignatureResubmissionTemplatePreview(request)
 
             // Then
             verify(signatureResubmissionPreviewDtoMapper).signatureResubmissionNotificationType(request)
-            verify(signatureResubmissionPreviewDtoMapper).fromRequestToPersonalisationDto(request)
             verify(commonTemplateService).generateTemplatePreview(
                 eq(request.channel),
                 eq(request.sourceType),
                 eq(request.language),
-                eq(SIGNATURE_RESUBMISSION),
+                eq(NotificationType.SIGNATURE_RESUBMISSION),
                 any(),
             )
         }

@@ -13,7 +13,9 @@ import uk.gov.dluhc.notificationsapi.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.testsupport.aValidLocalAuthorityName
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildAddressMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildAddress
+import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails as ContactDetailsMessage
 
 @ExtendWith(MockitoExtension::class)
 class EroContactDetailsMapperTest {
@@ -54,5 +56,38 @@ class EroContactDetailsMapperTest {
         // Then
         assertThat(dto).isEqualTo(expected)
         verify(addressMapper).fromApiToDto(apiAddress)
+    }
+
+    @Test
+    fun `should map from message to dto`() {
+        // Given
+        val messageAddress = buildAddressMessage()
+
+        val api = ContactDetailsMessage(
+            localAuthorityName = aValidLocalAuthorityName(),
+            website = faker.internet().url(),
+            email = faker.internet().safeEmailAddress(),
+            phone = faker.phoneNumber().phoneNumber(),
+            address = messageAddress,
+        )
+
+        val dtoAddress = buildAddressDto()
+
+        val expected = ContactDetailsDto(
+            localAuthorityName = api.localAuthorityName,
+            website = api.website,
+            email = api.email,
+            phone = api.phone,
+            address = dtoAddress,
+        )
+
+        given(addressMapper.fromSqsToDto(messageAddress)).willReturn(dtoAddress)
+
+        // When
+        val dto = mapper.fromSqsToDto(api)
+
+        // Then
+        assertThat(dto).isEqualTo(expected)
+        verify(addressMapper).fromSqsToDto(messageAddress)
     }
 }

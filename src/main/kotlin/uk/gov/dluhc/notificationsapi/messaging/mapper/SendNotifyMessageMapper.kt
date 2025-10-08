@@ -12,6 +12,8 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.mapper.CommunicationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
@@ -30,6 +32,8 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissio
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureResubmissionMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureResubmissionPersonalisation
 
 @Mapper(
     componentModel = "spring",
@@ -42,6 +46,18 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatu
     ],
 )
 abstract class SendNotifyMessageMapper {
+
+    @Autowired
+    private lateinit var notificationDestinationDtoMapper: NotificationDestinationDtoMapper
+
+    @Autowired
+    private lateinit var sourceTypeMapper: SourceTypeMapper
+
+    @Autowired
+    private lateinit var languageMapper: LanguageMapper
+
+    @Autowired
+    private lateinit var communicationChannelMapper: CommunicationChannelMapper
 
     @Autowired
     private lateinit var documentCategoryMapper: DocumentCategoryMapper
@@ -116,6 +132,21 @@ abstract class SendNotifyMessageMapper {
         message: SendNotifyNotRegisteredToVoteMessage,
     ): SendNotificationRequestDto
 
+    fun fromSignatureResubmissionMessageToSendNotificationRequestDto(
+        message: SendNotifySignatureResubmissionMessage,
+    ): SendNotificationRequestDto = with(message) {
+        SendNotificationRequestDto(
+            channel = channel.let(communicationChannelMapper::fromMessagingApiToDto),
+            language = language.let(languageMapper::fromMessageToDto),
+            gssCode = gssCode,
+            requestor = requestor,
+            sourceType = sourceType.let(sourceTypeMapper::fromMessageToDto),
+            sourceReference = sourceReference,
+            toAddress = toAddress.let(notificationDestinationDtoMapper::toNotificationDestinationDto),
+            notificationType = signatureResubmissionNotificationType(personalisation),
+        )
+    }
+
     protected fun photoResubmissionNotificationType(message: SendNotifyPhotoResubmissionMessage): NotificationType =
         // PHOTO_RESUBMISSION_WITH_REASONS should be used if there are rejection reasons (excluding OTHER) or there are rejection notes
         with(message.personalisation) {
@@ -167,6 +198,17 @@ abstract class SendNotifyMessageMapper {
                 NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
             } else {
                 documentCategoryMapper.fromRequiredDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
+            }
+        }
+
+    protected fun signatureResubmissionNotificationType(
+        personalisation: SignatureResubmissionPersonalisation,
+    ): NotificationType =
+        with(personalisation) {
+            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank()) {
+                SIGNATURE_RESUBMISSION_WITH_REASONS
+            } else {
+                SIGNATURE_RESUBMISSION
             }
         }
 

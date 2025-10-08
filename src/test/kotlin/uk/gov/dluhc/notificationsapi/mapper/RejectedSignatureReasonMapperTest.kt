@@ -118,18 +118,21 @@ class RejectedSignatureReasonMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "ENGLISH,The signature you provided in your text application is not suitable.",
-            "WELSH,Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am text yn addas.",
+            "ENGLISH,true,The signature you provided in your text application is not suitable.",
+            "WELSH,true,Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am text yn addas.",
+            "ENGLISH,false,null",
         ],
+        nullValues = ["null"],
     )
     fun `should map source type to human readable messages`(
         language: LanguageDto,
-        expected: String,
+        includeText: Boolean,
+        expected: String?,
     ) {
         // Given
 
         // When
-        val actual = mapper.toSignatureNotSuitableText("text", language)
+        val actual = mapper.toSignatureNotSuitableText("text", language, includeText)
 
         // Then
         Assertions.assertThat(actual).isEqualTo(expected)

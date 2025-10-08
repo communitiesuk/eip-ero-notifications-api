@@ -25,16 +25,3 @@ class GeneratePhotoResubmissionTemplatePreviewDto(
     language = language,
     notificationType = notificationType,
 )
-
-class GenerateSignatureResubmissionTemplatePreviewDto(
-    sourceType: SourceType,
-    channel: CommunicationChannel,
-    language: LanguageDto,
-    val personalisation: SignatureResubmissionPersonalisationDto,
-    notificationType: NotificationType,
-) : BaseGenerateTemplatePreviewDto(
-    sourceType = sourceType,
-    channel = channel,
-    language = language,
-    notificationType = notificationType,
-)

@@ -30,11 +30,15 @@ class SignatureRejectionReasonMapper(private val messageSource: MessageSource) {
         )
     }
 
-    fun toSignatureNotSuitableText(sourceType: String, languageDto: LanguageDto): String {
-        return messageSource.getMessage(
-            "templates.signature-resubmission.signature-not-suitable",
-            arrayOf(sourceType),
-            languageDto.locale,
-        )
+    fun toSignatureNotSuitableText(sourceType: String, languageDto: LanguageDto, includeText: Boolean): String? {
+        if (includeText) {
+            return messageSource.getMessage(
+                "templates.signature-resubmission.signature-not-suitable",
+                arrayOf(sourceType),
+                languageDto.locale,
+            )
+        } else {
+            return null
+        }
     }
 }

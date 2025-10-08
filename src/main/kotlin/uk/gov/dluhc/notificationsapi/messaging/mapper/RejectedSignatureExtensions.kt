@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.messaging.mapper
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason.OTHER
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureResubmissionPersonalisation
 
 /**
  * Extension property on RejectedSignature to return the signature rejection reasons, excluding OTHER
@@ -10,4 +11,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason.O
  * about which gov.uk template to use, or rendered in the bulleted list of rejection reasons in the rendered template.
  */
 val RejectedSignaturePersonalisation.rejectionReasonsExcludingOther: List<SignatureRejectionReason>
+    get() = this.rejectionReasons.filter { it != OTHER }
+
+val SignatureResubmissionPersonalisation.rejectionReasonsExcludingOther: List<SignatureRejectionReason>
     get() = this.rejectionReasons.filter { it != OTHER }

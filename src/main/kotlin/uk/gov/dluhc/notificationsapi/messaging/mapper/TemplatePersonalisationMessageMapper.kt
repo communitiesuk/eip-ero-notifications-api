@@ -35,6 +35,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RequestedSignaturePersonalisation
+import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import java.time.LocalDate
 
@@ -77,7 +78,7 @@ abstract class TemplatePersonalisationMessageMapper {
     )
     @Mapping(
         target = "rejectionReasons",
-        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage ) )",
+        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage.getRejectionReasons() ) )",
     )
     abstract fun toRejectedSignaturePersonalisationDto(
         personalisationMessage: RejectedSignaturePersonalisation,
@@ -241,9 +242,9 @@ abstract class TemplatePersonalisationMessageMapper {
 
     protected fun mapSignatureRejectionReasons(
         languageDto: LanguageDto,
-        personalisation: RejectedSignaturePersonalisation,
+        rejectionReasons: List<SignatureRejectionReason>,
     ): List<String> {
-        return personalisation.rejectionReasonsExcludingOther.map { reason ->
+        return rejectionReasons.filter { it != SignatureRejectionReason.OTHER }.map { reason ->
             signatureRejectionReasonMapper.toSignatureRejectionReasonString(
                 reason,
                 languageDto,
