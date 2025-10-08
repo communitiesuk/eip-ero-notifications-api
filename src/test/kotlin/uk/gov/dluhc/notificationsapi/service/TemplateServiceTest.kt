@@ -11,6 +11,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
@@ -54,7 +55,9 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRejectedSigna
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequestedSignaturePersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentPersonalisationMapFromDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildRequiredOverseasDocumentTemplatePreviewDto
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildGenerateSignatureResubmissionTemplatePreviewRequest
 import java.util.UUID
+import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
 
 @ExtendWith(MockitoExtension::class)
 class TemplateServiceTest {
@@ -679,33 +682,30 @@ class TemplateServiceTest {
         }
     }
 
-//    @Nested
-//    inner class GenerateSignatureResubmissionTemplatePreview {
-//        @ParameterizedTest
-//        @EnumSource(value = SourceTypeApi::class, names = ["POSTAL", "PROXY"])
-//        fun `should return signature resubmission template preview`(
-//            sourceType: SourceTypeApi,
-//        ) {
-//            // Given
-//            val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(sourceType = sourceType)
-//            val personalisationDto = buildSignatureResubmissionPersonalisationDto()
-//
-//            given(signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)).willReturn(SIGNATURE_RESUBMISSION)
-//            given(signatureResubmissionPreviewDtoMapper.fromRequestToPersonalisationDto(request)).willReturn(personalisationDto)
-//
-//            // When
-//            templateService.generateSignatureResubmissionTemplatePreview(request)
-//
-//            // Then
-//            verify(signatureResubmissionPreviewDtoMapper).signatureResubmissionNotificationType(request)
-//            verify(signatureResubmissionPreviewDtoMapper).fromRequestToPersonalisationDto(request)
-//            verify(commonTemplateService).generateTemplatePreview(
-//                eq(request.channel),
-//                eq(request.sourceType),
-//                eq(request.language),
-//                eq(SIGNATURE_RESUBMISSION),
-//                any(),
-//            )
-//        }
-//    }
+    @Nested
+    inner class GenerateSignatureResubmissionTemplatePreview {
+        @ParameterizedTest
+        @EnumSource(value = SourceTypeApi::class, names = ["POSTAL", "PROXY"])
+        fun `should return signature resubmission template preview`(
+            sourceType: SourceTypeApi,
+        ) {
+            // Given
+            val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(sourceType = sourceType)
+
+            given(signatureResubmissionPreviewDtoMapper.signatureResubmissionNotificationType(request)).willReturn(NotificationType.SIGNATURE_RESUBMISSION)
+
+            // When
+            templateService.generateSignatureResubmissionTemplatePreview(request)
+
+            // Then
+            verify(signatureResubmissionPreviewDtoMapper).signatureResubmissionNotificationType(request)
+            verify(commonTemplateService).generateTemplatePreview(
+                eq(request.channel),
+                eq(request.sourceType),
+                eq(request.language),
+                eq(NotificationType.SIGNATURE_RESUBMISSION),
+                any(),
+            )
+        }
+    }
 }

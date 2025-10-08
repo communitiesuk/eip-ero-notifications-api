@@ -1,5 +1,7 @@
 package uk.gov.dluhc.notificationsapi.dto
 
+import uk.gov.dluhc.notificationsapi.utils.getSafeValue
+
 data class ContactDetailsDto(
     val localAuthorityName: String,
     val website: String,
@@ -23,13 +25,11 @@ fun ContactDetailsDto.mapToPersonalisation(personalisation: MutableMap<String, S
     personalisation["eroWebsite"] = website
     personalisation["eroEmail"] = email
     with(address) {
-        personalisation["eroAddressLine1"] = getSafeValue(property)
+        personalisation["eroAddressLine1"] = property.getSafeValue()
         personalisation["eroAddressLine2"] = street
-        personalisation["eroAddressLine3"] = getSafeValue(town)
-        personalisation["eroAddressLine4"] = getSafeValue(area)
-        personalisation["eroAddressLine5"] = getSafeValue(locality)
+        personalisation["eroAddressLine3"] = town.getSafeValue()
+        personalisation["eroAddressLine4"] = area.getSafeValue()
+        personalisation["eroAddressLine5"] = locality.getSafeValue()
         personalisation["eroPostcode"] = postcode
     }
 }
-
-fun getSafeValue(input: String?): String = input?.ifBlank { "" } ?: ""

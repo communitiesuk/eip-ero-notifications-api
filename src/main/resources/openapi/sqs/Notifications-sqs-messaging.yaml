@@ -4,6 +4,8 @@ info:
   version: '2.0.10'
   description: |-
     Notifications SQS Message Types
+  
+    These SQS message types are used in both the Notifications API and the Applications API, and changes here will need to be copied across.
     
     Whilst this is an openAPI spec, it does not define being used to define REST APIs, nor is it intended to.
     
@@ -12,8 +14,6 @@ info:
     
     The `paths` element is only being used in order to maintain the structure of the openApi spec, as `paths` are required 
     elements.
-    
-    These SQS message types are used within the Applications API, and so the files should be kept in sync.
 #
 # --------------------------------------------------------------------------------
 #

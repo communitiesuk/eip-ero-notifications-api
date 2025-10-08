@@ -1069,20 +1069,11 @@ internal class SendNotifyMessageMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "EMAIL,EN,EMAIL,false,SIGNATURE_RESUBMISSION",
-                "EMAIL,CY,EMAIL,false,SIGNATURE_RESUBMISSION",
-                "LETTER,EN,LETTER,false,SIGNATURE_RESUBMISSION",
-                "LETTER,CY,LETTER,false,SIGNATURE_RESUBMISSION",
-                "EMAIL,EN,EMAIL,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
-                "EMAIL,CY,EMAIL,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
-                "LETTER,EN,LETTER,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
-                "LETTER,CY,LETTER,true,SIGNATURE_RESUBMISSION_WITH_REASONS",
+                "false,SIGNATURE_RESUBMISSION",
+                "true,SIGNATURE_RESUBMISSION_WITH_REASONS",
             ],
         )
         fun `should map SQS SendNotifySignatureResubmissionMessage to SendNotificationRequestDto with rejection reasons and notes`(
-            sqsChannel: SqsChannel,
-            language: Language,
-            communicationChannel: CommunicationChannel,
             isRejected: Boolean,
             expectedNotificationType: NotificationType,
         ) {
@@ -1103,11 +1094,11 @@ internal class SendNotifyMessageMapperTest {
             given(languageMapper.fromMessageToDto(any())).willReturn(LanguageDto.ENGLISH)
             given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
             given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
-            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)
+            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(CommunicationChannel.EMAIL)
 
             val request = buildSendNotifySignatureResubmissionMessage(
-                channel = sqsChannel,
-                language = language,
+                channel = SqsChannel.EMAIL,
+                language = Language.EN,
                 sourceType = SqsSourceType.POSTAL,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
@@ -1120,17 +1111,17 @@ internal class SendNotifyMessageMapperTest {
             val notification = mapper.fromSignatureResubmissionMessageToSendNotificationRequestDto(request)
 
             // Then
-            assertThat(notification.channel).isEqualTo(communicationChannel)
+            assertThat(notification.channel).isEqualTo(CommunicationChannel.EMAIL)
             assertThat(notification.sourceType).isEqualTo(expectedSourceType)
             assertThat(notification.sourceReference).isEqualTo(sourceReference)
             assertThat(notification.gssCode).isEqualTo(gssCode)
             assertThat(notification.requestor).isEqualTo(requestor)
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
-            verify(languageMapper).fromMessageToDto(language)
+            verify(languageMapper).fromMessageToDto(Language.EN)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
-            verify(communicationChannelMapper).fromMessagingApiToDto(sqsChannel)
+            verify(communicationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
     }
 }

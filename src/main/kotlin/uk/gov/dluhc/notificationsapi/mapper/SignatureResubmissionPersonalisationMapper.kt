@@ -3,9 +3,9 @@ package uk.gov.dluhc.notificationsapi.mapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
-import uk.gov.dluhc.notificationsapi.dto.getSafeValue
 import uk.gov.dluhc.notificationsapi.dto.mapToPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.mapper.rejectionReasonsExcludingOther
+import uk.gov.dluhc.notificationsapi.utils.getSafeValue
 import java.time.LocalDate
 import uk.gov.dluhc.notificationsapi.messaging.models.Language as LanguageMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason as SignatureRejectionReasonMessage
@@ -51,24 +51,22 @@ class SignatureResubmissionPersonalisationMapper {
         with(personalisation) {
             personalisationMap["applicationReference"] = applicationReference
             personalisationMap["firstName"] = firstName
-            personalisationMap["rejectionNotes"] = getSafeValue(rejectionNotes)
+            personalisationMap["rejectionNotes"] = rejectionNotes.getSafeValue()
             personalisationMap["rejectionReasons"] = mapMessageSignatureRejectionReasons(languageDto, this.rejectionReasonsExcludingOther)
-            personalisationMap["rejectionFreeText"] = getSafeValue(rejectionFreeText)
+            personalisationMap["rejectionFreeText"] = rejectionFreeText.getSafeValue()
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.let(eroContactDetailsMapper::fromSqsToDto).mapToPersonalisation(this)
                 personalisationMap.putAll(this)
             }
             personalisationMap["fullSourceType"] = fullSourceTypeString
             personalisationMap["shortSourceType"] = shortSourceTypeString
-            personalisationMap["deadline"] = getSafeValue(mapDeadline(deadlineDate, deadlineTime, languageDto, fullSourceTypeString))
+            personalisationMap["deadline"] = mapDeadline(deadlineDate, deadlineTime, languageDto, fullSourceTypeString).getSafeValue()
             personalisationMap["uploadSignatureLink"] = uploadSignatureLink
-            personalisationMap["signatureNotSuitableText"] = getSafeValue(
-                signatureRejectionReasonMapper.toSignatureNotSuitableText(
-                    fullSourceTypeString,
-                    languageDto,
-                    includeSignatureNotSuitableText,
-                ),
-            )
+            personalisationMap["signatureNotSuitableText"] = signatureRejectionReasonMapper.toSignatureNotSuitableText(
+                fullSourceTypeString,
+                languageDto,
+                includeSignatureNotSuitableText,
+            ).getSafeValue()
         }
 
         return personalisationMap
@@ -91,24 +89,22 @@ class SignatureResubmissionPersonalisationMapper {
         with(personalisation) {
             personalisationMap["applicationReference"] = applicationReference
             personalisationMap["firstName"] = firstName
-            personalisationMap["rejectionNotes"] = getSafeValue(rejectionNotes)
+            personalisationMap["rejectionNotes"] = rejectionNotes.getSafeValue()
             personalisationMap["rejectionReasons"] = mapApiSignatureRejectionReasons(languageDto, this.rejectionReasonsExcludingOther)
-            personalisationMap["rejectionFreeText"] = getSafeValue(rejectionFreeText)
+            personalisationMap["rejectionFreeText"] = rejectionFreeText.getSafeValue()
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.let(eroContactDetailsMapper::fromApiToDto).mapToPersonalisation(this)
                 personalisationMap.putAll(this)
             }
             personalisationMap["fullSourceType"] = fullSourceTypeString
             personalisationMap["shortSourceType"] = shortSourceTypeString
-            personalisationMap["deadline"] = getSafeValue(mapDeadline(deadlineDate, deadlineTime, languageDto, fullSourceTypeString))
+            personalisationMap["deadline"] = mapDeadline(deadlineDate, deadlineTime, languageDto, fullSourceTypeString).getSafeValue()
             personalisationMap["uploadSignatureLink"] = uploadSignatureLink
-            personalisationMap["signatureNotSuitableText"] = getSafeValue(
-                signatureRejectionReasonMapper.toSignatureNotSuitableText(
-                    fullSourceTypeString,
-                    languageDto,
-                    includeSignatureNotSuitableText,
-                ),
-            )
+            personalisationMap["signatureNotSuitableText"] = signatureRejectionReasonMapper.toSignatureNotSuitableText(
+                fullSourceTypeString,
+                languageDto,
+                includeSignatureNotSuitableText,
+            ).getSafeValue()
         }
 
         return personalisationMap

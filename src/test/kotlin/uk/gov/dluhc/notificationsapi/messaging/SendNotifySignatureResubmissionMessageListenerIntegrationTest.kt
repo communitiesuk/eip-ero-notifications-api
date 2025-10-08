@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.messaging
 
+import ch.qos.logback.classic.Level
 import mu.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions
@@ -11,6 +12,7 @@ import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
+import uk.gov.dluhc.notificationsapi.testsupport.TestLogAppender
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendEmailSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessResponse
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aGssCode
@@ -67,12 +69,17 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
             wireMockService.stubNotifySendLetterResponse(NotifySendLetterSuccessResponse())
         }
 
+        val expectedLog = "Received request to send UK GOV Notify Signature Resubmission comms for gssCode: $gssCode with " +
+            "channel: $sqsChannel, " +
+            "messageType: SIGNATURE_MINUS_RESUBMISSION, " +
+            "language: $language"
+
         // When
         sqsMessagingTemplate.send(sendUkGovNotifySignatureResubmissionQueueName, payload)
 
         // Then
         val stopWatch = StopWatch.createStarted()
-        await.atMost(5, TimeUnit.SECONDS).untilAsserted {
+        await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             if (sqsChannel == CommunicationChannel.EMAIL) {
                 wireMockService.verifyNotifySendEmailCalled()
             } else {
@@ -81,6 +88,7 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
             val actualEntity =
                 notificationRepository.getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             Assertions.assertThat(actualEntity).hasSize(1)
+            Assertions.assertThat(TestLogAppender.hasLog(expectedLog, Level.INFO)).isTrue()
             stopWatch.stop()
             logger.info("completed assertions in $stopWatch for language $language and channel $sqsChannel")
         }
