@@ -3,18 +3,13 @@ package uk.gov.dluhc.notificationsapi.dto
 /**
  * Types of notification handled by the service.
  *
- * The notification types
- * - PHOTO_RESUBMISSION_WITH_REASONS
- * - ID_DOCUMENT_RESUBMISSION_WITH_REASONS
- * - REJECTED_SIGNATURE_WITH_REASONS
- * - NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
- * are implementation details, not "business" notification types, and do not differentiate between with vs without
- * reasons, or ordinary vs restricted document list electors. They are defined here so that they can be mapped to a
- * different gov.uk notify templateId (ie. it's an implementation detail), but will be saved to the database (and
- * returned through the REST API) as PHOTO_RESUBMISSION / ID_DOCUMENT_RESUBMISSION / REJECTED_SIGNATURE /
- * NINO_NOT_MATCHED
+ * The notification types <NOTIFICATION_TYPE>_WITH_REASONS and NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST are implementation details,
+ * not "business" notification types, and do not differentiate between with vs without reasons, or ordinary vs restricted document list electors.
+ * They are defined here so that they can be mapped to a different gov.uk notify templateId (ie. it's an implementation detail), but will be saved to the database (and
+ * returned through the REST API) as the base notification type (e.g. NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> NINO_NOT_MATCHED)
  */
 enum class NotificationType {
+// If adding a new notification type you should consider if a new statistic is required for this, see statistics.md
     APPLICATION_RECEIVED,
     APPLICATION_APPROVED,
     APPLICATION_REJECTED,
