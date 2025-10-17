@@ -18,4 +18,5 @@ enum class NotificationType {
     BESPOKE_COMM,
     NOT_REGISTERED_TO_VOTE,
     SIGNATURE_RESUBMISSION,
+    SIGNATURE_RECEIVED,
 }
