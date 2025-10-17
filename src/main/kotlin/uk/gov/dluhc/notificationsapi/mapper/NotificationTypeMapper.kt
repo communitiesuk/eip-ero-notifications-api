@@ -105,6 +105,7 @@ class NotificationTypeMapper {
             NotificationType.BESPOKE_COMM -> TemplateType.BESPOKE_MINUS_COMM
             NotificationType.NOT_REGISTERED_TO_VOTE -> TemplateType.NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE
             NotificationType.SIGNATURE_RESUBMISSION -> TemplateType.SIGNATURE_MINUS_RESUBMISSION
+            NotificationType.SIGNATURE_RECEIVED -> TemplateType.SIGNATURE_MINUS_RECEIVED
             else -> throw IllegalArgumentException("Unexpected NotificationType $notificationType when mapping to API TemplateType")
         }
 }
