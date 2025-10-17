@@ -163,6 +163,17 @@ paths:
       responses:
         '204':
           description: No response content.
+
+  '/send-uk-gov-notify-signature-received-message':
+    post:
+      tags:
+        - SQS Queues
+      requestBody:
+        $ref: '#/components/requestBodies/SendNotifySignatureReceivedMessage'
+      responses:
+        '204':
+          description: No response content.
+
 components:
   #
   # Schema and Enum Definitions
@@ -939,6 +950,10 @@ components:
       required:
         - uploadSignatureLink
         - isRejected
+    SignatureReceivedPersonalisation:
+      title: SignatureReceivedPersonalisation
+      type: object
+      description: Personalisation details for a signature
     SendNotifySignatureResubmissionMessage:
       title: SendNotifySignatureResubmissionMessage
       type: object
@@ -953,6 +968,17 @@ components:
       required:
         - personalisation
         - channel
+    SendNotifySignatureReceivedMessage:
+      title: SendNotifySignatureReceivedMessage
+      type: object
+      description: SQS Message for sending GOV.UK Notify signature resubmission messages
+      allOf:
+        - $ref: '#/components/schemas/SendNotifyMessage'
+      properties:
+        personalisation:
+          $ref: '#/components/schemas/BasePersonalisation'
+      required:
+        - personalisation
 
   #
   # Response Body Definitions
@@ -1033,3 +1059,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/SendNotifySignatureResubmissionMessage'
+    SendNotifySignatureReceivedMessage:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SendNotifySignatureReceivedMessage'
