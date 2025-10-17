@@ -152,6 +152,6 @@ class NotificationTypeMapperTest {
 
         // Then
         assertThat(exception)
-            .hasMessage("Unexpected enum constant: $unSupportedNotificationType")
+            .hasMessage("Unexpected NotificationType $unSupportedNotificationType when mapping to API TemplateType")
     }
 }
