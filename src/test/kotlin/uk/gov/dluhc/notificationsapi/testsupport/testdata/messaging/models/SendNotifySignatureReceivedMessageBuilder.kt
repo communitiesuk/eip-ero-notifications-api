@@ -16,7 +16,7 @@ fun buildSendNotifySignatureReceivedMessage(
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    personalisation: BasePersonalisation,
+    personalisation: BasePersonalisation = buildBasePersonalisation(),
     toAddress: MessageAddress = aMessageAddress(),
 ) = SendNotifySignatureReceivedMessage(
     language = language,

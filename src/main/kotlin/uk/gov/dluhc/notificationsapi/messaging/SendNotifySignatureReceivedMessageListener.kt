@@ -29,8 +29,8 @@ class SendNotifySignatureReceivedMessageListener(
             logger.info {
                 "Received request to send UK GOV Notify Signature Resubmission comms for gssCode: [$gssCode] with " +
                     "channel: [EMAIL], " +
-                    "messageType: [$messageType]"
-                "language: [$language]"
+                    "messageType: [$messageType], " +
+                    "language: [$language]"
             }
             val sendNotificationRequestDto =
                 sendNotifyMessageMapper.fromSignatureReceivedMessageToSendNotificationRequestDto(this)
