@@ -61,6 +61,8 @@ class SendNotificationService(
             NotificationType.REJECTED_SIGNATURE_WITH_REASONS -> true
             NotificationType.BESPOKE_COMM -> true
             NotificationType.NOT_REGISTERED_TO_VOTE -> true
+            NotificationType.SIGNATURE_RESUBMISSION -> true
+            NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS -> true
             else -> false
         }
 

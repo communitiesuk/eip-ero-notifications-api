@@ -77,6 +77,8 @@ api:
           signature-resubmission-welsh: 40b4ae6e-0c8c-4267-a843-24566dd8711e
           signature-resubmission-with-reasons-english: 6bd16119-4143-4fc4-8da6-6834a6b3400e
           signature-resubmission-with-reasons-welsh: ba3e64b9-40a5-46a2-b867-c7e2f9ffad5d
+          signature-received-english: 80464063-a14c-4d28-95c3-5e031a4fc890
+          signature-received-welsh: 1de52675-f6c7-4aeb-b5db-8ce9232faa47
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -122,6 +124,8 @@ api:
           signature-resubmission-welsh: 40b4ae6e-0c8c-4267-a843-24566dd8711e
           signature-resubmission-with-reasons-english: 6bd16119-4143-4fc4-8da6-6834a6b3400e
           signature-resubmission-with-reasons-welsh: ba3e64b9-40a5-46a2-b867-c7e2f9ffad5d
+          signature-received-english: 80464063-a14c-4d28-95c3-5e031a4fc890
+          signature-received-welsh: 1de52675-f6c7-4aeb-b5db-8ce9232faa47
         letter:
           rejected-document-english: ab3c859b-93df-4f47-bc80-c158acc6aac1
           rejected-document-welsh: ab3c859b-93df-4f47-bc80-c158acc6aac2
@@ -189,5 +193,6 @@ sqs:
   send-uk-gov-notify-bespoke-comm-queue-name: test-send-uk-gov-notify-bespoke-comm
   send-uk-gov-notify-not-registered-to-vote-queue-name: test-send-uk-gov-notify-not-registered-to-vote
   send-uk-gov-notify-signature-resubmission-queue-name: test-send-uk-gov-notify-signature-resubmission
+  send-uk-gov-notify-signature-received-queue-name: test-send-uk-gov-notify-signature-received
   remove-application-notifications-queue-name: test-remove-application-notifications
   trigger-application-statistics-update-queue-name: test-trigger-application-statistics-update.fifo

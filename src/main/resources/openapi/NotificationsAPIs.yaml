@@ -1353,6 +1353,7 @@ components:
         - bespoke-comm
         - not-registered-to-vote
         - signature-resubmission
+        - signature-received
     Language:
       title: Language
       description: The language to view the template

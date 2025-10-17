@@ -3,6 +3,7 @@ package uk.gov.dluhc.notificationsapi.messaging.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.springframework.beans.factory.annotation.Autowired
+import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.DocumentCategoryDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
@@ -32,6 +33,7 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissio
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
+import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureReceivedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureResubmissionPersonalisation
 
@@ -144,6 +146,21 @@ abstract class SendNotifyMessageMapper {
             sourceReference = sourceReference,
             toAddress = toAddress.let(notificationDestinationDtoMapper::toNotificationDestinationDto),
             notificationType = signatureResubmissionNotificationType(personalisation),
+        )
+    }
+
+    fun fromSignatureReceivedMessageToSendNotificationRequestDto(
+        message: SendNotifySignatureReceivedMessage,
+    ): SendNotificationRequestDto = with(message) {
+        SendNotificationRequestDto(
+            channel = CommunicationChannel.EMAIL,
+            language = language.let(languageMapper::fromMessageToDto),
+            gssCode = gssCode,
+            requestor = requestor,
+            sourceType = sourceType.let(sourceTypeMapper::fromMessageToDto),
+            sourceReference = sourceReference,
+            toAddress = toAddress.let(notificationDestinationDtoMapper::toNotificationDestinationDto),
+            notificationType = NotificationType.SIGNATURE_RECEIVED,
         )
     }
 

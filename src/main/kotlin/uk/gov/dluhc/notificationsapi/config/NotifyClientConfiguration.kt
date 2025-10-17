@@ -84,6 +84,8 @@ abstract class AbstractNotifyEmailTemplateConfiguration(
     val signatureResubmissionWelsh: String?,
     val signatureResubmissionWithReasonsEnglish: String?,
     val signatureResubmissionWithReasonsWelsh: String?,
+    val signatureReceivedEnglish: String?,
+    val signatureReceivedWelsh: String?,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.postal.email", ignoreUnknownFields = false)
@@ -111,6 +113,8 @@ class PostalNotifyEmailTemplateConfiguration(
     signatureResubmissionWelsh: String,
     signatureResubmissionWithReasonsEnglish: String,
     signatureResubmissionWithReasonsWelsh: String,
+    signatureReceivedEnglish: String,
+    signatureReceivedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -155,6 +159,8 @@ class PostalNotifyEmailTemplateConfiguration(
     signatureResubmissionWelsh = signatureResubmissionWelsh,
     signatureResubmissionWithReasonsEnglish = signatureResubmissionWithReasonsEnglish,
     signatureResubmissionWithReasonsWelsh = signatureResubmissionWithReasonsWelsh,
+    signatureReceivedEnglish = signatureReceivedEnglish,
+    signatureReceivedWelsh = signatureReceivedWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.proxy.email", ignoreUnknownFields = false)
@@ -182,6 +188,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     signatureResubmissionWelsh: String,
     signatureResubmissionWithReasonsEnglish: String,
     signatureResubmissionWithReasonsWelsh: String,
+    signatureReceivedEnglish: String,
+    signatureReceivedWelsh: String,
 ) : AbstractNotifyEmailTemplateConfiguration(
     sourceType = sourceType,
     receivedEnglish = receivedEnglish,
@@ -226,6 +234,8 @@ class ProxyNotifyEmailTemplateConfiguration(
     signatureResubmissionWelsh = signatureResubmissionWelsh,
     signatureResubmissionWithReasonsEnglish = signatureResubmissionWithReasonsEnglish,
     signatureResubmissionWithReasonsWelsh = signatureResubmissionWithReasonsWelsh,
+    signatureReceivedEnglish = signatureReceivedEnglish,
+    signatureReceivedWelsh = signatureReceivedWelsh,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.overseas.email", ignoreUnknownFields = false)
@@ -291,6 +301,8 @@ class OverseasNotifyEmailTemplateConfiguration(
     signatureResubmissionWelsh = null,
     signatureResubmissionWithReasonsEnglish = null,
     signatureResubmissionWithReasonsWelsh = null,
+    signatureReceivedEnglish = null,
+    signatureReceivedWelsh = null,
 )
 
 @ConfigurationProperties(prefix = "api.notify.template.voter-card.email", ignoreUnknownFields = false)
@@ -358,6 +370,8 @@ class VoterCardNotifyEmailTemplateConfiguration(
     signatureResubmissionWelsh = null,
     signatureResubmissionWithReasonsEnglish = null,
     signatureResubmissionWithReasonsWelsh = null,
+    signatureReceivedEnglish = null,
+    signatureReceivedWelsh = null,
 )
 
 data class NotifyLetterTemplateConfiguration(
