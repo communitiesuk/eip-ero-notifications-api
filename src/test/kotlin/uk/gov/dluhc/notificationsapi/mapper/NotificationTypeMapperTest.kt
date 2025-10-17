@@ -11,7 +11,7 @@ import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 
 class NotificationTypeMapperTest {
-    private val mapper = NotificationTypeMapperImpl()
+    private val mapper = NotificationTypeMapper()
 
     @ParameterizedTest
     @CsvSource(
