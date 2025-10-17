@@ -611,6 +611,7 @@ components:
         - bespoke-comm
         - not-registered-to-vote
         - signature-resubmission
+        - signature-received
 
     MessageAddress:
       type: object
