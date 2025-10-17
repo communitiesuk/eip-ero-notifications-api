@@ -51,6 +51,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.aMess
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationApprovedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationReceivedPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildApplicationRejectedPersonalisation
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBasePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildBespokeCommPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildIdDocumentRequiredPersonalisationMessage
@@ -64,6 +65,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRejectedSignatureMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRequestedSignatureMessage
+import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifySignatureReceivedMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifySignatureResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSignatureResubmissionPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel as SqsChannel
@@ -1122,6 +1124,51 @@ internal class SendNotifyMessageMapperTest {
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(communicationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
+        }
+    }
+
+    @Nested
+    inner class FromSignatureReceivedMessageToSendNotificationRequestDto {
+        @Test
+        fun `should map SQS SendNotifySignatureReceivedMessage to SendNotificationRequestDto`() {
+            // Given
+            val gssCode = aGssCode()
+            val requestor = aRequestor()
+            val sourceReference = aSourceReference()
+            val toAddress = aMessageAddress()
+            val expectedToAddress = aNotificationDestination()
+
+            val expectedSourceType = SourceType.POSTAL
+            val personalisationMessage = buildBasePersonalisation()
+
+            given(languageMapper.fromMessageToDto(any())).willReturn(LanguageDto.ENGLISH)
+            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
+            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
+
+            val request = buildSendNotifySignatureReceivedMessage(
+                language = Language.EN,
+                sourceType = SqsSourceType.POSTAL,
+                sourceReference = sourceReference,
+                gssCode = gssCode,
+                requestor = requestor,
+                toAddress = toAddress,
+                personalisation = personalisationMessage,
+            )
+
+            // When
+            val notification = mapper.fromSignatureReceivedMessageToSendNotificationRequestDto(request)
+
+            // Then
+            assertThat(notification.channel).isEqualTo(CommunicationChannel.EMAIL)
+            assertThat(notification.sourceType).isEqualTo(expectedSourceType)
+            assertThat(notification.sourceReference).isEqualTo(sourceReference)
+            assertThat(notification.gssCode).isEqualTo(gssCode)
+            assertThat(notification.requestor).isEqualTo(requestor)
+            assertThat(notification.notificationType).isEqualTo(NotificationType.SIGNATURE_RECEIVED)
+            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
+            verify(languageMapper).fromMessageToDto(Language.EN)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
+            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
         }
     }
 }
