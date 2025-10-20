@@ -11,7 +11,7 @@ import uk.gov.dluhc.notificationsapi.models.TemplateType
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType as NotificationTypeEntity
 
 class NotificationTypeMapperTest {
-    private val mapper = NotificationTypeMapperImpl()
+    private val mapper = NotificationTypeMapper()
 
     @ParameterizedTest
     @CsvSource(
@@ -119,6 +119,7 @@ class NotificationTypeMapperTest {
             "REJECTED_PARENT_GUARDIAN, REJECTED_MINUS_PARENT_MINUS_GUARDIAN",
             "REJECTED_PREVIOUS_ADDRESS, REJECTED_MINUS_PREVIOUS_MINUS_ADDRESS",
             "SIGNATURE_RESUBMISSION, SIGNATURE_MINUS_RESUBMISSION",
+            "SIGNATURE_RECEIVED, SIGNATURE_MINUS_RECEIVED",
         ],
     )
     fun `should map Notification Type to Template Type`(notificationType: NotificationType, expected: TemplateType) {
@@ -152,6 +153,6 @@ class NotificationTypeMapperTest {
 
         // Then
         assertThat(exception)
-            .hasMessage("Unexpected enum constant: $unSupportedNotificationType")
+            .hasMessage("Unexpected NotificationType $unSupportedNotificationType when mapping from DB Sent Notification to API TemplateType")
     }
 }

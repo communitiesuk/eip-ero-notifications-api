@@ -30,6 +30,7 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PREVIOUS_ADDR
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
+import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -116,6 +117,7 @@ class NotificationTemplateMapper(
             NOT_REGISTERED_TO_VOTE -> config.notRegisteredToVoteWelsh
             SIGNATURE_RESUBMISSION -> config.signatureResubmissionWelsh
             SIGNATURE_RESUBMISSION_WITH_REASONS -> config.signatureResubmissionWithReasonsWelsh
+            SIGNATURE_RECEIVED -> config.signatureReceivedWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }
@@ -145,6 +147,7 @@ class NotificationTemplateMapper(
             NOT_REGISTERED_TO_VOTE -> config.notRegisteredToVoteEnglish
             SIGNATURE_RESUBMISSION -> config.signatureResubmissionEnglish
             SIGNATURE_RESUBMISSION_WITH_REASONS -> config.signatureResubmissionWithReasonsEnglish
+            SIGNATURE_RECEIVED -> config.signatureReceivedEnglish
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in English for notification type $notificationType and sourceType ${config.sourceType}")
             }

@@ -32,6 +32,7 @@ enum class NotificationType {
     NOT_REGISTERED_TO_VOTE,
     SIGNATURE_RESUBMISSION,
     SIGNATURE_RESUBMISSION_WITH_REASONS,
+    SIGNATURE_RECEIVED,
 }
 
 enum class StatisticsNotificationCategory {
