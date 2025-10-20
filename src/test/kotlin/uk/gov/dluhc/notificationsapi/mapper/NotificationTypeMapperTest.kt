@@ -153,6 +153,6 @@ class NotificationTypeMapperTest {
 
         // Then
         assertThat(exception)
-            .hasMessage("Unexpected NotificationType $unSupportedNotificationType when mapping to API TemplateType")
+            .hasMessage("Unexpected NotificationType $unSupportedNotificationType when mapping from DB Sent Notification to API TemplateType")
     }
 }
