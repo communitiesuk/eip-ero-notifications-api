@@ -9,9 +9,8 @@ fun buildBasePersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = DataFaker.faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
-): BasePersonalisation =
-    BasePersonalisation(
-        applicationReference = applicationReference,
-        firstName = firstName,
-        eroContactDetails = eroContactDetails,
-    )
+) = BasePersonalisation(
+    applicationReference = applicationReference,
+    firstName = firstName,
+    eroContactDetails = eroContactDetails,
+)

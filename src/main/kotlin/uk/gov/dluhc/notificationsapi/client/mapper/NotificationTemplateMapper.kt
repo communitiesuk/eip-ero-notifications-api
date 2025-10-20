@@ -117,7 +117,7 @@ class NotificationTemplateMapper(
             NOT_REGISTERED_TO_VOTE -> config.notRegisteredToVoteWelsh
             SIGNATURE_RESUBMISSION -> config.signatureResubmissionWelsh
             SIGNATURE_RESUBMISSION_WITH_REASONS -> config.signatureResubmissionWithReasonsWelsh
-            SIGNATURE_RECEIVED -> config.signatureReceivedEnglish
+            SIGNATURE_RECEIVED -> config.signatureReceivedWelsh
             else -> {
                 throw NotificationTemplateNotFoundException("No email template defined in Welsh for notification type $notificationType and sourceType ${config.sourceType}")
             }

@@ -136,7 +136,7 @@ abstract class SendNotifyMessageMapper {
 
     fun fromSignatureResubmissionMessageToSendNotificationRequestDto(
         message: SendNotifySignatureResubmissionMessage,
-    ): SendNotificationRequestDto = with(message) {
+    ) = with(message) {
         SendNotificationRequestDto(
             channel = channel.let(communicationChannelMapper::fromMessagingApiToDto),
             language = language.let(languageMapper::fromMessageToDto),
@@ -151,7 +151,7 @@ abstract class SendNotifyMessageMapper {
 
     fun fromSignatureReceivedMessageToSendNotificationRequestDto(
         message: SendNotifySignatureReceivedMessage,
-    ): SendNotificationRequestDto = with(message) {
+    ) = with(message) {
         SendNotificationRequestDto(
             channel = CommunicationChannel.EMAIL,
             language = language.let(languageMapper::fromMessageToDto),
