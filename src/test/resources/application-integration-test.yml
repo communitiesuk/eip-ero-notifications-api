@@ -12,6 +12,12 @@ dynamodb:
   notificationAuditsTableName: unit-test-notification-audits
   communicationConfirmationsTableName: unit-test-communication-confirmations
 
+sts:
+  base-url: http://replaced-by-wireMockServer-bean
+
+statistics:
+  allowed-role-arns: stats-role,other-stats-role
+
 api:
   notify:
     api-key: developmentintegrationtestkey-137e13d7-6acd-4449-815e-de0eb0c083ba-52408a6d-f230-4c47-9380-128578c3c51a

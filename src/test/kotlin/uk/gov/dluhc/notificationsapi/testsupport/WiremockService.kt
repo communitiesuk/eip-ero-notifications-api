@@ -3,6 +3,8 @@ package uk.gov.dluhc.notificationsapi.testsupport
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder.responseDefinition
+import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.badRequest
 import com.github.tomakehurst.wiremock.client.WireMock.equalToJson
 import com.github.tomakehurst.wiremock.client.WireMock.exactly
@@ -266,6 +268,39 @@ class WiremockService(private val wireMockServer: WireMockServer) {
                         .withHeader("Content-Type", "application/json")
                         .withBody(responseBody),
                 ),
+        )
+    }
+
+    fun stubSuccessfulStsPresignedAuthResponse(roleArn: String) {
+        wireMockServer.stubFor(
+            get(urlPathMatching("/sts/"))
+                .willReturn(
+                    WireMock.ok()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(
+                            """
+                            {
+                                "GetCallerIdentityResponse": {
+                                    "GetCallerIdentityResult": {
+                                        "UserId": "user",
+                                        "Account": "123456789",
+                                        "Arn": "$roleArn"
+                                    },
+                                    "ResponseMetadata": {
+                                        "RequestId": "abcdefg"
+                                    }
+                                }
+                            }
+                            """.trimIndent(),
+                        ),
+                ),
+        )
+    }
+
+    fun stubUnsuccessfulStsPresignedAuthResponse() {
+        wireMockServer.stubFor(
+            get(urlPathMatching("/sts/"))
+                .willReturn(responseDefinition().withStatus(401)),
         )
     }
 

@@ -6,6 +6,12 @@ dynamodb:
   notificationAuditsTableName: ${DYNAMODB_NOTIFICATION_AUDITS_TABLE_NAME}
   communicationConfirmationsTableName: ${DYNAMODB_COMMUNICATION_CONFIRMATIONS_TABLE_NAME}
 
+sts:
+  base-url: ${STS_REGIONAL_BASE_URL}
+
+statistics:
+  allowed-role-arns: ${STATISTICS_ALLOWED_ROLE_ARNS}
+
 api:
   notify:
     api-key: ${API_NOTIFY_API_KEY}
