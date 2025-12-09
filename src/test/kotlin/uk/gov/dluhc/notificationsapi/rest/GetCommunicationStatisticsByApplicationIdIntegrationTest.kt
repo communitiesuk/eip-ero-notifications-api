@@ -1,8 +1,10 @@
 package uk.gov.dluhc.notificationsapi.rest
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import uk.gov.dluhc.internalauth.Constants
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.database.entity.NotificationType
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType
@@ -12,6 +14,65 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotif
 import java.util.UUID
 
 internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : IntegrationTest() {
+
+    @BeforeEach
+    fun resetWiremock() {
+        wireMockService.resetAllStubsAndMappings()
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = ["postal", "proxy", "voter-card", "overseas"],
+    )
+    fun `should return unauthorised given no auth header present`(
+        applicationType: String,
+    ) {
+        // When / Then
+        webTestClient.get()
+            .uri(buildUri(applicationId = aRandomSourceReference(), service = applicationType))
+            .exchange()
+            .expectStatus()
+            .isUnauthorized()
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = ["postal", "proxy", "voter-card", "overseas"],
+    )
+    fun `should return unauthorised given failed sts auth request`(
+        applicationType: String,
+    ) {
+        // Given
+        wireMockService.stubUnsuccessfulStsPresignedAuthResponse()
+
+        // When / Then
+        webTestClient.get()
+            .uri(buildUri(applicationId = aRandomSourceReference(), service = applicationType))
+            .header(Constants.AUTH_HEADER_NAME, "query=something")
+            .exchange()
+            .expectStatus()
+            .isUnauthorized()
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = ["postal", "proxy", "voter-card", "overseas"],
+    )
+    fun `should return forbidden given role is not allowed to access statistics`(
+        applicationType: String,
+    ) {
+        // Given
+        wireMockService.stubSuccessfulStsPresignedAuthResponse("wrong-role")
+
+        // When / Then
+        webTestClient.get()
+            .uri(buildUri(applicationId = aRandomSourceReference(), service = applicationType))
+            .header(Constants.AUTH_HEADER_NAME, "query=something")
+            .exchange()
+            .expectStatus()
+            .isForbidden()
+    }
+
     @ParameterizedTest
     @CsvSource(
         value = ["POSTAL,postal", "PROXY,proxy", "VOTER_CARD,voter-card", "OVERSEAS,overseas"],
@@ -39,9 +100,12 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
             numIdentityDocumentRequestCommsSent = 0,
         )
 
+        wireMockService.stubSuccessfulStsPresignedAuthResponse("stats-role")
+
         // When
         val response = webTestClient.get()
             .uri(buildUri(applicationId = applicationId, service = applicationType))
+            .header(Constants.AUTH_HEADER_NAME, "query=something")
             .exchange()
 
         // Then

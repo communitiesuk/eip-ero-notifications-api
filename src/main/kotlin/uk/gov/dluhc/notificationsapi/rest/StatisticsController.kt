@@ -1,5 +1,7 @@
 package uk.gov.dluhc.notificationsapi.rest
 
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,8 +14,10 @@ import uk.gov.dluhc.notificationsapi.service.StatisticsRetrievalService
 
 @RestController
 @CrossOrigin
+@PreAuthorize("hasAnyAuthority(#root.this.allowedRoleArns)")
 @RequestMapping("/communications/statistics")
 class StatisticsController(
+    @Value("#{'\${statistics.allowed-role-arns}'.split(',')}") val allowedRoleArns: List<String>,
     private val statisticsRetrievalService: StatisticsRetrievalService,
 ) {
     @GetMapping("/{service}/{applicationId}")
