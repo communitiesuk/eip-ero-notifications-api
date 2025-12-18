@@ -5,7 +5,6 @@ import uk.gov.dluhc.notificationsapi.dto.ContactDetailsDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationReference

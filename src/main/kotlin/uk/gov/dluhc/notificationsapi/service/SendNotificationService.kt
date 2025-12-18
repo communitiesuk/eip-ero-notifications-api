@@ -55,10 +55,7 @@ class SendNotificationService(
             NotificationType.ID_DOCUMENT_REQUIRED -> true
             NotificationType.ID_DOCUMENT_RESUBMISSION -> true
             NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> true
-            NotificationType.REQUESTED_SIGNATURE -> true
             NotificationType.NINO_NOT_MATCHED -> true
-            NotificationType.REJECTED_SIGNATURE -> true
-            NotificationType.REJECTED_SIGNATURE_WITH_REASONS -> true
             NotificationType.BESPOKE_COMM -> true
             NotificationType.NOT_REGISTERED_TO_VOTE -> true
             NotificationType.SIGNATURE_RESUBMISSION -> true

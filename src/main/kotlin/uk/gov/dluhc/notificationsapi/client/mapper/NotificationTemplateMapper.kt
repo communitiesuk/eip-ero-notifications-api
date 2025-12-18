@@ -27,9 +27,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.PREVIOUS_ADDRESS_DOCUM
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_DOCUMENT
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PARENT_GUARDIAN
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_PREVIOUS_ADDRESS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RECEIVED
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
@@ -104,9 +101,6 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
             REJECTED_DOCUMENT -> config.rejectedDocumentWelsh
-            REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
-            REJECTED_SIGNATURE_WITH_REASONS -> config.rejectedSignatureWithReasonsWelsh
-            REQUESTED_SIGNATURE -> config.requestedSignatureWelsh
             NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListWelsh
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianWelsh
@@ -134,9 +128,6 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsEnglish
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
             REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
-            REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
-            REJECTED_SIGNATURE_WITH_REASONS -> config.rejectedSignatureWithReasonsEnglish
-            REQUESTED_SIGNATURE -> config.requestedSignatureEnglish
             NINO_NOT_MATCHED -> config.ninoNotMatchedEnglish
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListEnglish
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianEnglish
@@ -188,9 +179,6 @@ class NotificationTemplateMapper(
             ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsWelsh
             ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredWelsh
             REJECTED_DOCUMENT -> config.rejectedDocumentWelsh
-            REJECTED_SIGNATURE -> config.rejectedSignatureWelsh
-            REJECTED_SIGNATURE_WITH_REASONS -> config.rejectedSignatureWithReasonsWelsh
-            REQUESTED_SIGNATURE -> config.requestedSignatureWelsh
             NINO_NOT_MATCHED -> config.ninoNotMatchedWelsh
             NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListWelsh
             REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianWelsh
@@ -219,9 +207,6 @@ class NotificationTemplateMapper(
         ID_DOCUMENT_RESUBMISSION_WITH_REASONS -> config.idDocumentResubmissionWithReasonsEnglish
         ID_DOCUMENT_REQUIRED -> config.idDocumentRequiredEnglish
         REJECTED_DOCUMENT -> config.rejectedDocumentEnglish
-        REJECTED_SIGNATURE -> config.rejectedSignatureEnglish
-        REJECTED_SIGNATURE_WITH_REASONS -> config.rejectedSignatureWithReasonsEnglish
-        REQUESTED_SIGNATURE -> config.requestedSignatureEnglish
         NINO_NOT_MATCHED -> config.ninoNotMatchedEnglish
         NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST -> config.ninoNotMatchedRestrictedDocumentsListEnglish
         REJECTED_PARENT_GUARDIAN -> config.rejectedParentGuardianEnglish

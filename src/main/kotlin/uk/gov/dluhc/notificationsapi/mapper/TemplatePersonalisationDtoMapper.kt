@@ -13,8 +13,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -109,40 +107,6 @@ class TemplatePersonalisationDtoMapper {
             personalisation["firstName"] = firstName
             personalisation["rejectedDocuments"] = documents
             personalisation["rejectionMessage"] = rejectedDocumentFreeText.getSafeValue()
-            with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapToPersonalisation(this)
-                personalisation.putAll(this)
-            }
-            personalisation["sourceType"] = personalisationSourceTypeString
-        }
-        return personalisation
-    }
-
-    fun toRejectedSignatureTemplatePersonalisationMap(dto: RejectedSignaturePersonalisationDto): Map<String, Any> {
-        val personalisation = mutableMapOf<String, Any>()
-
-        with(dto) {
-            personalisation["applicationReference"] = applicationReference
-            personalisation["firstName"] = firstName
-            personalisation["rejectionNotes"] = rejectionNotes.getSafeValue()
-            personalisation["rejectionReasons"] = rejectionReasons
-            personalisation["rejectionFreeText"] = rejectionFreeText.getSafeValue()
-            with(mutableMapOf<String, String>()) {
-                eroContactDetails.mapToPersonalisation(this)
-                personalisation.putAll(this)
-            }
-            personalisation["sourceType"] = personalisationSourceTypeString
-        }
-        return personalisation
-    }
-
-    fun toRequestedSignatureTemplatePersonalisationMap(dto: RequestedSignaturePersonalisationDto): Map<String, Any> {
-        val personalisation = mutableMapOf<String, Any>()
-
-        with(dto) {
-            personalisation["applicationReference"] = applicationReference
-            personalisation["firstName"] = firstName
-            personalisation["freeText"] = freeText.getSafeValue()
             with(mutableMapOf<String, String>()) {
                 eroContactDetails.mapToPersonalisation(this)
                 personalisation.putAll(this)

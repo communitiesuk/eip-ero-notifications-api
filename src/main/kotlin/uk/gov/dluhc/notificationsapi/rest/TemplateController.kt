@@ -16,8 +16,6 @@ import uk.gov.dluhc.notificationsapi.mapper.NotRegisteredToVoteTemplatePreviewDt
 import uk.gov.dluhc.notificationsapi.mapper.PhotoResubmissionTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedOverseasDocumentTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.RejectedSignatureTemplatePreviewDtoMapper
-import uk.gov.dluhc.notificationsapi.mapper.RequestedSignatureTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.mapper.RequiredOverseasDocumentTemplatePreviewDtoMapper
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationApprovedTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateApplicationReceivedTemplatePreviewRequest
@@ -30,8 +28,6 @@ import uk.gov.dluhc.notificationsapi.models.GenerateNotRegisteredToVoteTemplateP
 import uk.gov.dluhc.notificationsapi.models.GeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRejectedOverseasDocumentTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
-import uk.gov.dluhc.notificationsapi.models.GenerateRequestedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateRequiredOverseasDocumentTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
@@ -48,8 +44,6 @@ class TemplateController(
     private val applicationApprovedTemplatePreviewDtoMapper: GenerateApplicationApprovedTemplatePreviewDtoMapper,
     private val applicationRejectedTemplatePreviewDtoMapper: ApplicationRejectedTemplatePreviewDtoMapper,
     private val rejectedDocumentTemplatePreviewDtoMapper: RejectedDocumentTemplatePreviewDtoMapper,
-    private val rejectedSignatureTemplatePreviewDtoMapper: RejectedSignatureTemplatePreviewDtoMapper,
-    private val requestedSignatureTemplatePreviewDtoMapper: RequestedSignatureTemplatePreviewDtoMapper,
     private val rejectedOverseasDocumentTemplatePreviewDtoMapper: RejectedOverseasDocumentTemplatePreviewDtoMapper,
     private val requiredOverseasDocumentTemplatePreviewDtoMapper: RequiredOverseasDocumentTemplatePreviewDtoMapper,
     private val ninoNotMatchedTemplatePreviewDtoMapper: NinoNotMatchedTemplatePreviewDtoMapper,
@@ -158,34 +152,6 @@ class TemplateController(
         return with(
             templateService.generateRejectedDocumentTemplatePreview(
                 rejectedDocumentTemplatePreviewDtoMapper.toRejectedDocumentTemplatePreviewDto(request),
-            ),
-        ) {
-            GenerateTemplatePreviewResponse(text, subject, html)
-        }
-    }
-
-    @PostMapping("/templates/rejected-signature/preview")
-    fun generateRejectedSignatureTemplatePreview(
-        @Valid @RequestBody
-        request: GenerateRejectedSignatureTemplatePreviewRequest,
-    ): GenerateTemplatePreviewResponse {
-        return with(
-            templateService.generateRejectedSignatureTemplatePreview(
-                rejectedSignatureTemplatePreviewDtoMapper.toRejectedSignatureTemplatePreviewDto(request),
-            ),
-        ) {
-            GenerateTemplatePreviewResponse(text, subject, html)
-        }
-    }
-
-    @PostMapping("/templates/requested-signature/preview")
-    fun generateRequestedSignatureTemplatePreview(
-        @Valid @RequestBody
-        request: GenerateRequestedSignatureTemplatePreviewRequest,
-    ): GenerateTemplatePreviewResponse {
-        return with(
-            templateService.generateRequestedSignatureTemplatePreview(
-                requestedSignatureTemplatePreviewDtoMapper.toRequestedSignatureTemplatePreviewDto(request),
             ),
         ) {
             GenerateTemplatePreviewResponse(text, subject, html)

@@ -11,8 +11,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.SIGNATURE_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
@@ -31,8 +29,6 @@ import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNinoNotMatchedMe
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyNotRegisteredToVoteMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyPhotoResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedDocumentMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRejectedSignatureMessage
-import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifyRequestedSignatureMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureReceivedMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SendNotifySignatureResubmissionMessage
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureResubmissionPersonalisation
@@ -72,16 +68,6 @@ abstract class SendNotifyMessageMapper {
     @Mapping(target = "notificationType", expression = "java( idDocumentResubmissionNotificationType(message) )")
     abstract fun fromIdDocumentMessageToSendNotificationRequestDto(
         message: SendNotifyIdDocumentResubmissionMessage,
-    ): SendNotificationRequestDto
-
-    @Mapping(target = "notificationType", expression = "java( rejectedSignatureNotificationType(message) )")
-    abstract fun fromRejectedSignatureToSendNotificationRequestDto(
-        message: SendNotifyRejectedSignatureMessage,
-    ): SendNotificationRequestDto
-
-    @Mapping(target = "notificationType", source = "messageType")
-    abstract fun fromRequestedSignatureToSendNotificationRequestDto(
-        message: SendNotifyRequestedSignatureMessage,
     ): SendNotificationRequestDto
 
     @Mapping(target = "notificationType", source = "messageType")
@@ -187,17 +173,6 @@ abstract class SendNotifyMessageMapper {
             }
         }
 
-    // REJECTED_SIGNATURE_WITH_REASONS should be used if any there are either any rejection reasons (excluding OTHER)
-    // or any rejection notes
-    protected fun rejectedSignatureNotificationType(message: SendNotifyRejectedSignatureMessage): NotificationType =
-        with(message.personalisation) {
-            if (rejectionReasonsExcludingOther.isNotEmpty() || !rejectionNotes.isNullOrBlank()) {
-                REJECTED_SIGNATURE_WITH_REASONS
-            } else {
-                REJECTED_SIGNATURE
-            }
-        }
-
     protected fun rejectedDocumentNotificationType(
         message: SendNotifyRejectedDocumentMessage,
     ): NotificationType =
@@ -228,9 +203,4 @@ abstract class SendNotifyMessageMapper {
                 SIGNATURE_RESUBMISSION
             }
         }
-
-    @Mapping(source = "messageType", target = "notificationType")
-    abstract fun fromRejectedSignatureMessageToSendNotificationRequestDto(
-        message: SendNotifyRejectedSignatureMessage,
-    ): SendNotificationRequestDto
 }
