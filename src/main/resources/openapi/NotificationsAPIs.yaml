@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications APIs
-  version: '1.21.1'
+  version: '1.22.0'
   description: Notifications APIs
 #
 # --------------------------------------------------------------------------------
@@ -726,146 +726,6 @@ paths:
       x-amazon-apigateway-integration:
         type: HTTP_PROXY
         uri: '${base_uri}/templates/rejected-document/preview'
-        requestParameters:
-          integration.request.header.x-request-id: context.requestId
-        responseParameters:
-          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
-          method.response.header.Access-Control-Allow-Methods: '''*'''
-          method.response.header.Access-Control-Allow-Origin: '''*'''
-        connectionType: VPC_LINK
-        connectionId: '${vpc_connection_id}'
-        httpMethod: POST
-
-  #
-  # Generate Rejected Signature Template Preview
-  # --------------------------------------------------------------------------------
-
-  '/templates/rejected-signature/preview':
-    options:
-      summary: CORS support
-      description: |
-        Enable CORS by returning correct headers
-      tags:
-        - Generate Rejected Signature Template Preview
-      responses:
-        200:
-          description: Default response for CORS method
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-          content: { }
-      x-amazon-apigateway-integration:
-        type: mock
-        requestTemplates:
-          application/json: |
-            {
-              "statusCode" : 200
-            }
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
-              method.response.header.Access-Control-Allow-Methods: '''*'''
-              method.response.header.Access-Control-Allow-Origin: '''*'''
-            responseTemplates:
-              application/json: |
-                {}
-    post:
-      summary: Generates a text preview for a rejected signature template type and personalisation data
-      description: Generates a text preview for a rejected signature template type and personalisation data
-      operationId: generate-rejected-signature-template-preview
-      tags:
-        - Generate Rejected Signature Template Preview
-      requestBody:
-        $ref: '#/components/requestBodies/GenerateRejectedSignatureTemplatePreview'
-      responses:
-        '201':
-          $ref: '#/components/responses/GenerateTemplatePreview'
-        '400':
-          $ref: '#/components/responses/400ErrorResponse'
-      security:
-        - eroUserCognitoUserPoolAuthorizer: [ ]
-      x-amazon-apigateway-integration:
-        type: HTTP_PROXY
-        uri: '${base_uri}/templates/rejected-signature/preview'
-        requestParameters:
-          integration.request.header.x-request-id: context.requestId
-        responseParameters:
-          method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
-          method.response.header.Access-Control-Allow-Methods: '''*'''
-          method.response.header.Access-Control-Allow-Origin: '''*'''
-        connectionType: VPC_LINK
-        connectionId: '${vpc_connection_id}'
-        httpMethod: POST
-
-  #
-  # Generate Requested Signature Template Preview
-  # --------------------------------------------------------------------------------
-
-  '/templates/requested-signature/preview':
-    options:
-      summary: CORS support
-      description: |
-        Enable CORS by returning correct headers
-      tags:
-        - Generate Requested Signature Template Preview
-      responses:
-        200:
-          description: Default response for CORS method
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-            Access-Control-Allow-Methods:
-              schema:
-                type: string
-            Access-Control-Allow-Headers:
-              schema:
-                type: string
-          content: { }
-      x-amazon-apigateway-integration:
-        type: mock
-        requestTemplates:
-          application/json: |
-            {
-              "statusCode" : 200
-            }
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
-              method.response.header.Access-Control-Allow-Methods: '''*'''
-              method.response.header.Access-Control-Allow-Origin: '''*'''
-            responseTemplates:
-              application/json: |
-                {}
-    post:
-      summary: Generates a text preview for a requested signature template type and personalisation data
-      description: Generates a text preview for a requested signature template type and personalisation data
-      operationId: generate-requested-signature-template-preview
-      tags:
-        - Generate Requested Signature Template Preview
-      requestBody:
-        $ref: '#/components/requestBodies/GenerateRequestedSignatureTemplatePreview'
-      responses:
-        '201':
-          $ref: '#/components/responses/GenerateTemplatePreview'
-        '400':
-          $ref: '#/components/responses/400ErrorResponse'
-      security:
-        - eroUserCognitoUserPoolAuthorizer: [ ]
-      x-amazon-apigateway-integration:
-        type: HTTP_PROXY
-        uri: '${base_uri}/templates/requested-signature/preview'
         requestParameters:
           integration.request.header.x-request-id: context.requestId
         responseParameters:
@@ -2043,13 +1903,6 @@ components:
           example: Please provide a valid signature within 28 days
       required:
         - rejectionReasons
-    RejectedSignaturePersonalisation:
-      title: RejectedSignaturePersonalisation
-      type: object
-      description: Personalisation details for a rejected signature
-      allOf:
-        - $ref: '#/components/schemas/BasePersonalisation'
-        - $ref: '#/components/schemas/RejectedSignature'
     SignatureResubmissionPersonalisation:
       title: RejectedSignaturePersonalisation
       type: object
@@ -2083,22 +1936,6 @@ components:
         - has-shadows
         - wrong-size
         - other
-    RequestedSignature:
-      title: RequestedSignature
-      description: The data for the specific requested signature.
-      type: object
-      properties:
-        freeText:
-          type: string
-          description: Free text message to provided further information regarding the signature request
-          example: Please provide a valid signature within 28 days
-    RequestedSignaturePersonalisation:
-      title: RequestedSignaturePersonalisation
-      type: object
-      description: Personalisation details for a requested signature
-      allOf:
-        - $ref: '#/components/schemas/BasePersonalisation'
-        - $ref: '#/components/schemas/RequestedSignature'
     NinoNotMatchedPersonalisation:
       title: NinoNotMatchedPersonalisation
       type: object
@@ -2156,40 +1993,6 @@ components:
           format: date
         deadlineTime:
           type: string
-    GenerateRejectedSignatureTemplatePreviewRequest:
-      title: GenerateRejectedSignatureTemplatePreviewRequest
-      description: An object containing request attributes required for generating the rejected signature template preview
-      type: object
-      properties:
-        channel:
-          $ref: '#/components/schemas/CommunicationChannel'
-        language:
-          $ref: '#/components/schemas/Language'
-        personalisation:
-          $ref: '#/components/schemas/RejectedSignaturePersonalisation'
-        sourceType:
-          $ref: '#/components/schemas/SourceType'
-      required:
-        - channel
-        - personalisation
-        - sourceType
-    GenerateRequestedSignatureTemplatePreviewRequest:
-      title: GenerateRequestedSignatureTemplatePreviewRequest
-      description: An object containing request attributes required for generating the requested signature template preview
-      type: object
-      properties:
-        channel:
-          $ref: '#/components/schemas/CommunicationChannel'
-        language:
-          $ref: '#/components/schemas/Language'
-        personalisation:
-          $ref: '#/components/schemas/RequestedSignaturePersonalisation'
-        sourceType:
-          $ref: '#/components/schemas/SourceType'
-      required:
-        - channel
-        - personalisation
-        - sourceType
     GenerateNinoNotMatchedTemplatePreviewRequest:
       title: GenerateNinoNotMatchedTemplatePreviewRequest
       description: An object containing request attributes required for generating the nino not matched template preview
@@ -2488,16 +2291,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CreateOfflineCommunicationConfirmationRequest'
-    GenerateRejectedSignatureTemplatePreview:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenerateRejectedSignatureTemplatePreviewRequest'
-    GenerateRequestedSignatureTemplatePreview:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenerateRequestedSignatureTemplatePreviewRequest'
     GenerateNinoNotMatchedTemplatePreview:
       content:
         application/json:
