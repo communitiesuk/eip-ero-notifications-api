@@ -1203,8 +1203,6 @@ components:
         - id-document-resubmission
         - id-document-required
         - rejected-document
-        - rejected-signature
-        - requested-signature
         - nino-not-matched
         - rejected-parent-guardian
         - rejected-previous-address
@@ -1214,6 +1212,10 @@ components:
         - not-registered-to-vote
         - signature-resubmission
         - signature-received
+#       Legacy communications - no longer sent.
+#       This enum is used during retrieval of sent communications from the DB.
+        - rejected-signature
+        - requested-signature
     Language:
       title: Language
       description: The language to view the template

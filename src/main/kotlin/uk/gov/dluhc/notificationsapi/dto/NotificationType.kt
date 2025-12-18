@@ -19,9 +19,6 @@ enum class NotificationType {
     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
     ID_DOCUMENT_REQUIRED,
     REJECTED_DOCUMENT,
-    REJECTED_SIGNATURE,
-    REJECTED_SIGNATURE_WITH_REASONS,
-    REQUESTED_SIGNATURE,
     NINO_NOT_MATCHED,
     NINO_NOT_MATCHED_RESTRICTED_DOCUMENTS_LIST,
     REJECTED_PARENT_GUARDIAN,
@@ -33,6 +30,12 @@ enum class NotificationType {
     SIGNATURE_RESUBMISSION,
     SIGNATURE_RESUBMISSION_WITH_REASONS,
     SIGNATURE_RECEIVED,
+
+    // Legacy communications - no longer sent.
+    // This DTO is used during retrieval of sent communications from the DB.
+    REJECTED_SIGNATURE,
+    REJECTED_SIGNATURE_WITH_REASONS,
+    REQUESTED_SIGNATURE,
 }
 
 enum class StatisticsNotificationCategory {
