@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Notifications SQS Message Types
-  version: '2.0.11'
+  version: '2.0.12'
   description: |-
     Notifications SQS Message Types
   
@@ -100,26 +100,6 @@ paths:
         - SQS Queues
       requestBody:
         $ref: '#/components/requestBodies/RemoveApplicationNotificationsMessage'
-      responses:
-        '204':
-          description: No response content.
-
-  '/send-uk-gov-notify-rejected-signature-message':
-    post:
-      tags:
-        - SQS Queues
-      requestBody:
-        $ref: '#/components/requestBodies/SendNotifyRejectedSignatureMessage'
-      responses:
-        '204':
-          description: No response content.
-
-  '/send-uk-gov-notify-requested-signature-message':
-    post:
-      tags:
-        - SQS Queues
-      requestBody:
-        $ref: '#/components/requestBodies/SendNotifyRequestedSignatureMessage'
       responses:
         '204':
           description: No response content.
@@ -603,8 +583,6 @@ components:
         - id-document-resubmission
         - id-document-required
         - rejected-document
-        - rejected-signature
-        - requested-signature
         - nino-not-matched
         - parent-guardian-proof-required
         - previous-address-document-required
@@ -740,13 +718,6 @@ components:
           example: Please provide a valid signature within 28 days
       required:
         - rejectionReasons
-    RejectedSignaturePersonalisation:
-      title: RejectedSignaturePersonalisation
-      type: object
-      description: Personalisation details for a rejected signature
-      allOf:
-        - $ref: '#/components/schemas/BasePersonalisation'
-        - $ref: '#/components/schemas/RejectedSignature'
     SignatureRejectionReason:
       title: SignatureRejectionReason
       description: Enum of reasons why a signature is rejected
@@ -758,50 +729,6 @@ components:
         - has-shadows
         - wrong-size
         - other
-    SendNotifyRejectedSignatureMessage:
-      title: SendNotifyRejectedSignatureMessage
-      type: object
-      description: SQS Message for sending GOV.UK Notify messages for a rejected signature
-      allOf:
-        - $ref: '#/components/schemas/SendNotifyMessage'
-      properties:
-        channel:
-          $ref: '#/components/schemas/CommunicationChannel'
-        personalisation:
-          $ref: '#/components/schemas/RejectedSignaturePersonalisation'
-      required:
-        - personalisation
-        - channel
-    RequestedSignature:
-      title: RequestedSignature
-      description: The data for the specific requested signature.
-      type: object
-      properties:
-        freeText:
-          type: string
-          description: Free text message to provided further information regarding the signature request
-          example: Please provide a valid signature within 28 days
-    RequestedSignaturePersonalisation:
-      title: RequestedSignaturePersonalisation
-      type: object
-      description: Personalisation details for a requested signature
-      allOf:
-        - $ref: '#/components/schemas/BasePersonalisation'
-        - $ref: '#/components/schemas/RequestedSignature'
-    SendNotifyRequestedSignatureMessage:
-      title: SendNotifyRequestedSignatureMessage
-      type: object
-      description: SQS Message for sending GOV.UK Notify messages for a requested signature
-      allOf:
-        - $ref: '#/components/schemas/SendNotifyMessage'
-      properties:
-        channel:
-          $ref: '#/components/schemas/CommunicationChannel'
-        personalisation:
-          $ref: '#/components/schemas/RequestedSignaturePersonalisation'
-      required:
-        - personalisation
-        - channel
     NinoNotMatched:
       title: NinoNotMatched
       description: The data for the specific message.
@@ -1030,16 +957,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RemoveApplicationNotificationsMessage'
-    SendNotifyRejectedSignatureMessage:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SendNotifyRejectedSignatureMessage'
-    SendNotifyRequestedSignatureMessage:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SendNotifyRequestedSignatureMessage'
     SendNotifyNinoNotMatchedMessage:
       content:
         application/json:
