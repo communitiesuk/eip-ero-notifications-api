@@ -89,8 +89,6 @@ class LocalStackContainerConfiguration {
         @Value("\${sqs.send-uk-gov-notify-application-rejected-queue-name}") sendUkGovNotifyApplicationRejectedQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-rejected-document-queue-name}") sendUkGovNotifyRejectedDocumentQueueName: String,
         @Value("\${sqs.remove-application-notifications-queue-name}") removeApplicationNotificationsQueueName: String,
-        @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}") sendUkGovNotifyRejectedSignatureQueueName: String,
-        @Value("\${sqs.send-uk-gov-notify-requested-signature-queue-name}") sendUkGovNotifyRequestedSignatureQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-nino-not-matched-queue-name}") sendUkGovNotifyNinoNotMatchedQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-bespoke-comm-queue-name}") sendUkGovNotifyBespokeCommQueueName: String,
         @Value("\${sqs.send-uk-gov-notify-not-registered-to-vote-queue-name}") sendUkGovNotifyNotRegisteredToVoteQueueName: String,
@@ -106,8 +104,6 @@ class LocalStackContainerConfiguration {
         val sendUkGovNotifyBespokeCommMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyBespokeCommQueueName)
         val sendUkGovNotifyNotRegisteredToVoteMessageQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyNotRegisteredToVoteQueueName)
         val removeApplicationNotificationsMessageQueueName = localStackContainer.createSqsQueue(removeApplicationNotificationsQueueName)
-        val sendUkGovNotifyRejectedSignatureQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRejectedSignatureQueueName)
-        val sendUkGovNotifyRequestedSignatureQueueName = localStackContainer.createSqsQueue(sendUkGovNotifyRequestedSignatureQueueName)
 
         val apiUrl = "http://${localStackContainer.host}:${localStackContainer.getMappedPort(DEFAULT_PORT)}"
 
@@ -126,8 +122,6 @@ class LocalStackContainerConfiguration {
             sendUkGovNotifyNinoNotMatchedMessageQueueName = sendUkGovNotifyNinoNotMatchedMessageQueueName,
             sendUkGovNotifyBespokeCommMessageQueueName = sendUkGovNotifyBespokeCommMessageQueueName,
             sendUkGovNotifyNotRegisteredToVoteMessageQueueName = sendUkGovNotifyNotRegisteredToVoteMessageQueueName,
-            sendUkGovNotifyRequestedSignatureQueueName = sendUkGovNotifyRequestedSignatureQueueName,
-            sendUkGovNotifyRejectedSignatureQueueName = sendUkGovNotifyRejectedSignatureQueueName,
         )
     }
 
@@ -264,8 +258,6 @@ data class LocalStackContainerSettings(
     val sendUkGovNotifyBespokeCommMessageQueueName: String,
     val sendUkGovNotifyNotRegisteredToVoteMessageQueueName: String,
     val removeApplicationNotificationsQueueName: String,
-    val sendUkGovNotifyRequestedSignatureQueueName: String,
-    val sendUkGovNotifyRejectedSignatureQueueName: String,
 ) {
     val mappedQueueUrlSendUkGovNotifyPhotoResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyPhotoResubmissionQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyIdDocumentResubmissionQueueName: String = toMappedUrl(sendUkGovNotifyIdDocumentResubmissionQueueName, apiUrl)
@@ -278,8 +270,6 @@ data class LocalStackContainerSettings(
     val mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName: String = toMappedUrl(sendUkGovNotifyNinoNotMatchedMessageQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName: String = toMappedUrl(sendUkGovNotifyBespokeCommMessageQueueName, apiUrl)
     val mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName: String = toMappedUrl(sendUkGovNotifyNotRegisteredToVoteMessageQueueName, apiUrl)
-    val mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName: String = toMappedUrl(sendUkGovNotifyRequestedSignatureQueueName, apiUrl)
-    val mappedQueueUrlSendUkGovNotifyRejectedSignatureQueueName: String = toMappedUrl(sendUkGovNotifyRejectedSignatureQueueName, apiUrl)
 
     private fun toMappedUrl(rawUrlString: String, apiUrlString: String): String {
         val rawUrl = URI.create(rawUrlString)

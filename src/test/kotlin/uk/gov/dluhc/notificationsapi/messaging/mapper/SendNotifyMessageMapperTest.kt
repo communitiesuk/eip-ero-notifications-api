@@ -20,8 +20,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSI
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REJECTED_SIGNATURE
-import uk.gov.dluhc.notificationsapi.dto.NotificationType.REQUESTED_SIGNATURE
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.mapper.CommunicationChannelMapper
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
@@ -60,11 +58,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRequestedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyPhotoResubmissionMessage
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRejectedSignatureMessage
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifyRequestedSignatureMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifySignatureReceivedMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSendNotifySignatureResubmissionMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildSignatureResubmissionPersonalisation
@@ -648,135 +642,6 @@ internal class SendNotifyMessageMapperTest {
             verify(communicationChannelMapper).fromMessagingApiToDto(communicationChannelMessage)
             verify(documentCategoryMapper).fromApiMessageToDto(documentCategory)
             verify(documentCategoryMapper).fromRejectedDocumentCategoryDtoToNotificationTypeDto(documentCategoryDto)
-        }
-    }
-
-    @Nested
-    inner class FromSendNotifyRejectedSignatureMessageToRequestDto {
-        @ParameterizedTest
-        @CsvSource(
-            value = [
-                "EMAIL,EN,EMAIL,ENGLISH",
-                "EMAIL,CY,EMAIL,WELSH",
-                "LETTER,EN,LETTER,ENGLISH",
-                "LETTER,CY,LETTER,WELSH",
-            ],
-        )
-        fun `should map SQS SendNotifyRejectedSignatureMessage to SendNotificationRequestDto with rejection reasons and notes`(
-            sqsChannel: SqsChannel,
-            language: Language,
-            communicationChannel: CommunicationChannel,
-            languageDto: LanguageDto,
-        ) {
-            // Given
-            val gssCode = aGssCode()
-            val requestor = aRequestor()
-            val sourceReference = aSourceReference()
-            val toAddress = aMessageAddress()
-            val expectedToAddress = aNotificationDestination()
-
-            val expectedSourceType = SourceType.PROXY
-            val expectedNotificationType = REJECTED_SIGNATURE
-            val personalisationMessage = buildRejectedSignaturePersonalisation()
-
-            given(notificationTypeMapper.mapMessageTypeToNotificationType(MessageType.REJECTED_MINUS_SIGNATURE)).willReturn(
-                REJECTED_SIGNATURE,
-            )
-            given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
-            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
-            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
-            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)
-
-            val request = buildSendNotifyRejectedSignatureMessage(
-                channel = sqsChannel,
-                language = language,
-                sourceType = SqsSourceType.PROXY,
-                sourceReference = sourceReference,
-                gssCode = gssCode,
-                requestor = requestor,
-                toAddress = toAddress,
-                personalisation = personalisationMessage,
-            )
-
-            // When
-            val notification = mapper.fromRejectedSignatureMessageToSendNotificationRequestDto(request)
-
-            // Then
-            assertThat(notification.channel).isEqualTo(communicationChannel)
-            assertThat(notification.sourceType).isEqualTo(expectedSourceType)
-            assertThat(notification.sourceReference).isEqualTo(sourceReference)
-            assertThat(notification.gssCode).isEqualTo(gssCode)
-            assertThat(notification.requestor).isEqualTo(requestor)
-            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
-            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
-            verify(languageMapper).fromMessageToDto(language)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.PROXY)
-            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
-            verify(communicationChannelMapper).fromMessagingApiToDto(sqsChannel)
-        }
-    }
-
-    @Nested
-    inner class FromSendNotifyRequestedSignatureMessageToRequestDto {
-        @ParameterizedTest
-        @CsvSource(
-            value = [
-                "EMAIL,EN,EMAIL,ENGLISH",
-                "EMAIL,CY,EMAIL,WELSH",
-                "LETTER,EN,LETTER,ENGLISH",
-                "LETTER,CY,LETTER,WELSH",
-            ],
-        )
-        fun `should map SQS SendNotifyRequestedSignatureMessage to SendNotificationRequestDto`(
-            sqsChannel: SqsChannel,
-            language: Language,
-            communicationChannel: CommunicationChannel,
-            languageDto: LanguageDto,
-        ) {
-            // Given
-            val gssCode = aGssCode()
-            val requestor = aRequestor()
-            val sourceReference = aSourceReference()
-            val toAddress = aMessageAddress()
-            val expectedToAddress = aNotificationDestination()
-
-            val expectedSourceType = SourceType.PROXY
-            val expectedNotificationType = REQUESTED_SIGNATURE
-            val personalisationMessage = buildRequestedSignaturePersonalisation()
-
-            given(notificationTypeMapper.mapMessageTypeToNotificationType(MessageType.REQUESTED_MINUS_SIGNATURE))
-                .willReturn(REQUESTED_SIGNATURE)
-            given(languageMapper.fromMessageToDto(any())).willReturn(languageDto)
-            given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
-            given(notificationDestinationDtoMapper.toNotificationDestinationDto(any())).willReturn(expectedToAddress)
-            given(communicationChannelMapper.fromMessagingApiToDto(any())).willReturn(communicationChannel)
-
-            val request = buildSendNotifyRequestedSignatureMessage(
-                channel = sqsChannel,
-                language = language,
-                sourceType = SqsSourceType.PROXY,
-                sourceReference = sourceReference,
-                gssCode = gssCode,
-                requestor = requestor,
-                toAddress = toAddress,
-                personalisation = personalisationMessage,
-            )
-
-            // When
-            val notification = mapper.fromRequestedSignatureToSendNotificationRequestDto(request)
-
-            // Then
-            assertThat(notification.channel).isEqualTo(communicationChannel)
-            assertThat(notification.sourceType).isEqualTo(expectedSourceType)
-            assertThat(notification.sourceReference).isEqualTo(sourceReference)
-            assertThat(notification.gssCode).isEqualTo(gssCode)
-            assertThat(notification.requestor).isEqualTo(requestor)
-            assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
-            assertThat(notification.toAddress).isEqualTo(expectedToAddress)
-            verify(languageMapper).fromMessageToDto(language)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.PROXY)
-            verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
-            verify(communicationChannelMapper).fromMessagingApiToDto(sqsChannel)
         }
     }
 

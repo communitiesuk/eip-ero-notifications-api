@@ -12,8 +12,6 @@ import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedOverseasDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredOverseasDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
@@ -312,32 +310,6 @@ fun buildRejectedDocumentPersonalisationMapFromDto(
     with(personalisationDto) {
         personalisationMap["rejectedDocuments"] = documents
         personalisationMap["rejectionMessage"] = rejectedDocumentFreeText ?: ""
-        personalisationMap["sourceType"] = personalisationSourceTypeString
-        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
-    }
-    return personalisationMap
-}
-
-fun buildRejectedSignaturePersonalisationMapFromDto(
-    personalisationDto: RejectedSignaturePersonalisationDto = buildRejectedSignaturePersonalisationDto(),
-): Map<String, Any> {
-    val personalisationMap = mutableMapOf<String, Any>()
-    with(personalisationDto) {
-        personalisationMap["rejectionNotes"] = rejectionNotes ?: ""
-        personalisationMap["rejectionReasons"] = rejectionReasons
-        personalisationMap["rejectionFreeText"] = rejectionFreeText ?: ""
-        personalisationMap["sourceType"] = personalisationSourceTypeString
-        personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
-    }
-    return personalisationMap
-}
-
-fun buildRequestedSignaturePersonalisationMapFromDto(
-    personalisationDto: RequestedSignaturePersonalisationDto = buildRequestedSignaturePersonalisationDto(),
-): Map<String, Any> {
-    val personalisationMap = mutableMapOf<String, Any>()
-    with(personalisationDto) {
-        personalisationMap["freeText"] = freeText ?: ""
         personalisationMap["sourceType"] = personalisationSourceTypeString
         personalisationMap.putAll(getCommonDetailsMap(firstName, applicationReference, eroContactDetails))
     }
