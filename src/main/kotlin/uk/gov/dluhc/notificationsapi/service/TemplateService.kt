@@ -15,8 +15,6 @@ import uk.gov.dluhc.notificationsapi.dto.GenerateRequiredOverseasDocumentTemplat
 import uk.gov.dluhc.notificationsapi.dto.NinoNotMatchedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVoteTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignatureTemplatePreviewDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignatureTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.mapper.DocumentCategoryMapper
@@ -131,34 +129,6 @@ class TemplateService(
                     language,
                 ),
                 templatePersonalisationDtoMapper.toRejectedDocumentTemplatePersonalisationMap(personalisation),
-            )
-        }
-    }
-
-    fun generateRejectedSignatureTemplatePreview(dto: RejectedSignatureTemplatePreviewDto): NotifyTemplatePreviewDto {
-        return with(dto) {
-            govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
-                    sourceType,
-                    notificationType,
-                    channel,
-                    language,
-                ),
-                templatePersonalisationDtoMapper.toRejectedSignatureTemplatePersonalisationMap(personalisation),
-            )
-        }
-    }
-
-    fun generateRequestedSignatureTemplatePreview(dto: RequestedSignatureTemplatePreviewDto): NotifyTemplatePreviewDto {
-        return with(dto) {
-            govNotifyApiClient.generateTemplatePreview(
-                notificationTemplateMapper.fromNotificationTypeForChannelInLanguage(
-                    sourceType,
-                    notificationType,
-                    channel,
-                    language,
-                ),
-                templatePersonalisationDtoMapper.toRequestedSignatureTemplatePersonalisationMap(personalisation),
             )
         }
     }
