@@ -5,7 +5,7 @@ import uk.gov.dluhc.notificationsapi.models.SignatureRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.models.SignatureResubmissionPersonalisation
 
 /**
- * Extension property on RejectedSignature to return the signature rejection reasons, excluding OTHER
+ * Extension property on SignatureResubmission to return the signature rejection reasons, excluding OTHER
  * This is because whilst OTHER is a valid rejection reason the ERO can make, it is not to be used in the decision
  * about which gov.uk template to use, or rendered in the bulleted list of rejection reasons in the rendered template.
  */
