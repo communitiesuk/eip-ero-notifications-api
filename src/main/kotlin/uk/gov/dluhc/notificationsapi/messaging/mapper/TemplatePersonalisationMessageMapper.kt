@@ -14,8 +14,6 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.PhotoPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
@@ -33,8 +31,6 @@ import uk.gov.dluhc.notificationsapi.messaging.models.NinoNotMatchedPersonalisat
 import uk.gov.dluhc.notificationsapi.messaging.models.NotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.RejectedDocumentPersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.RejectedSignaturePersonalisation
-import uk.gov.dluhc.notificationsapi.messaging.models.RequestedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import java.time.LocalDate
@@ -71,30 +67,6 @@ abstract class TemplatePersonalisationMessageMapper {
         personalisationMessage: PhotoPersonalisation,
         languageDto: LanguageDto,
     ): PhotoPersonalisationDto
-
-    @Mapping(
-        target = "personalisationSourceTypeString",
-        expression = "java( mapSourceType( languageDto, sourceType ) )",
-    )
-    @Mapping(
-        target = "rejectionReasons",
-        expression = "java( mapSignatureRejectionReasons( languageDto, personalisationMessage.getRejectionReasons() ) )",
-    )
-    abstract fun toRejectedSignaturePersonalisationDto(
-        personalisationMessage: RejectedSignaturePersonalisation,
-        languageDto: LanguageDto,
-        sourceType: SourceType,
-    ): RejectedSignaturePersonalisationDto
-
-    @Mapping(
-        target = "personalisationSourceTypeString",
-        expression = "java( mapSourceType( languageDto, sourceType ) )",
-    )
-    abstract fun toRequestedSignaturePersonalisationDto(
-        personalisationMessage: RequestedSignaturePersonalisation,
-        languageDto: LanguageDto,
-        sourceType: SourceType,
-    ): RequestedSignaturePersonalisationDto
 
     @Mapping(
         target = "documentRejectionText",

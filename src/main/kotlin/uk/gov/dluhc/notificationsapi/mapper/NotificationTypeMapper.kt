@@ -17,8 +17,6 @@ class NotificationTypeMapper {
             MessageType.PHOTO_MINUS_RESUBMISSION -> NotificationType.PHOTO_RESUBMISSION
             MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION -> NotificationType.ID_DOCUMENT_RESUBMISSION
             MessageType.ID_MINUS_DOCUMENT_MINUS_REQUIRED -> NotificationType.ID_DOCUMENT_REQUIRED
-            MessageType.REJECTED_MINUS_SIGNATURE -> NotificationType.REJECTED_SIGNATURE
-            MessageType.REQUESTED_MINUS_SIGNATURE -> NotificationType.REQUESTED_SIGNATURE
             MessageType.REJECTED_MINUS_DOCUMENT -> NotificationType.REJECTED_DOCUMENT
             MessageType.NINO_MINUS_NOT_MINUS_MATCHED -> NotificationType.NINO_NOT_MATCHED
             MessageType.PARENT_MINUS_GUARDIAN_MINUS_PROOF_MINUS_REQUIRED -> NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED

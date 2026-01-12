@@ -114,6 +114,54 @@ internal class GetCommunicationStatisticsByApplicationIdIntegrationTest : Integr
         assertThat(actual).isEqualTo(expected)
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        value = ["POSTAL,postal", "PROXY,proxy"],
+    )
+    fun `should return correctly built response including legacy communications`(
+        sourceType: SourceType,
+        applicationType: String,
+    ) {
+        // Given
+        val applicationId = aRandomSourceReference()
+
+        notificationRepository.saveNotification(
+            aNotificationBuilder(
+                sourceReference = applicationId,
+                sourceType = sourceType,
+                type = NotificationType.REJECTED_SIGNATURE,
+            ),
+        )
+        notificationRepository.saveNotification(
+            aNotificationBuilder(
+                sourceReference = applicationId,
+                sourceType = sourceType,
+                type = NotificationType.REQUESTED_SIGNATURE,
+            ),
+        )
+
+        val expected = CommunicationsStatisticsResponse(
+            numBespokeCommunicationsSent = 0,
+            numNotRegisteredToVoteCommsSent = 0,
+            numSignatureRequestCommsSent = 2,
+            numPhotoRequestCommsSent = 0,
+            numIdentityDocumentRequestCommsSent = 0,
+        )
+
+        wireMockService.stubSuccessfulStsPresignedAuthResponse("stats-role")
+
+        // When
+        val response = webTestClient.get()
+            .uri(buildUri(applicationId = applicationId, service = applicationType))
+            .header(Constants.AUTH_HEADER_NAME, "query=something")
+            .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsStatisticsResponse::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
     private fun buildUri(applicationId: String = UUID.randomUUID().toString(), service: String) =
         "/communications/statistics/$service/$applicationId"
 }

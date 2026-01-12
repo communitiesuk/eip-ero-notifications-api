@@ -11,7 +11,6 @@ import reactor.core.publisher.Mono
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.models.ErrorResponse
-import uk.gov.dluhc.notificationsapi.models.GenerateRejectedSignatureTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateSignatureResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.models.GenerateTemplatePreviewResponse
 import uk.gov.dluhc.notificationsapi.models.Language
@@ -328,7 +327,7 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
     private fun WebTestClient.RequestBodySpec.withABody(request: GenerateSignatureResubmissionTemplatePreviewRequest): WebTestClient.RequestBodySpec {
         return body(
             Mono.just(request),
-            GenerateRejectedSignatureTemplatePreviewRequest::class.java,
+            GenerateSignatureResubmissionTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
     }
 }

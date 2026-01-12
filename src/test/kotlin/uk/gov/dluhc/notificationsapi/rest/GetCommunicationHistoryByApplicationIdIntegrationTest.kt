@@ -243,6 +243,86 @@ internal class GetCommunicationHistoryByApplicationIdIntegrationTest : Integrati
         assertThat(actual).isEqualTo(expected)
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "postal,POSTAL,ero-postal-admin",
+            "proxy,PROXY,ero-proxy-admin",
+        ],
+    )
+    fun `should return Communication Summaries for application given legacy communications`(
+        requestedSourceType: String?,
+        sourceType: SourceType,
+        authGroupPrefix: String,
+    ) {
+        // Given
+        wireMockService.stubCognitoJwtIssuerResponse()
+        val eroResponse = buildElectoralRegistrationOfficeResponse(id = ERO_ID)
+        wireMockService.stubEroManagementGetEroByEroId(eroResponse, ERO_ID)
+
+        val applicationId = aRandomSourceReference()
+        val requestor = aRequestor()
+
+        val sentNotification1 = aNotificationBuilder(
+            id = aRandomNotificationId(),
+            sourceReference = applicationId,
+            sourceType = sourceType,
+            gssCode = eroResponse.localAuthorities[0].gssCode,
+            requestor = requestor,
+            channel = Channel.EMAIL,
+            type = NotificationType.REJECTED_SIGNATURE,
+            sentAt = LocalDateTime.of(2022, 10, 4, 13, 22, 18),
+        )
+        notificationRepository.saveNotification(
+            sentNotification1,
+        )
+
+        val sentNotification2 = aNotificationBuilder(
+            id = aRandomNotificationId(),
+            sourceReference = applicationId,
+            sourceType = sourceType,
+            gssCode = eroResponse.localAuthorities[0].gssCode,
+            requestor = requestor,
+            channel = Channel.EMAIL,
+            type = NotificationType.REQUESTED_SIGNATURE,
+            sentAt = LocalDateTime.of(2022, 10, 6, 9, 58, 24),
+        )
+        notificationRepository.saveNotification(
+            sentNotification2,
+        )
+
+        val expected = CommunicationsHistoryResponse(
+            communications = listOf(
+                aCommunicationsSummaryBuilder(
+                    id = sentNotification2.id!!,
+                    requestor = aRequestor(),
+                    channel = CommunicationChannel.EMAIL,
+                    templateType = TemplateType.REQUESTED_MINUS_SIGNATURE,
+                    timestamp = OffsetDateTime.of(sentNotification2.sentAt, ZoneOffset.UTC),
+                ),
+                aCommunicationsSummaryBuilder(
+                    id = sentNotification1.id!!,
+                    requestor = aRequestor(),
+                    channel = CommunicationChannel.EMAIL,
+                    templateType = TemplateType.REJECTED_MINUS_SIGNATURE,
+                    timestamp = OffsetDateTime.of(sentNotification1.sentAt, ZoneOffset.UTC),
+                ),
+            ),
+        )
+
+        // When
+        val response = webTestClient.get()
+            .uri(buildUri(applicationId = applicationId, eroId = ERO_ID, sourceType = requestedSourceType))
+            .bearerToken(getBearerToken(eroId = ERO_ID, groups = listOf("ero-$ERO_ID", "$authGroupPrefix-$ERO_ID")))
+            .contentType(MediaType.APPLICATION_JSON)
+            .exchange()
+
+        // Then
+        response.expectStatus().isOk
+        val actual = response.returnResult(CommunicationsHistoryResponse::class.java).responseBody.blockFirst()
+        assertThat(actual).isEqualTo(expected)
+    }
+
     private fun buildUri(eroId: String = ERO_ID, applicationId: String = UUID.randomUUID().toString(), sourceType: String? = null) =
         "/eros/$eroId/communications/applications/$applicationId" + ("?sourceType=$sourceType".takeIf { sourceType != null } ?: "")
 }

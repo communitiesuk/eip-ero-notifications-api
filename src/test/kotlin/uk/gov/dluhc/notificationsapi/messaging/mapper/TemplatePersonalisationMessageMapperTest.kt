@@ -22,8 +22,6 @@ import uk.gov.dluhc.notificationsapi.dto.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.dto.NotRegisteredToVotePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RejectedDocumentPersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RejectedSignaturePersonalisationDto
-import uk.gov.dluhc.notificationsapi.dto.RequestedSignaturePersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.RequiredDocumentPersonalisationDto
 import uk.gov.dluhc.notificationsapi.mapper.ApplicationRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.DeadlineMapper
@@ -39,7 +37,6 @@ import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
-import uk.gov.dluhc.notificationsapi.messaging.models.SignatureRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDtoFromMessage
@@ -56,8 +53,6 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildNotRegisteredToVotePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildPhotoPersonalisationMessage
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocumentsPersonalisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedSignaturePersonalisation
-import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRequestedSignaturePersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRequiredDocumentPersonalisation
 
 @ExtendWith(MockitoExtension::class)
@@ -380,126 +375,6 @@ internal class TemplatePersonalisationMessageMapperTest {
             // When
             val actual = mapper.toRejectedDocumentPersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
 
-            // Then
-            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
-        }
-    }
-
-    @Nested
-    inner class ToRejectedSignaturePersonalisationDto {
-        @Test
-        fun `should map SQS RejectedSignaturePersonalisation to RejectedSignaturePersonalisationDto`() {
-            // Given
-            val personalisationMessage = buildRejectedSignaturePersonalisation()
-            val partiallyCutOff = "The image has some of it cut off"
-            val tooDark = "The image is too dark"
-            given(
-                signatureRejectionReasonMapper.toSignatureRejectionReasonString(
-                    SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
-                    ENGLISH,
-                ),
-            )
-                .willReturn(partiallyCutOff)
-            given(
-                signatureRejectionReasonMapper.toSignatureRejectionReasonString(
-                    SignatureRejectionReason.TOO_MINUS_DARK,
-                    ENGLISH,
-                ),
-            )
-                .willReturn(tooDark)
-
-            val expectedRejectionReasons = listOf(
-                partiallyCutOff,
-                tooDark,
-                // a mapping from OTHER is not expected - this is by design
-            )
-            given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
-
-            val expectedPersonalisationDto = with(personalisationMessage) {
-                RejectedSignaturePersonalisationDto(
-                    applicationReference = applicationReference,
-                    firstName = firstName,
-                    rejectionReasons = expectedRejectionReasons,
-                    rejectionNotes = rejectionNotes,
-                    rejectionFreeText = null,
-                    eroContactDetails = with(eroContactDetails) {
-                        buildContactDetailsDto(
-                            localAuthorityName = localAuthorityName,
-                            website = website,
-                            phone = phone,
-                            email = email,
-                            address = with(address) {
-                                buildAddressDto(
-                                    street = street,
-                                    property = property,
-                                    locality = locality,
-                                    town = town,
-                                    area = area,
-                                    postcode = postcode,
-                                )
-                            },
-                        )
-                    },
-                    personalisationSourceTypeString = "Mapped source type",
-                )
-            }
-
-            // When
-            val actual =
-                mapper.toRejectedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
-            // Then
-            assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
-            verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
-                SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF,
-                ENGLISH,
-            )
-            verify(signatureRejectionReasonMapper).toSignatureRejectionReasonString(
-                SignatureRejectionReason.TOO_MINUS_DARK,
-                ENGLISH,
-            )
-            verifyNoMoreInteractions(signatureRejectionReasonMapper)
-        }
-    }
-
-    @Nested
-    inner class ToRequestedSignaturePersonalisationDto {
-        @Test
-        fun `should map SQS RequestedSignaturePersonalisation to RequestedSignaturePersonalisationDto`() {
-            // Given
-            val personalisationMessage = buildRequestedSignaturePersonalisation()
-
-            given(sourceTypeMapper.toSourceTypeString(SourceType.POSTAL, ENGLISH)).willReturn("Mapped source type")
-
-            val expectedPersonalisationDto = with(personalisationMessage) {
-                RequestedSignaturePersonalisationDto(
-                    applicationReference = applicationReference,
-                    firstName = firstName,
-                    freeText = freeText,
-                    eroContactDetails = with(eroContactDetails) {
-                        buildContactDetailsDto(
-                            localAuthorityName = localAuthorityName,
-                            website = website,
-                            phone = phone,
-                            email = email,
-                            address = with(address) {
-                                buildAddressDto(
-                                    street = street,
-                                    property = property,
-                                    locality = locality,
-                                    town = town,
-                                    area = area,
-                                    postcode = postcode,
-                                )
-                            },
-                        )
-                    },
-                    personalisationSourceTypeString = "Mapped source type",
-                )
-            }
-
-            // When
-            val actual =
-                mapper.toRequestedSignaturePersonalisationDto(personalisationMessage, ENGLISH, SourceType.POSTAL)
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
         }

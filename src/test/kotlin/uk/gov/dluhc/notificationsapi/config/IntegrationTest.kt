@@ -94,12 +94,6 @@ internal abstract class IntegrationTest {
     @Value("\${sqs.remove-application-notifications-queue-name}")
     protected lateinit var removeApplicationNotificationsQueueName: String
 
-    @Value("\${sqs.send-uk-gov-notify-rejected-signature-queue-name}")
-    protected lateinit var sendUkGovNotifyRejectedSignatureQueueName: String
-
-    @Value("\${sqs.send-uk-gov-notify-requested-signature-queue-name}")
-    protected lateinit var sendUkGovNotifyRequestedSignatureQueueName: String
-
     @Value("\${sqs.send-uk-gov-notify-signature-resubmission-queue-name}")
     protected lateinit var sendUkGovNotifySignatureResubmissionQueueName: String
 
@@ -223,10 +217,6 @@ internal abstract class IntegrationTest {
                 clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyNinoNotMatchedMessageQueueName),
                 clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyBespokeCommMessageQueueName),
                 clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyNotRegisteredToVoteMessageQueueName),
-                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyRequestedSignatureQueueName),
-                clearSqsQueueAsync(mappedQueueUrlSendUkGovNotifyRejectedSignatureQueueName),
-                clearSqsQueueAsync(sendUkGovNotifyRequestedSignatureQueueName),
-                clearSqsQueueAsync(sendUkGovNotifyRejectedSignatureQueueName),
             ).join()
         }
     }

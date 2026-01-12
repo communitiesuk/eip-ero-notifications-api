@@ -137,6 +137,8 @@ tasks.withType<Test> {
     dependsOn(tasks.withType<GenerateTask>())
     useJUnitPlatform()
     jvmArgs("--add-opens", "java.base/java.time=ALL-UNNAMED")
+    // TODO: EROPSPT-608 this is a temporary fix for testcontainer versions
+    systemProperty("api.version", "1.44")
 }
 
 tasks.withType<GenerateTask> {

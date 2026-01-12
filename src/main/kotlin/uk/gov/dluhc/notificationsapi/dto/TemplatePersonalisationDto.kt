@@ -89,32 +89,6 @@ class RejectedDocumentPersonalisationDto(
     eroContactDetails = eroContactDetails,
 )
 
-class RejectedSignaturePersonalisationDto(
-    applicationReference: String,
-    firstName: String,
-    eroContactDetails: ContactDetailsDto,
-    val personalisationSourceTypeString: String,
-    val rejectionNotes: String?,
-    val rejectionReasons: List<String>,
-    val rejectionFreeText: String?,
-) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
-
-class RequestedSignaturePersonalisationDto(
-    applicationReference: String,
-    firstName: String,
-    eroContactDetails: ContactDetailsDto,
-    val personalisationSourceTypeString: String,
-    val freeText: String?,
-) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
-
 class RequiredDocumentPersonalisationDto(
     applicationReference: String,
     firstName: String,
