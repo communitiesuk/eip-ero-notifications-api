@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.tasks.KtLintCheckTask
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
@@ -13,8 +14,7 @@ plugins {
     kotlin("plugin.spring") version "2.3.10"
     kotlin("plugin.jpa") version "2.3.10"
     kotlin("plugin.allopen") version "2.3.10"
-    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
-    id("org.jlleitschuh.gradle.ktlint-idea") version "11.3.1"
+    id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
     id("org.openapi.generator") version "7.0.1"
     id("org.owasp.dependencycheck") version "12.2.0"
 }
@@ -125,12 +125,15 @@ dependencies {
     testImplementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }
 
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
 tasks.withType<KotlinCompile> {
     dependsOn(tasks.withType<GenerateTask>())
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
-    }
 }
 
 tasks.withType<Test> {
@@ -232,7 +235,7 @@ fun String.runCommand(): String {
     return process.inputStream.bufferedReader().readText().trim()
 }
 
-/* Configuration for the OWASP dependency check */
+// Configuration for the OWASP dependency check
 dependencyCheck {
     autoUpdate = true
     failOnError = true
