@@ -45,5 +45,7 @@ fun aNotificationBuilder(
 fun aNotification(): Notification = aNotificationBuilder()
 
 fun anEntityNotificationType() = NotificationType.APPLICATION_APPROVED
+
 fun anEntitySourceType() = SourceType.VOTER_CARD
+
 fun anEntityChannel() = Channel.EMAIL

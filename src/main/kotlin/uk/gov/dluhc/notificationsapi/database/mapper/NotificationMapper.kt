@@ -36,5 +36,6 @@ abstract class NotificationMapper {
     ): Notification
 
     abstract fun toPostalAddress(postalAddress: DtoPostalAddress): EntityPostalAddress
+
     abstract fun toNotifyDetails(sendNotificationResponse: SendNotificationResponseDto): NotifyDetails
 }

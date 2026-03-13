@@ -90,14 +90,14 @@ class NotRegisteredToVoteTemplatePreviewDtoMapperTest {
                             phone = phone,
                             email = email,
                             address =
-                            buildAddressDto(
-                                street = address.street,
-                                property = address.property,
-                                locality = address.locality,
-                                town = address.town,
-                                area = address.area,
-                                postcode = address.postcode,
-                            ),
+                                buildAddressDto(
+                                    street = address.street,
+                                    property = address.property,
+                                    locality = address.locality,
+                                    town = address.town,
+                                    area = address.area,
+                                    postcode = address.postcode,
+                                ),
                         )
                     },
                     freeText = freeText,

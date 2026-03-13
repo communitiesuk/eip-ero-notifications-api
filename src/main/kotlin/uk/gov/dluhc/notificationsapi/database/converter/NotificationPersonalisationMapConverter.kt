@@ -46,7 +46,7 @@ class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, A
                 } else {
                     it.value.s()
                 }
-                )
+            )
         }
     }
 

@@ -6,8 +6,8 @@ class GenerateIdDocumentRequiredTemplatePreviewDto(
     language: LanguageDto,
     val personalisation: IdDocumentRequiredPersonalisationDto,
 ) : BaseGenerateTemplatePreviewDto(
-    sourceType = sourceType,
-    channel = channel,
-    language = language,
-    notificationType = NotificationType.ID_DOCUMENT_REQUIRED,
-)
+        sourceType = sourceType,
+        channel = channel,
+        language = language,
+        notificationType = NotificationType.ID_DOCUMENT_REQUIRED,
+    )

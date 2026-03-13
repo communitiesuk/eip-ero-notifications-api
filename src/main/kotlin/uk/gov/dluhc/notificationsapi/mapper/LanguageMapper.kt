@@ -5,6 +5,7 @@ import org.mapstruct.ValueMapping
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.Language as MessageLanguageEnum
+
 @Mapper
 interface LanguageMapper {
 

@@ -137,7 +137,8 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
     fun stubNotifyGenerateTemplatePreviewNotFoundResponse(templateId: String) {
         val url = GENERATE_TEMPLATE_PREVIEW_URL.replace("{templateId}", templateId)
-        val response = """
+        val response =
+            """
             {
               "errors": [
                 {
@@ -147,7 +148,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
               ],
               "status_code": 404
             }
-        """.trimIndent()
+            """.trimIndent()
         wireMockServer.stubFor(
             post(urlPathEqualTo(url)).willReturn(notFound().withBody(response)),
         )
@@ -155,7 +156,8 @@ class WiremockService(private val wireMockServer: WireMockServer) {
 
     fun stubNotifyGenerateTemplatePreviewBadRequestResponse(templateId: String) {
         val url = GENERATE_TEMPLATE_PREVIEW_URL.replace("{templateId}", templateId)
-        val response = """
+        val response =
+            """
             {
               "errors": [
                 {
@@ -165,7 +167,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
               ],
               "status_code": 400
             }
-        """.trimIndent()
+            """.trimIndent()
         wireMockServer.stubFor(
             post(urlPathEqualTo(url)).willReturn(badRequest().withBody(response)),
         )
@@ -247,11 +249,11 @@ class WiremockService(private val wireMockServer: WireMockServer) {
             get(urlPathMatching("/cognito/.well-known/jwks.json")).willReturn(
                 ok().withBody(
                     """
-                            {
-                               "keys":[
-                                    ${RsaKeyPair.jwk.toJSONString()}
-                               ]
-                            }
+                    {
+                       "keys":[
+                            ${RsaKeyPair.jwk.toJSONString()}
+                       ]
+                    }
                     """.trimIndent(),
                 ),
             ),

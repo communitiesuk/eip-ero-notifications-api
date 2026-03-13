@@ -139,7 +139,8 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "language": "en",
               "sourceType": "voter-card",
@@ -162,7 +163,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
         val expectedValidationErrorsCount = 4
 
@@ -197,7 +198,8 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
             NotifyGenerateTemplatePreviewSuccessResponse(id = APPLICATION_APPROVED_EN_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "language": "en",
               "sourceType": "voter-card",
@@ -220,7 +222,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val expectedPersonalisationDataMap = mutableMapOf(
             "applicationReference" to "A3JSZC4CRH",

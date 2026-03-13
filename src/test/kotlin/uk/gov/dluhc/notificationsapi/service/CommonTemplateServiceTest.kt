@@ -37,7 +37,7 @@ class CommonTemplateServiceTest {
     fun `should generate template preview`() {
         // Given
         val personalisation = mapOf<String, Any>(Pair("string", 3))
-        val getTemplatePersonalisation = { -> personalisation }
+        val getTemplatePersonalisation = { personalisation }
         val commonTemplatePreviewDto = buildCommonTemplatePreviewDto()
         val notifyTemplatePreviewDto = NotifyTemplatePreviewDto(
             text = "text",

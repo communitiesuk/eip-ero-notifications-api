@@ -131,12 +131,13 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         given(languageMapper.fromApiToDto(any())).willReturn(LanguageDto.ENGLISH)
         given(channelMapper.fromApiToDto(any())).willReturn(CommunicationChannelDto.LETTER)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
-        val documentRejectionText = """
+        val documentRejectionText =
+            """
             Utility Bill
             
             * The document is too old
-        
-        """.trimIndent()
+            
+            """.trimIndent()
         given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any()))
             .willReturn(documentRejectionText)
 
