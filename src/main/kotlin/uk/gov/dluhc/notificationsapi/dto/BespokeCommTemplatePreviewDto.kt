@@ -7,8 +7,8 @@ class BespokeCommTemplatePreviewDto(
     notificationType: NotificationType,
     val personalisation: BespokeCommPersonalisationDto,
 ) : BaseGenerateTemplatePreviewDto(
-    sourceType = sourceType,
-    channel = channel,
-    language = language,
-    notificationType = notificationType,
-)
+        sourceType = sourceType,
+        channel = channel,
+        language = language,
+        notificationType = notificationType,
+    )

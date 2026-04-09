@@ -13,10 +13,10 @@ class IdDocumentPersonalisationDto(
     val idDocumentRequestFreeText: String,
     val documentRejectionText: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class IdDocumentRequiredPersonalisationDto(
     applicationReference: String,
@@ -24,10 +24,10 @@ class IdDocumentRequiredPersonalisationDto(
     eroContactDetails: ContactDetailsDto,
     val idDocumentRequiredFreeText: String,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class PhotoPersonalisationDto(
     applicationReference: String,
@@ -38,20 +38,20 @@ class PhotoPersonalisationDto(
     val photoRequestFreeText: String,
     val uploadPhotoLink: String,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class ApplicationApprovedPersonalisationDto(
     applicationReference: String,
     firstName: String,
     eroContactDetails: ContactDetailsDto,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class ApplicationReceivedPersonalisationDto(
     applicationReference: String,
@@ -59,10 +59,10 @@ class ApplicationReceivedPersonalisationDto(
     eroContactDetails: ContactDetailsDto,
     val personalisationSourceTypeString: String,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class ApplicationRejectedPersonalisationDto(
     applicationReference: String,
@@ -71,10 +71,10 @@ class ApplicationRejectedPersonalisationDto(
     val rejectionReasonList: List<String>,
     val rejectionReasonMessage: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class RejectedDocumentPersonalisationDto(
     applicationReference: String,
@@ -84,10 +84,10 @@ class RejectedDocumentPersonalisationDto(
     val documents: List<String>,
     val rejectedDocumentFreeText: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class RequiredDocumentPersonalisationDto(
     applicationReference: String,
@@ -96,10 +96,10 @@ class RequiredDocumentPersonalisationDto(
     val personalisationSourceTypeString: String,
     val additionalNotes: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class BespokeCommPersonalisationDto(
     applicationReference: String,
@@ -111,10 +111,10 @@ class BespokeCommPersonalisationDto(
     val whatToDo: String?,
     val deadline: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class NotRegisteredToVotePersonalisationDto(
     applicationReference: String,
@@ -130,10 +130,10 @@ class NotRegisteredToVotePersonalisationDto(
     val postcode: String?,
     val deadline: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class RejectedOverseasDocumentPersonalisationDto(
     applicationReference: String,
@@ -142,10 +142,10 @@ class RejectedOverseasDocumentPersonalisationDto(
     val documents: List<String>,
     val rejectedDocumentFreeText: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )
 
 class RequiredOverseasDocumentPersonalisationDto(
     applicationReference: String,
@@ -153,7 +153,7 @@ class RequiredOverseasDocumentPersonalisationDto(
     eroContactDetails: ContactDetailsDto,
     val requiredDocumentFreeText: String?,
 ) : BaseTemplatePersonalisationDto(
-    applicationReference = applicationReference,
-    firstName = firstName,
-    eroContactDetails = eroContactDetails,
-)
+        applicationReference = applicationReference,
+        firstName = firstName,
+        eroContactDetails = eroContactDetails,
+    )

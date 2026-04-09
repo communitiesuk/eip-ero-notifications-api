@@ -51,7 +51,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.build
 import java.util.stream.Stream
 
 @ExtendWith(MockitoExtension::class)
-internal class SendNotifyMessageMapper_NotificationTypeTest {
+internal class SendNotifyMessageMapperNotificationTypeTest {
 
     @InjectMocks
     private lateinit var mapper: SendNotifyMessageMapperImpl
@@ -233,7 +233,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
     @Nested
     inner class FromPhotoMessageToSendNotificationRequestDto {
         @ParameterizedTest
-        @MethodSource("uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper_NotificationTypeTest#photoRejectionReasons_to_NotificationType")
+        @MethodSource("uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapperNotificationTypeTest#photoRejectionReasons_to_NotificationType")
         fun `should map SQS SendNotifyPhotoResubmissionMessage to SendNotificationRequestDto with correct NotificationType mapping given rejection reasons and no rejection notes`(
             photoRejectionReasons: List<PhotoRejectionReason>,
             expectedNotificationType: NotificationType,
@@ -297,7 +297,7 @@ internal class SendNotifyMessageMapper_NotificationTypeTest {
     inner class FromIdDocumentMessageToSendNotificationRequestDto {
 
         @ParameterizedTest
-        @MethodSource("uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapper_NotificationTypeTest#documentRejectionReasons_to_NotificationType")
+        @MethodSource("uk.gov.dluhc.notificationsapi.messaging.mapper.SendNotifyMessageMapperNotificationTypeTest#documentRejectionReasons_to_NotificationType")
         fun `should map ID document template request to dto with correct NotificationType mapping given rejection reasons and no rejection notes`(
             documentRejectionReasons: List<DocumentRejectionReason>,
             expectedNotificationType: NotificationType,

@@ -33,7 +33,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildPhotoResubmis
 import java.util.stream.Stream
 
 @ExtendWith(MockitoExtension::class)
-class PhotoResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
+class PhotoResubmissionTemplatePreviewDtoMapperNotificationTypeTest {
 
     @InjectMocks
     private lateinit var mapper: PhotoResubmissionTemplatePreviewDtoMapperImpl

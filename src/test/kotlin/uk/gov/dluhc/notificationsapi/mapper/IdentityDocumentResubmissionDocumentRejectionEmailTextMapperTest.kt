@@ -55,7 +55,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -63,7 +64,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.EMAIL)
@@ -89,7 +90,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 This birth certificate is not yours and is someone else's name. You must provide your own documents only.
@@ -97,7 +99,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.EMAIL)
@@ -132,7 +134,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -141,7 +144,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.EMAIL)
@@ -177,7 +180,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -188,7 +192,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.EMAIL)
@@ -215,13 +219,14 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeApi>(), any())).willReturn("Adoption certificate")
 
-            val expected = """
+            val expected =
+                """
                 Adoption certificate
 
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.EMAIL)
@@ -277,7 +282,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     "Adoption certificate",
                 )
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -304,7 +310,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelApi.EMAIL)
@@ -334,7 +340,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -342,7 +349,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.EMAIL)
@@ -368,7 +375,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 This birth certificate is not yours and is someone else's name. You must provide your own documents only.
@@ -376,7 +384,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.EMAIL)
@@ -411,7 +419,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -420,7 +429,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.EMAIL)
@@ -456,7 +465,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Birth certificate")
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -467,7 +477,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.EMAIL)
@@ -494,13 +504,14 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             given(rejectedDocumentTypeMapper.toDocumentTypeString(any<DocumentTypeMessaging>(), any())).willReturn("Adoption certificate")
 
-            val expected = """
+            val expected =
+                """
                 Adoption certificate
 
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.EMAIL)
@@ -556,7 +567,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                     "Adoption certificate",
                 )
 
-            val expected = """
+            val expected =
+                """
                 Birth certificate
                 
                 * We were unable to read the document provided because it was not clear or not showing the information we needed
@@ -583,7 +595,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
                 ----
                 
                 
-            """.trimIndent()
+                """.trimIndent()
 
             // When
             val actual = rejectionTextMapper.toDocumentRejectionText(ENGLISH, personalisation, CommunicationChannelDto.EMAIL)

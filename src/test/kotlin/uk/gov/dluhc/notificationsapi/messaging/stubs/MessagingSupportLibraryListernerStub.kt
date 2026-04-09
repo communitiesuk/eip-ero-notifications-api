@@ -10,6 +10,7 @@ import uk.gov.dluhc.logging.config.MESSAGE_ID
 import uk.gov.dluhc.messagingsupport.MessageListener
 import java.util.Collections
 import java.util.UUID
+
 @Component
 @DependsOn("localStackContainerSqsSettings")
 class MessagingSupportLibraryListenerStub : MessageListener<TestSqsMessage> {

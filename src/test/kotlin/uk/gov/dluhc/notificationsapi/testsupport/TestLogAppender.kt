@@ -27,7 +27,8 @@ class TestLogAppender : AppenderBase<ILoggingEvent>() {
             val throwableProxy = event.throwableProxy
             return (
                 message == event.formattedMessage || (throwableProxy != null && message == throwableProxy.message)
-                ) && event.level == level
+            ) &&
+                event.level == level
         }
 
         private fun hasMessageMatchingRegex(event: ILoggingEvent, regex: Regex, level: Level): Boolean {
@@ -35,7 +36,8 @@ class TestLogAppender : AppenderBase<ILoggingEvent>() {
             return (
                 regex.matches(event.formattedMessage) ||
                     (throwableProxy != null && regex.matches(throwableProxy.message))
-                ) && event.level == level
+            ) &&
+                event.level == level
         }
 
         fun reset() {

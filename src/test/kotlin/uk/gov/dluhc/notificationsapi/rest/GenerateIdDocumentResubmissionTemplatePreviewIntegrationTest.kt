@@ -142,7 +142,8 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "channel": "email",
               "language": "en",
@@ -167,7 +168,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
         val expectedValidationErrorsCount = 4
 
@@ -201,7 +202,8 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = DOCUMENT_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "channel": "email",
               "language": "en",
@@ -232,7 +234,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                 ]
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val expectedPersonalisationDataMap = mutableMapOf(
             "applicationReference" to "A3JSZC4CRH",

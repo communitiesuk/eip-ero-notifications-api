@@ -140,7 +140,8 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "channel": "email",
               "language": "en",
@@ -168,7 +169,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
         val expectedValidationErrorsCount = 4

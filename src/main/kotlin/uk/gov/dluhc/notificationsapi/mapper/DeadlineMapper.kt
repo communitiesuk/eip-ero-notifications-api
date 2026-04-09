@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 @Component
 class DeadlineMapper(private val messageSource: MessageSource) {

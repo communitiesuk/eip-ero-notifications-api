@@ -19,7 +19,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotif
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.database.entity.aNotifyDetails
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.getBearerToken
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 import uk.gov.dluhc.notificationsapi.database.entity.SourceType as SourceTypeEntity
 import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApi
 

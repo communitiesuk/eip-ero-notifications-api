@@ -6,8 +6,8 @@ class RejectedDocumentTemplatePreviewDto(
     language: LanguageDto,
     val personalisation: RejectedDocumentPersonalisationDto,
 ) : BaseGenerateTemplatePreviewDto(
-    sourceType = sourceType,
-    channel = channel,
-    language = language,
-    notificationType = NotificationType.REJECTED_DOCUMENT,
-)
+        sourceType = sourceType,
+        channel = channel,
+        language = language,
+        notificationType = NotificationType.REJECTED_DOCUMENT,
+    )

@@ -25,7 +25,8 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
 ) {
 
     companion object {
-        private val REJECTED_DOCUMENT_LETTER_MARKDOWN_TEMPLATE = """
+        private val REJECTED_DOCUMENT_LETTER_MARKDOWN_TEMPLATE =
+            """
             <document-type>
 
             <bulleted-list-of-reasons>
@@ -33,9 +34,10 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
             <rejection-reason-notes>
 
             
-        """.trimIndent()
+            """.trimIndent()
 
-        private val REJECTED_DOCUMENT_EMAIL_MARKDOWN_TEMPLATE = """
+        private val REJECTED_DOCUMENT_EMAIL_MARKDOWN_TEMPLATE =
+            """
             <document-type>
 
             <bulleted-list-of-reasons>
@@ -44,7 +46,7 @@ class IdentityDocumentResubmissionDocumentRejectionTextMapper(
 
             ----
             
-        """.trimIndent()
+            """.trimIndent()
     }
 
     fun toDocumentRejectionText(language: LanguageDto, personalisation: IdDocumentPersonalisationApi, channel: CommunicationChannelApi): String? {

@@ -48,7 +48,9 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
         SourceTypeApiEnum.POSTAL.value -> SourceTypeDtoEnum.POSTAL
         SourceTypeApiEnum.PROXY.value -> SourceTypeDtoEnum.PROXY
         SourceTypeApiEnum.OVERSEAS.value -> SourceTypeDtoEnum.OVERSEAS
-        else -> { throw InvalidSourceTypeException(sourceType) }
+        else -> {
+            throw InvalidSourceTypeException(sourceType)
+        }
     }
 
     fun toSourceTypeString(

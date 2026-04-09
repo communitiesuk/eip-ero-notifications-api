@@ -160,14 +160,15 @@ internal class TemplatePersonalisationMessageMapperTest {
             val personalisationMessage = buildIdDocumentPersonalisationMessage()
             val channel = CommunicationChannel.EMAIL
 
-            val documentRejectionText = """
+            val documentRejectionText =
+                """
                 Utility Bill
                 
                 * The document is too old
                 
                 ----
-            
-            """.trimIndent()
+                
+                """.trimIndent()
             given(documentRejectionTextMapper.toDocumentRejectionText(any(), any<IdDocumentPersonalisation>(), any()))
                 .willReturn(documentRejectionText)
 

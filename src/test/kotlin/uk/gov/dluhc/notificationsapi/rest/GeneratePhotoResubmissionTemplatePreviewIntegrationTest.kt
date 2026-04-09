@@ -139,7 +139,8 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "channel": "email",
               "language": "en",
@@ -166,7 +167,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(MILLIS)
         val expectedValidationErrorsCount = 4
 
@@ -200,7 +201,8 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = PHOTO_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "channel": "email",
               "language": "en",
@@ -227,7 +229,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val expectedPersonalisationDataMap = mapOf(
             "applicationReference" to "A3JSZC4CRH",

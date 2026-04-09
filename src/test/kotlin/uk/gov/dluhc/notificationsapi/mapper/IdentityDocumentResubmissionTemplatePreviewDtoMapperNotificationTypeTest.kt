@@ -33,7 +33,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedDo
 import java.util.stream.Stream
 
 @ExtendWith(MockitoExtension::class)
-class IdentityDocumentResubmissionTemplatePreviewDtoMapper_NotificationTypeTest {
+class IdentityDocumentResubmissionTemplatePreviewDtoMapperNotificationTypeTest {
 
     @InjectMocks
     private lateinit var mapper: IdentityDocumentResubmissionTemplatePreviewDtoMapperImpl

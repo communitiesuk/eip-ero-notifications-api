@@ -141,7 +141,8 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
         // Given
         wireMockService.stubCognitoJwtIssuerResponse()
 
-        val requestBody = """
+        val requestBody =
+            """
             {
               "channel": "email",
               "language": "en",
@@ -166,7 +167,7 @@ internal class GenerateIdDocumentRequiredTemplatePreviewIntegrationTest : Integr
                 }
               }
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val earliestExpectedTimeStamp = OffsetDateTime.now().truncatedTo(ChronoUnit.MILLIS)
         val expectedValidationErrorsCount = 4
