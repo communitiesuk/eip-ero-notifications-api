@@ -28,6 +28,12 @@ ext["snakeyaml.version"] = "2.2"
 extra["springCloudAwsVersion"] = "3.1.1"
 extra["awsSdkVersion"] = "2.26.20"
 
+// Forcing 4.1.133 version of netty to patch vulnerabilities, under EROPSPT-710.
+// When we upgrade to spring v4 we should check if spring pulls in newer versions of netty.
+// If so, this override should be removed.
+// TODO EROPSPT-603
+extra["netty.version"] = "4.1.133.Final"
+
 allOpen {
     annotations("jakarta.persistence.Entity", "jakarta.persistence.MappedSuperclass", "jakarta.persistence.Embedabble")
 }
