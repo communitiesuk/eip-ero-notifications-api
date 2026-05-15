@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.database.converter
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -17,6 +16,7 @@ import org.springframework.test.util.ReflectionTestUtils.setField
 import software.amazon.awssdk.enhanced.dynamodb.AttributeValueType.M
 import software.amazon.awssdk.enhanced.dynamodb.EnhancedType
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import tools.jackson.databind.ObjectMapper
 
 @ExtendWith(MockitoExtension::class)
 class NotificationPersonalisationMapConverterTest {

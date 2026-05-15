@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.testsupport
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder.responseDefinition
@@ -23,6 +22,7 @@ import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder.newRequest
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import tools.jackson.databind.ObjectMapper
 import uk.gov.dluhc.eromanagementapi.models.ElectoralRegistrationOfficeResponse
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
