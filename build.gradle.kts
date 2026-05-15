@@ -135,7 +135,7 @@ dependencies {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
         jvmTarget.set(JvmTarget.JVM_17)
     }
 }
@@ -176,26 +176,26 @@ tasks.withType<GenerateTask> {
     )
 }
 
-tasks.create("generate-models-from-openapi-document-NotificationsAPIs.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-NotificationsAPIs.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/NotificationsAPIs.yaml")
     packageName.set("uk.gov.dluhc.notificationsapi")
     configOptions.put("documentationProvider", "none")
 }
 
-tasks.create("generate-models-from-openapi-document-shared-stats-update-sqs-messaging.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-shared-stats-update-sqs-messaging.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/sqs/applications-api/shared-stats-update-sqs-messaging.yaml")
     packageName.set("uk.gov.dluhc.applicationsapi.messaging")
 }
 
-tasks.create("generate-models-from-openapi-document-Notifications-sqs-message-types.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-Notifications-sqs-message-types.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/sqs/Notifications-sqs-messaging.yaml")
     packageName.set("uk.gov.dluhc.notificationsapi.messaging")
 }
 
-tasks.create("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/external/EROManagementAPIs.yaml")
     packageName.set("uk.gov.dluhc.eromanagementapi")
