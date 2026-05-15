@@ -1,8 +1,8 @@
 package uk.gov.dluhc.notificationsapi.client.mapper
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import tools.jackson.databind.json.JsonMapper
 import uk.gov.dluhc.notificationsapi.testsupport.model.Content
 import uk.gov.dluhc.notificationsapi.testsupport.model.LetterContent
 import uk.gov.dluhc.notificationsapi.testsupport.model.LetterTemplate
@@ -53,8 +53,8 @@ class SendNotificationResponseDtoMapperTestDto {
                     subject = expectedSubject,
                 ),
             )
-        val objectMapper = ObjectMapper()
-        val sendEmailResponse = SendEmailResponse(objectMapper.writeValueAsString(response))
+        val jsonMapper = tools.jackson.databind.json.JsonMapper()
+        val sendEmailResponse = SendEmailResponse(jsonMapper.writeValueAsString(response))
 
         // When
         val actual = mapper.toSendNotificationResponse(sendEmailResponse)
@@ -97,8 +97,8 @@ class SendNotificationResponseDtoMapperTestDto {
                     subject = expectedSubject,
                 ),
             )
-        val objectMapper = ObjectMapper()
-        val sendLetterResponse = SendLetterResponse(objectMapper.writeValueAsString(response))
+        val jsonMapper = tools.jackson.databind.json.JsonMapper()
+        val sendLetterResponse = SendLetterResponse(jsonMapper.writeValueAsString(response))
 
         // When
         val actual = mapper.toSendNotificationResponse(sendLetterResponse)

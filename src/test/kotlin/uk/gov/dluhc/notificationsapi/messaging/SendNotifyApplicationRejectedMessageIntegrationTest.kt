@@ -171,7 +171,7 @@ internal class SendNotifyApplicationRejectedMessageIntegrationTest : Integration
     ) {
         assertThat(actualEntity.toPostalAddress).usingRecursiveComparison().ignoringFields("addressee")
             .isEqualTo(payload.toAddress.postalAddress!!.address)
-        assertThat(actualEntity.toPostalAddress!!.addressee).isEqualTo(payload.toAddress.postalAddress!!.addressee)
+        assertThat(actualEntity.toPostalAddress!!.addressee).isEqualTo(payload.toAddress.postalAddress.addressee)
     }
 
     private fun assertPersonalisation(

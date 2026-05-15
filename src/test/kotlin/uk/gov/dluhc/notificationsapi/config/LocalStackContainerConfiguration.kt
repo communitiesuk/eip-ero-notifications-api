@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ConfigurableApplicationContext
@@ -22,6 +21,7 @@ import software.amazon.awssdk.services.dynamodb.model.KeyType
 import software.amazon.awssdk.services.dynamodb.model.Projection
 import software.amazon.awssdk.services.dynamodb.model.ProjectionType
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput
+import tools.jackson.databind.json.JsonMapper
 import uk.gov.dluhc.notificationsapi.database.entity.COMMUNICATION_CONFIRMATION_SOURCE_REFERENCE_INDEX_NAME
 import uk.gov.dluhc.notificationsapi.database.entity.SOURCE_REFERENCE_INDEX_NAME
 import java.net.InetAddress
@@ -39,7 +39,7 @@ class LocalStackContainerConfiguration {
         const val DEFAULT_ACCESS_KEY_ID = "test"
         const val DEFAULT_SECRET_KEY = "test"
 
-        val objectMapper = ObjectMapper()
+        val jsonMapper = tools.jackson.databind.json.JsonMapper()
         val localStackContainer: GenericContainer<*> = getInstance()
         private var container: GenericContainer<*>? = null
 
@@ -143,7 +143,7 @@ class LocalStackContainerConfiguration {
             attributes,
         )
         return execInContainer.stdout.let {
-            objectMapper.readValue(it, Map::class.java)
+            jsonMapper.readValue(it, Map::class.java)
         }.let {
             it["QueueUrl"] as String
         }
