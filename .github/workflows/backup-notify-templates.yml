@@ -1,0 +1,69 @@
+name: Backup Notify Templates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'templates/**'
+      - '.github/workflows/backup-notify-templates.yml'
+
+jobs:
+  backup-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: templates
+        run: npm ci
+
+      - name: Run backup script
+        working-directory: templates
+        env:
+          NOTIFY_TEMPLATE_BACKUP_API_KEY: ${{ secrets.NOTIFY_TEMPLATE_BACKUP_API_KEY }}
+        run: npm run backup
+
+      - name: Create PR if templates changed
+        id: create-pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No file changes, skipping PR."
+            echo "changes_detected=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "changes_detected=true" >> "$GITHUB_OUTPUT"
+          BRANCH="backup-notify-templates-$(date +%Y%m%d-%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add templates/templates/
+          git commit -m "Backup Notify templates"
+          git push origin "$BRANCH"
+          PR_URL=$(gh pr create \
+            --title "Backup Notify templates" \
+            --body "Automated backup of GOV.UK Notify templates." \
+            --base main \
+            --head "$BRANCH")
+          echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_TODO_CHECKER_ALERTS_WEBHOOK }}
+        run: |
+          if [ "${{ job.status }}" = "failure" ]; then
+            MESSAGE="❌ Notify template backup workflow failed — check the run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          elif [ "${{ steps.create-pr.outputs.changes_detected }}" = "true" ]; then
+            MESSAGE="🚨 Notify template changes detected — please review urgently: ${{ steps.create-pr.outputs.pr_url }}"
+          fi
+
+          curl -s -X POST "$SLACK_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"text\": \"$MESSAGE\"}"
