@@ -1,0 +1,50 @@
+name: Backup Notify Templates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'templates/**'
+      - '.github/workflows/backup-notify-templates.yml'
+
+jobs:
+  backup-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: templates
+        run: npm ci
+
+      - name: Run backup script
+        working-directory: templates
+        env:
+          NOTIFY_TEMPLATE_BACKUP_API_KEY: ${{ secrets.NOTIFY_TEMPLATE_BACKUP_API_KEY }}
+        run: npm run backup
+
+      - name: Create PR if templates changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No file changes, skipping PR."
+            exit 0
+          fi
+
+          BRANCH="chore/backup-notify-templates-$(date +%Y%m%d-%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add templates/templates/
+          git commit -m "chore: backup Notify templates"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore: backup Notify templates" \
+            --body "Automated backup of GOV.UK Notify templates." \
+            --base main \
+            --head "$BRANCH"
