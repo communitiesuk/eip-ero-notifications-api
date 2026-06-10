@@ -10,6 +10,6 @@
     "typescript": "^5.5.0"
   },
   "dependencies": {
-    "notifications-node-client": "^9.0.0"
+    "notifications-node-client": "^8.4.0"
   }
 }
