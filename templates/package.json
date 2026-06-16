@@ -1,0 +1,15 @@
+{
+  "name": "notify-template-backup",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "backup": "tsx backup-templates.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "notifications-node-client": "^9.0.0"
+  }
+}
