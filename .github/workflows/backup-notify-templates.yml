@@ -1,0 +1,25 @@
+name: Backup Notify Templates
+
+on:
+  schedule:
+    # 1st of each month at 9am, so as not to run unnecessarily for now.
+    # TODO EIP1-14024: update when the script is implemented after agreement on desired schedule
+    - cron: '0 9 1 * *'
+
+jobs:
+  backup-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: templates
+        run: npm ci
+
+      - name: Run backup script
+        working-directory: templates
+        run: npm run backup
