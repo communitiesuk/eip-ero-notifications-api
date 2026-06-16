@@ -16,18 +16,18 @@ import org.springframework.test.util.ReflectionTestUtils.setField
 import software.amazon.awssdk.enhanced.dynamodb.AttributeValueType.M
 import software.amazon.awssdk.enhanced.dynamodb.EnhancedType
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 
 @ExtendWith(MockitoExtension::class)
 class NotificationPersonalisationMapConverterTest {
     private var converter: NotificationPersonalisationMapConverter = NotificationPersonalisationMapConverter()
 
     @Mock
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var jsonMapper: JsonMapper
 
     @BeforeEach
     fun setup() {
-        setField(converter, "objectMapper", objectMapper)
+        setField(converter, "jsonMapper", jsonMapper)
     }
 
     @Nested
@@ -42,7 +42,7 @@ class NotificationPersonalisationMapConverterTest {
                 "name" to name,
                 "rejectionReasons" to rejectionReasons,
             )
-            given(objectMapper.writeValueAsString(any())).willReturn(serializedRejectionReasons)
+            given(jsonMapper.writeValueAsString(any())).willReturn(serializedRejectionReasons)
 
             // When
             val actual = converter.transformFrom(input)
@@ -52,8 +52,8 @@ class NotificationPersonalisationMapConverterTest {
             assertThat(actual.hasM()).isTrue
             assertThat(actual.m().getValue("name").s()).isEqualTo(name)
             assertThat(actual.m().getValue("rejectionReasons").s()).isEqualTo(serializedRejectionReasons)
-            verify(objectMapper).writeValueAsString(rejectionReasons)
-            verifyNoMoreInteractions(objectMapper)
+            verify(jsonMapper).writeValueAsString(rejectionReasons)
+            verifyNoMoreInteractions(jsonMapper)
         }
     }
 
@@ -71,7 +71,7 @@ class NotificationPersonalisationMapConverterTest {
                     "rejectionReasonList" to AttributeValue.builder().s(serializedRejectionReasons).build(),
                 ),
             ).build()
-            given(objectMapper.readValue(anyString(), any<Class<Any>>())).willReturn(rejectionReasons)
+            given(jsonMapper.readValue(anyString(), any<Class<Any>>())).willReturn(rejectionReasons)
 
             // When
             val actual = converter.transformTo(input)
@@ -80,8 +80,8 @@ class NotificationPersonalisationMapConverterTest {
             assertThat(actual).isNotNull
             assertThat(actual!!["name"]).isEqualTo(name)
             assertThat(actual["rejectionReasonList"]).isEqualTo(rejectionReasons)
-            verify(objectMapper).readValue(serializedRejectionReasons, List::class.java)
-            verifyNoMoreInteractions(objectMapper)
+            verify(jsonMapper).readValue(serializedRejectionReasons, List::class.java)
+            verifyNoMoreInteractions(jsonMapper)
         }
     }
 
