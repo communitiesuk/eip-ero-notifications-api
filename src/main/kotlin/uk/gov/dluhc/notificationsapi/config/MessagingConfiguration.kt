@@ -1,5 +1,6 @@
 package uk.gov.dluhc.notificationsapi.config
 
+import io.awspring.cloud.sqs.config.SqsListenerConfigurer
 import io.awspring.cloud.sqs.operations.SqsTemplate
 import io.awspring.cloud.sqs.support.converter.SqsMessagingMessageConverter
 import org.springframework.beans.factory.annotation.Value
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Profile
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import tools.jackson.databind.json.JsonMapper
 import uk.gov.dluhc.applicationsapi.messaging.models.UpdateApplicationStatisticsMessage
@@ -46,4 +48,15 @@ class MessagingConfiguration {
         sqsMessagingMessageConverter,
         null,
     )
+
+    @Bean
+    fun sqsListenerConfigurer(localValidatorFactoryBean: LocalValidatorFactoryBean): SqsListenerConfigurer =
+        SqsListenerConfigurer { registrar ->
+            registrar.setMethodPayloadTypeInferrer(null)
+            registrar.setValidator(localValidatorFactoryBean)
+        }
+
+    @Bean
+    fun localValidatorFactoryBean(): LocalValidatorFactoryBean =
+        LocalValidatorFactoryBean()
 }
