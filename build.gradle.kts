@@ -7,7 +7,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import java.lang.ProcessBuilder.Redirect
 
 plugins {
-    id("org.springframework.boot") version "4.0.6"
+    id("org.springframework.boot") version "4.1.0"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "2.3.21"
     kotlin("kapt") version "2.3.21"
@@ -27,9 +27,6 @@ ext["snakeyaml.version"] = "2.2"
 // Spring cloud 3.x integrates with AWS v2, until that is released this project has both AWS v1 and v2 SDK libraries
 extra["springCloudAwsVersion"] = "3.1.1"
 extra["awsSdkVersion"] = "2.26.20"
-
-// Forcing 4.2.13 version of netty to patch vulnerabilities. spring-boot, awssdk pulls in this dependency
-extra["netty.version"] = "4.2.13.Final"
 
 allOpen {
     annotations("jakarta.persistence.Entity", "jakarta.persistence.MappedSuperclass", "jakarta.persistence.Embedabble")
