@@ -24,8 +24,7 @@ version = "latest"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 ext["snakeyaml.version"] = "2.2"
-// Spring cloud 3.x integrates with AWS v2, until that is released this project has both AWS v1 and v2 SDK libraries
-extra["springCloudAwsVersion"] = "3.1.1"
+extra["springCloudAwsVersion"] = "4.0.2"
 extra["awsSdkVersion"] = "2.26.20"
 
 allOpen {
