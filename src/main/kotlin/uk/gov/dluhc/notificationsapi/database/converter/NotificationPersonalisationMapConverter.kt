@@ -4,7 +4,6 @@ import software.amazon.awssdk.enhanced.dynamodb.AttributeConverter
 import software.amazon.awssdk.enhanced.dynamodb.AttributeValueType
 import software.amazon.awssdk.enhanced.dynamodb.EnhancedType
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
-import tools.jackson.databind.ObjectMapper
 import tools.jackson.databind.json.JsonMapper
 
 /**
@@ -24,7 +23,7 @@ import tools.jackson.databind.json.JsonMapper
  * convert back values to their original types when read from the DynamoDb.
  */
 class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, Any>> {
-    private val jsonMapper: ObjectMapper = tools.jackson.databind.json.JsonMapper()
+    private val jsonMapper = JsonMapper.builder().build()
     private val nonStringFieldTypes = mapOf("rejectionReasonList" to List::class.java)
 
     override fun transformFrom(input: Map<String, Any>?): AttributeValue {
