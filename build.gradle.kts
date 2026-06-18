@@ -107,8 +107,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-webtestclient")
     testImplementation("org.springframework.security:spring-security-test")
 
-    testImplementation("org.testcontainers:junit-jupiter:1.19.1")
-    testImplementation("org.testcontainers:testcontainers:1.19.1")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.4")
+    testImplementation("org.testcontainers:testcontainers:1.21.4")
 
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
