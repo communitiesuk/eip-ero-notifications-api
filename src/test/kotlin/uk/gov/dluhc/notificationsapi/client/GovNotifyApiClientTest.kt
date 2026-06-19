@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.client
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.catchThrowableOfType
@@ -17,6 +16,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.verify
 import org.springframework.test.util.ReflectionTestUtils.setField
+import tools.jackson.databind.json.JsonMapper
 import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
 import uk.gov.dluhc.notificationsapi.dto.SourceType
 import uk.gov.dluhc.notificationsapi.dto.api.NotifyTemplatePreviewDto
@@ -66,8 +66,8 @@ internal class GovNotifyApiClientTest {
             val templateId = aTemplateId().toString()
 
             val response = NotifySendEmailSuccessResponse()
-            val objectMapper = ObjectMapper()
-            val sendEmailResponse = SendEmailResponse(objectMapper.writeValueAsString(response))
+            val jsonMapper = JsonMapper()
+            val sendEmailResponse = SendEmailResponse(jsonMapper.writeValueAsString(response))
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
 
@@ -183,8 +183,8 @@ internal class GovNotifyApiClientTest {
                 )
 
             val response = NotifySendLetterSuccessResponse()
-            val objectMapper = ObjectMapper()
-            val sendLetterResponse = SendLetterResponse(objectMapper.writeValueAsString(response))
+            val jsonMapper = JsonMapper()
+            val sendLetterResponse = SendLetterResponse(jsonMapper.writeValueAsString(response))
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
             val personalisationMapForSourceType = postalAddress.toPersonalisationMap()
@@ -228,8 +228,8 @@ internal class GovNotifyApiClientTest {
                 )
 
             val response = NotifySendLetterSuccessResponse()
-            val objectMapper = ObjectMapper()
-            val sendLetterResponse = SendLetterResponse(objectMapper.writeValueAsString(response))
+            val jsonMapper = tools.jackson.databind.json.JsonMapper()
+            val sendLetterResponse = SendLetterResponse(jsonMapper.writeValueAsString(response))
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
             val personalisationMapForSourceType = overseasAddress.toPersonalisationMap()
@@ -488,10 +488,10 @@ internal class GovNotifyApiClientTest {
         )
         fun `should generate template preview given existing html`(subject: String?, html: String?) {
             // Given
-            val objectMapper = ObjectMapper()
+            val jsonMapper = JsonMapper()
             val templateId = aTemplateId().toString()
             val response = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId, subject = subject, html = html)
-            val previewResponse = TemplatePreview(objectMapper.writeValueAsString(response))
+            val previewResponse = TemplatePreview(jsonMapper.writeValueAsString(response))
             val personalisation = mapOf(
                 "subject_param" to "test subject",
                 "name_param" to "John",

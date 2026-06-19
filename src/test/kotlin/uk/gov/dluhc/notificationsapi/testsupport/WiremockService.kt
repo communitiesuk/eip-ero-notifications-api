@@ -1,6 +1,5 @@
 package uk.gov.dluhc.notificationsapi.testsupport
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder.responseDefinition
@@ -23,6 +22,7 @@ import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder.newRequest
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import tools.jackson.databind.json.JsonMapper
 import uk.gov.dluhc.eromanagementapi.models.ElectoralRegistrationOfficeResponse
 import uk.gov.dluhc.notificationsapi.dto.SendNotificationRequestDto
 import uk.gov.dluhc.notificationsapi.testsupport.model.NotifyGenerateTemplatePreviewSuccessResponse
@@ -36,7 +36,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.model.NotifySendLetterSuccessRe
 class WiremockService(private val wireMockServer: WireMockServer) {
 
     @Autowired
-    private lateinit var objectMapper: ObjectMapper
+    private lateinit var jsonMapper: JsonMapper
     private var baseUrl: String? = null
 
     private companion object {
@@ -60,7 +60,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         wireMockServer.stubFor(
             post(urlPathMatching(NOTIFY_SEND_EMAIL_URL)).willReturn(
                 ResponseDefinitionBuilder.responseDefinition().withStatus(201)
-                    .withBody(objectMapper.writeValueAsString(response)),
+                    .withBody(jsonMapper.writeValueAsString(response)),
             ),
         )
     }
@@ -95,7 +95,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         wireMockServer.stubFor(
             post(urlPathMatching(NOTIFY_SEND_LETTER_URL)).willReturn(
                 ResponseDefinitionBuilder.responseDefinition().withStatus(201)
-                    .withBody(objectMapper.writeValueAsString(response)),
+                    .withBody(jsonMapper.writeValueAsString(response)),
             ),
         )
     }
@@ -130,7 +130,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
         val url = GENERATE_TEMPLATE_PREVIEW_URL.replace("{templateId}", response.id)
         wireMockServer.stubFor(
             post(urlPathEqualTo(url)).willReturn(
-                ok().withBody(objectMapper.writeValueAsString(response)),
+                ok().withBody(jsonMapper.writeValueAsString(response)),
             ),
         )
     }
@@ -261,7 +261,7 @@ class WiremockService(private val wireMockServer: WireMockServer) {
     }
 
     fun stubEroManagementGetEroByEroId(ero: ElectoralRegistrationOfficeResponse, eroId: String) {
-        val responseBody = objectMapper.writeValueAsString(ero)
+        val responseBody = jsonMapper.writeValueAsString(ero)
         wireMockServer.stubFor(
             get(urlEqualTo("/ero-management-api/eros/$eroId"))
                 .willReturn(

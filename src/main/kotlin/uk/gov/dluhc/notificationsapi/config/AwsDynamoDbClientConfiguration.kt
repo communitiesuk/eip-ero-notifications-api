@@ -19,7 +19,7 @@ class AwsDynamoDbClientConfiguration {
 
     @Bean
     fun dynamoDbClient(dynamoDbConfiguration: DynamoDbConfiguration): DynamoDbClient {
-        val builder = DynamoDbClient.builder().credentialsProvider(DefaultCredentialsProvider.create())
+        val builder = DynamoDbClient.builder().credentialsProvider(DefaultCredentialsProvider.builder().build())
 
         if (dynamoDbConfiguration.endpoint != null) {
             builder.endpointOverride(dynamoDbConfiguration.endpoint)
