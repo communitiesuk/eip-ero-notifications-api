@@ -1,0 +1,28 @@
+Communication type: email
+---
+Subject: Proxy Voting Application received  - ((applicationReference))
+---
+#Application reference: ((applicationReference))
+#This is a service trial, and it will not change your current voting arrangements.
+Dear ((firstName))
+
+Your Proxy Voting Application has been received by ((LAName)).
+
+This is a service trial. You are not applying for or changing a real vote. If you currently vote in person at a polling station, by post or by proxy, you will continue to do that unless you tell us otherwise.
+
+At the end of the trial period, we will delete all the information you have submitted to us during the trial and will not keep this information.
+
+#If you need to contact us
+If you have any questions, you can contact us using these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+((LAName))
