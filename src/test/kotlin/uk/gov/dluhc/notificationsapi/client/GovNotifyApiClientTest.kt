@@ -66,7 +66,7 @@ internal class GovNotifyApiClientTest {
             val templateId = aTemplateId().toString()
 
             val response = NotifySendEmailSuccessResponse()
-            val jsonMapper = tools.jackson.databind.json.JsonMapper()
+            val jsonMapper = JsonMapper()
             val sendEmailResponse = SendEmailResponse(jsonMapper.writeValueAsString(response))
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
@@ -183,7 +183,7 @@ internal class GovNotifyApiClientTest {
                 )
 
             val response = NotifySendLetterSuccessResponse()
-            val jsonMapper = tools.jackson.databind.json.JsonMapper()
+            val jsonMapper = JsonMapper()
             val sendLetterResponse = SendLetterResponse(jsonMapper.writeValueAsString(response))
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
@@ -488,7 +488,7 @@ internal class GovNotifyApiClientTest {
         )
         fun `should generate template preview given existing html`(subject: String?, html: String?) {
             // Given
-            val jsonMapper = tools.jackson.databind.json.JsonMapper()
+            val jsonMapper = JsonMapper()
             val templateId = aTemplateId().toString()
             val response = NotifyGenerateTemplatePreviewSuccessResponse(id = templateId, subject = subject, html = html)
             val previewResponse = TemplatePreview(jsonMapper.writeValueAsString(response))
