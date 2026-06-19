@@ -3,7 +3,6 @@ package uk.gov.dluhc.notificationsapi.config
 import com.fasterxml.jackson.annotation.JsonInclude
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.messaging.converter.JacksonJsonMessageConverter
 import tools.jackson.databind.DeserializationFeature
 import tools.jackson.databind.cfg.DateTimeFeature
 import tools.jackson.databind.json.JsonMapper
@@ -21,8 +20,4 @@ class JacksonConfiguration {
             .changeDefaultPropertyInclusion { JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL) }
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .build()
-
-    @Bean
-    fun jacksonMessageConverter(jsonMapper: JsonMapper): JacksonJsonMessageConverter =
-        JacksonJsonMessageConverter(jsonMapper)
 }
