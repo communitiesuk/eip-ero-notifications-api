@@ -53,7 +53,7 @@ class SendNotificationResponseDtoMapperTestDto {
                     subject = expectedSubject,
                 ),
             )
-        val jsonMapper = tools.jackson.databind.json.JsonMapper()
+        val jsonMapper = JsonMapper()
         val sendEmailResponse = SendEmailResponse(jsonMapper.writeValueAsString(response))
 
         // When
@@ -97,7 +97,7 @@ class SendNotificationResponseDtoMapperTestDto {
                     subject = expectedSubject,
                 ),
             )
-        val jsonMapper = tools.jackson.databind.json.JsonMapper()
+        val jsonMapper = JsonMapper()
         val sendLetterResponse = SendLetterResponse(jsonMapper.writeValueAsString(response))
 
         // When
