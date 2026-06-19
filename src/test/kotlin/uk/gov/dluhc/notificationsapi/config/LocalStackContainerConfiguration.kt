@@ -39,7 +39,7 @@ class LocalStackContainerConfiguration {
         const val DEFAULT_ACCESS_KEY_ID = "test"
         const val DEFAULT_SECRET_KEY = "test"
 
-        val jsonMapper = tools.jackson.databind.json.JsonMapper()
+        val jsonMapper = JsonMapper()
         val localStackContainer: GenericContainer<*> = getInstance()
         private var container: GenericContainer<*>? = null
 
