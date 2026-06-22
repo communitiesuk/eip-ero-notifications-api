@@ -44,9 +44,17 @@ jobs:
           git add templates/templates/
           git commit -m "Backup Notify templates"
           git push origin "$BRANCH"
+          PR_BODY=$(cat <<'EOF'
+          Automated backup of GOV.UK Notify templates.
+
+          If the changes found to templates in Notify are expected, this PR should be merged to back up Notify template history into git history.
+
+          If these changes are not expected, live communications to electors may be affected. See the [documentation](https://mhclgdigital.atlassian.net/wiki/spaces/ED1/pages/961413213/GOV+Notify+the+Notifications+API) and notify your technical lead.
+          EOF
+          )
           PR_URL=$(gh pr create \
             --title "Backup Notify templates" \
-            --body "Automated backup of GOV.UK Notify templates." \
+            --body "$PR_BODY" \
             --base main \
             --head "$BRANCH")
           echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
