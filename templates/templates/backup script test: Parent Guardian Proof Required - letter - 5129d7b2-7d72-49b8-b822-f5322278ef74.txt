@@ -1,0 +1,66 @@
+Communication type: letter
+---
+Subject/Heading: You must provide a document for your overseas vote application
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage: second
+---
+Application reference number ((applicationReference)) 
+
+Dear ((firstName)) 
+
+To complete the processing of your overseas vote application we need an additional document from you.
+
+((freeText))
+
+# What you need to do 
+
+Please provide one of the following:
+
+* your birth certificate, if you lived with a parent
+
+or
+* a document proving your connection with your guardian
+
+# Accepted document formats 
+
+Do not send original documents. You can send copies of documents in the following formats: 
+
+* scanned images 
+* photos 
+* PDF copies 
+
+Make sure all copies are clear and include the whole page with nothing cut off. 
+
+Include your name and application reference number (quoted at top of this letter) on all documents. 
+
+# How to send documents 
+
+* email document copies to ((eroEmail)) 
+* post document copies to the address at the bottom of the page 
+
+Do not send original documents. We will not be able to return these. 
+
+# If you cannot provide the required document
+
+Contact us as soon as you can using the details below. We will discuss with you other ways in which we might be able to verify your parent or guardian connection.
+
+Yours sincerely, 
+
+((LAName)) 
+((eroAddressLine1)) 
+((eroAddressLine2)) 
+((eroAddressLine3)) 
+((eroAddressLine4)) 
+((eroPostcode)) 
+((eroPhone)) 
+((eroWebsite))
+((eroEmail)) 
+ 
+For more information about voting, visit electoralcommission.org.uk
