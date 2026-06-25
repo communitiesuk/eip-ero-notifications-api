@@ -1,0 +1,33 @@
+Communication type:
+email
+---
+Subject/Heading:
+((subjectHeader))
+---
+Rhif cyfeirnod y cais ((applicationReference))
+
+Annwyl ((firstName))
+
+Rydych wedi gwneud cais am ((sourceType)) yn ddiweddar.
+
+((giveDetailsFreeText))
+
+((whatYouNeedToDo??# Yr hyn y mae angen i chi ei wneud))
+
+((explainFreeText))
+
+((deadline))
+
+Yr eiddoch yn gywir,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+I gael rhagor o wybodaeth am bleidleisio, ewch i comisiwnetholiadol.org.uk

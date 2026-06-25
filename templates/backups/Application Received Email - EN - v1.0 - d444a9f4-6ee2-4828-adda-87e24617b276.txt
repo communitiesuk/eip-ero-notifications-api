@@ -1,0 +1,44 @@
+Communication type:
+email
+---
+Subject/Heading:
+Your application to register as an overseas voter has been received
+---
+Reference number: ((applicationReference))
+
+Dear ((firstName))
+
+Your application to register as an overseas voter has been received by ((LAName)).
+
+# Next steps
+
+## Apply now for a proxy vote (someone votes for you)
+As an overseas voter you can apply to vote by proxy. This means someone you trust will vote on your behalf. You’ll need your proxy's agreement and confirmation that they’re eligible to vote for you before you apply.
+* [Apply online for a proxy vote](https://www.gov.uk/apply-proxy-vote)
+* [Find out more about voting by proxy](https://www.gov.uk/how-to-vote/voting-by-proxy)
+
+## Apply now for a postal vote
+As an overseas voter you do not need a reason to vote by post. Be aware that voting by post from some countries can take longer than expected.
+* [Apply online for a postal vote ](https://www.gov.uk/apply-postal-vote)
+* [Find out more about voting by post](https://www.gov.uk/how-to-vote/postal-voting)
+
+## You can apply now for a postal or proxy vote, you do not have to wait until election time when it might take longer
+
+Find out more about [voting if you live abroad.](https://www.gov.uk/voting-when-abroad)
+
+If you’re planning to vote in person, [check which polls you’ll need photo ID for.](https://www.gov.uk/how-to-vote/photo-id-youll-need)
+
+# If you need to contact us
+You can get in touch using these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+((LAName))

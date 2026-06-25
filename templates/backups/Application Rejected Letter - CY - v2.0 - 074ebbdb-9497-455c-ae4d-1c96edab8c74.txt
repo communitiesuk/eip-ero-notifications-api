@@ -1,0 +1,52 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Tystysgrif Awdurdod Pleidleiswyr - Cais aflwyddiannus
+---
+Postage:
+second
+---
+# Cyfeirnod y cais: ((applicationReference))
+
+Annwyl ((firstName))
+
+Yn ddiweddar, gwnaethoch chi gais am Dystysgrif Awdurdod Pleidleiswyr. Ar ôl adolygu’ch cais, nid yw’n bodloni ein meini prawf, ac o ganlyniad, mae’ch cais wedi’i wrthod.
+
+# Pam y gwrthodwyd fy nghais?
+
+Ar ôl adolygu’ch gwybodaeth, nid oeddem yn gallu cymeradwyo’ch cais:
+
+((rejectionReasonList))
+
+((rejectionReasonMessage))
+
+# Yr hyn y gallwch ei wneud nawr a sut y gallwn helpu
+
+Gallwch wneud cais arall am Dystysgrif Awdurdod Pleidleisiwr, os gallwch roi gwybodaeth ychwanegol i gefnogi'ch cais na wnaethoch ei darparu y tro hwn.
+
+Os byddwch yn gwneud hynny, ystyriwch yr adborth y gwnaethom ei roi uchod a chysylltwch â ni ar y manylion a roddwyd isod os hoffech gael cyngor neu help gyda'r cais.
+
+Os ydych wedi cofrestru i bleidleisio, gallwch bleidleisio mewn person drwy ddod ag unrhyw brawf adnabod ffotograffig cymeradwy gyda chi i'r orsaf bleidleisio. Chwiliwch GOV.UK ar gyfer ‘Mathau o ID ffotograffig a dderbynnir’.
+
+Gallwch hefyd wneud cais am bleidlais bost neu bleidlais drwy ddirprwy, nad yw'n gofyn i chi ddangos prawf adnabod ffotograffig wrth bleidleisio.
+
+Os nad ydych wedi cofrestru, neu os nad oes gennych unrhyw brawf adnabod ffotograffig cymeradwy arall y gallwch ddod ag ef gyda chi, ni chewch bleidleisio mewn person.
+
+Os ydych o'r farn ein bod ni wedi gwneud penderfyniad annheg, gallwch apelio. Bydd angen i chi wneud hyn ymhen 14 diwrnod drwy gysylltu â ni gan ddefnyddio'r manylion isod. Rhaid i chi ddyfynnu eich enw a rhif cyfeirnod eich cais, sydd wedi'i nodi ar frig y llythyr hwn. Dylech hefyd nodi'n glir eich bod yn dymuno apelio yn erbyn y penderfyniad a rhoi sail eich apêl i ni.
+
+# Os oes angen i chi gysylltu â ni
+
+Os oes gennych chi unrhyw gwestiynau, gallwch gysylltu â ni drwy ddefnyddio'r manylion hyn:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yn gywir
+((LAName))

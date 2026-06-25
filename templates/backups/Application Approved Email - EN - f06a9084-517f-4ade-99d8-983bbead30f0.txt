@@ -1,0 +1,41 @@
+Communication type:
+email
+---
+Subject/Heading:
+Voter Authority Certificate - Application approved
+---
+# Application reference: ((applicationReference))
+
+Dear ((firstName))
+
+Your application for a Voter Authority Certificate has been reviewed and approved by ((LAName)).
+
+# What happens next
+
+If you asked for your Voter Authority Certificate to be delivered by post, you will receive a delivery to the address you used when you registered to vote. This should arrive within the next five working days.
+
+If you asked to collect your Voter Authority Certificate, we will be in touch with you again once it is ready for collection to tell you when and where you will be able to collect it.
+
+Take your Voter Authority Certificate with you to the polling station when you go to vote in person.
+
+# What if my certificate does not arrive?
+
+If you have not received your certificate within five working days from the date of this email, you can contact us using the details below.
+
+If you asked to collect your Voter Authority Certificate you should hear from us within five working days from the date of this email to tell you that your certificate is ready for collection. If you haven't heard from us in this time, you can contact us using the details below.
+
+# If you need to contact us
+
+If you have any questions, you can contact us using these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+((LAName))
