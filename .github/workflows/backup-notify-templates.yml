@@ -2,8 +2,11 @@ name: Backup Notify Templates
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 9 * * 1-5'
+    inputs:
+      templates:
+        description: 'JSON object of template name to ID mappings'
+        required: true
+        type: string
 
 jobs:
   backup-templates:
@@ -23,6 +26,7 @@ jobs:
         working-directory: templates
         env:
           NOTIFY_TEMPLATE_BACKUP_API_KEY: ${{ secrets.NOTIFY_TEMPLATE_BACKUP_API_KEY }}
+          NOTIFY_TEMPLATE_IDS: ${{ inputs.templates }}
         run: npm run backup
 
       - name: Create PR if templates changed

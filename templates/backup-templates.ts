@@ -11,8 +11,12 @@ if (!apiKey) {
     throw new Error("NOTIFY_TEMPLATE_BACKUP_API_KEY environment variable is required");
 }
 
-const templateIdsToBackup = [
-]
+const templateIdsJson = process.env.NOTIFY_TEMPLATE_IDS;
+if (!templateIdsJson) {
+    throw new Error("NOTIFY_TEMPLATE_IDS environment variable is required");
+}
+
+const templateIds: Record<string, string> = JSON.parse(templateIdsJson);
 
 const notifyClient = new NotifyClient(apiKey);
 
@@ -26,7 +30,8 @@ const newOrUpdatedTemplates: TemplateFile[] = [];
 
 console.log(`Found ${templatesToDelete.length} existing template files`);
 
-for (const id of templateIdsToBackup) {
+for (const [name, id] of Object.entries(templateIds)) {
+    console.log(`Checking template: ${name} (${id})`);
     const template = await notifyClient.getTemplateById(id)
         .then((response: AxiosResponse<TemplateData>) => response.data)
         .catch((e: AxiosError) => {
