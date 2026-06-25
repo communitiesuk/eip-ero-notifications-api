@@ -1,0 +1,75 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Nid yw'r dogfennau a ddarparwyd gennych fel rhan o'ch cais am bleidlais dramor yn bodloni ein gofynion
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+Rhif cyfeirnod y cais ((applicationReference))
+
+Annwyl ((firstName))
+
+Er mwyn i ni gwblhau prosesu'ch cais am bleidlais dramor mae angen i ni gael dogfen ychwanegol gennych.
+
+Mae hyn am nad oes un neu fwy o'r dogfennau a ddarparwyd gennych yn bodloni ein gofynion.
+
+Nid oedd y dogfennau canlynol yn addas:
+
+((rejectedDocuments))
+
+((rejectionMessage))
+
+# Beth sydd angen i chi ei wneud 
+
+Darparwch un o'r canlynol:
+
+* eich tystysgrif geni, os ydych wedi byw gyda rhiant
+
+neu
+* ddogfen yn nodi'ch cysylltiad â'ch gwarcheidwad
+
+# Fformatau derbyniol ar gyfer dogfennau
+
+Peidiwch ag anfon dogfennau gwreiddiol. Gallwch anfon copïau o ddogfennau yn y fformatau canlynol:
+
+* lluniau wedi’u sganio
+* ffotograffau
+* copïau PDF
+
+Gwnewch yn siŵr bod pob copi yn eglur a’i fod yn cynnwys y dudalen gyfan heb fod unrhyw beth wedi’i dorri i ffwrdd.
+
+Dylech gynnwys eich enw a rhif cyfeirnod y cais (a nodir ar ben y lythyr hwn) ar bob dogfen.
+
+# Sut i anfon dogfennau
+
+* dylech e-bostio copïau o ddogfennau i ((eroEmail))
+* dylech bostio copïau o ddogfennau i’r cyfeiriad ar waelod y dudalen
+
+Peidiwch ag anfon dogfennau gwreiddiol. Ni allwn eu dychwelyd.
+
+# Os na allwch ddarparu’r ddogfen sydd ei hangen
+
+Cysylltwch â ni cyn gynted â phosibl gan ddefnyddio’r manylion isod. Byddwn yn trafod â chi ym mha ffyrdd eraill y gallem gadarnhau manylion eich rhiant neu'ch cysylltiad â'ch gwarcheidwad.
+
+Yn gywir,
+
+((LAName)) 
+((eroAddressLine1)) 
+((eroAddressLine2)) 
+((eroAddressLine3)) 
+((eroAddressLine4)) 
+((eroPostcode)) 
+((eroPhone)) 
+((eroWebsite)) 
+((eroEmail)) 
+
+Am ragor o wybodaeth am bleidleisio, ewch i electoralcommission.org.uk

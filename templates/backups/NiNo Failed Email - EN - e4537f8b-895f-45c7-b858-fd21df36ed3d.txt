@@ -1,0 +1,75 @@
+Communication type:
+email
+---
+Subject/Heading:
+Your Voter Authority Certificate application - additional information required
+---
+# Application reference: ((applicationReference))
+
+Dear ((firstName))
+
+We have reviewed your Voter Authority Certificate application.
+To process your application we need to confirm your identity and you provided us with your National Insurance Number to help us do that. Unfortunately we have not been able to confirm your identity with the information you provided and we need some further information from you.
+
+# What you need to do now
+
+To enable us to confirm your identity, you need to provide some additional documents.
+
+^ ((ninoFailFreeText))
+
+From the lists of documents below, please provide either:
+* Three documents from List 1, or
+* Two documents from List 1 and one document from List 2, or
+* One document from List 1 and two documents from List 2, or
+* Four documents from List 2
+
+Note: The documents provided must refer to you by name.
+List 1 - the following documents must have been issued in the United Kingdom, Channel Islands or the Isle of Man, except for the final document in this list
+
+* Birth certificate
+* Marriage or civil partnership certificate
+* Adoption certificate
+* Firearms certificate granted under the Firearms Act 1968
+* the record of a decision on bail made in accordance with section 5(1) of the Bail Act 1976 (A Police bail sheet)
+* Driving licence, which is not in the form of a photocard
+* Driving licence, granted other than in the United Kingdom or Crown Dependencies, which bears your photograph, and which must be valid for at least 12 months from the date you entered the United Kingdom
+
+List 2 - any of the following documents can be provided
+
+* a bank or building society statement or a letter from a bank or building society confirming that you have opened an account with that bank or building society
+* Utility bill
+* Credit card statement
+* A statement of benefits or entitlement to benefits, such as Child Benefit or Housing Benefit
+* Mortgage statement
+* P45 or P60 issued by employer/former employer
+* Pensions statement
+* Council tax demand letter or statement
+
+# How to send us your documents
+
+You can send documents by email at ((eroEmail)). You can send PDF documents, such as downloaded copies of bills, or scans or photos of documents.
+
+You can also send documents by post, at the address printed below. If doing so, please send clear photocopies, rather than original documents as we may not be able to return original documents to you.
+
+When sending us your documents, please quote your name and application reference, stated at the top of this communication.
+
+# What if I can't provide any additional documents?
+
+If you are not able to provide the number or type of document requested, contact us on the details provided below, and we can advise on what other options may be available to you to help us to confirm your identity.
+
+# If you need to contact us
+
+If you have any questions about this request, you can contact us on these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+
+((LAName))

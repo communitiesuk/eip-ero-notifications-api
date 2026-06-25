@@ -1,0 +1,52 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Voter Authority Certificate  - Application unsuccessful
+---
+Postage:
+second
+---
+# Application reference: ((applicationReference))
+
+Dear ((firstName))
+
+You recently applied for a Voter Authority Certificate. After reviewing your application, unfortunately it has not met our criteria, and as a result your application has been rejected.
+
+# Why was my application rejected?
+
+After reviewing your information, we were unable to approve your application:
+
+((rejectionReasonList))
+
+((rejectionReasonMessage))
+
+# What you can do now and how we can help 
+
+You can make another application for a Voter Authority Certificate, if you are able to provide additional information to support your application that you did not provide this time.
+
+If doing so, please take into account the feedback we have given above and contact us on the details provided below if you would like advice or help with the application. 
+
+If you are registered to vote, you can vote in person by bringing any other approved photographic identification with you to the polling station. Search GOV.UK for ‘accepted photo ID’.
+
+You can also apply for a postal or proxy vote, which does not require you to show photographic identification when voting.
+
+If you are not registered, or you do not have any other approved photographic identification you can bring with you, you will not be allowed to vote in person.
+
+If you think we have made an unfair decision you can make an appeal. You need to do this within 14 days by contacting us using the details below. You must quote your name and application reference, stated at the top of this letter. You should also clearly state that you wish to appeal the decision and tell us the basis for your appeal.
+
+# If you need to contact us
+
+If you have any questions, you can contact us on these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+ ((LAName))
