@@ -1,5 +1,10 @@
 import { TemplateData } from "notifications-node-client/types/client/notification";
 
+export const toBackupFilename = (templateName: string, templateId: string): string => {
+    const safeName = templateName.replace(/[/\\:*?"<>|]/g, '');
+    return `${safeName} - ${templateId}.txt`;
+};
+
 export const toFileContent = (template: TemplateData): string => {
     const sections: string[] = [`Communication type:\n${template.type}`];
 

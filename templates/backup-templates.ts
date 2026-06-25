@@ -2,7 +2,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import fs from "fs";
 import { NotifyClient } from "notifications-node-client";
 import { TemplateData } from "notifications-node-client/types/client/notification";
-import { toFileContent } from "./helpers";
+import { toBackupFilename, toFileContent } from "./helpers";
 
 const BACKUP_DIR = "./backups";
 
@@ -43,7 +43,7 @@ for (const [name, id] of Object.entries(templateIds)) {
         });
     if (!template) { continue; }
     const fileContent = toFileContent(template);
-    const filename = `${template.name} - ${template.type} - ${id}.txt`
+    const filename = toBackupFilename(template.name, id);
 
     if (templatesToDelete.includes(filename)) {
         templatesToDelete.splice(templatesToDelete.indexOf(filename), 1);
