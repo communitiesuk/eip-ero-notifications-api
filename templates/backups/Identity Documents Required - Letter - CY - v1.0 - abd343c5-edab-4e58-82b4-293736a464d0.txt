@@ -1,0 +1,101 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Mae'n rhaid i chi ddarparu dogfennau ar gyfer eich cais am bleidlais dramor.
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+Rhif cyfeirnod y cais ((applicationReference))
+
+Annwyl ((firstName))
+
+Er mwyn i ni gwblhau prosesu'ch cais am bleidlais dramor bydd angen i ni gael rhai dogfennau ychwanegol gennych.
+
+((freeText))
+
+# Beth sydd angen i chi ei wneud
+
+O’r rhestrau o ddogfennau isod, darparwch naill ai:
+
+* 1 o’r dogfennau o Restr 1, neu 
+* 3 o’r dogfennau o Restr 2, neu 
+* 1 o’r dogfennau o Restr 2 a 2 ddogfen arall a all ddod o Restr 2 neu 3, neu 
+* 4 dogfen o Restr 3
+
+Rhaid bod y dogfennau a ddarperir gennych yn cynnwys eich enw wedi’i nodi’n glir arnynt.
+
+Rhestr 1
+
+* Pasbort 
+* Cerdyn adnabod a roddwyd yn yr Ardal Economaidd Ewropeaidd
+* Dogfen mewnfudo fiometrig a roddwyd yn y Deyrnas Unedig yn unol â rheoliadau a wnaed o dan adran 5 o Ddeddf Ffiniau 2007
+* Cerdyn adnabod etholiadol a roddwyd yng Ngogledd Iwerddon
+* Trwydded yrru cerdyn-llun a roddwyd yn y Deyrnas Unedig neu drwydded yrru a roddwyd gan un o Diriogaethau Dibynnol y Goron, sydd â llun ohonoch
+
+Rhestr 2 – rhaid bod y dogfennau canlynol wedi cael eu rhoi yn y Deyrnas Unedig neu yn un o Diriogaethau Dibynnol y Goron, ar wahân i’r ddogfen olaf yn y rhestr hon
+
+* Tystysgrif geni 
+* Tystysgrif priodas neu bartneriaeth sifil 
+* Tystysgrif mabwysiadu
+* Tystysgrif arfau tanio a roddwyd o dan Ddeddf Arfau Tanio 1968
+* cofnod o benderfyniad ynghylch mechnïaeth a wnaed mewn perthynas â’r cais yn unol ag adran 5(1) o Ddeddf Mechnïaeth 1976
+* trwydded yrru, nad yw ar ffurf cerdyn-llun
+* trwydded yrru, a roddwyd heblaw yn y Deyrnas Unedig neu yn un o Diriogaethau Dibynnol y Goron, sydd â llun ohonoch, ac sy’n ddilys am o leiaf 12 mis o’r dyddiad y gwnaethoch gyrraedd y Deyrnas Unedig
+
+Rhestr 3 – unrhyw un o’r canlynol sy’n dangos eich enw llawn fel y’i nodir ar eich cais
+
+* Datganiad morgais
+* Cyfriflen banc neu gymdeithas adeiladu neu lythyr gan fanc neu gymdeithas adeiladu sy’n cadarnhau i chi agor cyfrif gyda’r banc hwnnw neu’r gymdeithas adeiladu honno
+* Datganiad cerdyn credyd
+* Datganiad pensiwn
+* llythyr neu ddatganiad yn galw am dalu’r dreth gyngor
+* Bil cyfleustod
+* Ffurflen P45 neu Ffurflen P60 a roddwyd i chi gan eich cyflogwr neu’ch cyn-gyflogwr
+* Datganiad o fudd-daliadau neu hawl i fudd-daliadau, megis datganiad o fudd-dal plant
+* Llythyr yn cadarnhau bod gennych hawl i gael budd-dal tai
+
+# Fformatau derbyniol ar gyfer dogfennau
+
+Peidiwch ag anfon dogfennau gwreiddiol. Gallwch anfon copïau o ddogfennau yn y fformatau canlynol:
+
+* lluniau wedi’u sganio
+* ffotograffau
+* copïau PDF
+
+Gwnewch yn siŵr bod pob copi yn eglur a’i fod yn cynnwys y dudalen gyfan heb fod unrhyw beth wedi’i dorri i ffwrdd.
+
+Dylech gynnwys eich enw a rhif cyfeirnod y cais (a nodir ar ben y lythyr hwn) ar bob dogfen.
+
+# Sut i anfon dogfennau
+
+* dylech e-bostio copïau o ddogfennau i ((eroEmail))
+* dylech bostio copïau o ddogfennau i’r cyfeiriad ar waelod y dudalen
+
+Peidiwch ag anfon dogfennau gwreiddiol. Ni allwn eu dychwelyd. 
+
+# Os na allwch ddarparu’r dogfennau sydd eu hangen
+
+Cysylltwch â ni cyn gynted â phosibl gan ddefnyddio’r manylion isod. Byddwn yn trafod ffyrdd eraill y gallem gadarnhau pwy ydych gyda chi.
+
+Yn gywir,
+
+((LAName)) 
+((eroAddressLine1)) 
+((eroAddressLine2)) 
+((eroAddressLine3)) 
+((eroAddressLine4)) 
+((eroPostcode)) 
+((eroPhone)) 
+((eroWebsite)) 
+((eroEmail)) 
+
+Am ragor o wybodaeth am bleidleisio, ewch i electoralcommission.org.uk

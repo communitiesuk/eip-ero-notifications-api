@@ -1,0 +1,100 @@
+Communication type:
+letter
+---
+Subject/Heading:
+You must provide documents for your overseas vote application
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+## Application reference number ((applicationReference))
+
+Dear ((firstName))
+
+To complete the processing of your overseas vote application we need some additional documents from you. 
+
+((freeText))
+
+# What you need to do
+
+From the lists of documents below, please provide either:
+
+* 1 of the documents from List 1, or 
+* 3 of the documents from List 2, or 
+* 1 of the documents from List 2 and 2 other documents that may be from List 2 or 3, or 
+* 4 documents from List 3 
+
+The documents you provide must clearly state your name on them. 
+List 1 
+
+*  Passport 
+*  Identity card issued in the European Economic Area 
+*  Biometric immigration document issued in the United Kingdom in accordance with regulations made under section 5 of the Borders Act 2007 
+*  Electoral identity card issued in Northern Ireland 
+*  Photocard driving licence granted in the United Kingdom or driving licence granted by a Crown Dependency, which has your photograph 
+
+List 2 – the following documents must have been issued in the United Kingdom or Crown Dependencies, except for the final document in this list: 
+
+* Birth certificate 
+* Marriage or civil partnership certificate 
+* Adoption certificate 
+* Firearms certificate granted under the Firearms Act 1968 
+* the record of a decision on bail made in respect of the applicant in accordance with section 5(1) of the Bail Act 1976 
+* driving licence, which is not in the form of a photocard 
+* driving licence, granted other than in the United Kingdom or Crown Dependencies, with your photograph, and which is valid for at least 12 months from the date you entered the United Kingdom 
+
+List 3 – any of the following that have your full name as stated on your application: 
+
+* Mortgage statement
+* Bank or building society statement or a letter from a bank or building society confirming that you opened an account with that bank or building society 
+* Credit card statement 
+* Pension statement 
+* Council tax demand letter or statement 
+* Utility bill 
+* P45 or P60 form issued to you by your employer or former employer 
+* Statement of benefits or entitlement to benefits, such as a statement of child benefit 
+* A letter confirming you are entitled to housing benefit 
+
+# Accepted document formats 
+
+Do not send original documents. You can send copies of documents in the following formats: 
+
+* scanned images 
+* photos 
+* PDF copies 
+
+Make sure all copies are clear and include the whole page with nothing cut off.
+
+Include your name and application reference number (quoted at top of this letter) on all documents.
+
+# How to send documents 
+
+* email document copies to ((eroEmail)) 
+* post document copies to the address at the bottom of the page 
+
+Do not send original documents. We will not be able to return these. 
+
+# If you cannot provide the required documents 
+
+Contact us as soon as you can using the details below. We will discuss with you other ways in which we might be able to verify your identity. 
+
+Yours sincerely, 
+ 
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+For more information about voting, visit electoralcommission.org.uk
