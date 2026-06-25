@@ -1,0 +1,49 @@
+Communication type:
+email
+---
+Subject/Heading:
+Register to vote after your ((sourceType)) application
+---
+Application reference ((applicationReference))
+
+Dear ((firstName))
+
+You have recently applied for a ((sourceType)).
+
+This application is on hold because you are not currently on the electoral register at:
+
+((property))
+((street))
+((town))
+((area))
+((locality))
+((postcode))
+
+To use your ((sourceType)) in elections and referendums, you must register to vote.
+
+# What you need to do
+
+((freeText))
+
+Register to vote at: https://www.gov.uk/register-to-vote
+
+((deadline))
+
+Contact us if you need
+
+•	more information
+•	a paper register to vote application form
+
+Yours sincerely,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+For more information about voting, visit electoralcommission.org.uk

@@ -1,0 +1,44 @@
+Communication type:
+email
+---
+Subject/Heading:
+Mae eich cais i gofrestru fel pleidleisiwr tramor wedi cyrraedd
+---
+Rhif cyfeirnod: ((applicationReference))
+
+Annwyl ((firstName))
+
+Mae ((LAName)) wedi cael eich cais i gofrestru fel pleidleisiwr tramor.
+
+# Y camau nesaf
+
+## Gwnewch gais nawr am bleidlais drwy ddirprwy (lle mae rhywun yn pleidleisio ar eich rhan)
+Fel pleidleisiwr tramor gallwch wneud cais i bleidleisio drwy ddirprwy. Mae hyn yn golygu y bydd rhywun rydych yn ymddiried ynddo yn pleidleisio ar eich rhan. Bydd angen cytundeb eich dirprwy arnoch a chadarnhad ei fod yn gymwys i bleidleisio ar eich rhan cyn i chi wneud cais.
+* [Gwneud cais ar-lein am bleidlais drwy ddirprwy](https://www.gov.uk/gwneud-cais-pleidlais-drwy-ddirprwy)
+* [Rhagor o wybodaeth am bleidleisio drwy ddirprwy](https://www.gov.uk/how-to-vote/voting-by-proxy)
+
+## Gwnewch gais nawr am bleidlais bost
+Fel pleidleisiwr tramor nid oes angen rheswm arnoch i bleidleisio drwy'r post. Byddwch yn ymwybodol y gall pleidleisio drwy'r post o rai gwledydd gymryd mwy o amser na'r disgwyl.
+* [Gwneud cais ar-lein am bleidlais bost](https://www.gov.uk/gwneud-cais-pleidlais-drwyr-post)
+* [Rhagor o wybodaeth am bleidleisio drwy'r post](https://www.gov.uk/how-to-vote/postal-voting)
+
+## Gallwch wneud cais nawr am bleidlais bost neu bleidlais drwy ddirprwy, nid oes rhaid i chi aros tan adeg etholiad pan allai gymryd mwy o amser
+
+Dysgwch fwy am [bleidleisio os ydych yn byw dramor.](https://www.gov.uk/voting-when-abroad)
+
+Os ydych yn bwriadu pleidleisio yn bersonol, [cadarnhewch ym mha etholiadau y bydd angen ID ffotograffig arnoch.](https://www.gov.uk/how-to-vote/photo-id-youll-need)
+
+# Os bydd angen i chi gysylltu â ni
+Gallwch gysylltu â ni drwy ddefnyddio'r manylion hyn:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yn gywir
+((LAName))

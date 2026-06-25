@@ -1,0 +1,66 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Re: your application for a ((sourceType)) vote
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+Application reference number ((applicationReference))
+
+Dear ((firstName))
+
+We have reviewed your application for a ((sourceType)) vote.
+
+Unfortunately we have not been able to confirm your identity with the information you provided and we need some further information from you
+
+# What you need to do
+You’ll need to provide some documents so that we can confirm your identity.
+
+((additionalNotes))
+
+Please provide either:
+* Passport
+* Identity card issued in the European Economic Area
+
+The document you provide must clearly state your name on it.
+
+# Acceptable document formats
+Do not send original documents. You can send copies of documents in the following formats:
+* scanned images
+* photos
+* PDF copies
+
+Make sure copies are clear and include all details with nothing cut off.
+
+Include your name and application reference number (quoted at the beginning of this letter) on all documents.
+
+# How to send documents
+* email document copies to ((eroEmail))
+* post document copies to the address at the bottom of the page
+
+Do not send original documents. We will not be able to return them.
+
+# If you cannot provide the required document
+Contact us as soon as you can using the details below. We will discuss with you other ways in which we might be able to verify your identity.
+
+Yours sincerely,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+For more information about voting, visit electoralcommission.org.uk
