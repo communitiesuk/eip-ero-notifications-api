@@ -4,7 +4,7 @@ import { NotifyClient } from "notifications-node-client";
 import { TemplateData } from "notifications-node-client/types/client/notification";
 import { toFileContent } from "./helpers";
 
-const BACKUP_DIR = "./templates";
+const BACKUP_DIR = "./backups";
 
 const apiKey = process.env.NOTIFY_TEMPLATE_BACKUP_API_KEY;
 if (!apiKey) {
@@ -25,6 +25,9 @@ type TemplateFile = {
     content: string;
 }
 
+if (!fs.existsSync(BACKUP_DIR)) {
+    fs.mkdirSync(BACKUP_DIR, { recursive: true });
+}
 const templatesToDelete: string[] = fs.readdirSync(BACKUP_DIR);
 const newOrUpdatedTemplates: TemplateFile[] = [];
 
