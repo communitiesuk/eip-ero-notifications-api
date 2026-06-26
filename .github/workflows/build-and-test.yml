@@ -7,3 +7,20 @@ jobs:
   build-and-test-api:
     uses: communitiesuk/eip-ero-shared-workflows/.github/workflows/build-and-test.yml@main
     secrets: inherit
+
+  test-backup-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        working-directory: templates
+        run: npm ci
+
+      - name: Run tests
+        working-directory: templates
+        run: npm test
