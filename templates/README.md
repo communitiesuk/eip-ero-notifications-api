@@ -14,16 +14,18 @@ _**Please be aware that templates for live services are stored on the site!**_
 
 ## Template Backup
 
-There is a [github workflow](../../.github/workflows/backup-notify-templates.yml) which calls a [script](./backup-templates.ts)
-which checks at 9am Monday to Friday that templates in notify match the templates backed up in the repository.
-- If they are not a PR is opened to update the repository.
+There is a github action in infra which fetches template IDs from AWS tf outputs and in turn triggers an
+[action in this repo](../../.github/workflows/backup-notify-templates.yml) which calls a [script](./backup-templates.ts)
+which checks that templates in notify match the templates backed up in the repository.
+- This runs at 9am Monday to Friday.
+- If the templates do not match a PR is opened to update the repository.
 - It will post in the #erop-preprod-alarms slack channel if the script fails, or with an urgent prompt
 to check the relevant PR if there is a diff.
 - The templates are saved in a format that makes it easy to repopulate GOV Notify in a disaster recovery situation.
 - In the event that a PR is created, indicating a risk of unintentional changes in notify affecting live communications to electors,
   the PR should have an informative description text linking to the relevant confluence documentation.
 - This script means obsolete template versions are stored in git history and can be removed from GOV Notify.
-- The template IDs are hard-coded in the script as the environment variables provided from infra at run time are not available in the github runner.
+- The script is tested in the build-and-test workflow, and the tests can be run from the /templates directory with `npm test`
 
 ## Template Versioning
 
