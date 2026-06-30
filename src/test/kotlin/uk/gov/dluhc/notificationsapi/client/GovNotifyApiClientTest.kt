@@ -228,7 +228,7 @@ internal class GovNotifyApiClientTest {
                 )
 
             val response = NotifySendLetterSuccessResponse()
-            val jsonMapper = tools.jackson.databind.json.JsonMapper()
+            val jsonMapper = JsonMapper()
             val sendLetterResponse = SendLetterResponse(jsonMapper.writeValueAsString(response))
             val personalisation = aNotificationPersonalisationMap()
             val sendNotificationDto = buildSendNotificationDto()
