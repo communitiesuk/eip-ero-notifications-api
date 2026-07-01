@@ -1,0 +1,16 @@
+Communication type:
+email
+---
+Subject/Heading:
+testing the workflow and script to back up templates ((subject_line_placeholder))
+---
+# A Heading
+
+This is a dummy template to back up scripts with some ((placeholders)) and more ((placeholder content))
+
+* a dummy list
+* with a few bulleted points
+* structured information!
+* and more
+
+((freeText))
