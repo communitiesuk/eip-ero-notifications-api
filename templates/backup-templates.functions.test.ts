@@ -1,5 +1,4 @@
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
-import type { AxiosResponse } from "axios";
 import type { TemplateData } from "notifications-node-client/types/client/notification";
 import type { NotifyClient } from "notifications-node-client";
 
@@ -23,24 +22,22 @@ jest.unstable_mockModule("fs", () => ({
 
 const { backupTemplates } = await import("./backup-templates.functions");
 
-const mockGetTemplateById = jest.fn<() => Promise<AxiosResponse<TemplateData>>>();
+const mockGetAllTemplates = jest.fn<() => Promise<{ data: { templates: TemplateData[] } }>>();
 const mockNotifyClient = {
-    getTemplateById: mockGetTemplateById,
+    getAllTemplates: mockGetAllTemplates,
 } as unknown as NotifyClient;
 
-const templateResponse = (name: string, id: string, body: string, type = "email") => ({
-    data: {
-        id,
-        name,
-        type,
-        body,
-        version: 1,
-        created_at: "2024-01-01T00:00:00Z",
-        updated_at: "2024-01-01T00:00:00Z",
-        created_by: "test@example.com",
-        uri: `https://api.notifications.service.gov.uk/v2/template/${id}`,
-    },
-}) as unknown as AxiosResponse<TemplateData>;
+const templateData = (name: string, id: string, body: string, type = "email"): TemplateData => ({
+    id,
+    name,
+    type,
+    body,
+    version: 1,
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+    created_by: "test@example.com",
+    uri: `https://api.notifications.service.gov.uk/v2/template/${id}`,
+}) as unknown as TemplateData;
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -59,9 +56,9 @@ describe("backupTemplates", () => {
 
             mockReaddirSync.mockReturnValue([filename]);
             mockReadFileSync.mockReturnValue(expectedContent);
-            mockGetTemplateById.mockResolvedValue(
-                templateResponse(templateName, id, body),
-            );
+            mockGetAllTemplates.mockResolvedValue({
+                data: { templates: [templateData(templateName, id, body)] },
+            });
 
             await backupTemplates(mockNotifyClient, { test_email_en: id });
 
@@ -81,9 +78,9 @@ describe("backupTemplates", () => {
 
             mockReaddirSync.mockReturnValue([filename]);
             mockReadFileSync.mockReturnValue(oldContent);
-            mockGetTemplateById.mockResolvedValue(
-                templateResponse(templateName, id, newBody),
-            );
+            mockGetAllTemplates.mockResolvedValue({
+                data: { templates: [templateData(templateName, id, newBody)] },
+            });
 
             await backupTemplates(mockNotifyClient, { test_email_en: id });
 
@@ -102,15 +99,14 @@ describe("backupTemplates", () => {
             const consoleSpy = jest.spyOn(console, "warn");
 
             mockReaddirSync.mockReturnValue([filename]);
-            mockGetTemplateById.mockRejectedValue({
-                response: { status: 404 },
-                message: "Not found",
+            mockGetAllTemplates.mockResolvedValue({
+                data: { templates: [] },
             });
 
             await backupTemplates(mockNotifyClient, { test_email_en: id });
 
             expect(mockUnlinkSync).toHaveBeenCalledWith(`./backups/${filename}`);
-            expect(consoleSpy).toHaveBeenCalledWith(`⚠️  Template ${id} not found in Notify (404), skipping`);
+            expect(consoleSpy).toHaveBeenCalledWith(`⚠️  Template test_email_en ${id} not found in Notify, skipping`);
         });
     });
 
@@ -121,9 +117,9 @@ describe("backupTemplates", () => {
             const body = "Dear ((name))\n";
 
             mockReaddirSync.mockReturnValue([]);
-            mockGetTemplateById.mockResolvedValue(
-                templateResponse(templateName, id, body, "letter"),
-            );
+            mockGetAllTemplates.mockResolvedValue({
+                data: { templates: [templateData(templateName, id, body, "letter")] },
+            });
 
             await backupTemplates(mockNotifyClient, { new_letter_cy: id });
 
@@ -139,6 +135,9 @@ describe("backupTemplates", () => {
         it("creates the directory before proceeding", async () => {
             mockExistsSync.mockReturnValue(false);
             mockReaddirSync.mockReturnValue([]);
+            mockGetAllTemplates.mockResolvedValue({
+                data: { templates: [] },
+            });
 
             await backupTemplates(mockNotifyClient, {});
 
