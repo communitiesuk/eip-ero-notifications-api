@@ -18,9 +18,9 @@ There is a github action in infra which fetches template IDs from AWS tf outputs
 [action in this repo](../../.github/workflows/backup-notify-templates.yml) which calls a [script](./backup-templates.ts)
 which checks that templates in notify match the templates backed up in the repository.
 - This runs at 9am Monday to Friday.
-- If the templates do not match a PR is opened to update the repository.
-- It will post in the #erop-preprod-alarms slack channel if the script fails, or with an urgent prompt
-to check the relevant PR if there is a diff.
+- If the templates do not match template backup files are added or updated and a PR is opened to update the repository,
+along with a post in the #erop-preprod-alarms slack channel with an urgent prompt to review.
+- It will also post in the #erop-preprod-alarms slack channel if the script fails.
 - The templates are saved in a format that makes it easy to repopulate GOV Notify in a disaster recovery situation.
 - In the event that a PR is created, indicating a risk of unintentional changes in notify affecting live communications to electors,
   the PR should have an informative description text linking to the relevant confluence documentation.
