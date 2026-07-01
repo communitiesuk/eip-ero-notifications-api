@@ -1,15 +1,14 @@
 package uk.gov.dluhc.notificationsapi.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.awspring.cloud.sqs.operations.SqsTemplate
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
 import org.springframework.test.context.ActiveProfiles
@@ -21,6 +20,7 @@ import software.amazon.awssdk.services.dynamodb.model.ScanRequest
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import software.amazon.awssdk.services.sqs.model.PurgeQueueRequest
 import software.amazon.awssdk.services.sqs.model.PurgeQueueResponse
+import tools.jackson.databind.json.JsonMapper
 import uk.gov.dluhc.notificationsapi.client.GovNotifyApiClient
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository
@@ -134,7 +134,7 @@ internal abstract class IntegrationTest {
     protected lateinit var updateApplicationStatisticsMessageListenerStub: UpdateApplicationStatisticsMessageListenerStub
 
     @Autowired
-    protected lateinit var objectMapper: ObjectMapper
+    protected lateinit var jsonMapper: JsonMapper
 
     @Autowired
     protected lateinit var clock: Clock

@@ -7,8 +7,8 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 import java.lang.ProcessBuilder.Redirect
 
 plugins {
-    id("org.springframework.boot") version "3.5.15"
-    id("io.spring.dependency-management") version "1.1.3"
+    id("org.springframework.boot") version "4.1.0"
+    id("io.spring.dependency-management") version "1.1.7"
     kotlin("jvm") version "2.3.21"
     kotlin("kapt") version "2.3.21"
     kotlin("plugin.spring") version "2.3.21"
@@ -24,16 +24,8 @@ version = "latest"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 ext["snakeyaml.version"] = "2.2"
-// Spring cloud 3.x integrates with AWS v2, until that is released this project has both AWS v1 and v2 SDK libraries
-extra["springCloudAwsVersion"] = "3.1.1"
+extra["springCloudAwsVersion"] = "4.0.2"
 extra["awsSdkVersion"] = "2.26.20"
-
-// Forcing 4.1.135 version of netty and 10.1.55 version of tomcat to patch vulnerabilities, under EROPSPT-710.
-// When we upgrade to spring v4 we should check if spring pulls in newer versions of netty and tomcat.
-// If so, this override should be removed.
-// TODO EROPSPT-603
-extra["netty.version"] = "4.1.135.Final"
-extra["tomcat.version"] = "10.1.55"
 
 allOpen {
     annotations("jakarta.persistence.Entity", "jakarta.persistence.MappedSuperclass", "jakarta.persistence.Embedabble")
@@ -67,22 +59,22 @@ dependencies {
     // framework
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("tools.jackson.module:jackson-module-kotlin")
+    implementation("tools.jackson.core:jackson-databind")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
     implementation("org.apache.commons:commons-lang3:3.19.0")
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
     // internal libs
-    implementation("uk.gov.dluhc:logging-library:3.1.0")
-    implementation("uk.gov.dluhc:messaging-support-library:2.4.0")
-    implementation("uk.gov.dluhc:internal-auth-library:1.2.0")
+    implementation("uk.gov.dluhc:logging-library:4.0.0")
+    implementation("uk.gov.dluhc:messaging-support-library:3.0.0")
+    implementation("uk.gov.dluhc:internal-auth-library:2.0.0")
 
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-aspectj")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.7")
     implementation("org.springframework:spring-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -112,10 +104,11 @@ dependencies {
 
     // Test implementations
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-webtestclient")
     testImplementation("org.springframework.security:spring-security-test")
 
-    testImplementation("org.testcontainers:junit-jupiter:1.19.1")
-    testImplementation("org.testcontainers:testcontainers:1.19.1")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.4")
+    testImplementation("org.testcontainers:testcontainers:1.21.4")
 
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
@@ -134,7 +127,7 @@ dependencies {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
         jvmTarget.set(JvmTarget.JVM_17)
     }
 }
@@ -175,26 +168,26 @@ tasks.withType<GenerateTask> {
     )
 }
 
-tasks.create("generate-models-from-openapi-document-NotificationsAPIs.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-NotificationsAPIs.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/NotificationsAPIs.yaml")
     packageName.set("uk.gov.dluhc.notificationsapi")
     configOptions.put("documentationProvider", "none")
 }
 
-tasks.create("generate-models-from-openapi-document-shared-stats-update-sqs-messaging.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-shared-stats-update-sqs-messaging.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/sqs/applications-api/shared-stats-update-sqs-messaging.yaml")
     packageName.set("uk.gov.dluhc.applicationsapi.messaging")
 }
 
-tasks.create("generate-models-from-openapi-document-Notifications-sqs-message-types.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-Notifications-sqs-message-types.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/sqs/Notifications-sqs-messaging.yaml")
     packageName.set("uk.gov.dluhc.notificationsapi.messaging")
 }
 
-tasks.create("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
+tasks.register("generate-models-from-openapi-document-EROManagementAPIs.yaml", GenerateTask::class) {
     enabled = true
     inputSpec.set("$projectDir/src/main/resources/openapi/external/EROManagementAPIs.yaml")
     packageName.set("uk.gov.dluhc.eromanagementapi")
