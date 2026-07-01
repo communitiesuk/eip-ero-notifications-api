@@ -75,13 +75,19 @@ export const backupTemplates = async (
 
     for (const [name, id] of Object.entries(templateIds)) {
         console.log(`Checking template: ${name} (${id})`);
-        const template: TemplateData | null = await notifyClient.getTemplateById(id)
-            .then((response: AxiosResponse<TemplateData>) => response.data)
+        const response: AxiosResponse<TemplateData> | null = await notifyClient.getTemplateById(id)
             .catch((e: unknown) => {
                 const axiosError = e as AxiosError;
                 console.warn(`⚠️  Template ${id} not found in Notify (${axiosError.response?.status ?? axiosError.message}), skipping`);
+                console.warn(`Raw error response data:`, JSON.stringify(axiosError.response?.data, null, 2));
                 return null;
             });
+        if (!response) { continue; }
+        console.log(`--- Raw response status: ${response.status}`);
+        console.log(`--- Raw response headers:`, JSON.stringify(response.headers, null, 2));
+        console.log(`--- Raw response data (full):`, JSON.stringify(response.data, null, 2));
+        const template: TemplateData = response.data;
+        console.log(`--- Parsed TemplateData keys:`, Object.keys(template));
         if (!template) { continue; }
         const fileContent: string = toFileContent(template);
         const filename: string = toBackupFilename(template.name, id);
