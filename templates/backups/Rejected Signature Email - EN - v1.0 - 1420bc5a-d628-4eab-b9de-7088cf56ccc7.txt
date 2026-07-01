@@ -1,0 +1,46 @@
+Communication type:
+email
+---
+Subject/Heading:
+Signature Rejected for Application Reference ((applicationReference))
+---
+# Application reference ((applicationReference))
+
+## This is a service trial, and it will not change your current voting arrangements.
+
+Dear ((firstName))
+
+We have reviewed your application to vote by proxy as part of our service trial.
+
+Unfortunately, the signature you provided was not suitable for the following reasons:
+
+((rejectionReasons))
+
+((rejectionNotes))
+
+^ ((rejectionFreeText))
+
+## What you need to do
+
+You need to provide us with a fresh signature.
+
+You should send this to us within the next 28 days.
+
+You can send us a digital scan or photo of your signature by email using the email address below. If sending your signature by email, the files must be in PNG, GIF or JPG format and no more than 20MB in size.
+
+Alternatively, you can send us a signature on a piece of plain, white paper. If you are doing so, please write your name and the application number above on the paper as well.
+
+If you need any help or advice on providing a signature or want to discuss anything else in relation to this service trial, contact us on the details below.
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely,
+
+((LAName))
