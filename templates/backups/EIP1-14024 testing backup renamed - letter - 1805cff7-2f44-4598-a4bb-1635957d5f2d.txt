@@ -1,0 +1,20 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Dummy heading updated
+---
+Letter contact block:
+Electoral Office for Northern Ireland
+St Anne's House
+15 Church Street
+Belfast
+BT1 1ER
+---
+Postage:
+second
+---
+This is a dummy letter template to back up scripts with some ((placeholders)) and more ((placeholder content)). And some more ((content))
+
+1. Some numbered list items
+2. As part of the dummy
