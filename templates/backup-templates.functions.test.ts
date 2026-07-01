@@ -145,4 +145,17 @@ describe("backupTemplates", () => {
             expect(mockMkdirSync).toHaveBeenCalledWith("./backups", { recursive: true });
         });
     });
+
+    describe("duplicate template IDs", () => {
+        it("throws an error when the same ID appears more than once", async () => {
+            const duplicateId = "abc-123";
+            const templateIds = {
+                template_one: duplicateId,
+                template_two: duplicateId,
+            };
+
+            await expect(backupTemplates(mockNotifyClient, templateIds))
+                .rejects.toThrow(`Duplicate ID received (${duplicateId}). Templates template_one and template_two both have the same ID`);
+        });
+    });
 });

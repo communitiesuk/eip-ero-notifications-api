@@ -46,10 +46,23 @@ const toNotifyPasteableText = (body: string): string =>
         .replace(/[ \t]+$/gm, "")
         .replace(/\n+$/, "\n");
 
+const checkForDuplicateIds = (templateIds: Record<string, string>): void => {
+    const entries: [string, string][] = Object.entries(templateIds);
+    const seen = new Map<string, string>();
+    for (const [name, id] of entries) {
+        const existing: string | undefined = seen.get(id);
+        if (existing) {
+            throw new Error(`Duplicate ID received (${id}). Templates ${existing} and ${name} both have the same ID`);
+        }
+        seen.set(id, name);
+    }
+}
+
 export const backupTemplates = async (
     notifyClient: NotifyClient,
     templateIds: Record<string, string>,
 ): Promise<void> => {
+    checkForDuplicateIds(templateIds);
     const backupDir = "./backups";
 
     if (!fs.existsSync(backupDir)) {
