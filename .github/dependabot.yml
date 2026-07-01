@@ -50,3 +50,31 @@ updates:
       github-actions:
         applies-to: version-updates
         patterns: [ "*" ]
+
+  - package-ecosystem: "npm"
+    directory: "templates"
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 7
+    assignees:
+      - "aleyipsoftwire"
+    ignore:
+      # Node.js versions should always be manually updated
+      - dependency-name: "@types/node"
+    groups:
+      # Group all lambda npm security updates
+      templates-security-updates:
+        applies-to: security-updates
+        patterns: [ "*" ]
+      # These updates should be done as a group
+      typescript:
+        patterns: [ "typescript", "tsx" ]
+      jest:
+        patterns: [ "jest", "ts-jest", "@types/jest" ]
+      # Group all lambda npm version updates
+      templates-version-updates:
+        applies-to: version-updates
+        patterns: [ "*" ]
+        update-types: [ "minor", "patch" ]
+    open-pull-requests-limit: 20
