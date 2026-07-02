@@ -63,11 +63,15 @@ export const backupTemplates = async (
     templateIds: Record<string, string>,
 ): Promise<void> => {
     checkForDuplicateIds(templateIds);
-    const backupDir = "./backups";
 
+    const allActiveTemplates: TemplateData[] = await notifyClient.getAllTemplates()
+        .then(templates => templates.data.templates)
+
+    const backupDir = "./backups";
     if (!fs.existsSync(backupDir)) {
         fs.mkdirSync(backupDir, { recursive: true });
     }
+
     const templatesToDelete: Set<string> = new Set(fs.readdirSync(backupDir, { encoding: 'utf8' }));
     const newOrUpdatedTemplates: TemplateFile[] = [];
 
@@ -75,14 +79,11 @@ export const backupTemplates = async (
 
     for (const [name, id] of Object.entries(templateIds)) {
         console.log(`Checking template: ${name} (${id})`);
-        const template: TemplateData | null = await notifyClient.getTemplateById(id)
-            .then((response: AxiosResponse<TemplateData>) => response.data)
-            .catch((e: unknown) => {
-                const axiosError = e as AxiosError;
-                console.warn(`⚠️  Template ${id} not found in Notify (${axiosError.response?.status ?? axiosError.message}), skipping`);
-                return null;
-            });
-        if (!template) { continue; }
+        const template = allActiveTemplates.find(template => template.id === id);
+        if (!template) {
+            console.warn(`⚠️  Template ${name} ${id} not found in Notify, skipping`);
+            continue;
+        }
         const fileContent: string = toFileContent(template);
         const filename: string = toBackupFilename(template.name, id);
 
