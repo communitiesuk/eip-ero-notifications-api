@@ -2,9 +2,10 @@ Communication type:
 email
 ---
 Subject/Heading:
-Test email template
+Test email template - edited
 ---
-This is a test email template that we are using to check our back-up scripts are working for notify. It will be deleted when the test is complete.
+This is a test email template that we are using to check our back-up scripts are working for notify. It will be deleted when the test is complete. This should be imminently.
 
 * Some example
 * bullet points
+* additional bullet
