@@ -1,0 +1,10 @@
+Communication type:
+email
+---
+Subject/Heading:
+Test email template
+---
+This is a test email template that we are using to check our back-up scripts are working for notify. It will be deleted when the test is complete.
+
+* Some example
+* bullet points

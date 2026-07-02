@@ -1,0 +1,15 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Letter back-up test
+---
+Postage:
+second
+---
+This is a test for checking our scripts to back-up notify templates are working correctly. This template will be deleted when the test is complete.
+
+# Heading of list
+1. Example numbered list
+2. For testing purposes
+3. With some points
