@@ -1,0 +1,43 @@
+Communication type:
+email
+---
+Subject/Heading:
+Mae angen i chi ddarparu llofnod ar gyfer eich cais i bleidleisio ((sourceType))
+---
+Annwyl ((firstName))
+
+Rhif cyfeirnod y cais ((applicationReference))
+
+Mae angen i chi ddarparu llofnod ar gyfer eich cais i bleidleisio ((sourceType)).
+
+((freeText))
+
+# E-bostio sgan digidol neu ffotograff
+Gallwch e-bostio sgan digidol neu ffotograff o'ch llofnod i ((eroEmail)).
+
+Rhaid iddo fod yn ffeil PNG, GIF neu JPG ac ni ddylai fod yn fwy na 20MB. Gwnewch yn siŵr eich bod yn cynnwys eich rhif cyfeirnod yn y neges e-bost. Mae wedi'i nodi ar ddechrau'r neges e-bost hon.
+
+# Anfon llofnod ysgrifenedig drwy'r post
+Gallwch anfon llofnod ysgrifenedig mewn inc du ar bapur gwyn plaen drwy'r post i:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+
+Gwnewch yn siŵr eich bod yn ysgrifennu eich enw a'ch rhif cyfeirnod ar y papur. Mae wedi'i nodi ar ddechrau'r neges e-bost hon.
+
+Os bydd angen cymorth arnoch i anfon eich llofnod, neu gydag unrhyw beth arall, cysylltwch â ni gan ddefnyddio'r manylion isod.
+
+Yn gywir,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+Am ragor o wybodaeth am bleidleisio, ewch i electoralcommission.org.uk
