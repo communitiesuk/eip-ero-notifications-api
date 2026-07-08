@@ -1,0 +1,29 @@
+Communication type:
+email
+---
+Subject/Heading:
+Rydym wedi derbyn eich llofnod newydd ar gyfer eich cais am ((fullSourceType))
+---
+Rhif cyfeirnod eich cais ((applicationReference))
+
+Annwyl ((firstName))
+
+Rydym wedi derbyn eich llofnod newydd ar gyfer eich cais am ((fullSourceType)).
+
+Byddwn yn gwirio'r llofnod ac yn cysylltu â chi os bydd angen i chi wneud unrhyw beth arall.
+
+Byddwn yn rhoi gwybod i chi am ganlyniad eich cais unwaith y bydd wedi cael ei brosesu.
+
+Yn gywir,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+I gael rhagor o wybodaeth am bleidleisio, ewch i [comisiwnetholiadol.org.uk](https://www.electoralcommission.org.uk/cy)

@@ -1,0 +1,28 @@
+Communication type:
+email
+---
+Subject/Heading:
+Rydym wedi cael eich cais i bleidleisio ((sourceType))
+---
+Rhif cyfeirnod y cais ((applicationReference))
+
+Annwyl ((firstName))
+
+Rydym wedi cael eich cais i bleidleisio ((sourceType)).
+
+Byddwn yn cysylltu â chi yn uniongyrchol gan ddefnyddio’r manylion a roddwyd gennych yn eich cais os bydd angen unrhyw wybodaeth ychwanegol arnom.
+
+Byddwn yn rhoi gwybod i chi am ganlyniad eich cais ar ôl iddo gael ei brosesu.
+
+Yn gywir,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+Am ragor o wybodaeth am bleidleisio, ewch i electoralcommission.org.uk

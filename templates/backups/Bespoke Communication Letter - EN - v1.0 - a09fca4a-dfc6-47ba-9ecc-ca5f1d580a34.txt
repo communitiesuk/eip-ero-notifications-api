@@ -1,0 +1,43 @@
+Communication type:
+letter
+---
+Subject/Heading:
+((subjectHeader))
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+Application reference ((applicationReference))
+
+Dear ((firstName))
+
+You have recently applied for a((an??n)) ((sourceType)).
+
+((giveDetailsFreeText))
+
+((whatYouNeedToDo??# What you need to do))
+
+((explainFreeText))
+
+((deadline))
+
+Yours sincerely,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+For more information about voting, visit electoralcommission.org.uk

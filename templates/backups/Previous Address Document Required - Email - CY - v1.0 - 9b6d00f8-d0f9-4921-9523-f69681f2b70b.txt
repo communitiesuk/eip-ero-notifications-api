@@ -1,0 +1,75 @@
+Communication type:
+email
+---
+Subject/Heading:
+Mae'n rhaid i chi ddarparu dogfen ar gyfer eich cais am bleidlais dramor
+---
+# Rhif cyfeirnod y cais ((applicationReference))
+
+Annwyl ((firstName)) 
+
+Er mwyn i ni gwblhau prosesu'ch cais am bleidlais dramor mae angen i ni gael dogfen ychwanegol gennych.
+
+((freeText))
+
+## Beth sydd angen i chi ei wneud 
+
+Darparwch un o'r dogfennau canlynol. Mae'n rhaid i'r ddogfen a ddarperir gennych nodi'n glir eich enw a'ch cyfeiriad diwethaf yn y DU arni:
+
+* trwydded yrru a roddwyd i chi yn y DU (gan gynnwys trwydded sydd wedi dod i ben)
+* offeryn penodiad llys, megis grant profiant neu lythyrau gweinyddu
+* llythyr oddi wrth Swyddfa'r Gwarcheidwad Cyhoeddus yn cadarnhau bod atwrneiaeth arhosol wedi'i chofrestru
+* llythyr oddi wrth Cyllid a Thollau Ei Fawrhydi (CThEF)
+* llythyr neu ddatganiad galw am dalu'r dreth gyngor
+* llyfr rhent a gyhoeddwyd gan awdurdod lleol
+* datganiad o fudd-daliadau neu hawl i fudd-daliadau, megis datganiad o fudd-dal plant, o fewn ystyr adran 141 o Ddeddf Cyfraniadau a Budd-daliadau Nawdd Cymdeithasol 1992(a), neu lythyr yn cadarnhau bod hawl gan yr ymgeisydd i gael budd-dal tai, o fewn ystyr adran 130 o'r Ddeddf honno(b)
+* llythyr oddi wrth yr Adran Gwaith a Phensiynau yn cadarnhau eich hawl i bensiwn y wladwriaeth
+* llythyr oddi wrth ysgol, coleg, prifysgol neu sefydliad addysgol arall sy'n cadarnhau eich presenoldeb yn y sefydliad hwnnw, neu ei fod wedi cynnig lle i chi yn y sefydliad hwnnw
+* llythyr oddi wrth y Cwmni Benthyciadau i Fyfyrwyr
+* copi swyddogol o gofnod y Gofrestrfa Tir ar gyfer y cyfeiriad perthnasol neu brawf arall o deitl y cyfeiriad perthnasol
+* llythyr cyfreithiwr yn cadarnhau prynu'r cyfeiriad perthnasol neu ei gofrestru â'r Gofrestrfa Tir
+* Ffurflen P45, Ffurflen P60, geirda neu slip cyflog a roddwyd i chi gan eich cyflogwr neu'ch cyn-gyflogwr
+* paslyfr neu gyfriflen gan fanc neu gymdeithas adeiladu neu lythyr gan fanc neu gymdeithas adeiladu yn cadarnhau eich bod wedi agor cyfrif gyda'r banc neu'r gymdeithas adeiladu dan sylw
+* cyfriflen cerdyn credyd
+* bil cyfleustodau neu ffôn symudol
+* llythyr oddi wrth ddarparwr yswiriant
+
+Os nad oes gennych unrhyw un o'r dogfennau hyn, rhowch ddogfen arall sy'n cynnwys y dyddiad, eich enw a'ch cyfeiriad diwethaf yn y DU.
+
+## Fformatau derbyniol ar gyfer dogfennau
+
+Peidiwch ag anfon dogfennau gwreiddiol. Gallwch anfon copïau o ddogfennau yn y fformatau canlynol:
+
+* lluniau wedi’u sganio
+* ffotograffau
+* copïau PDF
+
+Gwnewch yn siŵr bod pob copi yn eglur a’i fod yn cynnwys y dudalen gyfan heb fod unrhyw beth wedi’i dorri i ffwrdd.
+
+Dylech gynnwys eich enw a rhif cyfeirnod y cais (a nodir ar frig y neges e-bost hon) ar bob dogfen.
+
+## Sut i anfon dogfennau
+
+* dylech e-bostio copïau o ddogfennau i ((eroEmail))
+* dylech bostio copïau o ddogfennau i’r cyfeiriad ar waelod y dudalen
+
+Peidiwch ag anfon dogfennau gwreiddiol. Ni allwn eu dychwelyd.
+
+## Os na allwch ddarparu’r ddogfen sydd ei hangen
+
+Cysylltwch â ni cyn gynted â phosibl gan ddefnyddio’r manylion isod.
+Byddwn yn trafod â chi ym mha ffyrdd eraill y gallem gadarnhau'ch cyfeiriad diwethaf yn y DU.
+
+Yn gywir,
+
+((LAName)) 
+((eroAddressLine1)) 
+((eroAddressLine2)) 
+((eroAddressLine3)) 
+((eroAddressLine4)) 
+((eroPostcode)) 
+((eroPhone)) 
+((eroWebsite)) 
+((eroEmail)) 
+
+Am ragor o wybodaeth am bleidleisio, ewch i electoralcommission.org.uk

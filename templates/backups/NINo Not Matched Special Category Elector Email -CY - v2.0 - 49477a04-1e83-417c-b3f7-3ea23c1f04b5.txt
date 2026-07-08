@@ -1,0 +1,56 @@
+Communication type:
+email
+---
+Subject/Heading:
+Mae angen gwybodaeth ychwanegol arnom i brosesu eich cais i bleidleisio ((sourceType)).
+---
+Rhif cyfeirnod y cais ((applicationReference))
+
+Annwyl ((firstName))
+
+Rydym wedi adolygu eich cais i bleidleisio ((sourceType)).
+
+Yn anffodus, nid ydym wedi gallu cadarnhau pwy ydych chi trwy'r wybodaeth rydych wedi'i darparu ac mae angen mwy o wybodaeth arnom ni gennych chi.
+
+# Beth sydd angen i chi ei wneud
+Bydd angen i chi ddarparu rhai dogfennau er mwyn ein helpu i gadarnhau pwy ydych.
+
+((additionalNotes))
+
+Darparwch naill ai:
+* Pasbort
+* Cerdyn adnabod a roddwyd yn yr Ardal Economaidd Ewropeaidd
+
+Rhaid bod y ddogfen a ddarperir gennych yn cynnwys eich enw wedi'i nodi'n glir arni.
+
+# Fformatau derbyniol ar gyfer dogfennau
+Peidiwch ag anfon dogfennau gwreiddiol. Gallwch anfon copïau o ddogfennau yn y fformatau canlynol:
+* lluniau wedi'u sganio
+* ffotograffau
+* copïau PDF
+
+Gwnewch yn siŵr bod pob copi yn eglur a'i fod yn cynnwys y dudalen gyfan heb fod unrhyw beth wedi'i dorri i ffwrdd.
+
+Dylech gynnwys eich enw a rhif cyfeirnod y cais (a nodir ar frig y neges e-bost hon) ar bob dogfen.
+
+# Sut i anfon dogfennau
+* dylech e-bostio copïau o ddogfennau i ((eroEmail))
+* dylech bostio copïau o ddogfennau i'r cyfeiriad ar waelod y dudalen
+
+Peidiwch ag anfon dogfennau gwreiddiol. Ni allwn eu dychwelyd.
+
+# Os na allwch ddarparu'r ddogfen sydd ei hangen
+Cysylltwch â ni cyn gynted â phosibl gan ddefnyddio'r manylion isod. Byddwn yn trafod ffyrdd eraill y gallem gadarnhau pwy ydych gyda chi.
+
+Yn gywir,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+Am ragor o wybodaeth am bleidleisio, ewch i electoralcommission.org.uk
