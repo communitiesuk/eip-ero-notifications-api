@@ -1,10 +1,10 @@
 package uk.gov.dluhc.notificationsapi.database.converter
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import software.amazon.awssdk.enhanced.dynamodb.AttributeConverter
 import software.amazon.awssdk.enhanced.dynamodb.AttributeValueType
 import software.amazon.awssdk.enhanced.dynamodb.EnhancedType
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import tools.jackson.databind.json.JsonMapper
 
 /**
  * This class is for converting the `Map<String, Any>` `personalisation` field in the `Notification` DynamoDb entity
@@ -23,7 +23,7 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue
  * convert back values to their original types when read from the DynamoDb.
  */
 class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, Any>> {
-    private val objectMapper: ObjectMapper = ObjectMapper()
+    private val jsonMapper = JsonMapper.builder().build()
     private val nonStringFieldTypes = mapOf("rejectionReasonList" to List::class.java)
 
     override fun transformFrom(input: Map<String, Any>?): AttributeValue {
@@ -32,7 +32,7 @@ class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, A
                 if (it.value is String) {
                     toAttributeValue(it.value as String)
                 } else {
-                    toAttributeValue(objectMapper.writeValueAsString(it.value))
+                    toAttributeValue(jsonMapper.writeValueAsString(it.value))
                 }
             },
         ).build()
@@ -42,7 +42,7 @@ class NotificationPersonalisationMapConverter : AttributeConverter<Map<String, A
         return input?.m()?.entries?.associate {
             it.key to (
                 if (nonStringFieldTypes.contains(it.key)) {
-                    objectMapper.readValue(it.value.s(), nonStringFieldTypes[it.key])
+                    jsonMapper.readValue(it.value.s(), nonStringFieldTypes[it.key])
                 } else {
                     it.value.s()
                 }
