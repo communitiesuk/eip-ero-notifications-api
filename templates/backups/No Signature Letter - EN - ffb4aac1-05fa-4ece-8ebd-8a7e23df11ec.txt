@@ -1,0 +1,52 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Your Proxy Vote Application — Signature Required
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+# Application reference: ((applicationReference))
+
+Dear ((firstName))
+
+We have reviewed your application to vote by proxy.
+
+Unfortunately, we cannot progress your application until you provide us with your signature.
+
+((freeText))
+
+# What you need to do
+
+You need to provide us with a signature.
+
+You should send this to us within the next 28 days.
+
+You can send us a digital scan or photo of your signature by email using the email address below. If sending your signature by email, the files must be in PNG, GIF or JPG format and no more than 20MB in size.
+
+Alternatively, you can send us a signature on a piece of plain, white paper. If you are doing so, please write your name and the application number above on the paper as well.
+
+# If you need to contact us
+
+If you need any help or advice on providing a signature or want to discuss anything else in relation to this service trial, you can contact us on these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely,
+
+((LAName))

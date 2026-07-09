@@ -1,0 +1,27 @@
+Communication type:
+email
+---
+Subject/Heading:
+Tystysgrif Awdurdod Pleidleiswyr – Cais wedi’i gymeradwyo
+---
+# Cyfeirnod y cais: ((applicationReference))
+
+Annwyl ((firstName))
+
+Mae’ch cais am Dystysgrif Awdurdod Pleidleiswyr wedi’i adolygu a’i gymeradwyo gan ((LAName)).
+
+# Os oes angen i chi gysylltu â ni
+
+Os oes gennych chi unrhyw gwestiynau, gallwch gysylltu â ni drwy ddefnyddio’r manylion hyn:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yn gywir
+((LAName))

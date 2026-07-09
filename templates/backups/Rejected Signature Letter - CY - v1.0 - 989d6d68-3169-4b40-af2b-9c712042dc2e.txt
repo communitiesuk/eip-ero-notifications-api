@@ -1,0 +1,37 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Your Proxy Vote Application - Signature Rejected
+---
+Postage:
+second
+---
+# Application reference: ((applicationReference))
+
+Dear ((firstName))
+
+Content TBC.
+
+Your signature is not valid / in an acceptable format, please provide a valid signature.
+
+((rejectionReasons))
+
+^ ((rejectionNotes))
+
+# If you need to contact us
+
+If you have any questions about this request, you can contact us on these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+
+((LAName))

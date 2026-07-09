@@ -1,0 +1,44 @@
+Communication type:
+letter
+---
+Subject/Heading:
+(NEEDS TRANSLATED TO CY) Your Proxy Vote application - Documents Rejected
+---
+Postage:
+second
+---
+# NEEDS TRANSLATED TO CY
+# NEED TO CONFIRM IS SENDING IN EN AND CY
+
+# Application reference: ((applicationReference))
+
+Dear ((firstName))
+
+Content TBC.
+
+The following documents were not suitable, and we need you to provide additional documents as described:
+
+((rejectedDocuments))
+
+((rejectionMessage))
+
+# How to send us your documents
+
+You can send documents by email at ((eroEmail)).
+
+# If you need to contact us
+
+If you have any questions about this request, you can contact us on these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+
+((LAName))
