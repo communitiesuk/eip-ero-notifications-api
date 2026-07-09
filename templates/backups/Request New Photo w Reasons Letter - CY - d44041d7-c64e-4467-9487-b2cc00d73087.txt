@@ -1,0 +1,78 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Eich cais am Dystysgrif Awdurdod Pleidleisiwr – cais am lun gwahanol
+---
+Postage:
+second
+---
+# Cyfeirnod y cais: ((applicationReference))
+
+Annwyl ((firstName))
+
+Rydym wedi adolygu eich cais am Dystysgrif Awdurdod Pleidleiswyr. Yn anffodus, nid yw'r llun a anfonwyd gennych yn addas. Mae angen i chi ddarparu llun newydd, fel y gallwn gwblhau'r gwaith o brosesu eich cais.
+
+# Pam nad oedd eich llun yn addas a beth sydd angen i chi ei wneud nawr
+
+((photoRejectionReasons))
+
+((photoRejectionNotes))
+
+((photoRequestFreeText))
+
+# Sut i anfon eich llun atom
+
+Y ffordd orau yw anfon llun atom ar-lein drwy ddefnyddio'r ddolen hon:
+
+((uploadPhotoLink))
+
+Gofynnir i chi gadarnhau rhif cyfeirnod eich cais (a nodir uchod) a dweud wrthym beth yw eich dyddiad geni, ac yna byddwch yn gallu lanlwytho llun digidol newydd.
+
+Os na allwch chi anfon llun digidol atom, gallwch anfon llun printiedig atom drwy'r post, i’r cyfeiriad isod. Os byddwch yn anfon lluniau drwy'r post, rhowch eich enw a rhif cyfeirnod eich cais (a nodir uchod). Rydym ni hefyd yn argymell eich bod yn ysgrifennu’ch enw ar gefn y llun. Cadwch mewn cof efallai na fyddwn ni’n gallu dychwelyd y llun i chi. .
+
+# Gofynion y llun
+
+Rhaid i'ch llun digidol fod yn:
+
+* yn glir ac mewn ffocws
+* mewn lliw
+* yn erbyn cefndir plaen, lliw golau
+* eich gwir debygrwydd, heb unrhyw photoshop na ffilteri
+
+Yn eich llun, gwnewch yn siŵr eich bod:
+
+* yn wynebu ymlaen ac yn edrych yn syth at y camera
+* ar eich pen eich hun, heb unrhyw wrthrychau na phobl eraill
+* gyda mynegiant plaen
+* gyda’ch llygaid ar agor ac yn weladwy, heb unrhyw wallt o'u blaenau
+* ddim yn gwisgo sbectol haul – mae sbectol normal yn iawn os ydych chi’n eu gwisgo nhw’n  arferol
+* heb orchudd pen (ac eithrio gorchuddion crefyddol neu feddygol)
+* heb ‘lygaid coch’, llacharedd, neu gysgodion trwm ar eich wyneb
+
+Gallwch chi:
+
+* ddarparu print llun safonol y mae'n rhaid iddo fod o leiaf 35mm o led a 45mm o uchder.
+* tynnu llun newydd gyda chamera digidol, ffôn clyfar neu lechen
+* lanlwytho llun digidol sy'n bodoli eisoes
+* sganio llun gyda sganiwr
+
+# Beth i'w wneud os na allwch ddarparu llun gwell
+
+Os na allwch chi ddarparu llun gwell, cysylltwch drwy ddefnyddio'r manylion a ddarperir isod, a gallwn eich cynghori ynghylch beth y gallwn ni ei wneud i'ch helpu.
+
+# Os oes angen i chi gysylltu â ni
+
+Os oes gennych unrhyw gwestiynau ynglŷn â’r cais hwn, gallwch gysylltu â ni drwy ddefnyddio’r manylion hyn:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yn gywir
+((LAName))

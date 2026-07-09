@@ -1,0 +1,77 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Eich cais am Dystysgrif Awdurdod Pleidleiswyr - mae angen gwybodaeth ychwanegol
+---
+Postage:
+second
+---
+Cyfeirnod y cais: ((applicationReference))
+
+Annwyl ((firstName))
+
+Rydym wedi adolygu eich cais am Dystysgrif Awdurdod Pleidleiswyr.
+I gwblhau'r gwaith o brosesu eich cais mae angen i ni gadarnhau pwy ydych chi, a gwnaethoch chi ddarparu eich Rhif Yswiriant Gwladol i ni i'n helpu i wneud hynny. Yn anffodus, nid ydym wedi gallu cadarnhau pwy ydych chi trwy'r wybodaeth rydych wedi'i darparu ac mae angen mwy o wybodaeth arnom ni gennych chi.
+
+# Beth sydd angen i chi ei wneud nawr
+
+I alluogi i ni gadarnhau pwy ydych chi, mae angen i chi ddarparu dogfennau ychwanegol.
+
+((ninoFailFreeText))
+
+O'r rhestrau o ddogfennau isod, darparwch naill ai:
+* Tair dogfen o Restr 1, neu
+* Dwy ddogfen o Rhestr 1 ac un ddogfen o Restr 2, neu
+* Un ddogfen o Restr 1 a dwy ddogfen o Restr 2, neu
+* Bedair dogfen o Restr 2
+
+Noder: Mae'n rhaid i'r dogfennau a ddarperir gyfeirio atoch chi.
+Rhestr 1 - mae'n rhaid bod y dogfennau canlynol wedi'u cyhoeddi yn y Deyrnas Unedig, Ynysoedd y Sianel neu Ynys Manaw ac eithrio'r ddogfen olaf yn y rhestr hon
+
+* Tystysgrif geni
+* Tystysgrif priodas neu bartneriaeth sifil
+* Tystysgrif mabwysiadu
+* Tystysgrif arfau tanio a roddwyd o dan Ddeddf Arfau Tanio 1968
+* cofnod o benderfyniad o fechnïaeth yn unol ag adran 5(1) o'r Ddeddf Mechnïaeth 1976 (taflen mechnïaeth yr Heddlu)
+* Trwydded yrru nad yw ar ffurf cerdyn-llun
+* Trwydded yrru, a ddyfarnwyd yn rhywle heblaw am y Deyrnas Unedig neu un o Diriogaethau Dibynnol y Goron, sydd â llun ohonoch chi ac mae'n rhaid iddi fod yn ddilys am o leiaf 12 mis o'r dyddiad y daethoch i'r Deyrnas Unedig
+
+Rhestr 2 - gellir darparu unrhyw un o'r dogfennau canlynol
+
+* cyfriflen banc neu gymdeithas adeiladu neu lythyr gan fanc neu gymdeithas adeiladu yn cadarnhau eich bod wedi agor cyfrif gyda'r banc neu'r gymdeithas adeiladu dan sylw
+* Bil cyfleustodau
+* Datganiad cerdyn credyd
+* Datganiad o fudd-daliadau neu hawl i fudd-daliadau, megis Budd-dal Plant neu Fudd-dal Tai
+* Datganiad morgais
+* P45 neu P60 a gyhoeddir gan gyflogwr/cyn-gyflogwr
+* Datganiad pensiynau
+* Llythyr neu ddatganiad hawlio’r dreth gyngor
+
+# Sut i anfon eich dogfennau atom
+
+Gallwch anfon dogfennau drwy e-bost yn ((eroEmail)). Gallwch anfon dogfennau PDF, fel copïau wedi eu lawrlwytho o filiau, neu sganiau neu luniau o ddogfennau.
+
+Gallwch hefyd anfon dogfennau trwy'r post i'r cyfeiriad yr argreffir isod. Os gwnewch hynny, anfonwch lungopïau clir, yn hytrach na dogfennau gwreiddiol gan efallai na fyddwn yn gallu dychwelyd dogfennau gwreiddiol atoch chi.
+
+Pan fyddwch yn anfon eich dogfennau atom, dyfynnwch eich enw a chyfeirnod y cais, a ddynodwyd ar frig y llythyr hwn.
+
+# Beth os na allaf ddarparu unrhyw ddogfennau ychwanegol?
+
+Os na allwch ddarparu'r nifer neu'r fath o ddogfen a ofynnwyd amdani, cysylltwch â ni gan ddefnyddio'r manylion a roddir isod, a gallwn ni gynghori ar ba opsiynau eraill a all fod ar gael i chi ein helpu ni i gadarnhau pwy ydych chi.
+
+# Os oes angen i chi gysylltu â ni
+
+Os oes gennych unrhyw gwestiynau am y cais hwn, gallwch gysylltu â ni gan ddefnyddio'r manylion hyn:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yn gywir
+((LAName))

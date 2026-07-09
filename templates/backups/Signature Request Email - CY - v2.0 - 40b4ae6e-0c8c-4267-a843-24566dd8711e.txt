@@ -1,0 +1,107 @@
+Communication type:
+email
+---
+Subject/Heading:
+Mae angen i chi ddarparu llofnod ar gyfer eich cais am ((fullSourceType))
+---
+Rhif cyfeirnod eich cais ((applicationReference))
+
+Annwyl ((firstName))
+
+Mae angen i ni gael llun digidol neu sgan o'ch llofnod ar gyfer eich cais am ((fullSourceType)).
+
+((signatureNotSuitableText))
+
+((rejectionFreeText))
+
+# Yr hyn y mae angen i chi ei wneud
+
+Anfonwch lun digidol neu sgan arall o'ch llofnod ar-lein.
+
+((deadline))
+
+Defnyddiwch y ddolen hon i anfon eich llofnod:
+
+((uploadSignatureLink))
+
+Byddwn yn gofyn i chi wneud y canlynol:
+
+* cadarnhau rhif cyfeirnod eich cais ((applicationReference))
+* nodi eich dyddiad geni
+* lanlwytho llun digidol neu sgan o'ch llofnod
+
+# Sut i greu llun neu sgan o'ch llofnod
+
+Caiff eich llun neu sgan ei gadw'n ddiogel a'i baru â'ch llofnod bob tro y byddwch yn pleidleisio ((shortSourceType)).
+
+Mae'n bosibl na chaiff eich pleidlais ei chyfrif os na fydd y llofnodion yn edrych yr un fath.
+
+## 1. Llofnodi eich enw
+
+Bydd angen inc du a phapur gwyn plaen arnoch. Llofnodwch eich enw fel y byddech yn ei wneud fel arfer.
+
+Peidiwch â defnyddio:
+
+* inciau lliw
+* papur lliw
+* papur wedi plygu
+* papur gyda llinellau, sgwariau neu batrymau
+
+## 2. Tynnwch lun neu sganiwch eich llofnod
+
+## Camau ar gyfer tynnu llun
+
+* Bydd angen ffôn clyfar neu gamera digidol arnoch.
+* Dewch o hyd i ardal olau er mwyn sicrhau nad oes cysgodion yn y llun.
+* Daliwch eich ffôn neu gamera uwchben y llofnod fel bod y llofnod cyfan i'w weld.
+* Gwnewch yn siŵr nad oes unrhyw beth i'w weld o gwmpas yr ymylon, er enghraifft, eich desg.
+* Cadwch neu trosglwyddwch y llun i'r ddyfais rydych yn gwneud cais arni.
+
+## Camau ar gyfer sganio'r llofnod
+
+* Bydd angen sganiwr arnoch.
+* Sganiwch eich llofnod.
+* Cadwch neu trosglwyddwch y sgan i'r ddyfais rydych yn gwneud cais arni.
+
+## 3. Gwirio eich llun neu sgan a'i lanlwytho
+
+Sicrhewch fod eich llun neu sgan:
+
+* yn glir ac mewn ffocws
+* heb gysgodion, llinellau, olion na marciau
+* heb unrhyw beth yn dangos o gwmpas yr ymylon, er enghraifft, eich desg
+* yn wynebu'r ffordd gywir
+* yn dangos eich llofnod cyfan, heb fod unrhyw ran ohono ar goll
+
+# Anfon llofnod ysgrifenedig drwy'r post
+
+Os na allwch anfon llun digidol neu sgan, anfonwch eich llofnod atom drwy'r post.
+
+Gallwch anfon llofnod wedi'i ysgrifennu mewn inc du ar bapur gwyn plaen drwy'r post i:
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+
+Gwnewch yn siŵr eich bod yn ysgrifennu eich enw a’ch rhif cyfeirnod ((applicationReference)) ar y papur.
+
+# Os bydd angen help arnoch, cysylltwch â ni
+
+Os bydd angen unrhyw help arnoch i anfon eich llofnod atom, neu gydag unrhyw beth arall, cysylltwch â ni.
+
+Yn gywir,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+I gael rhagor o wybodaeth am bleidleisio, ewch i comisiwnetholiadol.org.uk

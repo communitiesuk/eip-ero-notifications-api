@@ -1,0 +1,113 @@
+Communication type:
+email
+---
+Subject/Heading:
+You must provide a signature for your ((fullSourceType)) application
+---
+Application reference number ((applicationReference))
+
+Dear ((firstName))
+
+We need a digital photo or scan of your signature for your ((fullSourceType)) application.
+
+The signature you provided in your ((fullSourceType)) application is not suitable.
+
+It is not suitable because:
+
+((rejectionReasons))
+
+((rejectionNotes))
+
+((rejectionFreeText))
+
+# What you need to do
+
+Send us another digital photo or scan of your signature online.
+
+((deadline))
+
+Use this link to send your signature:
+
+((uploadSignatureLink))
+
+We will ask you to:
+
+* confirm your application reference number ((applicationReference))
+* tell us your date of birth
+* upload a digital photo or scan of your signature
+
+# How to create your signature photo or scan
+
+Your photo or scan will be stored securely and matched with your signature each time you vote by ((shortSourceType)).
+
+Your vote might not be counted if the signatures do not look the same.
+
+## 1. Sign your name
+
+You’ll need black ink and plain white paper. Sign your name as you would normally.
+
+Do not use:
+
+* coloured inks
+* coloured paper
+* paper that’s creased
+* paper with lines, squares or patterns
+
+## 2. Take a photo or scan of your signature
+
+## Steps for taking a photo
+
+* You’ll need a smartphone or digital camera.
+* Find a well-lit area so there are no shadows in the picture.
+* Hold your phone or camera above the signature so all of it is captured.
+* Make sure there is nothing showing around the edges, for example your desk.
+* Save or transfer the photo to the device you’re using to apply.
+
+## Steps for taking a scan
+
+* You’ll need a scanner.
+* Scan in your signature.
+* Save the scan to the device you’re using to apply.
+
+## 3. Check your photo or scan is OK and upload it
+
+Your photo or scan must be:
+
+* clear and in focus
+* without shadows, lines, smudges or marks
+* without anything showing around the edges, for example your desk
+* the right way up
+* all of your signature with nothing cut off
+
+# Sending a written signature in the post
+
+If you cannot send a digital photo or scan, send us your signature by post.
+
+You can send a signature written in black ink on plain white paper by post to:
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+
+Make sure you write your name and application reference number ((applicationReference)) on the paper.
+
+# If you need help, contact us
+
+If you need any help sending us your signature, or with anything else, contact us.
+
+Yours sincerely,
+
+((LAName))
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+For more information about voting, visit electoralcommission.org.uk

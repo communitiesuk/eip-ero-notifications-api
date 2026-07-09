@@ -1,0 +1,40 @@
+Communication type:
+email
+---
+Subject/Heading:
+Tystysgrif Awdurdod Pleidleiswyr – Cais wedi’i gymeradwyo
+---
+# Cyfeirnod y cais: ((applicationReference))
+
+Annwyl ((firstName))
+
+Mae’ch cais am Dystysgrif Awdurdod Pleidleiswyr wedi’i adolygu a’i gymeradwyo gan ((LAName)).
+
+# Beth fydd yn digwydd nesaf
+
+Os gwnaethoch ofyn i'ch Tystysgrif Awdurdodi Pleidleisiwr gael ei hanfon drwy'r post, caiff ei hanfon i'r cyfeiriad a ddefnyddiwyd gennych wrth gofrestru i bleidleisio. Dylai gyrraedd o fewn y pum diwrnod gwaith nesaf.
+
+Os gwnaethoch ofyn am gael casglu eich Tystysgrif Awdurdodi Pleidleisiwr, byddwn yn cysylltu â chi unwaith eto pan fydd yn barod i'w chasglu er mwyn dweud wrthych pryd a ble y gallwch ei chasglu.
+Ewch â'ch Tystysgrif Awdurdodi Pleidleisiwr gyda chi i'r orsaf bleidleisio pan fyddwch yn mynd i bleidleisio'n bersonol.
+
+# Beth os na fydd fy nhystysgrif yn cyrraedd?
+
+Os na fyddwch wedi cael eich tystysgrif o fewn pum diwrnod gwaith i ddyddiad y neges e-bost hon, gallwch gysylltu â ni gan ddefnyddio'r manylion isod.
+
+Os gwnaethoch ofyn am gael casglu eich Tystysgrif Awdurdodi Pleidleisiwr, byddwn yn cysylltu â chi o fewn pum diwrnod gwaith i ddyddiad y neges e-bost hon er mwyn dweud wrthych fod eich tystysgrif yn barod i'w chasglu. Os na fyddwch wedi clywed gennym yn ystod y cyfnod hwn, gallwch gysylltu â ni gan ddefnyddio'r manylion isod.
+
+# Os oes angen i chi gysylltu â ni
+
+Os oes gennych chi unrhyw gwestiynau, gallwch gysylltu â ni drwy ddefnyddio’r manylion hyn:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yn gywir
+((LAName))

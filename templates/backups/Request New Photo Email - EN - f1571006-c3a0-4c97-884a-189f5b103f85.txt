@@ -1,0 +1,68 @@
+Communication type:
+email
+---
+Subject/Heading:
+New Photo request for Application Reference ((applicationReference))
+---
+# Application reference: ((applicationReference))
+
+Dear ((firstName))
+
+We have reviewed your Voter Authority Certificate application.  Unfortunately, the photo you sent is not suitable. We need you to provide a new photo, so that we can complete the processing of your application.
+
+# Why your photo was not suitable and what you need to do now
+
+^ ((photoRequestFreeText))
+
+# How to send us your photo
+
+The best way is to send us a photo online, using this link:
+
+((uploadPhotoLink))
+
+You will be asked to confirm your application reference number (stated above) and to tell us your date of birth, and then you will be able to upload a new digital photo.
+
+If you are not able to send us a digital photo, you can send us a printed photo by post, at the address below. If you are sending photos by post, quote your name and application reference number (stated above). We also recommend that you write your name on the back of the photo. Please bear in mind that we may not be able to return the photo to you.
+
+# Photo requirements
+
+Your digital photo must be:
+* clear and in focus
+* in colour
+* against a plain, light-coloured background
+* your true likeness, with no photoshop or filters
+
+In your photo, make sure you:
+* face forward, looking straight at the camera
+* are alone, with no other objects or people
+* have a plain expression
+* have eyes open and visible, with no hair in front of them
+* are not wearing sunglasses - normal glasses are fine if you typically wear them
+* do not have a head covering (apart from religious or medical coverings)
+* do not have ‘red-eye’, glare, or heavy shadows over your face
+
+You can:
+* Provide a standard photo print which must be at least 35mm wide and 45mm tall.
+* take a new photo with a digital camera, smartphone, or tablet
+* upload an existing digital photo
+* scan a photo with a scanner
+
+# What to do if you can’t provide a better photo
+
+If you are not able to provide a better photo, contact using the details provided below, and we can advise on what we may be able to do to assist you.
+
+# If you need to contact us
+
+If you have any questions about this request, you can contact us using these details:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yours sincerely
+((LAName))

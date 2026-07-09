@@ -1,0 +1,90 @@
+Communication type:
+letter
+---
+Subject/Heading:
+Documents you provided for your overseas vote application do not meet our requirements
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+Application reference number ((applicationReference))
+
+Dear ((firstName))
+
+To complete the processing of your overseas vote application we need some additional documents from you.
+
+This is because one or more of the documents you provided do not meet our requirements.
+
+The following documents were not suitable:
+
+((rejectedDocuments))
+
+((rejectionMessage))
+
+# What you need to do
+
+Please provide one of the following documents. The document you provide must clearly state your name and last UK address on it:
+
+* a driving licence granted in the United Kingdom (including an expired licence)
+* an instrument of a court appointment, such as a grant of probate or letters of administration
+* a letter from the Office of the Public Guardian confirming the registration of a lasting power of attorney
+* a letter from His Majesty’s Revenue and Customs (HMRC)
+* a council tax demand letter or statement
+* a rent book issued by a local authority
+* a statement of benefits or entitlement to benefits, such as a statement of child benefit, within the meaning of section 141 of the Social Security Contributions and Benefits Act 1992(a), or a letter confirming that you are entitled to housing benefit, within the meaning of section 130 of that Act(b)
+* a letter from the Department of Work and Pensions, confirming your entitlement to a state pension
+* a letter from a school, college, university or other educational institution which confirms your attendance there, or the offer of a place at that institution
+* a letter from the Student Loans Company
+* an official copy of the land register entry for the relevant address or other proof of title for the relevant address
+* a solicitor’s letter confirming the purchase of, or confirmation of the land registry registration of, the relevant address
+* a P45 or P60 form, reference or payslip issued to you by your employer or former employer
+* a bank or building society passbook or statement, or a letter from a bank or building society confirming that you have opened an account with that bank or building society
+* a credit card statement
+* a utility or mobile telephone bill
+* a letter from an insurance provider
+
+If you do not have one of these documents, please provide another document which includes the date, your name and last UK address.
+
+# Accepted document formats 
+
+Do not send original documents. You can send copies of documents in the following formats: 
+
+* scanned images 
+* photos 
+* PDF copies 
+
+Make sure all copies are clear and include the whole page with nothing cut off. 
+
+Include your name and application reference number (quoted at top of this letter) on all documents. 
+
+# How to send documents 
+
+* email document copies to ((eroEmail)) 
+* post document copies to the address at the bottom of the page 
+
+Do not send original documents. We will not be able to return these.
+
+# If you cannot provide the required document
+
+Contact us as soon as you can using the details below. We will discuss with you other ways in which we might be able to verify your last UK address.
+
+Yours sincerely, 
+
+((LAName)) 
+((eroAddressLine1)) 
+((eroAddressLine2)) 
+((eroAddressLine3)) 
+((eroAddressLine4)) 
+((eroPostcode)) 
+((eroPhone)) 
+((eroWebsite))
+((eroEmail)) 
+ 
+For more information about voting, visit electoralcommission.org.uk
