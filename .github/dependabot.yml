@@ -8,7 +8,7 @@ updates:
     cooldown:
       default-days: 7
     assignees:
-      - "aleyipsoftwire"
+      - "conwhisw"
     # Only create PRs for direct dependencies
     allow:
       - dependency-type: "direct"
@@ -44,7 +44,7 @@ updates:
     cooldown:
       default-days: 7
     assignees:
-      - "aleyipsoftwire"
+      - "conwhisw"
     groups:
       # Group all github-action updates
       github-actions:
@@ -58,7 +58,7 @@ updates:
     cooldown:
       default-days: 7
     assignees:
-      - "aleyipsoftwire"
+      - "conwhisw"
     ignore:
       # Node.js versions should always be manually updated
       - dependency-name: "@types/node"
