@@ -24,8 +24,14 @@ version = "latest"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 ext["snakeyaml.version"] = "2.2"
-extra["springCloudAwsVersion"] = "4.0.2"
-extra["awsSdkVersion"] = "2.26.20"
+extra["springCloudAwsVersion"] = "4.1.0"
+extra["awsSdkVersion"] = "2.49.4"
+// EROPSPT-733 - Pinned versions brought in by springboot - if updating springboot, check if these are still needed.
+extra["logback.version"] = "1.5.37"
+extra["netty.version"] = "4.2.16.Final"
+extra["log4j2.version"] = "2.25.5"
+extra["tomcat.version"] = "11.0.24"
+extra["jackson.version"] = "3.1.5"
 
 allOpen {
     annotations("jakarta.persistence.Entity", "jakarta.persistence.MappedSuperclass", "jakarta.persistence.Embedabble")
@@ -46,30 +52,21 @@ repositories {
     }
 }
 
-apply(plugin = "org.jlleitschuh.gradle.ktlint")
-apply(plugin = "org.openapi.generator")
-apply(plugin = "org.springframework.boot")
-apply(plugin = "io.spring.dependency-management")
-apply(plugin = "org.jetbrains.kotlin.jvm")
-apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
-apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
-
 dependencies {
     // framework
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("tools.jackson.core:jackson-databind")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+    implementation("io.github.oshai:kotlin-logging-jvm:8.0.4")
     implementation("org.apache.commons:commons-lang3:3.19.0")
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
     // internal libs
-    implementation("uk.gov.dluhc:logging-library:4.0.0")
-    implementation("uk.gov.dluhc:messaging-support-library:3.0.0")
-    implementation("uk.gov.dluhc:internal-auth-library:2.0.0")
+    implementation("uk.gov.dluhc:logging-library:4.1.0")
+    implementation("uk.gov.dluhc:messaging-support-library:3.1.0")
+    implementation("uk.gov.dluhc:internal-auth-library:2.1.0")
 
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -83,13 +80,11 @@ dependencies {
     implementation("uk.gov.service.notify:notifications-java-client:5.2.1-RELEASE")
 
     // Logging
-    runtimeOnly("net.logstash.logback:logstash-logback-encoder:7.3")
+    runtimeOnly("net.logstash.logback:logstash-logback-encoder:9.0")
 
     // spring security
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-    // later version of nimbus-jose-jwt than brought in transitively by spring security - earlier version triggers CVE-2023-1370
-    implementation("com.nimbusds:nimbus-jose-jwt:10.0.2")
 
     // AWS v2 dependencies
     implementation("software.amazon.awssdk:dynamodb")
@@ -121,8 +116,11 @@ dependencies {
     testImplementation("software.amazon.awssdk:sts")
 
     // Libraries to support creating JWTs in tests
-    testImplementation("io.jsonwebtoken:jjwt-impl:0.11.5")
-    testImplementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    testImplementation("io.jsonwebtoken:jjwt-impl:0.13.0")
+    testImplementation("io.jsonwebtoken:jjwt-jackson:0.13.0")
+    // EROPSPT-733: Jackson v2 packages used by jjwt, should be reviewed if upgrading jjwt-jackson
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.5")
+    testImplementation("com.fasterxml.jackson.core:jackson-core:2.21.5")
 }
 
 kotlin {
