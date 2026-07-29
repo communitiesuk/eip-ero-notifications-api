@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.messaging
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
@@ -43,7 +43,7 @@ internal class RemoveApplicationNotificationsMessageListenerIntegrationTest : In
         await.atMost(3, TimeUnit.SECONDS).untilAsserted {
             assertThat(notificationRepository.getBySourceReferenceAndGssCode(sourceReference, VOTER_CARD, listOf(gssCode))).isEmpty()
             stopWatch.stop()
-            logger.info("Completed assertions in $stopWatch for 2 removed notifications")
+            logger.info { "Completed assertions in $stopWatch for 2 removed notifications" }
         }
     }
 }

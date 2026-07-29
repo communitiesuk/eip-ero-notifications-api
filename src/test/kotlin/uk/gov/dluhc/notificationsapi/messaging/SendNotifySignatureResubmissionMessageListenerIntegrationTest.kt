@@ -1,7 +1,7 @@
 package uk.gov.dluhc.notificationsapi.messaging
 
 import ch.qos.logback.classic.Level
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions
 import org.awaitility.kotlin.await
@@ -90,7 +90,7 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
             Assertions.assertThat(actualEntity).hasSize(1)
             Assertions.assertThat(TestLogAppender.hasLog(expectedLog, Level.INFO)).isTrue()
             stopWatch.stop()
-            logger.info("completed assertions in $stopWatch for language $language and channel $sqsChannel")
+            logger.info { "completed assertions in $stopWatch for language $language and channel $sqsChannel" }
         }
     }
 
@@ -140,7 +140,7 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
                 )
             Assertions.assertThat(actualEntity).hasSize(0)
             stopWatch.stop()
-            logger.info("completed assertions in $stopWatch for language $language and $sqsChannel")
+            logger.info { "completed assertions in $stopWatch for language $language and $sqsChannel" }
         }
     }
 }
