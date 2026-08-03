@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.messaging
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
@@ -85,7 +85,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
                 .extracting("sourceType", "type", "channel")
                 .containsExactlyInAnyOrder(sourceTypeEntity, notificationType, Channel.EMAIL)
             stopWatch.stop()
-            logger.info("completed assertions in $stopWatch for language EN")
+            logger.info { "completed assertions in $stopWatch for language EN" }
         }
     }
 
@@ -134,7 +134,7 @@ internal class SendNotifyRejectedDocumentMessageListenerIntegrationTest : Integr
                 .extracting("sourceType", "type", "channel")
                 .containsExactlyInAnyOrder(sourceTypeEntity, notificationType, Channel.LETTER)
             stopWatch.stop()
-            logger.info("completed assertions in $stopWatch for language EN")
+            logger.info { "completed assertions in $stopWatch for language EN" }
         }
     }
 }
