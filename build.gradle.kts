@@ -15,7 +15,7 @@ plugins {
     kotlin("plugin.jpa") version "2.4.10"
     kotlin("plugin.allopen") version "2.4.10"
     id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
-    id("org.openapi.generator") version "7.0.1"
+    id("org.openapi.generator") version "7.24.0"
     id("org.owasp.dependencycheck") version "12.2.2"
 }
 
@@ -59,9 +59,9 @@ dependencies {
     implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("tools.jackson.core:jackson-databind")
     implementation("io.github.oshai:kotlin-logging-jvm:8.0.4")
-    implementation("org.apache.commons:commons-lang3:3.19.0")
-    implementation("org.mapstruct:mapstruct:1.5.5.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    implementation("org.apache.commons:commons-lang3:3.20.0")
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    kapt("org.mapstruct:mapstruct-processor:1.6.3")
 
     // internal libs
     implementation("uk.gov.dluhc:logging-library:4.2.0")
@@ -72,12 +72,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-aspectj")
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.7")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.52")
     implementation("org.springframework:spring-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // UK Government
-    implementation("uk.gov.service.notify:notifications-java-client:5.2.1-RELEASE")
+    implementation("uk.gov.service.notify:notifications-java-client:6.0.1-RELEASE")
 
     // Logging
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:9.0")
@@ -102,14 +102,14 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-webtestclient")
     testImplementation("org.springframework.security:spring-security-test")
 
-    testImplementation("org.testcontainers:junit-jupiter:1.21.4")
-    testImplementation("org.testcontainers:testcontainers:1.21.4")
+    testImplementation("org.testcontainers:junit-jupiter:2.0.5")
+    testImplementation("org.testcontainers:testcontainers:2.0.5")
 
-    testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.awaitility:awaitility-kotlin:4.3.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.3.0")
 
-    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.1")
-    testImplementation("net.datafaker:datafaker:1.7.0")
+    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:3.0.1")
+    testImplementation("net.datafaker:datafaker:2.7.0")
 
     testImplementation(platform("software.amazon.awssdk:bom:${property("awsSdkVersion")}"))
     testImplementation("software.amazon.awssdk:auth")
@@ -119,8 +119,8 @@ dependencies {
     testImplementation("io.jsonwebtoken:jjwt-impl:0.13.0")
     testImplementation("io.jsonwebtoken:jjwt-jackson:0.13.0")
     // EROPSPT-733: Jackson v2 packages used by jjwt, should be reviewed if upgrading jjwt-jackson
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.5")
-    testImplementation("com.fasterxml.jackson.core:jackson-core:2.21.5")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
+    testImplementation("com.fasterxml.jackson.core:jackson-core:2.22.1")
 }
 
 kotlin {
