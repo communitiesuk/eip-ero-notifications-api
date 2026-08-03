@@ -65,7 +65,7 @@ dependencies {
 
     // internal libs
     implementation("uk.gov.dluhc:logging-library:4.2.0")
-    implementation("uk.gov.dluhc:messaging-support-library:3.2.0")
+    implementation("uk.gov.dluhc:messaging-support-library:3.2.1")
     implementation("uk.gov.dluhc:internal-auth-library:2.2.0")
 
     // api
