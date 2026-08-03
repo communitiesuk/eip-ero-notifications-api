@@ -4,6 +4,8 @@ email
 Subject/Heading:
 Rydym wedi derbyn eich llofnod newydd ar gyfer eich cais am ((fullSourceType))
 ---
+Ni allwch ymateb i'r e-bost hwn
+
 Rhif cyfeirnod eich cais ((applicationReference))
 
 Annwyl ((firstName))
