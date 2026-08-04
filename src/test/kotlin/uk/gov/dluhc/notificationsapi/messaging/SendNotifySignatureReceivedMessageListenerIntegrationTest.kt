@@ -1,7 +1,7 @@
 package uk.gov.dluhc.notificationsapi.messaging
 
 import ch.qos.logback.classic.Level
-import io.github.oshai.kotlinlogging.KotlinLogging
+import mu.KotlinLogging
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.BeforeEach
@@ -73,7 +73,7 @@ internal class SendNotifySignatureReceivedMessageListenerIntegrationTest : Integ
             assertThat(actualEntity).hasSize(1)
             assertThat(TestLogAppender.hasLog(expectedLog, Level.INFO)).isTrue()
             stopWatch.stop()
-            logger.info { "completed assertions in $stopWatch for language $language" }
+            logger.info("completed assertions in $stopWatch for language $language")
         }
     }
 
@@ -113,7 +113,7 @@ internal class SendNotifySignatureReceivedMessageListenerIntegrationTest : Integ
                 notificationRepository.getBySourceReferenceAndGssCode(sourceReference, expectedSourceType, listOf(gssCode))
             assertThat(actualEntity).hasSize(0)
             stopWatch.stop()
-            logger.info { "completed assertions in $stopWatch for language $language" }
+            logger.info("completed assertions in $stopWatch for language $language")
         }
     }
 }

@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.database.repository
 
-import io.github.oshai.kotlinlogging.KotlinLogging
+import mu.KotlinLogging
 import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
@@ -19,7 +19,7 @@ class NotificationAuditRepository(client: DynamoDbEnhancedClient, tableConfig: D
     private val notificationAuditsTable = client.table(tableConfig.notificationAuditsTableName, NOTIFICATION_AUDITS_SCHEMA)
 
     fun saveNotificationAudit(notificationAudit: NotificationAudit) {
-        logger.debug { "Saving notification audit for channel [${notificationAudit.channel}]" }
+        logger.debug("Saving notification audit for channel [${notificationAudit.channel}]")
         notificationAuditsTable.putItem(notificationAudit)
     }
 }
