@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.service
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.exception.SdkException
 import uk.gov.dluhc.notificationsapi.database.repository.NotificationRepository

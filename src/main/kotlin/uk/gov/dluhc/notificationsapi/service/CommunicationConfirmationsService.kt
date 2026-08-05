@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.service
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 import uk.gov.dluhc.notificationsapi.database.entity.CommunicationConfirmation
 import uk.gov.dluhc.notificationsapi.database.repository.CommunicationConfirmationRepository
