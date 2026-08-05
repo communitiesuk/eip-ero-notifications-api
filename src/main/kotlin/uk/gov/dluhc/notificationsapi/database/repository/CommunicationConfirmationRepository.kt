@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.database.repository
 
-import io.github.oshai.kotlinlogging.KotlinLogging
+import mu.KotlinLogging
 import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
@@ -26,7 +26,7 @@ class CommunicationConfirmationRepository(client: DynamoDbEnhancedClient, tableC
     }
 
     fun getBySourceReferenceAndTypeAndGssCodes(sourceReference: String, sourceType: SourceType, gssCodes: List<String>): List<CommunicationConfirmation> {
-        logger.debug { "Fetching communication confirmation for sourceReference [$sourceReference], sourceType: [$sourceType], gssCodes: [$gssCodes]" }
+        logger.debug("Fetching communication confirmation for sourceReference [$sourceReference], sourceType: [$sourceType], gssCodes: [$gssCodes]")
         val queryRequest = queryRequest(sourceReference, sourceType, gssCodes)
             .build()
 

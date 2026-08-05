@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.messaging
 
-import io.github.oshai.kotlinlogging.KotlinLogging
+import mu.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions
 import org.awaitility.kotlin.await
@@ -56,7 +56,7 @@ internal class SendNotifyApplicationApprovedMessageListenerIntegrationTest : Int
             )
             Assertions.assertThat(actualEntity).hasSize(1)
             stopWatch.stop()
-            logger.info { "completed assertions in $stopWatch for language $language" }
+            logger.info("completed assertions in $stopWatch for language $language")
         }
     }
 }

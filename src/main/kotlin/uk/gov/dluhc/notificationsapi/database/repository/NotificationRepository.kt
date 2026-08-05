@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.database.repository
 
-import io.github.oshai.kotlinlogging.KotlinLogging
+import mu.KotlinLogging
 import org.springframework.stereotype.Repository
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
@@ -26,7 +26,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
     private val notificationsTableSummary = client.table(tableConfig.notificationsTableName, NOTIFICATIONS_TABLE_SUMMARY_SCHEMA)
 
     fun saveNotification(notification: Notification) {
-        logger.debug { "Saving notification for type [${notification.type}], channel: [${notification.channel}]" }
+        logger.debug("Saving notification for type [${notification.type}], channel: [${notification.channel}]")
         notificationsTableFull.putItem(notification)
     }
 
@@ -87,7 +87,7 @@ class NotificationRepository(client: DynamoDbEnhancedClient, tableConfig: Dynamo
      */
     fun removeBySourceReference(sourceReference: String, sourceType: SourceType) {
         with(getBySourceReference(sourceReference, sourceType)) {
-            logger.debug { "Removing [$size] notifications" }
+            logger.debug("Removing [$size] notifications")
             forEach { notification -> notificationsTableFull.deleteItem(notification) }
         }
     }

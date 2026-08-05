@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.service
 
-import io.github.oshai.kotlinlogging.KotlinLogging
+import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.exception.SdkClientException
 import software.amazon.awssdk.core.exception.SdkServiceException
@@ -46,7 +46,7 @@ class SendNotificationService(
                 statisticsUpdateService.triggerStatisticsUpdate(requestDto.sourceReference)
             }
         } catch (ex: GovNotifyNonRetryableException) {
-            logger.warn { "Non-retryable error returned from the Notify service: ${ex.message}" }
+            logger.warn("Non-retryable error returned from the Notify service: ${ex.message}")
         }
     }
 
