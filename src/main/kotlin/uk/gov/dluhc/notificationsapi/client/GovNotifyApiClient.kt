@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.client
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import uk.gov.dluhc.notificationsapi.client.mapper.SendNotificationResponseMapper
@@ -38,11 +38,11 @@ class GovNotifyApiClient(
                 }
         } catch (ex: NotificationClientException) {
             if (ignoreWrongApiKeyErrors && ex.isWrongApiKeyError()) {
-                logger.info(
+                logger.info {
                     "This environment's API key does not support sending emails to the specified email address " +
                         "as it is not on the team members list. GOV Notify returned an error, but this notification " +
-                        "will be treated as being successfully sent.",
-                )
+                        "will be treated as being successfully sent."
+                }
                 return null
             }
             throw logAndThrowGovNotifyApiException("Send email", ex, templateId)
@@ -65,10 +65,10 @@ class GovNotifyApiClient(
                 }
         } catch (ex: NotificationClientException) {
             if (ignoreWrongApiKeyErrors && ex.isWrongApiKeyError()) {
-                logger.info(
+                logger.info {
                     "This environment's API key does not support sending letters. GOV Notify returned an error, " +
-                        "but this notification will be treated as being successfully sent.",
-                )
+                        "but this notification will be treated as being successfully sent."
+                }
                 return null
             }
             throw logAndThrowGovNotifyApiException("Send letter", ex, templateId)

@@ -1,6 +1,6 @@
 package uk.gov.dluhc.notificationsapi.messaging
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
@@ -62,7 +62,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
                 .containsExactlyInAnyOrder(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, EMAIL)
             assertUpdateApplicationStatisticsMessageSent(sourceReference)
             stopWatch.stop()
-            logger.info("completed assertions in $stopWatch for language $language")
+            logger.info { "completed assertions in $stopWatch for language $language" }
         }
     }
 
@@ -97,7 +97,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
                 .containsExactlyInAnyOrder(VOTER_CARD, ID_DOCUMENT_RESUBMISSION, LETTER)
             assertUpdateApplicationStatisticsMessageSent(sourceReference)
             stopWatch.stop()
-            logger.info("completed assertions in $stopWatch for language $language")
+            logger.info { "completed assertions in $stopWatch for language $language" }
         }
     }
 }
