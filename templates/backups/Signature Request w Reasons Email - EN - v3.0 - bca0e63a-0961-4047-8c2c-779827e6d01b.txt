@@ -1,26 +1,24 @@
 Communication type:
-letter
+email
 ---
 Subject/Heading:
 You must provide a signature for your ((fullSourceType)) application
 ---
-Letter contact block:
-((eroAddressLine1))
-((eroAddressLine2))
-((eroAddressLine3))
-((eroAddressLine4))
-((eroPostcode))
----
-Postage:
-second
----
+^You cannot reply to this email
+
 Application reference number ((applicationReference))
 
 Dear ((firstName))
 
 We need a digital photo or scan of your signature for your ((fullSourceType)) application.
 
-((signatureNotSuitableText))
+The signature you provided in your ((fullSourceType)) application is not suitable.
+
+It is not suitable because:
+
+((rejectionReasons))
+
+((rejectionNotes))
 
 ((rejectionFreeText))
 
@@ -29,6 +27,8 @@ We need a digital photo or scan of your signature for your ((fullSourceType)) ap
 Send us another digital photo or scan of your signature online.
 
 ((deadline))
+
+You cannot reply to this email.
 
 Use this link to send your signature:
 
@@ -87,7 +87,10 @@ Your photo or scan must be:
 
 If you cannot send a digital photo or scan, send us your signature by post.
 
-You can send a signature written in black ink on plain white paper by post to:
+1. Use black ink on plain white paper.
+2. Write your name and application number ((applicationReference)) at the top of the paper.
+3. Sign your name at the bottom of the paper.
+
 
 ((LAName))
 ((eroAddressLine1))
@@ -95,8 +98,6 @@ You can send a signature written in black ink on plain white paper by post to:
 ((eroAddressLine3))
 ((eroAddressLine4))
 ((eroPostcode))
-
-Make sure you write your name and application reference number ((applicationReference)) on the paper.
 
 # If you need help, contact us
 

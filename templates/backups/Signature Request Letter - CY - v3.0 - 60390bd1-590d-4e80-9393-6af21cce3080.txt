@@ -4,13 +4,6 @@ letter
 Subject/Heading:
 Mae angen i chi ddarparu llofnod ar gyfer eich cais am ((fullSourceType))
 ---
-Letter contact block:
-((eroAddressLine1))
-((eroAddressLine2))
-((eroAddressLine3))
-((eroAddressLine4))
-((eroPostcode))
----
 Postage:
 second
 ---
@@ -20,13 +13,7 @@ Annwyl ((firstName))
 
 Mae angen i ni gael llun digidol neu sgan o'ch llofnod ar gyfer eich cais am ((fullSourceType)).
 
-Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am ((fullSourceType)) yn addas.
-
-Nid yw'n addas oherwydd:
-
-((rejectionReasons))
-
-((rejectionNotes))
+((signatureNotSuitableText))
 
 ((rejectionFreeText))
 
@@ -93,7 +80,11 @@ Sicrhewch fod eich llun neu sgan:
 
 Os na allwch anfon llun digidol neu sgan, anfonwch eich llofnod atom drwy'r post.
 
-Gallwch anfon llofnod wedi'i ysgrifennu mewn inc du ar bapur gwyn plaen drwy'r post i:
+1. Defnyddiwch inc du a phapur gwyn plaen.
+2. Ysgrifennwch eich enw a rhif eich cais ((applicationReference)) yn glir ar frig y papur.
+3. Llofnodwch eich enw fel y byddech yn ei wneud fel arfer ar waelod y papur.
+
+Anfonwch eich llofnod i:  
 
 ((LAName))
 ((eroAddressLine1))
@@ -101,8 +92,6 @@ Gallwch anfon llofnod wedi'i ysgrifennu mewn inc du ar bapur gwyn plaen drwy'r p
 ((eroAddressLine3))
 ((eroAddressLine4))
 ((eroPostcode))
-
-Gwnewch yn siŵr eich bod yn ysgrifennu eich enw a’ch rhif cyfeirnod ((applicationReference)) ar y papur.
 
 # Os bydd angen help arnoch, cysylltwch â ni
 
