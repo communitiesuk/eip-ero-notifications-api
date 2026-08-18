@@ -87,7 +87,11 @@ Your photo or scan must be:
 
 If you cannot send a digital photo or scan, send us your signature by post.
 
-You can send a signature written in black ink on plain white paper by post to:
+1. Use black ink on plain white paper.
+2. Write your name and application number ((applicationReference)) at the top of the paper.
+3. Sign your name at the bottom of the paper.
+
+Send your signature to:
 
 ((LAName))
 ((eroAddressLine1))
@@ -95,8 +99,6 @@ You can send a signature written in black ink on plain white paper by post to:
 ((eroAddressLine3))
 ((eroAddressLine4))
 ((eroPostcode))
-
-Make sure you write your name and application reference number ((applicationReference)) on the paper.
 
 # If you need help, contact us
 

@@ -4,6 +4,8 @@ email
 Subject/Heading:
 Mae angen i chi ddarparu llofnod ar gyfer eich cais am ((fullSourceType))
 ---
+^Ni allwch ymateb i'r e-bost hwn
+
 Rhif cyfeirnod eich cais ((applicationReference))
 
 Annwyl ((firstName))
@@ -25,6 +27,8 @@ Nid yw'n addas oherwydd:
 Anfonwch lun digidol neu sgan arall o'ch llofnod ar-lein.
 
 ((deadline))
+
+Ni allwch ymateb i'r e-bost hwn.
 
 Defnyddiwch y ddolen hon i anfon eich llofnod:
 
@@ -83,7 +87,11 @@ Sicrhewch fod eich llun neu sgan:
 
 Os na allwch anfon llun digidol neu sgan, anfonwch eich llofnod atom drwy'r post.
 
-Gallwch anfon llofnod wedi'i ysgrifennu mewn inc du ar bapur gwyn plaen drwy'r post i:
+1. Defnyddiwch inc du a phapur gwyn plaen.
+2. Ysgrifennwch eich enw a rhif eich cais ((applicationReference)) yn glir ar frig y papur.
+3. Llofnodwch eich enw fel y byddech yn ei wneud fel arfer ar waelod y papur.
+
+Anfonwch eich llofnod i:  
 
 ((LAName))
 ((eroAddressLine1))
@@ -91,8 +99,6 @@ Gallwch anfon llofnod wedi'i ysgrifennu mewn inc du ar bapur gwyn plaen drwy'r p
 ((eroAddressLine3))
 ((eroAddressLine4))
 ((eroPostcode))
-
-Gwnewch yn siŵr eich bod yn ysgrifennu eich enw a’ch rhif cyfeirnod ((applicationReference)) ar y papur.
 
 # Os bydd angen help arnoch, cysylltwch â ni
 
