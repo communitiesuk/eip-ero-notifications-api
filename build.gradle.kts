@@ -27,7 +27,7 @@ ext["snakeyaml.version"] = "2.2"
 extra["springCloudAwsVersion"] = "4.1.0"
 extra["awsSdkVersion"] = "2.52.0"
 // EROPSPT-733 - Pinned versions brought in by springboot - if updating springboot, check if these are still needed.
-extra["tomcat.version"] = "11.0.26"
+extra["tomcat.version"] = "11.0.25"
 extra["jackson.version"] = "3.1.6"
 
 allOpen {
