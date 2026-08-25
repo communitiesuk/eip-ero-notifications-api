@@ -7,7 +7,7 @@ Eich cais am Dystysgrif Awdurdod Pleidleisiwr – cais am lun gwahanol
 Postage:
 second
 ---
-# Cyfeirnod y cais: ((applicationReference))
+Cyfeirnod y cais: ((applicationReference))
 
 Annwyl ((firstName))
 
