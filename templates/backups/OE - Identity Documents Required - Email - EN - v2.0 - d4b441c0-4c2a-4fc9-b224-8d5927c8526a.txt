@@ -2,21 +2,17 @@ Communication type:
 email
 ---
 Subject/Heading:
-Documents you provided for your overseas vote application do not meet our requirements
+You must provide documents for your overseas vote application
 ---
-# Application reference number ((applicationReference))
+^ You cannot reply to this email.
 
-Dear ((firstName))
+Application reference number ((applicationReference)) 
 
-To complete the processing of your overseas vote application we need some additional documents from you.
+Dear ((firstName)) 
 
-This is because one or more of the documents you provided do not meet our requirements.
+To complete the processing of your overseas vote application we need some additional documents from you. 
 
-The following documents were not suitable:
-
-((rejectedDocuments))
-
-((rejectionMessage))
+((freeText))
 
 ## What you need to do
 
@@ -43,9 +39,9 @@ List 2 – the following documents must have been issued in the United Kingdom o
 * Marriage or civil partnership certificate
 * Adoption certificate
 * Firearms certificate granted under the Firearms Act 1968
-* the record of a decision on bail made in respect of the applicant in accordance with section 5(1) of the Bail Act 1976
-* driving licence, which is not in the form of a photocard
-* driving licence, granted other than in the United Kingdom or Crown Dependencies, with your photograph, and which is valid for at least 12 months from the date you entered the United Kingdom
+* The record of a decision on bail made in respect of the applicant in accordance with section 5(1) of the Bail Act 1976
+* Driving licence, which is not in the form of a photocard
+* Driving licence, granted other than in the United Kingdom or Crown Dependencies, with your photograph, and which is valid for at least 12 months from the date you entered the United Kingdom
 
 List 3 – any of the following that have your full name as stated on your application:
 
@@ -77,6 +73,8 @@ Include your name and application reference number (quoted at top of this email)
 * post document copies to the address at the bottom of the page 
 
 Do not send original documents. We will not be able to return these. 
+
+You cannot reply to this email.
 
 ## If you cannot provide the required documents 
 

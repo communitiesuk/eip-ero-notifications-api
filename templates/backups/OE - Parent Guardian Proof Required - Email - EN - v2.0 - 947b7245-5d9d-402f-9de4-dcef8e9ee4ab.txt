@@ -2,21 +2,17 @@ Communication type:
 email
 ---
 Subject/Heading:
-Documents you provided for your overseas vote application do not meet our requirements
+You must provide a document for your overseas vote application
 ---
-# Application reference number ((applicationReference))
+^ You cannot reply to this email.
+
+Application reference number ((applicationReference)) 
 
 Dear ((firstName)) 
 
-To complete the processing of your overseas vote application we need an additional document from you. 
+To complete the processing of your overseas vote application we need an additional document from you.
 
-This is because one or more of the documents you provided do not meet our requirements. 
-
-The following documents were not suitable: 
-
-((rejectedDocuments)) 
-
-((rejectionMessage))
+((freeText))
 
 ## What you need to do 
 
@@ -45,6 +41,8 @@ Include your name and application reference number (quoted at top of this email)
 * post document copies to the address at the bottom of the page 
 
 Do not send original documents. We will not be able to return these.
+
+You cannot reply to this email.
 
 ## If you cannot provide the required document
 

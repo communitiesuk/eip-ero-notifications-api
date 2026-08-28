@@ -2,7 +2,14 @@ Communication type:
 letter
 ---
 Subject/Heading:
-Voter Authority Certificate  - Application unsuccessful
+Your application for photo ID to vote  - Application unsuccessful
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
 ---
 Postage:
 second
