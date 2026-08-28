@@ -1,18 +1,34 @@
 Communication type:
-email
+letter
 ---
 Subject/Heading:
-You must provide documents for your overseas vote application
+Documents you provided for your overseas vote application do not meet our requirements
 ---
-# Application reference number ((applicationReference)) 
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+Application reference number ((applicationReference))
 
-Dear ((firstName)) 
+Dear ((firstName))
 
-To complete the processing of your overseas vote application we need some additional documents from you. 
+To complete the processing of your overseas vote application we need some additional documents from you.
 
-((freeText))
+This is because one or more of the documents you provided do not meet our requirements.
 
-## What you need to do
+The following documents were not suitable:
+
+((rejectedDocuments))
+
+((rejectionMessage))
+
+# What you need to do
 
 From the lists of documents below, please provide either:
 
@@ -37,9 +53,9 @@ List 2 – the following documents must have been issued in the United Kingdom o
 * Marriage or civil partnership certificate
 * Adoption certificate
 * Firearms certificate granted under the Firearms Act 1968
-* the record of a decision on bail made in respect of the applicant in accordance with section 5(1) of the Bail Act 1976
-* driving licence, which is not in the form of a photocard
-* driving licence, granted other than in the United Kingdom or Crown Dependencies, with your photograph, and which is valid for at least 12 months from the date you entered the United Kingdom
+* The record of a decision on bail made in respect of the applicant in accordance with section 5(1) of the Bail Act 1976
+* Driving licence, which is not in the form of a photocard
+* Driving licence, granted other than in the United Kingdom or Crown Dependencies, with your photograph, and which is valid for at least 12 months from the date you entered the United Kingdom
 
 List 3 – any of the following that have your full name as stated on your application:
 
@@ -53,7 +69,7 @@ List 3 – any of the following that have your full name as stated on your appli
 * Statement of benefits or entitlement to benefits, such as a statement of child benefit
 * A letter confirming you are entitled to housing benefit
 
-## Accepted document formats 
+# Accepted document formats 
 
 Do not send original documents. You can send copies of documents in the following formats: 
 
@@ -63,16 +79,16 @@ Do not send original documents. You can send copies of documents in the followin
 
 Make sure all copies are clear and include the whole page with nothing cut off. 
 
-Include your name and application reference number (quoted at top of this email) on all documents. 
+Include your name and application reference number (quoted at top of this letter) on all documents. 
 
-## How to send documents 
+# How to send documents 
 
 * email document copies to ((eroEmail)) 
 * post document copies to the address at the bottom of the page 
 
 Do not send original documents. We will not be able to return these. 
 
-## If you cannot provide the required documents 
+# If you cannot provide the required documents 
 
 Contact us as soon as you can using the details below. We will discuss with you other ways in which we might be able to verify your identity. 
 

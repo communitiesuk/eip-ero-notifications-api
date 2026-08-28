@@ -2,22 +2,25 @@ Communication type:
 letter
 ---
 Subject/Heading:
-Your Voter Authority Certificate application – additional information required
+Your application for photo ID to vote - request for a different photo
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
 ---
 Postage:
 second
 ---
-# Application reference: ((applicationReference))
+Application reference: ((applicationReference))
 
 Dear ((firstName))
 
 We have reviewed your Voter Authority Certificate application.  Unfortunately, the photo you sent is not suitable. We need you to provide a new photo, so that we can complete the processing of your application.
 
-# Why your photo was not suitable and what you need to do now
-
-((photoRejectionReasons))
-
-((photoRejectionNotes))
+Why your photo was not suitable and what you need to do now
 
 ((photoRequestFreeText))
 
@@ -47,8 +50,9 @@ In your photo, make sure you:
 * are not wearing sunglasses - normal glasses are fine if you typically wear them
 * do not have a head covering (apart from religious or medical coverings)
 * do not have ‘red-eye’, glare, or heavy shadows over your face
+
 You can:
-* Provide a standard photo print which must be at least 35mm wide and 45mm tall.
+* provide a standard photo print which must be at least 35mm wide and 45mm tall.
 * take a new photo with a digital camera, smartphone, or tablet
 * upload an existing digital photo
 * scan a photo with a scanner

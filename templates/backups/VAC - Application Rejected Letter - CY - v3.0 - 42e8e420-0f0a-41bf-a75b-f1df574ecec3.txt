@@ -2,7 +2,14 @@ Communication type:
 letter
 ---
 Subject/Heading:
-Tystysgrif Awdurdod Pleidleiswyr - Cais aflwyddiannus
+Eich cais am ID ffotograffig i bleidleisio - Cais aflwyddiannus
+---
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
 ---
 Postage:
 second

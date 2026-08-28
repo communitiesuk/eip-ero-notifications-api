@@ -4,7 +4,9 @@ email
 Subject/Heading:
 Nid yw'r dogfennau a ddarparwyd gennych fel rhan o'ch cais am bleidlais dramor yn bodloni ein gofynion
 ---
-# Rhif cyfeirnod y cais ((applicationReference))
+^ Ni allwch ymateb i'r e-bost hwn.
+
+Rhif cyfeirnod y cais ((applicationReference))
 
 Annwyl ((firstName))
 
@@ -60,6 +62,8 @@ Dylech gynnwys eich enw a rhif cyfeirnod y cais (a nodir ar frig y neges e-bost 
 * dylech bostio copïau o ddogfennau i’r cyfeiriad ar waelod y dudalen
 
 Peidiwch ag anfon dogfennau gwreiddiol. Ni allwn eu dychwelyd
+
+Ni allwch ymateb i'r e-bost hwn.
 
 ## Os na allwch ddarparu’r ddogfen sydd ei hangen
 

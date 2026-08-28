@@ -1,10 +1,20 @@
 Communication type:
-email
+letter
 ---
 Subject/Heading:
-Eich cais am Dystysgrif Awdurdod Pleidleisiwr – cais am lun gwahanol | ((applicationReference))
+Eich cais am ID ffotograffig i bleidleisio – cais am lun gwahanol
 ---
-# Cyfeirnod y cais: ((applicationReference))
+Letter contact block:
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+---
+Postage:
+second
+---
+Cyfeirnod y cais: ((applicationReference))
 
 Annwyl ((firstName))
 
@@ -12,11 +22,7 @@ Rydym wedi adolygu eich cais am Dystysgrif Awdurdod Pleidleiswyr. Yn anffodus, n
 
 # Pam nad oedd eich llun yn addas a beth sydd angen i chi ei wneud nawr
 
-((photoRejectionReasons))
-
-((photoRejectionNotes))
-
-^ ((photoRequestFreeText))
+((photoRequestFreeText))
 
 # Sut i anfon eich llun atom
 
@@ -26,7 +32,7 @@ Y ffordd orau yw anfon llun atom ar-lein drwy ddefnyddio'r ddolen hon:
 
 Gofynnir i chi gadarnhau rhif cyfeirnod eich cais (a nodir uchod) a dweud wrthym beth yw eich dyddiad geni, ac yna byddwch yn gallu lanlwytho llun digidol newydd.
 
-Os na allwch chi anfon llun digidol atom, gallwch anfon llun printiedig atom drwy'r post, i’r cyfeiriad isod. Os byddwch yn anfon lluniau drwy'r post, rhowch eich enw a rhif cyfeirnod eich cais (a nodir uchod). Rydym ni hefyd yn argymell eich bod yn ysgrifennu’ch enw ar gefn y llun. Cadwch mewn cof efallai na fyddwn ni’n gallu dychwelyd y llun i chi. .
+Os na allwch chi anfon llun digidol atom, gallwch anfon llun printiedig atom drwy'r post, i’r cyfeiriad isod. Os byddwch yn anfon lluniau drwy'r post, rhowch eich enw a rhif cyfeirnod eich cais (a nodir uchod). Rydym ni hefyd yn argymell eich bod yn ysgrifennu’ch enw ar gefn y llun. Cadwch mewn cof efallai na fyddwn ni’n gallu dychwelyd y llun i chi.
 
 # Gofynion y llun
 

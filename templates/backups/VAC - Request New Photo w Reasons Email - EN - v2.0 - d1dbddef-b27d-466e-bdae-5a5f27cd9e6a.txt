@@ -2,9 +2,11 @@ Communication type:
 email
 ---
 Subject/Heading:
-New Photo request for Application Reference ((applicationReference))
+Your application for photo ID to vote - request for a different photo
 ---
-# Application reference: ((applicationReference))
+^ You cannot reply to this email.
+
+Application reference: ((applicationReference))
 
 Dear ((firstName))
 
@@ -12,7 +14,11 @@ We have reviewed your Voter Authority Certificate application.  Unfortunately, t
 
 # Why your photo was not suitable and what you need to do now
 
-^ ((photoRequestFreeText))
+((photoRejectionReasons))
+
+((photoRejectionNotes))
+
+((photoRequestFreeText))
 
 # How to send us your photo
 
@@ -23,6 +29,8 @@ The best way is to send us a photo online, using this link:
 You will be asked to confirm your application reference number (stated above) and to tell us your date of birth, and then you will be able to upload a new digital photo.
 
 If you are not able to send us a digital photo, you can send us a printed photo by post, at the address below. If you are sending photos by post, quote your name and application reference number (stated above). We also recommend that you write your name on the back of the photo. Please bear in mind that we may not be able to return the photo to you.
+
+You cannot reply to this email.
 
 # Photo requirements
 
@@ -42,7 +50,7 @@ In your photo, make sure you:
 * do not have ‘red-eye’, glare, or heavy shadows over your face
 
 You can:
-* Provide a standard photo print which must be at least 35mm wide and 45mm tall.
+* provide a standard photo print which must be at least 35mm wide and 45mm tall.
 * take a new photo with a digital camera, smartphone, or tablet
 * upload an existing digital photo
 * scan a photo with a scanner
