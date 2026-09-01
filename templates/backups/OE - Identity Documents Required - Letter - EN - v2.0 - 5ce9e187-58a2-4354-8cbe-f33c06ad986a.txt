@@ -14,7 +14,7 @@ Letter contact block:
 Postage:
 second
 ---
-## Application reference number ((applicationReference))
+Application reference number ((applicationReference))
 
 Dear ((firstName))
 
