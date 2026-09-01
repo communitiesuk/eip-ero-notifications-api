@@ -20,7 +20,7 @@ Dear ((firstName))
 
 We have reviewed your Voter Authority Certificate application.  Unfortunately, the photo you sent is not suitable. We need you to provide a new photo, so that we can complete the processing of your application.
 
-Why your photo was not suitable and what you need to do now
+# Why your photo was not suitable and what you need to do now
 
 ((photoRequestFreeText))
 
