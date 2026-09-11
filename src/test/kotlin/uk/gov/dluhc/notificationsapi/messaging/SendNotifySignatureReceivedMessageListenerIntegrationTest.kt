@@ -2,12 +2,12 @@ package uk.gov.dluhc.notificationsapi.messaging
 
 import ch.qos.logback.classic.Level
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.apache.commons.lang3.time.StopWatch
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.testcontainers.shaded.org.apache.commons.lang3.time.StopWatch
 import uk.gov.dluhc.notificationsapi.config.IntegrationTest
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
