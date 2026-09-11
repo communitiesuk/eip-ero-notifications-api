@@ -1,0 +1,40 @@
+Communication type:
+email
+---
+Subject/Heading:
+Eich cais am ID ffotograffig i bleidleisio (Tystysgrif Awdurdod Pleidleisiwr) – cais wedi'i gymeradwyo
+---
+^ Ni allwch ymateb i'r e-bost hwn
+
+# Cyfeirnod y cais: ((applicationReference))
+
+Annwyl ((firstName))
+
+Mae’ch cais am Dystysgrif Awdurdod Pleidleiswyr wedi’i adolygu a’i gymeradwyo gan ((LAName)).
+
+# Beth sy'n digwydd nesaf
+
+Os gwnaethoch ofyn i'ch Tystysgrif Awdurdodi Pleidleisiwr gael ei hanfon drwy'r post, caiff ei hanfon i'r cyfeiriad a ddefnyddiwyd gennych wrth gofrestru i bleidleisio. Dylai gyrraedd o fewn y pum diwrnod gwaith nesaf.
+
+Os gwnaethoch ofyn am gael casglu eich Tystysgrif Awdurdodi Pleidleisiwr, byddwn yn cysylltu â chi unwaith eto pan fydd yn barod i'w chasglu er mwyn dweud wrthych pryd a ble y gallwch ei chasglu.
+Ewch â’ch Tystysgrif Awdurdod Pleidleiswyr gyda chi i’r orsaf bleidleisio pan fyddwch chi’n mynd i bleidleisio’n bersonol.
+
+# Beth os nad yw fy nhystysgrif yn cyrraedd?
+
+Os nad ydych wedi derbyn eich tystysgrif o fewn pum niwrnod gwaith o ddyddiad yr e-bost hwn, gallwch gysylltu â ni drwy ddefnyddio’r manylion isod.
+
+# Os oes angen i chi gysylltu â ni
+
+Os oes gennych chi unrhyw gwestiynau, gallwch gysylltu â ni drwy ddefnyddio’r manylion hyn:
+
+((eroAddressLine1))
+((eroAddressLine2))
+((eroAddressLine3))
+((eroAddressLine4))
+((eroPostcode))
+((eroPhone))
+((eroWebsite))
+((eroEmail))
+
+Yn gywir
+((LAName))
