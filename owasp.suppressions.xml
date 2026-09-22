@@ -111,4 +111,32 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-.*@.*$</packageUrl>
         <cve>CVE-2026-47842</cve>
     </suppress>
+    <suppress until="2026-10-01Z">
+        <notes><![CDATA[
+        TEMPORARY suppression, pending our standard new-release cooldown. CVE-2026-91776 and
+        CVE-2026-91777 are both availability-only denial-of-service flaws in jackson-databind
+        (CVSS 3.1 AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H - no confidentiality or integrity impact):
+        (1) CVE-2026-91776 (GHSA-wv8q-qhhj-9h54) is unbounded growth of the type-id cache in
+            TypeDeserializerBase._findDeserializer(). It requires name-based polymorphism with a
+            defaultImpl fallback, attacker-influenced type IDs, and a long-lived shared mapper.
+        (2) CVE-2026-91777 (GHSA-cxp5-3px4-pw24) is quadratic forward-reference completion in
+            CollectionDeserializer/MapDeserializer, requiring deserialisation into an
+            @JsonIdentityInfo-enabled collection or map.
+        Neither code path is reachable here: there is no @JsonTypeInfo, @JsonSubTypes,
+        @JsonIdentityInfo or defaultImpl anywhere in src/ or in the OpenAPI-generated models, the
+        OpenAPI specs declare no discriminator/oneOf/anyOf that would make the generator emit them,
+        and the single JsonMapper bean in JacksonConfiguration enables no default typing.
+        Unlike the other entries in this file, a fix IS available (3.1.7 on the Jackson 3 line,
+        2.21.7 on the Jackson 2 line) and we intend to take it. It is deferred only because 3.1.7
+        was published to Maven Central on 2026-09-22 and 2.21.7 on 2026-09-21, and this project
+        deliberately does not adopt releases younger than 7 days (.github/dependabot.yml sets
+        cooldown.default-days = 7). That cooldown elapses on 2026-09-29; this suppression expires
+        2026-10-01 to leave a short buffer for the bump to land.
+        REMOVE this suppression when extra["jackson.version"] is raised to 3.1.7 in build.gradle.kts
+        (and the test-scope com.fasterxml.jackson.core pins to 2.21.7).
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/(tools\.jackson\.core|com\.fasterxml\.jackson\.core)/jackson\-databind@.*$</packageUrl>
+        <cve>CVE-2026-91776</cve>
+        <cve>CVE-2026-91777</cve>
+    </suppress>
 </suppressions>
