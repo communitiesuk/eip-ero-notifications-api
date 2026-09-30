@@ -26,9 +26,10 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 ext["snakeyaml.version"] = "2.2"
 extra["springCloudAwsVersion"] = "4.1.0"
 extra["awsSdkVersion"] = "2.54.17"
-// EROPSPT-733 - Pinned versions brought in by springboot - if updating springboot, check if these are still needed.
+// EROPSPT-767 - Pinned versions brought in by springboot - if updating springboot, check if these are still needed.
+// Note: Jackson 3.1.6 now also brings in CVEs, and should be patched to 3.1.7 once available
 extra["tomcat.version"] = "11.0.25"
-extra["jackson.version"] = "3.1.6"
+extra["jackson.version"] = "3.1.7"
 extra["netty.version"] = "4.2.18.Final"
 
 allOpen {
@@ -63,8 +64,8 @@ dependencies {
 
     // internal libs
     implementation("uk.gov.dluhc:logging-library:4.3.0")
-    implementation("uk.gov.dluhc:messaging-support-library:3.3.0")
-    implementation("uk.gov.dluhc:internal-auth-library:2.3.0")
+    implementation("uk.gov.dluhc:messaging-support-library:3.4.0")
+    implementation("uk.gov.dluhc:internal-auth-library:2.4.0")
 
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -117,8 +118,8 @@ dependencies {
     testImplementation("io.jsonwebtoken:jjwt-impl:0.13.0")
     testImplementation("io.jsonwebtoken:jjwt-jackson:0.13.0")
     // EROPSPT-733: Jackson v2 packages used by jjwt, should be reviewed if upgrading jjwt-jackson
-    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.6")
-    testImplementation("com.fasterxml.jackson.core:jackson-core:2.21.6")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.21.7")
+    testImplementation("com.fasterxml.jackson.core:jackson-core:2.21.7")
 }
 
 kotlin {
