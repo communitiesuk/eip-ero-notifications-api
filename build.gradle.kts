@@ -31,6 +31,7 @@ extra["awsSdkVersion"] = "2.54.17"
 extra["tomcat.version"] = "11.0.25"
 extra["jackson.version"] = "3.1.7"
 extra["netty.version"] = "4.2.18.Final"
+extra["Logback.version"] = "1.6.5"
 
 allOpen {
     annotations("jakarta.persistence.Entity", "jakarta.persistence.MappedSuperclass", "jakarta.persistence.Embedabble")
