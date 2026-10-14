@@ -9,11 +9,11 @@ import java.lang.ProcessBuilder.Redirect
 plugins {
     id("org.springframework.boot") version "4.1.1"
     id("io.spring.dependency-management") version "1.1.7"
-    kotlin("jvm") version "2.4.10"
-    kotlin("kapt") version "2.4.10"
-    kotlin("plugin.spring") version "2.4.10"
-    kotlin("plugin.jpa") version "2.4.10"
-    kotlin("plugin.allopen") version "2.4.10"
+    kotlin("jvm") version "2.4.20"
+    kotlin("kapt") version "2.4.20"
+    kotlin("plugin.spring") version "2.4.20"
+    kotlin("plugin.jpa") version "2.4.20"
+    kotlin("plugin.allopen") version "2.4.20"
     id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
     id("org.openapi.generator") version "7.0.1"
     id("org.owasp.dependencycheck") version "13.0.0"
@@ -26,11 +26,12 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 ext["snakeyaml.version"] = "2.2"
 extra["springCloudAwsVersion"] = "4.1.0"
 extra["awsSdkVersion"] = "2.54.17"
-// EROPSPT-767 - Pinned versions brought in by springboot - if updating springboot, check if these are still needed.
+// EROPSPT-784 - Pinned versions brought in by springboot - if updating springboot, check if these are still needed.
 // Note: Jackson 3.1.6 now also brings in CVEs, and should be patched to 3.1.7 once available
 extra["tomcat.version"] = "11.0.25"
 extra["jackson.version"] = "3.1.7"
 extra["netty.version"] = "4.2.18.Final"
+extra["logback.version"] = "1.6.5"
 
 allOpen {
     annotations("jakarta.persistence.Entity", "jakarta.persistence.MappedSuperclass", "jakarta.persistence.Embedabble")
@@ -63,9 +64,9 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
     // internal libs
-    implementation("uk.gov.dluhc:logging-library:4.3.0")
-    implementation("uk.gov.dluhc:messaging-support-library:3.4.0")
-    implementation("uk.gov.dluhc:internal-auth-library:2.4.0")
+    implementation("uk.gov.dluhc:logging-library:4.4.0")
+    implementation("uk.gov.dluhc:messaging-support-library:3.5.0")
+    implementation("uk.gov.dluhc:internal-auth-library:2.5.0")
 
     // api
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -220,6 +221,15 @@ tasks.withType<BootBuildImage> {
 ktlint {
     filter {
         exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
+    }
+}
+// ktlint 1.8.0 runs on the Kotlin 2.2.21 compiler which is incompatible with our project's Kotlin version.
+// TODO: EROPSPT-786 Migrate to ktfmt and detekt
+configurations.matching { it.name.startsWith("ktlint") }.configureEach {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.jetbrains.kotlin") {
+            useVersion("2.2.21")
+        }
     }
 }
 
