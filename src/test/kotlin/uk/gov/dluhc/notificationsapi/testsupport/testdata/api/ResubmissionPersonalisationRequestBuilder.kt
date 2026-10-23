@@ -14,7 +14,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedDo
 fun buildPhotoResubmissionPersonalisationRequest(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
-    photoRejectionReasons: List<PhotoRejectionReason> = listOf(PhotoRejectionReason.OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
+    photoRejectionReasons: List<PhotoRejectionReason> = listOf(PhotoRejectionReason.OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO),
     photoRejectionNotes: String? = faker.harryPotter().spell(),
     photoRequestFreeText: String = faker.harryPotter().spell(),
     uploadPhotoLink: String = "http://localhost:8080/eros/photo/398c1be2-7950-48a2-aca8-14cb9276a673",

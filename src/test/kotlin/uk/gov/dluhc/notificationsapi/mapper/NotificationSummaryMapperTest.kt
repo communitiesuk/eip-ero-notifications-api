@@ -109,13 +109,13 @@ class NotificationSummaryMapperTest {
         )
 
         given(communicationChannelMapper.fromDtoToApi(any())).willReturn(CommunicationChannel.EMAIL)
-        given(notificationTypeMapper.fromNotificationTypeDtoToTemplateTypeApi(any())).willReturn(TemplateType.APPLICATION_MINUS_APPROVED)
+        given(notificationTypeMapper.fromNotificationTypeDtoToTemplateTypeApi(any())).willReturn(TemplateType.APPLICATION_APPROVED)
 
         val expected = aCommunicationsSummaryBuilder(
             id = id,
             requestor = requestor,
             channel = CommunicationChannel.EMAIL,
-            templateType = TemplateType.APPLICATION_MINUS_APPROVED,
+            templateType = TemplateType.APPLICATION_APPROVED,
             timestamp = OffsetDateTime.of(sentAt, ZoneOffset.UTC),
         )
 

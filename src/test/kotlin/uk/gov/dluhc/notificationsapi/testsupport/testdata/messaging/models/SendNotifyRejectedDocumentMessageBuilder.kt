@@ -4,8 +4,8 @@ import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DUPLICATE_MINUS_DOCUMENT
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_TOO_OLD
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DUPLICATE_DOCUMENT
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentType
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
@@ -37,7 +37,7 @@ fun buildSendNotifyRejectedDocumentMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.REJECTED_MINUS_DOCUMENT,
+        messageType = MessageType.REJECTED_DOCUMENT,
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,
@@ -60,8 +60,8 @@ fun buildRejectedDocumentsPersonalisation(
     )
 
 fun buildRejectedDocumentForPersonalisation(
-    documentType: DocumentType = DocumentType.UTILITY_MINUS_BILL,
-    rejectionReasons: List<DocumentRejectionReason> = listOf(DUPLICATE_MINUS_DOCUMENT, DOCUMENT_MINUS_TOO_MINUS_OLD),
+    documentType: DocumentType = DocumentType.UTILITY_BILL,
+    rejectionReasons: List<DocumentRejectionReason> = listOf(DUPLICATE_DOCUMENT, DOCUMENT_TOO_OLD),
     rejectionNotes: String? = "Document rejected due to multiple reasons",
 ): RejectedDocument = RejectedDocument(
     documentType = documentType,

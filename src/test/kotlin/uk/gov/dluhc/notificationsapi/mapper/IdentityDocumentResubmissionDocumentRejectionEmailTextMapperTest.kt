@@ -43,8 +43,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisation(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.BIRTH_MINUS_CERTIFICATE,
-                        rejectionReasons = listOf(DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT),
+                        documentType = DocumentTypeApi.BIRTH_CERTIFICATE,
+                        rejectionReasons = listOf(DocumentRejectionReasonApi.UNREADABLE_DOCUMENT),
                         rejectionNotes = null,
                     ),
                 ),
@@ -71,8 +71,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             // Then
             assertThat(actual).isEqualTo(expected)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.UNREADABLE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -81,7 +81,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisation(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeApi.BIRTH_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = "This birth certificate is not yours and is someone else's name. You must provide your own documents only.",
                     ),
@@ -107,7 +107,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verifyNoInteractions(rejectedDocumentReasonMapper)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -116,10 +116,10 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisation(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeApi.BIRTH_CERTIFICATE,
                         rejectionReasons = listOf(
-                            DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT,
-                            DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT,
+                            DocumentRejectionReasonApi.UNREADABLE_DOCUMENT,
+                            DocumentRejectionReasonApi.DUPLICATE_DOCUMENT,
                         ),
                         rejectionNotes = null,
                     ),
@@ -151,9 +151,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             // Then
             assertThat(actual).isEqualTo(expected)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.UNREADABLE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.DUPLICATE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -162,10 +162,10 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisation(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeApi.BIRTH_CERTIFICATE,
                         rejectionReasons = listOf(
-                            DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT,
-                            DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT,
+                            DocumentRejectionReasonApi.UNREADABLE_DOCUMENT,
+                            DocumentRejectionReasonApi.DUPLICATE_DOCUMENT,
                         ),
                         rejectionNotes = "You have already provided your birth certificate as part of this application. Please provide a different form of ID",
                     ),
@@ -199,9 +199,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             // Then
             assertThat(actual).isEqualTo(expected)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.UNREADABLE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonApi.DUPLICATE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -210,7 +210,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisation(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.ADOPTION_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeApi.ADOPTION_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = "",
                     ),
@@ -234,7 +234,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verifyNoInteractions(rejectedDocumentReasonMapper)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.ADOPTION_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeApi.ADOPTION_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -243,25 +243,25 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisation(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeApi.BIRTH_CERTIFICATE,
                         rejectionReasons = listOf(
-                            DocumentRejectionReasonApi.UNREADABLE_MINUS_DOCUMENT,
-                            DocumentRejectionReasonApi.DUPLICATE_MINUS_DOCUMENT,
+                            DocumentRejectionReasonApi.UNREADABLE_DOCUMENT,
+                            DocumentRejectionReasonApi.DUPLICATE_DOCUMENT,
                         ),
                         rejectionNotes = null,
                     ),
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.FIREARMS_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeApi.FIREARMS_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = "Your firearms certificate is from your Scouts groups for your air rifle. It is not a formal certificate and is not an acceptable form of ID",
                     ),
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.UTILITY_MINUS_BILL,
-                        rejectionReasons = listOf(DocumentRejectionReasonApi.APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
+                        documentType = DocumentTypeApi.UTILITY_BILL,
+                        rejectionReasons = listOf(DocumentRejectionReasonApi.APPLICANT_DETAILS_NOT_CLEAR),
                         rejectionNotes = "Your name and address are not clear on the Gas Bill that you provided. Please scan and upload it again ensuring your name and address is clearly visible.",
                     ),
                     buildRejectedDocument(
-                        documentType = DocumentTypeApi.ADOPTION_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeApi.ADOPTION_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = null,
                     ),
@@ -328,8 +328,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE,
-                        rejectionReasons = listOf(DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT),
+                        documentType = DocumentTypeMessaging.BIRTH_CERTIFICATE,
+                        rejectionReasons = listOf(DocumentRejectionReasonMessaging.UNREADABLE_DOCUMENT),
                         rejectionNotes = null,
                     ),
                 ),
@@ -356,8 +356,8 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             // Then
             assertThat(actual).isEqualTo(expected)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.UNREADABLE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -366,7 +366,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeMessaging.BIRTH_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = "This birth certificate is not yours and is someone else's name. You must provide your own documents only.",
                     ),
@@ -392,7 +392,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verifyNoInteractions(rejectedDocumentReasonMapper)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -401,10 +401,10 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeMessaging.BIRTH_CERTIFICATE,
                         rejectionReasons = listOf(
-                            DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT,
-                            DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT,
+                            DocumentRejectionReasonMessaging.UNREADABLE_DOCUMENT,
+                            DocumentRejectionReasonMessaging.DUPLICATE_DOCUMENT,
                         ),
                         rejectionNotes = null,
                     ),
@@ -436,9 +436,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             // Then
             assertThat(actual).isEqualTo(expected)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.UNREADABLE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.DUPLICATE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -447,10 +447,10 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeMessaging.BIRTH_CERTIFICATE,
                         rejectionReasons = listOf(
-                            DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT,
-                            DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT,
+                            DocumentRejectionReasonMessaging.UNREADABLE_DOCUMENT,
+                            DocumentRejectionReasonMessaging.DUPLICATE_DOCUMENT,
                         ),
                         rejectionNotes = "You have already provided your birth certificate as part of this application. Please provide a different form of ID",
                     ),
@@ -484,9 +484,9 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
 
             // Then
             assertThat(actual).isEqualTo(expected)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT, ENGLISH)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.UNREADABLE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentReasonMapper).toDocumentRejectionReasonString(DocumentRejectionReasonMessaging.DUPLICATE_DOCUMENT, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.BIRTH_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -495,7 +495,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.ADOPTION_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeMessaging.ADOPTION_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = "",
                     ),
@@ -519,7 +519,7 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             // Then
             assertThat(actual).isEqualTo(expected)
             verifyNoInteractions(rejectedDocumentReasonMapper)
-            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.ADOPTION_MINUS_CERTIFICATE, ENGLISH)
+            verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentTypeMessaging.ADOPTION_CERTIFICATE, ENGLISH)
         }
 
         @Test
@@ -528,25 +528,25 @@ class IdentityDocumentResubmissionDocumentRejectionEmailTextMapperTest {
             val personalisation = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.BIRTH_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeMessaging.BIRTH_CERTIFICATE,
                         rejectionReasons = listOf(
-                            DocumentRejectionReasonMessaging.UNREADABLE_MINUS_DOCUMENT,
-                            DocumentRejectionReasonMessaging.DUPLICATE_MINUS_DOCUMENT,
+                            DocumentRejectionReasonMessaging.UNREADABLE_DOCUMENT,
+                            DocumentRejectionReasonMessaging.DUPLICATE_DOCUMENT,
                         ),
                         rejectionNotes = null,
                     ),
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.FIREARMS_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeMessaging.FIREARMS_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = "Your firearms certificate is from your Scouts groups for your air rifle. It is not a formal certificate and is not an acceptable form of ID",
                     ),
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.UTILITY_MINUS_BILL,
-                        rejectionReasons = listOf(DocumentRejectionReasonMessaging.APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
+                        documentType = DocumentTypeMessaging.UTILITY_BILL,
+                        rejectionReasons = listOf(DocumentRejectionReasonMessaging.APPLICANT_DETAILS_NOT_CLEAR),
                         rejectionNotes = "Your name and address are not clear on the Gas Bill that you provided. Please scan and upload it again ensuring your name and address is clearly visible.",
                     ),
                     buildRejectedDocumentMessage(
-                        documentType = DocumentTypeMessaging.ADOPTION_MINUS_CERTIFICATE,
+                        documentType = DocumentTypeMessaging.ADOPTION_CERTIFICATE,
                         rejectionReasons = emptyList(),
                         rejectionNotes = null,
                     ),

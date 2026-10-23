@@ -27,7 +27,7 @@ import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_TOO_OLD
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageType
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
@@ -116,7 +116,7 @@ internal class SendNotifyMessageMapperTest {
             val request = buildSendNotifyPhotoResubmissionMessage(
                 channel = SqsChannel.EMAIL,
                 language = Language.EN,
-                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceType = SqsSourceType.VOTER_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
@@ -136,7 +136,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(communicationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
@@ -153,7 +153,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedSourceType = SourceType.VOTER_CARD
             val expectedNotificationType = PHOTO_RESUBMISSION_WITH_REASONS
             val personalisationMessage = buildPhotoPersonalisationMessage(
-                photoRejectionReasons = listOf(PhotoRejectionReason.OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
+                photoRejectionReasons = listOf(PhotoRejectionReason.OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO),
             )
             val expectedLanguage = LanguageDto.ENGLISH
 
@@ -165,7 +165,7 @@ internal class SendNotifyMessageMapperTest {
             val request = buildSendNotifyPhotoResubmissionMessage(
                 channel = SqsChannel.EMAIL,
                 language = Language.EN,
-                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceType = SqsSourceType.VOTER_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
@@ -185,7 +185,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(communicationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
@@ -217,11 +217,11 @@ internal class SendNotifyMessageMapperTest {
             val request = SendNotifyIdDocumentResubmissionMessage(
                 channel = SqsChannel.EMAIL,
                 language = Language.EN,
-                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceType = SqsSourceType.VOTER_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION,
+                messageType = MessageType.ID_DOCUMENT_RESUBMISSION,
                 toAddress = toAddress,
                 personalisation = personalisationMessage,
             )
@@ -238,7 +238,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(communicationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
@@ -257,7 +257,7 @@ internal class SendNotifyMessageMapperTest {
             val personalisationMessage = buildIdDocumentPersonalisationMessage(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                        rejectionReasons = listOf(DOCUMENT_TOO_OLD),
                     ),
                 ),
             )
@@ -271,11 +271,11 @@ internal class SendNotifyMessageMapperTest {
             val request = SendNotifyIdDocumentResubmissionMessage(
                 channel = SqsChannel.EMAIL,
                 language = Language.EN,
-                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceType = SqsSourceType.VOTER_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION,
+                messageType = MessageType.ID_DOCUMENT_RESUBMISSION,
                 toAddress = toAddress,
                 personalisation = personalisationMessage,
             )
@@ -292,7 +292,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(communicationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
@@ -323,11 +323,11 @@ internal class SendNotifyMessageMapperTest {
             val request = SendNotifyIdDocumentRequiredMessage(
                 channel = SqsChannel.EMAIL,
                 language = Language.EN,
-                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceType = SqsSourceType.VOTER_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION,
+                messageType = MessageType.ID_DOCUMENT_RESUBMISSION,
                 toAddress = toAddress,
                 personalisation = personalisationMessage,
             )
@@ -344,8 +344,8 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.ID_DOCUMENT_RESUBMISSION)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
             verify(communicationChannelMapper).fromMessagingApiToDto(SqsChannel.EMAIL)
         }
@@ -378,7 +378,7 @@ internal class SendNotifyMessageMapperTest {
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.APPLICATION_MINUS_RECEIVED,
+                messageType = MessageType.APPLICATION_RECEIVED,
                 toAddress = toAddress,
                 personalisation = personalisation,
             )
@@ -395,7 +395,7 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.APPLICATION_MINUS_RECEIVED)
+            verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.APPLICATION_RECEIVED)
             verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.POSTAL)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
         }
@@ -424,11 +424,11 @@ internal class SendNotifyMessageMapperTest {
 
             val request = SendNotifyApplicationApprovedMessage(
                 language = Language.EN,
-                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceType = SqsSourceType.VOTER_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.APPLICATION_MINUS_APPROVED,
+                messageType = MessageType.APPLICATION_APPROVED,
                 toAddress = toAddress,
                 personalisation = personalisation,
             )
@@ -445,8 +445,8 @@ internal class SendNotifyMessageMapperTest {
             assertThat(notification.notificationType).isEqualTo(expectedNotificationType)
             assertThat(notification.toAddress).isEqualTo(expectedToAddress)
             verify(languageMapper).fromMessageToDto(Language.EN)
-            verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.APPLICATION_MINUS_APPROVED)
-            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+            verify(notificationTypeMapper).mapMessageTypeToNotificationType(MessageType.APPLICATION_APPROVED)
+            verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_CARD)
             verify(notificationDestinationDtoMapper).toNotificationDestinationDto(toAddress)
         }
     }
@@ -474,11 +474,11 @@ internal class SendNotifyMessageMapperTest {
 
             val request = SendNotifyApplicationRejectedMessage(
                 language = language,
-                sourceType = SqsSourceType.VOTER_MINUS_CARD,
+                sourceType = SqsSourceType.VOTER_CARD,
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.APPLICATION_MINUS_REJECTED,
+                messageType = MessageType.APPLICATION_REJECTED,
                 toAddress = toAddress,
                 personalisation = personalisation,
             )
@@ -530,7 +530,7 @@ internal class SendNotifyMessageMapperTest {
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.REJECTED_MINUS_DOCUMENT,
+                messageType = MessageType.REJECTED_DOCUMENT,
                 toAddress = toAddress,
                 personalisation = personalisation,
                 channel = SqsChannel.EMAIL,
@@ -575,15 +575,15 @@ internal class SendNotifyMessageMapperTest {
                 "CY,EMAIL,EMAIL,IDENTITY,IDENTITY,WELSH,REJECTED_DOCUMENT",
                 "CY,LETTER,LETTER,IDENTITY,IDENTITY,WELSH,REJECTED_DOCUMENT",
 
-                "EN,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,REJECTED_PREVIOUS_ADDRESS",
-                "EN,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,REJECTED_PREVIOUS_ADDRESS",
-                "CY,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,REJECTED_PREVIOUS_ADDRESS",
-                "CY,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,REJECTED_PREVIOUS_ADDRESS",
+                "EN,EMAIL,EMAIL,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,REJECTED_PREVIOUS_ADDRESS",
+                "EN,LETTER,LETTER,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,REJECTED_PREVIOUS_ADDRESS",
+                "CY,EMAIL,EMAIL,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,REJECTED_PREVIOUS_ADDRESS",
+                "CY,LETTER,LETTER,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,REJECTED_PREVIOUS_ADDRESS",
 
-                "EN,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,REJECTED_PARENT_GUARDIAN",
-                "EN,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,REJECTED_PARENT_GUARDIAN",
-                "CY,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
-                "CY,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
+                "EN,EMAIL,EMAIL,PARENT_GUARDIAN,PARENT_GUARDIAN,ENGLISH,REJECTED_PARENT_GUARDIAN",
+                "EN,LETTER,LETTER,PARENT_GUARDIAN,PARENT_GUARDIAN,ENGLISH,REJECTED_PARENT_GUARDIAN",
+                "CY,EMAIL,EMAIL,PARENT_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
+                "CY,LETTER,LETTER,PARENT_GUARDIAN,PARENT_GUARDIAN,WELSH,REJECTED_PARENT_GUARDIAN",
             ],
         )
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
@@ -619,7 +619,7 @@ internal class SendNotifyMessageMapperTest {
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.REJECTED_MINUS_DOCUMENT,
+                messageType = MessageType.REJECTED_DOCUMENT,
                 toAddress = toAddress,
                 personalisation = personalisation,
                 channel = communicationChannelMessage,
@@ -699,7 +699,7 @@ internal class SendNotifyMessageMapperTest {
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.NINO_MINUS_NOT_MINUS_MATCHED,
+                messageType = MessageType.NINO_NOT_MATCHED,
                 toAddress = toAddress,
                 personalisation = personalisation,
                 channel = sqsChannel,
@@ -734,15 +734,15 @@ internal class SendNotifyMessageMapperTest {
                 "CY,EMAIL,EMAIL,IDENTITY,IDENTITY,WELSH,NINO_NOT_MATCHED",
                 "CY,LETTER,LETTER,IDENTITY,IDENTITY,WELSH,NINO_NOT_MATCHED",
 
-                "EN,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
-                "EN,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
-                "CY,EMAIL,EMAIL,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
-                "CY,LETTER,LETTER,PREVIOUS_MINUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+                "EN,EMAIL,EMAIL,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+                "EN,LETTER,LETTER,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,ENGLISH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+                "CY,EMAIL,EMAIL,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
+                "CY,LETTER,LETTER,PREVIOUS_ADDRESS,PREVIOUS_ADDRESS,WELSH,PREVIOUS_ADDRESS_DOCUMENT_REQUIRED",
 
-                "EN,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,PARENT_GUARDIAN_PROOF_REQUIRED",
-                "EN,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,ENGLISH,PARENT_GUARDIAN_PROOF_REQUIRED",
-                "CY,EMAIL,EMAIL,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
-                "CY,LETTER,LETTER,PARENT_MINUS_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
+                "EN,EMAIL,EMAIL,PARENT_GUARDIAN,PARENT_GUARDIAN,ENGLISH,PARENT_GUARDIAN_PROOF_REQUIRED",
+                "EN,LETTER,LETTER,PARENT_GUARDIAN,PARENT_GUARDIAN,ENGLISH,PARENT_GUARDIAN_PROOF_REQUIRED",
+                "CY,EMAIL,EMAIL,PARENT_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
+                "CY,LETTER,LETTER,PARENT_GUARDIAN,PARENT_GUARDIAN,WELSH,PARENT_GUARDIAN_PROOF_REQUIRED",
             ],
         )
         fun `should map SQS SendNotifyNinoNotMatchedMessage to SendNotificationRequestDto`(
@@ -778,7 +778,7 @@ internal class SendNotifyMessageMapperTest {
                 sourceReference = sourceReference,
                 gssCode = gssCode,
                 requestor = requestor,
-                messageType = MessageType.NINO_MINUS_NOT_MINUS_MATCHED,
+                messageType = MessageType.NINO_NOT_MATCHED,
                 toAddress = toAddress,
                 personalisation = personalisation,
                 channel = communicationChannelMessage,
@@ -848,7 +848,7 @@ internal class SendNotifyMessageMapperTest {
                 gssCode = gssCode,
                 requestor = requestor,
                 toAddress = toAddress,
-                messageType = MessageType.BESPOKE_MINUS_COMM,
+                messageType = MessageType.BESPOKE_COMM,
             )
 
             val notification = mapper.fromBespokeCommMessageToSendNotificationRequestDto(request)
@@ -911,7 +911,7 @@ internal class SendNotifyMessageMapperTest {
                 gssCode = gssCode,
                 requestor = requestor,
                 toAddress = toAddress,
-                messageType = MessageType.NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE,
+                messageType = MessageType.NOT_REGISTERED_TO_VOTE,
             )
 
             val notification = mapper.fromNotRegisteredToVoteMessageToSendNotificationRequestDto(request)
@@ -954,7 +954,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedSourceType = SourceType.POSTAL
             val personalisationMessage = buildSignatureResubmissionPersonalisation(
                 isRejected = isRejected,
-                rejectionReasons = if (isRejected) listOf(SignatureRejectionReason.TOO_MINUS_DARK) else emptyList(),
+                rejectionReasons = if (isRejected) listOf(SignatureRejectionReason.TOO_DARK) else emptyList(),
                 rejectionNotes = if (isRejected) "Rejection Notes" else null,
             )
 

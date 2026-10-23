@@ -38,7 +38,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
     ) {
         // Given
         val gssCode = aGssCode()
-        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceType = SourceType.VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentResubmissionMessage(
             channel = CommunicationChannel.EMAIL,
@@ -73,7 +73,7 @@ internal class SendNotifyIdDocumentResubmissionMessageListenerIntegrationTest : 
     ) {
         // Given
         val gssCode = aGssCode()
-        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceType = SourceType.VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentResubmissionMessage(
             channel = CommunicationChannel.LETTER,

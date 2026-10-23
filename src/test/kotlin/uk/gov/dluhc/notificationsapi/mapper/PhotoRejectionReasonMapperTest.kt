@@ -23,14 +23,14 @@ class PhotoRejectionReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA, 'Not facing forwards or looking straight at the camera'",
-                "PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK, 'The photo is not in colour, is distorted or is too dark'",
-                "OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO, 'There are other people or objects in the photo'",
-                "NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION, 'Not a plain facial expression'",
-                "EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE, 'Eyes are not open, visible or there is hair in front of the face'",
-                "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Wearing sunglasses, or tinted glasses'",
-                "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'The photo has a head covering (aside from religious or medical)'",
-                "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'The photo has ''red-eye'', glare or shadows over face'",
+                "NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA, 'Not facing forwards or looking straight at the camera'",
+                "PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK, 'The photo is not in colour, is distorted or is too dark'",
+                "OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO, 'There are other people or objects in the photo'",
+                "NOT_A_PLAIN_FACIAL_EXPRESSION, 'Not a plain facial expression'",
+                "EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE, 'Eyes are not open, visible or there is hair in front of the face'",
+                "WEARING_SUNGLASSES_OR_TINTED_GLASSES, 'Wearing sunglasses, or tinted glasses'",
+                "PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL, 'The photo has a head covering (aside from religious or medical)'",
+                "PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE, 'The photo has ''red-eye'', glare or shadows over face'",
             ],
         )
         fun `should map enums to human readable messages in English`(
@@ -49,14 +49,14 @@ class PhotoRejectionReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA, 'Nid yw''n gwynebu ymlaen nac edrych yn syth ar y camera'",
-                "PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK, 'Nid yw''r llun mewn lliw, mae''n ystumiedig neu''n rhy dywyll'",
-                "OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO, 'Mae yna bobl neu wrthrychau eraill yn y llun'",
-                "NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION, 'Nid yw''r mynegiant wyneb yn blaen'",
-                "EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE, 'Nid yw''r llygaid yn agored, yn weladwy neu mae gwallt o flaen yr wyneb'",
-                "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Gwisgo sbectol haul, neu sbectol arlliw'",
-                "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'Mae gan y llun orchudd pen (ar wahân i orchudd crefyddol neu feddygol)'",
-                "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'Mae gan y llun ''lygad coch'', llacharedd neu gysgodion dros yr wyneb'",
+                "NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA, 'Nid yw''n gwynebu ymlaen nac edrych yn syth ar y camera'",
+                "PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK, 'Nid yw''r llun mewn lliw, mae''n ystumiedig neu''n rhy dywyll'",
+                "OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO, 'Mae yna bobl neu wrthrychau eraill yn y llun'",
+                "NOT_A_PLAIN_FACIAL_EXPRESSION, 'Nid yw''r mynegiant wyneb yn blaen'",
+                "EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE, 'Nid yw''r llygaid yn agored, yn weladwy neu mae gwallt o flaen yr wyneb'",
+                "WEARING_SUNGLASSES_OR_TINTED_GLASSES, 'Gwisgo sbectol haul, neu sbectol arlliw'",
+                "PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL, 'Mae gan y llun orchudd pen (ar wahân i orchudd crefyddol neu feddygol)'",
+                "PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE, 'Mae gan y llun ''lygad coch'', llacharedd neu gysgodion dros yr wyneb'",
             ],
         )
         fun `should map enums to human readable messages in Welsh`(
@@ -78,14 +78,14 @@ class PhotoRejectionReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA, 'Not facing forwards or looking straight at the camera'",
-                "PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK, 'The photo is not in colour, is distorted or is too dark'",
-                "OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO, 'There are other people or objects in the photo'",
-                "NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION, 'Not a plain facial expression'",
-                "EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE, 'Eyes are not open, visible or there is hair in front of the face'",
-                "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Wearing sunglasses, or tinted glasses'",
-                "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'The photo has a head covering (aside from religious or medical)'",
-                "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'The photo has ''red-eye'', glare or shadows over face'",
+                "NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA, 'Not facing forwards or looking straight at the camera'",
+                "PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK, 'The photo is not in colour, is distorted or is too dark'",
+                "OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO, 'There are other people or objects in the photo'",
+                "NOT_A_PLAIN_FACIAL_EXPRESSION, 'Not a plain facial expression'",
+                "EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE, 'Eyes are not open, visible or there is hair in front of the face'",
+                "WEARING_SUNGLASSES_OR_TINTED_GLASSES, 'Wearing sunglasses, or tinted glasses'",
+                "PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL, 'The photo has a head covering (aside from religious or medical)'",
+                "PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE, 'The photo has ''red-eye'', glare or shadows over face'",
             ],
         )
         fun `should map enums to human readable messages in English`(
@@ -104,14 +104,14 @@ class PhotoRejectionReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA, 'Nid yw''n gwynebu ymlaen nac edrych yn syth ar y camera'",
-                "PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK, 'Nid yw''r llun mewn lliw, mae''n ystumiedig neu''n rhy dywyll'",
-                "OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO, 'Mae yna bobl neu wrthrychau eraill yn y llun'",
-                "NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION, 'Nid yw''r mynegiant wyneb yn blaen'",
-                "EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE, 'Nid yw''r llygaid yn agored, yn weladwy neu mae gwallt o flaen yr wyneb'",
-                "WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES, 'Gwisgo sbectol haul, neu sbectol arlliw'",
-                "PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL, 'Mae gan y llun orchudd pen (ar wahân i orchudd crefyddol neu feddygol)'",
-                "PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE, 'Mae gan y llun ''lygad coch'', llacharedd neu gysgodion dros yr wyneb'",
+                "NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA, 'Nid yw''n gwynebu ymlaen nac edrych yn syth ar y camera'",
+                "PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK, 'Nid yw''r llun mewn lliw, mae''n ystumiedig neu''n rhy dywyll'",
+                "OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO, 'Mae yna bobl neu wrthrychau eraill yn y llun'",
+                "NOT_A_PLAIN_FACIAL_EXPRESSION, 'Nid yw''r mynegiant wyneb yn blaen'",
+                "EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE, 'Nid yw''r llygaid yn agored, yn weladwy neu mae gwallt o flaen yr wyneb'",
+                "WEARING_SUNGLASSES_OR_TINTED_GLASSES, 'Gwisgo sbectol haul, neu sbectol arlliw'",
+                "PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL, 'Mae gan y llun orchudd pen (ar wahân i orchudd crefyddol neu feddygol)'",
+                "PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE, 'Mae gan y llun ''lygad coch'', llacharedd neu gysgodion dros yr wyneb'",
             ],
         )
         fun `should map enums to human readable messages in Welsh`(

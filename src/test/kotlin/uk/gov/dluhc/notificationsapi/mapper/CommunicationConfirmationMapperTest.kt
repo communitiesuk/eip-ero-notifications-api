@@ -73,7 +73,7 @@ class CommunicationConfirmationMapperTest {
         val sourceReference: String = aSourceReference()
         val requestor: String = anEmailAddress()
         val gssCode: String = aGssCode()
-        val reason = OfflineCommunicationReasonApi.PHOTO_MINUS_REJECTED
+        val reason = OfflineCommunicationReasonApi.PHOTO_REJECTED
         val channel = OfflineCommunicationChannelApi.LETTER
         val fixedLocalDateTime = LocalDateTime.now(FIXED_CLOCK)
 
@@ -139,7 +139,7 @@ class CommunicationConfirmationMapperTest {
             aCommunicationConfirmationHistoryEntryBuilder(
                 id = id,
                 gssCode = gssCode,
-                reason = OfflineCommunicationReason.PHOTO_MINUS_REJECTED,
+                reason = OfflineCommunicationReason.PHOTO_REJECTED,
                 channel = OfflineCommunicationChannel.EMAIL,
                 requestor = requestor,
                 timestamp = oneMinAgoOffset,
@@ -147,7 +147,7 @@ class CommunicationConfirmationMapperTest {
         )
 
         given(communicationConfirmationReasonMapper.fromDtoToApi(CommunicationConfirmationReasonDto.PHOTO_REJECTED))
-            .willReturn(OfflineCommunicationReasonApi.PHOTO_MINUS_REJECTED)
+            .willReturn(OfflineCommunicationReasonApi.PHOTO_REJECTED)
         given(communicationConfirmationChannelMapper.fromDtoToApi(CommunicationConfirmationChannelDto.EMAIL))
             .willReturn(OfflineCommunicationChannelApi.EMAIL)
         given(dateTimeMapper.toUtcOffset(oneMinAgoLocal)).willReturn(oneMinAgoOffset)
