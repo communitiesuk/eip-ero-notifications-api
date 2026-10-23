@@ -12,7 +12,7 @@ import org.mockito.kotlin.verify
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.ID_DOCUMENT_RESUBMISSION_WITH_REASONS
-import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
+import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_TOO_OLD
 import uk.gov.dluhc.notificationsapi.models.DocumentType
 import uk.gov.dluhc.notificationsapi.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.models.Language
@@ -55,7 +55,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
             channel = CommunicationChannelApi.LETTER,
             language = Language.EN,
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            sourceType = SourceTypeModel.VOTER_CARD,
             personalisation = personalisation,
         )
 
@@ -106,7 +106,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(channelMapper).fromApiToDto(CommunicationChannelApi.LETTER)
-        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
+        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_CARD)
         verify(documentRejectionTextMapper).toDocumentRejectionText(LanguageDto.ENGLISH, personalisation, CommunicationChannelApi.LETTER)
     }
 
@@ -116,15 +116,15 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         val personalisation = buildIdDocumentResubmissionPersonalisationRequest(
             rejectedDocuments = listOf(
                 buildRejectedDocument(
-                    documentType = DocumentType.UTILITY_MINUS_BILL,
-                    rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                    documentType = DocumentType.UTILITY_BILL,
+                    rejectionReasons = listOf(DOCUMENT_TOO_OLD),
                 ),
             ),
         )
         val request = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
             channel = CommunicationChannelApi.LETTER,
             language = Language.EN,
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            sourceType = SourceTypeModel.VOTER_CARD,
             personalisation = personalisation,
         )
 
@@ -181,7 +181,7 @@ class IdentityDocumentResubmissionTemplatePreviewDtoMapperTest {
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(channelMapper).fromApiToDto(CommunicationChannelApi.LETTER)
-        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
+        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_CARD)
         verify(documentRejectionTextMapper).toDocumentRejectionText(LanguageDto.ENGLISH, personalisation, CommunicationChannelApi.LETTER)
     }
 }

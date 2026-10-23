@@ -7,12 +7,12 @@ import uk.gov.dluhc.notificationsapi.models.IdDocumentRequiredPersonalisation
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.Language.EN
 import uk.gov.dluhc.notificationsapi.models.SourceType
-import uk.gov.dluhc.notificationsapi.models.SourceType.VOTER_MINUS_CARD
+import uk.gov.dluhc.notificationsapi.models.SourceType.VOTER_CARD
 
 fun buildGenerateIdDocumentRequiredTemplatePreviewRequest(
     personalisation: IdDocumentRequiredPersonalisation = buildIdDocumentRequiredPersonalisation(),
     language: Language = EN,
-    sourceType: SourceType = VOTER_MINUS_CARD,
+    sourceType: SourceType = VOTER_CARD,
     channel: CommunicationChannel = EMAIL,
 ): GenerateIdDocumentRequiredTemplatePreviewRequest =
     GenerateIdDocumentRequiredTemplatePreviewRequest(

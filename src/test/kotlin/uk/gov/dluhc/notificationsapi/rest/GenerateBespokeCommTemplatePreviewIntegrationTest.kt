@@ -217,10 +217,10 @@ internal class GenerateBespokeCommTemplatePreviewIntegrationTest : IntegrationTe
             "OVERSEAS, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,overseas vote, true",
             "OVERSEAS, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais dramor, false",
             "OVERSEAS, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais dramor, false",
-            "VOTER_MINUS_CARD, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
-            "VOTER_MINUS_CARD, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
-            "VOTER_MINUS_CARD, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
-            "VOTER_MINUS_CARD, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
+            "VOTER_CARD, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
+            "VOTER_CARD, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate, false",
+            "VOTER_CARD, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
+            "VOTER_CARD, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr, false",
         ],
     )
     fun `should return template preview given valid request`(

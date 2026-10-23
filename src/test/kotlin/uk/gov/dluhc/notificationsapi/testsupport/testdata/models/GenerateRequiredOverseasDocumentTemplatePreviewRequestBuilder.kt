@@ -14,7 +14,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildContactDetail
 fun buildRequiredOverseasDocumentTemplatePreviewRequest(
     personalisation: RequiredOverseasDocumentPersonalisation = buildRequiredOverseasDocumentPersonalisation(),
     language: Language = Language.EN,
-    documentCategory: DocumentCategory = DocumentCategory.PARENT_MINUS_GUARDIAN,
+    documentCategory: DocumentCategory = DocumentCategory.PARENT_GUARDIAN,
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
 ): GenerateRequiredOverseasDocumentTemplatePreviewRequest =
     GenerateRequiredOverseasDocumentTemplatePreviewRequest(

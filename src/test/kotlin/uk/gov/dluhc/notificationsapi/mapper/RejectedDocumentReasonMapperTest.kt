@@ -23,14 +23,14 @@ class RejectedDocumentReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "DOCUMENT_MINUS_TOO_MINUS_OLD, The document is too old",
-                "UNREADABLE_MINUS_DOCUMENT, We were unable to read the document provided because it was not clear or not showing the information we needed",
-                "INVALID_MINUS_DOCUMENT_MINUS_TYPE, The document provided is not of a type that we can accept for the purposes of checking your identity",
-                "DUPLICATE_MINUS_DOCUMENT, This was a duplicate of another document that you have provided",
-                "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, We are not able to accept documents from this country for the purposes of checking your identity",
-                "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your name",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document must prove your connection to your parent or guardian",
-                "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Information provided on the document does not match information from your application",
+                "DOCUMENT_TOO_OLD, The document is too old",
+                "UNREADABLE_DOCUMENT, We were unable to read the document provided because it was not clear or not showing the information we needed",
+                "INVALID_DOCUMENT_TYPE, The document provided is not of a type that we can accept for the purposes of checking your identity",
+                "DUPLICATE_DOCUMENT, This was a duplicate of another document that you have provided",
+                "INVALID_DOCUMENT_COUNTRY, We are not able to accept documents from this country for the purposes of checking your identity",
+                "APPLICANT_DETAILS_NOT_CLEAR, The document needs to clearly show your name",
+                "PARENT_GUARDIAN_NOT_CLEAR, The document must prove your connection to your parent or guardian",
+                "DETAILS_ON_DOCUMENT_DO_NOT_MATCH, Information provided on the document does not match information from your application",
                 "OTHER, Other",
             ],
         )
@@ -50,14 +50,14 @@ class RejectedDocumentReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "DOCUMENT_MINUS_TOO_MINUS_OLD, Mae'r ddogfen yn rhy hen",
-                "UNREADABLE_MINUS_DOCUMENT, Nid oeddem yn gallu darllen y ddogfen a ddarparwyd oherwydd nad oedd yn glir neu oherwydd nad oedd yn dangos y wybodaeth yr oedd ei hangen arnom",
-                "INVALID_MINUS_DOCUMENT_MINUS_TYPE, Nid yw'r ddogfen a ddarparwyd o fath y gallwn ei derbyn at ddibenion gwirio pwy ydych",
-                "DUPLICATE_MINUS_DOCUMENT, Roedd hwn yn gopi dyblyg o ddogfen arall a ddarparwyd gennych",
-                "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, Ni allwn dderbyn dogfennau o'r wlad hon at ddibenion gwirio pwy ydych",
-                "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Rhaid i'r ddogfen brofi'ch cysylltiad â'ch rhiant neu warcheidwad",
-                "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
+                "DOCUMENT_TOO_OLD, Mae'r ddogfen yn rhy hen",
+                "UNREADABLE_DOCUMENT, Nid oeddem yn gallu darllen y ddogfen a ddarparwyd oherwydd nad oedd yn glir neu oherwydd nad oedd yn dangos y wybodaeth yr oedd ei hangen arnom",
+                "INVALID_DOCUMENT_TYPE, Nid yw'r ddogfen a ddarparwyd o fath y gallwn ei derbyn at ddibenion gwirio pwy ydych",
+                "DUPLICATE_DOCUMENT, Roedd hwn yn gopi dyblyg o ddogfen arall a ddarparwyd gennych",
+                "INVALID_DOCUMENT_COUNTRY, Ni allwn dderbyn dogfennau o'r wlad hon at ddibenion gwirio pwy ydych",
+                "APPLICANT_DETAILS_NOT_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
+                "PARENT_GUARDIAN_NOT_CLEAR, Rhaid i'r ddogfen brofi'ch cysylltiad â'ch rhiant neu warcheidwad",
+                "DETAILS_ON_DOCUMENT_DO_NOT_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
                 "OTHER, Eraill",
             ],
         )
@@ -80,14 +80,14 @@ class RejectedDocumentReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "DOCUMENT_MINUS_TOO_MINUS_OLD, The document is too old",
-                "UNREADABLE_MINUS_DOCUMENT, We were unable to read the document provided because it was not clear or not showing the information we needed",
-                "INVALID_MINUS_DOCUMENT_MINUS_TYPE, The document provided is not of a type that we can accept for the purposes of checking your identity",
-                "DUPLICATE_MINUS_DOCUMENT, This was a duplicate of another document that you have provided",
-                "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, We are not able to accept documents from this country for the purposes of checking your identity",
-                "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, The document needs to clearly show your name",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, The document must prove your connection to your parent or guardian",
-                "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Information provided on the document does not match information from your application",
+                "DOCUMENT_TOO_OLD, The document is too old",
+                "UNREADABLE_DOCUMENT, We were unable to read the document provided because it was not clear or not showing the information we needed",
+                "INVALID_DOCUMENT_TYPE, The document provided is not of a type that we can accept for the purposes of checking your identity",
+                "DUPLICATE_DOCUMENT, This was a duplicate of another document that you have provided",
+                "INVALID_DOCUMENT_COUNTRY, We are not able to accept documents from this country for the purposes of checking your identity",
+                "APPLICANT_DETAILS_NOT_CLEAR, The document needs to clearly show your name",
+                "PARENT_GUARDIAN_NOT_CLEAR, The document must prove your connection to your parent or guardian",
+                "DETAILS_ON_DOCUMENT_DO_NOT_MATCH, Information provided on the document does not match information from your application",
                 "OTHER, Other",
             ],
         )
@@ -107,14 +107,14 @@ class RejectedDocumentReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "DOCUMENT_MINUS_TOO_MINUS_OLD, Mae'r ddogfen yn rhy hen",
-                "UNREADABLE_MINUS_DOCUMENT, Nid oeddem yn gallu darllen y ddogfen a ddarparwyd oherwydd nad oedd yn glir neu oherwydd nad oedd yn dangos y wybodaeth yr oedd ei hangen arnom",
-                "INVALID_MINUS_DOCUMENT_MINUS_TYPE, Nid yw'r ddogfen a ddarparwyd o fath y gallwn ei derbyn at ddibenion gwirio pwy ydych",
-                "DUPLICATE_MINUS_DOCUMENT, Roedd hwn yn gopi dyblyg o ddogfen arall a ddarparwyd gennych",
-                "INVALID_MINUS_DOCUMENT_MINUS_COUNTRY, Ni allwn dderbyn dogfennau o'r wlad hon at ddibenion gwirio pwy ydych",
-                "APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
-                "PARENT_MINUS_GUARDIAN_MINUS_NOT_MINUS_CLEAR, Rhaid i'r ddogfen brofi'ch cysylltiad â'ch rhiant neu warcheidwad",
-                "DETAILS_MINUS_ON_MINUS_DOCUMENT_MINUS_DO_MINUS_NOT_MINUS_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
+                "DOCUMENT_TOO_OLD, Mae'r ddogfen yn rhy hen",
+                "UNREADABLE_DOCUMENT, Nid oeddem yn gallu darllen y ddogfen a ddarparwyd oherwydd nad oedd yn glir neu oherwydd nad oedd yn dangos y wybodaeth yr oedd ei hangen arnom",
+                "INVALID_DOCUMENT_TYPE, Nid yw'r ddogfen a ddarparwyd o fath y gallwn ei derbyn at ddibenion gwirio pwy ydych",
+                "DUPLICATE_DOCUMENT, Roedd hwn yn gopi dyblyg o ddogfen arall a ddarparwyd gennych",
+                "INVALID_DOCUMENT_COUNTRY, Ni allwn dderbyn dogfennau o'r wlad hon at ddibenion gwirio pwy ydych",
+                "APPLICANT_DETAILS_NOT_CLEAR, Mae angen i'r ddogfen ddangos eich enw'n glir",
+                "PARENT_GUARDIAN_NOT_CLEAR, Rhaid i'r ddogfen brofi'ch cysylltiad â'ch rhiant neu warcheidwad",
+                "DETAILS_ON_DOCUMENT_DO_NOT_MATCH, Nid yw'r wybodaeth a ddarperir ar y ddogfen yn cyfateb i'r wybodaeth o'ch cais",
                 "OTHER, Eraill",
             ],
         )

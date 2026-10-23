@@ -11,20 +11,20 @@ class NotificationTypeMapper {
 
     fun mapMessageTypeToNotificationType(messageType: MessageType): NotificationType =
         when (messageType) {
-            MessageType.APPLICATION_MINUS_RECEIVED -> NotificationType.APPLICATION_RECEIVED
-            MessageType.APPLICATION_MINUS_APPROVED -> NotificationType.APPLICATION_APPROVED
-            MessageType.APPLICATION_MINUS_REJECTED -> NotificationType.APPLICATION_REJECTED
-            MessageType.PHOTO_MINUS_RESUBMISSION -> NotificationType.PHOTO_RESUBMISSION
-            MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION -> NotificationType.ID_DOCUMENT_RESUBMISSION
-            MessageType.ID_MINUS_DOCUMENT_MINUS_REQUIRED -> NotificationType.ID_DOCUMENT_REQUIRED
-            MessageType.REJECTED_MINUS_DOCUMENT -> NotificationType.REJECTED_DOCUMENT
-            MessageType.NINO_MINUS_NOT_MINUS_MATCHED -> NotificationType.NINO_NOT_MATCHED
-            MessageType.PARENT_MINUS_GUARDIAN_MINUS_PROOF_MINUS_REQUIRED -> NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED
-            MessageType.PREVIOUS_MINUS_ADDRESS_MINUS_DOCUMENT_MINUS_REQUIRED -> NotificationType.PREVIOUS_ADDRESS_DOCUMENT_REQUIRED
-            MessageType.BESPOKE_MINUS_COMM -> NotificationType.BESPOKE_COMM
-            MessageType.NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE -> NotificationType.NOT_REGISTERED_TO_VOTE
-            MessageType.SIGNATURE_MINUS_RESUBMISSION -> NotificationType.SIGNATURE_RESUBMISSION
-            MessageType.SIGNATURE_MINUS_RECEIVED -> NotificationType.SIGNATURE_RECEIVED
+            MessageType.APPLICATION_RECEIVED -> NotificationType.APPLICATION_RECEIVED
+            MessageType.APPLICATION_APPROVED -> NotificationType.APPLICATION_APPROVED
+            MessageType.APPLICATION_REJECTED -> NotificationType.APPLICATION_REJECTED
+            MessageType.PHOTO_RESUBMISSION -> NotificationType.PHOTO_RESUBMISSION
+            MessageType.ID_DOCUMENT_RESUBMISSION -> NotificationType.ID_DOCUMENT_RESUBMISSION
+            MessageType.ID_DOCUMENT_REQUIRED -> NotificationType.ID_DOCUMENT_REQUIRED
+            MessageType.REJECTED_DOCUMENT -> NotificationType.REJECTED_DOCUMENT
+            MessageType.NINO_NOT_MATCHED -> NotificationType.NINO_NOT_MATCHED
+            MessageType.PARENT_GUARDIAN_PROOF_REQUIRED -> NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED
+            MessageType.PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> NotificationType.PREVIOUS_ADDRESS_DOCUMENT_REQUIRED
+            MessageType.BESPOKE_COMM -> NotificationType.BESPOKE_COMM
+            MessageType.NOT_REGISTERED_TO_VOTE -> NotificationType.NOT_REGISTERED_TO_VOTE
+            MessageType.SIGNATURE_RESUBMISSION -> NotificationType.SIGNATURE_RESUBMISSION
+            MessageType.SIGNATURE_RECEIVED -> NotificationType.SIGNATURE_RECEIVED
         }
 
     // <TEMPLATE_NAME>_WITH_REASONS is an implementation detail and not a "business" notification type
@@ -86,24 +86,24 @@ class NotificationTypeMapper {
 
     fun fromNotificationTypeDtoToTemplateTypeApi(notificationType: NotificationType): TemplateType =
         when (notificationType) {
-            NotificationType.APPLICATION_RECEIVED -> TemplateType.APPLICATION_MINUS_RECEIVED
-            NotificationType.APPLICATION_APPROVED -> TemplateType.APPLICATION_MINUS_APPROVED
-            NotificationType.APPLICATION_REJECTED -> TemplateType.APPLICATION_MINUS_REJECTED
-            NotificationType.PHOTO_RESUBMISSION -> TemplateType.PHOTO_MINUS_RESUBMISSION
-            NotificationType.ID_DOCUMENT_RESUBMISSION -> TemplateType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION
-            NotificationType.ID_DOCUMENT_REQUIRED -> TemplateType.ID_MINUS_DOCUMENT_MINUS_REQUIRED
-            NotificationType.REJECTED_DOCUMENT -> TemplateType.REJECTED_MINUS_DOCUMENT
-            NotificationType.REJECTED_SIGNATURE -> TemplateType.REJECTED_MINUS_SIGNATURE
-            NotificationType.REQUESTED_SIGNATURE -> TemplateType.REQUESTED_MINUS_SIGNATURE
-            NotificationType.NINO_NOT_MATCHED -> TemplateType.NINO_MINUS_NOT_MINUS_MATCHED
-            NotificationType.REJECTED_PARENT_GUARDIAN -> TemplateType.REJECTED_MINUS_PARENT_MINUS_GUARDIAN
-            NotificationType.REJECTED_PREVIOUS_ADDRESS -> TemplateType.REJECTED_MINUS_PREVIOUS_MINUS_ADDRESS
-            NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED -> TemplateType.PARENT_MINUS_GUARDIAN_MINUS_PROOF_MINUS_REQUIRED
-            NotificationType.PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> TemplateType.PREVIOUS_MINUS_ADDRESS_MINUS_DOCUMENT_MINUS_REQUIRED
-            NotificationType.BESPOKE_COMM -> TemplateType.BESPOKE_MINUS_COMM
-            NotificationType.NOT_REGISTERED_TO_VOTE -> TemplateType.NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE
-            NotificationType.SIGNATURE_RESUBMISSION -> TemplateType.SIGNATURE_MINUS_RESUBMISSION
-            NotificationType.SIGNATURE_RECEIVED -> TemplateType.SIGNATURE_MINUS_RECEIVED
+            NotificationType.APPLICATION_RECEIVED -> TemplateType.APPLICATION_RECEIVED
+            NotificationType.APPLICATION_APPROVED -> TemplateType.APPLICATION_APPROVED
+            NotificationType.APPLICATION_REJECTED -> TemplateType.APPLICATION_REJECTED
+            NotificationType.PHOTO_RESUBMISSION -> TemplateType.PHOTO_RESUBMISSION
+            NotificationType.ID_DOCUMENT_RESUBMISSION -> TemplateType.ID_DOCUMENT_RESUBMISSION
+            NotificationType.ID_DOCUMENT_REQUIRED -> TemplateType.ID_DOCUMENT_REQUIRED
+            NotificationType.REJECTED_DOCUMENT -> TemplateType.REJECTED_DOCUMENT
+            NotificationType.REJECTED_SIGNATURE -> TemplateType.REJECTED_SIGNATURE
+            NotificationType.REQUESTED_SIGNATURE -> TemplateType.REQUESTED_SIGNATURE
+            NotificationType.NINO_NOT_MATCHED -> TemplateType.NINO_NOT_MATCHED
+            NotificationType.REJECTED_PARENT_GUARDIAN -> TemplateType.REJECTED_PARENT_GUARDIAN
+            NotificationType.REJECTED_PREVIOUS_ADDRESS -> TemplateType.REJECTED_PREVIOUS_ADDRESS
+            NotificationType.PARENT_GUARDIAN_PROOF_REQUIRED -> TemplateType.PARENT_GUARDIAN_PROOF_REQUIRED
+            NotificationType.PREVIOUS_ADDRESS_DOCUMENT_REQUIRED -> TemplateType.PREVIOUS_ADDRESS_DOCUMENT_REQUIRED
+            NotificationType.BESPOKE_COMM -> TemplateType.BESPOKE_COMM
+            NotificationType.NOT_REGISTERED_TO_VOTE -> TemplateType.NOT_REGISTERED_TO_VOTE
+            NotificationType.SIGNATURE_RESUBMISSION -> TemplateType.SIGNATURE_RESUBMISSION
+            NotificationType.SIGNATURE_RECEIVED -> TemplateType.SIGNATURE_RECEIVED
             else -> throw IllegalArgumentException("Unexpected NotificationType $notificationType when mapping from DB Sent Notification to API TemplateType")
         }
 }

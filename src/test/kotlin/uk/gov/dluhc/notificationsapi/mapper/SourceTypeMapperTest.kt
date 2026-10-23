@@ -22,7 +22,7 @@ class SourceTypeMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "VOTER_MINUS_CARD, VOTER_CARD",
+            "VOTER_CARD, VOTER_CARD",
             "POSTAL, POSTAL",
             "PROXY, PROXY",
             "OVERSEAS, OVERSEAS",
@@ -89,7 +89,7 @@ class SourceTypeMapperTest {
     @CsvSource(
         value = [
             "POSTAL, POSTAL",
-            "VOTER_MINUS_CARD, VOTER_CARD",
+            "VOTER_CARD, VOTER_CARD",
             "PROXY, PROXY",
             "OVERSEAS, OVERSEAS",
         ],
@@ -113,7 +113,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,overseas",
             "POSTAL,postal",
             "PROXY,proxy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map message sourceType to human readable messages in English`(
@@ -135,7 +135,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,overseas",
             "POSTAL,postal",
             "PROXY,proxy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map API sourceType to human readable messages in English`(
@@ -157,7 +157,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,''",
             "POSTAL,drwy'r post",
             "PROXY,drwy ddirprwy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map message sourceType to human readable messages in Welsh`(
@@ -179,7 +179,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,''",
             "POSTAL,drwy'r post",
             "PROXY,drwy ddirprwy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map API sourceType to human readable messages in Welsh`(
@@ -201,7 +201,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,overseas vote",
             "POSTAL,postal vote",
             "PROXY,proxy vote",
-            "VOTER_MINUS_CARD,Voter Authority Certificate",
+            "VOTER_CARD,Voter Authority Certificate",
         ],
     )
     fun `should map message sourceType to human readable full source in English`(
@@ -223,7 +223,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,bleidlais dramor",
             "POSTAL,bleidlais bost",
             "PROXY,bleidlais drwy ddirprwy",
-            "VOTER_MINUS_CARD,Dystysgrif Awdurdod Pleidleisiwr",
+            "VOTER_CARD,Dystysgrif Awdurdod Pleidleisiwr",
         ],
     )
     fun `should map message sourceType to human readable full source in Welsh`(
@@ -245,7 +245,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,''",
             "POSTAL,post",
             "PROXY,proxy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map api sourceType to human readable short source in English`(
@@ -267,7 +267,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,''",
             "POSTAL,drwy'r post",
             "PROXY,drwy ddirprwy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map api sourceType to human readable short source in Welsh`(
@@ -289,7 +289,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,''",
             "POSTAL,post",
             "PROXY,proxy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map message sourceType to human readable short source in English`(
@@ -311,7 +311,7 @@ class SourceTypeMapperTest {
             "OVERSEAS,''",
             "POSTAL,drwy'r post",
             "PROXY,drwy ddirprwy",
-            "VOTER_MINUS_CARD,''",
+            "VOTER_CARD,''",
         ],
     )
     fun `should map message sourceType to human readable short source in Welsh`(

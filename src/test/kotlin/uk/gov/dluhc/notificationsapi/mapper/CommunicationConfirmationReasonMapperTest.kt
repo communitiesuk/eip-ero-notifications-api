@@ -13,9 +13,9 @@ class CommunicationConfirmationReasonMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "APPLICATION_MINUS_REJECTED, APPLICATION_REJECTED",
-            "PHOTO_MINUS_REJECTED, PHOTO_REJECTED",
-            "DOCUMENT_MINUS_REJECTED, DOCUMENT_REJECTED",
+            "APPLICATION_REJECTED, APPLICATION_REJECTED",
+            "PHOTO_REJECTED, PHOTO_REJECTED",
+            "DOCUMENT_REJECTED, DOCUMENT_REJECTED",
         ],
     )
     fun `from api to dto`(apiEnum: OfflineCommunicationReasonApi, dtoEnum: CommunicationConfirmationReasonDto) {
@@ -31,9 +31,9 @@ class CommunicationConfirmationReasonMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "APPLICATION_REJECTED, APPLICATION_MINUS_REJECTED",
-            "PHOTO_REJECTED, PHOTO_MINUS_REJECTED",
-            "DOCUMENT_REJECTED, DOCUMENT_MINUS_REJECTED",
+            "APPLICATION_REJECTED, APPLICATION_REJECTED",
+            "PHOTO_REJECTED, PHOTO_REJECTED",
+            "DOCUMENT_REJECTED, DOCUMENT_REJECTED",
         ],
     )
     fun `from dto to api`(dtoEnum: CommunicationConfirmationReasonDto, apiEnum: OfflineCommunicationReasonApi) {

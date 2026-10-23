@@ -14,8 +14,8 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedPersonalisationDto
 import uk.gov.dluhc.notificationsapi.dto.ApplicationRejectedTemplatePreviewDto
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
-import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
-import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
+import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.INCOMPLETE_APPLICATION
+import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.NO_RESPONSE_FROM_APPLICANT
 import uk.gov.dluhc.notificationsapi.models.ApplicationRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
@@ -45,7 +45,7 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         // Given
         val request = buildGenerateApplicationRejectedTemplatePreviewRequest(
             language = language,
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            sourceType = SourceTypeModel.VOTER_CARD,
         )
         given(languageMapper.fromApiToDto(any())).willReturn(ENGLISH)
         given(sourceTypeMapper.fromApiToDto(any())).willReturn(SourceTypeDto.VOTER_CARD)
@@ -54,14 +54,14 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         val other = "other"
         given(
             applicationRejectionReasonMapper.toApplicationRejectionReasonString(
-                INCOMPLETE_MINUS_APPLICATION,
+                INCOMPLETE_APPLICATION,
                 ENGLISH,
             ),
         )
             .willReturn(incompleteApplication)
         given(
             applicationRejectionReasonMapper.toApplicationRejectionReasonString(
-                NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
+                NO_RESPONSE_FROM_APPLICANT,
                 ENGLISH,
             ),
         ).willReturn(applicantHasNotResponded)
@@ -104,13 +104,13 @@ class ApplicationRejectedTemplatePreviewDtoMapperTest {
         // Then
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(language)
-        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_MINUS_CARD)
+        verify(sourceTypeMapper).fromApiToDto(SourceTypeModel.VOTER_CARD)
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
-            INCOMPLETE_MINUS_APPLICATION,
+            INCOMPLETE_APPLICATION,
             ENGLISH,
         )
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
-            NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
+            NO_RESPONSE_FROM_APPLICANT,
             ENGLISH,
         )
         verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER, ENGLISH)

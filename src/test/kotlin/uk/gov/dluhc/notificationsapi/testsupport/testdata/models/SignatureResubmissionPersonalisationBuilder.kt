@@ -9,8 +9,8 @@ import java.time.LocalDate
 
 fun buildSignatureResubmissionPersonalisation(
     rejectionReasons: List<SignatureRejectionReason> = listOf(
-        SignatureRejectionReason.HAS_MINUS_SHADOWS,
-        SignatureRejectionReason.WRONG_MINUS_SIZE,
+        SignatureRejectionReason.HAS_SHADOWS,
+        SignatureRejectionReason.WRONG_SIZE,
         SignatureRejectionReason.OTHER,
     ),
     applicationReference: String = aValidApplicationReference(),
