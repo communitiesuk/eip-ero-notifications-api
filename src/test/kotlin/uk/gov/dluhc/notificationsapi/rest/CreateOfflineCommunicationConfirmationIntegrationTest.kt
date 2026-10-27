@@ -105,7 +105,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
 
         val gssCode = eroResponse.localAuthorities.first().gssCode
         val sourceReference = aSourceReference()
-        val reason = OfflineCommunicationReason.APPLICATION_MINUS_REJECTED
+        val reason = OfflineCommunicationReason.APPLICATION_REJECTED
         val channel = OfflineCommunicationChannel.LETTER
         val requestor = "an-ero-user1@$ERO_ID.gov.uk"
 
@@ -142,7 +142,7 @@ internal class CreateOfflineCommunicationConfirmationIntegrationTest : Integrati
 
     private fun buildBody(
         gssCode: String = ERO_ID,
-        reason: OfflineCommunicationReason = OfflineCommunicationReason.APPLICATION_MINUS_REJECTED,
+        reason: OfflineCommunicationReason = OfflineCommunicationReason.APPLICATION_REJECTED,
         channel: OfflineCommunicationChannel = OfflineCommunicationChannel.LETTER,
     ) =
         Mono.just(

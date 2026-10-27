@@ -31,7 +31,7 @@ fun buildSendNotifyBespokeCommMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.BESPOKE_MINUS_COMM,
+        messageType = MessageType.BESPOKE_COMM,
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,

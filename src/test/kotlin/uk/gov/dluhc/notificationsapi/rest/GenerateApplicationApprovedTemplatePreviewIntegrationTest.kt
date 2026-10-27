@@ -267,7 +267,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody =
-            buildGenerateApplicationApprovedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)
+            buildGenerateApplicationApprovedTemplatePreviewRequest(sourceType = SourceType.VOTER_CARD)
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
@@ -317,7 +317,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
 
         val requestBody = buildGenerateApplicationApprovedTemplatePreviewRequest(
             personalisation = buildBasePersonalisation(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
-            sourceType = SourceType.VOTER_MINUS_CARD,
+            sourceType = SourceType.VOTER_CARD,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -362,7 +362,7 @@ internal class GenerateApplicationApprovedTemplatePreviewIntegrationTest : Integ
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGenerateApplicationApprovedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
+            Mono.just(buildGenerateApplicationApprovedTemplatePreviewRequest(sourceType = SourceType.VOTER_CARD)),
             GenerateApplicationApprovedTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

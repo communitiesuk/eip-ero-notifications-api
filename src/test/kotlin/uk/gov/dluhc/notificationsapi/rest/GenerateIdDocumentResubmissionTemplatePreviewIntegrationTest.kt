@@ -277,12 +277,12 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
         val requestBody = buildGenerateIdDocumentResubmissionTemplatePreviewRequest(
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            sourceType = SourceTypeModel.VOTER_CARD,
             personalisation = buildIdDocumentResubmissionPersonalisationRequest(
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentType.BIRTH_MINUS_CERTIFICATE,
-                        rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT),
+                        documentType = DocumentType.BIRTH_CERTIFICATE,
+                        rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_DOCUMENT),
                         rejectionNotes = "I can't read it",
                     ),
                 ),
@@ -338,13 +338,13 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
                 eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull()),
                 rejectedDocuments = listOf(
                     buildRejectedDocument(
-                        documentType = DocumentType.BIRTH_MINUS_CERTIFICATE,
-                        rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT),
+                        documentType = DocumentType.BIRTH_CERTIFICATE,
+                        rejectionReasons = listOf(DocumentRejectionReason.UNREADABLE_DOCUMENT),
                         rejectionNotes = null,
                     ),
                 ),
             ),
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            sourceType = SourceTypeModel.VOTER_CARD,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -388,7 +388,7 @@ internal class GenerateIdDocumentResubmissionTemplatePreviewIntegrationTest : In
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGenerateIdDocumentResubmissionTemplatePreviewRequest(sourceType = SourceTypeModel.VOTER_MINUS_CARD)),
+            Mono.just(buildGenerateIdDocumentResubmissionTemplatePreviewRequest(sourceType = SourceTypeModel.VOTER_CARD)),
             GenerateIdDocumentResubmissionTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

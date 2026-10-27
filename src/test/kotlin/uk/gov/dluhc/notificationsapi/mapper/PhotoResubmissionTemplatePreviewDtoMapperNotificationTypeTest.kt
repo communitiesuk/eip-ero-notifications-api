@@ -16,16 +16,16 @@ import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION
 import uk.gov.dluhc.notificationsapi.dto.NotificationType.PHOTO_RESUBMISSION_WITH_REASONS
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.NOT_A_PLAIN_FACIAL_EXPRESSION
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.OTHER
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
-import uk.gov.dluhc.notificationsapi.models.SourceType.VOTER_MINUS_CARD
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.WEARING_SUNGLASSES_OR_TINTED_GLASSES
+import uk.gov.dluhc.notificationsapi.models.SourceType.VOTER_CARD
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
@@ -60,41 +60,41 @@ class PhotoResubmissionTemplatePreviewDtoMapperNotificationTypeTest {
 
                 Arguments.of(
                     listOf(
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
+                        NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK),
+                    listOf(PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
+                    listOf(OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION),
+                    listOf(NOT_A_PLAIN_FACIAL_EXPRESSION),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
+                        EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES),
+                    listOf(WEARING_SUNGLASSES_OR_TINTED_GLASSES),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
+                        PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
+                        PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
@@ -102,56 +102,56 @@ class PhotoResubmissionTemplatePreviewDtoMapperNotificationTypeTest {
                 Arguments.of(
                     listOf(
                         OTHER,
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
+                        NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK,
+                        PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO,
+                        OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
+                        NOT_A_PLAIN_FACIAL_EXPRESSION,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
+                        EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                        WEARING_SUNGLASSES_OR_TINTED_GLASSES,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
+                        PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
+                        PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
@@ -167,7 +167,7 @@ class PhotoResubmissionTemplatePreviewDtoMapperNotificationTypeTest {
     ) {
         // Given
         val request = buildGeneratePhotoResubmissionTemplatePreviewRequest(
-            sourceType = VOTER_MINUS_CARD,
+            sourceType = VOTER_CARD,
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = photoRejectionReasons,
                 photoRejectionNotes = null,
@@ -199,7 +199,7 @@ class PhotoResubmissionTemplatePreviewDtoMapperNotificationTypeTest {
     ) {
         // Given
         val request = buildGeneratePhotoResubmissionTemplatePreviewRequest(
-            sourceType = VOTER_MINUS_CARD,
+            sourceType = VOTER_CARD,
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = emptyList(),
                 photoRejectionNotes = photoRejectionNotes,

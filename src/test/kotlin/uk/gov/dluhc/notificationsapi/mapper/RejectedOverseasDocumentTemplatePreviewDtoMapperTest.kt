@@ -44,9 +44,9 @@ class RejectedOverseasDocumentTemplatePreviewDtoMapperTest {
 
     @ParameterizedTest
     @CsvSource(
-        "PARENT_MINUS_GUARDIAN, PARENT_GUARDIAN",
+        "PARENT_GUARDIAN, PARENT_GUARDIAN",
         "IDENTITY, IDENTITY",
-        "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS",
+        "PREVIOUS_ADDRESS, PREVIOUS_ADDRESS",
     )
     fun `should map rejected parent guardian template request to dto`(
         documentCategory: DocumentCategory,

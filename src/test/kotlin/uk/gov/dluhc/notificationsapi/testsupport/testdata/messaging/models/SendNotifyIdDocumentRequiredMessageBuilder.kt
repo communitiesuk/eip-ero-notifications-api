@@ -17,7 +17,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 fun buildSendNotifyIdDocumentRequiredMessage(
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language = Language.EN,
-    sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
+    sourceType: SourceType = SourceType.VOTER_CARD,
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
@@ -31,7 +31,7 @@ fun buildSendNotifyIdDocumentRequiredMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_REQUIRED,
+        messageType = MessageType.ID_DOCUMENT_REQUIRED,
         personalisation = personalisation,
         toAddress = toAddress,
     )

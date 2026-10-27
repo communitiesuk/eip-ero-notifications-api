@@ -2,9 +2,9 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.models
 
 import uk.gov.dluhc.notificationsapi.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason
-import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
+import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_TOO_OLD
 import uk.gov.dluhc.notificationsapi.models.DocumentType
-import uk.gov.dluhc.notificationsapi.models.DocumentType.UTILITY_MINUS_BILL
+import uk.gov.dluhc.notificationsapi.models.DocumentType.UTILITY_BILL
 import uk.gov.dluhc.notificationsapi.models.RejectedDocument
 import uk.gov.dluhc.notificationsapi.models.RejectedDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.DataFaker.Companion.faker
@@ -25,8 +25,8 @@ fun buildRejectedDocumentPersonalisation(
 )
 
 fun buildRejectedDocument(
-    documentType: DocumentType = UTILITY_MINUS_BILL,
-    rejectionReasons: List<DocumentRejectionReason> = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+    documentType: DocumentType = UTILITY_BILL,
+    rejectionReasons: List<DocumentRejectionReason> = listOf(DOCUMENT_TOO_OLD),
     rejectionNotes: String? = faker.harryPotter().spell(),
 ) = RejectedDocument(
     documentType = documentType,

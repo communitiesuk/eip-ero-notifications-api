@@ -15,11 +15,11 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 
 fun buildSendNotifyApplicationApprovedMessage(
     language: Language = Language.EN,
-    sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
+    sourceType: SourceType = SourceType.VOTER_CARD,
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    messageType: MessageType = MessageType.APPLICATION_MINUS_APPROVED,
+    messageType: MessageType = MessageType.APPLICATION_APPROVED,
     personalisation: BasePersonalisation = buildApplicationApprovedPersonalisation(),
     toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyApplicationApprovedMessage =

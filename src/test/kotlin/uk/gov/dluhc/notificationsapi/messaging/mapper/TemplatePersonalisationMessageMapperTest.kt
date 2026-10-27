@@ -30,13 +30,13 @@ import uk.gov.dluhc.notificationsapi.mapper.PhotoRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.RejectedDocumentsMapper
 import uk.gov.dluhc.notificationsapi.mapper.SignatureRejectionReasonMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
-import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
-import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
+import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_APPLICATION
+import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_RESPONSE_FROM_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_A_PLAIN_FACIAL_EXPRESSION
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_SUNGLASSES_OR_TINTED_GLASSES
 import uk.gov.dluhc.notificationsapi.messaging.models.SourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildApplicationApprovedPersonalisationDtoFromMessage
@@ -110,8 +110,8 @@ internal class TemplatePersonalisationMessageMapperTest {
             // Given
             val personalisationMessage = buildPhotoPersonalisationMessage(
                 photoRejectionReasons = listOf(
-                    NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
-                    WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                    NOT_A_PLAIN_FACIAL_EXPRESSION,
+                    WEARING_SUNGLASSES_OR_TINTED_GLASSES,
                     PhotoRejectionReason.OTHER, // OTHER is deliberately excluded from the photo rejection reason mapping
                 ),
                 photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable.",
@@ -142,11 +142,11 @@ internal class TemplatePersonalisationMessageMapperTest {
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
-                NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
+                NOT_A_PLAIN_FACIAL_EXPRESSION,
                 ENGLISH,
             )
             verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
-                WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                WEARING_SUNGLASSES_OR_TINTED_GLASSES,
                 ENGLISH,
             )
         }
@@ -274,14 +274,14 @@ internal class TemplatePersonalisationMessageMapperTest {
 
             given(
                 applicationRejectionReasonMapper.toApplicationRejectionReasonString(
-                    INCOMPLETE_MINUS_APPLICATION,
+                    INCOMPLETE_APPLICATION,
                     ENGLISH,
                 ),
             )
                 .willReturn(incompleteApplication)
             given(
                 applicationRejectionReasonMapper.toApplicationRejectionReasonString(
-                    NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
+                    NO_RESPONSE_FROM_APPLICANT,
                     ENGLISH,
                 ),
             )
@@ -321,11 +321,11 @@ internal class TemplatePersonalisationMessageMapperTest {
             // Then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expectedPersonalisationDto)
             verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(
-                INCOMPLETE_MINUS_APPLICATION,
+                INCOMPLETE_APPLICATION,
                 ENGLISH,
             )
             verify(applicationRejectionReasonMapper)
-                .toApplicationRejectionReasonString(NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT, ENGLISH)
+                .toApplicationRejectionReasonString(NO_RESPONSE_FROM_APPLICANT, ENGLISH)
             verify(applicationRejectionReasonMapper).toApplicationRejectionReasonString(OTHER, ENGLISH)
             verifyNoMoreInteractions(applicationRejectionReasonMapper)
         }
@@ -484,7 +484,7 @@ internal class TemplatePersonalisationMessageMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "VOTER_MINUS_CARD",
+                "VOTER_CARD",
                 "PROXY",
                 "POSTAL",
             ],

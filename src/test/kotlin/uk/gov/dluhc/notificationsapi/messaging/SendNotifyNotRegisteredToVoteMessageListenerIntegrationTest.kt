@@ -40,10 +40,10 @@ internal class SendNotifyNotRegisteredToVoteMessageListenerIntegrationTest : Int
             "EMAIL,CY,POSTAL,POSTAL",
             "LETTER,EN,POSTAL,POSTAL",
             "LETTER,CY,POSTAL,POSTAL",
-            "EMAIL,EN,VOTER_MINUS_CARD,VOTER_CARD",
-            "EMAIL,CY,VOTER_MINUS_CARD,VOTER_CARD",
-            "LETTER,EN,VOTER_MINUS_CARD,VOTER_CARD",
-            "LETTER,CY,VOTER_MINUS_CARD,VOTER_CARD",
+            "EMAIL,EN,VOTER_CARD,VOTER_CARD",
+            "EMAIL,CY,VOTER_CARD,VOTER_CARD",
+            "LETTER,EN,VOTER_CARD,VOTER_CARD",
+            "LETTER,CY,VOTER_CARD,VOTER_CARD",
         ],
     )
     fun `should process not registered to vote message from relevant service`(

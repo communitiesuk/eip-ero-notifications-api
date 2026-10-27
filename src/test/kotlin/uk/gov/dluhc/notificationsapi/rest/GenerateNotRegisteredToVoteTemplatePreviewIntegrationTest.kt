@@ -213,10 +213,10 @@ internal class GenerateNotRegisteredToVoteTemplatePreviewIntegrationTest : Integ
             "PROXY, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,proxy vote",
             "PROXY, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy",
             "PROXY, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,bleidlais drwy ddirprwy",
-            "VOTER_MINUS_CARD, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
-            "VOTER_MINUS_CARD, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
-            "VOTER_MINUS_CARD, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
-            "VOTER_MINUS_CARD, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
+            "VOTER_CARD, EMAIL, $EMAIL_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
+            "VOTER_CARD, LETTER, $LETTER_ENGLISH_TEMPLATE_ID,EN,Voter Authority Certificate",
+            "VOTER_CARD, EMAIL, $EMAIL_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
+            "VOTER_CARD, LETTER, $LETTER_WELSH_TEMPLATE_ID,CY,Dystysgrif Awdurdod Pleidleisiwr",
         ],
     )
     fun `should return template preview given valid request`(

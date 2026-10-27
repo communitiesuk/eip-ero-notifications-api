@@ -14,9 +14,9 @@ import uk.gov.dluhc.notificationsapi.dto.LanguageDto
 import uk.gov.dluhc.notificationsapi.dto.NotificationType
 import uk.gov.dluhc.notificationsapi.models.Language
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.NOT_A_PLAIN_FACIAL_EXPRESSION
 import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.OTHER
-import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
+import uk.gov.dluhc.notificationsapi.models.PhotoRejectionReason.WEARING_SUNGLASSES_OR_TINTED_GLASSES
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildGeneratePhotoResubmissionTemplatePreviewRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.api.buildPhotoResubmissionPersonalisationRequest
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.buildAddressDto
@@ -52,7 +52,7 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
         val request = buildGeneratePhotoResubmissionTemplatePreviewRequest(
             channel = CommunicationChannelApi.EMAIL,
             language = Language.EN,
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            sourceType = SourceTypeModel.VOTER_CARD,
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = emptyList(),
                 photoRejectionNotes = null,
@@ -114,11 +114,11 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
         val request = buildGeneratePhotoResubmissionTemplatePreviewRequest(
             channel = CommunicationChannelApi.EMAIL,
             language = Language.EN,
-            sourceType = SourceTypeModel.VOTER_MINUS_CARD,
+            sourceType = SourceTypeModel.VOTER_CARD,
             personalisation = buildPhotoResubmissionPersonalisationRequest(
                 photoRejectionReasons = listOf(
-                    NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
-                    WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+                    NOT_A_PLAIN_FACIAL_EXPRESSION,
+                    WEARING_SUNGLASSES_OR_TINTED_GLASSES,
                     OTHER, // OTHER is deliberately excluded from the photo rejection reason mapping
                 ),
                 photoRejectionNotes = "Please take a head and shoulders photo, with a plain expression, and without sunglasses. Regular prescription glasses are acceptable.",
@@ -178,11 +178,11 @@ class PhotoResubmissionTemplatePreviewDtoMapperTest {
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(channelMapper).fromApiToDto(CommunicationChannelApi.EMAIL)
         verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
-            NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION,
+            NOT_A_PLAIN_FACIAL_EXPRESSION,
             LanguageDto.ENGLISH,
         )
         verify(photoRejectionReasonMapper).toPhotoRejectionReasonString(
-            WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES,
+            WEARING_SUNGLASSES_OR_TINTED_GLASSES,
             LanguageDto.ENGLISH,
         )
     }
