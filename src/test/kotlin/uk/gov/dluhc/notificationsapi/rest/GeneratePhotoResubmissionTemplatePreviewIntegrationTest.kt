@@ -273,7 +273,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
         val notifyClientResponse = NotifyGenerateTemplatePreviewSuccessResponse(id = PHOTO_TEMPLATE_ID)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)
+        val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(sourceType = SourceType.VOTER_CARD)
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
                 "applicationReference" to applicationReference,
@@ -323,7 +323,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
 
         val requestBody = buildGeneratePhotoResubmissionTemplatePreviewRequest(
             personalisation = buildPhotoResubmissionPersonalisationRequest(eroContactDetails = buildContactDetailsRequest(address = buildAddressRequestWithOptionalParamsNull())),
-            sourceType = SourceType.VOTER_MINUS_CARD,
+            sourceType = SourceType.VOTER_CARD,
         )
         val expectedPersonalisationDataMap = with(requestBody.personalisation) {
             mapOf(
@@ -369,7 +369,7 @@ internal class GeneratePhotoResubmissionTemplatePreviewIntegrationTest : Integra
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGeneratePhotoResubmissionTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
+            Mono.just(buildGeneratePhotoResubmissionTemplatePreviewRequest(sourceType = SourceType.VOTER_CARD)),
             GeneratePhotoResubmissionTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

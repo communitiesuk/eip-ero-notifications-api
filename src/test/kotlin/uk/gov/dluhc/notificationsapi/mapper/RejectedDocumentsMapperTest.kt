@@ -13,15 +13,15 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import uk.gov.dluhc.notificationsapi.dto.LanguageDto.ENGLISH
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentType
-import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
+import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.DOCUMENT_TOO_OLD
 import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.OTHER
-import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT
-import uk.gov.dluhc.notificationsapi.models.DocumentType.ADOPTION_MINUS_CERTIFICATE
-import uk.gov.dluhc.notificationsapi.models.DocumentType.BIRTH_MINUS_CERTIFICATE
-import uk.gov.dluhc.notificationsapi.models.DocumentType.FIREARMS_MINUS_CERTIFICATE
-import uk.gov.dluhc.notificationsapi.models.DocumentType.GUARDIANSHIP_MINUS_PROOF
-import uk.gov.dluhc.notificationsapi.models.DocumentType.MORTGAGE_MINUS_STATEMENT
-import uk.gov.dluhc.notificationsapi.models.DocumentType.UTILITY_MINUS_BILL
+import uk.gov.dluhc.notificationsapi.models.DocumentRejectionReason.UNREADABLE_DOCUMENT
+import uk.gov.dluhc.notificationsapi.models.DocumentType.ADOPTION_CERTIFICATE
+import uk.gov.dluhc.notificationsapi.models.DocumentType.BIRTH_CERTIFICATE
+import uk.gov.dluhc.notificationsapi.models.DocumentType.FIREARMS_CERTIFICATE
+import uk.gov.dluhc.notificationsapi.models.DocumentType.GUARDIANSHIP_PROOF
+import uk.gov.dluhc.notificationsapi.models.DocumentType.MORTGAGE_STATEMENT
+import uk.gov.dluhc.notificationsapi.models.DocumentType.UTILITY_BILL
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.models.buildRejectedDocument
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models.buildRejectedDocument as buildRejectedDocumentMessaging
 
@@ -46,56 +46,56 @@ class RejectedDocumentsMapperTest {
         // Given
         val documents = listOf(
             buildRejectedDocument(
-                UTILITY_MINUS_BILL,
-                listOf(DOCUMENT_MINUS_TOO_MINUS_OLD, UNREADABLE_MINUS_DOCUMENT, OTHER),
+                UTILITY_BILL,
+                listOf(DOCUMENT_TOO_OLD, UNREADABLE_DOCUMENT, OTHER),
                 null,
             ),
-            buildRejectedDocument(BIRTH_MINUS_CERTIFICATE, listOf(UNREADABLE_MINUS_DOCUMENT), null),
-            buildRejectedDocument(MORTGAGE_MINUS_STATEMENT, listOf(DOCUMENT_MINUS_TOO_MINUS_OLD, OTHER), "Some notes"),
-            buildRejectedDocument(FIREARMS_MINUS_CERTIFICATE, emptyList(), "More notes"),
-            buildRejectedDocument(ADOPTION_MINUS_CERTIFICATE, emptyList(), null),
-            buildRejectedDocument(GUARDIANSHIP_MINUS_PROOF, emptyList(), "Guardianship notes"),
+            buildRejectedDocument(BIRTH_CERTIFICATE, listOf(UNREADABLE_DOCUMENT), null),
+            buildRejectedDocument(MORTGAGE_STATEMENT, listOf(DOCUMENT_TOO_OLD, OTHER), "Some notes"),
+            buildRejectedDocument(FIREARMS_CERTIFICATE, emptyList(), "More notes"),
+            buildRejectedDocument(ADOPTION_CERTIFICATE, emptyList(), null),
+            buildRejectedDocument(GUARDIANSHIP_PROOF, emptyList(), "Guardianship notes"),
         )
         given(
             rejectedDocumentReasonMapper.toDocumentRejectionReasonString(
-                DOCUMENT_MINUS_TOO_MINUS_OLD,
+                DOCUMENT_TOO_OLD,
                 ENGLISH,
             ),
         ).willReturn("Document is too old")
         given(
             rejectedDocumentReasonMapper.toDocumentRejectionReasonString(
-                UNREADABLE_MINUS_DOCUMENT,
+                UNREADABLE_DOCUMENT,
                 ENGLISH,
             ),
         ).willReturn("Document is not readable")
-        given(rejectedDocumentTypeMapper.toDocumentTypeString(UTILITY_MINUS_BILL, ENGLISH)).willReturn("Utility Bill")
+        given(rejectedDocumentTypeMapper.toDocumentTypeString(UTILITY_BILL, ENGLISH)).willReturn("Utility Bill")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                BIRTH_MINUS_CERTIFICATE,
+                BIRTH_CERTIFICATE,
                 ENGLISH,
             ),
         ).willReturn("Birth Certificate")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                MORTGAGE_MINUS_STATEMENT,
+                MORTGAGE_STATEMENT,
                 ENGLISH,
             ),
         ).willReturn("Mortgage statement")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                FIREARMS_MINUS_CERTIFICATE,
+                FIREARMS_CERTIFICATE,
                 ENGLISH,
             ),
         ).willReturn("Firearms cert")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                ADOPTION_MINUS_CERTIFICATE,
+                ADOPTION_CERTIFICATE,
                 ENGLISH,
             ),
         ).willReturn("Adoption cert")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                GUARDIANSHIP_MINUS_PROOF,
+                GUARDIANSHIP_PROOF,
                 ENGLISH,
             ),
         ).willReturn("Document proving your connection with your guardian")
@@ -123,19 +123,19 @@ class RejectedDocumentsMapperTest {
         )
 
         verify(rejectedDocumentReasonMapper, times(2)).toDocumentRejectionReasonString(
-            DOCUMENT_MINUS_TOO_MINUS_OLD,
+            DOCUMENT_TOO_OLD,
             ENGLISH,
         )
         verify(rejectedDocumentReasonMapper, times(2)).toDocumentRejectionReasonString(
-            UNREADABLE_MINUS_DOCUMENT,
+            UNREADABLE_DOCUMENT,
             ENGLISH,
         )
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(UTILITY_MINUS_BILL, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(BIRTH_MINUS_CERTIFICATE, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(MORTGAGE_MINUS_STATEMENT, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(FIREARMS_MINUS_CERTIFICATE, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(ADOPTION_MINUS_CERTIFICATE, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(GUARDIANSHIP_MINUS_PROOF, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(UTILITY_BILL, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(BIRTH_CERTIFICATE, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(MORTGAGE_STATEMENT, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(FIREARMS_CERTIFICATE, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(ADOPTION_CERTIFICATE, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(GUARDIANSHIP_PROOF, ENGLISH)
         verifyNoMoreInteractions(rejectedDocumentReasonMapper, rejectedDocumentTypeMapper)
     }
 
@@ -144,80 +144,80 @@ class RejectedDocumentsMapperTest {
         // Given
         val documents = listOf(
             buildRejectedDocumentMessaging(
-                DocumentType.UTILITY_MINUS_BILL,
+                DocumentType.UTILITY_BILL,
                 listOf(
-                    DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD,
-                    DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT,
+                    DocumentRejectionReason.DOCUMENT_TOO_OLD,
+                    DocumentRejectionReason.UNREADABLE_DOCUMENT,
                     DocumentRejectionReason.OTHER,
                 ),
                 null,
             ),
             buildRejectedDocumentMessaging(
-                DocumentType.BIRTH_MINUS_CERTIFICATE,
-                listOf(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT),
+                DocumentType.BIRTH_CERTIFICATE,
+                listOf(DocumentRejectionReason.UNREADABLE_DOCUMENT),
                 null,
             ),
             buildRejectedDocumentMessaging(
-                DocumentType.MORTGAGE_MINUS_STATEMENT,
-                listOf(DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD, DocumentRejectionReason.OTHER),
+                DocumentType.MORTGAGE_STATEMENT,
+                listOf(DocumentRejectionReason.DOCUMENT_TOO_OLD, DocumentRejectionReason.OTHER),
                 "Some notes",
             ),
-            buildRejectedDocumentMessaging(DocumentType.FIREARMS_MINUS_CERTIFICATE, emptyList(), "More notes"),
-            buildRejectedDocumentMessaging(DocumentType.ADOPTION_MINUS_CERTIFICATE, emptyList(), null),
-            buildRejectedDocumentMessaging(DocumentType.GUARDIANSHIP_MINUS_PROOF, emptyList(), null),
-            buildRejectedDocumentMessaging(DocumentType.INSURANCE_MINUS_PROVIDER_MINUS_LETTER, emptyList(), "Notes"),
+            buildRejectedDocumentMessaging(DocumentType.FIREARMS_CERTIFICATE, emptyList(), "More notes"),
+            buildRejectedDocumentMessaging(DocumentType.ADOPTION_CERTIFICATE, emptyList(), null),
+            buildRejectedDocumentMessaging(DocumentType.GUARDIANSHIP_PROOF, emptyList(), null),
+            buildRejectedDocumentMessaging(DocumentType.INSURANCE_PROVIDER_LETTER, emptyList(), "Notes"),
         )
         given(
             rejectedDocumentReasonMapper.toDocumentRejectionReasonString(
-                DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD,
+                DocumentRejectionReason.DOCUMENT_TOO_OLD,
                 ENGLISH,
             ),
         ).willReturn("Document is too old")
         given(
             rejectedDocumentReasonMapper.toDocumentRejectionReasonString(
-                DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT,
+                DocumentRejectionReason.UNREADABLE_DOCUMENT,
                 ENGLISH,
             ),
         ).willReturn("Document is not readable")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                DocumentType.UTILITY_MINUS_BILL,
+                DocumentType.UTILITY_BILL,
                 ENGLISH,
             ),
         ).willReturn("Utility Bill")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                DocumentType.BIRTH_MINUS_CERTIFICATE,
+                DocumentType.BIRTH_CERTIFICATE,
                 ENGLISH,
             ),
         ).willReturn("Birth Certificate")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                DocumentType.MORTGAGE_MINUS_STATEMENT,
+                DocumentType.MORTGAGE_STATEMENT,
                 ENGLISH,
             ),
         ).willReturn("Mortgage statement")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                DocumentType.FIREARMS_MINUS_CERTIFICATE,
+                DocumentType.FIREARMS_CERTIFICATE,
                 ENGLISH,
             ),
         ).willReturn("Firearms cert")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                DocumentType.ADOPTION_MINUS_CERTIFICATE,
+                DocumentType.ADOPTION_CERTIFICATE,
                 ENGLISH,
             ),
         ).willReturn("Adoption cert")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                DocumentType.GUARDIANSHIP_MINUS_PROOF,
+                DocumentType.GUARDIANSHIP_PROOF,
                 ENGLISH,
             ),
         ).willReturn("Document proving your connection with your guardian")
         given(
             rejectedDocumentTypeMapper.toDocumentTypeString(
-                DocumentType.INSURANCE_MINUS_PROVIDER_MINUS_LETTER,
+                DocumentType.INSURANCE_PROVIDER_LETTER,
                 ENGLISH,
             ),
         ).willReturn("Letter from an insurance provider")
@@ -248,19 +248,19 @@ class RejectedDocumentsMapperTest {
         verify(
             rejectedDocumentReasonMapper,
             times(2),
-        ).toDocumentRejectionReasonString(DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD, ENGLISH)
+        ).toDocumentRejectionReasonString(DocumentRejectionReason.DOCUMENT_TOO_OLD, ENGLISH)
         verify(
             rejectedDocumentReasonMapper,
             times(2),
-        ).toDocumentRejectionReasonString(DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.UTILITY_MINUS_BILL, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.BIRTH_MINUS_CERTIFICATE, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.MORTGAGE_MINUS_STATEMENT, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.FIREARMS_MINUS_CERTIFICATE, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.ADOPTION_MINUS_CERTIFICATE, ENGLISH)
-        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.GUARDIANSHIP_MINUS_PROOF, ENGLISH)
+        ).toDocumentRejectionReasonString(DocumentRejectionReason.UNREADABLE_DOCUMENT, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.UTILITY_BILL, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.BIRTH_CERTIFICATE, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.MORTGAGE_STATEMENT, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.FIREARMS_CERTIFICATE, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.ADOPTION_CERTIFICATE, ENGLISH)
+        verify(rejectedDocumentTypeMapper).toDocumentTypeString(DocumentType.GUARDIANSHIP_PROOF, ENGLISH)
         verify(rejectedDocumentTypeMapper).toDocumentTypeString(
-            DocumentType.INSURANCE_MINUS_PROVIDER_MINUS_LETTER,
+            DocumentType.INSURANCE_PROVIDER_LETTER,
             ENGLISH,
         )
         verifyNoMoreInteractions(rejectedDocumentReasonMapper, rejectedDocumentTypeMapper)

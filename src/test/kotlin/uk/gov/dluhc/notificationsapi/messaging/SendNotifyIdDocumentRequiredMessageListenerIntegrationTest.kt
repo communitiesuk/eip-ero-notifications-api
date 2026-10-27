@@ -38,7 +38,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
     ) {
         // Given
         val gssCode = aGssCode()
-        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceType = SourceType.VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentRequiredMessage(
             channel = CommunicationChannel.EMAIL,
@@ -77,7 +77,7 @@ internal class SendNotifyIdDocumentRequiredMessageListenerIntegrationTest : Inte
     ) {
         // Given
         val gssCode = aGssCode()
-        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceType = SourceType.VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyIdDocumentRequiredMessage(
             channel = CommunicationChannel.LETTER,

@@ -35,7 +35,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
     ) {
         // Given
         val gssCode = aGssCode()
-        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceType = SourceType.VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyPhotoResubmissionMessage(
             channel = CommunicationChannel.EMAIL,
@@ -68,7 +68,7 @@ internal class SendNotifyPhotoResubmissionMessageListenerIntegrationTest : Integ
     ) {
         // Given
         val gssCode = aGssCode()
-        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceType = SourceType.VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyPhotoResubmissionMessage(
             channel = CommunicationChannel.LETTER,

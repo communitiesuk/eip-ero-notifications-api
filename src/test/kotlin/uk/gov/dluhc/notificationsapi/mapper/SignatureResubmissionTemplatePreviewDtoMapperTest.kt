@@ -29,7 +29,7 @@ internal class SignatureResubmissionTemplatePreviewDtoMapperTest {
         // Given
         val request = buildGenerateSignatureResubmissionTemplatePreviewRequest(
             personalisation = buildSignatureResubmissionPersonalisation(
-                rejectionReasons = if (shouldHaveRejectionReasons) listOf(SignatureRejectionReason.WRONG_MINUS_SIZE) else emptyList(),
+                rejectionReasons = if (shouldHaveRejectionReasons) listOf(SignatureRejectionReason.WRONG_SIZE) else emptyList(),
                 rejectionNotes = if (shouldHaveRejectionReasons) "Rejection notes" else null,
             ),
             sourceType = SourceType.POSTAL,

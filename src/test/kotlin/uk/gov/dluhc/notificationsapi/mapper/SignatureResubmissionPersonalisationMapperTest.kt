@@ -58,8 +58,8 @@ internal class SignatureResubmissionPersonalisationMapperTest {
             given(sourceTypeMapper.toShortSourceTypeString(SourceTypeMessage.POSTAL, ENGLISH)).willReturn("Short mapped source type")
             given(sourceTypeMapper.toFullSourceTypeString(SourceTypeMessage.POSTAL, ENGLISH)).willReturn("Full mapped source type")
             given(eroContactDetailsMapper.fromSqsToDto(personalisationMessage.eroContactDetails)).willReturn(dtoContactDetails)
-            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonMessage.TOO_MINUS_DARK, ENGLISH)).willReturn("Too Dark")
-            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonMessage.HAS_MINUS_SHADOWS, ENGLISH)).willReturn("Has Shadows")
+            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonMessage.TOO_DARK, ENGLISH)).willReturn("Too Dark")
+            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonMessage.HAS_SHADOWS, ENGLISH)).willReturn("Has Shadows")
             given(deadlineMapper.toDeadlineString(any(), any(), any(), any())).willReturn("Mapped deadline")
 
             val expectedPersonalisationMap = mapOf(
@@ -104,7 +104,7 @@ internal class SignatureResubmissionPersonalisationMapperTest {
             // Given
             val personalisationMessage = buildSignatureResubmissionPersonalisationMessage(
                 rejectionNotes = "Notes",
-                rejectionReasons = if (includeReasons) listOf(SignatureRejectionReasonMessage.WRONG_MINUS_SIZE, SignatureRejectionReasonMessage.HAS_MINUS_SHADOWS, SignatureRejectionReasonMessage.OTHER) else emptyList(),
+                rejectionReasons = if (includeReasons) listOf(SignatureRejectionReasonMessage.WRONG_SIZE, SignatureRejectionReasonMessage.HAS_SHADOWS, SignatureRejectionReasonMessage.OTHER) else emptyList(),
                 rejectionFreeText = "Free Text",
                 deadlineDate = LocalDate.of(2024, 10, 1),
                 isRejected = isRejected,
@@ -139,7 +139,7 @@ internal class SignatureResubmissionPersonalisationMapperTest {
             // Given
             val personalisationRequest = buildSignatureResubmissionPersonalisationApi(
                 rejectionNotes = "Notes",
-                rejectionReasons = listOf(SignatureRejectionReasonApi.WRONG_MINUS_SIZE, SignatureRejectionReasonApi.HAS_MINUS_SHADOWS, SignatureRejectionReasonApi.OTHER),
+                rejectionReasons = listOf(SignatureRejectionReasonApi.WRONG_SIZE, SignatureRejectionReasonApi.HAS_SHADOWS, SignatureRejectionReasonApi.OTHER),
                 rejectionFreeText = "Free Text",
                 deadlineDate = LocalDate.of(2024, 10, 1),
             )
@@ -152,8 +152,8 @@ internal class SignatureResubmissionPersonalisationMapperTest {
             given(languageMapper.fromApiToDto(LanguageApi.EN)).willReturn(ENGLISH)
             given(sourceTypeMapper.toShortSourceTypeString(SourceTypeApi.POSTAL, ENGLISH)).willReturn("Short String")
             given(sourceTypeMapper.toFullSourceTypeString(SourceTypeApi.POSTAL, ENGLISH)).willReturn("Full String")
-            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonApi.WRONG_MINUS_SIZE, ENGLISH)).willReturn(wrongSizeText)
-            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonApi.HAS_MINUS_SHADOWS, ENGLISH)).willReturn(hasShadowsText)
+            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonApi.WRONG_SIZE, ENGLISH)).willReturn(wrongSizeText)
+            given(signatureRejectionReasonMapper.toSignatureRejectionReasonString(SignatureRejectionReasonApi.HAS_SHADOWS, ENGLISH)).willReturn(hasShadowsText)
             given(eroContactDetailsMapper.fromApiToDto(personalisationRequest.eroContactDetails)).willReturn(eroContactDetailsDto)
             given(deadlineMapper.toDeadlineString(personalisationRequest.deadlineDate!!, personalisationRequest.deadlineTime, ENGLISH, "Full String")).willReturn(deadlineString)
 
@@ -203,7 +203,7 @@ internal class SignatureResubmissionPersonalisationMapperTest {
             // Given
             val personalisationRequest = buildSignatureResubmissionPersonalisationApi(
                 rejectionNotes = "Notes",
-                rejectionReasons = if (includeReasons) listOf(SignatureRejectionReasonApi.WRONG_MINUS_SIZE, SignatureRejectionReasonApi.HAS_MINUS_SHADOWS, SignatureRejectionReasonApi.OTHER) else emptyList(),
+                rejectionReasons = if (includeReasons) listOf(SignatureRejectionReasonApi.WRONG_SIZE, SignatureRejectionReasonApi.HAS_SHADOWS, SignatureRejectionReasonApi.OTHER) else emptyList(),
                 rejectionFreeText = "Free Text",
                 deadlineDate = LocalDate.of(2024, 10, 1),
                 isRejected = isRejected,

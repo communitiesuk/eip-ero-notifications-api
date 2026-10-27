@@ -33,7 +33,7 @@ fun buildSendNotifyNinoNotMatchedMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.NINO_MINUS_NOT_MINUS_MATCHED,
+        messageType = MessageType.NINO_NOT_MATCHED,
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,

@@ -10,12 +10,8 @@ import uk.gov.dluhc.notificationsapi.messaging.models.DocumentCategory as Docume
 @Mapper
 interface DocumentCategoryMapper {
 
-    @ValueMapping(source = "PARENT_MINUS_GUARDIAN", target = "PARENT_GUARDIAN")
-    @ValueMapping(source = "PREVIOUS_MINUS_ADDRESS", target = "PREVIOUS_ADDRESS")
     fun fromApiToDto(documentCategory: DocumentCategory): DocumentCategoryDto
 
-    @ValueMapping(source = "PARENT_MINUS_GUARDIAN", target = "PARENT_GUARDIAN")
-    @ValueMapping(source = "PREVIOUS_MINUS_ADDRESS", target = "PREVIOUS_ADDRESS")
     fun fromApiMessageToDto(documentCategory: DocumentCategoryMessage?): DocumentCategoryDto
 
     @ValueMapping(source = "IDENTITY", target = "REJECTED_DOCUMENT")

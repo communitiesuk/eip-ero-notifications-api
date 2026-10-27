@@ -6,7 +6,7 @@ import uk.gov.dluhc.notificationsapi.models.OfflineCommunicationReason
 
 fun aCreateOfflineCommunicationConfirmationRequestBuilder(
     gssCode: String,
-    reason: OfflineCommunicationReason = OfflineCommunicationReason.APPLICATION_MINUS_REJECTED,
+    reason: OfflineCommunicationReason = OfflineCommunicationReason.APPLICATION_REJECTED,
     channel: OfflineCommunicationChannel = OfflineCommunicationChannel.EMAIL,
 ): CreateOfflineCommunicationConfirmationRequest =
     CreateOfflineCommunicationConfirmationRequest(

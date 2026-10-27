@@ -27,7 +27,7 @@ internal class RemoveNotificationsMapperTest {
     @Test
     fun `should map SQS RemoveApplicationNotificationsMessage to RemoveNotificationsDto`() {
         val sourceReference = aSourceReference()
-        val sourceType = SqsSourceType.VOTER_MINUS_CARD
+        val sourceType = SqsSourceType.VOTER_CARD
         val request = RemoveApplicationNotificationsMessage(sourceReference = sourceReference, sourceType = sourceType)
         val expectedSourceType = SourceType.VOTER_CARD
         given(sourceTypeMapper.fromMessageToDto(any())).willReturn(expectedSourceType)
@@ -36,6 +36,6 @@ internal class RemoveNotificationsMapperTest {
 
         assertThat(removeNotificationsDto.sourceType).isEqualTo(expectedSourceType)
         assertThat(removeNotificationsDto.sourceReference).isEqualTo(sourceReference)
-        verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_MINUS_CARD)
+        verify(sourceTypeMapper).fromMessageToDto(SqsSourceType.VOTER_CARD)
     }
 }

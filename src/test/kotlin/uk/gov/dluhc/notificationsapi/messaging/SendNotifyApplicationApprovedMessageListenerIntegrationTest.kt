@@ -32,7 +32,7 @@ internal class SendNotifyApplicationApprovedMessageListenerIntegrationTest : Int
     ) {
         // Given
         val gssCode = aGssCode()
-        val sourceType = SourceType.VOTER_MINUS_CARD
+        val sourceType = SourceType.VOTER_CARD
         val sourceReference = aRandomSourceReference()
         val payload = buildSendNotifyApplicationApprovedMessage(
             language = language,

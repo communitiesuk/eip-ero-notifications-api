@@ -24,22 +24,22 @@ import uk.gov.dluhc.notificationsapi.mapper.LanguageMapper
 import uk.gov.dluhc.notificationsapi.mapper.NotificationTypeMapper
 import uk.gov.dluhc.notificationsapi.mapper.SourceTypeMapper
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DUPLICATE_MINUS_DOCUMENT
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.INVALID_MINUS_DOCUMENT_MINUS_COUNTRY
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.INVALID_MINUS_DOCUMENT_MINUS_TYPE
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.UNREADABLE_MINUS_DOCUMENT
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.APPLICANT_DETAILS_NOT_CLEAR
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_TOO_OLD
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DUPLICATE_DOCUMENT
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.INVALID_DOCUMENT_COUNTRY
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.INVALID_DOCUMENT_TYPE
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.UNREADABLE_DOCUMENT
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_A_PLAIN_FACIAL_EXPRESSION
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA
 import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.OTHER
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK
-import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK
+import uk.gov.dluhc.notificationsapi.messaging.models.PhotoRejectionReason.WEARING_SUNGLASSES_OR_TINTED_GLASSES
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aCommunicationChannel
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.aSourceType
 import uk.gov.dluhc.notificationsapi.testsupport.testdata.dto.aNotificationDestination
@@ -81,41 +81,41 @@ internal class SendNotifyMessageMapperNotificationTypeTest {
 
                 Arguments.of(
                     listOf(
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
+                        NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK),
+                    listOf(PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
+                    listOf(OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION),
+                    listOf(NOT_A_PLAIN_FACIAL_EXPRESSION),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
+                        EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES),
+                    listOf(WEARING_SUNGLASSES_OR_TINTED_GLASSES),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
+                        PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
+                        PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
@@ -123,47 +123,47 @@ internal class SendNotifyMessageMapperNotificationTypeTest {
                 Arguments.of(
                     listOf(
                         OTHER,
-                        NOT_MINUS_FACING_MINUS_FORWARDS_MINUS_OR_MINUS_LOOKING_MINUS_AT_MINUS_THE_MINUS_CAMERA,
+                        NOT_FACING_FORWARDS_OR_LOOKING_AT_THE_CAMERA,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_NOT_MINUS_IN_MINUS_COLOUR_MINUS_DISTORTED_MINUS_OR_MINUS_TOO_MINUS_DARK,
+                        PHOTO_NOT_IN_COLOUR_DISTORTED_OR_TOO_DARK,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(OTHER, OTHER_MINUS_OBJECTS_MINUS_OR_MINUS_PEOPLE_MINUS_IN_MINUS_PHOTO),
+                    listOf(OTHER, OTHER_OBJECTS_OR_PEOPLE_IN_PHOTO),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(OTHER, NOT_MINUS_A_MINUS_PLAIN_MINUS_FACIAL_MINUS_EXPRESSION),
+                    listOf(OTHER, NOT_A_PLAIN_FACIAL_EXPRESSION),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        EYES_MINUS_NOT_MINUS_OPEN_MINUS_OR_MINUS_VISIBLE_MINUS_OR_MINUS_HAIR_MINUS_IN_MINUS_FRONT_MINUS_FACE,
+                        EYES_NOT_OPEN_OR_VISIBLE_OR_HAIR_IN_FRONT_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(OTHER, WEARING_MINUS_SUNGLASSES_MINUS_OR_MINUS_TINTED_MINUS_GLASSES),
+                    listOf(OTHER, WEARING_SUNGLASSES_OR_TINTED_GLASSES),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_HEAD_MINUS_COVERING_MINUS_ASIDE_MINUS_FROM_MINUS_RELIGIOUS_MINUS_OR_MINUS_MEDICAL,
+                        PHOTO_HAS_HEAD_COVERING_ASIDE_FROM_RELIGIOUS_OR_MEDICAL,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
                     listOf(
                         OTHER,
-                        PHOTO_MINUS_HAS_MINUS_RED_MINUS_EYE_MINUS_GLARE_MINUS_OR_MINUS_SHADOWS_MINUS_OVER_MINUS_FACE,
+                        PHOTO_HAS_RED_EYE_GLARE_OR_SHADOWS_OVER_FACE,
                     ),
                     PHOTO_RESUBMISSION_WITH_REASONS,
                 ),
@@ -178,52 +178,52 @@ internal class SendNotifyMessageMapperNotificationTypeTest {
                 Arguments.of(listOf(DocumentRejectionReason.OTHER), ID_DOCUMENT_RESUBMISSION),
 
                 Arguments.of(
-                    listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                    listOf(DOCUMENT_TOO_OLD),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(UNREADABLE_MINUS_DOCUMENT),
+                    listOf(UNREADABLE_DOCUMENT),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(INVALID_MINUS_DOCUMENT_MINUS_TYPE),
+                    listOf(INVALID_DOCUMENT_TYPE),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(DUPLICATE_MINUS_DOCUMENT),
+                    listOf(DUPLICATE_DOCUMENT),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(INVALID_MINUS_DOCUMENT_MINUS_COUNTRY),
+                    listOf(INVALID_DOCUMENT_COUNTRY),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
+                    listOf(APPLICANT_DETAILS_NOT_CLEAR),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
 
                 Arguments.of(
-                    listOf(DocumentRejectionReason.OTHER, DOCUMENT_MINUS_TOO_MINUS_OLD),
+                    listOf(DocumentRejectionReason.OTHER, DOCUMENT_TOO_OLD),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(DocumentRejectionReason.OTHER, UNREADABLE_MINUS_DOCUMENT),
+                    listOf(DocumentRejectionReason.OTHER, UNREADABLE_DOCUMENT),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(DocumentRejectionReason.OTHER, INVALID_MINUS_DOCUMENT_MINUS_TYPE),
+                    listOf(DocumentRejectionReason.OTHER, INVALID_DOCUMENT_TYPE),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(DocumentRejectionReason.OTHER, DUPLICATE_MINUS_DOCUMENT),
+                    listOf(DocumentRejectionReason.OTHER, DUPLICATE_DOCUMENT),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(DocumentRejectionReason.OTHER, INVALID_MINUS_DOCUMENT_MINUS_COUNTRY),
+                    listOf(DocumentRejectionReason.OTHER, INVALID_DOCUMENT_COUNTRY),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
                 Arguments.of(
-                    listOf(DocumentRejectionReason.OTHER, APPLICANT_MINUS_DETAILS_MINUS_NOT_MINUS_CLEAR),
+                    listOf(DocumentRejectionReason.OTHER, APPLICANT_DETAILS_NOT_CLEAR),
                     ID_DOCUMENT_RESUBMISSION_WITH_REASONS,
                 ),
             )
@@ -375,7 +375,7 @@ internal class SendNotifyMessageMapperNotificationTypeTest {
                             rejectionNotes = "a reason for rejecting the document",
                         ),
                         buildRejectedDocument(
-                            rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                            rejectionReasons = listOf(DOCUMENT_TOO_OLD),
                             rejectionNotes = null,
                         ),
                     ),
@@ -406,7 +406,7 @@ internal class SendNotifyMessageMapperNotificationTypeTest {
                             rejectionNotes = "a reason for rejecting the document",
                         ),
                         buildRejectedDocument(
-                            rejectionReasons = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+                            rejectionReasons = listOf(DOCUMENT_TOO_OLD),
                             rejectionNotes = null,
                         ),
                         buildRejectedDocument(

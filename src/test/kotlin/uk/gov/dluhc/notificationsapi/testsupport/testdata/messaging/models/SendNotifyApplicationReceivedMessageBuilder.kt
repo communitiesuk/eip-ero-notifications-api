@@ -19,7 +19,7 @@ fun buildSendNotifyApplicationReceivedMessage(
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
-    messageType: MessageType = MessageType.APPLICATION_MINUS_RECEIVED,
+    messageType: MessageType = MessageType.APPLICATION_RECEIVED,
     personalisation: BasePersonalisation = buildApplicationReceivedPersonalisation(),
     toAddress: MessageAddress = aMessageAddress(),
 ): SendNotifyApplicationReceivedMessage =

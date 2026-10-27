@@ -5,5 +5,5 @@ import org.junit.jupiter.params.provider.EnumSource
 import uk.gov.dluhc.notificationsapi.models.SourceType
 
 @ParameterizedTest
-@EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY", "OVERSEAS", "VOTER_MINUS_CARD"])
+@EnumSource(value = SourceType::class, names = ["POSTAL", "PROXY", "OVERSEAS", "VOTER_CARD"])
 annotation class SourceTypesApiEnumTest

@@ -13,7 +13,7 @@ fun aCommunicationsSummaryBuilder(
     id: UUID = aNotificationId(),
     requestor: String = aRequestor(),
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
-    templateType: TemplateType = TemplateType.APPLICATION_MINUS_APPROVED,
+    templateType: TemplateType = TemplateType.APPLICATION_APPROVED,
     timestamp: OffsetDateTime = anOffsetDateTime(),
 ): CommunicationsSummary =
     CommunicationsSummary(

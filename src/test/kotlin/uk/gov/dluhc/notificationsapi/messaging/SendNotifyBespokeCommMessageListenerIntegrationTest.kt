@@ -44,10 +44,10 @@ internal class SendNotifyBespokeCommMessageListenerIntegrationTest : Integration
             "EMAIL,CY,OVERSEAS,OVERSEAS",
             "LETTER,EN,OVERSEAS,OVERSEAS",
             "LETTER,CY,OVERSEAS,OVERSEAS",
-            "EMAIL,EN,VOTER_MINUS_CARD,VOTER_CARD",
-            "EMAIL,CY,VOTER_MINUS_CARD,VOTER_CARD",
-            "LETTER,EN,VOTER_MINUS_CARD,VOTER_CARD",
-            "LETTER,CY,VOTER_MINUS_CARD,VOTER_CARD",
+            "EMAIL,EN,VOTER_CARD,VOTER_CARD",
+            "EMAIL,CY,VOTER_CARD,VOTER_CARD",
+            "LETTER,EN,VOTER_CARD,VOTER_CARD",
+            "LETTER,CY,VOTER_CARD,VOTER_CARD",
         ],
     )
     fun `should process bespoke comm message from relevant service`(
