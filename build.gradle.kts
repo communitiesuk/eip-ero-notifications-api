@@ -29,7 +29,7 @@ extra["awsSdkVersion"] = "2.54.17"
 // EROPSPT-784 - Pinned versions brought in by springboot - if updating springboot, check if these are still needed.
 // Note: Jackson 3.1.6 now also brings in CVEs, and should be patched to 3.1.7 once available
 extra["tomcat.version"] = "11.0.25"
-extra["jackson.version"] = "3.1.7"
+extra["jackson.version"] = "3.1.8"
 extra["netty.version"] = "4.2.18.Final"
 extra["logback.version"] = "1.6.5"
 extra["hibernate-validator.version"] = "9.1.5.Final"
