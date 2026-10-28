@@ -71,7 +71,7 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
 
         val expectedLog = "Received request to send UK GOV Notify Signature Resubmission comms for gssCode: $gssCode with " +
             "channel: $sqsChannel, " +
-            "messageType: SIGNATURE_MINUS_RESUBMISSION, " +
+            "messageType: SIGNATURE_RESUBMISSION, " +
             "language: $language"
 
         // When
@@ -99,7 +99,7 @@ internal class SendNotifySignatureResubmissionMessageListenerIntegrationTest : I
         value = [
             "LETTER,EN,OVERSEAS,OVERSEAS",
             "LETTER,CY,OVERSEAS,OVERSEAS",
-            "EMAIL,EN,VOTER_MINUS_CARD,VOTER_CARD",
+            "EMAIL,EN,VOTER_CARD,VOTER_CARD",
         ],
     )
     fun `should not process signature resubmission notification message from non enabled services`(

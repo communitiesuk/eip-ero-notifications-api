@@ -14,7 +14,7 @@ import uk.gov.dluhc.notificationsapi.models.SourceType as SourceTypeApiEnum
 class SourceTypeMapper(private val messageSource: MessageSource) {
 
     fun fromMessageToDto(sourceType: SourceTypeMessageEnum) = when (sourceType) {
-        SourceType.VOTER_MINUS_CARD -> SourceTypeDtoEnum.VOTER_CARD
+        SourceType.VOTER_CARD -> SourceTypeDtoEnum.VOTER_CARD
         SourceType.POSTAL -> SourceTypeDtoEnum.POSTAL
         SourceType.PROXY -> SourceTypeDtoEnum.PROXY
         SourceType.OVERSEAS -> SourceTypeDtoEnum.OVERSEAS
@@ -37,14 +37,14 @@ class SourceTypeMapper(private val messageSource: MessageSource) {
     }
 
     fun fromApiToDto(sourceType: SourceTypeApiEnum) = when (sourceType) {
-        SourceTypeApiEnum.VOTER_MINUS_CARD -> SourceTypeDtoEnum.VOTER_CARD
+        SourceTypeApiEnum.VOTER_CARD -> SourceTypeDtoEnum.VOTER_CARD
         SourceTypeApiEnum.POSTAL -> SourceTypeDtoEnum.POSTAL
         SourceTypeApiEnum.PROXY -> SourceTypeDtoEnum.PROXY
         SourceTypeApiEnum.OVERSEAS -> SourceTypeDtoEnum.OVERSEAS
     }
 
     fun fromApiValueToDto(sourceType: String) = when (sourceType) {
-        SourceTypeApiEnum.VOTER_MINUS_CARD.value -> SourceTypeDtoEnum.VOTER_CARD
+        SourceTypeApiEnum.VOTER_CARD.value -> SourceTypeDtoEnum.VOTER_CARD
         SourceTypeApiEnum.POSTAL.value -> SourceTypeDtoEnum.POSTAL
         SourceTypeApiEnum.PROXY.value -> SourceTypeDtoEnum.PROXY
         SourceTypeApiEnum.OVERSEAS.value -> SourceTypeDtoEnum.OVERSEAS

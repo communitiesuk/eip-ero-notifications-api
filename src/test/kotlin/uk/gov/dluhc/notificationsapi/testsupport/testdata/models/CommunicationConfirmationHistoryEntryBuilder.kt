@@ -12,7 +12,7 @@ import java.util.UUID
 fun aCommunicationConfirmationHistoryEntryBuilder(
     id: UUID = aCommunicationConfirmationId(),
     gssCode: String,
-    reason: OfflineCommunicationReason = OfflineCommunicationReason.APPLICATION_MINUS_REJECTED,
+    reason: OfflineCommunicationReason = OfflineCommunicationReason.APPLICATION_REJECTED,
     channel: OfflineCommunicationChannel = OfflineCommunicationChannel.EMAIL,
     requestor: String = aRequestor(),
     timestamp: OffsetDateTime = anOffsetDateTime(),

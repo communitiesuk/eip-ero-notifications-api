@@ -2,8 +2,8 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectedPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason
-import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_MINUS_APPLICATION
-import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT
+import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.INCOMPLETE_APPLICATION
+import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.NO_RESPONSE_FROM_APPLICANT
 import uk.gov.dluhc.notificationsapi.messaging.models.ApplicationRejectionReason.OTHER
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
@@ -19,7 +19,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 
 fun buildSendNotifyApplicationRejectedMessage(
     language: Language = Language.EN,
-    sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
+    sourceType: SourceType = SourceType.VOTER_CARD,
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
@@ -32,15 +32,15 @@ fun buildSendNotifyApplicationRejectedMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.APPLICATION_MINUS_REJECTED,
+        messageType = MessageType.APPLICATION_REJECTED,
         personalisation = personalisation,
         toAddress = toAddress,
     )
 
 fun buildApplicationRejectedPersonalisation(
     rejectionReasonList: List<ApplicationRejectionReason> = listOf(
-        INCOMPLETE_MINUS_APPLICATION,
-        NO_MINUS_RESPONSE_MINUS_FROM_MINUS_APPLICANT,
+        INCOMPLETE_APPLICATION,
+        NO_RESPONSE_FROM_APPLICANT,
         OTHER,
     ),
     applicationReference: String = aValidApplicationReference(),

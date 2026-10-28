@@ -43,7 +43,7 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
         val request = buildGenerateIdDocumentRequiredTemplatePreviewRequest(
             language = Language.EN,
             channel = CommunicationChannel.EMAIL,
-            sourceType = SourceType.VOTER_MINUS_CARD,
+            sourceType = SourceType.VOTER_CARD,
         )
         given(languageMapper.fromApiToDto(any())).willReturn(ENGLISH)
         given(communicationChannelMapper.fromApiToDto(any())).willReturn(EMAIL)
@@ -87,7 +87,7 @@ class GenerateIdDocumentRequiredTemplatePreviewDtoMapperTest {
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         verify(languageMapper).fromApiToDto(Language.EN)
         verify(communicationChannelMapper).fromApiToDto(CommunicationChannel.EMAIL)
-        verify(sourceTypeMapper).fromApiToDto(SourceType.VOTER_MINUS_CARD)
+        verify(sourceTypeMapper).fromApiToDto(SourceType.VOTER_CARD)
         verifyNoMoreInteractions(languageMapper, communicationChannelMapper, sourceTypeMapper)
     }
 }

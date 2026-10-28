@@ -26,5 +26,5 @@ fun buildSendNotifySignatureReceivedMessage(
     requestor = requestor,
     personalisation = personalisation,
     toAddress = toAddress,
-    messageType = MessageType.SIGNATURE_MINUS_RECEIVED,
+    messageType = MessageType.SIGNATURE_RECEIVED,
 )

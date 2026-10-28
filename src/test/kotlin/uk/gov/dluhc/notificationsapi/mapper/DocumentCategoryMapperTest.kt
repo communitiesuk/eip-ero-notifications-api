@@ -14,8 +14,8 @@ class DocumentCategoryMapperTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "PARENT_MINUS_GUARDIAN, PARENT_GUARDIAN",
-            "PREVIOUS_MINUS_ADDRESS, PREVIOUS_ADDRESS",
+            "PARENT_GUARDIAN, PARENT_GUARDIAN",
+            "PREVIOUS_ADDRESS, PREVIOUS_ADDRESS",
             "IDENTITY, IDENTITY",
         ],
     )

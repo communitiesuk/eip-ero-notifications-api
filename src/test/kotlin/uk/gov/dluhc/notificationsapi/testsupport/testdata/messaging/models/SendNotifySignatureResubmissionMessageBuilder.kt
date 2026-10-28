@@ -34,7 +34,7 @@ fun buildSendNotifySignatureResubmissionMessage(
     requestor = requestor,
     personalisation = personalisation,
     toAddress = toAddress,
-    messageType = MessageType.SIGNATURE_MINUS_RESUBMISSION,
+    messageType = MessageType.SIGNATURE_RESUBMISSION,
 )
 
 fun buildSignatureResubmissionPersonalisation(
@@ -43,7 +43,7 @@ fun buildSignatureResubmissionPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
-    rejectionReasons: List<SignatureRejectionReason> = listOf(SignatureRejectionReason.TOO_MINUS_DARK, SignatureRejectionReason.HAS_MINUS_SHADOWS),
+    rejectionReasons: List<SignatureRejectionReason> = listOf(SignatureRejectionReason.TOO_DARK, SignatureRejectionReason.HAS_SHADOWS),
     deadlineDate: LocalDate? = LocalDate.of(2025, 10, 30),
     deadlineTime: String? = "12PM",
     rejectionNotes: String? = "Rejection Notes",

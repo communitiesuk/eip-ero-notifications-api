@@ -18,7 +18,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 fun buildSendNotifyPhotoResubmissionMessage(
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language = Language.EN,
-    sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
+    sourceType: SourceType = SourceType.VOTER_CARD,
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
@@ -32,7 +32,7 @@ fun buildSendNotifyPhotoResubmissionMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.PHOTO_MINUS_RESUBMISSION,
+        messageType = MessageType.PHOTO_RESUBMISSION,
         personalisation = personalisation,
         toAddress = toAddress,
     )

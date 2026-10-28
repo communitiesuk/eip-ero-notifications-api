@@ -3,9 +3,9 @@ package uk.gov.dluhc.notificationsapi.testsupport.testdata.messaging.models
 import uk.gov.dluhc.notificationsapi.messaging.models.CommunicationChannel
 import uk.gov.dluhc.notificationsapi.messaging.models.ContactDetails
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_MINUS_TOO_MINUS_OLD
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentRejectionReason.DOCUMENT_TOO_OLD
 import uk.gov.dluhc.notificationsapi.messaging.models.DocumentType
-import uk.gov.dluhc.notificationsapi.messaging.models.DocumentType.UTILITY_MINUS_BILL
+import uk.gov.dluhc.notificationsapi.messaging.models.DocumentType.UTILITY_BILL
 import uk.gov.dluhc.notificationsapi.messaging.models.IdDocumentPersonalisation
 import uk.gov.dluhc.notificationsapi.messaging.models.Language
 import uk.gov.dluhc.notificationsapi.messaging.models.MessageAddress
@@ -22,7 +22,7 @@ import uk.gov.dluhc.notificationsapi.testsupport.testdata.aValidApplicationRefer
 fun buildSendNotifyIdDocumentResubmissionMessage(
     channel: CommunicationChannel = CommunicationChannel.EMAIL,
     language: Language = Language.EN,
-    sourceType: SourceType = SourceType.VOTER_MINUS_CARD,
+    sourceType: SourceType = SourceType.VOTER_CARD,
     sourceReference: String = aSourceReference(),
     gssCode: String = aGssCode(),
     requestor: String = aRequestor(),
@@ -36,7 +36,7 @@ fun buildSendNotifyIdDocumentResubmissionMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.ID_MINUS_DOCUMENT_MINUS_RESUBMISSION,
+        messageType = MessageType.ID_DOCUMENT_RESUBMISSION,
         personalisation = personalisation,
         toAddress = toAddress,
     )
@@ -57,8 +57,8 @@ fun buildIdDocumentPersonalisationMessage(
     )
 
 fun buildRejectedDocument(
-    documentType: DocumentType = UTILITY_MINUS_BILL,
-    rejectionReasons: List<DocumentRejectionReason> = listOf(DOCUMENT_MINUS_TOO_MINUS_OLD),
+    documentType: DocumentType = UTILITY_BILL,
+    rejectionReasons: List<DocumentRejectionReason> = listOf(DOCUMENT_TOO_OLD),
     rejectionNotes: String? = faker.harryPotter().spell(),
 ) = RejectedDocument(
     documentType = documentType,

@@ -253,7 +253,7 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
             channel = communicationChannel,
             language = language,
             personalisation = buildSignatureResubmissionPersonalisation(
-                rejectionReasons = if (withReasons) listOf(SignatureRejectionReason.PARTIALLY_MINUS_CUT_MINUS_OFF) else emptyList(),
+                rejectionReasons = if (withReasons) listOf(SignatureRejectionReason.PARTIALLY_CUT_OFF) else emptyList(),
                 rejectionNotes = if (withReasons) "Invalid" else null,
                 rejectionFreeText = "Free Text",
                 isRejected = isRejected,

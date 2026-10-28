@@ -117,7 +117,7 @@ internal class GetCommunicationConfirmationHistoryByApplicationIdIntegrationTest
                 aCommunicationConfirmationHistoryEntryBuilder(
                     id = sentConfirmation2.id!!,
                     gssCode = eroResponse.localAuthorities[1].gssCode,
-                    reason = OfflineCommunicationReason.PHOTO_MINUS_REJECTED,
+                    reason = OfflineCommunicationReason.PHOTO_REJECTED,
                     channel = OfflineCommunicationChannel.EMAIL,
                     requestor = requestor,
                     timestamp = OffsetDateTime.of(sentConfirmation2.sentAt, ZoneOffset.UTC),
@@ -125,7 +125,7 @@ internal class GetCommunicationConfirmationHistoryByApplicationIdIntegrationTest
                 aCommunicationConfirmationHistoryEntryBuilder(
                     id = sentConfirmation1.id!!,
                     gssCode = eroResponse.localAuthorities[0].gssCode,
-                    reason = OfflineCommunicationReason.DOCUMENT_MINUS_REJECTED,
+                    reason = OfflineCommunicationReason.DOCUMENT_REJECTED,
                     channel = OfflineCommunicationChannel.LETTER,
                     requestor = requestor,
                     timestamp = OffsetDateTime.of(sentConfirmation1.sentAt, ZoneOffset.UTC),

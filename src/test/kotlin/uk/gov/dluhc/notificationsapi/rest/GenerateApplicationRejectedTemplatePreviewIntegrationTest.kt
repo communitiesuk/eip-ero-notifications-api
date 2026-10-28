@@ -208,7 +208,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
             NotifyGenerateTemplatePreviewSuccessResponse(id = templateId)
         wireMockService.stubNotifyGenerateTemplatePreviewSuccessResponse(notifyClientResponse)
 
-        val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language, sourceType = SourceType.VOTER_MINUS_CARD)
+        val requestBody = buildGenerateApplicationRejectedTemplatePreviewRequest(language = language, sourceType = SourceType.VOTER_CARD)
         val expectedPersonalisationDataMap = getExpectedPersonalisationMap(requestBody.personalisation, language)
         val expected = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
 
@@ -266,7 +266,7 @@ internal class GenerateApplicationRejectedTemplatePreviewIntegrationTest : Integ
 
     private fun WebTestClient.RequestBodySpec.withAValidBody(): WebTestClient.RequestBodySpec =
         body(
-            Mono.just(buildGenerateApplicationRejectedTemplatePreviewRequest(sourceType = SourceType.VOTER_MINUS_CARD)),
+            Mono.just(buildGenerateApplicationRejectedTemplatePreviewRequest(sourceType = SourceType.VOTER_CARD)),
             GenerateApplicationRejectedTemplatePreviewRequest::class.java,
         ) as WebTestClient.RequestBodySpec
 }

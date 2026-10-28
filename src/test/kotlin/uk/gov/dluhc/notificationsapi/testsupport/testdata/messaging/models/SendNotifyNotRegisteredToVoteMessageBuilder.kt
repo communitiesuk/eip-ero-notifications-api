@@ -31,7 +31,7 @@ fun buildSendNotifyNotRegisteredToVoteMessage(
         sourceReference = sourceReference,
         gssCode = gssCode,
         requestor = requestor,
-        messageType = MessageType.NOT_MINUS_REGISTERED_MINUS_TO_MINUS_VOTE,
+        messageType = MessageType.NOT_REGISTERED_TO_VOTE,
         personalisation = personalisation,
         channel = channel,
         toAddress = toAddress,
