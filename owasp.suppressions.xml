@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.4.xsd">
-    <suppress until="2026-10-28Z">
+    <suppress until="2027-01-01Z">
         <notes><![CDATA[
         org.hdrhistogram:HdrHistogram is pulled in transitively via Micrometer (used by Spring Boot
         Actuator metrics); it is not a directly declared dependency. Both CVEs affect HdrHistogram
