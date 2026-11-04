@@ -73,7 +73,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-aspectj")
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.55")
+    implementation("io.swagger.core.v3:swagger-annotations:3.0.0")
     implementation("org.springframework:spring-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
