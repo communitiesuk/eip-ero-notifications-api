@@ -24,9 +24,9 @@ Mae'r cais hwn wedi'i ohirio am nad ydych ar y gofrestr etholiadol ar hyn o bryd
 
 ((property))
 ((street))
+((locality))
 ((town))
 ((area))
-((locality))
 ((postcode))
 
 Er mwyn defnyddio eich ((sourceType)) mewn etholiadau a refferenda, rhaid i chi gofrestru i bleidleisio.
