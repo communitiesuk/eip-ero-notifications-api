@@ -1,19 +1,11 @@
 Communication type:
-letter
+email
 ---
 Subject/Heading:
 Cofrestru i bleidleisio ar ôl gwneud cais am ((sourceType))
 ---
-Letter contact block:
-((eroAddressLine1))
-((eroAddressLine2))
-((eroAddressLine3))
-((eroAddressLine4))
-((eroPostcode))
----
-Postage:
-second
----
+^Ni allwch ymateb i’r e-bost hwn.
+
 Rhif cyfeirnod y cais ((applicationReference))
 
 Annwyl ((firstName))
@@ -24,9 +16,9 @@ Mae'r cais hwn wedi'i ohirio am nad ydych ar y gofrestr etholiadol ar hyn o bryd
 
 ((property))
 ((street))
+((locality))
 ((town))
 ((area))
-((locality))
 ((postcode))
 
 Er mwyn defnyddio eich ((sourceType)) mewn etholiadau a refferenda, rhaid i chi gofrestru i bleidleisio.
