@@ -59,7 +59,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("tools.jackson.core:jackson-databind")
-    implementation("io.github.oshai:kotlin-logging-jvm:8.0.4")
+    implementation("io.github.oshai:kotlin-logging-jvm:8.0.6")
     implementation("org.apache.commons:commons-lang3:3.21.0")
     implementation("org.mapstruct:mapstruct:1.6.3")
     kapt("org.mapstruct:mapstruct-processor:1.6.3")
