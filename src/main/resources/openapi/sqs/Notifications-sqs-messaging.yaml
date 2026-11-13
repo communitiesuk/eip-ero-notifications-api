@@ -723,12 +723,17 @@ components:
       description: Enum of reasons why a signature is rejected
       type: string
       enum:
+        - paper-not-plain
+        - faded
         - partially-cut-off
-        - too-dark
+        - shadows-smudges-or-marks
         - not-in-focus
-        - has-shadows
         - wrong-size
+        - not-handwritten
         - other
+        # Deprecated - see EROPSPT-622
+        - too-dark
+        - has-shadows
     NinoNotMatched:
       title: NinoNotMatched
       description: The data for the specific message.
