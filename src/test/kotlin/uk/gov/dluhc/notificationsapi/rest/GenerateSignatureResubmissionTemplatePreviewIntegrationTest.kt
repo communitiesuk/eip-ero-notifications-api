@@ -274,7 +274,7 @@ internal class GenerateSignatureResubmissionTemplatePreviewIntegrationTest : Int
         val actualResponse = response.responseBody.blockFirst()
         val expectedResponse = with(notifyClientResponse) { GenerateTemplatePreviewResponse(body, subject, html) }
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse)
-        val expectedRejectionReasons = if (language == Language.EN) listOf("The image has some of it cut off") else listOf("Mae darn o'r llun wedi'i dorri i ffwrdd")
+        val expectedRejectionReasons = if (language == Language.EN) listOf("Some of the signature is missing") else listOf("Mae rhywfaint o'r llofnod ar goll")
         val shouldShowText = isRejected && !withReasons
         val sourceTypeText = getExpectedSourceTypeText(language, sourceType)
         val expectedNotSuitableText = if (language == Language.EN) "The signature you provided in your $sourceTypeText application is not suitable." else "Nid yw'r llofnod y gwnaethoch ei ddarparu yn eich cais am $sourceTypeText yn addas."

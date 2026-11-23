@@ -954,7 +954,7 @@ internal class SendNotifyMessageMapperTest {
             val expectedSourceType = SourceType.POSTAL
             val personalisationMessage = buildSignatureResubmissionPersonalisation(
                 isRejected = isRejected,
-                rejectionReasons = if (isRejected) listOf(SignatureRejectionReason.TOO_DARK) else emptyList(),
+                rejectionReasons = if (isRejected) listOf(SignatureRejectionReason.FADED) else emptyList(),
                 rejectionNotes = if (isRejected) "Rejection Notes" else null,
             )
 

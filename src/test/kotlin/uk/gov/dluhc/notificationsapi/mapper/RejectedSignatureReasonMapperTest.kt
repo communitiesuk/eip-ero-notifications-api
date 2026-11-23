@@ -22,11 +22,15 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "PARTIALLY_CUT_OFF,The image has some of it cut off",
+                "PARTIALLY_CUT_OFF,Some of the signature is missing",
                 "TOO_DARK,The image is too dark",
-                "NOT_IN_FOCUS,The signature is not in focus",
+                "NOT_IN_FOCUS,Signature is not clear or in focus (low quality or pixelated)",
                 "HAS_SHADOWS,The signature has shadows over it",
-                "WRONG_SIZE,The image is either too big or too small",
+                "WRONG_SIZE,Image is either too big or too small",
+                "PAPER_NOT_PLAIN,'Paper is not plain white (has lines, squares, patterns or creases)'",
+                "FADED,'Signature is faded, or not in black ink'",
+                "SHADOWS_SMUDGES_OR_MARKS,'Image is unclear due to shadows, smudges or marks (or is too dark)'",
+                "NOT_HANDWRITTEN,Signature is not handwritten",
             ],
         )
         fun `should map enums to human readable messages in English`(
@@ -45,11 +49,15 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "PARTIALLY_CUT_OFF,Mae darn o'r llun wedi'i dorri i ffwrdd",
+                "PARTIALLY_CUT_OFF,Mae rhywfaint o'r llofnod ar goll",
                 "TOO_DARK,Mae'r llun yn rhy dywyll",
-                "NOT_IN_FOCUS,Nid yw'r llofnod mewn ffocws",
+                "NOT_IN_FOCUS,Nid yw'r llofnod yn glir neu mewn ffocws (ansawdd isel neu wedi'i bicselu)",
                 "HAS_SHADOWS,Mae cysgodion dros y llofnod",
                 "WRONG_SIZE,Mae'r llun naill ai'n rhy fawr neu'n rhy fach",
+                "PAPER_NOT_PLAIN,'Nid yw''r papur yn bapur gwyn plaen (mae llinellau, sgwariau, patrymau neu grychau arno)'",
+                "FADED,'Mae''r llofnod wedi colli ei liw, neu nid yw mewn inc du'",
+                "SHADOWS_SMUDGES_OR_MARKS,'Nid yw''r llun yn glir gan fod cysgodion, olion neu farciau arno (neu mae''n rhy dywyll)'",
+                "NOT_HANDWRITTEN,'Nid yw''r llofnod wedi''i wneud â llaw'",
             ],
         )
         fun `should map enums to human readable messages in Welsh`(
@@ -71,11 +79,15 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "PARTIALLY_CUT_OFF,The image has some of it cut off",
+                "PARTIALLY_CUT_OFF,Some of the signature is missing",
                 "TOO_DARK,The image is too dark",
-                "NOT_IN_FOCUS,The signature is not in focus",
+                "NOT_IN_FOCUS,Signature is not clear or in focus (low quality or pixelated)",
                 "HAS_SHADOWS,The signature has shadows over it",
-                "WRONG_SIZE,The image is either too big or too small",
+                "WRONG_SIZE,Image is either too big or too small",
+                "PAPER_NOT_PLAIN,'Paper is not plain white (has lines, squares, patterns or creases)'",
+                "FADED,'Signature is faded, or not in black ink'",
+                "SHADOWS_SMUDGES_OR_MARKS,'Image is unclear due to shadows, smudges or marks (or is too dark)'",
+                "NOT_HANDWRITTEN,Signature is not handwritten",
             ],
         )
         fun `should map enums to human readable messages in English`(
@@ -94,11 +106,15 @@ class RejectedSignatureReasonMapperTest {
         @ParameterizedTest
         @CsvSource(
             value = [
-                "PARTIALLY_CUT_OFF,Mae darn o'r llun wedi'i dorri i ffwrdd",
+                "PARTIALLY_CUT_OFF,Mae rhywfaint o'r llofnod ar goll",
                 "TOO_DARK,Mae'r llun yn rhy dywyll",
-                "NOT_IN_FOCUS,Nid yw'r llofnod mewn ffocws",
+                "NOT_IN_FOCUS,Nid yw'r llofnod yn glir neu mewn ffocws (ansawdd isel neu wedi'i bicselu)",
                 "HAS_SHADOWS,Mae cysgodion dros y llofnod",
                 "WRONG_SIZE,Mae'r llun naill ai'n rhy fawr neu'n rhy fach",
+                "PAPER_NOT_PLAIN,'Nid yw''r papur yn bapur gwyn plaen (mae llinellau, sgwariau, patrymau neu grychau arno)'",
+                "FADED,'Mae''r llofnod wedi colli ei liw, neu nid yw mewn inc du'",
+                "SHADOWS_SMUDGES_OR_MARKS,'Nid yw''r llun yn glir gan fod cysgodion, olion neu farciau arno (neu mae''n rhy dywyll)'",
+                "NOT_HANDWRITTEN,'Nid yw''r llofnod wedi''i wneud â llaw'",
             ],
         )
         fun `should map enums to human readable messages in Welsh`(

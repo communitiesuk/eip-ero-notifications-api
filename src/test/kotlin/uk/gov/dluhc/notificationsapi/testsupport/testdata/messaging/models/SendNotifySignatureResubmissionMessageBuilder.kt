@@ -43,7 +43,7 @@ fun buildSignatureResubmissionPersonalisation(
     applicationReference: String = aValidApplicationReference(),
     firstName: String = faker.name().firstName(),
     eroContactDetails: ContactDetails = buildContactDetailsMessage(),
-    rejectionReasons: List<SignatureRejectionReason> = listOf(SignatureRejectionReason.TOO_DARK, SignatureRejectionReason.HAS_SHADOWS),
+    rejectionReasons: List<SignatureRejectionReason> = listOf(SignatureRejectionReason.FADED, SignatureRejectionReason.SHADOWS_SMUDGES_OR_MARKS),
     deadlineDate: LocalDate? = LocalDate.of(2025, 10, 30),
     deadlineTime: String? = "12PM",
     rejectionNotes: String? = "Rejection Notes",

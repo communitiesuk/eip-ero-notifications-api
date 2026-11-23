@@ -1932,7 +1932,7 @@ components:
       description: Enum of reasons why a signature is rejected
       type: string
       enum:
-        - paper_not_plain
+        - paper-not-plain
         - faded
         - partially-cut-off
         - shadows-smudges-or-marks
