@@ -9,7 +9,7 @@ import java.time.LocalDate
 
 fun buildSignatureResubmissionPersonalisation(
     rejectionReasons: List<SignatureRejectionReason> = listOf(
-        SignatureRejectionReason.HAS_SHADOWS,
+        SignatureRejectionReason.SHADOWS_SMUDGES_OR_MARKS,
         SignatureRejectionReason.WRONG_SIZE,
         SignatureRejectionReason.OTHER,
     ),
