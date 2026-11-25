@@ -73,4 +73,23 @@
         <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin\-.*@(2\.2\.21|2\.4\.0)$</packageUrl>
         <cve>CVE-2026-53914</cve>
     </suppress>
+    <suppress until="2027-03-01Z">
+        <notes><![CDATA[
+        CVE-2026-59171 affects org.json before 20260719. When org.json reads JSON text it turns any run of
+        digits into a number, with no limit on how long that run can be. It comes in transitively through
+        uk.gov.service.notify:notifications-java-client 6.2.1-RELEASE (latest), which still uses 20231013.
+        Nothing an attacker sends us reaches the vulnerable code:
+        (1) Requests and SQS messages sent to us are read by Jackson, not org.json. No main source file uses
+            org.json; the only use in this repo is the WiremockService test helper.
+        (2) The Notify client does use org.json, but only to read the responses coming back from GOV.UK
+            Notify over TLS. Someone would have to take over Notify itself, or break TLS, to feed it anything.
+        (3) Personalisation we send to Notify is put into a JSONObject as Java values, not parsed from text,
+            so a long number from a caller never reaches the conversion.
+        We could force org.json to 20260814, but that is a three year jump on a library we do not control and
+        cannot test against the real Notify API, which is not worth it for code we cannot reach.
+        REMOVE when the Notify client moves to org.json 20260719 or later and we pick up that release.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.json/json@.*$</packageUrl>
+        <cve>CVE-2026-59171</cve>
+    </suppress>
 </suppressions>
